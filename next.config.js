@@ -4,14 +4,20 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    outputFileTracingRoot: process.env.NODE_ENV === 'production' ? '/home/ubuntu/repos/XAIAgentPlatform' : undefined,
+  },
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: '/api/:path*',
+        source: '/:path*',
+        destination: '/:path*',
       },
     ]
   },
+  // Ensure static assets are copied
+  distDir: '.next',
+  assetPrefix: '',
 }
 
 module.exports = nextConfig
