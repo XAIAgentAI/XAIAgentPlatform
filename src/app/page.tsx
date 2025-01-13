@@ -4,7 +4,19 @@ import { useState, useEffect } from 'react'
 import { UserPlus, Users, Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { userSchema, type CreateUserInput } from '@/lib/validations'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 type User = {
   id: number
@@ -75,89 +87,100 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-8">XAIAgent Platform</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-lg border border-gray-200">
-          <div className="flex items-center gap-2 mb-4">
-            <UserPlus className="w-6 h-6" />
-            <h2 className="text-2xl font-semibold">Create User</h2>
-          </div>
-          
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Username</label>
-              <input
-                {...form.register('username')}
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter username"
-              />
-              {form.formState.errors.username && (
-                <p className="text-sm text-red-500 mt-1">
-                  {form.formState.errors.username.message}
-                </p>
-              )}
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                {...form.register('email')}
-                type="email"
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter email"
-              />
-              {form.formState.errors.email && (
-                <p className="text-sm text-red-500 mt-1">
-                  {form.formState.errors.email.message}
-                </p>
-              )}
-            </div>
+    <main className="min-h-screen bg-gradient-to-b from-background to-muted p-4">
+      <div className="container mx-auto max-w-6xl">
+        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
+          XAIAgent Platform
+        </h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-primary">
+                <UserPlus className="w-6 h-6" />
+                Create User
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter username" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="Enter email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+                  
+                  <Button 
+                    type="submit" 
+                    disabled={loading}
+                    className="w-full bg-primary hover:bg-primary/90"
+                  >
+                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Create User
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
 
-            {error && (
-              <p className="text-sm text-red-500">{error}</p>
-            )}
-            
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-            >
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create User
-            </button>
-          </form>
-        </div>
-
-        <div className="p-6 rounded-lg border border-gray-200">
-          <div className="flex items-center gap-2 mb-4">
-            <Users className="w-6 h-6" />
-            <h2 className="text-2xl font-semibold">User List</h2>
-          </div>
-          
-          {loading ? (
-            <div className="flex justify-center">
-              <Loader2 className="h-6 w-6 animate-spin" />
-            </div>
-          ) : users.length === 0 ? (
-            <p className="text-center text-gray-500">No users found</p>
-          ) : (
-            <div className="space-y-2">
-              {users.map((user) => (
-                <div
-                  key={user.id}
-                  className="p-3 rounded-lg border border-gray-200"
-                >
-                  <p className="font-medium">{user.username}</p>
-                  <p className="text-sm text-gray-500">{user.email}</p>
-                  <p className="text-xs text-gray-400">
-                    Created: {new Date(user.createdAt).toLocaleString()}
-                  </p>
+          <Card className="border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-primary">
+                <Users className="w-6 h-6" />
+                User List
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
-              ))}
-            </div>
-          )}
+              ) : users.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">No users found</p>
+              ) : (
+                <div className="space-y-3">
+                  {users.map((user) => (
+                    <Card key={user.id} className="bg-muted/50">
+                      <CardContent className="p-4">
+                        <p className="font-medium text-foreground">{user.username}</p>
+                        <p className="text-sm text-muted-foreground">{user.email}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Created: {new Date(user.createdAt).toLocaleString()}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </main>
