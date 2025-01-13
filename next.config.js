@@ -1,18 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
+  distDir: 'dist',
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     unoptimized: true,
   },
   experimental: {
+    optimizeCss: true,
     outputFileTracingRoot: process.cwd(),
     outputFileTracingIncludes: {
       '/**/*': [
         './public/**/*',
-        './src/**/*'
+        './server.js',
+        '.next/static/**/*',
+        './node_modules/.prisma/**/*',
+        './node_modules/@prisma/client/**/*',
+        './prisma/**/*'
       ]
     }
   }

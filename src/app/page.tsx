@@ -1,6 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
 import { UserPlus, Users, Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,7 +39,7 @@ export default function Home() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const form = useForm<CreateUserInput>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -48,7 +58,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      
+
       if (!response.ok) {
         const error = await response.json()
         throw new Error(error.error || 'Failed to create user')
@@ -87,19 +97,33 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-muted p-4">
-      <div className="container mx-auto max-w-6xl">
-        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
-          XAIAgent Platform
-        </h1>
-        
+    <main className="min-h-screen bg-gradient-to-b from-background via-background to-muted/10 p-8">
+      <div className="container mx-auto max-w-6xl space-y-10">
+        <div className="space-y-3">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-orange-600 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+            XAIAgent Platform
+          </h1>
+          <p className="text-lg text-muted-foreground/90 max-w-2xl">User Management System</p>
+        </div>
+
+        <div className="p-8 rounded-lg bg-card border border-border/50 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-200">
+          <p className="text-base font-medium text-muted-foreground/90 mb-6">Test Components:</p>
+          <div className="flex flex-wrap items-center gap-6">
+            <Button size="lg" variant="default" className="min-w-[160px] button-primary">Primary Button</Button>
+            <Button size="lg" variant="outline" className="min-w-[160px] button-outline">Outline Button</Button>
+            <Button size="lg" variant="ghost" className="min-w-[160px] button-ghost">Ghost Button</Button>
+            <Button size="lg" variant="secondary" className="min-w-[160px] button-secondary">Secondary Button</Button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="border-primary/20">
-            <CardHeader>
+          <Card className="border-border/50 shadow-sm hover:border-primary/20 transition-colors">
+            <CardHeader className="space-y-1">
               <CardTitle className="flex items-center gap-2 text-primary">
                 <UserPlus className="w-6 h-6" />
                 Create User
               </CardTitle>
+              <p className="text-sm text-muted-foreground">Add a new user to the platform</p>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -109,11 +133,15 @@ export default function Home() {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel className="text-foreground">Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter username" {...field} />
+                          <Input
+                            placeholder="Enter username"
+                            className="input-base hover:border-primary/40 focus-visible:border-primary/60"
+                            {...field}
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive" />
                       </FormItem>
                     )}
                   />
@@ -122,25 +150,30 @@ export default function Home() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className="text-foreground">Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter email" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="Enter email"
+                            className="input-base hover:border-primary/40 focus-visible:border-primary/60"
+                            {...field}
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive" />
                       </FormItem>
                     )}
                   />
-                  
+
                   {error && (
                     <Alert variant="destructive">
                       <AlertDescription>{error}</AlertDescription>
                     </Alert>
                   )}
-                  
-                  <Button 
-                    type="submit" 
+
+                  <Button
+                    type="submit"
                     disabled={loading}
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full button-primary"
                   >
                     {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Create User
@@ -150,9 +183,9 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="border-primary/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-primary">
+          <Card className="border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200">
+            <CardHeader className="space-y-2">
+              <CardTitle className="flex items-center gap-3 text-primary text-xl">
                 <Users className="w-6 h-6" />
                 User List
               </CardTitle>
@@ -160,20 +193,22 @@ export default function Home() {
             <CardContent>
               {loading ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary/80" />
                 </div>
               ) : users.length === 0 ? (
-                <p className="text-center text-muted-foreground py-8">No users found</p>
+                <p className="text-center text-muted-foreground/90 py-8">No users found</p>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {users.map((user) => (
-                    <Card key={user.id} className="bg-muted/50">
+                    <Card key={user.id} className="border-border/40 shadow-sm hover:shadow-md hover:border-primary/30 hover:bg-orange-light/5 transition-all duration-200">
                       <CardContent className="p-4">
-                        <p className="font-medium text-foreground">{user.username}</p>
-                        <p className="text-sm text-muted-foreground">{user.email}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Created: {new Date(user.createdAt).toLocaleString()}
-                        </p>
+                        <div className="space-y-2">
+                          <p className="font-medium text-foreground/90">{user.username}</p>
+                          <p className="text-sm text-muted-foreground/90">{user.email}</p>
+                          <p className="text-xs text-muted-foreground/80">
+                            Created: {new Date(user.createdAt).toLocaleString()}
+                          </p>
+                        </div>
                       </CardContent>
                     </Card>
                   ))}

@@ -16,6 +16,12 @@ module.exports = {
     },
     extend: {
       colors: {
+        'orange-light': "hsl(var(--orange-light))",
+        'orange-medium': "hsl(var(--orange-medium))",
+        'orange-dark': "hsl(var(--orange-dark))",
+        'orange-surface': "hsl(var(--orange-surface))",
+        'orange-border': "hsl(var(--orange-border))",
+        'orange-text': "hsl(var(--orange-text))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,10 +70,16 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        gradient: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "gradient": "gradient 6s ease infinite",
       },
     },
   },

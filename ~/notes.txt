@@ -1,0 +1,30 @@
+# shadcn/ui Style Investigation Notes
+
+## Components Configuration
+- components.json has correct paths and configuration
+- baseColor set to "slate" instead of orange theme
+- all required dependencies are installed in package.json
+
+## Layout Configuration
+- layout.tsx imports globals.css correctly
+- body has correct className with antialiased and font-sans
+
+## Package Dependencies
+- All required shadcn/ui dependencies present:
+  - @radix-ui/react-slot
+  - class-variance-authority
+  - clsx
+  - tailwind-merge
+  - tailwindcss-animate
+
+## Issues Found
+1. baseColor in components.json needs to be updated to match orange theme
+2. Need to verify globals.css has all required CSS variables
+3. Need to check utils.ts for proper cn utility function
+4. May need to update tailwind.config.js color definitions
+
+## Next Steps
+1. Update components.json baseColor
+2. Verify all required CSS variables in globals.css
+3. Check utils.ts configuration
+4. Update color theme configuration in tailwind.config.js
