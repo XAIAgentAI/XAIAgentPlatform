@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   distDir: 'dist',
   poweredByHeader: false,
   reactStrictMode: true,
@@ -8,7 +7,7 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     outputFileTracingRoot: process.cwd(),
     outputFileTracingIncludes: {
       '/**/*': [
