@@ -74,5 +74,42 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@layer components {
+  /* Custom button variants */
+  .button-primary {
+    @apply bg-primary text-primary-foreground hover:opacity-90 transition-opacity;
+  }
+  
+  .button-outline {
+    @apply border border-primary text-primary hover:bg-primary/10 transition-colors;
+  }
+  
+  .button-ghost {
+    @apply hover:bg-muted/80 text-foreground transition-colors;
+  }
+  
+  .button-secondary {
+    @apply bg-secondary text-secondary-foreground hover:opacity-90 transition-opacity;
+  }
+
+  /* Input styles */
+  .input-base {
+    @apply border-input bg-background text-foreground shadow-sm transition-colors;
+  }
+}
+
+@layer utilities {
+  /* Gradient animation */
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient {
+    animation: gradient 3s ease infinite;
+  }
 }
