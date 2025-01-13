@@ -1,23 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
     unoptimized: true,
   },
   experimental: {
-    outputFileTracingRoot: process.env.NODE_ENV === 'production' ? '/home/ubuntu/repos/XAIAgentPlatform' : undefined,
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/:path*',
-      },
-    ]
-  },
-  // Ensure static assets are copied
-  distDir: '.next',
-  assetPrefix: '',
+    outputFileTracingRoot: process.cwd(),
+    outputFileTracingIncludes: {
+      '/**/*': [
+        './public/**/*',
+        './src/**/*'
+      ]
+    }
+  }
 }
 
 module.exports = nextConfig

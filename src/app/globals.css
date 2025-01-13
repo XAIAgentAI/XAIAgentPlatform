@@ -1,9 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+@import "./fonts.css";
+
 @layer base {
   :root {
+    --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -25,7 +28,7 @@
     --ring: 24 96% 53%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -47,36 +50,20 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 24 96% 53%;
   }
-}
- 
-@layer base {
+
   * {
     @apply border-border;
   }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
   body {
-    @apply bg-background text-foreground antialiased;
-  }
-  h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight;
-  }
-  h2 {
-    @apply text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight;
-  }
-  h3 {
-    @apply text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight;
-  }
-  p {
-    @apply leading-7 [&:not(:first-child)]:mt-6;
-  }
-  .container {
-    @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
+    @apply bg-background text-foreground;
   }
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
