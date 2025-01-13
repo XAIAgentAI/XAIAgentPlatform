@@ -2,10 +2,10 @@
 
 Required components based on page.tsx imports:
 1. [x] button
-2. [ ] input
-3. [ ] card
-4. [ ] form
-5. [ ] alert
+2. [x] input
+3. [x] card
+4. [x] form
+5. [x] alert
 
 These components will be installed using `npx shadcn-ui add` command in the following steps.
 
