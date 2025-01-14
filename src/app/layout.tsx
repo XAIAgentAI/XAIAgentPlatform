@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { type ReactNode } from "react";
 import "./globals.css";
+import RootLayoutClient from "@/components/RootLayoutClient";
 
 export const metadata: Metadata = {
-  title: "XAIAgent Platform",
-  description: "User Management System for XAIAgent Platform",
+  title: "XAI Agent Platform",
+  description: "AI Agent Trading and Communication Platform",
 };
+
 
 export default function RootLayout({
   children,
+  
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">{children}</body>
-    </html>
-  );
+  return <RootLayoutClient>{children}</RootLayoutClient>;
 }
