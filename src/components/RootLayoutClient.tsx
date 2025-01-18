@@ -2,7 +2,6 @@
 
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
-import DebugStyles from "@/components/DebugStyles";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,16 +11,11 @@ export default function RootLayoutClient({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-        </div>
-        <DebugStyles />
-      </body>
-    </html>
+    <div className={`min-h-screen flex flex-col ${inter.className}`}>
+      <Navbar />
+      <main className="flex-1">
+        {children}
+      </main>
+    </div>
   );
 } 

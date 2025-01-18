@@ -7,12 +7,16 @@ export const metadata: Metadata = {
   description: "AI Agent Trading and Communication Platform",
 };
 
-
 export default function RootLayout({
   children,
-  
 }: {
   children: React.ReactNode;
 }) {
-  return <RootLayoutClient>{children}</RootLayoutClient>;
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <RootLayoutClient>{children}</RootLayoutClient>
+      </body>
+    </html>
+  );
 }
