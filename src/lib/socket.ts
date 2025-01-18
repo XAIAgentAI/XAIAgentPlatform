@@ -1,44 +1,50 @@
-import { Server as SocketIOServer } from 'socket.io'
-import { Server as NetServer } from 'http'
-import { NextApiResponse } from 'next'
+import { useEffect, useRef } from 'react'
+import io, { Socket } from 'socket.io-client'
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
+export const useSocket = () => {
+  const socketRef = useRef<Socket | null>(null)
+  const isConnectedRef = useRef(false)
 
-export const initSocket = (res: NextApiResponse) => {
-  if (!(res.socket as any).server.io) {
-    const httpServer: NetServer = (res.socket as any).server
-    const io = new SocketIOServer(httpServer, {
-      path: '/socket.io',
-      cors: {
-        origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
-        methods: ["GET", "POST"],
-        allowedHeaders: ["*"],
-        credentials: true
+  useEffect(() => {
+    // 如果已经连接，直接返回
+    if (isConnectedRef.current || socketRef.current) {
+      return
+    }
+
+    isConnectedRef.current = true
+    
+    // 创建socket连接
+    const socket = io('http://127.0.0.1:5000', {
+      transports: ['websocket'],
+      autoConnect: true,
+      withCredentials: false,
+      extraHeaders: {
+        'Access-Control-Allow-Origin': '*'
       }
     })
 
-    io.on('connection', (socket) => {
-      console.log('Client connected')
+    socket.on('connect', () => {
+      console.log('Connected to server')
+      socket.emit("join", {run_id: "run_20250118-182748_twsumb"});
 
-      socket.on('message', (data) => {
-        // 这里处理与模型的交互
-        const reply = {
-          role: 'assistant',
-          content: `收到消息: ${data.content}`,
-        }
-        socket.emit('message', reply)
-      })
-
-      socket.on('disconnect', () => {
-        console.log('Client disconnected')
-      })
     })
 
-    ;(res.socket as any).server.io = io
-  }
-  return (res.socket as any).server.io
+    socket.on('connect_error', (error) => {
+      console.error('连接错误:', error.message)
+    })
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server')
+      isConnectedRef.current = false
+    })
+
+    socketRef.current = socket
+
+    return () => {
+      // socket.disconnect()
+      // isConnectedRef.current = false
+    }
+  }, [])
+
+  return socketRef.current
 }
