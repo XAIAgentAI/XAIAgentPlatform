@@ -12,7 +12,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold text-primary">Logo</span>
-            <span className="bg-primary/10 text-primary px-2.5 py-1 text-xs font-medium rounded-lg">Debug</span>
+            {/* <span className="bg-primary/10 text-primary px-2.5 py-1 text-xs font-medium rounded-lg">Debug</span> */}
           </Link>
 
           {/* Navigation Links */}
