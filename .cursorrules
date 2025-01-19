@@ -34,3 +34,8 @@ Follow these rules when you write code:
 
 ### Dependency installation tool
 pnpm
+
+### 组件库
+shadcn/ui
+
+### 所有行为前，先阅读整个项目。考虑问题要全面

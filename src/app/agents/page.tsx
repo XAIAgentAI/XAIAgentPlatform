@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
@@ -64,45 +62,9 @@ const mockAgents = [
   }
 ]
 
-export default function Home() {
+export default function AgentsPage() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Logo" width={32} height={32} className="rounded-lg" />
-            <span className="text-lg font-semibold">03功能分类</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Trading AI Agent</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Explore AI Agent</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Creating AI Agent</a>
-          </div>
-        </div>
-        
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
-            <Input
-              type="search"
-              placeholder="Search AgentsGPT..."
-              className="w-full bg-white/5 border-white/10 pl-10"
-            />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg className="h-5 w-5 text-muted-foreground" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">Buy DAO</Button>
-          <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">Buy AAA</Button>
-          <Button variant="default" className="bg-primary hover:bg-primary/90">Connect Wallet</Button>
-        </div>
-      </nav>
-
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
         <Tabs defaultValue="prototype" className="w-full">
@@ -160,4 +122,4 @@ export default function Home() {
       </main>
     </div>
   )
-}
+} 
