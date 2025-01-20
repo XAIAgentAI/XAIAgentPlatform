@@ -28,6 +28,9 @@
     --success: #22c55e;
     --warning: #f59e0b;
     --error: #ef4444;
+
+    /* 圆角 */
+    --radius: 0.5rem;
   }
 
   [data-theme='light'] {
@@ -55,6 +58,9 @@
     --success: #22c55e;
     --warning: #f59e0b;
     --error: #ef4444;
+
+    /* 圆角 */
+    --radius: 0.5rem;
   }
 }
 

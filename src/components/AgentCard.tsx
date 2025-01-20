@@ -1,97 +1,68 @@
-'use client';
+"use client"
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { TableCell, TableRow } from '@/components/ui/table';
+import { Avatar } from "@/components/ui/avatar"
+import { CustomBadge, AgentType } from "@/components/ui-custom/custom-badge"
+import { CustomButton } from "@/components/ui-custom/custom-button"
+import Image from "next/image"
 
 interface AgentCardProps {
-  id: string;
-  name: string;
-  image: string;
-  marketCap: string;
-  percentageChange: string;
-  totalValue: string;
-  holders: string;
-  volume: string;
-  influence: string;
-  tag?: string;
-  $CONVO: string;
+  name: string
+  symbol: string
+  type: AgentType
+  marketCap: string
+  change24h: string
+  tvl: string
+  holdersCount: number
+  volume24h: string
+  inferences: number
+  avatar: string
 }
 
 const AgentCard = ({
-  id,
   name,
-  image,
+  symbol,
+  type,
   marketCap,
-  percentageChange,
-  totalValue,
-  holders,
-  volume,
-  influence,
-  tag,
-  $CONVO
+  change24h,
+  tvl,
+  holdersCount,
+  volume24h,
+  inferences,
+  avatar,
 }: AgentCardProps) => {
-  const router = useRouter();
-  const isPositiveChange = !percentageChange.startsWith('-');
-
-  const handleChatClick = () => {
-    router.push(`/chat/${id}`);
-  };
-
   return (
-    <TableRow className="border-white/10 hover:bg-white/[0.02]">
-      <TableCell>
-        <div className="flex items-center gap-3">
-          <div className="relative h-10 w-10 flex-shrink-0">
-            <Image
-              src={image}
-              alt={name}
-              fill
-              className="rounded-lg object-cover"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-foreground">{name}</span>
-              <span className="text-xs text-muted-foreground">{$CONVO}</span>
-            </div>
-            {tag && (
-              <Badge variant="outline" className="bg-primary/10 text-primary border-0">
-                {tag}
-              </Badge>
-            )}
+    <div className="grid grid-cols-9 gap-4 items-center px-4 py-4 border-b border-white/10">
+      <div className="col-span-2 flex items-center gap-4">
+        <Avatar className="w-[60px] h-[60px] rounded-[100px]">
+          <img src={avatar} alt={name} className="object-cover" />
+        </Avatar>
+        <div className="space-y-2">
+          <h3 className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
+          <div className="flex items-center gap-2">
+            <CustomBadge type={type} >
+              <Image src="/images/person.svg" alt="Person" width={8} height={8} />
+            </CustomBadge>
+            <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">${symbol}</span>
           </div>
         </div>
-      </TableCell>
-      <TableCell className="text-sm text-foreground">
-        {marketCap}
-      </TableCell>
-      <TableCell>
-        <span className={isPositiveChange ? 'text-green-500' : 'text-red-500'}>
-          {percentageChange}
-        </span>
-      </TableCell>
-      <TableCell className="text-sm text-foreground">
-        {totalValue}
-      </TableCell>
-      <TableCell className="text-sm text-foreground">
-        {holders}
-      </TableCell>
-      <TableCell className="text-sm text-foreground">
-        {volume}
-      </TableCell>
-      <TableCell>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-foreground">{influence}</span>
-          <Button variant="outline" onClick={handleChatClick}>
-            Chatting
-          </Button>
-        </div>
-      </TableCell>
-    </TableRow>
-  );
-};
+      </div>
 
-export default AgentCard; 
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{marketCap}</div>
+      <div className="text-[#5bfd42] text-sm font-normal font-['Sora'] leading-[10px]">{change24h}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{tvl}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{holdersCount.toLocaleString()}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{volume24h}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{inferences.toLocaleString()}</div>
+      <div>
+        <CustomButton className="flex items-center gap-2">
+          <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
+          Chatting
+        </CustomButton>
+      </div>
+    </div>
+  )
+}
+
+AgentCard.displayName = "AgentCard"
+
+export default AgentCard 
