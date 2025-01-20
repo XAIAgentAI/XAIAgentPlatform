@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
+import { verify } from 'jsonwebtoken';
+
+const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
 // 获取 Agent 列表
 export async function GET(request: Request) {
@@ -84,11 +87,21 @@ export async function GET(request: Request) {
 // 创建新的 Agent
 export async function POST(request: Request) {
   try {
-    const userId = request.headers.get('x-user-id');
-    if (!userId) {
+    // 验证 token
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new ApiError(401, '未授权');
     }
 
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = verify(token, JWT_SECRET);
+    } catch (error) {
+      throw new ApiError(401, 'token无效');
+    }
+
+    const userId = (decoded as any).userId;
     const body = await request.json();
     const {
       name,

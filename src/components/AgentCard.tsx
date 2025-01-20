@@ -1,34 +1,39 @@
 "use client"
 
 import { Avatar } from "@/components/ui/avatar"
-import { CustomBadge, AgentType } from "@/components/ui-custom/custom-badge"
+import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { CustomButton } from "@/components/ui-custom/custom-button"
 import Image from "next/image"
+import { formatDistanceToNow } from 'date-fns'
 
 interface AgentCardProps {
-  name: string
-  symbol: string
-  type: AgentType
-  marketCap: string
-  change24h: string
-  tvl: string
-  holdersCount: number
-  volume24h: string
-  inferences: number
-  avatar: string
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  avatar: string;
+  status: string;
+  capabilities: string[];
+  rating: number;
+  usageCount: number;
+  creatorAddress: string;
+  reviewCount: number;
+  createdAt: string;
 }
 
 const AgentCard = ({
+  id,
   name,
-  symbol,
-  type,
-  marketCap,
-  change24h,
-  tvl,
-  holdersCount,
-  volume24h,
-  inferences,
+  description,
+  category,
   avatar,
+  status,
+  capabilities,
+  rating,
+  usageCount,
+  creatorAddress,
+  reviewCount,
+  createdAt,
 }: AgentCardProps) => {
   return (
     <div className="grid grid-cols-9 gap-4 items-center px-4 py-4 border-b border-white/10">
@@ -39,24 +44,28 @@ const AgentCard = ({
         <div className="space-y-2">
           <h3 className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
           <div className="flex items-center gap-2">
-            <CustomBadge type={type} >
-              <Image src="/images/person.svg" alt="Person" width={8} height={8} />
+            <CustomBadge>
+              {category}
             </CustomBadge>
-            <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">${symbol}</span>
+            <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">
+              {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{marketCap}</div>
-      <div className="text-[#5bfd42] text-sm font-normal font-['Sora'] leading-[10px]">{change24h}</div>
-      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{tvl}</div>
-      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{holdersCount.toLocaleString()}</div>
-      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{volume24h}</div>
-      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{inferences.toLocaleString()}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{rating.toFixed(1)}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{category}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{usageCount.toLocaleString()}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{reviewCount.toLocaleString()}</div>
+      <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{status}</div>
+      <div className="text-white/50 text-sm font-normal font-['Sora'] leading-[10px] truncate" title={creatorAddress}>
+        {creatorAddress.slice(0, 6)}...{creatorAddress.slice(-4)}
+      </div>
       <div>
         <CustomButton className="flex items-center gap-2">
           <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
-          Chatting
+          Chat
         </CustomButton>
       </div>
     </div>

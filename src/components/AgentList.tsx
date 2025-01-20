@@ -6,29 +6,31 @@ import AgentCard from "./AgentCard"
 import Image from "next/image"
 import { useState } from "react"
 
-type SortField = "marketCap" | "tvl" | null
+type SortField = "rating" | "usageCount" | null
 type SortDirection = "asc" | "desc"
 
 interface AgentListProps {
   agents: Array<{
-    name: string
-    symbol: string
-    type: "Productivity" | "Entertainment"
-    marketCap: string
-    change24h: string
-    tvl: string
-    holdersCount: number
-    volume24h: string
-    inferences: number
-    avatar: string
+    id: string;
+    name: string;
+    description: string;
+    category: string;
+    avatar: string;
+    status: string;
+    capabilities: string[];
+    rating: number;
+    usageCount: number;
+    creatorAddress: string;
+    reviewCount: number;
+    createdAt: string;
   }>
 }
 
 const AgentList = ({ agents }: AgentListProps) => {
-  const [sortField, setSortField] = useState<SortField>("marketCap")
+  const [sortField, setSortField] = useState<"rating" | "usageCount" | null>("rating")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field: "rating" | "usageCount") => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc")
     } else {
@@ -39,14 +41,12 @@ const AgentList = ({ agents }: AgentListProps) => {
 
   const sortedAgents = [...agents].sort((a, b) => {
     if (!sortField) return 0
-
-    const aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""))
-    const bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""))
-
-    return sortDirection === "asc" ? aValue - bValue : bValue - aValue
+    return sortDirection === "asc" 
+      ? a[sortField] - b[sortField] 
+      : b[sortField] - a[sortField]
   })
 
-  const getSortIcon = (field: SortField) => {
+  const getSortIcon = (field: "rating" | "usageCount") => {
     return (
       <Image 
         src="/images/triangle.svg" 
@@ -62,13 +62,13 @@ const AgentList = ({ agents }: AgentListProps) => {
     <div className="w-full max-w-[1400px] mx-auto bg-white/10 rounded-[15px] p-6">
       <div className="flex items-center gap-4 mb-6">
         <span className="text-white/50 text-xs">Sort by</span>
-        <Tabs defaultValue="market-cap" className="w-auto">
+        <Tabs defaultValue="rating" className="w-auto">
           <TabsList className="bg-transparent border border-white/30">
             <TabsTrigger 
-              value="market-cap"
+              value="rating"
               className="data-[state=active]:bg-white data-[state=active]:text-black"
             >
-              Market Cap
+              Rating
             </TabsTrigger>
             <TabsTrigger 
               value="latest"
@@ -81,31 +81,31 @@ const AgentList = ({ agents }: AgentListProps) => {
       </div>
 
       <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
-        <div className="col-span-2">Al Agents</div>
+        <div className="col-span-2">AI Agents</div>
         <div 
           className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("marketCap")}
+          onClick={() => handleSort("rating")}
         >
-          Market Cap
-          {getSortIcon("marketCap")}
+          Rating
+          {getSortIcon("rating")}
         </div>
-        <div className="whitespace-nowrap">24h</div>
+        <div className="whitespace-nowrap">Category</div>
         <div 
           className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("tvl")}
+          onClick={() => handleSort("usageCount")}
         >
-          Total Value Locked
-          {getSortIcon("tvl")}
+          Usage Count
+          {getSortIcon("usageCount")}
         </div>
-        <div className="whitespace-nowrap">Holders Count</div>
-        <div className="whitespace-nowrap">24h Vol</div>
-        <div className="whitespace-nowrap">Inferences</div>
+        <div className="whitespace-nowrap">Reviews</div>
+        <div className="whitespace-nowrap">Status</div>
+        <div className="whitespace-nowrap">Creator</div>
         <div></div>
       </div>
 
       <div className="divide-y divide-white/10">
-        {sortedAgents.map((agent, index) => (
-          <AgentCard key={index} {...agent} />
+        {sortedAgents.map((agent) => (
+          <AgentCard key={agent.id} {...agent} />
         ))}
       </div>
     </div>

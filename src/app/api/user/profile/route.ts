@@ -1,16 +1,28 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
-import { getUserId } from '@/lib/auth';
+import { verify } from 'jsonwebtoken';
+
+const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
 // 获取用户信息
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = getUserId();
-    if (!userId) {
+    // 验证 token
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new ApiError(401, '未授权');
     }
 
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = verify(token, JWT_SECRET);
+    } catch (error) {
+      throw new ApiError(401, 'token无效');
+    }
+
+    const userId = (decoded as any).userId;
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -45,11 +57,21 @@ export async function GET() {
 // 更新用户信息
 export async function PUT(request: Request) {
   try {
-    const userId = getUserId();
-    if (!userId) {
+    // 验证 token
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new ApiError(401, '未授权');
     }
 
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = verify(token, JWT_SECRET);
+    } catch (error) {
+      throw new ApiError(401, 'token无效');
+    }
+
+    const userId = (decoded as any).userId;
     const { nickname, avatar, preferences } = await request.json();
 
     const user = await prisma.user.update({

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import RootLayoutClient from "@/components/RootLayoutClient";
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/Toaster";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "XAI Agent Platform",
@@ -14,8 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <RootLayoutClient>{children}</RootLayoutClient>
+      <body suppressHydrationWarning className={inter.className}>
+        <Navbar />
+        {children}
+        <Toaster />
       </body>
     </html>
   );

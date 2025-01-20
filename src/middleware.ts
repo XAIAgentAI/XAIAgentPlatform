@@ -1,78 +1,87 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verify } from 'jsonwebtoken';
-import { rateLimit } from './lib/rate-limit';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
-// 不需要认证的路由
-const publicPaths = [
-  '/api/auth/nonce',
-  '/api/auth/wallet-connect',
-  '/api/auth/verify-signature',
+// 需要身份验证的路由
+const authRoutes = [
   '/api/auth/disconnect',
+  '/api/agents/[id]/history',
+  '/api/user/profile',
+  '/api/user/settings',
+  '/api/user/assets',
 ];
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+// 检查路径是否匹配
+function matchPath(path: string, pattern: string): boolean {
+  const patternParts = pattern.split('/');
+  const pathParts = path.split('/');
 
-  // 应用速率限制
-  const rateLimitResponse = rateLimit(request, {
-    limit: publicPaths.some(path => pathname.startsWith(path)) ? 20 : 100, // 未认证用户 20次/分钟，已认证用户 100次/分钟
-    windowMs: 60 * 1000,
-  });
-
-  if (rateLimitResponse) {
-    return rateLimitResponse;
+  if (patternParts.length !== pathParts.length) {
+    return false;
   }
 
-  // 如果是公开路由，直接放行
-  if (publicPaths.some(path => pathname.startsWith(path))) {
+  return patternParts.every((part, i) => {
+    if (part.startsWith('[') && part.endsWith(']')) {
+      return true;
+    }
+    return part === pathParts[i];
+  });
+}
+
+// 检查是否需要身份验证
+function needsAuth(path: string): boolean {
+  return authRoutes.some(pattern => matchPath(path, pattern));
+}
+
+export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+
+  // 如果不需要身份验证，直接放行
+  if (!needsAuth(path)) {
     return NextResponse.next();
   }
 
-  // 验证 token
-  const token = request.headers.get('authorization')?.split(' ')[1];
-
-  if (!token) {
+  // 获取 token
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json(
-      {
-        code: 401,
-        message: '未授权',
-      },
+      { code: 401, message: '未授权' },
       { status: 401 }
     );
   }
 
+  const token = authHeader.split(' ')[1];
+
   try {
     // 验证 token
-    const decoded = verify(token, JWT_SECRET);
+    const decoded = verify(token, JWT_SECRET) as any;
     
-    // 将用户信息添加到请求头中
+    // 创建新的 headers
     const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', (decoded as any).userId);
-    requestHeaders.set('x-user-address', (decoded as any).address);
+    requestHeaders.set('x-user-id', decoded.userId);
+    requestHeaders.set('x-user-address', decoded.address);
 
-    // 克隆请求并添加修改后的头部
-    const response = NextResponse.next({
+    // 返回修改后的请求
+    return NextResponse.next({
       request: {
         headers: requestHeaders,
       },
     });
-
-    return response;
   } catch (error) {
     return NextResponse.json(
-      {
-        code: 401,
-        message: 'token无效',
-      },
+      { code: 401, message: 'token无效' },
       { status: 401 }
     );
   }
 }
 
-// 配置需要进行中间件处理的路由
+// 配置需要处理的路由
 export const config = {
-  matcher: '/api/:path*',
+  matcher: [
+    '/api/auth/disconnect',
+    '/api/agents/:id*/history',
+    '/api/user/:path*',
+  ],
 }; 

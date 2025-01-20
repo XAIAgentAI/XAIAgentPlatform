@@ -5,8 +5,29 @@ import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
 import { Search } from "lucide-react"
+import { useWallet } from "@/hooks/useWallet"
+import { useToast } from "@/components/ui/use-toast"
 
 const Navbar = () => {
+  const { address, isConnecting, error, connect, disconnect } = useWallet()
+  const { toast } = useToast()
+
+  const handleWalletClick = async () => {
+    try {
+      if (address) {
+        await disconnect()
+      } else {
+        await connect()
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: error instanceof Error ? error.message : "操作失败",
+      })
+    }
+  }
+
   return (
     <nav className="w-full h-20 relative flex-col justify-start items-start">
       <div className="container mx-auto h-full flex items-center justify-between">
@@ -67,8 +88,12 @@ const Navbar = () => {
             </Button>
           </div>
 
-          <Button className="h-[38.50px]">
-            Connect wallet
+          <Button 
+            className="h-[38.50px]"
+            onClick={handleWalletClick}
+            disabled={isConnecting}
+          >
+            {isConnecting ? "连接中..." : address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connect wallet"}
           </Button>
         </div>
       </div>
