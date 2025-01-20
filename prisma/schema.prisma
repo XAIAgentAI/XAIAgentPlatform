@@ -11,8 +11,71 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
+  id          String    @id @default(uuid())
+  address     String    @unique // 钱包地址
+  nickname    String?
+  avatar      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  preferences String?   // JSON string
+  reviews     Review[]  // 用户发布的评价
+  agents      Agent[]   // 用户创建的 agents
+}
+
+model Agent {
+  id              String    @id @default(uuid())
+  name            String
+  description     String
+  longDescription String?
+  category        String
+  avatar          String?
+  status          String    @default("active")
+  capabilities    String    // JSON string array
+  rating          Float     @default(0)
+  usageCount      Int       @default(0)
+  creator         User      @relation(fields: [creatorId], references: [id])
+  creatorId       String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  examples        Example[]
+  reviews         Review[]
+  history         History[]
+}
+
+model Example {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  prompt      String
+  agent       Agent   @relation(fields: [agentId], references: [id])
+  agentId     String
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  rating      Float
+  comment     String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  agent       Agent    @relation(fields: [agentId], references: [id])
+  agentId     String
+  createdAt   DateTime @default(now())
+}
+
+model History {
+  id        String   @id @default(uuid())
+  action    String
+  result    String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  agentId   String
+  timestamp DateTime @default(now())
+}
+
+// 用于存储 nonce
+model AuthNonce {
+  id        String   @id @default(uuid())
+  nonce     String   @unique
+  address   String
   createdAt DateTime @default(now())
+  expiresAt DateTime
 }
