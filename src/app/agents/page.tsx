@@ -62,63 +62,96 @@ const mockAgents = [
   }
 ]
 
-export default function AgentsPage() {
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        <Tabs defaultValue="prototype" className="w-full">
-          <TabsList className="bg-white/5 p-1 mb-8">
-            <TabsTrigger value="prototype" className="data-[state=active]:bg-white/10">
-              Prototype Agents
-            </TabsTrigger>
-            <TabsTrigger value="writing" className="data-[state=active]:bg-white/10">
-              Writing
-            </TabsTrigger>
-            <TabsTrigger value="productivity" className="data-[state=active]:bg-white/10">
-              Productivity
-            </TabsTrigger>
-            <TabsTrigger value="research" className="data-[state=active]:bg-white/10">
-              Research & Analysis
-            </TabsTrigger>
-            <TabsTrigger value="education" className="data-[state=active]:bg-white/10">
-              Education
-            </TabsTrigger>
-            <TabsTrigger value="lifestyle" className="data-[state=active]:bg-white/10">
-              Lifestyle
-            </TabsTrigger>
-            <TabsTrigger value="programming" className="data-[state=active]:bg-white/10">
-              Programming
-            </TabsTrigger>
-          </TabsList>
+const tabs = [
+  { value: "prototype", label: "Prototype Agents" },
+  { value: "writing", label: "Writing" },
+  { value: "productivity", label: "Productivity" },
+  { value: "research", label: "Research & Analysis" },
+  { value: "education", label: "Education" },
+  { value: "lifestyle", label: "Lifestyle" },
+  { value: "programming", label: "Programming" },
+]
 
-          <div className="space-y-8">
-            <h2 className="text-xl font-semibold">Featured Agents</h2>
-            <div className="grid grid-cols-3 gap-6">
-              {mockAgents.map((agent) => (
-                <div 
-                  key={agent.id} 
-                  className="group bg-white/5 rounded-lg p-4 border border-white/10 hover:border-primary/50 transition-colors cursor-pointer"
+export default function AgentsPage() {
+  const [tab, setTab] = useState<"Classification" | "PrototypeAgents">("Classification")
+
+  return (
+    <div className="min-h-screen bg-black">
+      <main className="container mx-auto py-8">
+        <div className="w-full max-w-[1400px] mx-auto bg-white/10 rounded-[15px] p-6">
+          <div className="flex items-center gap-4 mb-6">
+            <Tabs defaultValue="Classification" className="w-auto">
+              <TabsList className="bg-transparent border border-white/30">
+                <TabsTrigger 
+                  value="Classification"
+                  className="data-[state=active]:bg-white data-[state=active]:text-black"
+                  onClick={() => setTab("Classification")}
                 >
-                  <div className="flex items-start gap-4">
-                    <Avatar className="h-10 w-10 rounded-lg">
-                      <Image src={agent.avatar} alt={agent.type} width={40} height={40} />
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium truncate">{agent.type}</span>
+                  Classification
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="PrototypeAgents"
+                  className="data-[state=active]:bg-white data-[state=active]:text-black"
+                  onClick={() => setTab("PrototypeAgents")}
+                >
+                  Prototype Agents
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+          {/* Category Tabs */}
+          <Tabs defaultValue="prototype" className="w-full">
+            <TabsList className="bg-transparent w-full justify-start gap-6 h-auto pb-2">
+              {tabs.map((tab) => (
+                <TabsTrigger 
+                  key={tab.value}
+                  value={tab.value} 
+                  className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] data-[state=active]:bg-transparent data-[state=active]:font-semibold transition-all px-0 h-8"
+                >
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <div className="border-t border-white/10 pt-6">
+              <h2 className="text-xl font-semibold mb-6">Featured Agents</h2>
+              <div className="grid grid-cols-3 gap-6">
+                {mockAgents.map((agent) => (
+                  <div 
+                    key={agent.id} 
+                    className="group rounded-lg p-4 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <Avatar className="h-10 w-10 rounded-full bg-gray-100">
+                          <Image 
+                            src='/logo.png' 
+                            alt={agent.type} 
+                            width={40} 
+                            height={40}
+                            className="object-cover"
+                          />
+                        </Avatar>
                         <span className="text-xs text-muted-foreground">{agent.timeAgo}</span>
                       </div>
-                      <p className="text-xs text-primary mt-1 truncate">{agent.stats}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Created by {agent.createdBy}</p>
-                      <p className="text-sm mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">{agent.description}</p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium truncate">{agent.type}</span>
+                        </div>
+                        <p className="text-xs text-primary mt-1 truncate">{agent.stats}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Created by {agent.createdBy}</p>
+                        <p className="text-white opacity-50 text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
+                          {agent.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </Tabs>
+          </Tabs>
+        </div>
       </main>
     </div>
   )
