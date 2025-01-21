@@ -1,24 +1,29 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
+import { CustomButton } from "@/components/ui-custom/custom-button";
 import CryptoChart from "@/components/crypto-chart/CryptoChart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TokenInfo } from "./TokenInfo";
 import { HoldersList } from "./HoldersList";
+import Image from "next/image";
 
 interface AgentInfoProps {
   agentId: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  creatorAddress: string;
 }
 
-export function AgentInfo({ agentId }: AgentInfoProps) {
+export function AgentInfo({ agentId, name, avatar, createdAt, creatorAddress }: AgentInfoProps) {
   return (
     <Card className="p-6 bg-[#1C1C1C]">
       {/* Agent基本信息 */}
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4">
-          <Avatar className="h-12 w-12">
+          <Avatar className="h-10 w-10">
             <img
-              src="/placeholder-avatar.jpg"
+              src="/logo.png"
               alt="Agent avatar"
               className="h-full w-full object-cover"
             />
@@ -27,33 +32,55 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           <div>
             <h1 className="text-xl font-semibold">Prefrontal Cortex Convo Agent</h1>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-sm text-gray-500">{agentId}</span>
-              <button className="text-sm text-gray-500 hover:text-gray-700">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <div className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] opacity-50">$CONVO</div>
+              <div className="w-[120px] h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] justify-center items-center inline-flex overflow-hidden relative">
+                <div className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] opacity-70">0x1C4C...F463a3</div>
+                <CustomButton 
+                  className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px]"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                </CustomButton>
+              </div>
             </div>
-            <div className="mt-1 text-sm text-gray-500">
-              Created 4 months ago
-            </div>
+
+            <CustomButton 
+              className="flex items-center gap-2 mt-3"
+            >
+              <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
+              Chatting
+            </CustomButton>
+
           </div>
         </div>
 
-        <Button variant="default" className="bg-orange-500 hover:bg-orange-600">
-          Chatting
-        </Button>
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">Created by:</span>
+            <Avatar className="h-10 w-10">
+              <img
+                src="/logo.png"
+                alt="Creator avatar"
+                className="h-full w-full object-cover rounded-full"
+              />
+            </Avatar>
+          </div>
+          <div className="text-sm text-gray-500">
+            4 months ago
+          </div>
+        </div>
       </div>
 
       {/* K线图 */}

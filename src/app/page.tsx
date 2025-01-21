@@ -20,96 +20,103 @@ interface Agent {
 }
 const mockAgents = [
   {
-    id: 1,
+    id: "1",
     name: "XAIAgent",
-    symbol: "CONVO",
-    type: "Productivity" as const,
-    marketCap: "$96.6m",
-    change24h: "+5.64%",
-    tvl: "$19m",
-    holdersCount: 108080,
-    volume24h: "$8.5m",
-    inferences: 1225393,
-    avatar: "/logo.png"
+    description: "Efficient AI assistant providing comprehensive productivity support",
+    category: "Productivity",
+    avatar: "/logo.png",
+    status: "active",
+    capabilities: ["Natural Language Processing", "Task Management", "Document Generation", "Data Analysis"],
+    rating: 4.8,
+    usageCount: 125393,
+    creatorAddress: "0x1234...5678",
+    reviewCount: 1280,
+    createdAt: "2024-01-15"
   },
   {
-    id: 2,
+    id: "2",
     name: "AIAssistant",
-    symbol: "AIAS",
-    type: "Entertainment" as const,
-    marketCap: "$145.2m",
-    change24h: "-2.34%",
-    tvl: "$28.5m",
-    holdersCount: 156420,
-    volume24h: "$12.3m",
-    inferences: 2458962,
-    avatar: "/ai-assistant.png"
+    description: "Entertainment-focused AI assistant for content creation",
+    category: "Entertainment",
+    avatar: "/ai-assistant.png",
+    status: "active",
+    capabilities: ["Story Creation", "Game Design", "Content Generation", "Interactive Dialogue"],
+    rating: 4.6,
+    usageCount: 98962,
+    creatorAddress: "0x2345...6789",
+    reviewCount: 856,
+    createdAt: "2024-01-20"
   },
   {
-    id: 3,
+    id: "3",
     name: "CreativeAI",
-    symbol: "CRAI",
-    type: "Entertainment" as const,
-    marketCap: "$78.9m",
-    change24h: "+8.92%",
-    tvl: "$15.6m",
-    holdersCount: 89654,
-    volume24h: "$6.8m",
-    inferences: 986574,
-    avatar: "/creative-ai.png"
+    description: "Expert in creative entertainment content generation",
+    category: "Entertainment",
+    avatar: "/creative-ai.png",
+    status: "active",
+    capabilities: ["Art Creation", "Music Generation", "Creative Writing", "Video Scripting"],
+    rating: 4.7,
+    usageCount: 86574,
+    creatorAddress: "0x3456...7890",
+    reviewCount: 723,
+    createdAt: "2024-02-01"
   },
   {
-    id: 4,
+    id: "4",
     name: "DataAnalyst",
-    symbol: "DANA",
-    type: "Productivity" as const,
-    marketCap: "$234.5m",
-    change24h: "+12.45%",
-    tvl: "$45.2m",
-    holdersCount: 198765,
-    volume24h: "$18.9m",
-    inferences: 3567891,
-    avatar: "/data-analyst.png"
+    description: "Professional data analysis and visualization assistant",
+    category: "Productivity",
+    avatar: "/data-analyst.png",
+    status: "active",
+    capabilities: ["Data Analysis", "Report Generation", "Predictive Modeling", "Data Visualization"],
+    rating: 4.9,
+    usageCount: 167891,
+    creatorAddress: "0x4567...8901",
+    reviewCount: 1567,
+    createdAt: "2024-02-10"
   },
   {
-    id: 5,
+    id: "5",
     name: "CodeMaster",
-    symbol: "CODE",
-    type: "Productivity" as const,
-    marketCap: "$167.8m",
-    change24h: "-1.23%",
-    tvl: "$32.1m",
-    holdersCount: 145632,
-    volume24h: "$15.4m",
-    inferences: 1789456,
-    avatar: "/code-master.png"
+    description: "Intelligent programming assistant",
+    category: "Productivity",
+    avatar: "/code-master.png",
+    status: "active",
+    capabilities: ["Code Generation", "Code Review", "Bug Fixing", "Performance Optimization"],
+    rating: 4.7,
+    usageCount: 89456,
+    creatorAddress: "0x5678...9012",
+    reviewCount: 945,
+    createdAt: "2024-02-15"
   },
   {
-    id: 6,
+    id: "6",
     name: "HealthBot",
-    symbol: "HEAL",
-    type: "Productivity" as const,
-    marketCap: "$89.4m",
-    change24h: "+3.78%",
-    tvl: "$17.8m",
-    holdersCount: 76543,
-    volume24h: "$7.2m",
-    inferences: 945678,
-    avatar: "/health-bot.png"
+    description: "Health management and medical consultation assistant",
+    category: "Productivity",
+    avatar: "/health-bot.png",
+    status: "active",
+    capabilities: ["Health Consultation", "Dietary Advice", "Exercise Planning", "Medical Knowledge"],
+    rating: 4.5,
+    usageCount: 45678,
+    creatorAddress: "0x6789...0123",
+    reviewCount: 534,
+    createdAt: "2024-02-20"
   },
   {
-    id: 7,
+    id: "7",
     name: "FinanceGPT",
-    symbol: "FGPT",
-    type: "Entertainment" as const,
-    marketCap: "$312.6m",
-    change24h: "+15.67%",
-    tvl: "$67.9m",
-    holdersCount: 256789,
-    volume24h: "$25.6m",
-    inferences: 4567890,
-    avatar: "/finance-gpt.png"
-  },
+    description: "Financial market analysis and entertainment predictions",
+    category: "Entertainment",
+    avatar: "/finance-gpt.png",
+    status: "active",
+    capabilities: ["Market Analysis", "Investment Advice", "Trend Prediction", "Risk Assessment"],
+    rating: 4.8,
+    usageCount: 156789,
+    creatorAddress: "0x7890...1234",
+    reviewCount: 1234,
+    createdAt: "2024-02-25"
+  }
 ]
 
 export default function Home() {
@@ -144,7 +151,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       <div className="container mx-auto py-10">
-        <AgentList agents={agents} />
+        <AgentList agents={mockAgents} />
       </div>
     </main>
   )

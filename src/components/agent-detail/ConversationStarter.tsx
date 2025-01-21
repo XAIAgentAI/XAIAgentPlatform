@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/ui-custom/custom-button";
+import Image from "next/image";
 
 export function ConversationStarter() {
   const suggestions = [
@@ -22,10 +23,13 @@ export function ConversationStarter() {
           </div>
         ))}
       </div>
-      <div className="mt-6 text-center">
-        <Button className="bg-orange-500 hover:bg-orange-600">
+      <div className="flex justify-center mt-6">
+        <CustomButton 
+          className="flex items-center gap-2"
+        >
+          <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
           Chatting
-        </Button>
+        </CustomButton>
       </div>
     </Card>
   );

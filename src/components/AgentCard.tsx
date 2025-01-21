@@ -53,33 +53,68 @@ const AgentCard = ({
   }
 
   return (
-    <div className="grid grid-cols-9 gap-4 items-center px-4 py-4 border-b border-white/10">
-      <div className="col-span-2 flex items-center gap-4">
-        <Avatar className="w-[60px] h-[60px] rounded-[100px]">
-          <img src={avatar} alt={name} className="object-cover" />
-        </Avatar>
-        <div className="space-y-2">
-          <h3 className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
-          <div className="flex items-center gap-2">
-            <CustomBadge>
-              {category}
-            </CustomBadge>
-            <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">
-              {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
-            </span>
+    <div 
+      onClick={handleCardClick}
+      className="cursor-pointer transition-all hover:bg-white/5"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && handleCardClick(e as unknown as React.MouseEvent)}
+    >
+      <div className="grid grid-cols-9 gap-4 items-center px-4 py-4">
+        {/* AI Agents - col-span-2 */}
+        <div className="col-span-2 flex items-center gap-4">
+          <Avatar className="w-[60px] h-[60px] rounded-[100px]">
+            <img src={avatar} alt={name} className="object-cover" />
+          </Avatar>
+          <div className="space-y-2">
+            <h3 className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
+            <div className="flex items-center gap-2">
+              <CustomBadge>
+                {category}
+              </CustomBadge>
+              <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">
+                {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{rating.toFixed(1)}</div>
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{category}</div>
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{usageCount.toLocaleString()}</div>
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{reviewCount.toLocaleString()}</div>
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{status}</div>
+        {/* Rating */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {rating.toFixed(1)}
+        </div>
+
+        {/* Category */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {category}
+        </div>
+
+        {/* Usage Count */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {usageCount.toLocaleString()}
+        </div>
+
+        {/* Reviews */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {reviewCount.toLocaleString()}
+        </div>
+
+        {/* Status */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {status}
+        </div>
+
+        {/* Creator */}
         <div className="text-white/50 text-sm font-normal font-['Sora'] leading-[10px] truncate" title={creatorAddress}>
           {creatorAddress.slice(0, 6)}...{creatorAddress.slice(-4)}
         </div>
+
+        {/* Action Button */}
         <div>
-          <CustomButton className="flex items-center gap-2">
+          <CustomButton 
+            onClick={handleButtonClick}
+            className="flex items-center gap-2"
+          >
             <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
             Chat
           </CustomButton>
