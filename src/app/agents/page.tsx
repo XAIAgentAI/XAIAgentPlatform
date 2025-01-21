@@ -107,7 +107,7 @@ export default function AgentsPage() {
                 <TabsTrigger 
                   key={tab.value}
                   value={tab.value} 
-                  className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] data-[state=active]:bg-transparent data-[state=active]:font-semibold transition-all px-0 h-8"
+                  className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] data-[state=active]:bg-transparent px-0 h-8"
                 >
                   {tab.label}
                 </TabsTrigger>

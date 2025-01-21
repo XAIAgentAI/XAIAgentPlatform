@@ -32,31 +32,33 @@ const Navbar = () => {
     <nav className="w-full h-20 relative flex-col justify-start items-start">
       <div className="container mx-auto h-full flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex flex-shrink-0 items-center gap-2">
             <Image
               src="/logo.png"
               alt="Logo"
               width={50}
               height={50}
-              className="w-[50px] h-[50px] object-contain"
+              className="w-[50px] h-[50px] object-cover flex-shrink-0"
+              priority
+              unoptimized
             />
           </Link>
           <div className="flex items-center gap-8">
             <Link
               href="/trading"
-              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
+              className="text-text-primary text-xs font-normal font-['Sora'] leading-7"
             >
               Trading AI Agent
             </Link>
             <Link
               href="/agents"
-              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
+              className="text-text-primary text-xs font-normal font-['Sora'] leading-7"
             >
               Explore AI Agent
             </Link>
             <Link
               href="/create"
-              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
+              className="text-text-primary text-xs font-normal font-['Sora'] leading-7"
             >
               Creating AI Agent
             </Link>
