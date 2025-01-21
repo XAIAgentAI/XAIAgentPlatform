@@ -38,25 +38,25 @@ const Navbar = () => {
               alt="Logo"
               width={50}
               height={50}
-              className="w-[50px] h-[50.10px]"
+              className="w-[50px] h-[50px] object-contain"
             />
           </Link>
           <div className="flex items-center gap-8">
             <Link
               href="/trading"
-              className="text-white text-xs font-normal font-['Sora'] leading-7 hover:text-white/80 transition-colors"
+              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
             >
               Trading AI Agent
             </Link>
             <Link
-              href="/explore"
-              className="text-white text-xs font-normal font-['Sora'] leading-7 hover:text-white/80 transition-colors"
+              href="/agents"
+              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
             >
               Explore AI Agent
             </Link>
             <Link
               href="/create"
-              className="text-white text-xs font-normal font-['Sora'] leading-7 hover:text-white/80 transition-colors"
+              className="text-text-primary text-xs hover:text-sm font-normal hover:font-semibold font-['Sora'] leading-7 hover:text-text-secondary transition-all duration-200"
             >
               Creating AI Agent
             </Link>
@@ -68,21 +68,58 @@ const Navbar = () => {
             <Input
               type="search"
               placeholder="Search Agents/CA"
-              className="pl-[15px] pr-[85.50px] py-2.5 bg-transparent border-white/30 rounded-[100px] text-white text-xs font-normal font-['Sora'] leading-10 placeholder:text-white/50 w-[300px] focus-visible:ring-0"
+              className="pl-[15px] pr-[85.50px] py-2.5 bg-transparent border-text-primary/30 rounded-[100px] text-text-primary text-xs font-normal font-['Sora'] leading-10 placeholder:text-text-secondary w-[300px] focus-visible:ring-0"
             />
-            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
+            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
           </div>
-          <div className="w-max inline-block p-[1px] rounded-lg bg-gradient-to-r from-[#FF540E] to-[#A0A0A0]">
+
+          <div className="relative">
+            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="buttonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style={{ stopColor: '#FF540E' }} />
+                  <stop offset="40%" style={{ stopColor: '#A0A0A0' }} />
+                  <stop offset="100%" style={{ stopColor: '#A0A0A0' }} />
+                </linearGradient>
+              </defs>
+              <rect 
+                width="100%" 
+                height="100%" 
+                fill="none" 
+                stroke="url(#buttonGradient)" 
+                strokeWidth="1" 
+                rx="8" 
+                ry="8"
+              />
+            </svg>
             <Button 
-              className="h-[38.50px] px-4 bg-black hover:bg-black/90 text-white rounded-[7px] text-xs font-normal font-['Sora']"
+              className="relative bg-transparent hover:bg-transparent text-text-primary px-4 py-3.5 rounded-lg"
             >
               BUY DBC
             </Button>
           </div>
 
-          <div className="w-max inline-block p-[1px] rounded-lg bg-gradient-to-r from-[#FF540E] to-[#A0A0A0]">
+          <div className="relative">
+            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="buttonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style={{ stopColor: '#FF540E' }} />
+                  <stop offset="40%" style={{ stopColor: '#A0A0A0' }} />
+                  <stop offset="100%" style={{ stopColor: '#A0A0A0' }} />
+                </linearGradient>
+              </defs>
+              <rect 
+                width="100%" 
+                height="100%" 
+                fill="none" 
+                stroke="url(#buttonGradient)" 
+                strokeWidth="1" 
+                rx="8" 
+                ry="8"
+              />
+            </svg>
             <Button 
-              className="h-[38.50px] px-4 bg-black hover:bg-black/90 text-white rounded-[7px] text-xs font-normal font-['Sora']"
+              className="relative bg-transparent hover:bg-transparent text-text-primary px-4 py-3.5 rounded-lg"
             >
               BUY XAA
             </Button>
