@@ -107,7 +107,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-background">
         <div className="container mx-auto py-10">
           <div className="text-white text-center">Loading...</div>
         </div>
@@ -116,7 +116,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       <div className="container mx-auto py-10">
         <AgentList agents={localAgents} />
       </div>

@@ -68,7 +68,7 @@ const AgentList = ({ agents }: AgentListProps) => {
   }
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto bg-white/10 rounded-[15px] p-6">
+    <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-card-background">
       <div className="flex items-center gap-4 mb-6">
         <span className="text-white/50 text-xs">Sort by</span>
         <Tabs defaultValue="marketCap" className="w-auto">
@@ -90,26 +90,26 @@ const AgentList = ({ agents }: AgentListProps) => {
       </div>
 
       <div className="relative overflow-x-auto">
-        <div className="min-w-[800px]">
+        <div className="min-w-[1100px]">
           {/* Header */}
           <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
-            <div className="col-span-3 sticky left-0 bg-[#1a1a1a]">AI Agents</div>
+            <div className="col-span-3 sticky left-0 bg-[#1a1a1a] z-10">AI Agents</div>
             <div 
-              className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap"
               onClick={() => handleSort("marketCap")}
             >
               Market Cap
               {getSortIcon("marketCap")}
             </div>
-            <div className="whitespace-nowrap">24h</div>
+            <div className="col-span-1 whitespace-nowrap">24h</div>
             <div 
-              className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              className="col-span-1.5 flex items-center gap-1 cursor-pointer whitespace-nowrap min-w-[140px]"
               onClick={() => handleSort("tvl")}
             >
               Total Value Locked
               {getSortIcon("tvl")}
             </div>
-            <div className="whitespace-nowrap">Holders Count</div>
+            <div className="col-span-1 whitespace-nowrap">Holders Count</div>
             <div className="whitespace-nowrap">24h Vol</div>
             <div className="whitespace-nowrap">Status</div>
           </div>

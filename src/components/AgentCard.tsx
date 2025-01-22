@@ -54,7 +54,7 @@ const AgentCard = ({
     >
       <div className="grid grid-cols-9 gap-4 items-center px-4 py-4">
         {/* AI Agents - col-span-3 */}
-        <div className="col-span-3 flex items-center gap-4 sticky left-0 bg-[#1a1a1a]">
+        <div className="col-span-3 flex items-center gap-4 sticky left-0 bg-[#1a1a1a] z-10">
           <Avatar className="w-[60px] h-[60px] rounded-[100px]">
             <img src={avatar} alt={name} className="object-cover" />
           </Avatar>
@@ -72,22 +72,22 @@ const AgentCard = ({
         </div>
 
         {/* Market Cap */}
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+        <div className="col-span-1 text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
           {marketCap}
         </div>
 
         {/* Change 24h */}
-        <div className="text-[#5BFE42] text-sm font-normal font-['Sora'] leading-[10px]">
+        <div className="col-span-1 text-[#5BFE42] text-sm font-normal font-['Sora'] leading-[10px]">
           {change24h}
         </div>
 
         {/* TVL */}
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+        <div className="col-span-1.5 text-white/80 text-sm font-normal font-['Sora'] leading-[10px] min-w-[140px]">
           {tvl}
         </div>
 
         {/* Holders Count */}
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+        <div className="col-span-1 text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
           {holdersCount.toLocaleString()}
         </div>
 

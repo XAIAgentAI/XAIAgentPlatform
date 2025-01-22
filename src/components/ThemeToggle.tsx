@@ -13,9 +13,8 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   useEffect(() => {
     // 初始化主题
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    // 默认使用 light 主题，不再检查系统偏好
+    const initialTheme = savedTheme || 'light';
     setTheme(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
 
