@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
 export const userSchema = z.object({
-  username: z.string().min(3).max(50),
-  email: z.string().email(),
+  address: z.string(),
+  nickname: z.string().optional(),
+  avatar: z.string().optional(),
+  preferences: z.string().optional(),
 })
 
 export type CreateUserInput = z.infer<typeof userSchema>

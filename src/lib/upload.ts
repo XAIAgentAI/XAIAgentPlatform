@@ -1,3 +1,9 @@
+// 文件上传功能暂时禁用
+export async function uploadFile(file: File): Promise<string> {
+  return '';
+}
+
+/*
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import { ApiError } from './error';
@@ -46,4 +52,5 @@ async function ensureDir(dir: string) {
       throw error;
     }
   }
-} 
+}
+*/ 
