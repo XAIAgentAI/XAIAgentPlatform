@@ -6,8 +6,7 @@
     "dev": "next dev ",
     "build": "next build",
     "start": "node server.js",
-    "redeploy": "git pull && npm run build && npm run start",
-
+    "redeploy": "git pull && pnpm install && pnpm run build && pnpm run start",
     "lint": "next lint"
   },
   "dependencies": {
