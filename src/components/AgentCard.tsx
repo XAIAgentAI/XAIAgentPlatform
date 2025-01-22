@@ -54,7 +54,7 @@ const AgentCard = ({
     >
       <div className="grid grid-cols-9 gap-4 items-center px-4 py-4">
         {/* AI Agents - col-span-3 */}
-        <div className="col-span-3 flex items-center gap-4">
+        <div className="col-span-3 flex items-center gap-4 sticky left-0 bg-[#1a1a1a]">
           <Avatar className="w-[60px] h-[60px] rounded-[100px]">
             <img src={avatar} alt={name} className="object-cover" />
           </Avatar>
@@ -100,7 +100,6 @@ const AgentCard = ({
         <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
           {status}
         </div>
-
       </div>
     </div>
   )

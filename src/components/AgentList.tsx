@@ -89,32 +89,38 @@ const AgentList = ({ agents }: AgentListProps) => {
         </Tabs>
       </div>
 
-      <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
-        <div className="col-span-3">AI Agents</div>
-        <div 
-          className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("marketCap")}
-        >
-          Market Cap
-          {getSortIcon("marketCap")}
-        </div>
-        <div className="whitespace-nowrap">24h</div>
-        <div 
-          className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("tvl")}
-        >
-          Total Value Locked
-          {getSortIcon("tvl")}
-        </div>
-        <div className="whitespace-nowrap">Holders Count</div>
-        <div className="whitespace-nowrap">24h Vol</div>
-        <div className="whitespace-nowrap">Status</div>
-      </div>
+      <div className="relative overflow-x-auto">
+        <div className="min-w-[800px]">
+          {/* Header */}
+          <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
+            <div className="col-span-3 sticky left-0 bg-[#1a1a1a]">AI Agents</div>
+            <div 
+              className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              onClick={() => handleSort("marketCap")}
+            >
+              Market Cap
+              {getSortIcon("marketCap")}
+            </div>
+            <div className="whitespace-nowrap">24h</div>
+            <div 
+              className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              onClick={() => handleSort("tvl")}
+            >
+              Total Value Locked
+              {getSortIcon("tvl")}
+            </div>
+            <div className="whitespace-nowrap">Holders Count</div>
+            <div className="whitespace-nowrap">24h Vol</div>
+            <div className="whitespace-nowrap">Status</div>
+          </div>
 
-      <div className="divide-y divide-white/10">
-        {sortedAgents.map((agent) => (
-          <AgentCard key={agent.id} {...agent} />
-        ))}
+          {/* Content */}
+          <div className="divide-y divide-white/10">
+            {sortedAgents.map((agent) => (
+              <AgentCard key={agent.id} {...agent} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
