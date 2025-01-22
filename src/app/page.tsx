@@ -30,7 +30,7 @@ const localAgents = [
     tvl: "$0",
     holdersCount: 39596,
     volume24h: "$0",
-    status: "IAO Starting Soon",
+    status: "IAO is about to begin.",
   },
   {
     id: 2,

@@ -27,8 +27,8 @@ export const CustomBadge = ({ className, children }: CustomBadgeProps) => {
       variant="secondary" 
       className={cn(
         getCategoryColor(category),
-        "h-[21px] px-[5px] py-1.5 border-none text-white rounded-[100px]",
-        "text-center text-[10px] font-normal font-['Sora'] leading-10",
+        "h-[20px] px-[10px] border-none text-white rounded-[100px]",
+        "text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap",
         className
       )}
     >
