@@ -3,7 +3,11 @@
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const ThemeToggle = () => {
+interface ThemeToggleProps {
+  className?: string;
+}
+
+const ThemeToggle = ({ className }: ThemeToggleProps) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
@@ -45,7 +49,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg text-primary hover:text-primary"
+      className={`p-2 rounded-lg text-primary hover:text-primary ${className || ''}`}
       aria-label="Toggle theme"
       style={{
         // DEBUG: 内联样式测试
