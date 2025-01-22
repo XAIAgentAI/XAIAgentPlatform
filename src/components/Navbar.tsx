@@ -116,11 +116,11 @@ const Navbar = () => {
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
             </div>
 
-            <GradientBorderButton gradientId="buttonGradient1">
+            <GradientBorderButton>
               BUY DBC
             </GradientBorderButton>
 
-            <GradientBorderButton gradientId="buttonGradient2">
+            <GradientBorderButton>
               BUY XAA
             </GradientBorderButton>
 
@@ -149,14 +149,12 @@ const Navbar = () => {
               ))}
 
               <GradientBorderButton 
-                gradientId="buttonGradientMobile1"
                 containerClassName="w-full max-w-[220px]"
               >
                 BUY DBC
               </GradientBorderButton>
 
               <GradientBorderButton 
-                gradientId="buttonGradientMobile2"
                 containerClassName="w-full max-w-[220px]"
               >
                 BUY XAA
