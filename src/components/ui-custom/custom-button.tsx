@@ -2,25 +2,42 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/components/ui/use-toast"
 import { ButtonHTMLAttributes } from "react"
 
 interface CustomButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string
+  className?: string;
+  isChat?: boolean;
 }
 
-export const CustomButton = ({ className, children, ...props }: CustomButtonProps) => {
+export const CustomButton = ({
+  className,
+  isChat,
+  onClick,
+  ...props
+}: CustomButtonProps) => {
+  const { toast } = useToast()
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isChat) {
+      e.preventDefault();
+      toast({
+        description: "Chat feature coming soon! Stay tuned for updates.",
+      })
+    } else if (onClick) {
+      onClick(e);
+    }
+  }
+
   return (
-    <Button 
-      size="sm"
+    <Button
       className={cn(
-        "h-[38.50px] px-4 py-3.5 bg-[#ff540e] hover:bg-[#ff540e]/90 text-white rounded-lg",
-        "text-center text-xs font-normal font-['Sora'] leading-10",
+        "bg-primary text-primary-foreground hover:bg-primary/90",
         className
       )}
+      onClick={handleClick}
       {...props}
-    >
-      {children}
-    </Button>
+    />
   )
 }
 

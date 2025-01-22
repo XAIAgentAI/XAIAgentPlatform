@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-export type AgentCategory = "Productivity" | "Entertainment" | "Social" | "Education" | "Finance" | "Other"
+export type AgentType = "Platform" | "Infrastructure" | "AI Agent"
 
 interface CustomBadgeProps {
   className?: string
@@ -11,19 +11,16 @@ interface CustomBadgeProps {
 }
 
 const getCategoryColor = (category: string) => {
-  const colors: Record<AgentCategory, string> = {
-    Productivity: "bg-[#99632d]",
-    Entertainment: "bg-[#2791a0]",
-    Social: "bg-[#7c3aed]",
-    Education: "bg-[#2563eb]",
-    Finance: "bg-[#16a34a]",
-    Other: "bg-[#64748b]"
+  const colors: Record<AgentType, string> = {
+    "Platform": "bg-[#99642E]",
+    "Infrastructure": "bg-[#74992E]",
+    "AI Agent": "bg-[#2E6599]"
   }
-  return colors[category as AgentCategory] || colors.Other
+  return colors[category as AgentType] || colors["Platform"]
 }
 
 export const CustomBadge = ({ className, children }: CustomBadgeProps) => {
-  const category = children?.toString() || "Other"
+  const category = children?.toString() || "Platform"
   
   return (
     <Badge 

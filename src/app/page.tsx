@@ -22,7 +22,7 @@ const localAgents = [
   {
     id: 1,
     name: "XAIAgent",
-    avatar: "/logo.png",
+    avatar: "/logo/XAIAgent.png",
     symbol: "$XAA",
     type: "Platform" as const,
     marketCap: "TBA",
@@ -35,7 +35,7 @@ const localAgents = [
   {
     id: 2,
     name: "SuperImage",
-    avatar: "/logo.png",
+    avatar: "/logo/SuperImage.png",
     symbol: "$SIC",
     type: "Infrastructure" as const,
     marketCap: "TBA",
@@ -48,7 +48,7 @@ const localAgents = [
   {
     id: 3,
     name: "DecentralGPT",
-    avatar: "/logo.png",
+    avatar: "/logo/DecentralGPT.png",
     symbol: "$DGC",
     type: "Infrastructure" as const,
     marketCap: "TBA",
@@ -61,7 +61,7 @@ const localAgents = [
   {
     id: 4,
     name: "XPersonity",
-    avatar: "/logo.png",
+    avatar: "/logo/XPersonity.png",
     symbol: "$XPE",
     type: "AI Agent" as const,
     marketCap: "TBA",
@@ -74,7 +74,7 @@ const localAgents = [
   {
     id: 5,
     name: "ASIXT",
-    avatar: "/logo.png",
+    avatar: "/logo/ASIXT.png",
     symbol: "$ASIXT",
     type: "AI Agent" as const,
     marketCap: "TBA",

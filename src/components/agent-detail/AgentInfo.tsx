@@ -79,6 +79,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
             <CustomButton 
               className="flex items-center gap-2 mt-3"
+              isChat
             >
               <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
               Chatting
