@@ -97,7 +97,10 @@ const Navbar = () => {
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-            <Wallet className="text-[#FF540E] cursor-pointer hover:text-[#FF540E]/90 lg:hidden w-6 h-6 text-text-primary" />
+            <Wallet 
+              className="text-[#FF540E] cursor-pointer hover:text-[#FF540E]/90 lg:hidden w-6 h-6 text-text-primary" 
+              onClick={handleWalletClick}
+            />
 
             <ThemeToggle className="lg:hidden" />
           </div>
