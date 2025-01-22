@@ -93,7 +93,7 @@ const AgentList = ({ agents }: AgentListProps) => {
         <div className="min-w-[1100px]">
           {/* Header */}
           <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
-            <div className="col-span-3 sticky left-0 bg-[#1a1a1a] z-10">AI Agents</div>
+            <div className="col-span-3 sticky left-0 z-10">AI Agents</div>
             <div 
               className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap"
               onClick={() => handleSort("marketCap")}
