@@ -4,7 +4,7 @@ import { CustomButton as Button } from "@/components/ui-custom/custom-button"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, Menu, X } from "lucide-react"
+import { Search, Menu, X, Wallet } from "lucide-react"
 import { useWallet } from "@/hooks/useWallet"
 import { useToast } from "@/components/ui/use-toast"
 import ThemeToggle from "./ThemeToggle"
@@ -86,7 +86,8 @@ const Navbar = () => {
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
-          <ThemeToggle className="lg:hidden" />
+          {/* <ThemeToggle className="lg:hidden" /> */}
+          <Wallet className="text-[#FF540E] cursor-pointer hover:text-[#FF540E]/90 lg:hidden w-6 h-6 text-text-primary" />
         </div>
 
         {/* Desktop Actions */}
@@ -160,7 +161,9 @@ const Navbar = () => {
             {isConnecting ? "连接中..." : address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connect wallet"}
           </Button>
 
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
+          <Wallet className="text-[#FF540E] cursor-pointer hover:text-[#FF540E]/90 w-6 h-6 text-text-primary" />
+
         </div>
 
         {/* Mobile Menu */}

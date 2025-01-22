@@ -4,38 +4,35 @@ import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { CustomButton } from "@/components/ui-custom/custom-button"
 import Image from "next/image"
-import { formatDistanceToNow } from 'date-fns'
 import { useRouter } from 'next/navigation'
 
-interface AgentCardProps {
-  id: string;
+interface LocalAgentCardProps {
+  id: number;
   name: string;
-  description: string;
-  category: string;
   avatar: string;
+  symbol: string;
+  type: string;
+  marketCap: string;
+  change24h: string;
+  tvl: string;
+  holdersCount: number;
+  volume24h: string;
   status: string;
-  capabilities: string[];
-  rating: number;
-  usageCount: number;
-  creatorAddress: string;
-  reviewCount: number;
-  createdAt: string;
 }
 
 const AgentCard = ({
   id,
   name,
-  description,
-  category,
   avatar,
+  symbol,
+  type,
+  marketCap,
+  change24h,
+  tvl,
+  holdersCount,
+  volume24h,
   status,
-  capabilities,
-  rating,
-  usageCount,
-  creatorAddress,
-  reviewCount,
-  createdAt,
-}: AgentCardProps) => {
+}: LocalAgentCardProps) => {
 
   const router = useRouter()
 
@@ -45,11 +42,6 @@ const AgentCard = ({
       return
     }
     router.push(`/agent-detail/${id}`)
-  }
-
-  const handleButtonClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    router.push(`/chat/${id}`)
   }
 
   return (
@@ -70,55 +62,45 @@ const AgentCard = ({
             <h3 className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
             <div className="flex items-center gap-2">
               <CustomBadge>
-                {category}
+                {type}
               </CustomBadge>
               <span className="text-white/50 text-[10px] font-normal font-['Sora'] leading-[10px]">
-                {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+                {symbol}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Rating */}
+        {/* Market Cap */}
         <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
-          {rating.toFixed(1)}
+          {marketCap}
         </div>
 
-        {/* Category */}
+        {/* Change 24h */}
         <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
-          {category}
+          {change24h}
         </div>
 
-        {/* Usage Count */}
+        {/* TVL */}
         <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
-          {usageCount.toLocaleString()}
+          {tvl}
         </div>
 
-        {/* Reviews */}
+        {/* Holders Count */}
         <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
-          {reviewCount.toLocaleString()}
+          {holdersCount.toLocaleString()}
+        </div>
+
+        {/* Volume 24h */}
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+          {volume24h}
         </div>
 
         {/* Status */}
-        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px]">
+        <div className="text-white/80 text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
           {status}
         </div>
 
-        {/* Creator */}
-        <div className="text-white/50 text-sm font-normal font-['Sora'] leading-[10px] truncate" title={creatorAddress}>
-          {creatorAddress.slice(0, 6)}...{creatorAddress.slice(-4)}
-        </div>
-
-        {/* Action Button */}
-        <div>
-          <CustomButton 
-            onClick={handleButtonClick}
-            className="flex items-center gap-2"
-          >
-            <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
-            Chat
-          </CustomButton>
-        </div>
       </div>
     </div>
   )

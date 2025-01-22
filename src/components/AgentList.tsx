@@ -5,31 +5,30 @@ import AgentCard from "./AgentCard"
 import Image from "next/image"
 import { useState } from "react"
 
-type SortField = "rating" | "usageCount" | null
+type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
 
 interface AgentListProps {
   agents: Array<{
-    id: string;
+    id: number;
     name: string;
-    description: string;
-    category: string;
     avatar: string;
+    symbol: string;
+    type: string;
+    marketCap: string;
+    change24h: string;
+    tvl: string;
+    holdersCount: number;
+    volume24h: string;
     status: string;
-    capabilities: string[];
-    rating: number;
-    usageCount: number;
-    creatorAddress: string;
-    reviewCount: number;
-    createdAt: string;
   }>
 }
 
 const AgentList = ({ agents }: AgentListProps) => {
-  const [sortField, setSortField] = useState<"rating" | "usageCount" | null>("rating")
+  const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
 
-  const handleSort = (field: "rating" | "usageCount") => {
+  const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc")
     } else {
@@ -40,12 +39,23 @@ const AgentList = ({ agents }: AgentListProps) => {
 
   const sortedAgents = [...agents].sort((a, b) => {
     if (!sortField) return 0
+    
+    let aValue: number, bValue: number;
+    
+    if (sortField === 'holdersCount') {
+      aValue = a[sortField];
+      bValue = b[sortField];
+    } else {
+      aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
+      bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
+    }
+    
     return sortDirection === "asc" 
-      ? a[sortField] - b[sortField] 
-      : b[sortField] - a[sortField]
+      ? aValue - bValue 
+      : bValue - aValue
   })
 
-  const getSortIcon = (field: "rating" | "usageCount") => {
+  const getSortIcon = (field: SortField) => {
     return (
       <Image 
         src="/images/triangle.svg" 
@@ -61,13 +71,13 @@ const AgentList = ({ agents }: AgentListProps) => {
     <div className="w-full max-w-[1400px] mx-auto bg-white/10 rounded-[15px] p-6">
       <div className="flex items-center gap-4 mb-6">
         <span className="text-white/50 text-xs">Sort by</span>
-        <Tabs defaultValue="rating" className="w-auto">
+        <Tabs defaultValue="marketCap" className="w-auto">
           <TabsList className="bg-transparent border border-white/30">
             <TabsTrigger 
-              value="rating"
+              value="marketCap"
               className="data-[state=active]:bg-white data-[state=active]:text-black"
             >
-              Rating
+              Market Cap
             </TabsTrigger>
             <TabsTrigger 
               value="latest"
@@ -83,23 +93,22 @@ const AgentList = ({ agents }: AgentListProps) => {
         <div className="col-span-2">AI Agents</div>
         <div 
           className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("rating")}
+          onClick={() => handleSort("marketCap")}
         >
-          Rating
-          {getSortIcon("rating")}
+          Market Cap
+          {getSortIcon("marketCap")}
         </div>
-        <div className="whitespace-nowrap">Category</div>
+        <div className="whitespace-nowrap">24h</div>
         <div 
           className="flex items-center gap-1 cursor-pointer whitespace-nowrap"
-          onClick={() => handleSort("usageCount")}
+          onClick={() => handleSort("tvl")}
         >
-          Usage Count
-          {getSortIcon("usageCount")}
+          Total Value Locked
+          {getSortIcon("tvl")}
         </div>
-        <div className="whitespace-nowrap">Reviews</div>
-        <div className="whitespace-nowrap">Status</div>
-        <div className="whitespace-nowrap">Creator</div>
-        <div></div>
+        <div className="whitespace-nowrap">Holders Count</div>
+        <div className="whitespace-nowrap">24h Vol</div>
+        <div className="whitespace-nowrap">status</div>
       </div>
 
       <div className="divide-y divide-white/10">
