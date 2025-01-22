@@ -18,9 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={inter.className}>
+      <body suppressHydrationWarning className={`${inter.className} flex flex-col min-h-screen`}>
         <Navbar />
-        {children}
+        <main className="flex-1 flex flex-col bg-background">
+          {children}
+        </main>
         <Toaster />
       </body>
     </html>

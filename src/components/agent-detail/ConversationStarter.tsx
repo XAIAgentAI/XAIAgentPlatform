@@ -11,13 +11,13 @@ export function ConversationStarter() {
   ];
 
   return (
-    <Card className="p-6 bg-[#1C1C1C]">
+    <Card className="p-6 bg-card">
       <h2 className="text-lg font-semibold mb-4">Conversation starter</h2>
       <div className="grid grid-cols-2 gap-4">
         {suggestions.map((suggestion, index) => (
           <div
             key={index}
-            className="p-4 bg-[#2C2C2C] rounded-lg text-sm text-gray-300 hover:bg-[#3C3C3C] cursor-pointer transition-colors"
+            className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
           >
             {suggestion}
           </div>

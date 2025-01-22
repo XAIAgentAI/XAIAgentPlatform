@@ -107,19 +107,15 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-background">
-        <div className="container mx-auto py-10">
-          <div className="text-white text-center">Loading...</div>
-        </div>
-      </main>
+      <div className="container mx-auto py-15 flex-1 flex flex-col">
+        <div className="text-white text-center">Loading...</div>
+      </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container mx-auto py-10">
-        <AgentList agents={localAgents} />
-      </div>
-    </main>
+    <div className="container mx-auto py-5 flex-1 flex flex-col">
+      <AgentList agents={localAgents} />
+    </div>
   )
 }

@@ -68,20 +68,20 @@ const AgentList = ({ agents }: AgentListProps) => {
   }
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-card-background">
+    <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">
-        <span className="text-white/50 text-xs">Sort by</span>
+        <span className="text-muted-color text-xs">Sort by</span>
         <Tabs defaultValue="marketCap" className="w-auto">
-          <TabsList className="bg-transparent border border-white/30">
+          <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 rounded-full p-1">
             <TabsTrigger 
               value="marketCap"
-              className="data-[state=active]:bg-white data-[state=active]:text-black"
+              className=" data-[state=active]:bg-[#222222] data-[state=active]:text-white px-4 py-1"
             >
               Market Cap
             </TabsTrigger>
             <TabsTrigger 
               value="latest"
-              className="data-[state=active]:bg-white data-[state=active]:text-black"
+              className=" data-[state=active]:bg-[#222222] data-[state=active]:text-white px-4 py-1"
             >
               Latest
             </TabsTrigger>
@@ -89,11 +89,11 @@ const AgentList = ({ agents }: AgentListProps) => {
         </Tabs>
       </div>
 
-      <div className="relative overflow-x-auto">
-        <div className="min-w-[1100px]">
+      <div className="relative overflow-x-auto mx-4">
+        {/* <div className=""> */}
           {/* Header */}
-          <div className="grid grid-cols-9 gap-4 px-4 py-2 text-white/80 text-[10px] border-b border-white/30">
-            <div className="col-span-3 sticky left-0 z-10">AI Agents</div>
+          <div className="grid grid-cols-9 gap-4  py-2 text-secondary-color text-[10px] border-b border-border">
+            <div className="col-span-3 sticky left-0 z-10 bg-white dark:bg-card">AI Agents</div>
             <div 
               className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap"
               onClick={() => handleSort("marketCap")}
@@ -120,7 +120,7 @@ const AgentList = ({ agents }: AgentListProps) => {
               <AgentCard key={agent.id} {...agent} />
             ))}
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   )

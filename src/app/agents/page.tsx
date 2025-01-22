@@ -76,22 +76,22 @@ export default function AgentsPage() {
   const [tab, setTab] = useState<"Classification" | "PrototypeAgents">("Classification")
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background">
       <main className="container mx-auto py-4 px-4 lg:py-8 lg:px-0">
-        <div className="w-full max-w-[1400px] mx-auto bg-white/10 rounded-[15px] p-4 lg:p-6">
+        <div className="w-full max-w-[1400px] mx-auto bg-card rounded-[15px] p-4 lg:p-6">
           <div className="flex items-center gap-4 mb-6 overflow-x-auto">
             <Tabs defaultValue="Classification" className="w-auto">
-              <TabsList className="bg-transparent border border-white/30">
+              <TabsList className="bg-transparent border border-border">
                 <TabsTrigger 
                   value="Classification"
-                  className="data-[state=active]:bg-white data-[state=active]:text-black"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                   onClick={() => setTab("Classification")}
                 >
                   Classification
                 </TabsTrigger>
                 <TabsTrigger 
                   value="PrototypeAgents"
-                  className="data-[state=active]:bg-white data-[state=active]:text-black whitespace-nowrap"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap"
                   onClick={() => setTab("PrototypeAgents")}
                 >
                   Prototype Agents
@@ -107,24 +107,24 @@ export default function AgentsPage() {
                 <TabsTrigger 
                   key={tab.value}
                   value={tab.value} 
-                  className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] data-[state=active]:bg-transparent px-0 h-8 whitespace-nowrap"
+                  className="text-foreground text-[10px] font-normal font-['Sora'] leading-[10px] data-[state=active]:bg-transparent px-4 h-8 whitespace-nowrap"
                 >
                   {tab.label}
                 </TabsTrigger>
               ))}
             </TabsList>
 
-            <div className="border-t border-white/10 pt-4 lg:pt-6">
+            <div className="border-t border-border pt-4 lg:pt-6">
               <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">Featured Agents</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                 {mockAgents.map((agent) => (
                   <div 
                     key={agent.id} 
-                    className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-white/5"
+                    className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-card-hover"
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex flex-col items-center gap-2">
-                        <Avatar className="h-10 w-10 rounded-full bg-gray-100">
+                        <Avatar className="h-10 w-10 rounded-full bg-card-inner">
                           <Image 
                             src='/logo.png' 
                             alt={agent.type} 
@@ -137,11 +137,11 @@ export default function AgentsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium truncate">{agent.type}</span>
+                          <span className="text-sm font-medium truncate text-foreground">{agent.type}</span>
                         </div>
                         <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">{agent.stats}</p>
                         <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">Created by {agent.createdBy}</p>
-                        <p className="text-white opacity-50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
+                        <p className="text-foreground/50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
                           {agent.description}
                         </p>
                       </div>

@@ -60,7 +60,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 w-full h-20 bg-background z-50">
+      <nav className="sticky top-0 left-0 right-0 w-full h-20 bg-background z-50">
         <div className="container mx-auto h-full flex items-center justify-between">
           {/* Logo and Navigation Links */}
           <div className="flex items-center justify-start pr-5 gap-8">
@@ -165,7 +165,6 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-      <div className="h-20" /> {/* 占位符，防止内容被固定导航栏遮挡 */}
     </>
   )
 }

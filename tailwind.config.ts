@@ -47,6 +47,16 @@ module.exports = {
         card: {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
+          inner: "var(--card-inner)",
+          "inner-hover": "var(--card-inner-hover)",
+        },
+        "border-dark": "var(--border-dark)",
+        chart: {
+          background: "var(--chart-background)",
+          grid: "var(--chart-grid)",
+          text: "var(--chart-text)",
+          up: "var(--chart-up)",
+          down: "var(--chart-down)",
         },
       },
       borderRadius: {

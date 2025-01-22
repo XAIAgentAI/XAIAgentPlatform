@@ -11,12 +11,12 @@ export function TokenInfoCard() {
   ];
 
   return (
-    <Card className="p-6 bg-[#1C1C1C] mt-6">
+    <Card className="p-6 bg-card mt-6">
       <div className="space-y-3">
         {tokenInfo.map((info, index) => (
           <div key={index} className="flex items-start gap-2 text-sm">
-            <span className="text-gray-500">{index + 1}.</span>
-            <span className="text-gray-300">{info}</span>
+            <span className="text-muted-foreground">{index + 1}.</span>
+            <span className="text-secondary">{info}</span>
           </div>
         ))}
       </div>

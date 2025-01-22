@@ -38,7 +38,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   }, [agentId]);
 
   return (
-    <Card className="p-6 bg-[#1C1C1C]">
+    <Card className="p-6 bg-card">
       {/* Agent基本信息 */}
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4">
@@ -53,9 +53,9 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           <div>
             <h1 className="text-xl font-semibold">{agentData.name}</h1>
             <div className="flex items-center gap-2 mt-1">
-              <div className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] opacity-50">$CONVO</div>
+              <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">$CONVO</div>
               <div className="w-[120px] h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] justify-center items-center inline-flex overflow-hidden relative">
-                <div className="text-white text-[10px] font-normal font-['Sora'] leading-[10px] opacity-70">{agentData.creatorAddress}</div>
+                <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.creatorAddress}</div>
                 <CustomButton 
                   className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px]"
                 >
@@ -111,27 +111,27 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       </div>
 
       {/* 市场数据 */}
-      <div className="grid grid-cols-6 gap-6 mt-6 p-4 bg-[#2C2C2C] rounded-lg">
+      <div className="grid grid-cols-6 gap-6 mt-6 p-4 bg-card-inner rounded-lg">
         <div className="text-sm">
-          <p className="text-xs text-gray-500 mb-1">Market Cap</p>
-          <p className="font-medium text-white">$96.6m</p>
-          <p className="text-green-500">+5.64%</p>
+          <p className="text-xs text-muted-foreground mb-1">Market Cap</p>
+          <p className="font-medium text-foreground">$96.6m</p>
+          <p className="text-success">+5.64%</p>
         </div>
         <div className="text-sm">
-          <p className="text-xs text-gray-500 mb-1">Total Value</p>
-          <p className="font-medium text-white">$19m</p>
+          <p className="text-xs text-muted-foreground mb-1">Total Value</p>
+          <p className="font-medium text-foreground">$19m</p>
         </div>
         <div className="text-sm">
-          <p className="text-xs text-gray-500 mb-1">Holders</p>
-          <p className="font-medium text-white">108,080</p>
+          <p className="text-xs text-muted-foreground mb-1">Holders</p>
+          <p className="font-medium text-foreground">108,080</p>
         </div>
         <div className="text-sm">
-          <p className="text-xs text-gray-500 mb-1">24h Volume</p>
-          <p className="font-medium text-white">$8.5m</p>
+          <p className="text-xs text-muted-foreground mb-1">24h Volume</p>
+          <p className="font-medium text-foreground">$8.5m</p>
         </div>
         <div className="text-sm">
-          <p className="text-xs text-gray-500 mb-1">Lifetime</p>
-          <p className="font-medium text-white">1,225,393</p>
+          <p className="text-xs text-muted-foreground mb-1">Lifetime</p>
+          <p className="font-medium text-foreground">1,225,393</p>
         </div>
       </div>
 

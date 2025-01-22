@@ -13,10 +13,15 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   useEffect(() => {
     // 初始化主题
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    // 默认使用 light 主题，不再检查系统偏好
+    // 默认使用 light 主题
     const initialTheme = savedTheme || 'light';
     setTheme(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
+    if (initialTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
 
     // DEBUG: 检查CSS变量是否正确加载
     console.log('Theme Debug:', {
@@ -36,6 +41,11 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     
     // DEBUG: 检查主题切换是否生效
     console.log('Theme Toggle:', {
@@ -48,8 +58,8 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-lg text-primary hover:text-primary ${className || ''}`}
-      aria-label="Toggle theme"
+      className={`p-2 rounded-lg text-foreground hover:text-primary ${className || ''}`}
+      aria-label="切换主题"
       style={{
         // DEBUG: 内联样式测试
         // '--debug-primary': 'var(--primary)',
