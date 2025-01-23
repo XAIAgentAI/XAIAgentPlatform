@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { CustomButton } from "@/components/ui-custom/custom-button";
 import Image from "next/image";
+import { toast } from "../ui/use-toast";
 
 export function ConversationStarter() {
   const suggestions = [
@@ -26,6 +27,11 @@ export function ConversationStarter() {
       <div className="flex justify-center mt-6">
         <CustomButton 
           className="flex items-center gap-2 px-8"
+          onClick={() => {
+            toast({
+              description: "Chat feature coming soon! Stay tuned for updates.",
+            })
+          }}
         >
           <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
           Chatting

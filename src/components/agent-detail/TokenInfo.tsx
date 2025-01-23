@@ -10,7 +10,7 @@ export function TokenInfo() {
     },
     {
       id: 3,
-      text: "The founder has 200M tokens, of which 100M is unlocked after xxx%3m. The other 100M is used for ecological construction and will be unlocked after 1500%3km days",
+      text: "The founder holds 200M tokens in total: 100M tokens with unlock schedule to be announced, and another 100M tokens reserved for ecosystem development with unlock schedule to be announced",
     },
     {
       id: 4,

@@ -56,9 +56,8 @@ const CryptoChart: React.FC = () => {
 
     // 模拟数据
     const data = [
-      { time: '2024-01-17', open: 0.8, high: 0.85, low: 0.79, close: 0.82 },
-      { time: '2024-01-18', open: 0.82, high: 0.83, low: 0.64, close: 0.64 },
-      // 可以添加更多数据点
+      { time: '2024-01-17', open: 0, high: 0, low: 0, close: 0 },
+      { time: '2024-01-18', open: 0, high: 0, low: 0, close: 0 },
     ];
 
     candlestickSeries.setData(data);
@@ -73,9 +72,8 @@ const CryptoChart: React.FC = () => {
     });
 
     const volumeData = [
-      { time: '2024-01-17', value: 200000, color: upColor },
-      { time: '2024-01-18', value: 150000, color: downColor },
-      // 可以添加更多数据点
+      { time: '2024-01-17', value: 0, color: upColor },
+      { time: '2024-01-18', value: 0, color: downColor },
     ];
 
     volumeSeries.setData(volumeData);
@@ -130,8 +128,8 @@ const CryptoChart: React.FC = () => {
       <div className="text-foreground mb-4">
         <h2 className="text-xl font-bold">AIXBT/USDT</h2>
         <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-chart-down">0.6442</span>
-          <span className="text-sm text-chart-down">-1.95%</span>
+          <span className="text-2xl font-bold text-chart-down">0.0000</span>
+          <span className="text-sm text-chart-down">0.00%</span>
         </div>
       </div>
       <div ref={chartContainerRef} className="w-full h-[500px]" />
