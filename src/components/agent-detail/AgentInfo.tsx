@@ -105,7 +105,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         <CryptoChart />
       </div>
 
-      {/* 标签页内容 */}
+      {/* Tabs */}
       <div className="mt-6">
         <Tabs defaultValue="information" className="w-full mt-6">
           <TabsList className="bg-transparent border border-border p-1 mb-4">

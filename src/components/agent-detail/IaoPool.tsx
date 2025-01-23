@@ -7,15 +7,15 @@ export function IaoPool() {
     <Card className="p-6 bg-card">
         <h2 className="text-xl font-semibold mb-3 pb-2 border-b border-border-dark">IAO Pool</h2>
         <div className="text-sm flex items-center mt-2">
-            <p className="text-xs text-muted-foreground opacity-50">Total XAA in the IAO pool : </p>
-            <p className="text-foreground ml-2">20,000,000,000</p>
+            <p className="text-xs text-muted-foreground opacity-50 mr-1">Total XAA in the IAO pool :</p>
+            <p className="text-foreground">20,000,000,000</p>
         </div>
         <div className="text-sm flex items-center">
-            <p className="text-xs text-muted-foreground opacity-50">Current total of DBC in the IAO pool : </p>
+            <p className="text-xs text-muted-foreground opacity-50 mr-1">Current total of DBC in the IAO pool :</p>
             <p className="text-foreground">1000</p>
         </div>
         <div className="text-sm flex items-center">
-            <p className="text-xs text-muted-foreground opacity-50">End countdown : </p>
+            <p className="text-xs text-muted-foreground opacity-50 mr-1">End countdown :</p>
             <p className="text-foreground">24h 45m 35s</p>
         </div>
         <div className="flex flex-col gap-2 mt-4 p-4 bg-card-inner rounded-lg">
