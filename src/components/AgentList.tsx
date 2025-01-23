@@ -72,16 +72,16 @@ const AgentList = ({ agents }: AgentListProps) => {
       <div className="flex items-center gap-4 mb-6">
         <span className="text-muted-color text-xs">Sort by</span>
         <Tabs defaultValue="marketCap" className="w-auto">
-          <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 rounded-full p-1">
+          <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
             <TabsTrigger 
               value="marketCap"
-              className=" data-[state=active]:bg-[#222222] data-[state=active]:text-white px-4 py-1"
+              className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
             >
               Market Cap
             </TabsTrigger>
             <TabsTrigger 
               value="latest"
-              className=" data-[state=active]:bg-[#222222] data-[state=active]:text-white px-4 py-1"
+              className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
             >
               Latest
             </TabsTrigger>

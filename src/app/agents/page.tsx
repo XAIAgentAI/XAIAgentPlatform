@@ -84,14 +84,14 @@ export default function AgentsPage() {
               <TabsList className="bg-transparent border border-border">
                 <TabsTrigger 
                   value="Classification"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background"
                   onClick={() => setTab("Classification")}
                 >
                   Classification
                 </TabsTrigger>
                 <TabsTrigger 
                   value="PrototypeAgents"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background whitespace-nowrap"
                   onClick={() => setTab("PrototypeAgents")}
                 >
                   Prototype Agents
