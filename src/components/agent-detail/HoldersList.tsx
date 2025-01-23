@@ -15,8 +15,8 @@ export function HoldersList() {
   }));
 
   return (
-    <div>
-      <div className="text-sm text-gray-500 mb-4">
+    <div className="font-['Sora']">
+      <div className="text-s mb-4">
         Holder Distribution (119,022 holders)
       </div>
       

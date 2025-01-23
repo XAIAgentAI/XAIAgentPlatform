@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import AgentList from "@/components/AgentList"
 import { apiClient } from "@/lib/api-client"
+import { localAgents } from "@/data/localAgents"
 
 interface Agent {
   id: string;
@@ -18,73 +19,6 @@ interface Agent {
   reviewCount: number;
   createdAt: string;
 }
-const localAgents = [
-  {
-    id: 1,
-    name: "XAIAgent",
-    avatar: "/logo/XAIAgent.png",
-    symbol: "$XAA",
-    type: "Platform" as const,
-    marketCap: "TBA",
-    change24h: "0",
-    tvl: "$0",
-    holdersCount: 39596,
-    volume24h: "$0",
-    status: "IAO is about to begin.",
-  },
-  {
-    id: 2,
-    name: "SuperImage",
-    avatar: "/logo/SuperImage.png",
-    symbol: "$SIC",
-    type: "Infrastructure" as const,
-    marketCap: "TBA",
-    change24h: "0",
-    tvl: "$0",
-    holdersCount: 30233,
-    volume24h: "$0",
-    status: "TBA",
-  },
-  {
-    id: 3,
-    name: "DecentralGPT",
-    avatar: "/logo/DecentralGPT.png",
-    symbol: "$DGC",
-    type: "Infrastructure" as const,
-    marketCap: "TBA",
-    change24h: "0",
-    tvl: "$0",
-    holdersCount: 949586,
-    volume24h: "$0",
-    status: "TBA",
-  },
-  {
-    id: 4,
-    name: "XPersonity",
-    avatar: "/logo/XPersonity.png",
-    symbol: "$XPE",
-    type: "AI Agent" as const,
-    marketCap: "TBA",
-    change24h: "0",
-    tvl: "$0",
-    holdersCount: 0,
-    volume24h: "$0",
-    status: "TBA",
-  },
-  {
-    id: 5,
-    name: "ASIXT",
-    avatar: "/logo/ASIXT.png",
-    symbol: "$ASIXT",
-    type: "AI Agent" as const,
-    marketCap: "TBA",
-    change24h: "0",
-    tvl: "$0",
-    holdersCount: 0,
-    volume24h: "$0",
-    status: "TBA",
-  },
-]
 
 export default function Home() {
   const [agents, setAgents] = useState<Agent[]>([])
@@ -108,7 +42,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="container mx-auto py-15 flex-1 flex flex-col">
-        <div className="text-white text-center">Loading...</div>
+        <div className="text-foreground text-center">Loading...</div>
       </div>
     )
   }

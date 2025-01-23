@@ -7,35 +7,30 @@ import { TokenInfo } from "./TokenInfo";
 import { HoldersList } from "./HoldersList";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { MarketData } from "./MarketData";
+import { LocalAgent, localAgents } from "@/data/localAgents";
 
 interface AgentInfoProps {
   agentId: string;
 }
 
-interface AgentData {
-  name: string;
-  avatar: string;
-  createdAt: string;
-  creatorAddress: string;
-}
-
 export function AgentInfo({ agentId }: AgentInfoProps) {
-  const [agentData, setAgentData] = useState<AgentData>({
-    name: 'Prefrontal Cortex Convo Agent',
-    avatar: '/logo.png',
-    createdAt: '4 months ago',
-    creatorAddress: '0x1C4C...F463a3'
-  });
+  const [agentData, setAgentData] = useState<LocalAgent | null>(null);
 
   useEffect(() => {
-    // TODO: 根据 agentId 获取数据
-    // const fetchAgentData = async () => {
-    //   const response = await fetch(`/api/agents/${agentId}`);
-    //   const data = await response.json();
-    //   setAgentData(data);
-    // };
-    // fetchAgentData();
+    const agent = localAgents.find(a => a.id === Number(agentId));
+    if (agent) {
+      setAgentData(agent);
+    }
   }, [agentId]);
+
+  if (!agentData) {
+    return (
+      <Card className="p-6 bg-card">
+        <div className="text-foreground text-center">Agent not found</div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="p-6 bg-card">
@@ -53,7 +48,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           <div>
             <h1 className="text-xl font-semibold">{agentData.name}</h1>
             <div className="flex items-center gap-2 mt-1">
-              <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">$CONVO</div>
+              <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.symbol}</div>
               <div className="w-[120px] h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] justify-center items-center inline-flex overflow-hidden relative">
                 <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.creatorAddress}</div>
                 <CustomButton 
@@ -90,8 +85,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
         <div className="flex flex-col items-end gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">Created by:</span>
-            <Avatar className="h-10 w-10">
+            <span className="text-xs text-muted-foreground">Created by:</span>
+            <Avatar className="h-7 w-7">
               <img
                 src={agentData.avatar}
                 alt="Creator avatar"
@@ -99,7 +94,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
               />
             </Avatar>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-xs text-muted-foreground">
             {agentData.createdAt}
           </div>
         </div>
@@ -110,41 +105,26 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         <CryptoChart />
       </div>
 
-      {/* 市场数据 */}
-      <div className="grid grid-cols-6 gap-6 mt-6 p-4 bg-card-inner rounded-lg">
-        <div className="text-sm">
-          <p className="text-xs text-muted-foreground mb-1">Market Cap</p>
-          <p className="font-medium text-foreground">$96.6m</p>
-          <p className="text-success">+5.64%</p>
-        </div>
-        <div className="text-sm">
-          <p className="text-xs text-muted-foreground mb-1">Total Value</p>
-          <p className="font-medium text-foreground">$19m</p>
-        </div>
-        <div className="text-sm">
-          <p className="text-xs text-muted-foreground mb-1">Holders</p>
-          <p className="font-medium text-foreground">108,080</p>
-        </div>
-        <div className="text-sm">
-          <p className="text-xs text-muted-foreground mb-1">24h Volume</p>
-          <p className="font-medium text-foreground">$8.5m</p>
-        </div>
-        <div className="text-sm">
-          <p className="text-xs text-muted-foreground mb-1">Lifetime</p>
-          <p className="font-medium text-foreground">1,225,393</p>
-        </div>
-      </div>
-
       {/* 标签页内容 */}
       <div className="mt-6">
-        <Tabs defaultValue="information" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="information">Information</TabsTrigger>
-            <TabsTrigger value="holders">Holders</TabsTrigger>
+        <Tabs defaultValue="information" className="w-full mt-6">
+          <TabsList className="bg-transparent border border-border p-1 mb-4">
+            <TabsTrigger 
+              value="information"
+              className="data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:border data-[state=active]:border-border px-4 py-1"
+            >
+              Information
+            </TabsTrigger>
+            <TabsTrigger 
+              value="holders"
+              className="data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:border data-[state=active]:border-border px-4 py-1"
+            >
+              Holders
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="information">
-            <TokenInfo />
+            <MarketData agentData={agentData} />
           </TabsContent>
           
           <TabsContent value="holders">
@@ -156,8 +136,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       {/* Description */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">Description</h2>
-        <p className="text-sm text-gray-400">
-          AIXBT tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. AIXBT token holders gain access to its analytics platform.
+        <p className="text-sm text-muted-foreground">
+          {agentData.detailDescription}
         </p>
       </div>
     </Card>

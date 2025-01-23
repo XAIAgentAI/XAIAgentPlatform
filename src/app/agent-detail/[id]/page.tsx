@@ -5,6 +5,7 @@ import { AgentInfo } from "@/components/agent-detail/AgentInfo";
 import { SwapCard } from "@/components/agent-detail/SwapCard";
 import { TokenInfoCard } from "@/components/agent-detail/TokenInfoCard";
 import { ConversationStarter } from "@/components/agent-detail/ConversationStarter";
+import { IaoPool } from "@/components/agent-detail/IaoPool";
 
 export default function AgentDetailPage() {
   const params = useParams();
@@ -25,7 +26,10 @@ export default function AgentDetailPage() {
         {/* 右侧区域 */}
         <div className="lg:col-span-1 space-y-6">
           {/* Swap卡片 */}
-          <SwapCard />
+          {/* <SwapCard /> */}
+
+          {/* IaoPool */}
+          <IaoPool />
           
           {/* 代币信息卡片 */}
           <TokenInfoCard />

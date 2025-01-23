@@ -62,8 +62,8 @@ export function SwapCard() {
       </CustomButton>
 
       {/* Powered by text */}
-      <div className="text-center mt-4 text-sm text-muted-foreground">
-        Powered by DECSwap
+      <div className="text-center mt-4 text-xs text-muted-foreground">
+        Power by DECSwap
       </div>
     </Card>
   );
