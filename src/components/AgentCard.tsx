@@ -52,18 +52,18 @@ const AgentCard = ({
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && handleCardClick(e as unknown as React.MouseEvent)}
     >
-      <div className="hover:bg-[#F8F8F8] dark:hover:bg-[#222222] transition-colors">
+      <div className="hover:bg-[#F8F8F8] dark:hover:bg-[#222222] transition-colors w-full">
         <div className="transition-transform group-hover:translate-x-2 duration-300">
-          <div className="grid grid-cols-9 gap-4 items-center  py-4">
+          <div className="grid grid-cols-9 items-center py-4">
             {/* AI Agents - col-span-3 */}
-            <div className="col-span-3 flex items-center gap-4 sticky left-0 z-10 bg-white dark:bg-card group-hover:bg-[#F8F8F8] dark:group-hover:bg-[#222222]">
-              <Avatar className="w-[60px] h-[60px] rounded-[100px]">
+            <div className="col-span-3 flex items-center gap-4 px-4 min-w-[300px]">
+              <Avatar className="w-[60px] h-[60px] rounded-[100px] flex-shrink-0">
                 <img src={avatar} alt={name} className="object-cover" />
               </Avatar>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{name}</h3>
-                  <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
+                  <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">{name}</h3>
+                  <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
                     {symbol}
                   </span>
                 </div>
@@ -74,32 +74,32 @@ const AgentCard = ({
             </div>
 
             {/* Market Cap */}
-            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {marketCap}
             </div>
 
             {/* Change 24h */}
-            <div className="col-span-1 text-[#5BFE42] text-sm font-normal font-['Sora'] leading-[10px]">
+            <div className="col-span-1 text-[#5BFE42] text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {change24h}
             </div>
 
             {/* TVL */}
-            <div className="col-span-1.5 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] min-w-[140px]">
+            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {tvl}
             </div>
 
             {/* Holders Count */}
-            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {holdersCount.toLocaleString()}
             </div>
 
             {/* Volume 24h */}
-            <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {volume24h}
             </div>
 
             {/* Status */}
-            <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
+            <div className="col-span-1 text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] px-4 whitespace-nowrap">
               {status}
             </div>
           </div>

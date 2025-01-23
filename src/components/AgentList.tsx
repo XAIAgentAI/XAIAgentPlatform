@@ -89,29 +89,29 @@ const AgentList = ({ agents }: AgentListProps) => {
         </Tabs>
       </div>
 
-      <div className="relative overflow-x-auto mx-4">
-        {/* <div className=""> */}
+      <div className="overflow-x-auto">
+        <div className="min-w-[1200px]">
           {/* Header */}
-          <div className="grid grid-cols-9 gap-4  py-2 text-secondary-color text-[10px] border-b border-border">
-            <div className="col-span-3 sticky left-0 z-10 bg-white dark:bg-card">AI Agents</div>
+          <div className="grid grid-cols-9 py-2 text-secondary-color text-[10px] border-b border-border">
+            <div className="col-span-3 px-4">AI Agents</div>
             <div 
-              className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap px-4"
               onClick={() => handleSort("marketCap")}
             >
               Market Cap
               {getSortIcon("marketCap")}
             </div>
-            <div className="col-span-1 whitespace-nowrap">24h</div>
+            <div className="col-span-1 whitespace-nowrap px-4">24h</div>
             <div 
-              className="col-span-1.5 flex items-center gap-1 cursor-pointer whitespace-nowrap min-w-[140px]"
+              className="col-span-1 flex items-center gap-1 cursor-pointer whitespace-nowrap px-4"
               onClick={() => handleSort("tvl")}
             >
               Total Value Locked
               {getSortIcon("tvl")}
             </div>
-            <div className="col-span-1 whitespace-nowrap">Holders Count</div>
-            <div className="whitespace-nowrap">24h Vol</div>
-            <div className="whitespace-nowrap">Status</div>
+            <div className="col-span-1 whitespace-nowrap px-4">Holders Count</div>
+            <div className="col-span-1 whitespace-nowrap px-4">24h Vol</div>
+            <div className="col-span-1 whitespace-nowrap px-4">Status</div>
           </div>
 
           {/* Content */}
@@ -120,7 +120,7 @@ const AgentList = ({ agents }: AgentListProps) => {
               <AgentCard key={agent.id} {...agent} />
             ))}
           </div>
-        {/* </div> */}
+        </div>
       </div>
     </div>
   )
