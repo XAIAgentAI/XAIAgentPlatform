@@ -2,42 +2,28 @@
 
 import { useEffect, useState } from "react"
 import AgentList from "@/components/AgentList"
-import { apiClient } from "@/lib/api-client"
 import { localAgents } from "@/data/localAgents"
-
-interface Agent {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  avatar: string;
-  status: string;
-  capabilities: string[];
-  rating: number;
-  usageCount: number;
-  creatorAddress: string;
-  reviewCount: number;
-  createdAt: string;
-}
+import { useDBCScan } from "@/hooks/useDBCScan"
 
 export default function Home() {
-  const [agents, setAgents] = useState<Agent[]>([])
-  const [loading, setLoading] = useState(true)
+  const [agents, setAgents] = useState(localAgents)
+  const { tokens, loading, error } = useDBCScan()
 
   useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        const response = await apiClient.getAgents()
-        setAgents(response.items)
-      } catch (error) {
-        console.error('Failed to fetch agents:', error)
-      } finally {
-        setLoading(false)
-      }
+    if (tokens && tokens.length > 0) {
+      const updatedAgents = agents.map(agent => {
+        const tokenData = tokens.find(token => token.address === agent.tokens)
+        if (tokenData) {
+          return {
+            ...agent,
+            holdersCount: parseInt(tokenData.holders)
+          }
+        }
+        return agent
+      })
+      setAgents(updatedAgents)
     }
-
-    fetchAgents()
-  }, [])
+  }, [tokens])
 
   if (loading) {
     return (
@@ -47,9 +33,13 @@ export default function Home() {
     )
   }
 
+  if (error) {
+    console.error('Failed to fetch DBC data:', error)
+  }
+
   return (
     <div className="container mx-auto py-5 flex-1 flex flex-col">
-      <AgentList agents={localAgents} />
+      <AgentList agents={agents} />
     </div>
   )
 }

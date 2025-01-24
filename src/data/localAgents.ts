@@ -15,12 +15,14 @@ export interface LocalAgent {
   lifetime?: string;
   createdAt?: string;
   creatorAddress?: string;
+  tokens?: string;
 }
 
 export const localAgents: LocalAgent[] = [
   {
     id: 1,
     name: "XAIAgent",
+    tokens: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
     avatar: "/logo/XAIAgent.png",
     symbol: "$XAA",
     type: "Platform",
@@ -28,7 +30,7 @@ export const localAgents: LocalAgent[] = [
     change24h: "0",
     lifetime: '',
     tvl: "$0",
-    holdersCount: 39596,
+    holdersCount: 0,
     volume24h: "$0",
     status: "IAO launching soon.",
     description: "XAIAgent tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. XAIAgent token holders gain access to its analytics platform.",
@@ -39,6 +41,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 2,
     name: "SuperImage",
+    tokens: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
     avatar: "/logo/SuperImage.png",
     symbol: "$SIC",
     type: "Infrastructure",
@@ -46,7 +49,7 @@ export const localAgents: LocalAgent[] = [
     change24h: "0",
     lifetime: '',
     tvl: "$0",
-    holdersCount: 30233,
+    holdersCount: 0,
     volume24h: "$0",
     status: "TBA",
     description: "SuperImage is an AI-powered image generation and editing platform. Token holders can access premium features and participate in governance.",
@@ -57,6 +60,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 3,
     name: "DecentralGPT",
+    tokens: "0x18386F368e7C211E84324337fA8f62d5093272E1",
     avatar: "/logo/DecentralGPT.png",
     symbol: "$DGC",
     type: "Infrastructure",
@@ -64,7 +68,7 @@ export const localAgents: LocalAgent[] = [
     change24h: "0",
     lifetime: '',
     tvl: "$0",
-    holdersCount: 949586,
+    holdersCount: 0,
     volume24h: "$0",
     status: "TBA",
     description: "DecentralGPT is a decentralized language model platform. Token holders can contribute to model training and earn rewards.",
@@ -75,6 +79,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 4,
     name: "XPersonity",
+    tokens: "", // TODO
     avatar: "/logo/XPersonity.png",
     symbol: "$XPE",
     type: "AI Agent",
@@ -93,6 +98,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 5,
     name: "ASIXT",
+    tokens: "", // TODO
     avatar: "/logo/ASIXT.png",
     symbol: "$ASIXT",
     type: "AI Agent",
