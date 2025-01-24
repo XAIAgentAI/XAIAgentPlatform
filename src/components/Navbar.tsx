@@ -54,6 +54,10 @@ const Navbar = () => {
     }
   }
 
+  const handleBuyDBC = () => {
+    router.push('/buy-dbc')
+  }
+
   const handleBuyXAA = () => {
     // TODO: Navigate to the page based on the actual ID of XAA
     router.push('/agent-detail/1')
@@ -126,7 +130,7 @@ const Navbar = () => {
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
             </div>
 
-            <GradientBorderButton>
+            <GradientBorderButton onClick={handleBuyDBC}>
               BUY DBC
             </GradientBorderButton>
 
@@ -160,13 +164,14 @@ const Navbar = () => {
 
               <GradientBorderButton 
                 containerClassName="w-full max-w-[220px]"
+                onClick={handleBuyDBC}
               >
                 BUY DBC
               </GradientBorderButton>
 
               <GradientBorderButton 
                 containerClassName="w-full max-w-[220px]"
-                onClick={handleBuyXAA}>
+                onClick={handleBuyXAA}
               >
                 BUY XAA
               </GradientBorderButton>

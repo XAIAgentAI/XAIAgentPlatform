@@ -34,7 +34,7 @@ export const localAgents: LocalAgent[] = [
     description: "XAIAgent tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. XAIAgent token holders gain access to its analytics platform.",
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
-    detailDescription: "XAIAgent tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. XAIAgent token holders gain access to its analytics platform."
+    detailDescription: "XAIAgent is a decentralized AI Agent platform on the DBC chain, offering AI Agent creation, operation, and trading. It features the XAIAgent Platform for no-code Agent creation and the XAgentScope Framework for advanced development."
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ export const localAgents: LocalAgent[] = [
     description: "SuperImage is an AI-powered image generation and editing platform. Token holders can access premium features and participate in governance.",
     createdAt: "3 months ago",
     creatorAddress: "0x2D5D...E574b4",
-    detailDescription: "SuperImage is an AI-powered image generation and editing platform. Token holders can access premium features and participate in governance."
+    detailDescription: "SuperImage has multiple latent text-to-image diffusion models for generating photo-realistic images given any text input, fostering autonomous freedom to produce incredible imagery, empowering billions of people to create stunning art within seconds."
   },
   {
     id: 3,
@@ -70,7 +70,7 @@ export const localAgents: LocalAgent[] = [
     description: "DecentralGPT is a decentralized language model platform. Token holders can contribute to model training and earn rewards.",
     createdAt: "5 months ago",
     creatorAddress: "0x3E6E...F685c5",
-    detailDescription: "DecentralGPT is a decentralized language model platform. Token holders can contribute to model training and earn rewards."
+    detailDescription: "DecentralGPT is a decentralized LLM AI inference network. DecentralGPT supports a variety of open-source large language models. It is committed to building a safe, privacy-protective, democratic, transparent, open-source, and universally accessible AGI."
   },
   {
     id: 4,
