@@ -7,6 +7,7 @@ import CryptoChart from "@/components/crypto-chart/CryptoChart";
 import { HoldersList } from "./HoldersList";
 import { MarketData } from "./MarketData";
 import { useAgentStore } from "@/store/useAgentStore";
+import { toast } from "@/components/ui/use-toast";
 
 interface AgentInfoProps {
   agentId: string;
@@ -28,8 +29,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     <Card className="p-6 bg-card">
       {/* Agent基本信息 */}
       <div className="flex items-start justify-between">
-        <div className="flex items-start gap-4">
-          <Avatar className="h-10 w-10">
+        <div className="flex items-start gap-4 min-w-0 flex-1">
+          <Avatar className="h-10 w-10 flex-shrink-0">
             <img
               src={agentData.avatar}
               alt="Agent avatar"
@@ -37,14 +38,22 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             />
           </Avatar>
           
-          <div>
+          <div className="min-w-0 flex-1">
             <h1 className="text-xl font-semibold">{agentData.name}</h1>
             <div className="flex items-center gap-2 mt-1">
               <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.symbol}</div>
-              <div className="w-[120px] h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] justify-center items-center inline-flex overflow-hidden relative">
-                <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.creatorAddress}</div>
+              <div className="min-w-[80px] max-w-full h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] flex items-center overflow-hidden">
+                <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px] truncate">
+                  {agentData.tokens}
+                </div>
                 <CustomButton 
-                  className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px]"
+                  className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px] flex-shrink-0"
+                  onClick={() => {
+                    navigator.clipboard.writeText(agentData.tokens || '');
+                    toast({
+                      description: "Contract address copied to clipboard",
+                    });
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -71,13 +80,12 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
               <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
               Chatting
             </CustomButton>
-
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">Created by:</span>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">Created by:</span>
             <Avatar className="h-7 w-7">
               <img
                 src={agentData.avatar}
