@@ -13,18 +13,18 @@ import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from '@/hooks/useAuth'
+import { useRouter } from "next/navigation";
 
 const navigationLinks = [
+  {
+    id: "trading",
+    href: "/",
+    label: "Trading AI Agent"
+  },
   {
     id: "explore",
     href: "/agents",
     label: "Explore AI Agent"
-  },
-  {
-    id: "trading",
-    href: "#",
-    label: "Trading AI Agent",
-    comingSoon: true
   },
   {
     id: "creating",
@@ -41,6 +41,7 @@ const Navbar = () => {
   const { open } = useAppKit()
   const { address, isConnected, status } = useAppKitAccount()
   const { isAuthenticated, isLoading, error } = useAuth()
+  const router = useRouter()
 
   // 关闭移动菜单当路由改变时
   useEffect(() => {
@@ -56,6 +57,25 @@ const Navbar = () => {
     }
   }, [error, toast])
 
+  const handleWalletClick = () => {
+    if (isConnected) {
+      open({ view: 'Account' })
+    } else {
+      open({ view: 'Connect' })
+    }
+    setIsMenuOpen(false)
+  }
+
+  const handleBuyDBC = () => {
+    router.push('/buy-dbc')
+    setIsMenuOpen(false)
+  }
+
+  const handleBuyXAA = () => {
+    router.push('/agent-detail/1')
+    setIsMenuOpen(false)
+  }
+
   const handleComingSoonClick = (e: React.MouseEvent, isComingSoon?: boolean) => {
     if (isComingSoon) {
       e.preventDefault();
@@ -63,26 +83,15 @@ const Navbar = () => {
         description: "Coming soon! Stay tuned for updates.",
       })
     }
-  }
-
-  const handleConnectWallet = () => {
-    if (isConnected) {
-      open({ view: 'Account' })
-    } else {
-      open({ view: 'Connect' })
-    }
-  }
-
-  const formatAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
+    setIsMenuOpen(false)
   }
 
   return (
-    <nav className="sticky top-0 left-0 right-0 w-full h-20 bg-background/80 backdrop-blur-md z-50 border-b border-border-color/50">
-      <div className="container mx-auto h-full flex items-center justify-between">
+    <nav className="sticky top-0 left-0 right-0 w-full bg-background z-50">
+      <div className="container mx-auto h-20 flex items-center justify-between relative">
         {/* Logo and Navigation Links */}
         <div className="flex items-center justify-start pr-5 gap-8">
-          <Link href="/" className="flex flex-shrink-0 items-center gap-2 transition-transform hover:scale-105">
+          <Link href="/" className="flex flex-shrink-0 items-center gap-2">
             <Image
               src="/logo.png"
               alt="Logo"
@@ -134,7 +143,7 @@ const Navbar = () => {
 
           <motion.button
             whileTap={{ scale: 0.95 }}
-            onClick={handleConnectWallet}
+            onClick={handleWalletClick}
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary"
           >
             {status === 'connecting' ? (
@@ -175,121 +184,65 @@ const Navbar = () => {
             <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
           </div>
 
-          <GradientBorderButton
-            className="transition-transform hover:scale-105"
-          >
+          <GradientBorderButton onClick={handleBuyDBC}>
             BUY DBC
           </GradientBorderButton>
 
-          <GradientBorderButton
-            className="transition-transform hover:scale-105"
-          >
+          <GradientBorderButton onClick={handleBuyXAA}>
             BUY XAA
           </GradientBorderButton>
 
           <Button 
-            onClick={handleConnectWallet}
-            disabled={status === 'connecting' || isLoading}
-            className={cn(
-              "h-[38.50px] min-w-[160px] transition-all",
-              "hover:scale-105 active:scale-95",
-              (status === 'connecting' || isLoading) && "opacity-70"
-            )}
+            className="h-[38.50px]"
+            onClick={handleWalletClick}
+            disabled={status === 'connecting'}
           >
-            {status === 'connecting' || isLoading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                {status === 'connecting' ? 'Connecting...' : 'Authenticating...'}
-              </div>
-            ) : isConnected && address ? (
-              <div className="flex items-center gap-2">
-                <Wallet className="w-4 h-4" />
-                {formatAddress(address)}
-                <ChevronDown className="w-4 h-4" />
-              </div>
+            {status === 'connecting' ? (
+              "Connecting..."
+            ) : isConnected ? (
+              `${address?.slice(0, 6)}...${address?.slice(-4)}`
             ) : (
-              <div className="flex items-center gap-2">
-                <Wallet className="w-4 h-4" />
-                Connect Wallet
-              </div>
+              "Connect wallet"
             )}
           </Button>
+
           <ThemeToggle />
         </div>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden absolute top-20 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border-color p-4 space-y-4 z-50"
-            >
-              <div className="relative w-full mb-4">
-                <Input
-                  type="search"
-                  placeholder="Search Agents/CA"
-                  className="w-full pl-[15px] pr-[85.50px] py-2.5 bg-transparent border-text-primary/30 rounded-[100px] text-text-primary text-xs font-normal font-['Sora'] leading-10 placeholder:text-text-secondary focus-visible:ring-0"
-                />
-                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
-              </div>
-
-              {navigationLinks.map((link) => (
-                <Link
-                  key={link.id}
-                  href={link.href}
-                  className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora'] py-2 hover:bg-primary/10 rounded-lg transition-colors"
-                  onClick={(e) => {
-                    handleComingSoonClick(e, link.comingSoon)
-                    setIsMenuOpen(false)
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              <GradientBorderButton
-                containerClassName="w-full max-w-[220px] mx-auto"
-                className="w-full"
-              >
-                BUY DBC
-              </GradientBorderButton>
-
-              <GradientBorderButton
-                containerClassName="w-full max-w-[220px] mx-auto"
-                className="w-full"
-              >
-                BUY XAA
-              </GradientBorderButton>
-
-              <Button 
-                onClick={handleConnectWallet}
-                disabled={status === 'connecting' || isLoading}
-                className="w-full max-w-[220px] mx-auto"
-              >
-                {status === 'connecting' || isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    {status === 'connecting' ? 'Connecting...' : 'Authenticating...'}
-                  </div>
-                ) : isConnected && address ? (
-                  <div className="flex items-center gap-2">
-                    <Wallet className="w-4 h-4" />
-                    {formatAddress(address)}
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Wallet className="w-4 h-4" />
-                    Connect Wallet
-                  </div>
-                )}
-              </Button>
-            </motion.div>
+        <div 
+          className={cn(
+            "lg:hidden absolute top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg transition-all duration-300 ease-in-out",
+            isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
           )}
-        </AnimatePresence>
+        >
+          <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
+            {navigationLinks.map((link) => (
+              <Link
+                key={link.id}
+                href={link.href}
+                className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
+                onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <GradientBorderButton 
+              containerClassName="w-full max-w-[220px]"
+              onClick={handleBuyDBC}
+            >
+              BUY DBC
+            </GradientBorderButton>
+
+            <GradientBorderButton 
+              containerClassName="w-full max-w-[220px]"
+              onClick={handleBuyXAA}
+            >
+              BUY XAA
+            </GradientBorderButton>
+          </div>
+        </div>
       </div>
     </nav>
   )
