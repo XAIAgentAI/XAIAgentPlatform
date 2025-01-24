@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { ethers } from 'ethers';
 import { prisma } from '@/lib/prisma';
-import { sign } from 'jsonwebtoken';
+import * as jose from 'jose';
 
 // 使用固定的 JWT_SECRET，确保前后端一致
-const JWT_SECRET = 'xaiagent-jwt-secret-2024';
+const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
 export async function POST(request: Request) {
   try {
@@ -98,15 +98,14 @@ export async function POST(request: Request) {
     console.log('User:', user);
 
     // 生成 JWT token
-    const token = sign(
-      {
-        userId: user.id,
-        address: user.address,
-        iat: Math.floor(Date.now() / 1000),
-      },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    const token = await new jose.SignJWT({
+      userId: user.id,
+      address: user.address,
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('24h')
+      .sign(JWT_SECRET);
 
     console.log('Generated token:', token);
 

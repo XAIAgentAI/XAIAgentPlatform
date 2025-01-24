@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verify } from 'jsonwebtoken';
+import * as jose from 'jose';
 
-const JWT_SECRET = 'xaiagent-jwt-secret-2024';
+const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
 // 需要身份验证的路由
 const authRoutes = [
@@ -37,6 +37,7 @@ function needsAuth(path: string): boolean {
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+  console.log('Middleware processing path:', path);
 
   // 如果不需要身份验证，直接放行
   if (!needsAuth(path)) {
@@ -45,7 +46,10 @@ export async function middleware(request: NextRequest) {
 
   // 获取 token
   const authHeader = request.headers.get('authorization');
+  console.log('Authorization header:', authHeader);
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    console.log('No valid authorization header found');
     return NextResponse.json(
       { code: 401, message: '未授权' },
       { status: 401 }
@@ -53,23 +57,28 @@ export async function middleware(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
+  console.log('Extracted token:', token);
 
   try {
     // 验证 token
-    const decoded = verify(token, JWT_SECRET) as any;
+    const { payload } = await jose.jwtVerify(token, JWT_SECRET);
+    console.log('Decoded token:', payload);
     
     // 创建新的 headers
     const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', decoded.userId);
-    requestHeaders.set('x-user-address', decoded.address);
+    requestHeaders.set('x-user-id', payload.userId as string);
+    requestHeaders.set('x-user-address', payload.address as string);
 
     // 返回修改后的请求
-    return NextResponse.next({
+    const response = NextResponse.next({
       request: {
         headers: requestHeaders,
       },
     });
+
+    return response;
   } catch (error) {
+    console.error('Token verification failed:', error);
     return NextResponse.json(
       { code: 401, message: 'token无效' },
       { status: 401 }

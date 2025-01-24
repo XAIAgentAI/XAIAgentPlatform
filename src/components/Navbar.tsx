@@ -13,15 +13,18 @@ import { useState } from "react"
 
 const navigationLinks = [
   {
+    id: "explore",
     href: "/agents",
     label: "Explore AI Agent"
   },
   {
+    id: "trading",
     href: "#",
     label: "Trading AI Agent",
     comingSoon: true
   },
   {
+    id: "creating",
     href: "#",
     label: "Creating AI Agent",
     comingSoon: true
@@ -78,7 +81,7 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-8">
               {navigationLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.id}
                   href={link.href}
                   className="text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap"
                   onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
@@ -140,7 +143,7 @@ const Navbar = () => {
             <div className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border-color p-4 space-y-4 z-50 flex flex-col items-center">
               {navigationLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.id}
                   href={link.href}
                   className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
                 >

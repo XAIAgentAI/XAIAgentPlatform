@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   try {
     // 生成随机 nonce
     const nonce = randomBytes(32).toString('hex');
-    const message = `请签名以登录 XAIAgent\n\nNonce: ${nonce}`;
+    const message = `Please sign to log in XAIAgent\n\nNonce: ${nonce}`;
 
     // 设置过期时间为 5 分钟后
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);

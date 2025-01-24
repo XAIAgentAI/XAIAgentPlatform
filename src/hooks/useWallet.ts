@@ -69,31 +69,46 @@ export function useWallet() {
         error: null,
       }));
 
+      console.log('开始连接钱包...');
+
       // 请求连接钱包
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
       const address = accounts[0];
+      console.log('钱包地址:', address);
 
       // 获取 nonce
+      console.log('获取 nonce...');
       const { nonce, message } = await apiClient.getNonce();
+      console.log('获取到 nonce:', nonce);
+      console.log('签名消息:', message);
 
       // 请求签名
+      console.log('请求签名...');
       const signature = await window.ethereum.request({
         method: 'personal_sign',
         params: [message, address],
       });
+      console.log('获取到签名:', signature);
 
       // 验证签名并登录
+      console.log('验证签名并登录...');
       const { token } = await apiClient.connectWallet({
         address,
         signature,
         message,
       });
+      console.log('获取到 token:', token);
 
       // 保存 token
       localStorage.setItem('token', token);
       apiClient.setToken(token);
+
+      // 验证 token 是否有效
+      console.log('验证 token...');
+      const user = await apiClient.getUserProfile();
+      console.log('验证成功，用户信息:', user);
 
       setState(prev => ({
         ...prev,
@@ -101,6 +116,11 @@ export function useWallet() {
         isConnecting: false,
       }));
     } catch (error) {
+      console.error('连接失败:', error);
+      // 清除可能存在的无效 token
+      localStorage.removeItem('token');
+      apiClient.clearToken();
+      
       setState(prev => ({
         ...prev,
         isConnecting: false,

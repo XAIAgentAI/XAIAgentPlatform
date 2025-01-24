@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "node server.js",
     "redeploy": "git pull && pnpm install && pnpm run build && pm2 restart xaiagentplatform",
-
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,6 +26,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "ethers": "^6.13.5",
+    "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "lightweight-charts": "^4.2.2",
     "lucide-react": "^0.469.0",
