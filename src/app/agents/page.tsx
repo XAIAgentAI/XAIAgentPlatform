@@ -79,7 +79,7 @@ export default function AgentsPage() {
     <div className="min-h-screen bg-background">
       <main className="container mx-auto py-4 px-4 lg:py-8 lg:px-0">
         <div className="w-full max-w-[1400px] mx-auto bg-card rounded-[15px] p-4 lg:p-6">
-          <div className="flex items-center gap-4 mb-6 overflow-x-auto">
+          <div className="flex items-center gap-4 mb-6 overflow-x-auto hide-scrollbar">
             <Tabs defaultValue="Classification" className="w-auto">
               <TabsList className="bg-transparent border border-border">
                 <TabsTrigger 
@@ -102,7 +102,7 @@ export default function AgentsPage() {
 
           {/* Category Tabs */}
           <Tabs defaultValue="prototype" className="w-full">
-            <TabsList className="bg-transparent w-full justify-start gap-4 lg:gap-6 h-auto pb-2 overflow-x-auto">
+            <TabsList className="bg-transparent w-full justify-start gap-4 lg:gap-6 h-auto pb-2 overflow-x-auto hide-scrollbar">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.value}

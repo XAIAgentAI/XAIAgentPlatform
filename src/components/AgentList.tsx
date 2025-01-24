@@ -97,7 +97,7 @@ const AgentList = ({ agents }: AgentListProps) => {
         </Tabs>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto hide-scrollbar">
         <div className="min-w-[1000px]">
           <Table>
             <TableHeader>

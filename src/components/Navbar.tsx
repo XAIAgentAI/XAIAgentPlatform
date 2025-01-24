@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast"
 import ThemeToggle from "./ThemeToggle"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 const navigationLinks = [
   {
@@ -48,19 +49,22 @@ const Navbar = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "错误",
-        description: error instanceof Error ? error.message : "操作失败",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Operation failed",
       })
     }
+    setIsMenuOpen(false)
   }
 
   const handleBuyDBC = () => {
     router.push('/buy-dbc')
+    setIsMenuOpen(false)
   }
 
   const handleBuyXAA = () => {
     // TODO: Navigate to the page based on the actual ID of XAA
     router.push('/agent-detail/1')
+    setIsMenuOpen(false)
   }
 
   const handleComingSoonClick = (e: React.MouseEvent, isComingSoon?: boolean) => {
@@ -70,12 +74,13 @@ const Navbar = () => {
         description: "Coming soon! Stay tuned for updates.",
       })
     }
+    setIsMenuOpen(false)
   }
 
   return (
     <>
-      <nav className="sticky top-0 left-0 right-0 w-full h-20 bg-background z-50">
-        <div className="container mx-auto h-full flex items-center justify-between">
+      <nav className="sticky top-0 left-0 right-0 w-full bg-background z-50">
+        <div className="container mx-auto h-20 flex items-center justify-between relative">
           {/* Logo and Navigation Links */}
           <div className="flex items-center justify-start pr-5 gap-8">
             <Link href="/" className="flex flex-shrink-0 items-center gap-2">
@@ -150,13 +155,19 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="lg:hidden absolute top-20 left-0 right-0 bg-background border-b border-border-color p-4 space-y-4 z-50 flex flex-col items-center">
+          <div 
+            className={cn(
+              "lg:hidden absolute top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg transition-all duration-300 ease-in-out",
+              isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+            )}
+          >
+            <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
               {navigationLinks.map((link) => (
                 <Link
                   key={link.id}
                   href={link.href}
                   className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
+                  onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
                 >
                   {link.label}
                 </Link>
@@ -176,7 +187,7 @@ const Navbar = () => {
                 BUY XAA
               </GradientBorderButton>
             </div>
-          )}
+          </div>
         </div>
       </nav>
     </>
