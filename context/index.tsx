@@ -1,8 +1,7 @@
-
 // context/index.tsx
 'use client'
 
-import { wagmiAdapter, projectId } from '../config/index'
+import { wagmiAdapter, projectId, networks } from '../config/index'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createAppKit } from '@reown/appkit/react'
 import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/appkit/networks'
@@ -28,8 +27,8 @@ const metadata = {
 const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
-    networks: [mainnet, arbitrum, avalanche, base, optimism, polygon],
-    defaultNetwork: mainnet,
+    networks: networks,
+    defaultNetwork: networks[0],
     metadata: metadata,
     features: {
         analytics: true, // Optional - defaults to your Cloud configuration
