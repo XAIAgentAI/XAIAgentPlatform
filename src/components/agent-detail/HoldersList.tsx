@@ -84,7 +84,14 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
                 {(currentPage - 1) * itemsPerPage + index + 1}
               </TableCell>
               <TableCell>
-                {`${holder.address.hash.slice(0, 6)}...${holder.address.hash.slice(-6)}`}
+                <a 
+                  href={`https://www.dbcscan.io/address/${holder.address.hash}`}
+                  target="_blank"
+                  className="hover:text-primary transition-colors"
+                >
+                  <span className="hidden sm:inline">{holder.address.hash}</span>
+                  <span className="sm:hidden">{`${holder.address.hash.slice(0, 6)}...${holder.address.hash.slice(-6)}`}</span>
+                </a>
               </TableCell>
               <TableCell className="text-right">
                 {formatPercentage(holder.value)}%

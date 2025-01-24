@@ -35,7 +35,7 @@ export default function BuyDbcPage() {
                 <span className="text-primary">3.</span>
                 Configure the Network with the Following Details:
               </h2>
-              <div className="space-y-3 text-sm p-4 bg-card-inner rounded-lg pl-12">
+              <div className="space-y-3 text-sm p-4 bg-card-inner rounded-lg pl-4 lg:pl-12">
                 <div className="flex items-center">
                   <p className="text-muted-foreground pr-4">Network Name:</p>
                   <p className="font-medium">DeepBrainChain Mainnet</p>
