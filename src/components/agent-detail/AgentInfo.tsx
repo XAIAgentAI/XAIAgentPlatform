@@ -8,6 +8,7 @@ import { HoldersList } from "./HoldersList";
 import { MarketData } from "./MarketData";
 import { useAgentStore } from "@/store/useAgentStore";
 import { toast } from "@/components/ui/use-toast";
+import { useDBCToken } from "@/hooks/useDBCToken";
 
 interface AgentInfoProps {
   agentId: string;
@@ -15,12 +16,23 @@ interface AgentInfoProps {
 
 export function AgentInfo({ agentId }: AgentInfoProps) {
   const { getAgentById } = useAgentStore();
-  const agentData = getAgentById(Number(agentId));
+  const agent = getAgentById(Number(agentId));
+  const { tokenData, loading, error } = useDBCToken(agent?.tokens || null);
 
-  if (!agentData) {
+  if (loading) {
     return (
       <Card className="p-6 bg-card">
-        <div className="text-foreground text-center">Agent not found</div>
+        <div className="text-foreground text-center">Loading...</div>
+      </Card>
+    );
+  }
+
+  if (error || !agent || !tokenData) {
+    return (
+      <Card className="p-6 bg-card">
+        <div className="text-foreground text-center">
+          {error || "Agent not found"}
+        </div>
       </Card>
     );
   }
@@ -32,24 +44,24 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         <div className="flex items-start gap-4 min-w-0 flex-1">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <img
-              src={agentData.avatar}
+              src={agent.avatar}
               alt="Agent avatar"
               className="h-full w-full object-cover"
             />
           </Avatar>
           
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold">{agentData.name}</h1>
+            <h1 className="text-xl font-semibold">{tokenData.name}</h1>
             <div className="flex items-center gap-2 mt-1">
-              <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">{agentData.symbol}</div>
+              <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData.symbol}</div>
               <div className="min-w-[80px] max-w-full h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] flex items-center overflow-hidden">
                 <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px] truncate">
-                  {agentData.tokens}
+                  {tokenData.address}
                 </div>
                 <CustomButton 
                   className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px] flex-shrink-0"
                   onClick={() => {
-                    navigator.clipboard.writeText(agentData.tokens || '');
+                    navigator.clipboard.writeText(tokenData.address);
                     toast({
                       description: "Contract address copied to clipboard",
                     });
@@ -88,14 +100,14 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             <span className="text-xs text-muted-foreground whitespace-nowrap">Created by:</span>
             <Avatar className="h-7 w-7">
               <img
-                src={agentData.avatar}
+                src={agent.avatar}
                 alt="Creator avatar"
                 className="h-full w-full object-cover rounded-full"
               />
             </Avatar>
           </div>
           <div className="text-xs text-muted-foreground">
-            {agentData.createdAt}
+            {agent.createdAt}
           </div>
         </div>
       </div>
@@ -124,11 +136,11 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           </TabsList>
           
           <TabsContent value="information">
-            <MarketData agentData={agentData} />
+            <MarketData tokenData={tokenData} />
           </TabsContent>
           
           <TabsContent value="holders">
-            <HoldersList />
+            <HoldersList tokenAddress={tokenData.address} holders={tokenData.holders} />
           </TabsContent>
         </Tabs>
       </div>
@@ -137,7 +149,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">Description</h2>
         <p className="text-sm text-muted-foreground">
-          {agentData.detailDescription}
+          {agent.detailDescription}
         </p>
       </div>
     </Card>
