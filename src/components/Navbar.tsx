@@ -13,15 +13,14 @@ import { useState } from "react"
 
 const navigationLinks = [
   {
+    id: "trading",
+    href: "/",
+    label: "Trading AI Agent"
+  },
+  {
     id: "explore",
     href: "/agents",
     label: "Explore AI Agent"
-  },
-  {
-    id: "trading",
-    href: "#",
-    label: "Trading AI Agent",
-    comingSoon: true
   },
   {
     id: "creating",

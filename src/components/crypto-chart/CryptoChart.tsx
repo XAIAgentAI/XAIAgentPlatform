@@ -124,7 +124,7 @@ const CryptoChart: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-[600px] p-4 bg-chart-background rounded-lg">
+    <div className="w-full h-[400px] p-4 bg-chart-background rounded-lg">
       <div className="text-foreground mb-4">
         <h2 className="text-xl font-bold">AIXBT/USDT</h2>
         <div className="flex items-center gap-2">
@@ -132,7 +132,7 @@ const CryptoChart: React.FC = () => {
           <span className="text-sm text-chart-down">0.00%</span>
         </div>
       </div>
-      <div ref={chartContainerRef} className="w-full h-[500px]" />
+      <div ref={chartContainerRef} className="w-full h-[300px]" />
     </div>
   );
 };

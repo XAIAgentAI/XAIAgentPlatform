@@ -30,7 +30,7 @@ export const localAgents: LocalAgent[] = [
     tvl: "$0",
     holdersCount: 39596,
     volume24h: "$0",
-    status: "IAO is about to begin.",
+    status: "IAO launching soon.",
     description: "XAIAgent tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. XAIAgent token holders gain access to its analytics platform.",
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
