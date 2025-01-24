@@ -29,25 +29,25 @@ export default function ChatDemo() {
 
     useEffect(() => {
         if (!socket) {
-            console.log('Socket未初始化')
+            console.log('Socket not initialized')
             return
         }
 
-        console.log('Socket已初始化:', socket.id)
+        console.log('Socket initialized:', socket.id)
 
         socket.on('connect', () => {
             setIsConnected(true)
-            console.log('已连接到服务器, Socket ID:', socket.id)
+            console.log('Connected to server, Socket ID:', socket.id)
         })
 
         socket.on('disconnect', () => {
             setIsConnected(false)
-            console.log('与服务器断开连接')
+            console.log('Disconnected from server')
         })
 
         // 监听消息显示事件
         socket.on('display_message', (message: Message) => {
-            console.log('收到display_message事件:', JSON.stringify(message, null, 2))
+            console.log('Received display_message event:', JSON.stringify(message, null, 2))
             setMessages(prev => [...prev, message])
             setTimeout(() => {
                 scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -65,15 +65,15 @@ export default function ChatDemo() {
 
         // 监听错误事件
         socket.on('error', (error: any) => {
-            console.error('Socket错误:', error)
+            console.error('Socket error:', error)
         })
 
         socket.on('connect_error', (error: any) => {
-            console.error('Socket连接错误:', error)
+            console.error('Socket connection error:', error)
         })
 
         return () => {
-            console.log('清理socket监听器')
+            console.log('Cleaning up socket listeners')
             socket.off('connect')
             socket.off('disconnect')
             socket.off('display_message')
@@ -97,7 +97,7 @@ export default function ChatDemo() {
             timestamp: new Date().toISOString()
         }
 
-        console.log('发送消息:', JSON.stringify(message, null, 2))
+        console.log('Sending message:', JSON.stringify(message, null, 2))
         socket.emit('user_input_ready', message)
         setInput('')
         setIsInputEnabled(false)
@@ -193,12 +193,12 @@ export default function ChatDemo() {
                     </div>
                     {!isConnected && (
                         <div className="text-sm text-red-500 mt-2">
-                            与服务器断开连接
+                            Disconnected from server
                         </div>
                     )}
                     {!isInputEnabled && isConnected && (
                         <div className="text-sm text-yellow-500 mt-2">
-                            等待响应中...
+                            Waiting for response...
                         </div>
                     )}
                 </div>

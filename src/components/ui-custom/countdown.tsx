@@ -68,20 +68,20 @@ export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
       {timeLeft.days > 0 && (
         <div className="flex items-center gap-1">
           <span className="font-medium">{timeLeft.days}</span>
-          <span className="text-sm text-muted-foreground">天</span>
+          <span className="text-sm text-muted-foreground">d</span>
         </div>
       )}
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.hours).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">时</span>
+        <span className="text-sm text-muted-foreground">h</span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.minutes).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">分</span>
+        <span className="text-sm text-muted-foreground">m</span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.seconds).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">秒</span>
+        <span className="text-sm text-muted-foreground">s</span>
       </div>
     </div>
   );

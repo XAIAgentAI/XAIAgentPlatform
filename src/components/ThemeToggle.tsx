@@ -59,7 +59,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
     <button
       onClick={toggleTheme}
       className={`p-2 rounded-lg text-foreground hover:text-primary ${className || ''}`}
-      aria-label="切换主题"
+      aria-label="Toggle theme"
       style={{
         // DEBUG: 内联样式测试
         // '--debug-primary': 'var(--primary)',

@@ -15,12 +15,12 @@ const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 export async function uploadFile(file: File): Promise<string> {
   // 验证文件大小
   if (file.size > MAX_FILE_SIZE) {
-    throw new ApiError(400, '文件大小不能超过5MB');
+    throw new ApiError(400, 'File size cannot exceed 5MB');
   }
 
   // 验证文件类型
   if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-    throw new ApiError(400, '不支持的文件类型');
+    throw new ApiError(400, 'Unsupported file type');
   }
 
   // 生成文件名
@@ -39,8 +39,8 @@ export async function uploadFile(file: File): Promise<string> {
     // 返回文件URL
     return `/uploads/${fileName}`;
   } catch (error) {
-    console.error('文件上传失败:', error);
-    throw new ApiError(500, '文件上传失败');
+    console.error('File upload failed:', error);
+    throw new ApiError(500, 'File upload failed');
   }
 }
 

@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    /* 主题色 */
+    /* Theme colors */
     --primary: #ff6b00;
     --primary-foreground: #ffffff;
     --primary-hover: #ff8533;
     --primary-light: rgba(255, 107, 0, 0.1);
 
-    /* 背景色 */
+    /* Background colors */
     --background: #F8F8F8;
     --foreground: #000000;
     --card: #ffffff;
@@ -18,40 +18,40 @@
     --card-inner: #F0F0F0;
     --card-inner-hover: #E8E8E8;
 
-    /* 图表色 */
+    /* Chart colors */
     --chart-background: #ffffff;
     --chart-grid: #e5e5e5;
     --chart-text: #666666;
     --chart-up: #26a69a;
     --chart-down: #ef5350;
 
-    /* 文本色 */
+    /* Text colors */
     --text-primary: #000000;
     --text-secondary: rgba(0, 0, 0, 0.8);
     --text-tertiary: rgba(0, 0, 0, 0.6);
     --text-muted: rgba(0, 0, 0, 0.5);
 
-    /* 边框色 */
+    /* Border colors */
     --border: #e5e5e5;
     --border-dark: #d1d1d1;
 
-    /* 功能色 */
+    /* Function colors */
     --success: #22c55e;
     --warning: #f59e0b;
     --error: #ef4444;
 
-    /* 圆角 */
+    /* Border radius */
     --radius: 0.5rem;
   }
 
   [data-theme='dark'] {
-    /* 主题色 */
+    /* Theme colors */
     --primary: #ff6b00;
     --primary-foreground: #ffffff;
     --primary-hover: #ff8533;
     --primary-light: rgba(255, 107, 0, 0.1);
 
-    /* 背景色 */
+    /* Background colors */
     --background: #000000;
     --foreground: #ffffff;
     --card: #1C1C1C;
@@ -59,29 +59,29 @@
     --card-inner: #2C2C2C;
     --card-inner-hover: #3C3C3C;
 
-    /* 图表色 */
+    /* Chart colors */
     --chart-background: #1B2028;
     --chart-grid: #2B2B43;
     --chart-text: #DDD;
     --chart-up: #26a69a;
     --chart-down: #ef5350;
 
-    /* 文本色 */
+    /* Text colors */
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.8);
     --text-tertiary: rgba(255, 255, 255, 0.6);
     --text-muted: rgba(255, 255, 255, 0.5);
 
-    /* 边框色 */
+    /* Border colors */
     --border: #262626;
     --border-dark: #404040;
 
-    /* 功能色 */
+    /* Function colors */
     --success: #22c55e;
     --warning: #f59e0b;
     --error: #ef4444;
 
-    /* 圆角 */
+    /* Border radius */
     --radius: 0.5rem;
   }
 }

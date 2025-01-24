@@ -129,7 +129,7 @@ const Navbar = () => {
               onClick={handleWalletClick}
               disabled={isConnecting}
             >
-              {isConnecting ? "连接中..." : address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connect wallet"}
+              {isConnecting ? "Connecting..." : address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connect wallet"}
             </Button>
 
             <ThemeToggle />

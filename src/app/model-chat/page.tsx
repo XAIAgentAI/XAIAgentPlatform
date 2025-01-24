@@ -79,7 +79,7 @@ export default function ModelChat() {
 
   return (
     <div className="flex flex-col h-screen p-4 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">模型对话</h1>
+      <h1 className="text-2xl font-bold mb-4">Model Chat</h1>
       
       <Card className="flex-1 mb-4 p-4">
         <ScrollArea className="h-[calc(100vh-200px)]">
@@ -105,10 +105,10 @@ export default function ModelChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="输入消息..."
+          placeholder="Enter message..."
           className="flex-1"
         />
-        <Button onClick={handleSend}>发送</Button>
+        <Button onClick={handleSend}>Send</Button>
       </div>
     </div>
   )

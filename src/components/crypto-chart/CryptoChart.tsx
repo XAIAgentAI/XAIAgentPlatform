@@ -8,7 +8,7 @@ const CryptoChart: React.FC = () => {
   const chart = useRef<any>(null);
   const resizeObserver = useRef<any>(null);
 
-  // 获取当前主题下的实际颜色值
+  // Get the actual color value for the current theme
   const getThemeColor = (cssVar: string) => {
     if (typeof window === 'undefined') return '';
     return getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
@@ -62,13 +62,13 @@ const CryptoChart: React.FC = () => {
 
     candlestickSeries.setData(data);
 
-    // 添加成交量图表
+    // Add volume chart
     const volumeSeries = chart.current.addHistogramSeries({
       color: upColor,
       priceFormat: {
         type: 'volume',
       },
-      priceScaleId: '', // 在主图表下方显示
+      priceScaleId: '', // Display below the main chart
     });
 
     const volumeData = [
@@ -78,7 +78,7 @@ const CryptoChart: React.FC = () => {
 
     volumeSeries.setData(volumeData);
 
-    // 监听主题变化
+    // Monitor theme changes
     const observer = new MutationObserver(() => {
       if (!chart.current) return;
       
@@ -103,7 +103,7 @@ const CryptoChart: React.FC = () => {
       attributeFilter: ['data-theme'],
     });
 
-    // 响应式处理
+    // Handle responsiveness
     resizeObserver.current = new ResizeObserver(entries => {
       if (entries.length === 0 || !entries[0].contentRect) return;
       const { width, height } = entries[0].contentRect;
