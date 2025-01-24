@@ -71,7 +71,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
       
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="border-b border-border dark:border-border">
             <TableHead className="w-16">#</TableHead>
             <TableHead>Address</TableHead>
             <TableHead className="text-right">Percentage</TableHead>
@@ -79,7 +79,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
         </TableHeader>
         <TableBody>
           {currentHolders.map((holder, index) => (
-            <TableRow key={holder.address.hash}>
+            <TableRow key={holder.address.hash} className="border-b border-border dark:border-border">
               <TableCell className="font-medium">
                 {(currentPage - 1) * itemsPerPage + index + 1}
               </TableCell>
