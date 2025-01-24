@@ -10,6 +10,7 @@ import { useWallet } from "@/hooks/useWallet"
 import { useToast } from "@/components/ui/use-toast"
 import ThemeToggle from "./ThemeToggle"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 const navigationLinks = [
   {
@@ -35,6 +36,8 @@ const Navbar = () => {
   const { toast } = useToast()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const router = useRouter()
+
   const handleWalletClick = async () => {
     try {
       if (address) {
@@ -49,6 +52,11 @@ const Navbar = () => {
         description: error instanceof Error ? error.message : "操作失败",
       })
     }
+  }
+
+  const handleBuyXAA = () => {
+    // TODO: Navigate to the page based on the actual ID of XAA
+    router.push('/agent-detail/1')
   }
 
   const handleComingSoonClick = (e: React.MouseEvent, isComingSoon?: boolean) => {
@@ -122,7 +130,7 @@ const Navbar = () => {
               BUY DBC
             </GradientBorderButton>
 
-            <GradientBorderButton>
+            <GradientBorderButton onClick={handleBuyXAA}>
               BUY XAA
             </GradientBorderButton>
 
@@ -158,6 +166,7 @@ const Navbar = () => {
 
               <GradientBorderButton 
                 containerClassName="w-full max-w-[220px]"
+                onClick={handleBuyXAA}>
               >
                 BUY XAA
               </GradientBorderButton>
