@@ -1,23 +1,29 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { AgentInfo } from "@/components/agent-detail/AgentInfo";
 import { SwapCard } from "@/components/agent-detail/SwapCard";
 import { TokenInfoCard } from "@/components/agent-detail/TokenInfoCard";
 import { ConversationStarter } from "@/components/agent-detail/ConversationStarter";
 import { IaoPool } from "@/components/agent-detail/IaoPool";
+import { useAgentStore } from "@/store/useAgentStore";
 
-export default function AgentDetailPage() {
-  const params = useParams();
-  const agentId = params.id as string;
+interface AgentDetailPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function AgentDetailPage({ params }: AgentDetailPageProps) {
+  const { id } = params;
+  const { agents } = useAgentStore();
 
   return (
-    <div className="container mx-auto  px-4 py-2">
+    <div className="container mx-auto px-4 py-2">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左侧主要内容区域 */}
         <div className="lg:col-span-2 space-y-6">
           {/* Agent信息卡片 */}
-          <AgentInfo agentId={agentId} />
+          <AgentInfo agentId={id} />
           
           {/* 对话启动器 */}
           <ConversationStarter />
@@ -36,5 +42,5 @@ export default function AgentDetailPage() {
         </div>
       </div>
     </div>
-  );
+  )
 } 

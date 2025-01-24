@@ -1,29 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import AgentList from "@/components/AgentList"
-import { localAgents } from "@/data/localAgents"
 import { useDBCScan } from "@/hooks/useDBCScan"
+import { useAgentStore } from "@/store/useAgentStore"
 
 export default function Home() {
-  const [agents, setAgents] = useState(localAgents)
   const { tokens, loading, error } = useDBCScan()
+  const { agents, updateAgentsWithTokens } = useAgentStore()
 
   useEffect(() => {
-    if (tokens && tokens.length > 0) {
-      const updatedAgents = agents.map(agent => {
-        const tokenData = tokens.find(token => token.address === agent.tokens)
-        if (tokenData) {
-          return {
-            ...agent,
-            holdersCount: parseInt(tokenData.holders)
-          }
-        }
-        return agent
-      })
-      setAgents(updatedAgents)
+    if (!loading && tokens && tokens.length > 0) {
+      updateAgentsWithTokens(tokens)
     }
-  }, [tokens])
+  }, [tokens, loading, updateAgentsWithTokens])
 
   if (loading) {
     return (

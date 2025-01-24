@@ -1,28 +1,20 @@
 import { Card } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { CustomButton } from "@/components/ui-custom/custom-button";
-import CryptoChart from "@/components/crypto-chart/CryptoChart";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TokenInfo } from "./TokenInfo";
-import { HoldersList } from "./HoldersList";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CryptoChart from "@/components/crypto-chart/CryptoChart";
+import { HoldersList } from "./HoldersList";
 import { MarketData } from "./MarketData";
-import { LocalAgent, localAgents } from "@/data/localAgents";
+import { useAgentStore } from "@/store/useAgentStore";
 
 interface AgentInfoProps {
   agentId: string;
 }
 
 export function AgentInfo({ agentId }: AgentInfoProps) {
-  const [agentData, setAgentData] = useState<LocalAgent | null>(null);
-
-  useEffect(() => {
-    const agent = localAgents.find(a => a.id === Number(agentId));
-    if (agent) {
-      setAgentData(agent);
-    }
-  }, [agentId]);
+  const { getAgentById } = useAgentStore();
+  const agentData = getAgentById(Number(agentId));
 
   if (!agentData) {
     return (
