@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build:dev": "next build",
-    "build:prod": "next build",
+    "dev": "next dev --env-file .env.development",
+    "build:dev": "next build --env-file .env.development",
+    "build:prod": "next build --env-file .env.production",
     "start:dev": "NODE_ENV=development node server.js",
     "start:prod": "NODE_ENV=production node server.js",
-    "redeploy:dev": "git pull && pnpm install && pnpm run build:dev && pm2 startOrRestart ecosystem.config.js --only xaiagentplatform-dev",
-    "redeploy:prod": "git pull && pnpm install && pnpm run build:prod && pm2 startOrRestart ecosystem.config.js --only xaiagentplatform-prod",
+    "redeploy:dev": "git pull && pnpm install && pnpm run build:dev && pm2 restart xaiagentplatform-dev",
+    "redeploy:prod": "git pull && pnpm install && pnpm run build:prod && pm2 restart xaiagentplatform-prod",
     "lint": "next lint"
   },
   "dependencies": {
