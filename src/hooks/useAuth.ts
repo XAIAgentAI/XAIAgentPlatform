@@ -58,7 +58,6 @@ export function useAuth() {
     try {
       setLoading(true);
       setError(null);
-      console.log('开始认证流程:', { address, isConnected, status });
 
       // 先检查 token
       const isValidToken = await checkToken();
@@ -69,15 +68,12 @@ export function useAuth() {
 
       // 获取 nonce
       const { nonce, message } = await apiClient.getNonce();
-      console.log('获取到 nonce:', { nonce, message });
 
       // 确保地址格式正确
       const formattedAddress = address.toLowerCase();
-      console.log('准备请求签名:', { formattedAddress, message });
 
       // 请求签名
       const signature = await signMessageAsync({ message });
-      console.log('获取到签名:', signature);
 
       // 验证签名并登录
       const { token } = await apiClient.connectWallet({
@@ -85,7 +81,6 @@ export function useAuth() {
         signature,
         message,
       });
-      console.log('登录成功，获取到 token:', token);
 
       // 保存 token
       localStorage.setItem('token', token);

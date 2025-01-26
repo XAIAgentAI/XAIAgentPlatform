@@ -18,16 +18,6 @@ export const IaoPool = () => {
   const { poolInfo, isLoading, stake } = useStakeContract();
   const { toast } = useToast();
 
-  useEffect(() => {
-    console.log("IaoPool 状态更新:", {
-      address,
-      isConnected,
-      isAuthenticated,
-      isLoading,
-      poolInfo
-    });
-  }, [address, isConnected, isAuthenticated, isLoading, poolInfo]);
-
   const handleStake = async () => {
     if (!isAuthenticated) {
       toast({

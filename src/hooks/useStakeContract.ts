@@ -5,28 +5,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
 import { createPublicClient, createWalletClient, custom, parseEther, type Hash } from 'viem';
-import { type Chain } from 'viem';
 import { useWalletClient } from 'wagmi';
-
-const dbcTestnet = {
-  id: 19850818,
-  name: "DeepBrainChain Testnet",
-  nativeCurrency: {
-    name: "tDBC",
-    symbol: "tDBC",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: { http: ['https://rpc-testnet.dbcwallet.io'] },
-    public: { http: ['https://rpc-testnet.dbcwallet.io'] },
-  },
-  blockExplorers: {
-    default: {
-      name: "Blockscout",
-      url: "https://test.dbcscan.io",
-    },
-  },
-} as const satisfies Chain;
+import { dbcTestnet } from '@/config/wagmi';
 
 type ToastMessage = {
   title: string;
