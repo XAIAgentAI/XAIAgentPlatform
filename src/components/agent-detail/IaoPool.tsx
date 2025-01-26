@@ -8,7 +8,7 @@ import { Countdown } from "../ui-custom/countdown";
 import { useStakeContract } from "@/hooks/useStakeContract";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import {  useAppKitAccount } from '@reown/appkit/react'
+import { useAppKitAccount } from '@reown/appkit/react'
 
 
 export const IaoPool = () => {
@@ -102,7 +102,7 @@ export const IaoPool = () => {
             />
           </div>
 
-          <Button 
+          {/* <Button 
             className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
             onClick={handleStake}
             disabled={!isAuthenticated || !isDepositPeriod || isLoading}
@@ -114,7 +114,16 @@ export const IaoPool = () => {
                 : isLoading 
                   ? "Processing..." 
                   : "Send"}
+          </Button> */}
+
+          <Button
+            className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+            onClick={handleStake}
+            disabled={true}
+          >
+            IAO not started
           </Button>
+
 
           {isAuthenticated && (
             <p className="mt-4 text-sm text-muted-foreground">

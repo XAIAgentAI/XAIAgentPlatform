@@ -37,6 +37,7 @@ export const useDBCHolders = (tokenAddress: string | null) => {
           throw new Error('Failed to fetch holders data');
         }
         const data: HoldersResponse = await response.json();
+        console.log("HoldersResponse", data);
         setHolders(data.items);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

@@ -2,12 +2,10 @@ import { Card } from "@/components/ui/card";
 
 export function TokenInfoCard() {
   const tokenInfo = [
-    "The total amount of AIXBT issued is: 1000M",
-    "Total amount of liquid tokens: 800M",
-    "The founder holds 200M tokens in total: 100M tokens with unlock schedule to be announced, and another 100M tokens reserved for ecosystem development with unlock schedule to be announced",
-    "The amount of SAIXBT and SXAA Pool1 tokens is 30.34M and 4.78M, respectively",
-    "The amount of SAIXBT and SXAA Pool2 tokens is 80.34M and 1.23M, respectively",
-    "The number of SAIXBT and SDBC Pool tokens is 70.34M and 50.67K, respectively",
+    "The total supply of XAA is: 100B",
+    "20% of the tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
+    "During the 14-day IAO, 50% of the $DBC will be allocated to the project team for ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools.",
+    "After the IAO ends, $XAA and $DBC will immediately establish a trading pair on DBCSwap, enabling free trading of $XAA."
   ];
 
   return (

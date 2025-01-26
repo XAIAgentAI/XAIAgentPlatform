@@ -15,7 +15,7 @@ interface TokenDetail {
 }
 
 interface MarketDataProps {
-  tokenData: TokenDetail;
+  tokenData: TokenDetail | null;
 }
 
 export function MarketData({ tokenData }: MarketDataProps) {
@@ -29,7 +29,8 @@ export function MarketData({ tokenData }: MarketDataProps) {
     }).format(num);
   };
 
-  const formatTotalSupply = (supply: string) => {
+  const formatTotalSupply = (supply: string | undefined) => {
+    if (!supply) return 'TBA';
     // Convert string to number, considering decimals is 18
     const value = Number(supply) / Math.pow(10, 18);
     
@@ -50,28 +51,28 @@ export function MarketData({ tokenData }: MarketDataProps) {
       <Card className="p-4 bg-card-inner">
         <div className="text-sm text-muted-foreground">Market Cap</div>
         <div className="text-lg font-semibold mt-1">
-          {formatNumber(tokenData.circulating_market_cap, "TBA")}
+          {formatNumber(tokenData?.circulating_market_cap ?? null, "TBA")}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
         <div className="text-sm text-muted-foreground">24h Volume</div>
         <div className="text-lg font-semibold mt-1">
-          {formatNumber(tokenData.volume_24h, "0")}
+          {formatNumber(tokenData?.volume_24h ?? null, "0")}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
         <div className="text-sm text-muted-foreground">Total Supply</div>
         <div className="text-lg font-semibold mt-1">
-          {formatTotalSupply(tokenData.total_supply)}
+          {formatTotalSupply(tokenData?.total_supply)}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
         <div className="text-sm text-muted-foreground">Holders</div>
         <div className="text-lg font-semibold mt-1">
-          {Number(tokenData.holders).toLocaleString()}
+          {tokenData?.holders ? Number(tokenData.holders).toLocaleString() : 'TBA'}
         </div>
       </Card>
     </div>

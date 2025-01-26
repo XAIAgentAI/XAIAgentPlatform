@@ -38,7 +38,11 @@ export default function AgentDetailPage({ params }: AgentDetailPageProps) {
           <IaoPool />
           
           {/* 代币信息卡片 */}
-          <TokenInfoCard />
+          {
+            id === "1" && (
+              <TokenInfoCard />
+            )
+          }
         </div>
       </div>
     </div>

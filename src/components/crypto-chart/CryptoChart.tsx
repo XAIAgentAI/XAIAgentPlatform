@@ -3,7 +3,7 @@
 import { createChart, ColorType } from 'lightweight-charts';
 import React, { useEffect, useRef } from 'react';
 
-const CryptoChart: React.FC = () => {
+const CryptoChart: React.FC<{ agent: any }> = ({ agent }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chart = useRef<any>(null);
   const resizeObserver = useRef<any>(null);
@@ -38,7 +38,7 @@ const CryptoChart: React.FC = () => {
       height: 500,
     //   watermark: {
     //     visible: true,
-    //     text: 'AIXBT',
+    //     text: 'XAA',
     //     fontSize: 24,
     //     color: 'rgba(255, 255, 255, 0.1)',
     //     fontFamily: 'system-ui',
@@ -126,7 +126,7 @@ const CryptoChart: React.FC = () => {
   return (
     <div className="w-full h-[400px] p-4 bg-chart-background rounded-lg">
       <div className="text-foreground mb-4">
-        <h2 className="text-xl font-bold">AIXBT/USDT</h2>
+        <h2 className="text-xl font-bold">{agent.symbol}/USDT</h2>
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-chart-down">0.0000</span>
           <span className="text-sm text-chart-down">0.00%</span>

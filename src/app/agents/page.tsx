@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
+import { localAgents, LocalAgent } from '@/data/localAgents'
 
 interface Agent {
   id: string;
@@ -48,7 +49,11 @@ const tabs = [
 
 export default function AgentsPage() {
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
-  const [agents, setAgents] = useState(mockAgents)
+  
+  // 根据选择的标签过滤代理
+  const filteredAgents = tab === "AIAgent" 
+    ? localAgents.filter(agent => agent.id === 4 || agent.id === 5) // AI Agent: id 4和5
+    : localAgents.filter(agent => agent.id === 2 || agent.id === 3) // Infrastructure: id 2和3
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,9 +84,9 @@ export default function AgentsPage() {
           <Tabs defaultValue="prototype" className="w-full">
             <div className="border-t border-border pt-4 lg:pt-6">
               <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">Featured Agents</h2>
-              {agents.length > 0 ? (
+              {filteredAgents.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                  {agents.map((agent) => (
+                  {filteredAgents.map((agent) => (
                     <div 
                       key={agent.id} 
                       className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-card-hover"
@@ -90,21 +95,23 @@ export default function AgentsPage() {
                         <div className="flex flex-col items-center gap-2">
                           <Avatar className="h-10 w-10 rounded-full bg-card-inner">
                             <Image 
-                              src='/logo.png' 
-                              alt={agent.type} 
+                              src={agent.avatar}
+                              alt={agent.name} 
                               width={40} 
                               height={40}
                               className="object-cover"
                             />
                           </Avatar>
-                          <span className="text-[10px] lg:text-xs text-muted-foreground">{agent.timeAgo}</span>
+                          <span className="text-[10px] lg:text-xs text-muted-foreground">{agent.createdAt}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium truncate text-foreground">{agent.type}</span>
+                            <span className="text-sm font-medium truncate text-foreground">{agent.name}</span>
                           </div>
-                          <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">{agent.stats}</p>
-                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">Created by {agent.createdBy}</p>
+                          <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">
+                            {agent.symbol} | Market Cap: {agent.marketCap}
+                          </p>
+                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">Status: {agent.status}</p>
                           <p className="text-foreground/50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
                             {agent.description}
                           </p>

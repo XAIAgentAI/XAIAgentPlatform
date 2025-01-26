@@ -38,12 +38,11 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
     setCurrentPage(prev => Math.min(totalPages, prev + 1));
   };
 
-  // Calculate total value of all holders
-  const totalValue = holdersList.reduce((sum, holder) => sum + BigInt(holder.value), BigInt(0));
+  const totalSupply = BigInt((currentHolders[0] as any)?.token?.total_supply || '0');
 
   // Format percentage with 2 decimal places
   const formatPercentage = (value: string) => {
-    const percentage = (Number(BigInt(value) * BigInt(10000) / totalValue) / 100).toFixed(2);
+    const percentage = (Number(BigInt(value) * BigInt(10000) / totalSupply) / 100).toFixed(2);
     return percentage;
   };
 
