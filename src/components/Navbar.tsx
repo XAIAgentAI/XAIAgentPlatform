@@ -94,7 +94,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 left-0 right-0 w-full bg-background z-50">
-      <div className="container mx-auto h-20 flex items-center justify-between relative">
+      <div className="container mx-auto h-20 lg:h-20 h-16 flex items-center justify-between relative">
         {/* Logo and Navigation Links */}
         <div className="flex items-center justify-start pr-5 gap-8">
           <Link href="/" className="flex flex-shrink-0 items-center gap-2">
@@ -218,7 +218,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div 
           className={cn(
-            "lg:hidden absolute top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg transition-all duration-300 ease-in-out",
+            "lg:hidden absolute top-[64px] lg:top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg transition-all duration-300 ease-in-out",
             isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
           )}
         >

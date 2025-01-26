@@ -29,7 +29,7 @@ interface AgentListProps {
   loading?: boolean;
 }
 
-const AgentList = ({ agents, loading }: AgentListProps) => {
+const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
@@ -220,4 +220,4 @@ const AgentList = ({ agents, loading }: AgentListProps) => {
   )
 }
 
-export default AgentList 
+export default AgentListDesktop 
