@@ -38,10 +38,16 @@ const Navbar = () => {
   const { toast } = useToast()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { open } = useAppKit()
   const { address, isConnected, status } = useAppKitAccount()
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
+
+  // 处理客户端挂载
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -51,7 +57,6 @@ const Navbar = () => {
   useEffect(() => {
     if (error) {
       toast({
-        // variant: "destructive",
         description: error,
       })
     }
@@ -90,6 +95,11 @@ const Navbar = () => {
       })
     }
     setIsMenuOpen(false)
+  }
+
+  // 在客户端挂载前不渲染内容
+  if (!mounted) {
+    return null;
   }
 
   return (
@@ -134,17 +144,7 @@ const Navbar = () => {
             className="lg:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={isMenuOpen ? "close" : "menu"}
-                initial={{ opacity: 0, rotate: -90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.2 }}
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </motion.div>
-            </AnimatePresence>
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </motion.button>
 
           <motion.button
@@ -216,39 +216,44 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div 
-          className={cn(
-            "lg:hidden absolute top-[64px] lg:top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg transition-all duration-300 ease-in-out",
-            isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden absolute top-[64px] lg:top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg"
+            >
+              <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
+                {navigationLinks.map((link) => (
+                  <Link
+                    key={link.id}
+                    href={link.href}
+                    className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
+                    onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+
+                <GradientBorderButton 
+                  containerClassName="w-full max-w-[220px]"
+                  onClick={handleBuyDBC}
+                >
+                  BUY DBC
+                </GradientBorderButton>
+
+                <GradientBorderButton 
+                  containerClassName="w-full max-w-[220px]"
+                  onClick={handleBuyXAA}
+                >
+                  BUY XAA
+                </GradientBorderButton>
+              </div>
+            </motion.div>
           )}
-        >
-          <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
-            {navigationLinks.map((link) => (
-              <Link
-                key={link.id}
-                href={link.href}
-                className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
-                onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            <GradientBorderButton 
-              containerClassName="w-full max-w-[220px]"
-              onClick={handleBuyDBC}
-            >
-              BUY DBC
-            </GradientBorderButton>
-
-            <GradientBorderButton 
-              containerClassName="w-full max-w-[220px]"
-              onClick={handleBuyXAA}
-            >
-              BUY XAA
-            </GradientBorderButton>
-          </div>
-        </div>
+        </AnimatePresence>
       </div>
     </nav>
   )
