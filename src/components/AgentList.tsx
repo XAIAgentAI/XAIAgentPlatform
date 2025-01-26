@@ -7,6 +7,7 @@ import { useState } from "react"
 import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
+import { Loading } from "@/components/ui-custom/loading"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -24,10 +25,11 @@ interface AgentListProps {
     holdersCount: number;
     volume24h: string;
     status: string;
-  }>
+  }>;
+  loading?: boolean;
 }
 
-const AgentList = ({ agents }: AgentListProps) => {
+const AgentList = ({ agents, loading }: AgentListProps) => {
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
@@ -43,9 +45,9 @@ const AgentList = ({ agents }: AgentListProps) => {
 
   const sortedAgents = [...agents].sort((a, b) => {
     if (!sortField) return 0
-    
+
     let aValue: number, bValue: number;
-    
+
     if (sortField === 'holdersCount') {
       aValue = a[sortField];
       bValue = b[sortField];
@@ -53,19 +55,19 @@ const AgentList = ({ agents }: AgentListProps) => {
       aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
       bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
     }
-    
-    return sortDirection === "asc" 
-      ? aValue - bValue 
+
+    return sortDirection === "asc"
+      ? aValue - bValue
       : bValue - aValue
   })
 
   const getSortIcon = (field: SortField) => {
     return (
-      <Image 
-        src="/images/triangle.svg" 
-        alt="Sort" 
-        width={8} 
-        height={4} 
+      <Image
+        src="/images/triangle.svg"
+        alt="Sort"
+        width={8}
+        height={4}
         className={`transition-transform ${sortField === field && sortDirection === "asc" ? "rotate-180" : ""}`}
       />
     )
@@ -81,13 +83,13 @@ const AgentList = ({ agents }: AgentListProps) => {
         <span className="text-muted-color text-xs">Sort by</span>
         <Tabs defaultValue="marketCap" className="w-auto">
           <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
-            <TabsTrigger 
+            <TabsTrigger
               value="marketCap"
               className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
             >
               Market Cap
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="latest"
               className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
             >
@@ -108,7 +110,7 @@ const AgentList = ({ agents }: AgentListProps) => {
                   </div>
                 </TableHead>
                 <TableHead className="w-[150px]">
-                  <div 
+                  <div
                     className="flex items-center gap-1 cursor-pointer opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]"
                     onClick={() => handleSort("marketCap")}
                   >
@@ -122,7 +124,7 @@ const AgentList = ({ agents }: AgentListProps) => {
                   </div>
                 </TableHead>
                 <TableHead className="w-[200px]">
-                  <div 
+                  <div
                     className="flex items-center gap-1 cursor-pointer opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]"
                     onClick={() => handleSort("tvl")}
                   >
@@ -131,7 +133,7 @@ const AgentList = ({ agents }: AgentListProps) => {
                   </div>
                 </TableHead>
                 <TableHead className="w-[150px]">
-                  <div 
+                  <div
                     className="flex items-center gap-1 cursor-pointer opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]"
                     onClick={() => handleSort("holdersCount")}
                   >
@@ -151,52 +153,66 @@ const AgentList = ({ agents }: AgentListProps) => {
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {sortedAgents.map((agent) => (
-                <TableRow 
-                  key={agent.id} 
-                  className="cursor-pointer hover:bg-[#F8F8F8] dark:hover:bg-[#222222]"
-                  onClick={() => handleRowClick(agent.id)}
-                >
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-4">
-                      <Avatar className="w-[60px] h-[60px] rounded-[100px]">
-                        <img src={agent.avatar} alt={agent.name} className="object-cover" />
-                      </Avatar>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name}</h3>
-                          <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
-                            {agent.symbol}
-                          </span>
-                        </div>
-                        <CustomBadge>
-                          {agent.type}
-                        </CustomBadge>
-                      </div>
+            {loading ? (
+              <TableBody>
+                <tr>
+                  <td colSpan={7}>
+                    <div className="flex items-center justify-center min-h-[400px]">
+                      <Loading />
                     </div>
-                  </TableCell>
-                  <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
-                    {agent.marketCap}
-                  </TableCell>
-                  <TableCell className="text-[#5BFE42] text-sm font-normal font-['Sora']">
-                    {agent.change24h}
-                  </TableCell>
-                  <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
-                    {agent.tvl}
-                  </TableCell>
-                  <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
-                    {agent.holdersCount.toLocaleString()}
-                  </TableCell>
-                  <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
-                    {agent.volume24h}
-                  </TableCell>
-                  <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
-                    {agent.status}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                  </td>
+                </tr>
+              </TableBody>
+            ) : (
+              <TableBody>
+                {
+                  sortedAgents.map((agent) => (
+                    <TableRow
+                      key={agent.id}
+                      className="cursor-pointer hover:bg-[#F8F8F8] dark:hover:bg-[#222222]"
+                      onClick={() => handleRowClick(agent.id)}
+                    >
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-4">
+                          <Avatar className="w-[60px] h-[60px] rounded-[100px]">
+                            <img src={agent.avatar} alt={agent.name} className="object-cover" />
+                          </Avatar>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name}</h3>
+                              <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
+                                {agent.symbol}
+                              </span>
+                            </div>
+                            <CustomBadge>
+                              {agent.type}
+                            </CustomBadge>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
+                        {agent.marketCap}
+                      </TableCell>
+                      <TableCell className="text-[#5BFE42] text-sm font-normal font-['Sora']">
+                        {agent.change24h}
+                      </TableCell>
+                      <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
+                        {agent.tvl}
+                      </TableCell>
+                      <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
+                        {agent.holdersCount.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
+                        {agent.volume24h}
+                      </TableCell>
+                      <TableCell className="text-secondary-color text-sm font-normal font-['Sora']">
+                        {agent.status}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            )}
           </Table>
         </div>
       </div>

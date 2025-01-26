@@ -15,21 +15,13 @@ export default function Home() {
     }
   }, [tokens, loading, updateAgentsWithTokens])
 
-  if (loading) {
-    return (
-      <div className="container mx-auto py-15 flex-1 flex flex-col">
-        <div className="text-foreground text-center">Loading...</div>
-      </div>
-    )
-  }
-
   if (error) {
     console.error('Failed to fetch DBC data:', error)
   }
 
   return (
     <div className="container flex-1 flex flex-col container mx-auto px-4 py-2">
-      <AgentList agents={agents} />
+      <AgentList agents={agents} loading={loading} />
     </div>
   )
 }
