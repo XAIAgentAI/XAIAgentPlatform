@@ -16,6 +16,11 @@ export interface LocalAgent {
   createdAt?: string;
   creatorAddress?: string;
   tokens?: string;
+  descriptionEN?: string;
+  totalSupply?: string;
+  useCases?: string[];
+  socialLinks?: string;
+  chatEntry?: string;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -28,7 +33,7 @@ export const localAgents: LocalAgent[] = [
     type: "Platform",
     marketCap: "TBA",
     change24h: "0",
-    lifetime: '',
+    lifetime: "",
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
@@ -36,7 +41,13 @@ export const localAgents: LocalAgent[] = [
     description: "XAIAgent tracks CT discussions and leverages its proprietary engine to identify high momentum plays, and play games. XAIAgent token holders gain access to its analytics platform.",
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
-    detailDescription: "XAIAgent is a decentralized AI Agent platform on the DBC chain, offering AI Agent creation, operation, and trading. It features the XAIAgent Platform for no-code Agent creation and the XAgentScope Framework for advanced development."
+    detailDescription: "XAIAgent is a decentralized AI Agent platform on the DBC chain, offering AI Agent creation, operation, and trading. It features the XAIAgent Platform for no-code Agent creation and the XAgentScope Framework for advanced development.",
+    useCases: [
+      "Find the latest research about AI",
+      "I'll provide a research paper link. Please analyze it",
+      "I will upload a PDF paper! Use critical skills to read it",
+      "Type 'LS' to list my built-in critical reading skills",
+    ]
   },
   {
     id: 2,
@@ -47,7 +58,7 @@ export const localAgents: LocalAgent[] = [
     type: "Infrastructure",
     marketCap: "TBA",
     change24h: "0",
-    lifetime: '',
+    lifetime: "",
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
@@ -55,7 +66,18 @@ export const localAgents: LocalAgent[] = [
     description: "SuperImage is an AI-powered image generation and editing platform. Token holders can access premium features and participate in governance.",
     createdAt: "3 months ago",
     creatorAddress: "0x2D5D...E574b4",
-    detailDescription: "SuperImage has multiple latent text-to-image diffusion models for generating photo-realistic images given any text input, fostering autonomous freedom to produce incredible imagery, empowering billions of people to create stunning art within seconds."
+    detailDescription: "SuperImage has multiple latent text-to-image diffusion models for generating photo-realistic images given any text input, fostering autonomous freedom to produce incredible imagery, empowering billions of people to create stunning art within seconds.",
+    descriptionEN: "SuperImage is a Decentralized Image Generation AI. SuperImage has multiple latent text-to-image diffusion models of generating photo-realistic images given any text input, cultivates autonomous freedom to produce incredible imagery, empowers billions of people to create stunning art within seconds. SuperImage is the infrastructure for AI Agents, providing API interfaces for AI Agents to utilize. Official website address: www.superimage.ai",
+    totalSupply: "5 Billion SIC",
+    useCases: [
+      "Draw a picture of a girl with festive holiday costume",
+      "Red and white striped Christmas hat and clothes",
+      "Dark brown hair with delicate makeup",
+      "Christmas tree in background",
+      "A photorealistic wildlife portrait of a snow leopard"
+    ],
+    socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
+    chatEntry: "Click to chat: app.superimage.ai"
   },
   {
     id: 3,
@@ -66,7 +88,7 @@ export const localAgents: LocalAgent[] = [
     type: "Infrastructure",
     marketCap: "TBA",
     change24h: "0",
-    lifetime: '',
+    lifetime: "",
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
@@ -74,18 +96,28 @@ export const localAgents: LocalAgent[] = [
     description: "DecentralGPT is a decentralized language model platform. Token holders can contribute to model training and earn rewards.",
     createdAt: "5 months ago",
     creatorAddress: "0x3E6E...F685c5",
-    detailDescription: "DecentralGPT is a decentralized LLM AI inference network. DecentralGPT supports a variety of open-source large language models. It is committed to building a safe, privacy-protective, democratic, transparent, open-source, and universally accessible AGI."
+    detailDescription: "DecentralGPT is a decentralized LLM AI inference network. DecentralGPT supports a variety of open-source large language models. It is committed to building a safe, privacy-protective, democratic, transparent, open-source, and universally accessible AGI.",
+    descriptionEN: "DecentralGPT is a Decentralized Large Language Model AI. DGPT supports decentralized deployment of various top-tier large language models (LLMs) worldwide, significantly reducing the cost of using LLMs. It is committed to building a safe, privacy-protective, democratic, transparent, open-source, and universally accessible AGI. DecentralGPT is the infrastructure for AI Agents, providing API interfaces for AI Agents to utilize. Official website address: www.decentralgpt.org",
+    totalSupply: "5 Billion DGC",
+    useCases: [
+      "Write an article about DecentralGPT's features",
+      "Help me solve this math problem",
+      "Help me optimize the content below to make it concise and easy to understand",
+      "Summarize the differences between DecentralGPT and ChatGPT"
+    ],
+    socialLinks: "https://x.com/DecentralGPT, https://t.me/DecentralGPT, https://medium.com/@DecentralGPT",
+    chatEntry: "Click to chat: www.degpt.ai"
   },
   {
     id: 4,
     name: "XPersonity",
-    tokens: "", // TODO
+    tokens: "",
     avatar: "/logo/XPersonity.png",
-    symbol: "$XPE",
+    symbol: "$XPER",
     type: "AI Agent",
     marketCap: "TBA",
     change24h: "0",
-    lifetime: '',
+    lifetime: "",
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
@@ -93,18 +125,28 @@ export const localAgents: LocalAgent[] = [
     description: "XPersonity creates unique AI personalities for various applications. Token holders can create and trade AI personalities.",
     createdAt: "2 months ago",
     creatorAddress: "0x4F7F...G796d6",
-    detailDescription: "XPersonity creates unique AI personalities for various applications. Token holders can create and trade AI personalities."
+    detailDescription: "XPersonity creates unique AI personalities for various applications. Token holders can create and trade AI personalities.",
+    descriptionEN: "XPersonity is a super fun and incredibly useful tool designed to uncover the personality secrets behind any X account! By analyzing users' posting history, it delivers witty personality analysis. It can matchmake two X accounts and create a digital twin based on your posting history that learns your style and can interact on social platforms on your behalf.",
+    totalSupply: "3 Billion XPER",
+    useCases: [
+      "Analyze @xxxx",
+      "Match @xxx and @xxxx",
+      "Train my digital twin",
+      "Remember the following content: xxxxx"
+    ],
+    socialLinks: "https://x.com/XPersonity",
+    chatEntry: "None"
   },
   {
     id: 5,
     name: "ASIXT",
-    tokens: "", // TODO
+    tokens: "",
     avatar: "/logo/ASIXT.png",
     symbol: "$ASIXT",
     type: "AI Agent",
     marketCap: "TBA",
     change24h: "0",
-    lifetime: '',
+    lifetime: "",
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
@@ -112,6 +154,16 @@ export const localAgents: LocalAgent[] = [
     description: "ASIXT provides AI-powered trading signals and market analysis. Token holders get exclusive access to premium signals.",
     createdAt: "1 month ago",
     creatorAddress: "0x5G8G...H807e7",
-    detailDescription: "ASIXT provides AI-powered trading signals and market analysis. Token holders get exclusive access to premium signals."
+    detailDescription: "ASIXT provides AI-powered trading signals and market analysis. Token holders get exclusive access to premium signals.",
+    descriptionEN: "ASIXT is a smart assistant helping investors catch crypto market opportunities. It analyzes data from 1000+ KOLs and social media to track market trends and sentiment. Holding 100,000 ASIXT tokens unlocks exclusive analysis tools for better investment decisions.",
+    totalSupply: "3 Billion ASIXT",
+    useCases: [
+      "Top 10 meme coins by trading volume in the last 24 hours",
+      "What are the new tokens most mentioned by KOLs in the last 24 hours",
+      "Send me hourly email notifications about tokens with obvious upward trends",
+      "Instantly notify me of genuine tokens issued by well-known figures"
+    ],
+    socialLinks: "https://x.com/ASIXTAI",
+    chatEntry: "None"
   }
 ]; 

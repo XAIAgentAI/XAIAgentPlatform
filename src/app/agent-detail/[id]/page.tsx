@@ -26,7 +26,7 @@ export default function AgentDetailPage({ params }: AgentDetailPageProps) {
           <AgentInfo agentId={id} />
           
           {/* 对话启动器 */}
-          <ConversationStarter />
+          <ConversationStarter agentId={id} />
         </div>
 
         {/* 右侧区域 */}
