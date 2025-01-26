@@ -16,7 +16,7 @@ interface AgentDetailPageProps {
 export default function AgentDetailPage({ params }: AgentDetailPageProps) {
   const { id } = params;
   const { agents } = useAgentStore();
-
+  const agent = agents.find(agent => agent.id === parseInt(id));
   return (
     <div className="container mx-auto px-4 py-2">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -35,7 +35,7 @@ export default function AgentDetailPage({ params }: AgentDetailPageProps) {
           {/* <SwapCard /> */}
 
           {/* IaoPool */}
-          <IaoPool />
+          <IaoPool agent={agent} />
           
           {/* 代币信息卡片 */}
           {

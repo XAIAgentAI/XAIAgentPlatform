@@ -10,8 +10,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppKitAccount } from '@reown/appkit/react'
 
+import { LocalAgent } from "@/data/localAgents";
 
-export const IaoPool = () => {
+export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
@@ -63,12 +64,12 @@ export const IaoPool = () => {
 
       <div className="space-y-4">
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">Total XAA in the IAO pool:</span>
-          <span className="font-semibold text-[#F47521] break-all">{Number(20000000000).toLocaleString()}</span>
+          <span className="text-black whitespace-nowrap">Total {agent.symbol} in the IAO pool:</span>
+          <span className="font-semibold text-[#F47521] break-all">{agent.totalSupply}</span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">Current total of DBC in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">Current total of XAA in the IAO pool:</span>
           <span className="font-semibold text-[#3B82F6] break-all">
             {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
@@ -83,7 +84,7 @@ export const IaoPool = () => {
           <h3 className="text-lg font-semibold mb-4">You send</h3>
 
           <div className="flex items-center gap-4 mb-6">
-            <div className="font-medium">DBC</div>
+            <div className="font-medium">XAA</div>
             <Input
               type="number"
               value={dbcAmount}

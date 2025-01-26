@@ -17,8 +17,9 @@ interface AgentInfoProps {
 export function AgentInfo({ agentId }: AgentInfoProps) {
   const { getAgentById } = useAgentStore();
   const agent = getAgentById(Number(agentId));
+  console.log("agent1", agent);
   const { tokenData, loading, error } = useDBCToken(agent?.tokens || null);
-
+  const chatEntry = agent?.chatEntry || "";
   if (loading) {
     return (
       <Card className="p-6 bg-card">
@@ -102,7 +103,15 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
             <CustomButton
               className="flex items-center gap-2 mt-3"
-              isChat
+              onClick={() => {
+                if (chatEntry && chatEntry.trim() !== "None") {
+                  window.open(chatEntry, "_blank");
+                } else {
+                  toast({
+                    description: "Chat feature coming soon! Stay tuned for updates.",
+                  })
+                }
+              }}
             >
               <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
               Chatting
@@ -168,9 +177,14 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       {/* Description */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">Description</h2>
-        <p className="text-sm text-muted-foreground">
-          {agent.detailDescription}
-        </p>
+        {
+          agent.description?.split("\n").map((line, index) => (
+            <p key={index} className="text-sm text-muted-foreground break-words mb-2">
+              {line}
+            </p>
+          ))
+        }
+     
       </div>
     </Card>
   );
