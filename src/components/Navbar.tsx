@@ -43,7 +43,7 @@ const Navbar = () => {
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
 
-  // 关闭移动菜单当路由改变时
+  // Close mobile menu when route changes
   useEffect(() => {
     setIsMenuOpen(false)
   }, [])

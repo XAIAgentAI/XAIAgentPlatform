@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface CountdownProps {
-  remainingTime: number; // 剩余时间（毫秒）
+  remainingTime: number; // Remaining time (milliseconds)
   className?: string;
-  onEnd?: () => void; // 倒计时结束回调
+  onEnd?: () => void; // Countdown end callback
 }
 
 export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
@@ -25,7 +25,7 @@ export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
   useEffect(() => {
     const calculateTimeLeft = (remaining: number) => {
       if (remaining <= 0) {
-        // 倒计时结束
+        // Countdown ended
         onEnd?.();
         return {
           days: 0,
@@ -43,23 +43,23 @@ export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
       };
     };
 
-    // 初始化倒计时
+    // Initialize countdown
     let currentRemaining = remainingTime;
     setTimeLeft(calculateTimeLeft(currentRemaining));
 
-    // 每秒更新一次
+    // Update every second
     const timer = setInterval(() => {
-      currentRemaining -= 1000; // 每秒减少1000毫秒
+      currentRemaining -= 1000; // Decrease 1000ms per second
       const newTimeLeft = calculateTimeLeft(currentRemaining);
       setTimeLeft(newTimeLeft);
 
-      // 如果倒计时结束，清除定时器
+      // If countdown ends, clear timer
       if (currentRemaining <= 0) {
         clearInterval(timer);
       }
     }, 1000);
 
-    // 组件卸载时清除定时器
+    // Clear timer when component unmounts
     return () => clearInterval(timer);
   }, [remainingTime, onEnd]);
 

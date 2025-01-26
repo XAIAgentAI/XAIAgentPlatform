@@ -17,17 +17,17 @@ export function useWallet() {
 
   useEffect(() => {
     const validateToken = async () => {
-      // 检查是否有保存的 token
+      // Check if there is a saved token
       const token = localStorage.getItem('token');
       console.log('Stored token:', token);
       
       if (token) {
         try {
-          // 设置 token
+          // Set token
           apiClient.setToken(token);
           console.log('Token set to apiClient');
           
-          // 验证 token 是否有效
+          // Verify if token is valid
           const user = await apiClient.getUserProfile();
           console.log('User profile fetched:', user);
           
@@ -38,13 +38,13 @@ export function useWallet() {
           }));
         } catch (error) {
           console.error('Token validation failed:', error);
-          // 如果 token 无效，清除它
+          // If token is invalid, clear it
           localStorage.removeItem('token');
           apiClient.clearToken();
           setState(prev => ({
             ...prev,
             address: null,
-            error: '登录已过期，请重新连接钱包',
+            error: 'Login expired, please reconnect wallet',
           }));
         }
       }
@@ -57,7 +57,7 @@ export function useWallet() {
     if (!window.ethereum) {
       setState(prev => ({
         ...prev,
-        error: '请安装 MetaMask 钱包',
+        error: 'Please install MetaMask wallet',
       }));
       return;
     }
@@ -69,46 +69,46 @@ export function useWallet() {
         error: null,
       }));
 
-      console.log('开始连接钱包...');
+      console.log('Start connecting wallet...');
 
-      // 请求连接钱包
+      // Request wallet connection
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
       const address = accounts[0];
-      console.log('钱包地址:', address);
+      console.log('Wallet address:', address);
 
-      // 获取 nonce
-      console.log('获取 nonce...');
+      // Get nonce
+      console.log('Getting nonce...');
       const { nonce, message } = await apiClient.getNonce();
-      console.log('获取到 nonce:', nonce);
-      console.log('签名消息:', message);
+      console.log('Received nonce:', nonce);
+      console.log('Signature message:', message);
 
-      // 请求签名
-      console.log('请求签名...');
+      // Request signature
+      console.log('Requesting signature...');
       const signature = await window.ethereum.request({
         method: 'personal_sign',
         params: [message, address],
       });
-      console.log('获取到签名:', signature);
+      console.log('Received signature:', signature);
 
-      // 验证签名并登录
-      console.log('验证签名并登录...');
+      // Verify signature and login
+      console.log('Verifying signature and logging in...');
       const { token } = await apiClient.connectWallet({
         address,
         signature,
         message,
       });
-      console.log('获取到 token:', token);
+      console.log('Received token:', token);
 
-      // 保存 token
+      // Save token
       localStorage.setItem('token', token);
       apiClient.setToken(token);
 
-      // 验证 token 是否有效
-      console.log('验证 token...');
+      // Verify if token is valid
+      console.log('Verifying token...');
       const user = await apiClient.getUserProfile();
-      console.log('验证成功，用户信息:', user);
+      console.log('Verification successful, user information:', user);
 
       setState(prev => ({
         ...prev,
@@ -116,21 +116,21 @@ export function useWallet() {
         isConnecting: false,
       }));
     } catch (error) {
-      console.error('连接失败:', error);
-      // 清除可能存在的无效 token
+      console.error('Connection failed:', error);
+      // Clear possibly invalid token
       localStorage.removeItem('token');
       apiClient.clearToken();
       
       setState(prev => ({
         ...prev,
         isConnecting: false,
-        error: error instanceof Error ? error.message : '连接失败',
+        error: error instanceof Error ? error.message : 'Connection failed',
       }));
     }
   };
 
   const disconnect = () => {
-    // 清除本地状态
+    // Clear local state
     localStorage.removeItem('token');
     apiClient.clearToken();
     setState({

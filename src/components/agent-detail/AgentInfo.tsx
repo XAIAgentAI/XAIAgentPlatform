@@ -39,7 +39,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
   return (
     <Card className="p-6 bg-card">
-      {/* Agent基本信息 */}
+      {/* Agent Basic Information */}
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4 min-w-0 flex-1">
           <Avatar className="h-10 w-10 flex-shrink-0">
@@ -112,7 +112,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         </div>
       </div>
 
-      {/* K线图 */}
+      {/* Candlestick Chart */}
       <div className="mt-6">
         <CryptoChart />
       </div>

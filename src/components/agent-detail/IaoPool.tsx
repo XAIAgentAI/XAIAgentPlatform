@@ -22,8 +22,8 @@ export const IaoPool = () => {
     if (!isAuthenticated) {
       toast({
         variant: "destructive",
-        title: "错误",
-        description: "请先连接钱包",
+        title: "Error",
+        description: "Please connect wallet first",
       });
       return;
     }
@@ -31,8 +31,8 @@ export const IaoPool = () => {
     if (!dbcAmount || Number(dbcAmount) <= 0) {
       toast({
         variant: "destructive",
-        title: "错误",
-        description: "请输入有效的质押数量",
+        title: "Error",
+        description: "Please enter a valid stake amount",
       });
       return;
     }
@@ -92,17 +92,17 @@ export const IaoPool = () => {
             disabled={!isAuthenticated || !isDepositPeriod || isLoading}
           >
             {!isAuthenticated 
-              ? "连接钱包" 
+              ? "Connect Wallet" 
               : !isDepositPeriod 
-                ? "质押未开始" 
+                ? "Staking not started" 
                 : isLoading 
-                  ? "处理中..." 
-                  : "发送"}
+                  ? "Processing..." 
+                  : "Send"}
           </Button>
 
           {isAuthenticated && (
             <p className="mt-4 text-sm text-muted-foreground">
-              已质押 DBC 数量: {Number(poolInfo.userDeposited).toLocaleString()}
+              Staked DBC Amount: {Number(poolInfo.userDeposited).toLocaleString()}
             </p>
           )}
         </div>

@@ -30,7 +30,7 @@ export function MarketData({ tokenData }: MarketDataProps) {
   };
 
   const formatTotalSupply = (supply: string) => {
-    // 将字符串转换为数字，考虑到 decimals 为 18
+    // Convert string to number, considering decimals is 18
     const value = Number(supply) / Math.pow(10, 18);
     
     if (value >= 1e9) {

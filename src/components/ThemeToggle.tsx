@@ -11,9 +11,9 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    // 初始化主题
+    // Initialize theme
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    // 默认使用 light 主题
+    // Default to light theme
     const initialTheme = savedTheme || 'light';
     setTheme(initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
@@ -37,7 +37,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
       document.documentElement.classList.remove('dark');
     }
     
-    // DEBUG: 检查主题切换是否生效
+    // DEBUG: Check if theme toggle works
     console.log('Theme Toggle:', {
       newTheme,
       primaryColor: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
@@ -51,7 +51,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
       className={`p-2 rounded-lg text-foreground hover:text-primary ${className || ''}`}
       aria-label="Toggle theme"
       style={{
-        // DEBUG: 内联样式测试
+        // DEBUG: Inline style test
         // '--debug-primary': 'var(--primary)',
         // border: '1px solid var(--primary)'
       } as React.CSSProperties}

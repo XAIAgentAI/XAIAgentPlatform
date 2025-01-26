@@ -1,4 +1,4 @@
-// 文件上传功能暂时禁用
+// File upload functionality temporarily disabled
 export async function uploadFile(file: File): Promise<string> {
   return '';
 }
@@ -13,30 +13,30 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 
 export async function uploadFile(file: File): Promise<string> {
-  // 验证文件大小
+  // Validate file size
   if (file.size > MAX_FILE_SIZE) {
     throw new ApiError(400, 'File size cannot exceed 5MB');
   }
 
-  // 验证文件类型
+  // Validate file type
   if (!ALLOWED_FILE_TYPES.includes(file.type)) {
     throw new ApiError(400, 'Unsupported file type');
   }
 
-  // 生成文件名
+  // Generate file name
   const ext = file.name.split('.').pop();
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const filePath = join(UPLOAD_DIR, fileName);
 
   try {
-    // 确保上传目录存在
+    // Ensure upload directory exists
     await ensureDir(UPLOAD_DIR);
 
-    // 写入文件
+    // Write file
     const buffer = await file.arrayBuffer();
     await writeFile(filePath, Buffer.from(buffer));
 
-    // 返回文件URL
+    // Return file URL
     return `/uploads/${fileName}`;
   } catch (error) {
     console.error('File upload failed:', error);

@@ -8,7 +8,7 @@ const CryptoChart: React.FC = () => {
   const chart = useRef<any>(null);
   const resizeObserver = useRef<any>(null);
 
-  // Get the actual color value for the current theme
+  // Get current theme colors
   const getThemeColor = (cssVar: string) => {
     if (typeof window === 'undefined') return '';
     return getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
@@ -24,7 +24,7 @@ const CryptoChart: React.FC = () => {
     const upColor = getThemeColor('--chart-up');
     const downColor = getThemeColor('--chart-down');
 
-    // 创建图表实例
+    // Create chart instance
     chart.current = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: backgroundColor },
@@ -45,7 +45,7 @@ const CryptoChart: React.FC = () => {
     //   },
     });
 
-    // 添加K线数据系列
+    // Add candlestick data series
     const candlestickSeries = chart.current.addCandlestickSeries({
       upColor: upColor,
       downColor: downColor,
@@ -54,7 +54,7 @@ const CryptoChart: React.FC = () => {
       wickDownColor: downColor,
     });
 
-    // 模拟数据
+    // Mock data
     const data = [
       { time: '2024-01-17', open: 0, high: 0, low: 0, close: 0 },
       { time: '2024-01-18', open: 0, high: 0, low: 0, close: 0 },

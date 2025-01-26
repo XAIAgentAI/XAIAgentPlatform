@@ -45,7 +45,7 @@ export default function ChatDemo() {
             console.log('Disconnected from server')
         })
 
-        // 监听消息显示事件
+        // Listen for message display events
         socket.on('display_message', (message: Message) => {
             console.log('Received display_message event:', JSON.stringify(message, null, 2))
             setMessages(prev => [...prev, message])
@@ -54,7 +54,7 @@ export default function ChatDemo() {
             }, 100)
         })
 
-        // 监听输入控制事件
+        // Listen for input control events
         socket.on('enable_user_input', () => {
             setIsInputEnabled(true)
         })
@@ -63,7 +63,7 @@ export default function ChatDemo() {
             setIsInputEnabled(true)
         })
 
-        // 监听错误事件
+        // Listen for error events
         socket.on('error', (error: any) => {
             console.error('Socket error:', error)
         })

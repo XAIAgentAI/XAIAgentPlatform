@@ -40,49 +40,49 @@ export function useAuth() {
   }, [address, setAuthenticated, setLastAuthAddress]);
 
   const authenticate = useCallback(async () => {
-    // 如果正在加载，不要重复处理
+    // If loading, don't process again
     if (isLoading) return;
 
-    // 如果没有连接或没有地址，重置状态
+    // If not connected or no address, reset status
     if (!isConnected || !address) {
       reset();
       return;
     }
 
-    // 如果正在连接中，不要开始认证
+    // If connecting, don't start authentication
     if (status === 'connecting') return;
 
-    // 如果地址没有变化，且已经认证，不需要重新认证
+    // If address hasn't changed and already authenticated, don't reauthenticate
     if (lastAuthAddress === address && isAuthenticated) return;
 
     try {
       setLoading(true);
       setError(null);
 
-      // 先检查 token
+      // First check token
       const isValidToken = await checkToken();
       if (isValidToken) {
         setLoading(false);
         return;
       }
 
-      // 获取 nonce
+      // Get nonce
       const { nonce, message } = await apiClient.getNonce();
 
-      // 确保地址格式正确
+      // Ensure address format is correct
       const formattedAddress = address.toLowerCase();
 
-      // 请求签名
+      // Request signature
       const signature = await signMessageAsync({ message });
 
-      // 验证签名并登录
+      // Verify signature and login
       const { token } = await apiClient.connectWallet({
         address: formattedAddress,
         signature,
         message,
       });
 
-      // 保存 token
+      // Save token
       localStorage.setItem('token', token);
       apiClient.setToken(token);
 
@@ -90,11 +90,11 @@ export function useAuth() {
       setAuthenticated(true);
       setLoading(false);
     } catch (error) {
-      console.error('认证失败:', error);
+      console.error('Authentication failed:', error);
       localStorage.removeItem('token');
       apiClient.clearToken();
       reset();
-      setError(error instanceof Error ? error.message : '认证失败');
+      setError(error instanceof Error ? error.message : 'Authentication failed');
     }
   }, [
     address,

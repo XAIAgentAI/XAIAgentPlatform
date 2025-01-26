@@ -19,24 +19,24 @@ export function rateLimit(
   let requestInfo = requestCounts.get(ip);
 
   if (!requestInfo || now > requestInfo.resetTime) {
-    // 如果没有记录或者已经过了时间窗口，重置计数
+    // If no record exists or time window has passed, reset count
     requestInfo = {
       count: 1,
       resetTime: now + windowMs,
     };
   } else {
-    // 增加计数
+    // Increment count
     requestInfo.count++;
   }
 
   requestCounts.set(ip, requestInfo);
 
-  // 如果超过限制，返回 429 错误
+  // If over limit, return 429 error
   if (requestInfo.count > config.limit) {
     return NextResponse.json(
       {
         code: 429,
-        message: '请求过于频繁，请稍后再试',
+        message: 'Too many requests, please try again later',
         details: {
           retryAfter: Math.ceil((requestInfo.resetTime - now) / 1000),
         },
@@ -53,7 +53,7 @@ export function rateLimit(
   return null;
 }
 
-// 清理过期的记录
+// Clean up expired records
 setInterval(() => {
   const now = Date.now();
   for (const [ip, info] of requestCounts.entries()) {
@@ -61,4 +61,4 @@ setInterval(() => {
       requestCounts.delete(ip);
     }
   }
-}, 60 * 1000); // 每分钟清理一次 
+}, 60 * 1000); // Clean up every minute 
