@@ -114,6 +114,8 @@ type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
+export type ToastVariants = VariantProps<typeof toastVariants>
+
 export {
   type ToastProps,
   type ToastActionElement,

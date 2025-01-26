@@ -51,7 +51,7 @@ const Navbar = () => {
   useEffect(() => {
     if (error) {
       toast({
-        variant: "destructive",
+        // variant: "destructive",
         description: error,
       })
     }

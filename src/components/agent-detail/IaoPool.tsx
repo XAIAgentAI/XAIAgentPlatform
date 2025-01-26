@@ -18,10 +18,18 @@ export const IaoPool = () => {
   const { poolInfo, isLoading, stake } = useStakeContract();
   const { toast } = useToast();
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 只允许输入正数和小数点
+    if (value === '' || (/^\d*\.?\d*$/.test(value) && Number(value) >= 0)) {
+      setDbcAmount(value);
+    }
+  };
+
   const handleStake = async () => {
     if (!isAuthenticated) {
       toast({
-        variant: "destructive",
+        // variant: "destructive",
         title: "Error",
         description: "Please connect wallet first",
       });
@@ -30,7 +38,7 @@ export const IaoPool = () => {
 
     if (!dbcAmount || Number(dbcAmount) <= 0) {
       toast({
-        variant: "destructive",
+        // variant: "destructive",
         title: "Error",
         description: "Please enter a valid stake amount",
       });
@@ -38,6 +46,11 @@ export const IaoPool = () => {
     }
 
     await stake(dbcAmount);
+    toast({
+      variant: "success",
+      title: "Success",
+      description: "Stake successful!",
+    });
     setDbcAmount("");
   };
 
@@ -49,26 +62,21 @@ export const IaoPool = () => {
       <h2 className="text-2xl font-bold mb-6">IAO Pool</h2>
 
       <div className="space-y-4">
-        <div className="text-base text-secondary-foreground">
-          Total XAA in the IAO pool: 20,000,000,000
+        <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
+          <span className="text-muted-foreground whitespace-nowrap">Total XAA in the IAO pool:</span>
+          <span className="font-semibold text-[#F47521] break-all">{Number(20000000000).toLocaleString()}</span>
         </div>
 
-        <div className="text-base text-secondary-foreground">
-          Current total of DBC in the IAO pool: {Number(poolInfo.totalDeposited).toLocaleString()}
+        <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
+          <span className="text-muted-foreground whitespace-nowrap">Current total of DBC in the IAO pool:</span>
+          <span className="font-semibold text-[#3B82F6] break-all">
+            {Number(poolInfo.totalDeposited).toLocaleString()}
+          </span>
         </div>
 
-        <div className="text-base text-secondary-foreground flex items-center gap-2">
-          {isDepositPeriod ? (
-            <>
-              End countdown:
-              <Countdown 
-                remainingTime={poolInfo.endTime * 1000 - now}
-                onEnd={() => console.log('Staking period ended')} 
-              />
-            </>
-          ) : (
-            <span>To be announced</span>
-          )}
+        <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
+          <span className="text-muted-foreground whitespace-nowrap">End countdown:</span>
+          <span className="font-semibold text-[#8B5CF6] break-all">To be announced</span>
         </div>
 
         <div className="mt-8 p-6 bg-muted rounded-lg">
@@ -79,7 +87,15 @@ export const IaoPool = () => {
             <Input
               type="number"
               value={dbcAmount}
-              onChange={(e) => setDbcAmount(e.target.value)}
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                // 阻止输入负号
+                if (e.key === '-' || e.key === 'e') {
+                  e.preventDefault();
+                }
+              }}
+              min="0"
+              step="any"
               className="flex-1 placeholder:text-muted-foreground/50"
               placeholder="0.0"
               disabled={!isDepositPeriod || isLoading || !isAuthenticated}

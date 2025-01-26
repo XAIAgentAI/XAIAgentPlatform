@@ -7,10 +7,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { createPublicClient, createWalletClient, custom, parseEther, type Hash } from 'viem';
 import { useWalletClient } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
+import * as React from 'react';
 
 type ToastMessage = {
   title: string;
-  description: string;
+  description: string | React.ReactNode;
   txHash?: Hash;
 };
 
@@ -18,9 +19,27 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
   return {
     title: params.title,
     description: params.txHash
-      ? `${params.description}\n\nView on Etherscan: https://sepolia.etherscan.io/tx/${params.txHash}`
+      ? React.createElement('div', { 
+          className: "flex flex-col space-y-3 font-medium"
+        },
+          React.createElement('p', {
+            className: "text-sm text-muted-foreground"
+          }, params.description),
+          React.createElement('div', {
+            className: "flex items-center space-x-2"
+          },
+            React.createElement('div', {
+              className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
+            }),
+            React.createElement('a', {
+              href: `https://test.dbcscan.io/tx/${params.txHash}`,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
+            }, "View on DBCScan")
+          )
+        )
       : params.description,
-    txHash: params.txHash,
   };
 };
 
@@ -100,9 +119,9 @@ export const useStakeContract = () => {
     } catch (error) {
       console.error('Failed to fetch pool info:', error);
       toast({
-        variant: "destructive",
-        title: "错误",
-        description: "获取质押池信息失败",
+        // variant: "destructive",
+        title: "Error",
+        description: "Failed to fetch pool info",
       });
     } finally {
       setIsLoading(false);

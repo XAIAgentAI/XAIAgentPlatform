@@ -28,7 +28,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto py-5 flex-1 flex flex-col">
+    <div className="container flex-1 flex flex-col container mx-auto px-4 py-2">
       <AgentList agents={agents} />
     </div>
   )
