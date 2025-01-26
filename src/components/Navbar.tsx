@@ -40,7 +40,7 @@ const Navbar = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const { open } = useAppKit()
   const { address, isConnected, status } = useAppKitAccount()
-  const { isAuthenticated, isLoading, error } = useAuth()
+  const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
 
   // 关闭移动菜单当路由改变时
@@ -56,6 +56,12 @@ const Navbar = () => {
       })
     }
   }, [error, toast])
+
+  useEffect(() => {
+    if (status === 'connected') {
+      authenticate();
+    }
+  }, [status, authenticate]);
 
   const handleWalletClick = () => {
     if (isConnected) {

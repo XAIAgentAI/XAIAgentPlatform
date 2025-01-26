@@ -23,17 +23,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
       document.documentElement.classList.remove('dark');
     }
 
-    // DEBUG: 检查CSS变量是否正确加载
-    console.log('Theme Debug:', {
-      theme: initialTheme,
-      primaryColor: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
-      dataThemeAttr: document.documentElement.getAttribute('data-theme'),
-      allCSSVars: Object.fromEntries(
-        Array.from(getComputedStyle(document.documentElement))
-          .filter(prop => prop.startsWith('--'))
-          .map(prop => [prop, getComputedStyle(document.documentElement).getPropertyValue(prop)])
-      )
-    });
+
   }, []);
 
   const toggleTheme = () => {

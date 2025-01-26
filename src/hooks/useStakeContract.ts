@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { useWallet } from './useWallet';
 import { CONTRACTS, STAKE_CONTRACT_ABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
+import { useAppKitAccount } from '@reown/appkit/react';
+import { useAuth } from '@/hooks/useAuth';
 
 type ToastMessage = {
   title: string;
@@ -27,7 +28,8 @@ type StakeContract = ethers.Contract & {
 };
 
 export const useStakeContract = () => {
-  const { address } = useWallet();
+  const { address, isConnected } = useAppKitAccount();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [contract, setContract] = useState<StakeContract | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,49 +43,75 @@ export const useStakeContract = () => {
 
   // Initialize contract
   useEffect(() => {
-    if (!window.ethereum) return;
-    
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const contract = new ethers.Contract(
-      CONTRACTS.STAKE_CONTRACT,
-      STAKE_CONTRACT_ABI,
-      provider
-    ) as StakeContract;
-    
-    setContract(contract);
+    const initContract = async () => {
+      if (!window.ethereum) return;
+      
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const contract = new ethers.Contract(
+          CONTRACTS.STAKE_CONTRACT,
+          STAKE_CONTRACT_ABI,
+          provider
+        ) as StakeContract;
+        
+        setContract(contract);
+      } catch (error) {
+        console.error('Failed to initialize contract:', error);
+      }
+    };
+
+    initContract();
   }, []);
 
   // Fetch pool info
   const fetchPoolInfo = useCallback(async () => {
-    if (!contract || !address) return;
+    if (!contract) return;
 
     try {
       setIsLoading(true);
-      const [totalDeposited, startTime, endTime, userDeposited, hasClaimed] = await Promise.all([
+      const [totalDeposited, startTime, endTime] = await Promise.all([
         contract.totalDepositedDBC(),
         contract.startTime(),
         contract.endTime(),
-        contract.userDeposits(address),
-        contract.hasClaimed(address),
       ]);
 
-      setPoolInfo({
+      const newPoolInfo: any = {
         totalDeposited: ethers.formatEther(totalDeposited),
         startTime: Number(startTime),
         endTime: Number(endTime),
-        userDeposited: ethers.formatEther(userDeposited),
-        hasClaimed,
-      });
+      };
+
+      if (isAuthenticated && address) {
+        const [userDeposited, hasClaimed] = await Promise.all([
+          contract.userDeposits(address),
+          contract.hasClaimed(address),
+        ]);
+        newPoolInfo.userDeposited = ethers.formatEther(userDeposited);
+        newPoolInfo.hasClaimed = hasClaimed;
+      } else {
+        newPoolInfo.userDeposited = '0';
+        newPoolInfo.hasClaimed = false;
+      }
+
+      setPoolInfo(newPoolInfo);
     } catch (error) {
       console.error('Failed to fetch pool info:', error);
-      toast(createToastMessage({
-        title: "Error",
-        description: "Failed to fetch pool information",
-      }));
+      toast({
+        variant: "destructive",
+        title: "错误",
+        description: "获取质押池信息失败",
+      });
     } finally {
       setIsLoading(false);
     }
-  }, [contract, address, toast]);
+  }, [contract, address, isAuthenticated, toast]);
+
+  // Auto fetch pool info
+  useEffect(() => {
+    if (contract) {
+      fetchPoolInfo();
+    }
+  }, [contract, address, isAuthenticated, fetchPoolInfo]);
 
   // Stake DBC
   const stake = async (amount: string) => {
@@ -191,13 +219,6 @@ export const useStakeContract = () => {
       setIsLoading(false);
     }
   };
-
-  // Auto fetch pool info
-  useEffect(() => {
-    if (address) {
-      fetchPoolInfo();
-    }
-  }, [address, fetchPoolInfo]);
 
   return {
     poolInfo,
