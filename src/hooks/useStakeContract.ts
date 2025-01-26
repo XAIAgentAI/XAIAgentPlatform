@@ -4,34 +4,51 @@ import { CONTRACTS, STAKE_CONTRACT_ABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
+import { createPublicClient, createWalletClient, custom, parseEther, type Hash } from 'viem';
+import { type Chain } from 'viem';
+import { useWalletClient } from 'wagmi';
+
+const dbcTestnet = {
+  id: 19850818,
+  name: "DeepBrainChain Testnet",
+  nativeCurrency: {
+    name: "tDBC",
+    symbol: "tDBC",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc-testnet.dbcwallet.io'] },
+    public: { http: ['https://rpc-testnet.dbcwallet.io'] },
+  },
+  blockExplorers: {
+    default: {
+      name: "Blockscout",
+      url: "https://test.dbcscan.io",
+    },
+  },
+} as const satisfies Chain;
 
 type ToastMessage = {
   title: string;
   description: string;
-  txHash?: string;
+  txHash?: Hash;
 };
 
-const createToastMessage = ({ title, description, txHash }: ToastMessage) => ({
-  title,
-  description: txHash
-    ? `${description}\n\nView on Etherscan: https://sepolia.etherscan.io/tx/${txHash}`
-    : description,
-});
-
-type StakeContract = ethers.Contract & {
-  totalDepositedDBC: () => Promise<bigint>;
-  startTime: () => Promise<bigint>;
-  endTime: () => Promise<bigint>;
-  userDeposits: (address: string) => Promise<bigint>;
-  hasClaimed: (address: string) => Promise<boolean>;
-  claimRewards: () => Promise<ethers.ContractTransactionResponse>;
+const createToastMessage = (params: ToastMessage): ToastMessage => {
+  return {
+    title: params.title,
+    description: params.txHash
+      ? `${params.description}\n\nView on Etherscan: https://sepolia.etherscan.io/tx/${params.txHash}`
+      : params.description,
+    txHash: params.txHash,
+  };
 };
 
 export const useStakeContract = () => {
   const { address, isConnected } = useAppKitAccount();
+  const { data: walletClient } = useWalletClient();
   const { isAuthenticated } = useAuth();
   const { toast } = useToast();
-  const [contract, setContract] = useState<StakeContract | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [poolInfo, setPoolInfo] = useState({
     totalDeposited: '0',
@@ -41,52 +58,58 @@ export const useStakeContract = () => {
     hasClaimed: false,
   });
 
-  // Initialize contract
-  useEffect(() => {
-    const initContract = async () => {
-      if (!window.ethereum) return;
-      
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(
-          CONTRACTS.STAKE_CONTRACT,
-          STAKE_CONTRACT_ABI,
-          provider
-        ) as StakeContract;
-        
-        setContract(contract);
-      } catch (error) {
-        console.error('Failed to initialize contract:', error);
-      }
-    };
-
-    initContract();
-  }, []);
-
   // Fetch pool info
   const fetchPoolInfo = useCallback(async () => {
-    if (!contract) return;
+    if (!walletClient || !isConnected) return;
 
     try {
       setIsLoading(true);
+      
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
+
       const [totalDeposited, startTime, endTime] = await Promise.all([
-        contract.totalDepositedDBC(),
-        contract.startTime(),
-        contract.endTime(),
+        publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'totalDepositedDBC',
+        }),
+        publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'startTime',
+        }),
+        publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'endTime',
+        }),
       ]);
 
       const newPoolInfo: any = {
-        totalDeposited: ethers.formatEther(totalDeposited),
+        totalDeposited: ethers.formatEther(totalDeposited.toString()),
         startTime: Number(startTime),
         endTime: Number(endTime),
       };
 
       if (isAuthenticated && address) {
         const [userDeposited, hasClaimed] = await Promise.all([
-          contract.userDeposits(address),
-          contract.hasClaimed(address),
+          publicClient.readContract({
+            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+            abi: STAKE_CONTRACT_ABI,
+            functionName: 'userDeposits',
+            args: [address as `0x${string}`],
+          }),
+          publicClient.readContract({
+            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+            abi: STAKE_CONTRACT_ABI,
+            functionName: 'hasClaimed',
+            args: [address as `0x${string}`],
+          }),
         ]);
-        newPoolInfo.userDeposited = ethers.formatEther(userDeposited);
+        newPoolInfo.userDeposited = ethers.formatEther(userDeposited.toString());
         newPoolInfo.hasClaimed = hasClaimed;
       } else {
         newPoolInfo.userDeposited = '0';
@@ -104,22 +127,22 @@ export const useStakeContract = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [contract, address, isAuthenticated, toast]);
+  }, [walletClient, address, isConnected, isAuthenticated, toast]);
 
   // Auto fetch pool info
   useEffect(() => {
-    if (contract) {
+    if (walletClient && isConnected) {
       fetchPoolInfo();
     }
-  }, [contract, address, isAuthenticated, fetchPoolInfo]);
+  }, [walletClient, isConnected, address, isAuthenticated, fetchPoolInfo]);
 
   // Stake DBC
   const stake = async (amount: string) => {
-    if (!window.ethereum || !address) {
+    if (!walletClient || !isConnected || !address) {
       toast(createToastMessage({
         title: "Error",
         description: "Please connect your wallet first",
-      }));
+      } as ToastMessage));
       return;
     }
 
@@ -127,38 +150,47 @@ export const useStakeContract = () => {
       setIsLoading(true);
       console.log('Starting stake:', amount, 'DBC');
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      
+      const viemWalletClient = createWalletClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
+
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
+
       // Check balance
-      const balance = await provider.getBalance(address);
-      const amountWei = ethers.parseEther(amount);
+      const balance = await publicClient.getBalance({ 
+        address: address as `0x${string}` 
+      });
+      const amountWei = parseEther(amount);
       
       if (balance < amountWei) {
         throw new Error('Insufficient balance');
       }
 
       console.log('Sending transaction to contract:', CONTRACTS.STAKE_CONTRACT);
-      const tx = await signer.sendTransaction({
-        to: CONTRACTS.STAKE_CONTRACT,
+      const hash = await viemWalletClient.sendTransaction({
+        to: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
         value: amountWei,
-        gasLimit: 100000,
+        account: address as `0x${string}`,
       });
 
       toast(createToastMessage({
         title: "Transaction Sent",
         description: "Please wait for confirmation",
-        txHash: tx.hash,
-      }));
+        txHash: hash,
+      } as ToastMessage));
 
-      console.log('Waiting for transaction confirmation:', tx.hash);
-      await tx.wait();
+      console.log('Waiting for transaction confirmation:', hash);
+      await publicClient.waitForTransactionReceipt({ hash });
       
       toast(createToastMessage({
         title: "Success",
         description: `Successfully staked ${amount} DBC`,
-        txHash: tx.hash,
-      }));
+        txHash: hash,
+      } as ToastMessage));
 
       // Refresh pool info
       await fetchPoolInfo();
@@ -167,7 +199,7 @@ export const useStakeContract = () => {
       toast(createToastMessage({
         title: "Error",
         description: error?.message || "Failed to stake",
-      }));
+      } as ToastMessage));
     } finally {
       setIsLoading(false);
     }
@@ -175,37 +207,49 @@ export const useStakeContract = () => {
 
   // Claim rewards
   const claimRewards = async () => {
-    if (!window.ethereum || !address) {
+    if (!walletClient || !isConnected || !address) {
       toast(createToastMessage({
         title: "Error",
         description: "Please connect your wallet first",
-      }));
+      } as ToastMessage));
       return;
     }
 
     try {
       setIsLoading(true);
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contractWithSigner = contract?.connect(signer) as StakeContract;
+      
+      const viemWalletClient = createWalletClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
 
-      if (!contractWithSigner) throw new Error('Contract not initialized');
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
 
-      const tx = await contractWithSigner.claimRewards();
+      const { request } = await publicClient.simulateContract({
+        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        abi: STAKE_CONTRACT_ABI,
+        functionName: 'claimRewards',
+        account: address as `0x${string}`,
+      });
+
+      const hash = await viemWalletClient.writeContract(request);
       
       toast(createToastMessage({
         title: "Transaction Sent",
         description: "Please wait for confirmation",
-        txHash: tx.hash,
-      }));
+        txHash: hash,
+      } as ToastMessage));
 
-      await tx.wait();
+      await publicClient.waitForTransactionReceipt({ hash });
       
       toast(createToastMessage({
         title: "Success",
         description: "Successfully claimed XAA rewards",
-        txHash: tx.hash,
-      }));
+        txHash: hash,
+      } as ToastMessage));
 
       // Refresh pool info
       await fetchPoolInfo();
@@ -214,7 +258,7 @@ export const useStakeContract = () => {
       toast(createToastMessage({
         title: "Error",
         description: error?.message || "Failed to claim rewards",
-      }));
+      } as ToastMessage));
     } finally {
       setIsLoading(false);
     }
