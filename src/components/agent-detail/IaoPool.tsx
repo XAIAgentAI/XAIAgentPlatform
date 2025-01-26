@@ -47,7 +47,7 @@ export const IaoPool = () => {
 
     await stake(dbcAmount);
     toast({
-      variant: "success",
+      variant: "default",
       title: "Success",
       description: "Stake successful!",
     });
@@ -63,19 +63,19 @@ export const IaoPool = () => {
 
       <div className="space-y-4">
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-muted-foreground whitespace-nowrap">Total XAA in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">Total XAA in the IAO pool:</span>
           <span className="font-semibold text-[#F47521] break-all">{Number(20000000000).toLocaleString()}</span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-muted-foreground whitespace-nowrap">Current total of DBC in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">Current total of DBC in the IAO pool:</span>
           <span className="font-semibold text-[#3B82F6] break-all">
             {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
-          <span className="text-muted-foreground whitespace-nowrap">End countdown:</span>
+          <span className="text-black whitespace-nowrap">End countdown:</span>
           <span className="font-semibold text-[#8B5CF6] break-all">To be announced</span>
         </div>
 

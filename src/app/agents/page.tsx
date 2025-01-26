@@ -5,7 +5,17 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 
-const mockAgents = [
+interface Agent {
+  id: string;
+  type: string;
+  stats: string;
+  createdBy: string;
+  description: string;
+  avatar: string;
+  timeAgo: string;
+}
+
+const mockAgents: Agent[] = [
   // {
   //   id: '1',
   //   type: 'Data Analysis',
@@ -24,7 +34,6 @@ const mockAgents = [
   //   avatar: '/images/avatar-2.png',
   //   timeAgo: '21 days ago'
   // },
-
 ]
 
 const tabs = [
