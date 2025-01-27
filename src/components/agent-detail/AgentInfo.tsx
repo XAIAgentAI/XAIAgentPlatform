@@ -63,9 +63,14 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
                     <>
                       <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData?.symbol}</div>
                       <div className="min-w-[80px] max-w-full h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] flex items-center overflow-hidden">
-                        <div className="text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px] truncate">
+                        <a
+                          className="hover:text-primary transition-colors cursor-pointer text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px] truncate transition-transform duration-200 ease-in-out transform "
+                          onClick={() => {
+                            window.open(`https://dbcscan.io/token/${tokenData?.address}`, "_blank");
+                          }}
+                        >
                           {tokenData?.address}
-                        </div>
+                        </a>
                         <CustomButton
                           className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px] flex-shrink-0"
                           onClick={() => {

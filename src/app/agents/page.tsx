@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 import { localAgents, LocalAgent } from '@/data/localAgents'
+import { useRouter } from 'next/navigation'
 
 interface Agent {
   id: string;
@@ -48,6 +49,7 @@ const tabs = [
 ]
 
 export default function AgentsPage() {
+  const router = useRouter()
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
   
   // 根据选择的标签过滤代理
@@ -89,7 +91,8 @@ export default function AgentsPage() {
                   {filteredAgents.map((agent) => (
                     <div 
                       key={agent.id} 
-                      className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-card-hover"
+                      onClick={() => router.push(`/agent-detail/${agent.id}`)}
+                      className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
                     >
                       <div className="flex items-start gap-4">
                         <div className="flex flex-col items-center gap-2">

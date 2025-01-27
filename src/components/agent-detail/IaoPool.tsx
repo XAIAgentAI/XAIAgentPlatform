@@ -69,7 +69,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">Current total of XAA in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">Current total of {agent.symbol === 'XAA' ? 'DBC' : 'XAA'} in the IAO pool:</span>
           <span className="font-semibold text-[#3B82F6] break-all">
             {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
@@ -84,7 +84,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           <h3 className="text-lg font-semibold mb-4">You send</h3>
 
           <div className="flex items-center gap-4 mb-6">
-            <div className="font-medium">XAA</div>
+            <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
             <Input
               type="number"
               value={dbcAmount}

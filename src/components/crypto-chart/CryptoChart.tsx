@@ -36,13 +36,6 @@ const CryptoChart: React.FC<{ agent: any }> = ({ agent }) => {
       },
       width: chartContainerRef.current.clientWidth,
       height: 500,
-    //   watermark: {
-    //     visible: true,
-    //     text: 'XAA',
-    //     fontSize: 24,
-    //     color: 'rgba(255, 255, 255, 0.1)',
-    //     fontFamily: 'system-ui',
-    //   },
     });
 
     // Add candlestick data series
@@ -81,21 +74,24 @@ const CryptoChart: React.FC<{ agent: any }> = ({ agent }) => {
     // Monitor theme changes
     const observer = new MutationObserver(() => {
       if (!chart.current) return;
-      
-      const newBackgroundColor = getThemeColor('--chart-background');
-      const newTextColor = getThemeColor('--chart-text');
-      const newGridColor = getThemeColor('--chart-grid');
-      
-      chart.current.applyOptions({
-        layout: {
-          background: { type: ColorType.Solid, color: newBackgroundColor },
-          textColor: newTextColor,
-        },
-        grid: {
-          vertLines: { color: newGridColor },
-          horzLines: { color: newGridColor },
-        },
-      });
+      try {
+        const newBackgroundColor = getThemeColor('--chart-background');
+        const newTextColor = getThemeColor('--chart-text');
+        const newGridColor = getThemeColor('--chart-grid');
+        
+        chart.current.applyOptions({
+          layout: {
+            background: { type: ColorType.Solid, color: newBackgroundColor },
+            textColor: newTextColor,
+          },
+          grid: {
+            vertLines: { color: newGridColor },
+            horzLines: { color: newGridColor },
+          },
+        });
+      } catch (error) {
+        console.error('Error updating chart theme:', error);
+      }
     });
 
     observer.observe(document.documentElement, {
@@ -104,22 +100,40 @@ const CryptoChart: React.FC<{ agent: any }> = ({ agent }) => {
     });
 
     // Handle responsiveness
-    resizeObserver.current = new ResizeObserver(entries => {
-      if (entries.length === 0 || !entries[0].contentRect) return;
-      const { width, height } = entries[0].contentRect;
-      chart.current.applyOptions({ width, height });
-    });
+    const handleResize = (entries: ResizeObserverEntry[]) => {
+      if (!chart.current || entries.length === 0 || !entries[0].contentRect) return;
+      try {
+        const { width, height } = entries[0].contentRect;
+        chart.current.applyOptions({ width, height });
+      } catch (error) {
+        console.error('Error resizing chart:', error);
+      }
+    };
 
+    resizeObserver.current = new ResizeObserver(handleResize);
     resizeObserver.current.observe(chartContainerRef.current);
 
+    // Cleanup function
     return () => {
-      if (chart.current) {
-        chart.current.remove();
-      }
-      if (resizeObserver.current && chartContainerRef.current) {
-        resizeObserver.current.unobserve(chartContainerRef.current);
-      }
       observer.disconnect();
+      
+      if (resizeObserver.current && chartContainerRef.current) {
+        try {
+          resizeObserver.current.unobserve(chartContainerRef.current);
+          resizeObserver.current.disconnect();
+        } catch (error) {
+          console.error('Error cleaning up resize observer:', error);
+        }
+      }
+      
+      if (chart.current) {
+        try {
+          chart.current.remove();
+          chart.current = null;
+        } catch (error) {
+          console.error('Error removing chart:', error);
+        }
+      }
     };
   }, []);
 

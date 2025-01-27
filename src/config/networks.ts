@@ -25,3 +25,31 @@ export const dbcTestnet = {
   },
   testnet: true,
 } as const satisfies Chain; 
+
+
+
+
+export const dbcMainnet = {
+  id: 19880818,
+  name: 'DeepBrainChain Mainnet',
+  nativeCurrency: {
+    name: 'DBC',
+    symbol: 'DBC',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://rpc.dbcwallet.io'],
+    },
+    public: {
+      http: ['https://rpc.dbcwallet.io'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'DBCScan',
+      url: 'https://dbcscan.io',
+    },
+  },
+  testnet: false,
+}

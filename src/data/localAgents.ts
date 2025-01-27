@@ -38,14 +38,20 @@ export const localAgents: LocalAgent[] = [
     holdersCount: 0,
     volume24h: "$0",
     status: "IAO launching soon.",
-    description: "XAIAgent is a decentralized AI Agent platform on the DBC chain, offering AI Agent creation, operation, and trading. It features the XAIAgent Platform for no-code Agent creation and the XAgentScope Framework for advanced development.",
+    description: `XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents.\n\n
+It offers no-code development tools for everyday users while providing the XAgentScope framework for advanced developers.\n\n
+Powered by the GPU miner network on the DBC blockchain, XAIAgent ensures fully decentralized AI operations, offering advantages like data privacy, high performance, and low costs.\n\n
+The platform comes preloaded with various AI models, enabling complex tasks and multi-turn conversational scenarios.\n\n
+Its multi-token economic model fosters sustainable ecosystem growth, making XAIAgent a comprehensive platform for merging AI and blockchain technologies.`,
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
+    totalSupply: "20,000,000,000 XAA",
+
     useCases: [
-      "Find the latest research about AI",
-      "I'll provide a research paper link. Please analyze it",
-      "I will upload a PDF paper! Use critical skills to read it",
-      "Type 'LS' to list my built-in critical reading skills",
+      "Help me create an Al Agent",
+      "What functions do you have?",
+      "What types of Al Agents can you create?",
+      "Can you tell me how to use xx as an Agent?",
     ],
     socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
   },

@@ -24,7 +24,10 @@ export default function AgentDetailPage({ params }: AgentDetailPageProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* Agent信息卡片 */}
           <AgentInfo agentId={id} />
-          
+          {/* 移动端IaoPool */}
+          <div className="md:hidden ">
+            <IaoPool agent={agent as any} />
+          </div>
           {/* 对话启动器 */}
           <ConversationStarter agentId={id} />
         </div>
@@ -34,15 +37,20 @@ export default function AgentDetailPage({ params }: AgentDetailPageProps) {
           {/* Swap卡片 */}
           {/* <SwapCard /> */}
 
-          {/* IaoPool */}
-          <IaoPool agent={agent} />
-          
+          {/* pc端IaoPool */}
+          <div className="md:block hidden">
+            <IaoPool agent={agent as any} />
+          </div>
+
           {/* 代币信息卡片 */}
           {
             id === "1" && (
               <TokenInfoCard />
             )
           }
+
+
+
         </div>
       </div>
     </div>
