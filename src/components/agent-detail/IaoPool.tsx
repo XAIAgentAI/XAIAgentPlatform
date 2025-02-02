@@ -70,14 +70,14 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">Current total of {agent.symbol === 'XAA' ? 'DBC' : 'XAA'} in the IAO pool:</span>
-          <span className="font-semibold text-[#3B82F6] break-all">
+          <span className="font-semibold text-[#F47521] break-all">
             {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">End countdown:</span>
-          <span className="font-semibold text-[#8B5CF6] break-all">To be announced</span>
+          <span className="font-semibold text-[#F47521] break-all">To be announced</span>
         </div>
 
         <div className="mt-8 p-6 bg-muted rounded-lg">

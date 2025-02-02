@@ -197,7 +197,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       >
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-4">
-                            <Avatar className="w-[60px] h-[60px] rounded-[100px]">
+                            <Avatar className="w-[45px] h-[45px] rounded-[100px]">
                               <img src={agent.avatar} alt={agent.name} className="object-cover" />
                             </Avatar>
                             <div className="space-y-2">
