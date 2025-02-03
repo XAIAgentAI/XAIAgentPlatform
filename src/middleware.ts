@@ -40,26 +40,35 @@ function needsAuth(path: string): boolean {
 // 创建国际化中间件
 const intlMiddleware = createIntlMiddleware(routing);
 
+// 获取用户首选语言
+function getPreferredLanguage(acceptLanguage: string): string {
+  // 支持的语言列表
+  const supportedLanguages = ['en', 'ja', 'ko', 'zh'];
+  
+  if (!acceptLanguage) return 'en';
+
+  // 将 Accept-Language 转换为语言代码数组
+  const languages = acceptLanguage.split(',')
+    .map(lang => lang.split(';')[0].trim().toLowerCase().substring(0, 2));
+
+  // 查找第一个支持的语言
+  const preferredLanguage = languages.find(lang => supportedLanguages.includes(lang));
+  
+  return preferredLanguage || 'en';
+}
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
   // 检查是否是直接访问的非 locale 路径
-  const isDirectPath = !path.match(/^\/(en|ja|ko|zh)\//);
+  const isDirectPath = !path.match(/^\/(en|ja|ko|zh)(\/|$)/);
   if (isDirectPath && !path.startsWith('/api/')) {
-    // 获取用户首选语言或使用默认语言
+    // 获取用户首选语言
     const acceptLanguage = request.headers.get('accept-language') || '';
-    let defaultLocale = 'en';
-    
-    if (acceptLanguage.includes('ja')) {
-      defaultLocale = 'ja';
-    } else if (acceptLanguage.includes('ko')) {
-      defaultLocale = 'ko';
-    } else if (acceptLanguage.includes('zh')) {
-      defaultLocale = 'zh';
-    }
+    const defaultLocale = getPreferredLanguage(acceptLanguage);
     
     // 重定向到带有默认语言的路径
-    const newUrl = new URL(`/${defaultLocale}${path}`, request.url);
+    const newUrl = new URL(`/${defaultLocale}${path === '/' ? '' : path}`, request.url);
     return NextResponse.redirect(newUrl);
   }
 
