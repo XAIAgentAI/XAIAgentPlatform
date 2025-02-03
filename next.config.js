@@ -20,6 +20,9 @@ const nextConfig = {
       ]
     }
   },
+  env: {
+    _next_intl_trailing_slash: 'true'
+  },
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;

@@ -3,6 +3,9 @@ import { ethers } from 'ethers';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
 import { getUserAddress } from '@/lib/auth';
 
+// 设置为动态路由
+export const dynamic = 'force-dynamic';
+
 // 获取用户资产信息
 export async function GET() {
   try {

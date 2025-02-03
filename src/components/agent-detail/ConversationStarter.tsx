@@ -26,6 +26,10 @@ export function ConversationStarter({ agentId }: { agentId: string }) {
   const suggestions = getLocalizedUseCases();
   const chatEntry = agent?.chatEntry || "";
 
+  if (!suggestions) {
+    return null;
+  }
+
   return (
     <Card className="p-6 bg-card">
       <h2 className="text-lg font-semibold mb-4">{t('conversationStarter')}</h2>
