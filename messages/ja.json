@@ -30,11 +30,15 @@
     "history": "履歴",
     "rewards": "報酬",
     "settings": "設定",
-    "status": {
-      "active": "アクティブ",
-      "inactive": "非アクティブ",
-      "pending": "保留中"
-    }
+    "loading": "読み込み中...",
+    "notFound": "エージェントが見つかりません",
+    "addressCopied": "コントラクトアドレスをクリップボードにコピーしました",
+    "chatComingSoon": "チャット機能は近日公開予定です！お楽しみに。",
+    "chat": "チャット",
+    "createdBy": "作成者",
+    "information": "情報",
+    "holders": "保有者",
+    "conversationStarter": "会話のきっかけ"
   },
   "wallet": {
     "connect": "ウォレットを接続",
@@ -90,5 +94,50 @@
     "supply": "供給量",
     "holders": "保有者",
     "contract": "コントラクト"
+  },
+  "iaoPool": {
+    "title": "IAOプール",
+    "totalInPool": "IAOプール内の{symbol}の総量",
+    "currentTotal": "IAOプール内の{symbol}の現在の総量",
+    "endCountdown": "終了までのカウントダウン",
+    "toBeAnnounced": "近日発表",
+    "youSend": "送信する量",
+    "iaoNotStarted": "IAOはまだ開始されていません",
+    "stakedAmount": "ステーク済みの{symbol}量",
+    "error": "エラー",
+    "success": "成功",
+    "connectWalletFirst": "先にウォレットを接続してください",
+    "enterValidAmount": "有効なステーク量を入力してください",
+    "stakeSuccessful": "ステークが成功しました！"
+  },
+  "tokenInfo": {
+    "totalSupply": "XAAの総供給量：100B",
+    "iaoAllocation": "トークンの20%がIAOを通じて販売され、$DBCのみを受け付けます。投資家は$DBCの投資額に比例して$XAAを受け取ります。",
+    "iaoDuration": "14日間のIAO期間中、$DBCの50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーンの流動性プールに割り当てられます。",
+    "tradingPair": "IAO終了後、$XAAと$DBCはすぐにDBCSwapで取引ペアを確立し、$XAAの自由な取引が可能になります。"
+  },
+  "agents": {
+    "infrastructure": "インフラストラクチャー",
+    "aiAgent": "AIエージェント",
+    "featuredAgents": "注目のエージェント",
+    "noAgentsFound": "エージェントが見つかりません",
+    "noAgentsFoundDesc": "最初のエージェントを作成するか、注目のエージェントを探索してください。",
+    "prototype": "プロトタイプエージェント",
+    "writing": "ライティング",
+    "productivity": "生産性",
+    "research": "研究と分析",
+    "education": "教育",
+    "lifestyle": "ライフスタイル",
+    "programming": "プログラミング",
+    "status": "ステータス",
+    "marketCap": "時価総額"
+  },
+  "marketData": {
+    "marketCap": "時価総額",
+    "volume24h": "24時間取引量",
+    "totalSupply": "総供給量",
+    "holders": "保有者数",
+    "tba": "近日発表",
+    "zero": "0"
   }
 } 

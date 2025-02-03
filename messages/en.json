@@ -28,7 +28,15 @@
     "description": "Description",
     "history": "History",
     "rewards": "Rewards",
-    "settings": "Settings"
+    "settings": "Settings",
+    "loading": "Loading...",
+    "notFound": "Agent not found",
+    "addressCopied": "Contract address copied to clipboard",
+    "chatComingSoon": "Chat feature coming soon! Stay tuned for updates.",
+    "chat": "Chatting",
+    "createdBy": "Created by",
+    "information": "Information",
+    "holders": "Holders"
   },
   "wallet": {
     "connect": "Connect wallet",

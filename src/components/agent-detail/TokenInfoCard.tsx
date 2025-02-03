@@ -1,11 +1,14 @@
 import { Card } from "@/components/ui/card";
+import { useTranslations } from 'next-intl';
 
 export function TokenInfoCard() {
+  const t = useTranslations('tokenInfo');
+
   const tokenInfo = [
-    "The total supply of XAA is: 100B",
-    "20% of the tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
-    "During the 14-day IAO, 50% of the $DBC will be allocated to the project team for ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools.",
-    "After the IAO ends, $XAA and $DBC will immediately establish a trading pair on DBCSwap, enabling free trading of $XAA."
+    t('totalSupply'),
+    t('iaoAllocation'),
+    t('iaoDuration'),
+    t('tradingPair')
   ];
 
   return (

@@ -8,7 +8,7 @@ import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -48,6 +48,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
+  const locale = useLocale();
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -84,7 +85,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   })
 
   const handleRowClick = (id: number) => {
-    router.push(`/agent-detail/${id}`)
+    router.push(`/${locale}/agent-detail/${id}`)
   }
 
   return (

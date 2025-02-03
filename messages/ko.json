@@ -30,11 +30,15 @@
     "history": "기록",
     "rewards": "보상",
     "settings": "설정",
-    "status": {
-      "active": "활성",
-      "inactive": "비활성",
-      "pending": "대기 중"
-    }
+    "loading": "로딩 중...",
+    "notFound": "에이전트를 찾을 수 없습니다",
+    "addressCopied": "컨트랙트 주소가 클립보드에 복사되었습니다",
+    "chatComingSoon": "채팅 기능이 곧 출시됩니다! 업데이트를 기다려주세요.",
+    "conversationStarter": "대화 시작하기",
+    "chat": "채팅",
+    "createdBy": "생성자",
+    "information": "정보",
+    "holders": "보유자"
   },
   "wallet": {
     "connect": "지갑 연결",
@@ -90,5 +94,50 @@
     "supply": "공급량",
     "holders": "보유자",
     "contract": "컨트랙트"
+  },
+  "iaoPool": {
+    "title": "IAO 풀",
+    "totalInPool": "IAO 풀의 총 {symbol} 수량",
+    "currentTotal": "IAO 풀의 현재 {symbol} 총량",
+    "endCountdown": "종료까지 남은 시간",
+    "toBeAnnounced": "곧 발표",
+    "youSend": "전송할 수량",
+    "iaoNotStarted": "IAO가 아직 시작되지 않았습니다",
+    "stakedAmount": "스테이킹된 {symbol} 수량",
+    "error": "오류",
+    "success": "성공",
+    "connectWalletFirst": "먼저 지갑을 연결해주세요",
+    "enterValidAmount": "유효한 스테이킹 수량을 입력해주세요",
+    "stakeSuccessful": "스테이킹이 성공적으로 완료되었습니다!"
+  },
+  "tokenInfo": {
+    "totalSupply": "XAA의 총 공급량: 100B",
+    "iaoAllocation": "토큰의 20%가 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자액에 비례하여 $XAA를 받게 됩니다.",
+    "iaoDuration": "14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 할당됩니다.",
+    "tradingPair": "IAO 종료 후, $XAA와 $DBC는 즉시 DBCSwap에서 거래 쌍을 형성하여 $XAA의 자유로운 거래가 가능해집니다."
+  },
+  "agents": {
+    "infrastructure": "인프라스트럭처",
+    "aiAgent": "AI 에이전트",
+    "featuredAgents": "주목할 만한 에이전트",
+    "noAgentsFound": "에이전트를 찾을 수 없습니다",
+    "noAgentsFoundDesc": "첫 번째 에이전트를 만들거나 주목할 만한 에이전트를 탐색해보세요.",
+    "prototype": "프로토타입 에이전트",
+    "writing": "글쓰기",
+    "productivity": "생산성",
+    "research": "연구 및 분석",
+    "education": "교육",
+    "lifestyle": "라이프스타일",
+    "programming": "프로그래밍",
+    "status": "상태",
+    "marketCap": "시가총액"
+  },
+  "marketData": {
+    "marketCap": "시가총액",
+    "volume24h": "24시간 거래량",
+    "totalSupply": "총 공급량",
+    "holders": "보유자 수",
+    "tba": "추후 공개",
+    "zero": "0"
   }
 } 

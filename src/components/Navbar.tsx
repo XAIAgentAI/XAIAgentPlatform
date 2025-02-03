@@ -168,7 +168,9 @@ const Navbar = () => {
           </motion.button>
 
           <ThemeToggle className="lg:hidden" />
-          <LanguageSwitcher />
+          <div className="lg:hidden">
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {/* Desktop Actions */}

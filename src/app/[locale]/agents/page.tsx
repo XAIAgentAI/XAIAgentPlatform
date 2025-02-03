@@ -6,6 +6,7 @@ import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 import { localAgents, LocalAgent } from '@/data/localAgents'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 interface Agent {
   id: string;
@@ -39,18 +40,19 @@ const mockAgents: Agent[] = [
 ]
 
 const tabs = [
-  { value: "prototype", label: "Prototype Agents" },
-  { value: "writing", label: "Writing" },
-  { value: "productivity", label: "Productivity" },
-  { value: "research", label: "Research & Analysis" },
-  { value: "education", label: "Education" },
-  { value: "lifestyle", label: "Lifestyle" },
-  { value: "programming", label: "Programming" },
+  { value: "prototype", label: "agents.prototype" },
+  { value: "writing", label: "agents.writing" },
+  { value: "productivity", label: "agents.productivity" },
+  { value: "research", label: "agents.research" },
+  { value: "education", label: "agents.education" },
+  { value: "lifestyle", label: "agents.lifestyle" },
+  { value: "programming", label: "agents.programming" },
 ]
 
 export default function AgentsPage() {
   const router = useRouter()
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
+  const t = useTranslations()
   
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
@@ -69,14 +71,14 @@ export default function AgentsPage() {
                   className="data-[state=active]:bg-foreground data-[state=active]:text-background"
                   onClick={() => setTab("Infrastructure")}
                 >
-                  Infrastructure
+                  {t('agents.infrastructure')}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="AIAgent"
                   className="data-[state=active]:bg-foreground data-[state=active]:text-background whitespace-nowrap"
                   onClick={() => setTab("AIAgent")}
                 >
-                  AI Agent
+                  {t('agents.aiAgent')}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -85,7 +87,7 @@ export default function AgentsPage() {
           {/* Category Tabs */}
           <Tabs defaultValue="prototype" className="w-full">
             <div className="border-t border-border pt-4 lg:pt-6">
-              <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">Featured Agents</h2>
+              <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">{t('agents.featuredAgents')}</h2>
               {filteredAgents.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                   {filteredAgents.map((agent) => (
@@ -112,9 +114,9 @@ export default function AgentsPage() {
                             <span className="text-sm font-medium truncate text-foreground">{agent.name}</span>
                           </div>
                           <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">
-                            {agent.symbol} | Market Cap: {agent.marketCap}
+                            {agent.symbol} | {t('agents.marketCap')}: {agent.marketCap}
                           </p>
-                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">Status: {agent.status}</p>
+                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">{t('agents.status')}: {agent.status}</p>
                           <p className="text-foreground/50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
                             {agent.description}
                           </p>
@@ -143,9 +145,9 @@ export default function AgentsPage() {
                           />
                         </svg>
                       </div>
-                      <h3 className="mt-4 text-sm font-semibold text-foreground">No Agents Found</h3>
+                      <h3 className="mt-4 text-sm font-semibold text-foreground">{t('agents.noAgentsFound')}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">
-                        Get started by creating your first agent or exploring featured agents.
+                        {t('agents.noAgentsFoundDesc')}
                       </p>
                     </div>
                   </div>

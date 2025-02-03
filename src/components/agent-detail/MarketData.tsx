@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { useTranslations } from 'next-intl';
 
 interface TokenDetail {
   address: string;
@@ -19,6 +20,8 @@ interface MarketDataProps {
 }
 
 export function MarketData({ tokenData }: MarketDataProps) {
+  const t = useTranslations('marketData');
+
   const formatNumber = (num: number | null, defaultValue: string) => {
     if (num === null) return defaultValue;
     return new Intl.NumberFormat('en-US', {
@@ -30,7 +33,7 @@ export function MarketData({ tokenData }: MarketDataProps) {
   };
 
   const formatTotalSupply = (supply: string | undefined) => {
-    if (!supply) return 'TBA';
+    if (!supply) return t('tba');
     // Convert string to number, considering decimals is 18
     const value = Number(supply) / Math.pow(10, 18);
     
@@ -49,30 +52,30 @@ export function MarketData({ tokenData }: MarketDataProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
       <Card className="p-4 bg-card-inner">
-        <div className="text-sm text-muted-foreground">Market Cap</div>
+        <div className="text-sm text-muted-foreground">{t('marketCap')}</div>
         <div className="text-lg font-semibold mt-1">
-          {formatNumber(tokenData?.circulating_market_cap ?? null, "TBA")}
+          {formatNumber(tokenData?.circulating_market_cap ?? null, t('tba'))}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
-        <div className="text-sm text-muted-foreground">24h Volume</div>
+        <div className="text-sm text-muted-foreground">{t('volume24h')}</div>
         <div className="text-lg font-semibold mt-1">
-          {formatNumber(tokenData?.volume_24h ?? null, "0")}
+          {formatNumber(tokenData?.volume_24h ?? null, t('zero'))}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
-        <div className="text-sm text-muted-foreground">Total Supply</div>
+        <div className="text-sm text-muted-foreground">{t('totalSupply')}</div>
         <div className="text-lg font-semibold mt-1">
           {formatTotalSupply(tokenData?.total_supply)}
         </div>
       </Card>
 
       <Card className="p-4 bg-card-inner">
-        <div className="text-sm text-muted-foreground">Holders</div>
+        <div className="text-sm text-muted-foreground">{t('holders')}</div>
         <div className="text-lg font-semibold mt-1">
-          {tokenData?.holders ? Number(tokenData.holders).toLocaleString() : 'TBA'}
+          {tokenData?.holders ? Number(tokenData.holders).toLocaleString() : t('tba')}
         </div>
       </Card>
     </div>

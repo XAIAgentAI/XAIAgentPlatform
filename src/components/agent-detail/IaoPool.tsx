@@ -9,7 +9,7 @@ import { useStakeContract } from "@/hooks/useStakeContract";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppKitAccount } from '@reown/appkit/react'
-
+import { useTranslations } from 'next-intl';
 import { LocalAgent } from "@/data/localAgents";
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
@@ -18,6 +18,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const { isAuthenticated } = useAuth();
   const { poolInfo, isLoading, stake } = useStakeContract();
   const { toast } = useToast();
+  const t = useTranslations('iaoPool');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -30,18 +31,16 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const handleStake = async () => {
     if (!isAuthenticated) {
       toast({
-        // variant: "destructive",
-        title: "Error",
-        description: "Please connect wallet first",
+        title: t('error'),
+        description: t('connectWalletFirst'),
       });
       return;
     }
 
     if (!dbcAmount || Number(dbcAmount) <= 0) {
       toast({
-        // variant: "destructive",
-        title: "Error",
-        description: "Please enter a valid stake amount",
+        title: t('error'),
+        description: t('enterValidAmount'),
       });
       return;
     }
@@ -49,8 +48,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     await stake(dbcAmount);
     toast({
       variant: "default",
-      title: "Success",
-      description: "Stake successful!",
+      title: t('success'),
+      description: t('stakeSuccessful'),
     });
     setDbcAmount("");
   };
@@ -60,28 +59,28 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   return (
     <Card className="p-6">
-      <h2 className="text-2xl font-bold mb-6">IAO Pool</h2>
+      <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
 
       <div className="space-y-4">
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">Total {agent.symbol} in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">{agent.totalSupply}</span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">Current total of {agent.symbol === 'XAA' ? 'DBC' : 'XAA'} in the IAO pool:</span>
+          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
             {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">End countdown:</span>
-          <span className="font-semibold text-[#F47521] break-all">To be announced</span>
+          <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
+          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
         </div>
 
         <div className="mt-8 p-6 bg-muted rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">You send</h3>
+          <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
 
           <div className="flex items-center gap-4 mb-6">
             <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
@@ -90,7 +89,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               value={dbcAmount}
               onChange={handleInputChange}
               onKeyDown={(e) => {
-                // 阻止输入负号
                 if (e.key === '-' || e.key === 'e') {
                   e.preventDefault();
                 }
@@ -103,32 +101,17 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             />
           </div>
 
-          {/* <Button 
-            className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-            onClick={handleStake}
-            disabled={!isAuthenticated || !isDepositPeriod || isLoading}
-          >
-            {!isAuthenticated 
-              ? "Connect Wallet" 
-              : !isDepositPeriod 
-                ? "Staking not started" 
-                : isLoading 
-                  ? "Processing..." 
-                  : "Send"}
-          </Button> */}
-
           <Button
             className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
             onClick={handleStake}
             disabled={true}
           >
-            IAO not started
+            {t('iaoNotStarted')}
           </Button>
-
 
           {isAuthenticated && (
             <p className="mt-4 text-sm text-muted-foreground">
-              Staked DBC Amount: {Number(poolInfo.userDeposited).toLocaleString()}
+              {t('stakedAmount', { symbol: 'DBC' })}: {Number(poolInfo.userDeposited).toLocaleString()}
             </p>
           )}
         </div>
