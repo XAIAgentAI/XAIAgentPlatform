@@ -4,7 +4,6 @@ import { CustomButton as Button } from "@/components/ui-custom/custom-button"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
-import { useTranslations } from 'next-intl';
 import { Search, Menu, X, Wallet } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import ThemeToggle from "./ThemeToggle"
@@ -16,8 +15,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from "next/navigation";
 import { Link } from '@/i18n/routing';
+import { useTranslations, useLocale } from 'next-intl';
+
 
 const Navbar = () => {
+  const locale = useLocale();
+
   const t = useTranslations();
   const { toast } = useToast()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -81,12 +84,12 @@ const Navbar = () => {
   }
 
   const handleBuyDBC = () => {
-    router.push('/buy-dbc')
+    router.push(`/${locale}/buy-dbc`)
     setIsMenuOpen(false)
   }
 
   const handleBuyXAA = () => {
-    router.push('/agent-detail/1')
+    router.push(`/${locale}/agent-detail/1`)
     setIsMenuOpen(false)
   }
 
