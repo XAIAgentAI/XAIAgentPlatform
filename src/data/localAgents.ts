@@ -13,6 +13,7 @@ export interface LocalAgent {
   description?: string;
   descriptionJA?: string;
   descriptionKO?: string;
+  descriptionZH?: string;
   detailDescription?: string;
   lifetime?: string;
   createdAt?: string;
@@ -23,10 +24,12 @@ export interface LocalAgent {
   useCases?: string[];
   useCasesJA?: string[];
   useCasesKO?: string[];
+  useCasesZH?: string[];
   socialLinks?: string;
   chatEntry?: string;
   statusJA?: string;
   statusKO?: string;
+  statusZH?: string;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -46,6 +49,7 @@ export const localAgents: LocalAgent[] = [
     status: "IAO launching soon.",
     statusJA: "IAOが間もなく開始されます。",
     statusKO: "IAO가 곧 시작됩니다.",
+    statusZH: "IAO 即将启动。",
     description: `XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents.\n\n
 It offers no-code development tools for everyday users while providing the XAgentScope framework for advanced developers.\n\n
 Powered by the GPU miner network on the DBC blockchain, XAIAgent ensures fully decentralized AI operations, offering advantages like data privacy, high performance, and low costs.\n\n
@@ -61,6 +65,11 @@ DBCブロックチェーン上のGPUマイナーネットワークを活用し�
 DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데이터 프라이버시, 고성능, 저비용과 같은 이점을 제공하는 완전히 분산화된 AI 운영을 보장합니다.\n\n
 플랫폼에는 다양한 AI 모델이 탑재되어 있어 복잡한 작업과 다중 턴 대화 시나리오를 가능하게 합니다.\n\n
 멀티 토큰 경제 모델을 통해 지속 가능한 생태계 성장을 촉진하며, XAIAgent는 AI와 블록체인 기술을 융합하는 종합적인 플랫폼입니다.`,
+    descriptionZH: `XAIAgent 是一个基于区块链的去中心化 AI 智能体平台，集成了 AI 智能体的创建、使用、部署和交易。\n\n
+它为普通用户提供无代码开发工具，同时为高级开发者提供 XAgentScope 框架。\n\n
+通过 DBC 区块链上的 GPU 矿工网络提供支持，XAIAgent 确保完全去中心化的 AI 运营，提供数据隐私、高性能和低成本等优势。\n\n
+平台预装了各种 AI 模型，能够处理复杂任务和多轮对话场景。\n\n
+其多代币经济模型促进了生态系统的可持续增长，使 XAIAgent 成为融合 AI 和区块链技术的综合平台。`,
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
     totalSupply: "20,000,000,000 XAA",
@@ -82,6 +91,12 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
       "어떤 종류의 AI 에이전트를 만들 수 있나요?",
       "xx를 에이전트로 사용하는 방법을 알려주세요",
     ],
+    useCasesZH: [
+      "帮我创建一个 AI 智能体",
+      "你有哪些功能？",
+      "你可以创建哪些类型的 AI 智能体？",
+      "能告诉我如何将 xx 作为智能体使用吗？",
+    ],
     socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
   },
   {
@@ -100,9 +115,11 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     status: "TBA",
     statusJA: "近日公開",
     statusKO: "출시 예정",
+    statusZH: "即将公布",
     description: "SuperImage is a Decentralized Image Generation AI. SuperImage has multiple latent text-to-image diffusion models of generating photo-realistic images given any text input, cultivates autonomous freedom to produce incredible imagery, empowers billions of people to create stunning art within seconds. SuperImage is the infrastructure for AI Agents, providing API interfaces for AI Agents to utilize. Official website address: www.superimage.ai",
     descriptionJA: "SuperImageは分散型画像生成AIです。SuperImageは、テキスト入力から写実的な画像を生成する複数の潜在的なテキストから画像への拡散モデルを持ち、驚くべき画像を生成する自律的な自由を育み、数十億の人々が数秒で素晴らしいアートを作成することを可能にします。SuperImageはAIエージェントのインフラストラクチャであり、AIエージェントが利用できるAPIインターフェースを提供します。公式ウェブサイト：www.superimage.ai",
     descriptionKO: "SuperImage는 분산형 이미지 생성 AI입니다. SuperImage는 텍스트 입력에서 사실적인 이미지를 생성하는 여러 잠재적 텍스트-이미지 확산 모델을 보유하고 있으며, 놀라운 이미지를 생성하는 자율적 자유를 육성하고, 수십억 명의 사람들이 몇 초 만에 멋진 예술 작품을 만들 수 있게 합니다. SuperImage는 AI 에이전트를 위한 인프라이며, AI 에이전트가 활용할 수 있는 API 인터페이스를 제공합니다. 공식 웹사이트: www.superimage.ai",
+    descriptionZH: "SuperImage 是一个去中心化的图像生成 AI。SuperImage 拥有多个潜在的文本到图像扩散模型，可以根据任何文本输入生成照片级真实的图像，培养自主创作令人惊叹图像的自由，使数十亿人能够在几秒钟内创作出令人惊艳的艺术作品。SuperImage 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.superimage.ai",
     createdAt: "3 months ago",
     creatorAddress: "0x2D5D...E574b4",
     totalSupply: "5,000,000,000 SIC",
@@ -127,6 +144,13 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
       "배경에 크리스마스 트리",
       "눈표범의 사실적인 야생동물 초상화"
     ],
+    useCasesZH: [
+      "画一个穿着节日盛装的女孩",
+      "红白条纹的圣诞帽和衣服",
+      "深棕色头发配精致妆容",
+      "背景是圣诞树",
+      "一幅写实的雪豹野生动物肖像"
+    ],
     socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
     chatEntry: "https://app.superimage.ai"
   },
@@ -146,9 +170,11 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     status: "TBA",
     statusJA: "近日公開",
     statusKO: "출시 예정",
+    statusZH: "即将公布",
     description: "DecentralGPT is a Decentralized Large Language Model AI.\nDGPT supports decentralized deployment of various top-tier large language models (LLMs) worldwide, significantly reducing the cost of using LLMs. It is committed to building a safe, privacy-protective, democratic, transparent, open-source, and universally accessible AGI.\nDecentralGPT is the infrastructure for AI Agents, providing API interfaces for AI Agents to utilize. Official website address: www.decentralgpt.org",
     descriptionJA: "DecentralGPTは分散型大規模言語モデルAIです。\nDGPTは世界中の様々なトップティアの大規模言語モデル（LLM）の分散型展開をサポートし、LLMの使用コストを大幅に削減します。安全で、プライバシーを保護し、民主的で、透明性があり、オープンソースで、誰もが利用できるAGIの構築に取り組んでいます。\nDecentralGPTはAIエージェントのインフラストラクチャであり、AIエージェントが利用できるAPIインターフェースを提供します。公式ウェブサイト：www.decentralgpt.org",
     descriptionKO: "DecentralGPT는 분산형 대규모 언어 모델 AI입니다.\nDGPT는 전 세계의 다양한 최상위 대규모 언어 모델(LLM)의 분산 배포를 지원하여 LLM 사용 비용을 크게 줄입니다. 안전하고, 프라이버시를 보호하며, 민주적이고, 투명하며, 오픈 소스이고, 누구나 접근할 수 있는 AGI를 구축하는 데 전념하고 있습니다.\nDecentralGPT는 AI 에이전트를 위한 인프라이며, AI 에이전트가 활용할 수 있는 API 인터페이스를 제공합니다. 공식 웹사이트: www.decentralgpt.org",
+    descriptionZH: "DecentralGPT 是一个去中心化的大型语言模型 AI。\nDGPT 支持全球各种顶级大型语言模型（LLM）的去中心化部署，显著降低了使用 LLM 的成本。它致力于构建安全、保护隐私、民主、透明、开源且普遍可访问的 AGI。\nDecentralGPT 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.decentralgpt.org",
     createdAt: "5 months ago",
     creatorAddress: "0x3E6E...F685c5",
     totalSupply: "5,000,000,000 DGC",
@@ -170,6 +196,12 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
       "아래 내용을 간결하고 이해하기 쉽게 최적화해주세요",
       "DecentralGPT와 ChatGPT의 차이점을 요약해주세요"
     ],
+    useCasesZH: [
+      "写一篇关于 DecentralGPT 功能的文章",
+      "帮我解决这个数学问题",
+      "帮我优化下面的内容，使其简洁易懂",
+      "总结 DecentralGPT 和 ChatGPT 的区别"
+    ],
     socialLinks: "https://x.com/DecentralGPT, https://t.me/DecentralGPT, https://medium.com/@DecentralGPT",
     chatEntry: "https://www.degpt.ai"
   },
@@ -189,9 +221,11 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     status: "TBA",
     statusJA: "近日公開",
     statusKO: "출시 예정",
+    statusZH: "即将公布",
     description: "XPersonity is a super fun and incredibly useful tool designed to uncover the personality secrets behind any X account! By diving deep into the posting history of X users, it delivers a sharp, witty, and often hilarious personality analysis that's guaranteed to make you smile...",
     descriptionJA: "XPersonityは、Xアカウントの背後にある性格の秘密を明らかにするために設計された、超楽しく信じられないほど便利なツールです！Xユーザーの投稿履歴を深く分析し、鋭く、機知に富み、しばしば笑いを誘う性格分析を提供します...",
     descriptionKO: "XPersonity는 X 계정 뒤에 숨겨진 성격의 비밀을 밝혀내도록 설계된 매우 재미있고 믿을 수 없을 만큼 유용한 도구입니다! X 사용자의 게시 기록을 깊이 분석하여 날카롭고, 재치 있으며, 종종 웃음을 자아내는 성격 분석을 제공합니다...",
+    descriptionZH: "XPersonity 是一个超级有趣且非常实用的工具，旨在揭示任何 X 账号背后的性格秘密！通过深入分析 X 用户的发帖历史，它提供了一个尖锐、机智且常常令人捧腹的性格分析，保证能让你会心一笑...",
     createdAt: "2 months ago",
     creatorAddress: "0x4F7F...G796d6",
     totalSupply: "3,000,000,000 XPER",
@@ -213,6 +247,12 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
       "내 디지털 트윈을 훈련시켜주세요",
       "다음 내용을 기억해주세요: xxxxx"
     ],
+    useCasesZH: [
+      "分析 @xxxx",
+      "匹配 @xxx 和 @xxxx",
+      "训练我的数字分身",
+      "记住以下内容：xxxxx"
+    ],
     socialLinks: "https://x.com/XPersonity",
     chatEntry: "None"
   },
@@ -232,9 +272,11 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     status: "TBA",
     statusJA: "近日公開",
     statusKO: "출시 예정",
+    statusZH: "即将公布",
     description: "ASIXT is a smart assistant designed to help investors stay ahead of the game in the ever-changing crypto market...",
     descriptionJA: "ASIXTは、常に変化する暗号資産市場で投資家が先手を打つのを支援するために設計されたスマートアシスタントです...",
     descriptionKO: "ASIXT는 끊임없이 변화하는 암호화폐 시장에서 투자자들이 앞서 나갈 수 있도록 설계된 스마트 어시스턴트입니다...",
+    descriptionZH: "ASIXT 是一个智能助手，旨在帮助投资者在不断变化的加密货币市场中保持领先地位...",
     createdAt: "1 month ago",
     creatorAddress: "0x5G8G...H807e7",
     totalSupply: "3,000,000,000 ASIXT",
@@ -255,6 +297,12 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
       "지난 24시간 동안 KOL이 가장 많이 언급한 새로운 토큰",
       "뚜렷한 상승 추세를 보이는 토큰에 대해 매시간 이메일 알림 전송",
       "유명 인사가 발행한 정품 토큰에 대해 즉시 알림"
+    ],
+    useCasesZH: [
+      "过去24小时交易量最大的前10个迷因币",
+      "过去24小时KOL最常提到的新代币有哪些",
+      "每小时发送明显上涨趋势代币的邮件通知",
+      "知名人士发行的正规代币即时通知"
     ],
     socialLinks: "https://x.com/ASIXTAI",
     chatEntry: "None"

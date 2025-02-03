@@ -1,0 +1,141 @@
+{
+  "common": {
+    "connect": "连接钱包",
+    "disconnect": "断开连接",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "search": "搜索智能体/合约地址",
+    "buy": "购买",
+    "sell": "出售",
+    "stake": "质押",
+    "unstake": "解除质押"
+  },
+  "navigation": {
+    "home": "首页",
+    "agents": "智能体",
+    "marketplace": "市场",
+    "profile": "个人中心",
+    "trading": "交易智能体",
+    "explore": "探索智能体",
+    "creating": "创建智能体"
+  },
+  "agent": {
+    "details": "智能体详情",
+    "stake": "质押",
+    "unstake": "解除质押",
+    "performance": "性能表现",
+    "description": "描述",
+    "history": "历史记录",
+    "rewards": "奖励",
+    "settings": "设置",
+    "loading": "加载中...",
+    "notFound": "未找到智能体",
+    "addressCopied": "合约地址已复制到剪贴板",
+    "chatComingSoon": "聊天功能即将推出！敬请期待。",
+    "chat": "聊天",
+    "createdBy": "创建者",
+    "information": "基本信息",
+    "holders": "持有者",
+    "conversationStarter": "对话开始"
+  },
+  "wallet": {
+    "connect": "连接钱包",
+    "connecting": "连接中...",
+    "connected": "已连接",
+    "disconnect": "断开连接",
+    "balance": "余额",
+    "address": "地址"
+  },
+  "buttons": {
+    "buyDBC": "购买 DBC",
+    "buyXAA": "购买 XAA",
+    "confirm": "确认",
+    "cancel": "取消",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除"
+  },
+  "messages": {
+    "comingSoon": "即将推出！敬请期待。",
+    "connectWallet": "请先连接钱包。",
+    "transactionSuccess": "交易成功！",
+    "transactionFailed": "交易失败，请重试。"
+  },
+  "agentList": {
+    "sortBy": "排序方式",
+    "marketCap": "市值",
+    "latest": "最新",
+    "aiAgents": "AI 智能体",
+    "24h": "24小时",
+    "tvl": "总锁仓量",
+    "holdersCount": "持有人数",
+    "24hVol": "24小时交易量",
+    "status": "状态",
+    "loading": "加载中...",
+    "24hChange": "24小时涨跌",
+    "social": "社交"
+  },
+  "agentDetail": {
+    "overview": "概览",
+    "analytics": "分析",
+    "holders": "持有者",
+    "transactions": "交易记录",
+    "about": "关于",
+    "tokenomics": "代币经济",
+    "team": "团队",
+    "roadmap": "路线图",
+    "documents": "文档",
+    "links": "链接",
+    "price": "价格",
+    "marketCap": "市值",
+    "volume": "交易量",
+    "supply": "供应量",
+    "contract": "合约"
+  },
+  "iaoPool": {
+    "title": "IAO 池",
+    "totalInPool": "IAO 池中的总 {symbol}",
+    "currentTotal": "当前 IAO 池中的总 {symbol}",
+    "endCountdown": "结束倒计时",
+    "toBeAnnounced": "待公布",
+    "youSend": "您发送",
+    "iaoNotStarted": "IAO 尚未开始",
+    "stakedAmount": "已质押 {symbol} 数量",
+    "error": "错误",
+    "success": "成功",
+    "connectWalletFirst": "请先连接钱包",
+    "enterValidAmount": "请输入有效的质押数量",
+    "stakeSuccessful": "质押成功！"
+  },
+  "tokenInfo": {
+    "totalSupply": "XAA 总供应量：1000亿",
+    "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
+    "iaoDuration": "在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池。",
+    "tradingPair": "IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。"
+  },
+  "agents": {
+    "infrastructure": "基础设施",
+    "aiAgent": "AI 智能体",
+    "featuredAgents": "精选智能体",
+    "noAgentsFound": "未找到智能体",
+    "noAgentsFoundDesc": "创建您的第一个智能体或探索精选智能体。",
+    "prototype": "原型智能体",
+    "writing": "写作",
+    "productivity": "生产力",
+    "research": "研究与分析",
+    "education": "教育",
+    "lifestyle": "生活方式",
+    "programming": "编程",
+    "status": "状态",
+    "marketCap": "市值"
+  },
+  "marketData": {
+    "marketCap": "市值",
+    "volume24h": "24小时交易量",
+    "totalSupply": "总供应量",
+    "holders": "持有者",
+    "tba": "待公布",
+    "zero": "0"
+  }
+} 

@@ -31,6 +31,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         return agent.descriptionJA || agent.description;
       case 'ko':
         return agent.descriptionKO || agent.description;
+      case 'zh':
+        return agent.descriptionZH || agent.description;
       default:
         return agent.description;
     }

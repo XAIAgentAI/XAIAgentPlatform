@@ -12,7 +12,8 @@ import { Globe } from "lucide-react"
 const languages = {
   en: 'English',
   ja: '日本語',
-  ko: '한국어'
+  ko: '한국어',
+  zh: '中文'
 };
 
 export default function LanguageSwitcher() {

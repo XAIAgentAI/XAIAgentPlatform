@@ -36,7 +36,8 @@
     "chat": "Chatting",
     "createdBy": "Created by",
     "information": "Information",
-    "holders": "Holders"
+    "holders": "Holders",
+    "conversationStarter": "Conversation Starter"
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -71,6 +72,70 @@
     "holdersCount": "Holders Count",
     "24hVol": "24h Vol",
     "status": "Status",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "24hChange": "24h Change",
+    "social": "Social"
+  },
+  "agentDetail": {
+    "overview": "Overview",
+    "analytics": "Analytics",
+    "holders": "Holders",
+    "transactions": "Transactions",
+    "about": "About",
+    "tokenomics": "Tokenomics",
+    "team": "Team",
+    "roadmap": "Roadmap",
+    "documents": "Documents",
+    "links": "Links",
+    "price": "Price",
+    "marketCap": "Market Cap",
+    "volume": "Volume",
+    "supply": "Supply",
+    "contract": "Contract"
+  },
+  "iaoPool": {
+    "title": "IAO Pool",
+    "totalInPool": "Total {symbol} in IAO Pool",
+    "currentTotal": "Current Total {symbol} in IAO Pool",
+    "endCountdown": "End Countdown",
+    "toBeAnnounced": "To Be Announced",
+    "youSend": "You Send",
+    "iaoNotStarted": "IAO has not started yet",
+    "stakedAmount": "Staked {symbol} Amount",
+    "error": "Error",
+    "success": "Success",
+    "connectWalletFirst": "Please connect wallet first",
+    "enterValidAmount": "Please enter a valid stake amount",
+    "stakeSuccessful": "Stake successful!"
+  },
+  "tokenInfo": {
+    "totalSupply": "Total XAA Supply: 100B",
+    "iaoAllocation": "20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
+    "iaoDuration": "During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools.",
+    "tradingPair": "After IAO ends, $XAA and $DBC will immediately establish trading pairs on DBCSwap, enabling free trading of $XAA."
+  },
+  "agents": {
+    "infrastructure": "Infrastructure",
+    "aiAgent": "AI Agent",
+    "featuredAgents": "Featured Agents",
+    "noAgentsFound": "No Agents Found",
+    "noAgentsFoundDesc": "Create your first agent or explore featured agents.",
+    "prototype": "Prototype Agent",
+    "writing": "Writing",
+    "productivity": "Productivity",
+    "research": "Research & Analysis",
+    "education": "Education",
+    "lifestyle": "Lifestyle",
+    "programming": "Programming",
+    "status": "Status",
+    "marketCap": "Market Cap"
+  },
+  "marketData": {
+    "marketCap": "Market Cap",
+    "volume24h": "24h Volume",
+    "totalSupply": "Total Supply",
+    "holders": "Holders",
+    "tba": "TBA",
+    "zero": "0"
   }
 } 

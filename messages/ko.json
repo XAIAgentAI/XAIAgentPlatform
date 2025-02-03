@@ -92,7 +92,6 @@
     "marketCap": "시가총액",
     "volume": "거래량",
     "supply": "공급량",
-    "holders": "보유자",
     "contract": "컨트랙트"
   },
   "iaoPool": {

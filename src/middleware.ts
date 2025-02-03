@@ -41,11 +41,32 @@ function needsAuth(path: string): boolean {
 const intlMiddleware = createIntlMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  
+  // 检查是否是直接访问的非 locale 路径
+  const isDirectPath = !path.match(/^\/(en|ja|ko|zh)\//);
+  if (isDirectPath && !path.startsWith('/api/')) {
+    // 获取用户首选语言或使用默认语言
+    const acceptLanguage = request.headers.get('accept-language') || '';
+    let defaultLocale = 'en';
+    
+    if (acceptLanguage.includes('ja')) {
+      defaultLocale = 'ja';
+    } else if (acceptLanguage.includes('ko')) {
+      defaultLocale = 'ko';
+    } else if (acceptLanguage.includes('zh')) {
+      defaultLocale = 'zh';
+    }
+    
+    // 重定向到带有默认语言的路径
+    const newUrl = new URL(`/${defaultLocale}${path}`, request.url);
+    return NextResponse.redirect(newUrl);
+  }
+
   // 首先处理国际化路由
   const response = await intlMiddleware(request);
   if (response) return response;
 
-  const path = request.nextUrl.pathname;
   console.log('Middleware processing path:', path);
 
   // 如果不需要身份验证，直接放行
@@ -97,9 +118,14 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // 匹配国际化路径
+    // 匹配所有路径
     '/',
-    '/(en|ja|ko)/:path*',
+    '/(en|ja|ko|zh)/:path*',
+    // 支持不带 locale 的路径
+    '/agent-detail/:path*',
+    '/agents/:path*',
+    '/buy-dbc/:path*',
+    '/chat/:path*',
     // 原有的 API 路径
     '/api/auth/:path*',
     '/api/user/:path*',
