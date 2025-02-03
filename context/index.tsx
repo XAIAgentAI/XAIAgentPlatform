@@ -18,8 +18,8 @@ if (!projectId) {
 // Set up metadata
 const metadata = {
     name: 'xaiagent',
-    description: 'AppKit Example',
-    url: 'https://reown.com/appkit', // origin must match your domain & subdomain
+    description: 'xaiagent',
+    url: 'https://xaiagent.com', // origin must match your domain & subdomain
     icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
 

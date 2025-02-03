@@ -1,0 +1,94 @@
+{
+  "common": {
+    "connect": "ウォレットを接続",
+    "disconnect": "切断",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "search": "エージェント/CAを検索",
+    "buy": "購入",
+    "sell": "売却",
+    "stake": "ステーク",
+    "unstake": "アンステーク",
+    "social": "ソーシャル"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "agents": "エージェント",
+    "marketplace": "マーケットプレイス",
+    "profile": "プロフィール",
+    "trading": "取引AIエージェント",
+    "explore": "AIエージェントを探す",
+    "creating": "AIエージェントを作成"
+  },
+  "agent": {
+    "details": "エージェント詳細",
+    "stake": "ステーク",
+    "unstake": "アンステーク",
+    "performance": "パフォーマンス",
+    "description": "説明",
+    "history": "履歴",
+    "rewards": "報酬",
+    "settings": "設定",
+    "status": {
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "pending": "保留中"
+    }
+  },
+  "wallet": {
+    "connect": "ウォレットを接続",
+    "connecting": "接続中...",
+    "connected": "接続済み",
+    "disconnect": "切断",
+    "balance": "残高",
+    "address": "アドレス"
+  },
+  "buttons": {
+    "buyDBC": "DBCを購入",
+    "buyXAA": "XAAを購入",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "edit": "編集",
+    "delete": "削除"
+  },
+  "messages": {
+    "comingSoon": "近日公開！お楽しみに。",
+    "connectWallet": "先にウォレットを接続してください。",
+    "transactionSuccess": "取引が成功しました！",
+    "transactionFailed": "取引に失敗しました。もう一度お試しください。"
+  },
+  "agentList": {
+    "sortBy": "並び替え",
+    "marketCap": "時価総額",
+    "latest": "最新",
+    "aiAgents": "AIエージェント",
+    "24h": "24時間",
+    "24hChange": "24時間の変動",
+    "tvl": "ロック済み総額",
+    "holdersCount": "保有者数",
+    "24hVol": "24時間取引量",
+    "status": "ステータス",
+    "loading": "読み込み中...",
+    "social": "ソーシャル"
+  },
+  "agentDetail": {
+    "overview": "概要",
+    "analytics": "分析",
+    "holders": "保有者",
+    "transactions": "取引履歴",
+    "about": "概要",
+    "tokenomics": "トークノミクス",
+    "team": "チーム",
+    "roadmap": "ロードマップ",
+    "documents": "ドキュメント",
+    "links": "リンク",
+    "price": "価格",
+    "marketCap": "時価総額",
+    "volume": "取引量",
+    "supply": "供給量",
+    "holders": "保有者",
+    "contract": "コントラクト"
+  }
+} 

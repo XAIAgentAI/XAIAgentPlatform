@@ -1,0 +1,68 @@
+{
+  "common": {
+    "connect": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "search": "Search Agents/CA",
+    "buy": "Buy",
+    "sell": "Sell",
+    "stake": "Stake",
+    "unstake": "Unstake"
+  },
+  "navigation": {
+    "home": "Home",
+    "agents": "Agents",
+    "marketplace": "Marketplace",
+    "profile": "Profile",
+    "trading": "Trading AI Agent",
+    "explore": "Explore AI Agent",
+    "creating": "Creating AI Agent"
+  },
+  "agent": {
+    "details": "Agent Details",
+    "stake": "Stake",
+    "unstake": "Unstake",
+    "performance": "Performance",
+    "description": "Description",
+    "history": "History",
+    "rewards": "Rewards",
+    "settings": "Settings"
+  },
+  "wallet": {
+    "connect": "Connect wallet",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnect": "Disconnect",
+    "balance": "Balance",
+    "address": "Address"
+  },
+  "buttons": {
+    "buyDBC": "BUY DBC",
+    "buyXAA": "BUY XAA",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "messages": {
+    "comingSoon": "Coming soon! Stay tuned for updates.",
+    "connectWallet": "Please connect your wallet first.",
+    "transactionSuccess": "Transaction successful!",
+    "transactionFailed": "Transaction failed. Please try again."
+  },
+  "agentList": {
+    "sortBy": "Sort by",
+    "marketCap": "Market Cap",
+    "latest": "Latest",
+    "aiAgents": "AI Agents",
+    "24h": "24h",
+    "tvl": "Total Value Locked",
+    "holdersCount": "Holders Count",
+    "24hVol": "24h Vol",
+    "status": "Status",
+    "loading": "Loading..."
+  }
+} 

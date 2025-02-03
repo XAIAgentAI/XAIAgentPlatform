@@ -1,3 +1,7 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -15,7 +19,11 @@ const nextConfig = {
         './src/**/*'
       ]
     }
-  }
+  },
+  webpack: (config) => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    return config;
+  },
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig);

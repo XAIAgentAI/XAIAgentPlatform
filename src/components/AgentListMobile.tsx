@@ -8,6 +8,7 @@ import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
+import { useTranslations } from 'next-intl';
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -43,6 +44,7 @@ const parseSocialLinks = (socialLinks?: string) => {
 };
 
 const AgentListMobile = ({ agents, loading }: AgentListProps) => {
+  const t = useTranslations('agentList');
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
@@ -89,20 +91,20 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
     <div className="w-full flex-1 flex flex-col">
       <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-card border-b border-[#E5E5E5] dark:border-white/10">
         <div className="flex items-center gap-4 p-4">
-          <span className="text-muted-color text-xs">Sort by</span>
+          <span className="text-muted-color text-xs">{t('sortBy')}</span>
           <Tabs defaultValue="marketCap" className="w-auto">
             <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
               <TabsTrigger
                 value="marketCap"
                 className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
               >
-                Market Cap
+                {t('marketCap')}
               </TabsTrigger>
               <TabsTrigger
                 value="latest"
                 className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
               >
-                Latest
+                {t('latest')}
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -142,28 +144,32 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
 
                 <div className="grid grid-cols-2 gap-x-8 gap-y-3">
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">Market Cap</span>
+                    <span className="text-muted-color text-xs block">{t('marketCap')}</span>
                     <p className="text-secondary-color text-sm font-medium">{agent.marketCap}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">24h Change</span>
+                    <span className="text-muted-color text-xs block">{t('24h')}</span>
                     <p className="text-[#5BFE42] text-sm font-medium">{agent.change24h}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">TVL</span>
+                    <span className="text-muted-color text-xs block">{t('tvl')}</span>
                     <p className="text-secondary-color text-sm font-medium">{agent.tvl}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">Holders</span>
+                    <span className="text-muted-color text-xs block">{t('holdersCount')}</span>
                     <p className="text-secondary-color text-sm font-medium">{agent.holdersCount.toLocaleString()}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">24h Volume</span>
+                    <span className="text-muted-color text-xs block">{t('24hVol')}</span>
                     <p className="text-secondary-color text-sm font-medium">{agent.volume24h}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">Status</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.status}</p>
+                    <span className="text-muted-color text-xs block">{t('status')}</span>
+                    <p className="text-secondary-color text-sm font-medium">
+                      <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
+                        {agent.status}
+                      </CustomBadge>
+                    </p>
                   </div>
                   {(socialLinks.twitter || socialLinks.telegram || socialLinks.medium) && (
                     <div className="space-y-1 col-span-2">
@@ -204,20 +210,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                               viewBox="0 0 24 24"
                               className="w-4 h-4 fill-current"
                             >
-                              <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
-                            </svg>
-                          </button>
-                        )}
-                        {socialLinks.github && (
-                          <button
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-white transition-all duration-200 hover:scale-110 hover:-rotate-12"
-                            onClick={(e) => handleSocialClick(e, socialLinks.github)}
-                          >
-                            <svg
-                              viewBox="0 0 24 24"
-                              className="w-4 h-4 fill-current"
-                            >
-                              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                              <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
                             </svg>
                           </button>
                         )}
@@ -231,7 +224,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default AgentListMobile 
+export default AgentListMobile; 

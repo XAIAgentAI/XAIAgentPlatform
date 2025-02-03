@@ -4,37 +4,21 @@ import { CustomButton as Button } from "@/components/ui-custom/custom-button"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
-import Link from "next/link"
-import { Search, Menu, X, Wallet, ChevronDown } from "lucide-react"
+import { useTranslations } from 'next-intl';
+import { Search, Menu, X, Wallet } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import ThemeToggle from "./ThemeToggle"
+import LanguageSwitcher from "./LanguageSwitcher"
 import { useState, useEffect } from "react"
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from "next/navigation";
-
-const navigationLinks = [
-  {
-    id: "trading",
-    href: "/",
-    label: "Trading AI Agent"
-  },
-  {
-    id: "explore",
-    href: "/agents",
-    label: "Explore AI Agent"
-  },
-  {
-    id: "creating",
-    href: "#",
-    label: "Creating AI Agent",
-    comingSoon: true
-  }
-]
+import { Link } from '@/i18n/routing';
 
 const Navbar = () => {
+  const t = useTranslations();
   const { toast } = useToast()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
@@ -43,6 +27,25 @@ const Navbar = () => {
   const { address, isConnected, status } = useAppKitAccount()
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
+
+  const navigationLinks = [
+    {
+      id: "trading",
+      href: "/",
+      label: t('navigation.trading')
+    },
+    {
+      id: "explore",
+      href: "/agents",
+      label: t('navigation.explore')
+    },
+    {
+      id: "creating",
+      href: "#",
+      label: t('navigation.creating'),
+      comingSoon: true
+    }
+  ];
 
   // 处理客户端挂载
   useEffect(() => {
@@ -91,7 +94,7 @@ const Navbar = () => {
     if (isComingSoon) {
       e.preventDefault();
       toast({
-        description: "Coming soon! Stay tuned for updates.",
+        description: t('messages.comingSoon'),
       })
     }
     setIsMenuOpen(false)
@@ -165,6 +168,7 @@ const Navbar = () => {
           </motion.button>
 
           <ThemeToggle className="lg:hidden" />
+          <LanguageSwitcher />
         </div>
 
         {/* Desktop Actions */}
@@ -175,7 +179,7 @@ const Navbar = () => {
           )}>
             <Input
               type="search"
-              placeholder="Search Agents/CA"
+              placeholder={t('common.search')}
               className={cn(
                 "w-full pl-[15px] pr-[85.50px] py-2.5 bg-transparent",
                 "border-text-primary/30 rounded-[100px]",
@@ -191,11 +195,11 @@ const Navbar = () => {
           </div>
 
           <GradientBorderButton onClick={handleBuyDBC}>
-            BUY DBC
+            {t('buttons.buyDBC')}
           </GradientBorderButton>
 
           <GradientBorderButton onClick={handleBuyXAA}>
-            BUY XAA
+            {t('buttons.buyXAA')}
           </GradientBorderButton>
 
           <Button 
@@ -204,15 +208,16 @@ const Navbar = () => {
             disabled={status === 'connecting'}
           >
             {status === 'connecting' ? (
-              "Connecting..."
+              t('wallet.connecting')
             ) : isConnected ? (
               `${address?.slice(0, 6)}...${address?.slice(-4)}`
             ) : (
-              "Connect wallet"
+              t('wallet.connect')
             )}
           </Button>
 
           <ThemeToggle />
+          <LanguageSwitcher />
         </div>
 
         {/* Mobile Menu */}
@@ -241,14 +246,14 @@ const Navbar = () => {
                   containerClassName="w-full max-w-[220px]"
                   onClick={handleBuyDBC}
                 >
-                  BUY DBC
+                  {t('buttons.buyDBC')}
                 </GradientBorderButton>
 
                 <GradientBorderButton 
                   containerClassName="w-full max-w-[220px]"
                   onClick={handleBuyXAA}
                 >
-                  BUY XAA
+                  {t('buttons.buyXAA')}
                 </GradientBorderButton>
               </div>
             </motion.div>
@@ -256,7 +261,7 @@ const Navbar = () => {
         </AnimatePresence>
       </div>
     </nav>
-  )
+  );
 }
 
 export default Navbar; 

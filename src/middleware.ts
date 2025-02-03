@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import * as jose from 'jose';
+import createIntlMiddleware from 'next-intl/middleware';
+import {routing} from './i18n/routing';
 
 const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
@@ -35,7 +37,14 @@ function needsAuth(path: string): boolean {
   return authRoutes.some(pattern => matchPath(path, pattern));
 }
 
+// 创建国际化中间件
+const intlMiddleware = createIntlMiddleware(routing);
+
 export async function middleware(request: NextRequest) {
+  // 首先处理国际化路由
+  const response = await intlMiddleware(request);
+  if (response) return response;
+
   const path = request.nextUrl.pathname;
   console.log('Middleware processing path:', path);
 
@@ -86,11 +95,13 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-// 配置需要处理的路由
 export const config = {
   matcher: [
-    '/api/auth/disconnect',
-    '/api/agents/:id*/history',
+    // 匹配国际化路径
+    '/',
+    '/(en|ja|ko)/:path*',
+    // 原有的 API 路径
+    '/api/auth/:path*',
     '/api/user/:path*',
   ],
 }; 
