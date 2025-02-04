@@ -40,7 +40,7 @@ export const localAgents: LocalAgent[] = [
     avatar: "/logo/XAIAgent.png",
     symbol: "XAA",
     type: "Platform",
-    marketCap: "TBA",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",
@@ -50,52 +50,36 @@ export const localAgents: LocalAgent[] = [
     statusJA: "IAOが間もなく開始されます。",
     statusKO: "IAO가 곧 시작됩니다.",
     statusZH: "IAO 即将启动。",
-    description: `XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents.\n\n
-It offers no-code development tools for everyday users while providing the XAgentScope framework for advanced developers.\n\n
-Powered by the GPU miner network on the DBC blockchain, XAIAgent ensures fully decentralized AI operations, offering advantages like data privacy, high performance, and low costs.\n\n
-The platform comes preloaded with various AI models, enabling complex tasks and multi-turn conversational scenarios.\n\n
-Its multi-token economic model fosters sustainable ecosystem growth, making XAIAgent a comprehensive platform for merging AI and blockchain technologies.`,
-    descriptionJA: `XAIAgentは、AIエージェントの作成、使用、展開、取引を統合したブロックチェーンベースの分散型AIエージェントプラットフォームです。\n\n
-一般ユーザー向けのノーコード開発ツールを提供する一方、上級開発者向けにXAgentScopeフレームワークを提供します。\n\n
-DBCブロックチェーン上のGPUマイナーネットワークを活用し、XAIAgentはデータのプライバシー、高性能、低コストなどの利点を提供する完全に分散化されたAI運用を実現します。\n\n
-プラットフォームには様々なAIモデルが搭載されており、複雑なタスクやマルチターンの会話シナリオを可能にします。\n\n
-マルチトークン経済モデルにより持続可能なエコシステムの成長を促進し、XAIAgentはAIとブロックチェーン技術を融合する包括的なプラットフォームとなっています。`,
-    descriptionKO: `XAIAgent는 AI 에이전트의 생성, 사용, 배포 및 거래를 통합하는 블록체인 기반 분산형 AI 에이전트 플랫폼입니다.\n\n
-일반 사용자를 위한 노코드 개발 도구를 제공하는 동시에 고급 개발자를 위한 XAgentScope 프레임워크를 제공합니다.\n\n
-DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데이터 프라이버시, 고성능, 저비용과 같은 이점을 제공하는 완전히 분산화된 AI 운영을 보장합니다.\n\n
-플랫폼에는 다양한 AI 모델이 탑재되어 있어 복잡한 작업과 다중 턴 대화 시나리오를 가능하게 합니다.\n\n
-멀티 토큰 경제 모델을 통해 지속 가능한 생태계 성장을 촉진하며, XAIAgent는 AI와 블록체인 기술을 융합하는 종합적인 플랫폼입니다.`,
-    descriptionZH: `XAIAgent 是一个基于区块链的去中心化 AI 智能体平台，集成了 AI 智能体的创建、使用、部署和交易。\n\n
-它为普通用户提供无代码开发工具，同时为高级开发者提供 XAgentScope 框架。\n\n
-通过 DBC 区块链上的 GPU 矿工网络提供支持，XAIAgent 确保完全去中心化的 AI 运营，提供数据隐私、高性能和低成本等优势。\n\n
-平台预装了各种 AI 模型，能够处理复杂任务和多轮对话场景。\n\n
-其多代币经济模型促进了生态系统的可持续增长，使 XAIAgent 成为融合 AI 和区块链技术的综合平台。`,
+    description: "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
+    descriptionJA: "XAIAgentは、AIエージェントの作成、使用、デプロイメント、取引を統合した分散型AIエージェントプラットフォームです。",
+    descriptionKO: "XAIAgent는 AI Agent의 생성, 활용, 배포 및 거래를 하나로 통합한 블록체인 기반 탈중앙화 AI Agent 플랫폼입니다. 노코드 개발 도구를 통해 일반 사용자는 손쉽게 AI Agent를 만들 수 있고, XAgentScope 프레임워크를 통해 고급 개발자는 더욱 정교한 AI Agent를 개발 및 배포할 수 있으며, DBC 체인의 GPU 채굴 네트워크를 활용해 AI 실행의 완전한 탈중앙화를 보장하면서 데이터 프라이버시, 높은 성능, 저비용의 장점을 제공하고, 다양한 AI 모델을 내장해 복잡한 작업과 다중 회차 대화를 지원하며, 멀티 토큰 경제 모델을 통해 생태계의 지속적인 성장을 촉진하는 AI와 블록체인의 융합형 올인원 플랫폼입니다.",
+    descriptionZH: "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体。通过零代码开发工具服务普通用户，同时提供XAgentScope框架支持高级开发者。XAIAgent依托DBC链的GPU矿工网络，确保AI运行完全去中心化，具备数据隐私、高性能和低成本优势。平台内置多种AI模型，支持复杂任务和多轮对话场景，多代币经济模型促进生态稳定发展，是AI与区块链融合的全功能平台。",
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
     totalSupply: "20,000,000,000 XAA",
     useCases: [
-      "Help me create an Al Agent",
+      "Help me create an AI Agent",
       "What functions do you have?",
-      "What types of Al Agents can you create?",
-      "Can you tell me how to use xx as an Agent?",
+      "What types of AI Agents can you create?",
+      "Can you tell me how to use xx as an Agent?"
     ],
     useCasesJA: [
       "AIエージェントの作成を手伝ってください",
-      "どのような機能がありますか？",
-      "どのようなAIエージェントを作成できますか？",
-      "xxをエージェントとして使用する方法を教えてください",
+      "どんな機能がありますか？",
+      "どのようなタイプのAIエージェントを作成できますか？",
+      "xxをエージェントとして使用する方法を教えてください"
     ],
     useCasesKO: [
-      "AI 에이전트 생성을 도와주세요",
+      "AI 에이전트 만들기를 도와주세요",
       "어떤 기능이 있나요?",
-      "어떤 종류의 AI 에이전트를 만들 수 있나요?",
-      "xx를 에이전트로 사용하는 방법을 알려주세요",
+      "어떤 유형의 AI 에이전트를 만들 수 있나요?",
+      "xx를 에이전트로 사용하는 방법을 알려주시겠어요?"
     ],
     useCasesZH: [
       "帮我创建一个 AI 智能体",
       "你有哪些功能？",
       "你可以创建哪些类型的 AI 智能体？",
-      "能告诉我如何将 xx 作为智能体使用吗？",
+      "你能告诉我如何使用 xx 作为智能体吗？"
     ],
     socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
   },
@@ -106,7 +90,7 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     avatar: "/logo/SuperImage.png",
     symbol: "SIC",
     type: "Infrastructure",
-    marketCap: "TBA",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",
@@ -161,7 +145,7 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     avatar: "/logo/DecentralGPT.png",
     symbol: "DGC",
     type: "Infrastructure",
-    marketCap: "TBA",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",
@@ -212,7 +196,7 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     avatar: "/logo/XPersonity.png",
     symbol: "XPER",
     type: "AI Agent",
-    marketCap: "TBA",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",
@@ -263,7 +247,7 @@ DBC 블록체인의 GPU 마이너 네트워크를 활용하여 XAIAgent는 데�
     avatar: "/logo/ASIXT.png",
     symbol: "ASIXT",
     type: "AI Agent",
-    marketCap: "TBA",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",

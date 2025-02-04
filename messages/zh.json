@@ -68,7 +68,7 @@
     "latest": "最新",
     "aiAgents": "AI 智能体",
     "24h": "24小时",
-    "tvl": "总锁仓量",
+    "tvl": "Token价格",
     "holdersCount": "持有人数",
     "24hVol": "24小时交易量",
     "status": "状态",
@@ -137,5 +137,27 @@
     "holders": "持有者",
     "tba": "待公布",
     "zero": "0"
+  },
+  "holderDistribution": {
+    "title": "持有者分布 ({count} 个持有者)",
+    "address": "地址",
+    "percentage": "百分比",
+    "previous": "上一页",
+    "next": "下一页",
+    "loading": "加载中..."
+  },
+  "agentDescription": {
+    "title": "描述",
+    "platform": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体。通过零代码开发工具服务普通用户，同时提供XAgentScope框架支持高级开发者。XAIAgent依托DBC链的GPU矿工网络，确保AI运行完全去中心化，具备数据隐私、高性能和低成本优势。平台内置多种AI模型，支持复杂任务和多轮对话场景，多代币经济模型促进生态稳定发展，是AI与区块链融合的全功能平台。",
+    "tools": "它为普通用户提供开发工具，同时为高级开发者提供 XAgentScope 框架。",
+    "infrastructure": "通过 DBC 区块链的 GPU 矿工网络支持，XAIAgent 确保完全去中心化的 AI 运营，提供数据隐私、高性能和低成本等优势。",
+    "models": "平台预装了各种 AI 模型，能够处理复杂任务和多轮对话场景。",
+    "ecosystem": "其代币经济模型促进了生态系统的可持续增长，使 XAIAgent 成为融合 AI 和区块链技术的综合平台。",
+    "conversationStarters": {
+      "createAgent": "帮我创建一个 AI 智能体",
+      "functions": "你有哪些功能？",
+      "agentTypes": "你可以创建哪些类型的 AI 智能体？",
+      "usage": "你能告诉我如何使用 xx 作为智能体吗？"
+    }
   }
 } 

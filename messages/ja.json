@@ -139,5 +139,27 @@
     "holders": "保有者数",
     "tba": "近日発表",
     "zero": "0"
+  },
+  "holderDistribution": {
+    "title": "保有者分布 ({count}人の保有者)",
+    "address": "アドレス",
+    "percentage": "割合",
+    "previous": "前へ",
+    "next": "次へ",
+    "loading": "読み込み中..."
+  },
+  "agentDescription": {
+    "title": "説明",
+    "platform": "XAIAgentは、AIエージェントの作成、使用、デプロイメント、取引を統合した分散型AIエージェントプラットフォームです。",
+    "tools": "一般ユーザー向けの開発ツールと、上級開発者向けのXAgentScopeフレームワークを提供します。",
+    "infrastructure": "DBCブロックチェーンのGPUマイニングネットワークのサポートにより、XAIAgentは完全に分散化されたAI運用を実現し、データプライバシー、高性能、低コストの利点を提供します。",
+    "models": "プラットフォームには様々なAIモデルが搭載されており、複雑なタスクやマルチターンの会話シナリオを処理できます。",
+    "ecosystem": "トークン経済モデルにより持続可能なエコシステムの成長を促進し、XAIAgentはAIとブロックチェーン技術を融合する総合プラットフォームとなっています。",
+    "conversationStarters": {
+      "createAgent": "AIエージェントの作成を手伝ってください",
+      "functions": "どんな機能がありますか？",
+      "agentTypes": "どのようなタイプのAIエージェントを作成できますか？",
+      "usage": "xxをエージェントとして使用する方法を教えてください"
+    }
   }
 } 

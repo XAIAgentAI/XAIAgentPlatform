@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import React, { useState } from 'react';
 import { useDBCHolders } from "@/hooks/useDBCHolders";
+import { useTranslations } from 'next-intl';
 
 interface HoldersListProps {
   tokenAddress: string;
@@ -20,6 +21,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
   const { holders: holdersList, loading, error } = useDBCHolders(tokenAddress);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const t = useTranslations('holderDistribution');
 
   // Calculate total pages
   const totalPages = Math.ceil(holdersList.length / itemsPerPage);
@@ -49,7 +51,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
   if (loading) {
     return (
       <Card className="p-4 bg-card-inner">
-        <div className="text-center text-muted-foreground">Loading holders...</div>
+        <div className="text-center text-muted-foreground">{t('loading')}</div>
       </Card>
     );
   }
@@ -65,15 +67,15 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
   return (
     <div className="font-['Sora']">
       <div className="text-s mb-4">
-        Holder Distribution ({Number(holders).toLocaleString()} holders)
+        {t('title', { count: Number(holders).toLocaleString() })}
       </div>
       
       <Table>
         <TableHeader>
           <TableRow className="border-b border-border dark:border-border">
             <TableHead className="w-16">#</TableHead>
-            <TableHead>Address</TableHead>
-            <TableHead className="text-right">Percentage</TableHead>
+            <TableHead>{t('address')}</TableHead>
+            <TableHead className="text-right">{t('percentage')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -108,7 +110,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
           size="sm"
           className="text-xs px-3 py-1 h-7"
         >
-          Previous
+          {t('previous')}
         </Button>
         <Button
           onClick={handleNextPage}
@@ -117,7 +119,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
           size="sm"
           className="text-xs px-3 py-1 h-7"
         >
-          Next
+          {t('next')}
         </Button>
       </div>
     </div>

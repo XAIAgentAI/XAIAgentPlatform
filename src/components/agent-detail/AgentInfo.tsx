@@ -77,7 +77,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           <Avatar className="h-10 w-10 flex-shrink-0">
             <img
               src={agent.avatar}
-              alt="Agent avatar"
+              alt={t('accessibility.agentAvatar')}
               className="h-full w-full object-cover"
             />
           </Avatar>
@@ -103,9 +103,10 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
                         onClick={() => {
                           navigator.clipboard.writeText(tokenData?.address || "");
                           toast({
-                            description: t('addressCopied'),
+                            description: t('agent.addressCopied'),
                           });
                         }}
+                        aria-label={t('accessibility.copyIcon')}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -113,6 +114,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
+                          aria-hidden="true"
                         >
                           <path
                             strokeLinecap="round"
@@ -128,7 +130,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
               </>
             )}
 
-            <CustomButton
+            {/* <CustomButton
               className="flex items-center gap-2 mt-3"
               onClick={() => {
                 if (chatEntry && chatEntry.trim() !== "None") {
@@ -142,7 +144,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             >
               <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
               {t('chat')}
-            </CustomButton>
+            </CustomButton> */}
           </div>
         </div>
 
@@ -152,7 +154,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             <Avatar className="h-7 w-7">
               <img
                 src={agent.avatar}
-                alt="Creator avatar"
+                alt={t('accessibility.creatorAvatar')}
                 className="h-full w-full object-cover rounded-full"
               />
             </Avatar>

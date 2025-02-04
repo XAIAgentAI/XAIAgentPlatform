@@ -18,6 +18,8 @@ export function ConversationStarter({ agentId }: { agentId: string }) {
         return agent.useCasesJA || agent.useCases;
       case 'ko':
         return agent.useCasesKO || agent.useCases;
+      case 'zh':
+        return agent.useCasesZH || agent.useCases;
       default:
         return agent.useCases;
     }
@@ -56,7 +58,13 @@ export function ConversationStarter({ agentId }: { agentId: string }) {
             }
           }}
         >
-          <Image src="/images/chat.svg" alt="Chatting" width={12} height={12} />
+          <Image 
+            src="/images/chat.svg" 
+            alt={t('accessibility.chatIcon')} 
+            width={12} 
+            height={12} 
+            aria-hidden="true"
+          />
           {t('chat')}
         </CustomButton>
       </div>

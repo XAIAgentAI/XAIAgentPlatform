@@ -25,6 +25,7 @@ const Navbar = () => {
   const { toast } = useToast()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { open } = useAppKit()
   const { address, isConnected, status } = useAppKitAccount()
@@ -116,7 +117,7 @@ const Navbar = () => {
           <Link href="/" className="flex flex-shrink-0 items-center gap-2">
             <Image
               src="/logo.png"
-              alt="Logo"
+              alt={t('accessibility.logo')}
               width={50}
               height={50}
               className="w-[50px] h-[50px] object-cover flex-shrink-0"
@@ -149,6 +150,7 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="lg:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? t('buttons.closeMenu') : t('buttons.toggleMenu')}
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </motion.button>
@@ -157,6 +159,7 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             onClick={handleWalletClick}
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary"
+            aria-label={t('accessibility.walletIcon')}
           >
             {status === 'connecting' ? (
               <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -177,52 +180,117 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
-          <div className={cn(
-            "relative flex-1 max-w-[300px] transition-all duration-300",
-            isSearchFocused && "max-w-[400px]"
-          )}>
-            <Input
-              type="search"
-              placeholder={t('common.search')}
-              className={cn(
-                "w-full pl-[15px] pr-[85.50px] py-2.5 bg-transparent",
-                "border-text-primary/30 rounded-[100px]",
-                "text-text-primary text-xs font-normal font-['Sora'] leading-10",
-                "placeholder:text-text-secondary focus-visible:ring-0",
-                "transition-all duration-300",
-                "focus:border-primary focus:ring-1 focus:ring-primary/30"
-              )}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-            />
-            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
+        <div className="hidden lg:flex items-center gap-4 justify-end min-w-0 flex-1">
+          {/* 搜索框容器 */}
+          <div className="relative">
+            {/* 默认搜索框 - 在宽屏幕显示 */}
+            <div className={cn(
+              "relative transition-all duration-300",
+              "hidden xl:block"
+            )}>
+              <Input
+                type="search"
+                placeholder={t('common.search')}
+                className={cn(
+                  "w-[250px] pl-[15px] pr-[30px] py-2.5 bg-transparent",
+                  "border-text-primary/30 rounded-[100px]",
+                  "text-text-primary text-xs font-normal font-['Sora'] leading-10",
+                  "placeholder:text-text-secondary focus-visible:ring-0",
+                  "transition-all duration-300",
+                  "focus:border-primary focus:ring-1 focus:ring-primary/30"
+                )}
+              />
+              <Search
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary"
+                aria-label={t('accessibility.searchIcon')}
+              />
+            </div>
+
+            {/* 搜索图标和展开搜索框 */}
+            <div className="xl:hidden">
+              <AnimatePresence mode="wait">
+                {!isSearchExpanded ? (
+                  <motion.button
+                    key="search-icon"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setIsSearchExpanded(true)}
+                    className={cn(
+                      "flex items-center justify-center w-10 h-10",
+                      "rounded-full hover:bg-primary/10 transition-colors",
+                      "text-text-primary"
+                    )}
+                    aria-label={t('accessibility.searchIcon')}
+                  >
+                    <Search className="w-5 h-5" />
+                  </motion.button>
+                ) : (
+                  <motion.div
+                    key="search-input"
+                    initial={{ width: 40, opacity: 0 }}
+                    animate={{ width: 300, opacity: 1 }}
+                    exit={{ width: 40, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="relative"
+                  >
+                    <div className="relative flex items-center bg-background rounded-[100px] border border-border-color">
+                      <Input
+                        type="search"
+                        placeholder={t('common.search')}
+                        className={cn(
+                          "w-full pl-4 pr-[70px] py-2.5 bg-transparent",
+                          "border-none rounded-[100px]",
+                          "text-text-primary text-sm font-normal font-['Sora']",
+                          "placeholder:text-text-secondary focus-visible:ring-0",
+                          "transition-all duration-300"
+                        )}
+                        autoFocus
+                      />
+                      <div className="absolute right-2 flex items-center gap-2">
+                        <Search className="w-4 h-4 text-text-secondary" />
+                        <button
+                          onClick={() => setIsSearchExpanded(false)}
+                          className="p-1.5 hover:bg-primary/10 rounded-full transition-colors"
+                          aria-label={t('accessibility.closeSearch')}
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          <GradientBorderButton onClick={handleBuyDBC}>
-            {t('buttons.buyDBC')}
-          </GradientBorderButton>
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <GradientBorderButton onClick={handleBuyDBC}>
+              {t('buttons.buyDBC')}
+            </GradientBorderButton>
 
-          <GradientBorderButton onClick={handleBuyXAA}>
-            {t('buttons.buyXAA')}
-          </GradientBorderButton>
+            <GradientBorderButton onClick={handleBuyXAA}>
+              {t('buttons.buyXAA')}
+            </GradientBorderButton>
 
-          <Button 
-            className="h-[38.50px]"
-            onClick={handleWalletClick}
-            disabled={status === 'connecting'}
-          >
-            {status === 'connecting' ? (
-              t('wallet.connecting')
-            ) : isConnected ? (
-              `${address?.slice(0, 6)}...${address?.slice(-4)}`
-            ) : (
-              t('wallet.connect')
-            )}
-          </Button>
+            <Button
+              className="h-[38.50px]"
+              onClick={handleWalletClick}
+              disabled={status === 'connecting'}
+            >
+              {status === 'connecting' ? (
+                t('wallet.connecting')
+              ) : isConnected ? (
+                `${address?.slice(0, 6)}...${address?.slice(-4)}`
+              ) : (
+                t('wallet.connect')
+              )}
+            </Button>
 
-          <ThemeToggle />
-          <LanguageSwitcher />
+            <div className="flex gap-0.5">
+              <ThemeToggle />
+              <LanguageSwitcher />
+            </div>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -247,14 +315,14 @@ const Navbar = () => {
                   </Link>
                 ))}
 
-                <GradientBorderButton 
+                <GradientBorderButton
                   containerClassName="w-full max-w-[220px]"
                   onClick={handleBuyDBC}
                 >
                   {t('buttons.buyDBC')}
                 </GradientBorderButton>
 
-                <GradientBorderButton 
+                <GradientBorderButton
                   containerClassName="w-full max-w-[220px]"
                   onClick={handleBuyXAA}
                 >

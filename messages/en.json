@@ -54,7 +54,10 @@
     "cancel": "Cancel",
     "save": "Save",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "toggleMenu": "Toggle Menu",
+    "closeMenu": "Close Menu",
+    "toggleTheme": "Toggle Theme"
   },
   "messages": {
     "comingSoon": "Coming soon! Stay tuned for updates.",
@@ -137,5 +140,39 @@
     "holders": "Holders",
     "tba": "TBA",
     "zero": "0"
+  },
+  "accessibility": {
+    "logo": "XAI Agent Platform Logo",
+    "chatIcon": "Chat Icon",
+    "searchIcon": "Search Icon",
+    "walletIcon": "Wallet Icon",
+    "menuIcon": "Menu Icon",
+    "closeIcon": "Close Icon",
+    "themeIcon": "Theme Icon",
+    "languageIcon": "Language Icon",
+    "copyIcon": "Copy Icon",
+    "agentAvatar": "Agent Avatar",
+    "creatorAvatar": "Creator Avatar"
+  },
+  "holderDistribution": {
+    "title": "Holder Distribution ({count} holders)",
+    "address": "Address",
+    "percentage": "Percentage",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "agentDescription": {
+    "title": "Description",
+    "platform": "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
+    "tools": "It provides development tools for ordinary users and XAgentScope framework for advanced developers.",
+    "infrastructure": "Through DBC blockchain's GPU mining network support, XAIAgent ensures completely decentralized AI operation, providing data privacy, high performance and low cost advantages.",
+    "models": "The platform has pre-installed various AI models that can handle complex tasks and multi-round conversations.",
+    "ecosystem": "Its token economic model promotes sustainable ecosystem growth, making XAIAgent an integrated platform for AI and blockchain technology.",
+    "conversationStarters": {
+      "createAgent": "Help me create an AI Agent",
+      "functions": "What functions do you have?", 
+      "agentTypes": "What types of AI Agents can you create?",
+      "usage": "Can you tell me how to use xx as an Agent?"
+    }
   }
 } 
