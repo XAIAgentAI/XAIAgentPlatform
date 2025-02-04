@@ -6,7 +6,7 @@ import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 import { localAgents, LocalAgent } from '@/data/localAgents'
 import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 interface Agent {
   id: string;
@@ -16,6 +16,13 @@ interface Agent {
   description: string;
   avatar: string;
   timeAgo: string;
+  descriptionJA?: string;
+  descriptionKO?: string;
+  descriptionZH?: string;
+  status: string;
+  statusJA?: string;
+  statusKO?: string;
+  statusZH?: string;
 }
 
 const mockAgents: Agent[] = [
@@ -53,6 +60,7 @@ export default function AgentsPage() {
   const router = useRouter()
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
   const t = useTranslations()
+  const locale = useLocale()
   
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
@@ -93,7 +101,7 @@ export default function AgentsPage() {
                   {filteredAgents.map((agent) => (
                     <div 
                       key={agent.id} 
-                      onClick={() => router.push(`/agent-detail/${agent.id}`)}
+                      onClick={() => router.push(`/${locale}/agent-detail/${agent.id}`)}
                       className="group rounded-lg p-4 transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
                     >
                       <div className="flex items-start gap-4">
@@ -116,9 +124,18 @@ export default function AgentsPage() {
                           <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">
                             {agent.symbol} | {t('agents.marketCap')}: {agent.marketCap}
                           </p>
-                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">{t('agents.status')}: {agent.status}</p>
+                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">{t('agents.status')}: {
+                            locale === 'en' ? agent.status :
+                            locale === 'ja' ? agent.statusJA :
+                            locale === 'ko' ? agent.statusKO :
+                            locale === 'zh' ? agent.statusZH :
+                            agent.status
+                          }</p>
                           <p className="text-foreground/50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
-                            {agent.description}
+                            {locale === 'en' && agent.description}
+                            {locale === 'ja' && agent.descriptionJA}
+                            {locale === 'ko' && agent.descriptionKO}
+                            {locale === 'zh' && agent.descriptionZH}
                           </p>
                         </div>
                       </div>

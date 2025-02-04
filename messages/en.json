@@ -174,5 +174,30 @@
       "agentTypes": "What types of AI Agents can you create?",
       "usage": "Can you tell me how to use xx as an Agent?"
     }
+  },
+  "buy-dbc": {
+    "title": "How to Purchase DBC and Transfer It to Your Wallet",
+    "step1": {
+      "title": "Buy DBC on Gate.io",
+      "description": "Visit {link} to purchase DBC."
+    },
+    "step2": {
+      "title": "Add a Custom Network to Your Wallet",
+      "description": "You can use wallets like {metamask}, {imtoken}, or {tokenpocket}."
+    },
+    "step3": {
+      "title": "Configure the Network with the Following Details:",
+      "networkName": "Network Name:",
+      "networkNameValue": "DeepBrainChain Mainnet",
+      "chainRPC": "Chain RPC URL:",
+      "chainID": "Chain ID:",
+      "chainIDValue": "19880818",
+      "currencySymbol": "Currency Symbol:",
+      "currencySymbolValue": "DBC"
+    },
+    "step4": {
+      "title": "Withdraw DBC from Gate.io",
+      "description": "When withdrawing, choose {network} as the network."
+    }
   }
 } 

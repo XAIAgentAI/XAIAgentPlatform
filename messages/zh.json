@@ -159,5 +159,30 @@
       "agentTypes": "你可以创建哪些类型的 AI 智能体？",
       "usage": "你能告诉我如何使用 xx 作为智能体吗？"
     }
+  },
+  "buy-dbc": {
+    "title": "如何购买 DBC 并转入您的钱包",
+    "step1": {
+      "title": "在 Gate.io 购买 DBC",
+      "description": "访问 {link} 购买 DBC。"
+    },
+    "step2": {
+      "title": "在您的钱包中添加自定义网络",
+      "description": "您可以使用 {metamask}、{imtoken} 或 {tokenpocket} 等钱包。"
+    },
+    "step3": {
+      "title": "使用以下详细信息配置网络：",
+      "networkName": "网络名称：",
+      "networkNameValue": "DeepBrainChain 主网",
+      "chainRPC": "链 RPC 地址：",
+      "chainID": "链 ID：",
+      "chainIDValue": "19880818",
+      "currencySymbol": "货币符号：",
+      "currencySymbolValue": "DBC"
+    },
+    "step4": {
+      "title": "从 Gate.io 提现 DBC",
+      "description": "提现时，请选择 {network} 作为网络。"
+    }
   }
 } 

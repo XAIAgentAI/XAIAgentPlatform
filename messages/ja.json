@@ -161,5 +161,30 @@
       "agentTypes": "どのようなタイプのAIエージェントを作成できますか？",
       "usage": "xxをエージェントとして使用する方法を教えてください"
     }
+  },
+  "buy-dbc": {
+    "title": "DBCの購入方法とウォレットへの転送方法",
+    "step1": {
+      "title": "Gate.ioでDBCを購入",
+      "description": "{link}にアクセスしてDBCを購入してください。"
+    },
+    "step2": {
+      "title": "ウォレットにカスタムネットワークを追加",
+      "description": "{metamask}、{imtoken}、{tokenpocket}などのウォレットが使用できます。"
+    },
+    "step3": {
+      "title": "以下の詳細でネットワークを設定：",
+      "networkName": "ネットワーク名：",
+      "networkNameValue": "DeepBrainChain メインネット",
+      "chainRPC": "チェーンRPC URL：",
+      "chainID": "チェーンID：",
+      "chainIDValue": "19880818",
+      "currencySymbol": "通貨記号：",
+      "currencySymbolValue": "DBC"
+    },
+    "step4": {
+      "title": "Gate.ioからDBCを出金",
+      "description": "出金時は、ネットワークとして{network}を選択してください。"
+    }
   }
 } 

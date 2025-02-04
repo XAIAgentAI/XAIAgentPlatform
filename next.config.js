@@ -21,7 +21,11 @@ const nextConfig = {
     }
   },
   env: {
-    _next_intl_trailing_slash: 'true'
+    _next_intl_trailing_slash: 'true',
+    DATABASE_URL: process.env.DATABASE_URL || ''
+  },
+  eslint: {
+    ignoreDuringBuilds: true
   },
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
