@@ -60,9 +60,55 @@ function getPreferredLanguage(acceptLanguage: string): string {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
+  // 如果是 API 路由，跳过语言处理
+  if (path.startsWith('/api/')) {
+    // 如果需要身份验证，进行验证
+    if (needsAuth(path)) {
+      // 获取 token
+      const authHeader = request.headers.get('authorization');
+      console.log('Authorization header:', authHeader);
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        console.log('No valid authorization header found');
+        return NextResponse.json(
+          { code: 401, message: '未授权' },
+          { status: 401 }
+        );
+      }
+
+      const token = authHeader.split(' ')[1];
+      console.log('Extracted token:', token);
+
+      try {
+        // 验证 token
+        const { payload } = await jose.jwtVerify(token, JWT_SECRET);
+        console.log('Decoded token:', payload);
+        
+        // 创建新的 headers
+        const requestHeaders = new Headers(request.headers);
+        requestHeaders.set('x-user-id', payload.userId as string);
+        requestHeaders.set('x-user-address', payload.address as string);
+
+        // 返回修改后的请求
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+        });
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        return NextResponse.json(
+          { code: 401, message: 'token无效' },
+          { status: 401 }
+        );
+      }
+    }
+    return NextResponse.next();
+  }
+
   // 检查是否是直接访问的非 locale 路径
   const isDirectPath = !path.match(/^\/(en|ja|ko|zh)(\/|$)/);
-  if (isDirectPath && !path.startsWith('/api/')) {
+  if (isDirectPath) {
     // 获取用户首选语言
     const acceptLanguage = request.headers.get('accept-language') || '';
     const defaultLocale = getPreferredLanguage(acceptLanguage);
@@ -72,57 +118,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(newUrl);
   }
 
-  // 首先处理国际化路由
-  const response = await intlMiddleware(request);
-  if (response) return response;
-
-  console.log('Middleware processing path:', path);
-
-  // 如果不需要身份验证，直接放行
-  if (!needsAuth(path)) {
-    return NextResponse.next();
-  }
-
-  // 获取 token
-  const authHeader = request.headers.get('authorization');
-  console.log('Authorization header:', authHeader);
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('No valid authorization header found');
-    return NextResponse.json(
-      { code: 401, message: '未授权' },
-      { status: 401 }
-    );
-  }
-
-  const token = authHeader.split(' ')[1];
-  console.log('Extracted token:', token);
-
-  try {
-    // 验证 token
-    const { payload } = await jose.jwtVerify(token, JWT_SECRET);
-    console.log('Decoded token:', payload);
-    
-    // 创建新的 headers
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', payload.userId as string);
-    requestHeaders.set('x-user-address', payload.address as string);
-
-    // 返回修改后的请求
-    const response = NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
-
-    return response;
-  } catch (error) {
-    console.error('Token verification failed:', error);
-    return NextResponse.json(
-      { code: 401, message: 'token无效' },
-      { status: 401 }
-    );
-  }
+  // 处理国际化路由
+  return intlMiddleware(request);
 }
 
 export const config = {
@@ -130,13 +127,7 @@ export const config = {
     // 匹配所有路径
     '/',
     '/(en|ja|ko|zh)/:path*',
-    // 支持不带 locale 的路径
-    '/agent-detail/:path*',
-    '/agents/:path*',
-    '/buy-dbc/:path*',
-    '/chat/:path*',
-    // 原有的 API 路径
-    '/api/auth/:path*',
-    '/api/user/:path*',
+    // API 路由
+    '/api/:path*',
   ],
 }; 
