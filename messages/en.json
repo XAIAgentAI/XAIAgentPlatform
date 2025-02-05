@@ -9,7 +9,8 @@
     "buy": "Buy",
     "sell": "Sell",
     "stake": "Stake",
-    "unstake": "Unstake"
+    "unstake": "Unstake",
+    "social": "Social"
   },
   "navigation": {
     "home": "Home",
@@ -33,11 +34,17 @@
     "notFound": "Agent not found",
     "addressCopied": "Contract address copied to clipboard",
     "chatComingSoon": "Chat feature coming soon! Stay tuned for updates.",
+    "conversationStarter": "Conversation Starter",
     "chat": "Chatting",
     "createdBy": "Created by",
     "information": "Information",
     "holders": "Holders",
-    "conversationStarter": "Conversation Starter"
+    "accessibility": {
+      "agentAvatar": "Agent Avatar",
+      "creatorAvatar": "Creator Avatar",
+      "copyIcon": "Copy Icon",
+      "chatIcon": "Chat Icon"
+    }
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -116,7 +123,9 @@
     "stakeSuccessful": "Stake successful!",
     "stakeNotStarted": "Staking not started",
     "processing": "Processing...",
-    "send": "Send"
+    "send": "Send",
+    "loadingData": "Loading data...",
+    "loading": "Loading..."
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
@@ -170,14 +179,14 @@
   },
   "agentDescription": {
     "title": "Description",
-    "platform": "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
+    "platform": "XAIAgent is a blockchain-based decentralized AI Agent platform that integrates the creation, utilization, deployment, and trading of AI Agents. Through no-code development tools, general users can easily create AI Agents, while advanced developers can develop and deploy more sophisticated AI Agents through the XAgentScope framework. Utilizing the GPU mining network of the DBC chain ensures complete decentralization of AI execution while providing data privacy, high performance, and low-cost advantages. The platform incorporates various AI models to support complex tasks and multi-round conversations, and promotes continuous ecosystem growth through a multi-token economic model, making it an all-in-one platform that integrates AI and blockchain.",
     "tools": "It provides development tools for ordinary users and XAgentScope framework for advanced developers.",
     "infrastructure": "Through DBC blockchain's GPU mining network support, XAIAgent ensures completely decentralized AI operation, providing data privacy, high performance and low cost advantages.",
     "models": "The platform has pre-installed various AI models that can handle complex tasks and multi-round conversations.",
     "ecosystem": "Its token economic model promotes sustainable ecosystem growth, making XAIAgent an integrated platform for AI and blockchain technology.",
     "conversationStarters": {
       "createAgent": "Help me create an AI Agent",
-      "functions": "What functions do you have?", 
+      "functions": "What functions do you have?",
       "agentTypes": "What types of AI Agents can you create?",
       "usage": "Can you tell me how to use xx as an Agent?"
     }

@@ -38,7 +38,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ContextProvider cookies={cookies}>
             <div className="relative flex min-h-screen flex-col">

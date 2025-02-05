@@ -166,11 +166,11 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('status')}</span>
-                    <p className="text-secondary-color text-sm font-medium">
+                    <div className="text-secondary-color text-sm font-medium">
                       <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
                         {agent.status}
                       </CustomBadge>
-                    </p>
+                    </div>
                   </div>
                   {(socialLinks.twitter || socialLinks.telegram || socialLinks.medium) && (
                     <div className="space-y-1 col-span-2">

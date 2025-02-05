@@ -16,7 +16,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
-  const { poolInfo, isLoading, stake } = useStakeContract();
+  const { poolInfo, isLoading: isStakeLoading, stake } = useStakeContract();
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
 
@@ -55,7 +56,23 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   };
 
   const now = Date.now();
-  const isDepositPeriod = now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
+  const isDepositPeriod = !isDataLoading && now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
+
+  useEffect(() => {
+    const fetchPoolData = async () => {
+      try {
+        setIsDataLoading(true);
+        // 这里可以添加获取池子数据的逻辑
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟数据加载
+      } catch (error) {
+        console.error('Failed to fetch pool data:', error);
+      } finally {
+        setIsDataLoading(false);
+      }
+    };
+
+    fetchPoolData();
+  }, []);
 
   return (
     <Card className="p-6">
@@ -64,13 +81,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       <div className="space-y-4">
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">{agent.totalSupply}</span>
+          <span className="font-semibold text-[#F47521] break-all">
+            { agent.totalSupply}
+          </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {Number(poolInfo.totalDeposited).toLocaleString()}
+            { Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
@@ -97,36 +116,29 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               step="any"
               className="flex-1 placeholder:text-muted-foreground/50"
               placeholder="0.0"
-              disabled={!isDepositPeriod || isLoading || !isAuthenticated}
+              disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading}
             />
           </div>
-
-          {/* <Button
-            className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-            onClick={handleStake}
-            disabled={true}
-          >
-            {t('iaoNotStarted')}
-          </Button> */}
-
 
           <Button
             className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
             onClick={handleStake}
-            disabled={!isAuthenticated || !isDepositPeriod || isLoading}
+            disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
           >
-            {!isAuthenticated
-              ? t('connectWalletFirst')
-              : !isDepositPeriod
-                ? t('stakeNotStarted')
-                : isLoading
+            {isDataLoading
+              ? t('loadingData')
+              : !isAuthenticated
+                ? t('connectWalletFirst')
+                : isStakeLoading
                   ? t('processing')
-                  : t('send')}
+                  : isDepositPeriod
+                    ? t('send')
+                    : t('stakeNotStarted')}
           </Button>
 
           {isAuthenticated && (
             <p className="mt-4 text-sm text-muted-foreground">
-              {t('stakedAmount', { symbol: 'DBC' })}: {Number(poolInfo.userDeposited).toLocaleString()}
+              {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
             </p>
           )}
         </div>

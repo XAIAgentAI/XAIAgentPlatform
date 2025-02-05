@@ -122,7 +122,9 @@
     "stakeSuccessful": "质押成功！",
     "stakeNotStarted": "质押未开始",
     "processing": "处理中...",
-    "send": "发送"
+    "send": "发送",
+    "loadingData": "加载数据中...",
+    "loading": "加载中..."
   },
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",

@@ -38,7 +38,11 @@
     "createdBy": "作成者",
     "information": "情報",
     "holders": "保有者",
-    "conversationStarter": "会話のきっかけ"
+    "conversationStarter": "会話のきっかけ",
+    "accessibility": {
+      "creatorAvatar": "クリエイターのアバター",
+      "copyIcon": "コピーアイコン"
+    }
   },
   "wallet": {
     "connect": "ウォレットを接続",
@@ -108,7 +112,12 @@
     "success": "成功",
     "connectWalletFirst": "先にウォレットを接続してください",
     "enterValidAmount": "有効なステーク量を入力してください",
-    "stakeSuccessful": "ステークが成功しました！"
+    "stakeSuccessful": "ステークが成功しました！",
+    "stakeNotStarted": "ステーキングはまだ開始していません",
+    "processing": "処理中...",
+    "send": "送信",
+    "loadingData": "データを読み込み中...",
+    "loading": "読み込み中..."
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
