@@ -8,8 +8,20 @@ import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/ap
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 
-// Set up queryClient
-const queryClient = new QueryClient()
+// Set up queryClient with retry configuration
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false, // 禁用自动重试
+            retryOnMount: false, // 组件重新挂载时不重试
+            refetchOnWindowFocus: false, // 窗口获得焦点时不重试
+            refetchOnReconnect: false, // 重新连接时不重试
+        },
+        mutations: {
+            retry: false, // 禁用 mutation 的自动重试
+        },
+    },
+})
 
 if (!projectId) {
     throw new Error('Project ID is not defined')
@@ -28,7 +40,7 @@ const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
     networks: networks,
-    defaultNetwork: networks[0],
+    defaultNetwork: networks[1],
     metadata: metadata,
     features: {
         analytics: true, // Optional - defaults to your Cloud configuration

@@ -4,8 +4,8 @@ export const defaultNetwork = {
   chainId: 19850818,
   name: "DeepBrainChain Testnet",
   symbol: "tDBC",
-  rpcUrl: 'https://rpc-testnet.dbcwallet.io',
-  blockExplorerUrl: "https://test.dbcscan.io",
+  rpcUrl: process.env.NEXT_PUBLIC_TESTNET_RPC_URL || 'https://rpc-testnet.dbcwallet.io',
+  blockExplorerUrl: process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL || "https://test.dbcscan.io",
 } as const;
 
 export const dbcTestnet = {
@@ -24,10 +24,7 @@ export const dbcTestnet = {
     default: { name: 'DBCScan', url: defaultNetwork.blockExplorerUrl },
   },
   testnet: true,
-} as const satisfies Chain; 
-
-
-
+} as const satisfies Chain;
 
 export const dbcMainnet = {
   id: 19880818,
@@ -39,17 +36,17 @@ export const dbcMainnet = {
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc.dbcwallet.io'],
+      http: [process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://rpc.dbcwallet.io'],
     },
     public: {
-      http: ['https://rpc.dbcwallet.io'],
+      http: [process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://rpc.dbcwallet.io'],
     },
   },
   blockExplorers: {
     default: {
       name: 'DBCScan',
-      url: 'https://dbcscan.io',
+      url: process.env.NEXT_PUBLIC_MAINNET_EXPLORER_URL || 'https://dbcscan.io',
     },
   },
   testnet: false,
-}
+} as const satisfies Chain;

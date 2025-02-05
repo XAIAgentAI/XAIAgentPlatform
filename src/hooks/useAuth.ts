@@ -67,34 +67,61 @@ export function useAuth() {
       }
 
       // Get nonce
-      const { nonce, message } = await apiClient.getNonce();
+      let nonceResponse;
+      try {
+        nonceResponse = await apiClient.getNonce();
+      } catch (error) {
+        console.error('Failed to get nonce:', error);
+        setError('获取 nonce 失败，请稍后重试');
+        setLoading(false);
+        return;
+      }
+
+      const { nonce, message } = nonceResponse;
 
       // Ensure address format is correct
       const formattedAddress = address.toLowerCase();
 
       // Request signature
-      const signature = await signMessageAsync({ message });
+      let signature;
+      try {
+        signature = await signMessageAsync({ message });
+      } catch (error) {
+        console.error('User rejected signature:', error);
+        setError('用户拒绝签名');
+        setLoading(false);
+        return;
+      }
 
       // Verify signature and login
-      const { token } = await apiClient.connectWallet({
-        address: formattedAddress,
-        signature,
-        message,
-      });
+      try {
+        const { token } = await apiClient.connectWallet({
+          address: formattedAddress,
+          signature,
+          message,
+        });
 
-      // Save token
-      localStorage.setItem('token', token);
-      apiClient.setToken(token);
+        // Save token
+        localStorage.setItem('token', token);
+        apiClient.setToken(token);
 
-      setLastAuthAddress(address);
-      setAuthenticated(true);
-      setLoading(false);
+        setLastAuthAddress(address);
+        setAuthenticated(true);
+      } catch (error) {
+        console.error('Wallet connect failed:', error);
+        setError('钱包连接失败，请稍后重试');
+        localStorage.removeItem('token');
+        apiClient.clearToken();
+        reset();
+      }
     } catch (error) {
       console.error('Authentication failed:', error);
       localStorage.removeItem('token');
       apiClient.clearToken();
       reset();
-      setError(error instanceof Error ? error.message : 'Authentication failed');
+      setError(error instanceof Error ? error.message : '认证失败');
+    } finally {
+      setLoading(false);
     }
   }, [
     address,

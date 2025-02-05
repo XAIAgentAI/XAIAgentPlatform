@@ -20,9 +20,9 @@ class ApiClient {
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit & { noAuth?: boolean } = {}
+    options: RequestInit & { noAuth?: boolean; maxRetries?: number } = {}
   ): Promise<T> {
-    const { noAuth, ...requestOptions } = options;
+    const { noAuth, maxRetries = 0, ...requestOptions } = options;
     const headers = new Headers({
       'Content-Type': 'application/json',
       ...(!noAuth && this.token ? { 'Authorization': `Bearer ${this.token}` } : {}),
@@ -34,37 +34,56 @@ class ApiClient {
       method: requestOptions.method || 'GET',
     });
 
-    const response = await fetch(`/api${endpoint}`, {
-      ...requestOptions,
-      headers,
-    });
+    let lastError: any;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(`/api${endpoint}`, {
+          ...requestOptions,
+          headers,
+        });
 
-    const data: ApiResponse<T> = await response.json();
-    console.log(`Response from ${endpoint}:`, data);
+        const data: ApiResponse<T> = await response.json();
+        console.log(`Response from ${endpoint}:`, data);
 
-    if (!response.ok) {
-      console.error(`Request to ${endpoint} failed:`, data);
-      if (response.status === 401) {
-        // 清除无效的 token
-        this.clearToken();
-        localStorage.removeItem('token');
+        if (!response.ok) {
+          console.error(`Request to ${endpoint} failed:`, data);
+          if (response.status === 401) {
+            // 清除无效的 token
+            this.clearToken();
+            localStorage.removeItem('token');
+          }
+          throw new ApiError(data.code, data.message, data.data);
+        }
+
+        return data.data;
+      } catch (error) {
+        lastError = error;
+        if (attempt === maxRetries) {
+          throw error;
+        }
+        // 如果不是最后一次尝试，等待一段时间后重试
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
       }
-      throw new ApiError(data.code, data.message, data.data);
     }
-
-    return data.data;
+    throw lastError;
   }
 
   // Auth
   async getNonce() {
-    return this.request<{ nonce: string; message: string }>('/auth/nonce', { noAuth: true });
+    // 对于 nonce 请求，不进行重试
+    return this.request<{ nonce: string; message: string }>('/auth/nonce', { 
+      noAuth: true,
+      maxRetries: 0 
+    });
   }
 
   async connectWallet(params: { address: string; signature: string; message: string }) {
+    // 对于钱包连接请求，不进行重试
     return this.request<{ token: string; address: string }>('/auth/wallet-connect', {
       method: 'POST',
       body: JSON.stringify(params),
       noAuth: true,
+      maxRetries: 0
     });
   }
 

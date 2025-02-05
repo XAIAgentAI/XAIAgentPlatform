@@ -101,12 +101,27 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             />
           </div>
 
-          <Button
+          {/* <Button
             className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
             onClick={handleStake}
             disabled={true}
           >
             {t('iaoNotStarted')}
+          </Button> */}
+
+
+          <Button
+            className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+            onClick={handleStake}
+            disabled={!isAuthenticated || !isDepositPeriod || isLoading}
+          >
+            {!isAuthenticated
+              ? t('connectWalletFirst')
+              : !isDepositPeriod
+                ? t('stakeNotStarted')
+                : isLoading
+                  ? t('processing')
+                  : t('send')}
           </Button>
 
           {isAuthenticated && (

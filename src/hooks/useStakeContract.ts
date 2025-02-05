@@ -62,60 +62,78 @@ export const useStakeContract = () => {
     if (!walletClient || !isConnected) return;
 
     try {
-      // setIsLoading(true);
+      setIsLoading(true);
       
-      // const publicClient = createPublicClient({
-      //   chain: dbcTestnet,
-      //   transport: custom(walletClient.transport),
-      // });
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
 
-      // const [totalDeposited, startTime, endTime] = await Promise.all([
-      //   publicClient.readContract({
-      //     address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-      //     abi: STAKE_CONTRACT_ABI,
-      //     functionName: 'totalDepositedDBC',
-      //   }),
-      //   publicClient.readContract({
-      //     address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-      //     abi: STAKE_CONTRACT_ABI,
-      //     functionName: 'startTime',
-      //   }),
-      //   publicClient.readContract({
-      //     address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-      //     abi: STAKE_CONTRACT_ABI,
-      //     functionName: 'endTime',
-      //   }),
-      // ]);
+      // 分开调用每个函数以便更好地处理错误
+      let startTime, endTime, totalDeposited;
 
-      // const newPoolInfo: any = {
-      //   totalDeposited: ethers.formatEther(totalDeposited.toString()),
-      //   startTime: Number(startTime),
-      //   endTime: Number(endTime),
-      // };
+      try {
+        startTime = await publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'startTime',
+        });
+      } catch (error) {
+        console.error('Failed to fetch startTime:', error);
+        startTime = 0;
+      }
 
-      // if (isAuthenticated && address) {
-      //   const [userDeposited, hasClaimed] = await Promise.all([
-      //     publicClient.readContract({
-      //       address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-      //       abi: STAKE_CONTRACT_ABI,
-      //       functionName: 'userDeposits',
-      //       args: [address as `0x${string}`],
-      //     }),
-      //     publicClient.readContract({
-      //       address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-      //       abi: STAKE_CONTRACT_ABI,
-      //       functionName: 'hasClaimed',
-      //       args: [address as `0x${string}`],
-      //     }),
-      //   ]);
-      //   newPoolInfo.userDeposited = ethers.formatEther(userDeposited.toString());
-      //   newPoolInfo.hasClaimed = hasClaimed;
-      // } else {
-      //   newPoolInfo.userDeposited = '0';
-      //   newPoolInfo.hasClaimed = false;
-      // }
+      try {
+        endTime = await publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'endTime',
+        });
+      } catch (error) {
+        console.error('Failed to fetch endTime:', error);
+        endTime = 0;
+      }
 
-      // setPoolInfo(newPoolInfo);
+      try {
+        totalDeposited = await publicClient.readContract({
+          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+          abi: STAKE_CONTRACT_ABI,
+          functionName: 'totalDepositedDBC',
+        });
+      } catch (error) {
+        console.error('Failed to fetch totalDeposited:', error);
+        totalDeposited = BigInt(0);
+      }
+
+      const newPoolInfo: any = {
+        totalDeposited: ethers.formatEther(totalDeposited?.toString() || '0'),
+        startTime: Number(startTime || 0),
+        endTime: Number(endTime || 0),
+      };
+
+      if (isAuthenticated && address) {
+        const [userDeposited, hasClaimed] = await Promise.all([
+          publicClient.readContract({
+            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+            abi: STAKE_CONTRACT_ABI,
+            functionName: 'userDeposits',
+            args: [address as `0x${string}`],
+          }),
+          publicClient.readContract({
+            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+            abi: STAKE_CONTRACT_ABI,
+            functionName: 'hasClaimed',
+            args: [address as `0x${string}`],
+          }),
+        ]);
+        newPoolInfo.userDeposited = ethers.formatEther(userDeposited.toString());
+        newPoolInfo.hasClaimed = hasClaimed;
+      } else {
+        newPoolInfo.userDeposited = '0';
+        newPoolInfo.hasClaimed = false;
+      }
+
+      setPoolInfo(newPoolInfo);
     } catch (error) {
       console.error('Failed to fetch pool info:', error);
       toast({

@@ -18,7 +18,8 @@
     "profile": "个人中心",
     "trading": "交易智能体",
     "explore": "探索智能体",
-    "creating": "创建智能体"
+    "creating": "创建智能体",
+    "chat": "聊天"
   },
   "agent": {
     "details": "智能体详情",
@@ -33,11 +34,17 @@
     "notFound": "未找到智能体",
     "addressCopied": "合约地址已复制到剪贴板",
     "chatComingSoon": "聊天功能即将推出！敬请期待。",
-    "chat": "聊天",
     "createdBy": "创建者",
     "information": "基本信息",
     "holders": "持有者",
-    "conversationStarter": "对话开始"
+    "conversationStarter": "对话开始",
+    "chat": "聊天",
+    "accessibility": {
+      "agentAvatar": "智能体头像",
+      "creatorAvatar": "创建者头像",
+      "copyIcon": "复制图标",
+      "chatIcon": "聊天图标"
+    }
   },
   "wallet": {
     "connect": "连接钱包",
@@ -54,13 +61,19 @@
     "cancel": "取消",
     "save": "保存",
     "edit": "编辑",
-    "delete": "删除"
+    "delete": "删除",
+    "closeMenu": "关闭菜单",
+    "toggleMenu": "切换菜单"
   },
   "messages": {
     "comingSoon": "即将推出！敬请期待。",
     "connectWallet": "请先连接钱包。",
     "transactionSuccess": "交易成功！",
-    "transactionFailed": "交易失败，请重试。"
+    "transactionFailed": "交易失败，请重试。",
+    "invalidInput": "输入无效，请重试。",
+    "networkError": "网络错误，请检查您的网络连接。",
+    "unauthorized": "未授权的操作，请先登录。",
+    "serverError": "服务器错误，请稍后重试。"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -106,7 +119,10 @@
     "success": "成功",
     "connectWalletFirst": "请先连接钱包",
     "enterValidAmount": "请输入有效的质押数量",
-    "stakeSuccessful": "质押成功！"
+    "stakeSuccessful": "质押成功！",
+    "stakeNotStarted": "质押未开始",
+    "processing": "处理中...",
+    "send": "发送"
   },
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",
@@ -184,5 +200,11 @@
       "title": "从 Gate.io 提现 DBC",
       "description": "提现时，请选择 {network} 作为网络。"
     }
+  },
+  "accessibility": {
+    "walletIcon": "钱包图标",
+    "logo": "XAIAgent 标志",
+    "searchIcon": "搜索图标",
+    "closeSearch": "关闭搜索"
   }
 } 
