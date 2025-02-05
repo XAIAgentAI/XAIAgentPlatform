@@ -9,7 +9,8 @@
     "start:dev": "NODE_ENV=development node server.js",
     "start:prod": "NODE_ENV=production node server.js",
     "redeploy:dev": "git pull && pnpm install && pnpm run build:dev && pm2 restart xaiagentplatform-dev",
-    "redeploy:prod": "git pull &&  pnpm build:prod && pm2 restart xaiagentplatform-prod",
+    "redeploy:prod-old": "git pull &&  pnpm build:prod && PORT=3001 NODE_ENV=production node server.js",
+    "redeploy:prod": "git pull &&  pnpm build:prod && pm2 start ecosystem.config.js",
     "redeploy:beta": "git pull && pnpm install && pnpm run build:prod && pm2 restart xaiagentplatform",
     "lint": "next lint"
   },
