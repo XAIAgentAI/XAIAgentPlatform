@@ -136,11 +136,11 @@ export const useStakeContract = () => {
       setPoolInfo(newPoolInfo);
     } catch (error) {
       console.error('Failed to fetch pool info:', error);
-      toast({
-        // variant: "destructive",
-        title: "Error",
-        description: "Failed to fetch pool info",
-      });
+      // toast({
+      //   // variant: "destructive",
+      //   title: "Error",
+      //   description: "Failed to fetch pool info",
+      // });
     } finally {
       setIsLoading(false);
     }
