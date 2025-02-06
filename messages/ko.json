@@ -188,7 +188,7 @@
     "step1": {
       "title": "Gate.io에서 DBC 구매",
       "description": {
-        "prefix": "방문하여",
+        "prefix": "",
         "suffix": "에서 DBC를 구매하세요"
       }
     },
