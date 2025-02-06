@@ -3,10 +3,12 @@ import { useAppKitAccount } from '@reown/appkit/react';
 import { apiClient } from '@/lib/api-client';
 import { useSignMessage } from 'wagmi';
 import { useAuthStore } from '@/stores/auth';
+import { useTranslations } from 'next-intl';
 
 export function useAuth() {
   const { address, isConnected, status } = useAppKitAccount();
   const { signMessageAsync } = useSignMessage();
+  const t = useTranslations('messages');
   const {
     isAuthenticated,
     isLoading,
@@ -72,7 +74,7 @@ export function useAuth() {
         nonceResponse = await apiClient.getNonce();
       } catch (error) {
         console.error('Failed to get nonce:', error);
-        setError('获取 nonce 失败，请稍后重试');
+        setError(t('getNonceFailed'));
         setLoading(false);
         return;
       }
@@ -88,7 +90,7 @@ export function useAuth() {
         signature = await signMessageAsync({ message });
       } catch (error) {
         console.error('User rejected signature:', error);
-        setError('用户拒绝签名');
+        setError(t('signatureRejected'));
         setLoading(false);
         return;
       }
@@ -107,19 +109,27 @@ export function useAuth() {
 
         setLastAuthAddress(address);
         setAuthenticated(true);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Wallet connect failed:', error);
-        setError('钱包连接失败，请稍后重试');
+        if (error?.message?.includes('Nonce 已过期')) {
+          setError(t('nonceExpired'));
+        } else {
+          setError(t('walletConnectFailed'));
+        }
         localStorage.removeItem('token');
         apiClient.clearToken();
         reset();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Authentication failed:', error);
       localStorage.removeItem('token');
       apiClient.clearToken();
       reset();
-      setError(error instanceof Error ? error.message : '认证失败');
+      if (error?.message?.includes('Nonce 已过期')) {
+        setError(t('nonceExpired'));
+      } else {
+        setError(error instanceof Error ? error.message : t('authenticationFailed'));
+      }
     } finally {
       setLoading(false);
     }
@@ -137,6 +147,7 @@ export function useAuth() {
     setError,
     setLastAuthAddress,
     reset,
+    t,
   ]);
 
   const logout = useCallback(async () => {

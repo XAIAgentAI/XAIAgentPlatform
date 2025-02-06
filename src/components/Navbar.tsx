@@ -71,9 +71,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (status === 'connected') {
+      console.log('status', status, 'authenticate', authenticate);
+      
       authenticate();
     }
-  }, [status, authenticate]);
+  }, [status, ]);
 
   const handleWalletClick = () => {
     if (isConnected) {

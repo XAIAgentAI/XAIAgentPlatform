@@ -67,13 +67,18 @@
   },
   "messages": {
     "comingSoon": "即将推出！敬请期待。",
-    "connectWallet": "请先连接钱包。",
+    "connectWallet": "请先连接钱包",
     "transactionSuccess": "交易成功！",
-    "transactionFailed": "交易失败，请重试。",
-    "invalidInput": "输入无效，请重试。",
-    "networkError": "网络错误，请检查您的网络连接。",
-    "unauthorized": "未授权的操作，请先登录。",
-    "serverError": "服务器错误，请稍后重试。"
+    "transactionFailed": "交易失败，请重试",
+    "invalidInput": "输入无效，请重试",
+    "networkError": "网络错误，请检查您的连接",
+    "unauthorized": "未授权操作，请先登录",
+    "serverError": "服务器错误，请稍后重试",
+    "getNonceFailed": "获取登录凭证失败，请刷新页面重试",
+    "signatureRejected": "用户拒绝签名",
+    "nonceExpired": "登录会话已过期，请刷新页面重新登录",
+    "walletConnectFailed": "钱包连接失败，请刷新页面重试",
+    "authenticationFailed": "认证失败，请刷新页面重试"
   },
   "agentList": {
     "sortBy": "排序方式",
