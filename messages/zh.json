@@ -187,11 +187,18 @@
     "title": "如何购买 DBC 并转入您的钱包",
     "step1": {
       "title": "在 Gate.io 购买 DBC",
-      "description": "访问 {link} 购买 DBC。"
+      "description": {
+        "prefix": "访问",
+        "suffix": "购买 DBC"
+      }
     },
     "step2": {
       "title": "在您的钱包中添加自定义网络",
-      "description": "您可以使用 {metamask}、{imtoken} 或 {tokenpocket} 等钱包。"
+      "description": {
+        "prefix": "您可以使用",
+        "middle": "或",
+        "suffix": "等钱包"
+      }
     },
     "step3": {
       "title": "使用以下详细信息配置网络：",
@@ -205,7 +212,10 @@
     },
     "step4": {
       "title": "从 Gate.io 提现 DBC",
-      "description": "提现时，请选择 {network} 作为网络。"
+      "description": {
+        "prefix": "提现时，请选择",
+        "suffix": "作为网络"
+      }
     }
   },
   "accessibility": {

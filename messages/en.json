@@ -200,11 +200,18 @@
     "title": "How to Purchase DBC and Transfer It to Your Wallet",
     "step1": {
       "title": "Buy DBC on Gate.io",
-      "description": "Visit {link} to purchase DBC."
+      "description": {
+        "prefix": "Visit",
+        "suffix": "to purchase DBC"
+      }
     },
     "step2": {
       "title": "Add a Custom Network to Your Wallet",
-      "description": "You can use wallets like {metamask}, {imtoken}, or {tokenpocket}."
+      "description": {
+        "prefix": "You can use wallets like",
+        "middle": "or",
+        "suffix": ""
+      }
     },
     "step3": {
       "title": "Configure the Network with the Following Details:",
@@ -218,7 +225,10 @@
     },
     "step4": {
       "title": "Withdraw DBC from Gate.io",
-      "description": "When withdrawing, choose {network} as the network."
+      "description": {
+        "prefix": "When withdrawing, choose",
+        "suffix": "as the network"
+      }
     }
   }
 } 

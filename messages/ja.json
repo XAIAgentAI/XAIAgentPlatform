@@ -184,11 +184,18 @@
     "title": "DBCの購入方法とウォレットへの転送方法",
     "step1": {
       "title": "Gate.ioでDBCを購入",
-      "description": "{link}にアクセスしてDBCを購入してください。"
+      "description": {
+        "prefix": "アクセスして",
+        "suffix": "でDBCを購入"
+      }
     },
     "step2": {
       "title": "ウォレットにカスタムネットワークを追加",
-      "description": "{metamask}、{imtoken}、{tokenpocket}などのウォレットが使用できます。"
+      "description": {
+        "prefix": "以下のウォレットが使用できます：",
+        "middle": "または",
+        "suffix": "など"
+      }
     },
     "step3": {
       "title": "以下の詳細でネットワークを設定：",
@@ -202,7 +209,10 @@
     },
     "step4": {
       "title": "Gate.ioからDBCを出金",
-      "description": "出金時は、ネットワークとして{network}を選択してください。"
+      "description": {
+        "prefix": "出金時は、ネットワークとして",
+        "suffix": "を選択してください"
+      }
     }
   }
 } 
