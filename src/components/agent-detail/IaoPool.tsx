@@ -116,30 +116,42 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               step="any"
               className="flex-1 placeholder:text-muted-foreground/50"
               placeholder="0.0"
-              disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading}
+              disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
             />
           </div>
 
-          <Button
-            className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-            onClick={handleStake}
-            disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
-          >
-            {isDataLoading
-              ? t('loadingData')
-              : !isAuthenticated
-                ? t('connectWalletFirst')
-                : isStakeLoading
-                  ? t('processing')
-                  : isDepositPeriod
-                    ? t('send')
-                    : t('stakeNotStarted')}
-          </Button>
+          {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
+            <>
+              <Button
+                className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                onClick={handleStake}
+                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
+              >
+                {isDataLoading
+                  ? t('loadingData')
+                  : !isAuthenticated
+                    ? t('connectWalletFirst')
+                    : isStakeLoading
+                      ? t('processing')
+                      : isDepositPeriod
+                        ? t('send')
+                        : t('stakeNotStarted')}
+              </Button>
 
-          {isAuthenticated && (
-            <p className="mt-4 text-sm text-muted-foreground">
-              {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
-            </p>
+              {isAuthenticated && (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
+                </p>
+              )}
+            </>
+          ) : (
+            <Button
+              className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+              onClick={handleStake}
+              disabled={true}
+            >
+              {t('iaoNotStarted')}
+            </Button>
           )}
         </div>
       </div>

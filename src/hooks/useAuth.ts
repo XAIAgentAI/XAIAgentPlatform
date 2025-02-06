@@ -4,10 +4,12 @@ import { apiClient } from '@/lib/api-client';
 import { useSignMessage } from 'wagmi';
 import { useAuthStore } from '@/stores/auth';
 import { useTranslations } from 'next-intl';
+import { useDisconnect } from 'wagmi';
 
 export function useAuth() {
   const { address, isConnected, status } = useAppKitAccount();
   const { signMessageAsync } = useSignMessage();
+  const { disconnect } = useDisconnect();
   const t = useTranslations('messages');
   const {
     isAuthenticated,
@@ -42,6 +44,8 @@ export function useAuth() {
   }, [address, setAuthenticated, setLastAuthAddress]);
 
   const authenticate = useCallback(async () => {
+    console.log("authenticate被调用");
+    
     // If loading, don't process again
     if (isLoading) return;
 
@@ -76,6 +80,8 @@ export function useAuth() {
         console.error('Failed to get nonce:', error);
         setError(t('getNonceFailed'));
         setLoading(false);
+        reset();
+        disconnect();
         return;
       }
 
@@ -87,11 +93,13 @@ export function useAuth() {
       // Request signature
       let signature;
       try {
-        signature = await signMessageAsync({ message });
+        // signature = await signMessageAsync({ message });
       } catch (error) {
         console.error('User rejected signature:', error);
         setError(t('signatureRejected'));
         setLoading(false);
+        reset();
+        disconnect();
         return;
       }
 
@@ -119,12 +127,14 @@ export function useAuth() {
         localStorage.removeItem('token');
         apiClient.clearToken();
         reset();
+        disconnect();
       }
     } catch (error: any) {
       console.error('Authentication failed:', error);
       localStorage.removeItem('token');
       apiClient.clearToken();
       reset();
+      disconnect();
       if (error?.message?.includes('Nonce 已过期')) {
         setError(t('nonceExpired'));
       } else {
@@ -147,6 +157,7 @@ export function useAuth() {
     setError,
     setLastAuthAddress,
     reset,
+    disconnect,
     t,
   ]);
 
