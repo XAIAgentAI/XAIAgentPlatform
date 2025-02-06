@@ -93,7 +93,11 @@ export function useAuth() {
       // Request signature
       let signature;
       try {
-        // signature = await signMessageAsync({ message });
+        signature = await signMessageAsync({ message });
+        
+        if (!signature) {
+          throw new Error('No signature returned');
+        }
       } catch (error) {
         console.error('User rejected signature:', error);
         setError(t('signatureRejected'));
