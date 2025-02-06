@@ -42,23 +42,24 @@ export async function POST(request: Request) {
       where: { nonce },
     });
 
+    console.log('Stored nonce lookup result:', storedNonce);
+
     if (!storedNonce) {
       console.log('Nonce not found:', nonce);
-      return NextResponse.json(
-        {
-          code: 400,
-          message: 'Nonce 不存在',
+      // 检查是否有其他有效的 nonce
+      const allValidNonces = await prisma.authNonce.findMany({
+        where: {
+          expiresAt: {
+            gt: new Date(),
+          },
         },
-        { status: 400 }
-      );
-    }
-
-    if (storedNonce.expiresAt < new Date()) {
-      console.log('Nonce expired:', storedNonce.expiresAt);
+      });
+      console.log('All valid nonces:', allValidNonces);
+      
       return NextResponse.json(
         {
           code: 400,
-          message: 'Nonce 已过期',
+          message: 'Nonce 不存在或已过期，请重新获取',
         },
         { status: 400 }
       );
