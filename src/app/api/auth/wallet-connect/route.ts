@@ -3,6 +3,10 @@ import { ethers } from 'ethers';
 import { prisma } from '@/lib/prisma';
 import * as jose from 'jose';
 
+// 禁用路由缓存
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // 使用固定的 JWT_SECRET，确保前后端一致
 const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
