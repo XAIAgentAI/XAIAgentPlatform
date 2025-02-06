@@ -31,7 +31,7 @@ if (!projectId) {
 const metadata = {
     name: 'xaiagent',
     description: 'xaiagent',
-    url: 'https://app.xaiagent.com', // origin must match your domain & subdomain
+    url: 'https://app.xaiagent.io', // origin must match your domain & subdomain
     icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
 
