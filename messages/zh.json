@@ -78,7 +78,8 @@
     "signatureRejected": "用户拒绝签名",
     "nonceExpired": "登录会话已过期，请刷新页面重新登录",
     "walletConnectFailed": "钱包连接失败，请刷新页面重试",
-    "authenticationFailed": "认证失败，请刷新页面重试"
+    "authenticationFailed": "认证失败，请刷新页面重试",
+    "addressCopied": "合约地址已复制"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -222,6 +223,8 @@
     "walletIcon": "钱包图标",
     "logo": "XAIAgent 标志",
     "searchIcon": "搜索图标",
-    "closeSearch": "关闭搜索"
+    "closeSearch": "关闭搜索",
+    "contractLink": "查看合约详情",
+    "copyContractAddress": "复制合约地址"
   }
 } 

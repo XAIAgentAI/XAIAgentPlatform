@@ -22,6 +22,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
+  const tAgentDetail = useTranslations('agentDetail');
 
   // 根据当前语言获取对应的描述
   const getLocalizedDescription = () => {
@@ -89,41 +90,48 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
                 <div className="flex items-center gap-2 mt-1">
                   <>
                     <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData?.symbol}</div>
-                    <div className="min-w-[80px] max-w-full h-[21px] pl-2 pr-[9.54px] pt-1.5 pb-[6.08px] bg-white/10 rounded-[100px] flex items-center overflow-hidden">
-                      <a
-                        className="hover:text-primary transition-colors cursor-pointer text-tertiary-color text-[10px] font-normal font-['Sora'] leading-[10px] truncate transition-transform duration-200 ease-in-out transform "
-                        onClick={() => {
-                          window.open(`https://dbcscan.io/token/${tokenData?.address}`, "_blank");
-                        }}
-                      >
-                        {tokenData?.address}
-                      </a>
-                      <CustomButton
-                        className="p-0 bg-transparent hover:bg-transparent text-gray-500 hover:text-gray-700 ml-[10px] flex-shrink-0"
-                        onClick={() => {
-                          navigator.clipboard.writeText(tokenData?.address || "");
-                          toast({
-                            description: t('agent.addressCopied'),
-                          });
-                        }}
-                        aria-label={t('accessibility.copyIcon')}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          aria-hidden="true"
+                    <div className="flex items-center gap-2 min-w-[80px] max-w-full h-[32px] px-3 py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
+                      <span className="text-muted-foreground text-xs whitespace-nowrap">
+                        {tAgentDetail('contract')}:
+                      </span>
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <a
+                          href={`https://dbcscan.io/token/${tokenData?.address}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-tertiary-color text-xs hover:text-primary transition-colors truncate"
+                          aria-label={t('accessibility.contractLink')}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                          />
-                        </svg>
-                      </CustomButton>
+                          {tokenData?.address}
+                        </a>
+                        <button
+                          type="button"
+                          className="p-1.5 rounded-md hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
+                          onClick={() => {
+                            navigator.clipboard.writeText(tokenData?.address || "");
+                            toast({
+                              description: t('addressCopied'),
+                            });
+                          }}
+                          aria-label={t('accessibility.copyContractAddress')}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </>
                 </div>

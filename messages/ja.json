@@ -41,7 +41,9 @@
     "conversationStarter": "会話のきっかけ",
     "accessibility": {
       "creatorAvatar": "クリエイターのアバター",
-      "copyIcon": "コピーアイコン"
+      "copyIcon": "コピーアイコン",
+      "contractLink": "コントラクトの詳細を表示",
+      "copyContractAddress": "コントラクトアドレスをコピー"
     }
   },
   "wallet": {
@@ -74,7 +76,8 @@
     "signatureRejected": "署名が拒否されました",
     "nonceExpired": "ログインセッションが期限切れです。ページを更新して再度ログインしてください",
     "walletConnectFailed": "ウォレット接続に失敗しました。ページを更新して再試行してください",
-    "authenticationFailed": "認証に失敗しました。ページを更新して再試行してください"
+    "authenticationFailed": "認証に失敗しました。ページを更新して再試行してください",
+    "addressCopied": "コントラクトアドレスをコピーしました"
   },
   "agentList": {
     "sortBy": "並び替え",

@@ -78,7 +78,8 @@
     "signatureRejected": "서명이 거부되었습니다",
     "nonceExpired": "로그인 세션이 만료되었습니다. 페이지를 새로고침하고 다시 로그인해주세요",
     "walletConnectFailed": "지갑 연결에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요",
-    "authenticationFailed": "인증에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요"
+    "authenticationFailed": "인증에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요",
+    "addressCopied": "컨트랙트 주소가 복사되었습니다"
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -229,6 +230,8 @@
     "languageIcon": "언어 아이콘",
     "copyIcon": "복사 아이콘",
     "agentAvatar": "에이전트 아바타",
-    "creatorAvatar": "생성자 아바타"
+    "creatorAvatar": "생성자 아바타",
+    "contractLink": "컨트랙트 상세 보기",
+    "copyContractAddress": "컨트랙트 주소 복사"
   }
 } 
