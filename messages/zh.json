@@ -110,7 +110,7 @@
     "marketCap": "市值",
     "volume": "交易量",
     "supply": "供应量",
-    "contract": "合约"
+    "contract": "智能合约"
   },
   "iaoPool": {
     "title": "IAO 池",
