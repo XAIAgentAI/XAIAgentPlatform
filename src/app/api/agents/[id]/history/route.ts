@@ -47,7 +47,7 @@ export async function GET(
     });
 
     return createSuccessResponse({
-      history: history.map(item => ({
+      history: history.map((item: any) => ({
         id: item.id,
         action: item.action,
         result: item.result,

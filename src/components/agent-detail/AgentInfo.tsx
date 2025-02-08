@@ -171,7 +171,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       </div>
 
       {/* Candlestick Chart */}
-      <div className="mt-6">
+      <div className="">
         <CryptoChart agent={agent} />
       </div>
 

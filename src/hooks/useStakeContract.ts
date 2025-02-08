@@ -5,9 +5,10 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
 import { createPublicClient, createWalletClient, custom, parseEther, type Hash } from 'viem';
-import { useWalletClient } from 'wagmi';
+import { useWalletClient, useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
 import * as React from 'react';
+import { useTestNetwork } from '@/hooks/useTestNetwork';
 
 type ToastMessage = {
   title: string;
@@ -49,6 +50,7 @@ export const useStakeContract = () => {
   const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { ensureTestNetwork } = useTestNetwork();
   const [poolInfo, setPoolInfo] = useState({
     totalDeposited: '0',
     startTime: 0,
@@ -60,6 +62,10 @@ export const useStakeContract = () => {
   // Fetch pool info
   const fetchPoolInfo = useCallback(async () => {
     if (!walletClient || !isConnected) return;
+
+    // 添加网络检查
+    const isCorrectNetwork = await ensureTestNetwork();
+    if (!isCorrectNetwork) return;
 
     try {
       setIsLoading(true);
@@ -144,7 +150,7 @@ export const useStakeContract = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [walletClient, address, isConnected, isAuthenticated, toast]);
+  }, [walletClient, address, isConnected, isAuthenticated, toast, ensureTestNetwork]);
 
   // Auto fetch pool info
   useEffect(() => {
@@ -162,6 +168,10 @@ export const useStakeContract = () => {
       } as ToastMessage));
       return null;
     }
+
+    // 添加网络检查
+    const isCorrectNetwork = await ensureTestNetwork();
+    if (!isCorrectNetwork) return null;
 
     try {
       setIsLoading(true);
@@ -238,6 +248,10 @@ export const useStakeContract = () => {
       } as ToastMessage));
       return;
     }
+
+    // 添加网络检查
+    const isCorrectNetwork = await ensureTestNetwork();
+    if (!isCorrectNetwork) return;
 
     try {
       setIsLoading(true);

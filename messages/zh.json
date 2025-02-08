@@ -89,7 +89,10 @@
     "nonceExpired": "登录会话已过期，请刷新页面重新登录",
     "walletConnectFailed": "钱包连接失败，请刷新页面重试",
     "authenticationFailed": "认证失败，请刷新页面重试",
-    "addressCopied": "合约地址已复制"
+    "addressCopied": "合约地址已复制",
+    "info": "提示",
+    "switchedToTestnet": "已切换到测试网，请重新点击发送",
+    "switchNetworkFailed": "请切换到 DBC 测试网后再试"
   },
   "agentList": {
     "sortBy": "排序方式",

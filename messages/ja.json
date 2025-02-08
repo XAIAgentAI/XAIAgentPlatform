@@ -46,8 +46,10 @@
     "holders": "保有者",
     "conversationStarter": "会話のきっかけ",
     "accessibility": {
+      "agentAvatar": "エージェントのアバター",
       "creatorAvatar": "クリエイターのアバター",
       "copyIcon": "コピーアイコン",
+      "chatIcon": "チャットアイコン",
       "contractLink": "コントラクトの詳細を表示",
       "copyContractAddress": "コントラクトアドレスをコピー"
     }
@@ -86,7 +88,10 @@
     "nonceExpired": "ログインセッションが期限切れです。ページを更新して再度ログインしてください",
     "walletConnectFailed": "ウォレット接続に失敗しました。ページを更新して再試行してください",
     "authenticationFailed": "認証に失敗しました。ページを更新して再試行してください",
-    "addressCopied": "コントラクトアドレスをコピーしました"
+    "addressCopied": "コントラクトアドレスをコピーしました",
+    "info": "お知らせ",
+    "switchedToTestnet": "テストネットに切り替えました。もう一度クリックして送信してください",
+    "switchNetworkFailed": "DBCテストネットに切り替えて再試行してください"
   },
   "agentList": {
     "sortBy": "並び替え",

@@ -13,6 +13,7 @@ import { useTranslations } from 'next-intl';
 import { LocalAgent } from "@/data/localAgents";
 import { useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
+import { useTestNetwork } from '@/hooks/useTestNetwork';
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
@@ -25,6 +26,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+  const { ensureTestNetwork } = useTestNetwork();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -44,32 +46,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     }
 
     // 检查并尝试切换网络
-    if (chainId !== dbcTestnet.id) {
-      if (switchChain) {
-        try {
-          await switchChain({ chainId: dbcTestnet.id });
-          // 网络切换后直接返回，等待用户重新点击
-          toast({
-            title: t('info'),
-            description: "已切换到测试网，请重新点击发送",
-          });
-          return;
-        } catch (error) {
-          console.error('Failed to switch network:', error);
-          toast({
-            title: t('error'),
-            description: "请切换到 DBC 测试网后再试",
-          });
-          return;
-        }
-      } else {
-        toast({
-          title: t('error'),
-          description: "请切换到 DBC 测试网后再试",
-        });
-        return;
-      }
-    }
+    const isCorrectNetwork = await ensureTestNetwork();
+    if (!isCorrectNetwork) return;
 
     if (!dbcAmount || Number(dbcAmount) <= 0) {
       toast({

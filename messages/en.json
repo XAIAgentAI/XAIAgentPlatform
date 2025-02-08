@@ -49,7 +49,9 @@
       "agentAvatar": "Agent Avatar",
       "creatorAvatar": "Creator Avatar",
       "copyIcon": "Copy Icon",
-      "chatIcon": "Chat Icon"
+      "chatIcon": "Chat Icon",
+      "contractLink": "View contract on DBCScan",
+      "copyContractAddress": "Copy contract address"
     }
   },
   "wallet": {
@@ -85,7 +87,10 @@
     "signatureRejected": "User rejected signature",
     "nonceExpired": "Login session expired. Please refresh the page and login again",
     "walletConnectFailed": "Wallet connection failed. Please refresh the page and try again",
-    "authenticationFailed": "Authentication failed. Please refresh the page and try again"
+    "authenticationFailed": "Authentication failed. Please refresh the page and try again",
+    "info": "Info",
+    "switchedToTestnet": "Switched to testnet, please click again to send",
+    "switchNetworkFailed": "Please switch to DBC testnet and try again"
   },
   "agentList": {
     "sortBy": "Sort by",
