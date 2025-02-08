@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface CountdownProps {
   remainingTime: number; // Remaining time (milliseconds)
@@ -10,6 +11,7 @@ interface CountdownProps {
 }
 
 export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
+  const t = useTranslations('common.timeUnits');
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -68,20 +70,20 @@ export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
       {timeLeft.days > 0 && (
         <div className="flex items-center gap-1">
           <span className="font-medium">{timeLeft.days}</span>
-          <span className="text-sm text-muted-foreground">d</span>
+          <span className="text-sm text-muted-foreground">{t('days')}</span>
         </div>
       )}
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.hours).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">h</span>
+        <span className="text-sm text-muted-foreground">{t('hours')}</span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.minutes).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">m</span>
+        <span className="text-sm text-muted-foreground">{t('minutes')}</span>
       </div>
       <div className="flex items-center gap-1">
         <span className="font-medium">{String(timeLeft.seconds).padStart(2, '0')}</span>
-        <span className="text-sm text-muted-foreground">s</span>
+        <span className="text-sm text-muted-foreground">{t('seconds')}</span>
       </div>
     </div>
   );

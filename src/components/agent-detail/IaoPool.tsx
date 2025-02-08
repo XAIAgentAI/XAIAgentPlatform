@@ -11,15 +11,20 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAppKitAccount } from '@reown/appkit/react'
 import { useTranslations } from 'next-intl';
 import { LocalAgent } from "@/data/localAgents";
+import { useChainId, useSwitchChain } from 'wagmi';
+import { dbcTestnet } from '@/config/wagmi';
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
+  const [claimableXAA, setClaimableXAA] = useState("0");
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
-  const { poolInfo, isLoading: isStakeLoading, stake } = useStakeContract();
+  const { poolInfo, isLoading: isStakeLoading, stake, claimRewards, getClaimableXAA } = useStakeContract();
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,6 +43,34 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       return;
     }
 
+    // 检查并尝试切换网络
+    if (chainId !== dbcTestnet.id) {
+      if (switchChain) {
+        try {
+          await switchChain({ chainId: dbcTestnet.id });
+          // 网络切换后直接返回，等待用户重新点击
+          toast({
+            title: t('info'),
+            description: "已切换到测试网，请重新点击发送",
+          });
+          return;
+        } catch (error) {
+          console.error('Failed to switch network:', error);
+          toast({
+            title: t('error'),
+            description: "请切换到 DBC 测试网后再试",
+          });
+          return;
+        }
+      } else {
+        toast({
+          title: t('error'),
+          description: "请切换到 DBC 测试网后再试",
+        });
+        return;
+      }
+    }
+
     if (!dbcAmount || Number(dbcAmount) <= 0) {
       toast({
         title: t('error'),
@@ -46,17 +79,28 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       return;
     }
 
-    await stake(dbcAmount);
-    toast({
-      variant: "default",
-      title: t('success'),
-      description: t('stakeSuccessful'),
-    });
-    setDbcAmount("");
+    try {
+      const result = await stake(dbcAmount);
+      // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
+      if (result && result.hash) {
+        toast({
+          variant: "default",
+          title: t('success'),
+          description: t('stakeSuccessful'),
+        });
+        setDbcAmount("");
+      }
+    } catch (error: any) {
+      toast({
+        title: t('error'),
+        description: t('stakeFailed'),
+      });
+    }
   };
 
   const now = Date.now();
-  const isDepositPeriod = !isDataLoading && now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
+  // const isDepositPeriod = !isDataLoading && now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
+  const isDepositPeriod = true;
 
   useEffect(() => {
     const fetchPoolData = async () => {
@@ -74,6 +118,17 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     fetchPoolData();
   }, []);
 
+  // 获取可领取的XAA数量
+  useEffect(() => {
+    const fetchClaimableXAA = async () => {
+      if (!isAuthenticated) return;
+      const amount = await getClaimableXAA();
+      setClaimableXAA(amount);
+    };
+
+    fetchClaimableXAA();
+  }, [isAuthenticated, getClaimableXAA, poolInfo]);
+
   return (
     <Card className="p-6">
       <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
@@ -82,20 +137,31 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            { agent.totalSupply}
+            {agent.totalSupply}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            { Number(poolInfo.totalDeposited).toLocaleString()}
+            {Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+          {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
+            poolInfo.endTime > 0 ? (
+              <Countdown 
+                remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())} 
+                className="font-semibold text-[#F47521] break-all"
+              />
+            ) : (
+              <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+            )
+          ) : (
+            <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+          )}
         </div>
 
         <div className="mt-8 p-6 bg-muted rounded-lg">
@@ -138,10 +204,44 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                         : t('stakeNotStarted')}
               </Button>
 
+              {/* <Button
+                className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+                onClick={async () => {
+                  try {
+                    await claimRewards();
+                    toast({
+                      title: "领取成功",
+                      description: (
+                        <div className="space-y-2">
+                          <p>XAA Token 已发送到您的钱包</p>
+                          <p className="text-sm text-muted-foreground">请在 MetaMask 中导入 Token 地址查看：</p>
+                          <code className="block p-2 bg-black/10 rounded text-xs break-all">
+                            {CONTRACTS.XAA_TOKEN}
+                          </code>
+                        </div>
+                      ),
+                    });
+                  } catch (error: any) {
+                    toast({
+                      title: t('error'),
+                      description: error.message || t('stakeFailed'),
+                    });
+                  }
+                }}
+                disabled={!isAuthenticated || isStakeLoading}
+              >
+                测试领取奖励
+              </Button> */}
+
               {isAuthenticated && (
-                <p className="mt-4 text-sm text-muted-foreground">
-                  {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
-                </p>
+                <div className="space-y-2 mt-4">
+                  <p className="text-sm text-muted-foreground">
+                    {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    可领取的XAA数量: {claimableXAA}
+                  </p>
+                </div>
               )}
             </>
           ) : (

@@ -9,7 +9,14 @@
     "buy": "购买",
     "sell": "出售",
     "stake": "质押",
-    "unstake": "解除质押"
+    "unstake": "解除质押",
+    "timeUnits": {
+      "days": "天",
+      "hours": "时",
+      "minutes": "分",
+      "seconds": "秒"
+    },
+    "social": "社交"
   },
   "navigation": {
     "home": "首页",
@@ -43,7 +50,9 @@
       "agentAvatar": "智能体头像",
       "creatorAvatar": "创建者头像",
       "copyIcon": "复制图标",
-      "chatIcon": "聊天图标"
+      "chatIcon": "聊天图标",
+      "contractLink": "查看合约详情",
+      "copyContractAddress": "复制合约地址"
     }
   },
   "wallet": {
@@ -63,7 +72,8 @@
     "edit": "编辑",
     "delete": "删除",
     "closeMenu": "关闭菜单",
-    "toggleMenu": "切换菜单"
+    "toggleMenu": "切换菜单",
+    "toggleTheme": "切换主题"
   },
   "messages": {
     "comingSoon": "即将推出！敬请期待。",
@@ -126,6 +136,7 @@
     "connectWalletFirst": "请先连接钱包",
     "enterValidAmount": "请输入有效的质押数量",
     "stakeSuccessful": "质押成功！",
+    "stakeFailed": "质押失败，请重试",
     "stakeNotStarted": "质押未开始",
     "processing": "处理中...",
     "send": "发送",
@@ -220,11 +231,16 @@
     }
   },
   "accessibility": {
-    "walletIcon": "钱包图标",
-    "logo": "XAIAgent 标志",
+    "logo": "XAI Agent 平台标志",
+    "chatIcon": "聊天图标",
     "searchIcon": "搜索图标",
-    "closeSearch": "关闭搜索",
-    "contractLink": "查看合约详情",
-    "copyContractAddress": "复制合约地址"
+    "walletIcon": "钱包图标",
+    "menuIcon": "菜单图标",
+    "closeIcon": "关闭图标",
+    "themeIcon": "主题图标",
+    "languageIcon": "语言图标",
+    "copyIcon": "复制图标",
+    "agentAvatar": "智能体头像",
+    "creatorAvatar": "创建者头像"
   }
 } 

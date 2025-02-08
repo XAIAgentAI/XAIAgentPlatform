@@ -10,7 +10,13 @@
     "sell": "売却",
     "stake": "ステーク",
     "unstake": "アンステーク",
-    "social": "ソーシャル"
+    "social": "ソーシャル",
+    "timeUnits": {
+      "days": "日",
+      "hours": "時間",
+      "minutes": "分",
+      "seconds": "秒"
+    }
   },
   "navigation": {
     "home": "ホーム",
@@ -61,7 +67,10 @@
     "cancel": "キャンセル",
     "save": "保存",
     "edit": "編集",
-    "delete": "削除"
+    "delete": "削除",
+    "toggleMenu": "メニューの切り替え",
+    "toggleTheme": "テーマの切り替え",
+    "closeMenu": "メニューを閉じる"
   },
   "messages": {
     "comingSoon": "近日公開予定です！お楽しみに。",
@@ -124,8 +133,9 @@
     "success": "成功",
     "connectWalletFirst": "先にウォレットを接続してください",
     "enterValidAmount": "有効なステーク量を入力してください",
-    "stakeSuccessful": "ステークが成功しました！",
-    "stakeNotStarted": "ステーキングはまだ開始していません",
+    "stakeSuccessful": "ステーキングが成功しました！",
+    "stakeFailed": "ステーキングに失敗しました。もう一度お試しください",
+    "stakeNotStarted": "ステーキングはまだ開始されていません",
     "processing": "処理中...",
     "send": "送信",
     "loadingData": "データを読み込み中...",
@@ -217,5 +227,18 @@
         "suffix": "を選択してください"
       }
     }
+  },
+  "accessibility": {
+    "logo": "XAI Agent プラットフォームロゴ",
+    "chatIcon": "チャットアイコン",
+    "searchIcon": "検索アイコン",
+    "walletIcon": "ウォレットアイコン",
+    "menuIcon": "メニューアイコン",
+    "closeIcon": "閉じるアイコン",
+    "themeIcon": "テーマアイコン",
+    "languageIcon": "言語アイコン",
+    "copyIcon": "コピーアイコン",
+    "agentAvatar": "エージェントのアバター",
+    "creatorAvatar": "クリエイターのアバター"
   }
 } 

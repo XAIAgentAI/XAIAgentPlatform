@@ -10,7 +10,13 @@
     "sell": "Sell",
     "stake": "Stake",
     "unstake": "Unstake",
-    "social": "Social"
+    "social": "Social",
+    "timeUnits": {
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s"
+    }
   },
   "navigation": {
     "home": "Home",
@@ -126,6 +132,7 @@
     "connectWalletFirst": "Please connect wallet first",
     "enterValidAmount": "Please enter a valid stake amount",
     "stakeSuccessful": "Stake successful!",
+    "stakeFailed": "Stake failed, please try again",
     "stakeNotStarted": "Staking not started",
     "processing": "Processing...",
     "send": "Send",

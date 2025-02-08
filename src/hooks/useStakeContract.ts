@@ -160,7 +160,7 @@ export const useStakeContract = () => {
         title: "Error",
         description: "Please connect your wallet first",
       } as ToastMessage));
-      return;
+      return null;
     }
 
     try {
@@ -201,7 +201,7 @@ export const useStakeContract = () => {
       } as ToastMessage));
 
       console.log('Waiting for transaction confirmation:', hash);
-      await publicClient.waitForTransactionReceipt({ hash });
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
       
       toast(createToastMessage({
         title: "Success",
@@ -211,12 +211,19 @@ export const useStakeContract = () => {
 
       // Refresh pool info
       await fetchPoolInfo();
+
+      return { hash, receipt };
     } catch (error: any) {
       console.error('Stake failed:', error);
+      // 如果是用户拒绝签名，直接抛出错误
+      if (error?.code === 4001) {
+        throw error;
+      }
       toast(createToastMessage({
         title: "Error",
         description: error?.message || "Failed to stake",
       } as ToastMessage));
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -281,11 +288,76 @@ export const useStakeContract = () => {
     }
   };
 
+  // 计算用户可领取的XAA数量
+  const getClaimableXAA = useCallback(async () => {
+    if (!walletClient || !isConnected || !address) return '0';
+
+    try {
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: custom(walletClient.transport),
+      });
+
+      // 获取总质押量
+      const totalDeposited = await publicClient.readContract({
+        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        abi: STAKE_CONTRACT_ABI,
+        functionName: 'totalDepositedDBC',
+      });
+
+      // 获取用户质押量
+      const userDeposited = await publicClient.readContract({
+        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        abi: STAKE_CONTRACT_ABI,
+        functionName: 'userDeposits',
+        args: [address as `0x${string}`],
+      });
+
+      // 获取用户是否已领取
+      const hasClaimed = await publicClient.readContract({
+        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        abi: STAKE_CONTRACT_ABI,
+        functionName: 'hasClaimed',
+        args: [address as `0x${string}`],
+      });
+
+      console.log('所有结果', {
+        totalDeposited,
+        userDeposited,
+        hasClaimed,
+      
+      });
+
+      // 获取总奖励
+      const totalReward = await publicClient.readContract({
+        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        abi: STAKE_CONTRACT_ABI,
+        functionName: 'TOTAL_XAA_REWARD',
+      });
+
+      if (hasClaimed) {
+        return '已领取';
+      }
+
+      if (totalDeposited === BigInt(0)) {
+        return '0';
+      }
+
+      // 计算用户应得的XAA数量：(用户质押量 / 总质押量) * 总奖励
+      const claimable = (userDeposited * totalReward) / totalDeposited;
+      return ethers.formatEther(claimable);
+    } catch (error) {
+      console.error('Failed to get claimable XAA:', error);
+      return '0';
+    }
+  }, [walletClient, isConnected, address]);
+
   return {
     poolInfo,
     isLoading,
     stake,
     claimRewards,
     fetchPoolInfo,
+    getClaimableXAA,
   };
 }; 

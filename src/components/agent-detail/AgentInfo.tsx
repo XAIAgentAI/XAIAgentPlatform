@@ -91,7 +91,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
                   <>
                     <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData?.symbol}</div>
                     <div className="flex items-center gap-2 min-w-[80px] max-w-full h-[32px] px-3 py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
-                      <span className="text-muted-foreground text-xs whitespace-nowrap">
+                      <span className="text-muted-foreground text-xs whitespace-nowrap hidden md:block">
                         {tAgentDetail('contract')}:
                       </span>
                       <div className="flex items-center gap-2 flex-1 min-w-0">

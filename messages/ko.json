@@ -5,11 +5,17 @@
     "loading": "로딩 중...",
     "error": "오류",
     "success": "성공",
-    "search": "에이전트/CA 검색",
+    "search": "에이전트/계약 주소 검색",
     "buy": "구매",
     "sell": "판매",
     "stake": "스테이킹",
     "unstake": "언스테이킹",
+    "timeUnits": {
+      "days": "일",
+      "hours": "시간",
+      "minutes": "분",
+      "seconds": "초"
+    },
     "social": "소셜"
   },
   "navigation": {
@@ -63,7 +69,8 @@
     "edit": "수정",
     "delete": "삭제",
     "closeMenu": "메뉴 닫기",
-    "toggleMenu": "메뉴 토글"
+    "toggleMenu": "메뉴 토글",
+    "toggleTheme": "테마 전환"
   },
   "messages": {
     "comingSoon": "곧 출시됩니다! 업데이트를 기다려주세요.",
@@ -125,7 +132,8 @@
     "success": "성공",
     "connectWalletFirst": "먼저 지갑을 연결해주세요",
     "enterValidAmount": "유효한 스테이킹 수량을 입력해주세요",
-    "stakeSuccessful": "스테이킹이 성공적으로 완료되었습니다!",
+    "stakeSuccessful": "스테이킹 성공!",
+    "stakeFailed": "스테이킹 실패, 다시 시도해주세요",
     "stakeNotStarted": "스테이킹이 시작되지 않았습니다",
     "processing": "처리 중...",
     "send": "전송",
