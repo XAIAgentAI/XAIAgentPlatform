@@ -321,7 +321,11 @@ const Navbar = () => {
                   <Link
                     key={link.id}
                     href={link.href}
-                    className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
+                    className={cn(
+                      "w-full block text-center",
+                      "text-text-primary text-base lg:text-sm font-normal font-['Sora']",
+                      isCurrentPath(link.href) && "text-primary"
+                    )}
                     onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
                   >
                     {link.label}
