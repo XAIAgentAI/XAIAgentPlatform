@@ -13,13 +13,14 @@ import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from '@/hooks/useAuth'
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Link } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
 
 
 const Navbar = () => {
   const locale = useLocale();
+  const pathname = usePathname();
 
   const t = useTranslations();
   const { toast } = useToast()
@@ -106,6 +107,14 @@ const Navbar = () => {
     setIsMenuOpen(false)
   }
 
+  // 检查链接是否为当前页面
+  const isCurrentPath = (href: string) => {
+    if (href === '/') {
+      return pathname === `/${locale}`;
+    }
+    return pathname?.startsWith(`/${locale}${href}`);
+  };
+
   // 在客户端挂载前不渲染内容
   if (!mounted) {
     return null;
@@ -135,8 +144,10 @@ const Navbar = () => {
                 className={cn(
                   "text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap",
                   "transition-colors hover:text-primary",
-                  "relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary",
-                  "hover:after:w-full after:transition-all"
+                  "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary",
+                  isCurrentPath(link.href) 
+                    ? "text-primary after:w-full" 
+                    : "after:w-0 hover:after:w-full after:transition-all",
                 )}
                 onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
               >
@@ -310,7 +321,11 @@ const Navbar = () => {
                   <Link
                     key={link.id}
                     href={link.href}
-                    className="w-full block text-center text-text-primary text-base lg:text-sm font-normal font-['Sora']"
+                    className={cn(
+                      "w-full block text-center",
+                      "text-text-primary text-base lg:text-sm font-normal font-['Sora']",
+                      isCurrentPath(link.href) && "text-primary"
+                    )}
                     onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
                   >
                     {link.label}

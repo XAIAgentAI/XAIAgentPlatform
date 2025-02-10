@@ -133,7 +133,7 @@
     "toBeAnnounced": "待公布",
     "youSend": "您发送",
     "iaoNotStarted": "IAO 尚未开始",
-    "stakedAmount": "已质押 {symbol} 数量",
+    "stakedAmount": "已发送到IAO池中的 {symbol} 数量",
     "error": "错误",
     "success": "成功",
     "connectWalletFirst": "请先连接钱包",
