@@ -101,7 +101,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     const fetchClaimableXAA = async () => {
       if (!isAuthenticated) return;
       const amount = await getClaimableXAA();
-      setClaimableXAA(amount);
+      setClaimableXAA(Number(amount).toFixed(2));
     };
 
     fetchClaimableXAA();
