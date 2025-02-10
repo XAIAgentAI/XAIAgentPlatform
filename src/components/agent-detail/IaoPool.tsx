@@ -122,20 +122,21 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {Number(poolInfo.totalDeposited).toLocaleString()}
+            {isDataLoading || !poolInfo?.totalDeposited ? "-" : Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
           {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
-            poolInfo.endTime > 0 ? (
+            isDataLoading || !poolInfo?.endTime ? (
+              <span className="font-semibold text-[#F47521] break-all">--</span>
+              // <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+            ) : (
               <Countdown 
                 remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())} 
                 className="font-semibold text-[#F47521] break-all"
               />
-            ) : (
-              <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
             )
           ) : (
             <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
@@ -214,10 +215,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               {isAuthenticated && (
                 <div className="space-y-2 mt-4">
                   <p className="text-sm text-muted-foreground">
-                    {t('stakedAmount', { symbol: 'DBC' })}: {isDataLoading ? t('loading') : Number(poolInfo.userDeposited).toLocaleString()}
+                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isDataLoading || !poolInfo?.userDeposited ? "--" : Number(poolInfo.userDeposited).toLocaleString()}</span>
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    可领取的XAA数量: {claimableXAA}
+                    可领取的XAA数量: <span className="text-[#F47521]">{isDataLoading || !claimableXAA || claimableXAA === "0" ? "--" : claimableXAA}</span>
                   </p>
                 </div>
               )}

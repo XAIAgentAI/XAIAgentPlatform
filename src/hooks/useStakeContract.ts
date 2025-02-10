@@ -4,7 +4,7 @@ import { CONTRACTS, STAKE_CONTRACT_ABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
-import { createPublicClient, createWalletClient, custom, parseEther, type Hash } from 'viem';
+import { createPublicClient, createWalletClient, custom, http, parseEther, type Hash } from 'viem';
 import { useWalletClient, useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
 import * as React from 'react';
@@ -46,33 +46,28 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
 
 export const useStakeContract = () => {
   const { address, isConnected } = useAppKitAccount();
-  const { data: walletClient } = useWalletClient();
+  const { data: walletClient, isLoading: isWalletLoading } = useWalletClient();
   const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
   const [poolInfo, setPoolInfo] = useState({
-    totalDeposited: '0',
+    totalDeposited: '',
     startTime: 0,
     endTime: 0,
-    userDeposited: '0',
+    userDeposited: '',
     hasClaimed: false,
   });
 
   // Fetch pool info
   const fetchPoolInfo = useCallback(async () => {
-    if (!walletClient || !isConnected) return;
-
-    // 添加网络检查
-    const isCorrectNetwork = await ensureTestNetwork();
-    if (!isCorrectNetwork) return;
-
     try {
       setIsLoading(true);
       
+      // 创建一个公共客户端，不需要钱包连接
       const publicClient = createPublicClient({
         chain: dbcTestnet,
-        transport: custom(walletClient.transport),
+        transport: http(),
       });
 
       // 分开调用每个函数以便更好地处理错误
@@ -86,7 +81,7 @@ export const useStakeContract = () => {
         });
       } catch (error) {
         console.error('Failed to fetch startTime:', error);
-        startTime = 0;
+        startTime = null;
       }
 
       try {
@@ -97,7 +92,7 @@ export const useStakeContract = () => {
         });
       } catch (error) {
         console.error('Failed to fetch endTime:', error);
-        endTime = 0;
+        endTime = null;
       }
 
       try {
@@ -108,56 +103,66 @@ export const useStakeContract = () => {
         });
       } catch (error) {
         console.error('Failed to fetch totalDeposited:', error);
-        totalDeposited = BigInt(0);
+        totalDeposited = null;
       }
 
       const newPoolInfo: any = {
-        totalDeposited: ethers.formatEther(totalDeposited?.toString() || '0'),
-        startTime: Number(startTime || 0),
-        endTime: Number(endTime || 0),
+        totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
+        startTime: startTime ? Number(startTime) : 0,
+        endTime: endTime ? Number(endTime) : 0,
+        userDeposited: '',
+        hasClaimed: false,
       };
 
-      if (isAuthenticated && address) {
-        const [userDeposited, hasClaimed] = await Promise.all([
-          publicClient.readContract({
-            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-            abi: STAKE_CONTRACT_ABI,
-            functionName: 'userDeposits',
-            args: [address as `0x${string}`],
-          }),
-          publicClient.readContract({
-            address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-            abi: STAKE_CONTRACT_ABI,
-            functionName: 'hasClaimed',
-            args: [address as `0x${string}`],
-          }),
-        ]);
-        newPoolInfo.userDeposited = ethers.formatEther(userDeposited.toString());
-        newPoolInfo.hasClaimed = hasClaimed;
-      } else {
-        newPoolInfo.userDeposited = '0';
-        newPoolInfo.hasClaimed = false;
+      // 只有在钱包连接且认证的情况下才获取用户信息
+      if (walletClient && isConnected && isAuthenticated && address) {
+        try {
+          const [userDeposited, hasClaimed] = await Promise.all([
+            publicClient.readContract({
+              address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+              abi: STAKE_CONTRACT_ABI,
+              functionName: 'userDeposits',
+              args: [address as `0x${string}`],
+            }),
+            publicClient.readContract({
+              address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+              abi: STAKE_CONTRACT_ABI,
+              functionName: 'hasClaimed',
+              args: [address as `0x${string}`],
+            }),
+          ]);
+          newPoolInfo.userDeposited = userDeposited ? ethers.formatEther(userDeposited.toString()) : '';
+          newPoolInfo.hasClaimed = hasClaimed;
+        } catch (error) {
+          console.error('Failed to fetch user info:', error);
+          newPoolInfo.userDeposited = '';
+          newPoolInfo.hasClaimed = false;
+        }
       }
 
       setPoolInfo(newPoolInfo);
     } catch (error) {
       console.error('Failed to fetch pool info:', error);
-      // toast({
-      //   // variant: "destructive",
-      //   title: "Error",
-      //   description: "Failed to fetch pool info",
-      // });
+      setPoolInfo({
+        totalDeposited: '',
+        startTime: 0,
+        endTime: 0,
+        userDeposited: '',
+        hasClaimed: false,
+      });
     } finally {
       setIsLoading(false);
     }
-  }, [walletClient, address, isConnected, isAuthenticated, toast, ensureTestNetwork]);
+  }, [walletClient, address, isConnected, isAuthenticated]);
 
   // Auto fetch pool info
   useEffect(() => {
-    if (walletClient && isConnected) {
+    // 只在 walletClient 加载完成后执行
+    if (!isWalletLoading) {
+      console.log('Wallet loaded, fetching pool info');
       fetchPoolInfo();
     }
-  }, [walletClient, isConnected, address, isAuthenticated, fetchPoolInfo]);
+  }, [isWalletLoading, fetchPoolInfo]);
 
   // Stake DBC
   const stake = async (amount: string) => {
@@ -357,7 +362,7 @@ export const useStakeContract = () => {
         return '0';
       }
 
-      // 计算用户应得的XAA数量：(用户质押量 / 总质押量) * 总奖励
+      // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
       const claimable = (userDeposited * totalReward) / totalDeposited;
       return ethers.formatEther(claimable);
     } catch (error) {
