@@ -175,16 +175,16 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading || !isIAOStarted}
               >
                 {!isIAOStarted
-                  ? t('iaoNotStarted') 
+                  ? t('iaoNotStarted')
                   : isDataLoading
-                  ? t('loadingData')
-                  : !isAuthenticated
-                    ? t('connectWalletFirst')
-                    : isStakeLoading
-                      ? t('processing')
-                      : isDepositPeriod
-                        ? t('send')
-                        : t('stakeNotStarted')}
+                    ? t('loadingData')
+                    : !isAuthenticated
+                      ? t('connectWalletFirst')
+                      : isStakeLoading
+                        ? t('processing')
+                        : isDepositPeriod
+                          ? t('send')
+                          : t('stakeNotStarted')}
               </Button>
 
 
@@ -204,7 +204,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 {t('poolDynamicTip')}
               </p>
 
-              {(!poolInfo?.endTime || Date.now() >= poolInfo.endTime * 1000) && isAuthenticated && (
+              {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000) && isAuthenticated ? (
                 <Button
                   className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
                   onClick={async () => {
@@ -233,7 +233,9 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 >
                   {t('testClaim')}
                 </Button>
-              )}
+              )
+
+                : <></>}
 
 
 
