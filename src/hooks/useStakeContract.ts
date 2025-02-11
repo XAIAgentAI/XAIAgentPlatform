@@ -51,6 +51,50 @@ export const useStakeContract = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
+  
+  // 添加备用的交易确认检查函数
+  const checkTransactionConfirmation = async (hash: Hash): Promise<boolean> => {
+    try {
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: http(),
+      });
+
+      // 尝试获取交易
+      const tx = await publicClient.getTransaction({ hash });
+      if (!tx) return false;
+
+      // 获取当前区块
+      const currentBlock = await publicClient.getBlockNumber();
+      
+      // 如果交易的区块号存在，且已经有至少1个确认，就认为交易已确认
+      if (tx.blockNumber && currentBlock - tx.blockNumber >= 1) {
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Failed to check transaction confirmation:', error);
+      return false;
+    }
+  };
+
+  // 从区块链浏览器API获取交易状态
+  const getTransactionStatusFromExplorer = async (hash: Hash): Promise<boolean> => {
+    try {
+      // 使用 dbcscan API
+      const response = await fetch(`https://testnet.dbcscan.io/api/v2/transactions/${hash}`);
+      if (!response.ok) return false;
+      
+      const data = await response.json();
+      // 如果交易已经被确认（有区块号），返回true
+      return data.result === 'success';
+    } catch (error) {
+      console.error('Failed to get transaction status from explorer:', error);
+      return false;
+    }
+  };
+
   const [poolInfo, setPoolInfo] = useState({
     totalDeposited: '',
     startTime: 0,
@@ -216,8 +260,40 @@ export const useStakeContract = () => {
       } as ToastMessage));
 
       console.log('Waiting for transaction confirmation:', hash);
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
       
+      let receipt;
+      try {
+        // 首先尝试使用RPC节点等待确认
+        receipt = await publicClient.waitForTransactionReceipt({ 
+          hash,
+          timeout: 10_000, // 先等10秒
+          pollingInterval: 1_000,
+        });
+      } catch (error) {
+        console.log('RPC confirmation failed, checking explorer...');
+        
+        // 如果RPC确认失败，使用区块链浏览器API检查
+        let confirmed = false;
+        let attempts = 0;
+        const maxAttempts = 30;
+
+        while (!confirmed && attempts < maxAttempts) {
+          confirmed = await getTransactionStatusFromExplorer(hash);
+          if (confirmed) {
+            console.log('Transaction confirmed via explorer');
+            // 交易确认后，再次尝试获取receipt
+            receipt = await publicClient.getTransactionReceipt({ hash });
+            break;
+          }
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          attempts++;
+        }
+
+        if (!confirmed) {
+          throw new Error('Transaction confirmation timeout');
+        }
+      }
+
       toast(createToastMessage({
         title: "Success",
         description: `Successfully staked ${amount} DBC`,

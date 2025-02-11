@@ -143,7 +143,13 @@
     "processing": "처리 중...",
     "send": "전송",
     "loadingData": "데이터 로딩 중...",
-    "loading": "로딩 중..."
+    "loading": "로딩 중...",
+    "claimAfterCountdown": "카운트다운 종료 후 청구 가능",
+    "testClaim": "보상 테스트 청구",
+    "claimSuccess": "청구 성공",
+    "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
+    "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
+    "poolDynamicTip": "IAO 풀의 $DBC 수량이 증가함에 따라 해당하는 $XAA 수량은 감소합니다"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",

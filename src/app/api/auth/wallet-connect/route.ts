@@ -71,7 +71,6 @@ export async function POST(request: Request) {
 
     // 验证签名
     const recoveredAddress = ethers.verifyMessage(message, signature);
-    console.log('Recovered address:', recoveredAddress);
 
     if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
       console.log('Signature verification failed', {
@@ -112,7 +111,6 @@ export async function POST(request: Request) {
       .setExpirationTime('24h')
       .sign(JWT_SECRET);
 
-    console.log('Generated token:', token);
 
     // 删除已使用的 nonce
     await prisma.authNonce.delete({

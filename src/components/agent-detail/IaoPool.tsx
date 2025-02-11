@@ -14,6 +14,7 @@ import { LocalAgent } from "@/data/localAgents";
 import { useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
+import { CONTRACTS } from "@/config/contracts";
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
@@ -122,7 +123,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {isDataLoading || !poolInfo?.totalDeposited ? "-" : Number(poolInfo.totalDeposited).toLocaleString()}
+            {isDataLoading || !poolInfo?.totalDeposited ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
@@ -133,8 +134,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               <span className="font-semibold text-[#F47521] break-all">--</span>
               // <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
             ) : (
-              <Countdown 
-                remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())} 
+              <Countdown
+                remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
                 className="font-semibold text-[#F47521] break-all"
               />
             )
@@ -183,34 +184,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                         : t('stakeNotStarted')}
               </Button>
 
-              {/* <Button
-                className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
-                onClick={async () => {
-                  try {
-                    await claimRewards();
-                    toast({
-                      title: "领取成功",
-                      description: (
-                        <div className="space-y-2">
-                          <p>XAA Token 已发送到您的钱包</p>
-                          <p className="text-sm text-muted-foreground">请在 MetaMask 中导入 Token 地址查看：</p>
-                          <code className="block p-2 bg-black/10 rounded text-xs break-all">
-                            {CONTRACTS.XAA_TOKEN}
-                          </code>
-                        </div>
-                      ),
-                    });
-                  } catch (error: any) {
-                    toast({
-                      title: t('error'),
-                      description: error.message || t('stakeFailed'),
-                    });
-                  }
-                }}
-                disabled={!isAuthenticated || isStakeLoading}
-              >
-                测试领取奖励
-              </Button> */}
+
 
               {isAuthenticated && (
                 <div className="space-y-2 mt-4">
@@ -222,6 +196,44 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                   </p>
                 </div>
               )}
+
+              <p className="text-sm text-muted-foreground">
+                {t('poolDynamicTip')}
+              </p>
+
+              {(!poolInfo?.endTime || Date.now() >= poolInfo.endTime * 1000) && isAuthenticated && (
+                <Button
+                  className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+                  onClick={async () => {
+                    try {
+                      await claimRewards();
+                      toast({
+                        title: t('claimSuccess'),
+                        description: (
+                          <div className="space-y-2">
+                            <p>{t('tokenSentToWallet')}</p>
+                            <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
+                            <code className="block p-2 bg-black/10 rounded text-xs break-all">
+                              {CONTRACTS.XAA_TOKEN}
+                            </code>
+                          </div>
+                        ),
+                      });
+                    } catch (error: any) {
+                      toast({
+                        title: t('error'),
+                        description: error.message || t('stakeFailed'),
+                      });
+                    }
+                  }}
+                  disabled={isStakeLoading}
+                >
+                  {t('testClaim')}
+                </Button>
+              )}
+
+
+
             </>
           ) : (
             <Button
