@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Countdown } from "../ui-custom/countdown";
 import { useStakeContract } from "@/hooks/useStakeContract";
 import { useToast } from "@/components/ui/use-toast";
@@ -15,9 +15,11 @@ import { useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { CONTRACTS } from "@/config/contracts";
+import { createPublicClient, http, formatEther } from 'viem';
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
+  const [maxAmount, setMaxAmount] = useState<string>("0");
   const [claimableXAA, setClaimableXAA] = useState("0");
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
@@ -29,12 +31,53 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const { switchChain } = useSwitchChain();
   const { ensureTestNetwork } = useTestNetwork();
 
+  // 获取用户余额
+  const fetchUserBalance = useCallback(async () => {
+    if (!address || !isConnected) {
+      setMaxAmount("0");
+      return;
+    }
+
+    try {
+      const publicClient = createPublicClient({
+        chain: dbcTestnet,
+        transport: http(),
+      });
+
+      const balance = await publicClient.getBalance({ 
+        address: address as `0x${string}` 
+      });
+      
+      setMaxAmount(formatEther(balance));
+    } catch (error) {
+      console.error('获取余额失败:', error);
+      setMaxAmount("0");
+    }
+  }, [address, isConnected]);
+
+  // 在组件加载和地址变化时获取余额
+  useEffect(() => {
+    fetchUserBalance();
+  }, [fetchUserBalance, address]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // 只允许输入正数和小数点
     if (value === '' || (/^\d*\.?\d*$/.test(value) && Number(value) >= 0)) {
-      setDbcAmount(value);
+      if (Number(value) > Number(maxAmount)) {
+        setDbcAmount(maxAmount);
+        toast({
+          title: t('error'),
+          description: t('insufficientBalance', { amount: maxAmount }),
+        });
+      } else {
+        setDbcAmount(value);
+      }
     }
+  };
+
+  const handleSetMaxAmount = () => {
+    setDbcAmount(maxAmount);
   };
 
   const handleStake = async () => {
@@ -150,21 +193,31 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
           <div className="flex items-center gap-4 mb-6">
             <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
-            <Input
-              type="number"
-              value={dbcAmount}
-              onChange={handleInputChange}
-              onKeyDown={(e) => {
-                if (e.key === '-' || e.key === 'e') {
-                  e.preventDefault();
-                }
-              }}
-              min="0"
-              step="any"
-              className="flex-1 placeholder:text-muted-foreground/50"
-              placeholder="0.0"
-              disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
-            />
+            <div className="flex-1 relative">
+              <Input
+                type="number"
+                value={dbcAmount}
+                onChange={handleInputChange}
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === 'e') {
+                    e.preventDefault();
+                  }
+                }}
+                min="0"
+                max={maxAmount}
+                step="any"
+                className="pr-16"
+                placeholder="0.0"
+                disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
+              />
+              <button
+                onClick={handleSetMaxAmount}
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
+              >
+                {t('maxButton')}
+              </button>
+            </div>
           </div>
 
           {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
