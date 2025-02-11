@@ -76,7 +76,16 @@ const Navbar = () => {
       
       authenticate();
     }
-  }, [status, ]);
+  }, [status]);
+
+  // 添加状态变化日志
+  useEffect(() => {
+    console.log('Wallet Status:', {
+      status,
+      isConnected,
+      address
+    })
+  }, [status, isConnected, address])
 
   const handleWalletClick = () => {
     if (isConnected) {

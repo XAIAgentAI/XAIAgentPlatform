@@ -80,6 +80,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const now = Date.now();
   // const isDepositPeriod = !isDataLoading && now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
   const isDepositPeriod = true;
+  const isIAOStarted = agent.symbol === 'XAA';
 
   useEffect(() => {
     const fetchPoolData = async () => {
@@ -171,9 +172,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               <Button
                 className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
                 onClick={handleStake}
-                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
+                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading || !isIAOStarted}
               >
-                {isDataLoading
+                {!isIAOStarted
+                  ? t('iaoNotStarted') 
+                  : isDataLoading
                   ? t('loadingData')
                   : !isAuthenticated
                     ? t('connectWalletFirst')
@@ -197,7 +200,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 </div>
               )}
 
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mt-2">
                 {t('poolDynamicTip')}
               </p>
 
