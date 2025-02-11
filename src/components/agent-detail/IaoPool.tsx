@@ -23,8 +23,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [claimableXAA, setClaimableXAA] = useState("0");
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
-  const { poolInfo, isLoading: isStakeLoading, stake, claimRewards, getClaimableXAA } = useStakeContract();
-  const [isDataLoading, setIsDataLoading] = useState(true);
+  const { poolInfo, isLoading: isStakeLoading, isPoolInfoLoading, stake, claimRewards, getClaimableXAA } = useStakeContract();
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
@@ -105,11 +104,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       const result = await stake(dbcAmount);
       // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
       if (result && result.hash) {
-        toast({
-          variant: "default",
-          title: t('success'),
-          description: t('stakeSuccessful'),
-        });
+        // toast({
+        //   variant: "default",
+        //   title: t('success'),
+        //   description: t('stakeSuccessful'),
+        // });
         setDbcAmount("");
       }
     } catch (error: any) {
@@ -121,20 +120,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   };
 
   const now = Date.now();
-  // const isDepositPeriod = !isDataLoading && now >= poolInfo.startTime * 1000 && now <= poolInfo.endTime * 1000;
   const isDepositPeriod = true;
   const isIAOStarted = agent.symbol === 'XAA';
 
   useEffect(() => {
     const fetchPoolData = async () => {
       try {
-        setIsDataLoading(true);
-        // 这里可以添加获取池子数据的逻辑
         await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟数据加载
       } catch (error) {
         console.error('Failed to fetch pool data:', error);
-      } finally {
-        setIsDataLoading(false);
       }
     };
 
@@ -167,16 +161,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {isDataLoading || !poolInfo?.totalDeposited ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
+            {isPoolInfoLoading || !poolInfo?.totalDeposited ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
           {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
-            isDataLoading || !poolInfo?.endTime ? (
+            isPoolInfoLoading || !poolInfo?.endTime ? (
               <span className="font-semibold text-[#F47521] break-all">--</span>
-              // <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
             ) : (
               <Countdown
                 remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
@@ -208,12 +201,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 step="any"
                 className="pr-16"
                 placeholder="0.0"
-                disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || isDataLoading || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
+                disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
               />
               <button
                 onClick={handleSetMaxAmount}
                 className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading}
+                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
               >
                 {t('maxButton')}
               </button>
@@ -225,30 +218,26 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               <Button
                 className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
                 onClick={handleStake}
-                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || isDataLoading || !isIAOStarted}
+                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
               >
                 {!isIAOStarted
                   ? t('iaoNotStarted')
-                  : isDataLoading
-                    ? t('loadingData')
-                    : !isAuthenticated
-                      ? t('connectWalletFirst')
-                      : isStakeLoading
-                        ? t('processing')
-                        : isDepositPeriod
-                          ? t('send')
-                          : t('stakeNotStarted')}
+                  : !isAuthenticated
+                    ? t('connectWalletFirst')
+                    : isStakeLoading
+                      ? t('processing')
+                      : isDepositPeriod
+                        ? t('send')
+                        : t('stakeNotStarted')}
               </Button>
-
-
 
               {isAuthenticated && (
                 <div className="space-y-2 mt-4">
                   <p className="text-sm text-muted-foreground">
-                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isDataLoading || !poolInfo?.userDeposited ? "--" : Number(poolInfo.userDeposited).toLocaleString()}</span>
+                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isPoolInfoLoading || !poolInfo?.userDeposited ? "--" : Number(poolInfo.userDeposited).toLocaleString()}</span>
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    可领取的XAA数量: <span className="text-[#F47521]">{isDataLoading || !claimableXAA || claimableXAA === "0" ? "--" : claimableXAA}</span>
+                    可领取的XAA数量: <span className="text-[#F47521]">{isPoolInfoLoading || !claimableXAA || claimableXAA === "0" ? "--" : claimableXAA}</span>
                   </p>
                 </div>
               )}
@@ -289,8 +278,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               )
 
                 : <></>}
-
-
 
             </>
           ) : (

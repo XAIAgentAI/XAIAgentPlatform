@@ -155,7 +155,9 @@
     "poolDynamicTip": "随着IAO池子中的$DBC数量增加，对应获得$XAA数量在减少",
     "maxButton": "最大",
     "insufficientBalance": "余额不足，最大可用金额: {amount} DBC",
-    "stakedAmount": "已质押的 {symbol} 数量"
+    "stakedAmount": "已购买的 {symbol} 数量",
+    "stakeSuccessful": "购买成功！",
+    "stakeFailed": "购买失败，请重试"
   },
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",

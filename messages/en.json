@@ -153,7 +153,9 @@
     "poolDynamicTip": "As the amount of $DBC in the IAO pool increases, the corresponding amount of $XAA decreases",
     "maxButton": "Max",
     "insufficientBalance": "Insufficient balance, maximum available amount: {amount} DBC",
-    "stakedAmount": "Staked {symbol} Amount"
+    "stakedAmount": "Purchased {symbol} Amount",
+    "stakeSuccessful": "Purchase successful!",
+    "stakeFailed": "Purchase failed, please try again"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

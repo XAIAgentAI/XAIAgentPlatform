@@ -50,6 +50,7 @@ export const useStakeContract = () => {
   const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isPoolInfoLoading, setIsPoolInfoLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
   
   // 添加备用的交易确认检查函数
@@ -106,9 +107,8 @@ export const useStakeContract = () => {
   // Fetch pool info
   const fetchPoolInfo = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setIsPoolInfoLoading(true);
       
-      // 创建一个公共客户端，不需要钱包连接
       const publicClient = createPublicClient({
         chain: dbcTestnet,
         transport: http(),
@@ -195,7 +195,7 @@ export const useStakeContract = () => {
         hasClaimed: false,
       });
     } finally {
-      setIsLoading(false);
+      setIsPoolInfoLoading(false);
     }
   }, [walletClient, address, isConnected, isAuthenticated]);
 
@@ -218,7 +218,6 @@ export const useStakeContract = () => {
       return null;
     }
 
-    // 添加网络检查
     const isCorrectNetwork = await ensureTestNetwork();
     if (!isCorrectNetwork) return null;
 
@@ -236,15 +235,15 @@ export const useStakeContract = () => {
         transport: custom(walletClient.transport),
       });
 
-      // Check balance
-      const balance = await publicClient.getBalance({ 
-        address: address as `0x${string}` 
-      });
+      // // Check balance
+      // const balance = await publicClient.getBalance({ 
+      //   address: address as `0x${string}` 
+      // });
       const amountWei = parseEther(amount);
       
-      if (balance < amountWei) {
-        throw new Error('Insufficient balance');
-      }
+      // if (balance < amountWei) {
+      //   throw new Error('Insufficient balance');
+      // }
 
       console.log('Sending transaction to contract:', CONTRACTS.STAKE_CONTRACT);
       const hash = await viemWalletClient.sendTransaction({
@@ -252,6 +251,9 @@ export const useStakeContract = () => {
         value: amountWei,
         account: address as `0x${string}`,
       });
+
+      // 发送交易后立即设置loading为false
+      setIsLoading(false);
 
       toast(createToastMessage({
         title: "Transaction Sent",
@@ -285,7 +287,7 @@ export const useStakeContract = () => {
             receipt = await publicClient.getTransactionReceipt({ hash });
             break;
           }
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
           attempts++;
         }
 
@@ -304,9 +306,30 @@ export const useStakeContract = () => {
       await fetchPoolInfo();
 
       return { hash, receipt };
+
+      // // 在后台继续监听交易
+      // publicClient.waitForTransactionReceipt({ hash })
+      //   .then(async () => {
+      //     toast(createToastMessage({
+      //       title: "Success",
+      //       description: `Successfully staked ${amount} DBC`,
+      //       txHash: hash,
+      //     } as ToastMessage));
+          
+      //     // 刷新pool信息
+      //     await fetchPoolInfo();
+      //   })
+      //   .catch(error => {
+      //     console.error('Transaction failed:', error);
+      //     toast(createToastMessage({
+      //       title: "Warning",
+      //       description: "Transaction may have failed. Please check your wallet for status.",
+      //     } as ToastMessage));
+      //   });
+
+      // return { hash };
     } catch (error: any) {
       console.error('Stake failed:', error);
-      // 如果是用户拒绝签名，直接抛出错误
       if (error?.code === 4001) {
         throw error;
       }
@@ -450,6 +473,7 @@ export const useStakeContract = () => {
   return {
     poolInfo,
     isLoading,
+    isPoolInfoLoading,
     stake,
     claimRewards,
     fetchPoolInfo,
