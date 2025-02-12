@@ -76,8 +76,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // 只允许输入正数和小数点
-    if (value === '' || (/^\d*\.?\d*$/.test(value) && Number(value) >= 0)) {
+    
+    // 只允许数字和一个小数点，且小数位不超过18位
+    if (value === '' || (
+      /^\d*\.?\d*$/.test(value) && 
+      Number(value) >= 0 && 
+      (!value.includes('.') || value.split('.')[1]?.length <= 18)
+    )) {
       if (Number(value) > Number(maxAmount)) {
         setDbcAmount(maxAmount);
         toast({
@@ -107,7 +112,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     const isCorrectNetwork = await ensureTestNetwork();
     if (!isCorrectNetwork) return;
 
-    if (!dbcAmount || Number(dbcAmount) <= 0) {
+    // 1. 验证输入值是否为有效数字
+    if (!dbcAmount || isNaN(Number(dbcAmount)) || Number(dbcAmount) <= 0) {
       toast({
         title: t('error'),
         description: t('enterValidAmount'),
@@ -115,14 +121,17 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       return;
     }
 
+    // 2. 格式化数字，去除多余小数位
+    const formattedAmount = Number(dbcAmount).toFixed(18); // DBC最多18位小数
+
     try {
-      const result = await stake(dbcAmount);
+      const result = await stake(formattedAmount);
       // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
       if (result && result.hash) {
         toast({
           variant: "default",
           title: t('success'),
-          description: t('sendSuccess', { amount: dbcAmount }),
+          description: t('sendSuccess', { amount: formattedAmount }),
         });
         fetchUserStakeInfo()
         setDbcAmount("");
