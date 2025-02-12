@@ -157,7 +157,7 @@
     "poolDynamicTip": "IAO 풀의 $DBC 수량이 증가함에 따라 해당하는 $XAA 수량은 감소합니다",
     "maxButton": "최대",
     "insufficientBalance": "잔액 부족, 최대 사용 가능 금액: {amount} DBC",
-    "stakedAmount": "구매한 {symbol} 수량",
+    "stakedAmount": "지불한 {symbol} 수량",
     "stakeSuccessful": "구매 성공!",
     "stakeFailed": "구매 실패, 다시 시도해주세요",
     "claimableAmount": "청구 가능한 XAA 수량",
