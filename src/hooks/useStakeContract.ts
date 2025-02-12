@@ -1,15 +1,16 @@
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { CONTRACTS, STAKE_CONTRACT_ABI } from '@/config/contracts';
+import { CONTRACTS, CURRENT_CONTRACT_ABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
 import { createPublicClient, createWalletClient, custom, http, parseEther, type Hash } from 'viem';
-import { useWalletClient, useChainId, useSwitchChain } from 'wagmi';
-import { dbcTestnet } from '@/config/wagmi';
+import { useWalletClient } from 'wagmi';
+import { currentChain } from '@/config/wagmi';
 import * as React from 'react';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { useTranslations } from 'next-intl';
+import { ensureCorrectNetwork, getTransactionUrl } from '@/config/networks';
 
 type ToastMessage = {
   title: string;
@@ -41,7 +42,7 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
               className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
             }),
             React.createElement('a', {
-              href: `https://test.dbcscan.io/tx/${params.txHash}`,
+              href: getTransactionUrl(params.txHash),
               target: "_blank",
               rel: "noopener noreferrer",
               className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
@@ -51,6 +52,9 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
       : params.description,
   };
 };
+
+// 检查是否是测试网环境
+const isTestnet = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true";
 
 export const useStakeContract = () => {
   const { address, isConnected } = useAppKitAccount();
@@ -62,12 +66,12 @@ export const useStakeContract = () => {
   const [isUserStakeInfoLoading, setIsUserStakeInfoLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
   const t = useTranslations('iaoPool');
-  
+
   // 添加备用的交易确认检查函数
   const checkTransactionConfirmation = async (hash: Hash): Promise<boolean> => {
     try {
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: http(),
       });
 
@@ -120,7 +124,7 @@ export const useStakeContract = () => {
       setIsPoolInfoLoading(true);
       
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: http(),
       });
 
@@ -129,8 +133,8 @@ export const useStakeContract = () => {
 
       try {
         startTime = await publicClient.readContract({
-          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-          abi: STAKE_CONTRACT_ABI,
+          address: CONTRACTS.IAO_CONTRACT,
+          abi: CURRENT_CONTRACT_ABI,
           functionName: 'startTime',
         });
       } catch (error) {
@@ -140,25 +144,28 @@ export const useStakeContract = () => {
 
       try {
         endTime = await publicClient.readContract({
-          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-          abi: STAKE_CONTRACT_ABI,
+          address: CONTRACTS.IAO_CONTRACT,
+          abi: CURRENT_CONTRACT_ABI,
           functionName: 'endTime',
         });
       } catch (error) {
         console.error('Failed to fetch endTime:', error);
         endTime = null;
       }
+      
 
       try {
         totalDeposited = await publicClient.readContract({
-          address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-          abi: STAKE_CONTRACT_ABI,
+          address: CONTRACTS.IAO_CONTRACT,
+          abi: CURRENT_CONTRACT_ABI,
           functionName: 'totalDepositedDBC',
         });
       } catch (error) {
         console.error('Failed to fetch totalDeposited:', error);
         totalDeposited = null;
       }
+
+      console.log("totalDeposited", totalDeposited);
 
       const newPoolInfo: any = {
         totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
@@ -173,14 +180,14 @@ export const useStakeContract = () => {
         try {
           const [userDeposited, hasClaimed] = await Promise.all([
             publicClient.readContract({
-              address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-              abi: STAKE_CONTRACT_ABI,
+              address: CONTRACTS.IAO_CONTRACT,
+              abi: CURRENT_CONTRACT_ABI,
               functionName: 'userDeposits',
               args: [address as `0x${string}`],
             }),
             publicClient.readContract({
-              address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-              abi: STAKE_CONTRACT_ABI,
+              address: CONTRACTS.IAO_CONTRACT,
+              abi: CURRENT_CONTRACT_ABI,
               functionName: 'hasClaimed',
               args: [address as `0x${string}`],
             }),
@@ -207,7 +214,7 @@ export const useStakeContract = () => {
     } finally {
       setIsPoolInfoLoading(false);
     }
-  }, [walletClient, address, isConnected, isAuthenticated]);
+  }, [walletClient, isConnected, isAuthenticated, address]);
 
   // Auto fetch pool info
   useEffect(() => {
@@ -236,12 +243,12 @@ export const useStakeContract = () => {
       console.log('Starting stake:', amount, 'DBC');
 
       const viemWalletClient = createWalletClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
@@ -255,9 +262,9 @@ export const useStakeContract = () => {
       //   throw new Error('Insufficient balance');
       // }
 
-      console.log('Sending transaction to contract:', CONTRACTS.STAKE_CONTRACT);
+      console.log('Sending transaction to contract:', CONTRACTS.IAO_CONTRACT);
       const hash = await viemWalletClient.sendTransaction({
-        to: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
+        to: CONTRACTS.IAO_CONTRACT,
         value: amountWei,
         account: address as `0x${string}`,
       });
@@ -370,12 +377,12 @@ export const useStakeContract = () => {
       setIsLoading(true);
       
       const viemWalletClient = createWalletClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
@@ -384,8 +391,8 @@ export const useStakeContract = () => {
       const claimableAmount = userStakeInfo.claimableXAA;
 
       const { request } = await publicClient.simulateContract({
-        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-        abi: STAKE_CONTRACT_ABI,
+        address: CONTRACTS.IAO_CONTRACT,
+        abi: CURRENT_CONTRACT_ABI,
         functionName: 'claimRewards',
         account: address as `0x${string}`,
       });
@@ -440,38 +447,38 @@ export const useStakeContract = () => {
     try {
       setIsUserStakeInfoLoading(true);
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
       // 获取总质押量
       const totalDeposited = await publicClient.readContract({
-        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-        abi: STAKE_CONTRACT_ABI,
+        address: CONTRACTS.IAO_CONTRACT,
+        abi: CURRENT_CONTRACT_ABI,
         functionName: 'totalDepositedDBC',
       });
 
       // 获取用户质押量
       const userDeposited = await publicClient.readContract({
-        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-        abi: STAKE_CONTRACT_ABI,
+        address: CONTRACTS.IAO_CONTRACT,
+        abi: CURRENT_CONTRACT_ABI,
         functionName: 'userDeposits',
         args: [address as `0x${string}`],
       });
 
       // 获取用户是否已领取
       const hasClaimed = await publicClient.readContract({
-        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-        abi: STAKE_CONTRACT_ABI,
+        address: CONTRACTS.IAO_CONTRACT,
+        abi: CURRENT_CONTRACT_ABI,
         functionName: 'hasClaimed',
         args: [address as `0x${string}`],
       });
 
       // 获取总奖励
       const totalReward = await publicClient.readContract({
-        address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
-        abi: STAKE_CONTRACT_ABI,
-        functionName: 'TOTAL_XAA_REWARD',
+        address: CONTRACTS.IAO_CONTRACT,
+        abi: CURRENT_CONTRACT_ABI,
+        functionName: isTestnet ? 'TOTAL_XAA_REWARD' : 'TOTAL_REWARD',
       });
 
       let claimableXAA = '0';

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
-import { dbcTestnet } from '@/config/wagmi';
+import { currentChain } from '@/config/wagmi';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
 
@@ -11,10 +11,10 @@ export const useTestNetwork = () => {
   const t = useTranslations();
 
   const ensureTestNetwork = useCallback(async () => {
-    if (chainId !== dbcTestnet.id) {
+    if (chainId !== currentChain.id) {
       if (switchChain) {
         try {
-          await switchChain({ chainId: dbcTestnet.id });
+          await switchChain({ chainId: currentChain.id });
           toast({
             title: t('messages.info'),
             description: t('messages.switchedToTestnet'),
@@ -40,7 +40,7 @@ export const useTestNetwork = () => {
   }, [chainId, switchChain, toast, t]);
 
   return {
-    isTestnet: chainId === dbcTestnet.id,
+    isTestnet: chainId === currentChain.id,
     ensureTestNetwork,
   };
 }; 

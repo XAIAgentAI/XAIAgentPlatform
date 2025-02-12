@@ -1,15 +1,18 @@
 import { http, createConfig } from 'wagmi';
 import { injected } from 'wagmi/connectors';
-import { dbcTestnet, defaultNetwork } from './networks';
+import { currentChain, currentNetwork, dbcMainnet, dbcTestnet } from './networks';
 
-export { dbcTestnet };
+// 导出所有需要的配置
+export { currentChain, dbcMainnet, dbcTestnet };
 
+// wagmi 配置
 export const config = createConfig({
-  chains: [dbcTestnet],
+  chains: [dbcTestnet, dbcMainnet],
   connectors: [
     injected(),
   ],
   transports: {
-    [defaultNetwork.chainId]: http(defaultNetwork.rpcUrl),
+    [dbcTestnet.id]: http(currentNetwork.rpcUrl),
+    [dbcMainnet.id]: http(currentNetwork.rpcUrl),
   },
 });

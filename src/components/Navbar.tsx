@@ -73,8 +73,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (status === 'connected' && address && isConnected) {
-      console.log('status', status, 'authenticate', authenticate);
-      
       authenticate();
     }
   }, [status, address, isConnected, ]);

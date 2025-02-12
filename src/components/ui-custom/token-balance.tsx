@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppKitAccount } from '@reown/appkit/react';
 import { createPublicClient, http, formatEther, custom } from 'viem';
-import { dbcTestnet } from '@/config/wagmi';
+import { currentChain } from '@/config/wagmi';
 import { useTranslations } from 'next-intl';
 import { CONTRACTS } from "@/config/contracts";
 import { useWalletClient } from 'wagmi';
@@ -45,7 +45,7 @@ export const TokenBalance = () => {
 
     try {
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
@@ -69,7 +69,7 @@ export const TokenBalance = () => {
 
     try {
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
