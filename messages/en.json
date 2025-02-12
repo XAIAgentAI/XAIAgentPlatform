@@ -173,7 +173,8 @@
     "stakeNotStarted": "Purchase not started",
     "sendSuccess": "Successfully sent {amount} DBC",
     "transactionSent": "Transaction Sent",
-    "waitForConfirmation": "Please wait for confirmation"
+    "waitForConfirmation": "Please wait for confirmation",
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

@@ -174,7 +174,8 @@
     "stakeNotStarted": "購入はまだ開始されていません",
     "sendSuccess": "{amount} DBCの送信に成功しました",
     "transactionSent": "取引を送信しました",
-    "waitForConfirmation": "確認をお待ちください"
+    "waitForConfirmation": "確認をお待ちください",
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
