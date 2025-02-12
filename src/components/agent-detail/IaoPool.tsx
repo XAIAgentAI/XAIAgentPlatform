@@ -17,6 +17,8 @@ import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, http, formatEther } from 'viem';
 
+const showIAOReal = "true"
+
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
@@ -122,6 +124,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         //   title: t('success'),
         //   description: t('stakeSuccessful'),
         // });
+        fetchUserStakeInfo()
         setDbcAmount("");
       }
     } catch (error: any) {
@@ -148,16 +151,18 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   //   fetchPoolData();
   // }, []);
 
+  const fetchUserStakeInfo = async () => {
+    if (!isAuthenticated) return;
+    const info = await getUserStakeInfo();
+    setUserStakeInfo(info);
+  };
+
   // 获取用户质押信息
   useEffect(() => {
-    const fetchUserStakeInfo = async () => {
-      if (!isAuthenticated) return;
-      const info = await getUserStakeInfo();
-      setUserStakeInfo(info);
-    };
+  
 
     fetchUserStakeInfo();
-  }, [isAuthenticated, getUserStakeInfo, poolInfo]);
+  }, [isAuthenticated, getUserStakeInfo, ]);
 
   return (
     <Card className="p-6">
@@ -180,7 +185,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
+          {showIAOReal === "true" ? (
             isPoolInfoLoading || !poolInfo?.endTime ? (
               <span className="font-semibold text-[#F47521] break-all">--</span>
             ) : (
@@ -217,7 +222,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                     step="any"
                     className="pr-16"
                     placeholder="00.00"
-                    disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
+                    disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !showIAOReal}
                   />
                   <button
                     onClick={handleSetMaxAmount}
@@ -229,7 +234,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 </div>
               </div>
 
-              {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
+              {showIAOReal === "true" ? (
                 <Button
                   className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
                   onClick={handleStake}

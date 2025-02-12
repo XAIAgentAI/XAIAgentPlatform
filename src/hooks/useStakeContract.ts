@@ -318,8 +318,9 @@ export const useStakeContract = () => {
         description: `Successfully staked ${amount} DBC`,
         txHash: hash,
       } as ToastMessage));
+      
 
-      await getUserStakeInfo();
+      // await getUserStakeInfo();
 
       return { hash, receipt };
 
