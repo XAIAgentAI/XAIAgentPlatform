@@ -65,7 +65,8 @@
     "connected": "已连接",
     "disconnect": "断开连接",
     "balance": "余额",
-    "address": "地址"
+    "address": "地址",
+    "connectionTimeout": "钱包连接超时，请重试"
   },
   "buttons": {
     "buyDBC": "购买 DBC",

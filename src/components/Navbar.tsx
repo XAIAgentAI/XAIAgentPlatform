@@ -33,6 +33,7 @@ const Navbar = () => {
   const { address, isConnected, status } = useAppKitAccount()
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
+  const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const navigationLinks = [
     {
@@ -71,28 +72,66 @@ const Navbar = () => {
     }
   }, [error, toast])
 
+  // 添加连接超时处理
   useEffect(() => {
-    if (status === 'connected' && address && isConnected) {
+    if (status === 'connecting') {
+      // 如果连接时间超过10秒，强制重置状态
+      const timeout = setTimeout(() => {
+        if (status === 'connecting') {
+          toast({
+            description: t('wallet.connectionTimeout'),
+            variant: "destructive"
+          });
+          // 重新打开钱包连接弹窗
+          open({ view: 'Connect' });
+        }
+      }, 10000);
+
+      setConnectingTimeout(timeout);
+
+      return () => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+      };
+    }
+  }, [status, open, toast]);
+
+  // 添加状态变化日志
+  useEffect(() => {
+    console.log('Wallet Status Changed:', {
+      status,
+      isConnected,
+      address,
+      hasTimeout: !!connectingTimeout
+    });
+  }, [status, isConnected, address, connectingTimeout]);
+
+  // 优化钱包连接状态处理
+  useEffect(() => {
+    // 只要有地址就认为已连接
+    if (address) {
+      if (connectingTimeout) {
+        clearTimeout(connectingTimeout);
+        setConnectingTimeout(null);
+      }
       authenticate();
     }
-  }, [status, address, isConnected, ]);
-
-  // // 添加状态变化日志
-  // useEffect(() => {
-  //   console.log('Wallet Status:', {
-  //     status,
-  //     isConnected,
-  //     address
-  //   })
-  // }, [status, isConnected, address])
+  }, [address, connectingTimeout, authenticate]);
 
   const handleWalletClick = () => {
-    if (isConnected) {
-      open({ view: 'Account' })
+    // 使用 address 判断是否已连接
+    if (address) {
+      open({ view: 'Account' });
     } else {
-      open({ view: 'Connect' })
+      // 如果当前状态是connecting，先重置状态
+      if (status === 'connecting' && connectingTimeout) {
+        clearTimeout(connectingTimeout);
+        setConnectingTimeout(null);
+      }
+      open({ view: 'Connect' });
     }
-    setIsMenuOpen(false)
+    setIsMenuOpen(false);
   }
 
   const handleBuyDBC = () => {
@@ -121,6 +160,17 @@ const Navbar = () => {
       return pathname === `/${locale}`;
     }
     return pathname?.startsWith(`/${locale}${href}`);
+  };
+
+  // 在UI中显示钱包状态
+  const getWalletDisplayStatus = () => {
+    if (status === 'connecting') {
+      return t('wallet.connecting');
+    }
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    }
+    return t('wallet.connect');
   };
 
   // 在客户端挂载前不渲染内容
@@ -298,13 +348,7 @@ const Navbar = () => {
               onClick={handleWalletClick}
               disabled={status === 'connecting'}
             >
-              {status === 'connecting' ? (
-                t('wallet.connecting')
-              ) : isConnected ? (
-                `${address?.slice(0, 6)}...${address?.slice(-4)}`
-              ) : (
-                t('wallet.connect')
-              )}
+              {getWalletDisplayStatus()}
             </Button>
 
             <div className="flex gap-0.5">
