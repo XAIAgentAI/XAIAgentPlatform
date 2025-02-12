@@ -25,35 +25,6 @@ type UserStakeInfo = {
   claimedAmount: string;
 };
 
-const createToastMessage = (params: ToastMessage): ToastMessage => {
-  const t = useTranslations('messages');
-  return {
-    title: params.title,
-    description: params.txHash
-      ? React.createElement('div', {
-        className: "flex flex-col space-y-3 font-medium"
-      },
-        React.createElement('p', {
-          className: "text-sm text-muted-foreground"
-        }, params.description),
-        React.createElement('div', {
-          className: "flex items-center space-x-2"
-        },
-          React.createElement('div', {
-            className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
-          }),
-          React.createElement('a', {
-            href: getTransactionUrl(params.txHash),
-            target: "_blank",
-            rel: "noopener noreferrer",
-            className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
-          }, t('viewOnDBCScan'))
-        )
-      )
-      : params.description,
-  };
-};
-
 // 检查是否是测试网环境
 const isTestnet = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true";
 
@@ -67,6 +38,35 @@ export const useStakeContract = () => {
   const [isUserStakeInfoLoading, setIsUserStakeInfoLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
   const t = useTranslations('iaoPool');
+  const tMessages = useTranslations('messages');
+
+  const createToastMessage = useCallback((params: ToastMessage): ToastMessage => {
+    return {
+      title: params.title,
+      description: params.txHash
+        ? React.createElement('div', {
+          className: "flex flex-col space-y-3 font-medium"
+        },
+          React.createElement('p', {
+            className: "text-sm text-muted-foreground"
+          }, params.description),
+          React.createElement('div', {
+            className: "flex items-center space-x-2"
+          },
+            React.createElement('div', {
+              className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
+            }),
+            React.createElement('a', {
+              href: getTransactionUrl(params.txHash),
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
+            }, tMessages('viewOnDBCScan'))
+          )
+        )
+        : params.description,
+    };
+  }, [tMessages]);
 
   // 添加备用的交易确认检查函数
   const checkTransactionConfirmation = async (hash: Hash): Promise<boolean> => {

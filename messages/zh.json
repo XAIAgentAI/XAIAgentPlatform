@@ -100,7 +100,7 @@
     "switchNetworkFailed": "请切换到 DBC 测试网后再试",
     "viewOnDBCScan": "在 DBCScan 上查看",
     "transactionSent": "交易已发送",
-    "waitForConfirmation": "请等待确认",
+    "waitForConfirmation": "等待确认",
     "transactionConfirmationTimeout": "交易确认超时",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC"
   },
@@ -171,8 +171,11 @@
     "claimed": "已领取",
     "claimSuccessWithAmount": "成功领取 {amount} XAA",
     "stakeNotStarted": "购买未开始",
-    "sendSuccess": "成功发送 {amount} DBC"
+    "sendSuccess": "成功发送 {amount} DBC",
+    "transactionSent": "交易已发送",
+    "waitForConfirmation": "等待确认"
   },
+  
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",
     "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
