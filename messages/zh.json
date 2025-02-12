@@ -164,7 +164,8 @@
     "claimedAmount": "已领取的XAA数量",
     "claimed": "已领取",
     "claimSuccessWithAmount": "成功领取 {amount} XAA",
-    "stakeNotStarted": "购买未开始"
+    "stakeNotStarted": "购买未开始",
+    "sendSuccess": "成功发送 {amount} DBC"
   },
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",

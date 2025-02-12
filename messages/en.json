@@ -164,7 +164,8 @@
     "claimedAmount": "Claimed XAA Amount",
     "claimed": "Claimed",
     "claimSuccessWithAmount": "Successfully claimed {amount} XAA",
-    "stakeNotStarted": "Purchase not started"
+    "stakeNotStarted": "Purchase not started",
+    "sendSuccess": "Successfully sent {amount} DBC"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

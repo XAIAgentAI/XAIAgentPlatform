@@ -119,11 +119,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       const result = await stake(dbcAmount);
       // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
       if (result && result.hash) {
-        // toast({
-        //   variant: "default",
-        //   title: t('success'),
-        //   description: t('stakeSuccessful'),
-        // });
+        toast({
+          variant: "default",
+          title: t('success'),
+          description: t('sendSuccess', { amount: dbcAmount }),
+        });
         fetchUserStakeInfo()
         setDbcAmount("");
       }
@@ -159,10 +159,9 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   // 获取用户质押信息
   useEffect(() => {
-  
 
     fetchUserStakeInfo();
-  }, [isAuthenticated, getUserStakeInfo, ]);
+  }, [isAuthenticated, getUserStakeInfo,]);
 
   return (
     <Card className="p-6">
@@ -178,14 +177,22 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">
-            {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
-          </span>
+
+          {
+            agent.symbol === 'XAA' ? (<span className="font-semibold text-[#F47521] break-all">
+              {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
+            </span>
+            ) :
+              <span className="font-semibold text-[#F47521] break-all">
+                0
+              </span>
+          }
+
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          {showIAOReal === "true" ? (
+          {agent.symbol === 'XAA'  ? (
             isPoolInfoLoading || !poolInfo?.endTime ? (
               <span className="font-semibold text-[#F47521] break-all">--</span>
             ) : (
@@ -262,10 +269,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             </>
           )}
 
-          {(
-            <div className="space-y-2 mt-4">
-              <p className="text-sm text-muted-foreground">
-                {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
+          {
+            agent.symbol === 'XAA'  &&(
+              <div className="space-y-2 mt-4">
+                <p className="text-sm text-muted-foreground">
+                  {t('stakedAmount', { symbol: 'DBC' })}:
+                <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
               </p>
               <p className="text-sm text-muted-foreground">
                 {userStakeInfo.hasClaimed ? (

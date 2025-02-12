@@ -164,7 +164,8 @@
     "claimedAmount": "청구된 XAA 수량",
     "claimed": "청구됨",
     "claimSuccessWithAmount": "{amount} XAA 청구 성공",
-    "stakeNotStarted": "구매가 시작되지 않았습니다"
+    "stakeNotStarted": "구매가 시작되지 않았습니다",
+    "sendSuccess": "{amount} DBC 전송 성공"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
