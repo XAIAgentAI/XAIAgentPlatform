@@ -23,18 +23,19 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [userStakeInfo, setUserStakeInfo] = useState({
     userDeposited: "0",
     claimableXAA: "0",
-    hasClaimed: false
+    hasClaimed: false,
+    claimedAmount: "0"
   });
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
-  const { 
-    poolInfo, 
-    isLoading: isStakeLoading, 
-    isPoolInfoLoading, 
+  const {
+    poolInfo,
+    isLoading: isStakeLoading,
+    isPoolInfoLoading,
     isUserStakeInfoLoading,
-    stake, 
-    claimRewards, 
-    getUserStakeInfo 
+    stake,
+    claimRewards,
+    getUserStakeInfo
   } = useStakeContract();
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
@@ -55,10 +56,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         transport: http(),
       });
 
-      const balance = await publicClient.getBalance({ 
-        address: address as `0x${string}` 
+      const balance = await publicClient.getBalance({
+        address: address as `0x${string}`
       });
-      
+
       setMaxAmount(formatEther(balance));
     } catch (error) {
       console.error('获取余额失败:', error);
@@ -194,113 +195,122 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         </div>
 
         <div className="mt-8 p-6 bg-muted rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
 
-          <div className="flex items-center gap-4 mb-6">
-            <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
-            <div className="flex-1 relative">
-              <Input
-                type="number"
-                value={dbcAmount}
-                onChange={handleInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === '-' || e.key === 'e') {
-                    e.preventDefault();
-                  }
-                }}
-                min="0"
-                max={maxAmount}
-                step="any"
-                className="pr-16"
-                placeholder="00.00"
-                disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
-              />
-              <button
-                onClick={handleSetMaxAmount}
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
-              >
-                {t('maxButton')}
-              </button>
-            </div>
-          </div>
-
-          {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
+          {(!poolInfo?.endTime || Date.now() < poolInfo.endTime * 1000) && (
             <>
-              <Button
-                className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-                onClick={handleStake}
-                disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
-              >
-                {!isIAOStarted
-                  ? t('iaoNotStarted')
-                  : !isAuthenticated
-                    ? t('connectWalletFirst')
-                    : isStakeLoading
-                      ? t('processing')
-                      : isDepositPeriod
-                        ? t('send')
-                        : t('stakeNotStarted')}
-              </Button>
+              <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
 
-              {(
-                <div className="space-y-2 mt-4">
-                  <p className="text-sm text-muted-foreground">
-                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(2)}</span>
-                  </p>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
+                <div className="flex-1 relative">
+                  <Input
+                    type="number"
+                    value={dbcAmount}
+                    onChange={handleInputChange}
+                    onKeyDown={(e) => {
+                      if (e.key === '-' || e.key === 'e') {
+                        e.preventDefault();
+                      }
+                    }}
+                    min="0"
+                    max={maxAmount}
+                    step="any"
+                    className="pr-16"
+                    placeholder="00.00"
+                    disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
+                  />
+                  <button
+                    onClick={handleSetMaxAmount}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
+                  >
+                    {t('maxButton')}
+                  </button>
                 </div>
-              )}
+              </div>
 
-              <p className="text-sm text-muted-foreground mt-2">
-                {t('poolDynamicTip')}
-              </p>
-
-              {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000) && isAuthenticated ? (
+              {process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? (
                 <Button
-                  className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
-                  onClick={async () => {
-                    try {
-                      await claimRewards();
-                      toast({
-                        title: t('claimSuccess'),
-                        description: (
-                          <div className="space-y-2">
-                            <p>{t('tokenSentToWallet')}</p>
-                            <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
-                            <code className="block p-2 bg-black/10 rounded text-xs break-all">
-                              {CONTRACTS.XAA_TOKEN}
-                            </code>
-                          </div>
-                        ),
-                      });
-                    } catch (error: any) {
-                      toast({
-                        title: t('error'),
-                        description: error.message || t('stakeFailed'),
-                      });
-                    }
-                  }}
-                  disabled={isStakeLoading}
+                  className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                  onClick={handleStake}
+                  disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
                 >
-                  {t('testClaim')}
+                  {!isIAOStarted
+                    ? t('iaoNotStarted')
+                    : !isAuthenticated
+                      ? t('connectWalletFirst')
+                      : isStakeLoading
+                        ? t('processing')
+                        : isDepositPeriod
+                          ? t('send')
+                          : t('stakeNotStarted')}
                 </Button>
-              )
-
-                : <></>}
-
+              ) : (
+                <Button
+                  className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                  onClick={handleStake}
+                  disabled={true}
+                >
+                  {t('iaoNotStarted')}
+                </Button>
+              )}
             </>
-          ) : (
-            <Button
-              className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-              onClick={handleStake}
-              disabled={true}
-            >
-              {t('iaoNotStarted')}
-            </Button>
           )}
+
+          {(
+            <div className="space-y-2 mt-4">
+              <p className="text-sm text-muted-foreground">
+                {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {userStakeInfo.hasClaimed ? (
+                  <>{t('claimedAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
+                ) : (
+                  <>{t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
+                )}
+              </p>
+            </div>
+          )}
+
+          <p className="text-sm text-muted-foreground mt-2">
+            {t('poolDynamicTip')}
+          </p>
+
+          {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000) && isAuthenticated ? (
+            <Button
+              className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+              onClick={async () => {
+                try {
+                  const result = await claimRewards();
+                  if (result?.success) {
+                    toast({
+                      title: t('claimSuccess'),
+                      description: (
+                        <div className="space-y-2">
+                          <p>{t('tokenSentToWallet')}</p>
+                          <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
+                          <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
+                          <code className="block p-2 bg-black/10 rounded text-xs break-all">
+                            {CONTRACTS.XAA_TOKEN}
+                          </code>
+                        </div>
+                      ),
+                    });
+                  }
+                } catch (error: any) {
+                  toast({
+                    title: t('error'),
+                    description: error.message || t('stakeFailed'),
+                  });
+                }
+              }}
+              disabled={isStakeLoading || userStakeInfo.hasClaimed}
+            >
+              {userStakeInfo.hasClaimed ? t('claimed') : t('testClaim')}
+            </Button>
+          )
+
+            : <></>}
         </div>
       </div>
     </Card>

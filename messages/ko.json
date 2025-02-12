@@ -27,7 +27,8 @@
     "profile": "프로필",
     "trading": "거래 AI 에이전트",
     "explore": "AI 에이전트 탐색",
-    "creating": "AI 에이전트 생성"
+    "creating": "AI 에이전트 생성",
+    "chat": "채팅"
   },
   "agent": {
     "details": "에이전트 상세",
@@ -157,7 +158,11 @@
     "stakedAmount": "구매한 {symbol} 수량",
     "stakeSuccessful": "구매 성공!",
     "stakeFailed": "구매 실패, 다시 시도해주세요",
-    "claimableAmount": "청구 가능한 XAA 수량"
+    "claimableAmount": "청구 가능한 XAA 수량",
+    "claimedAmount": "청구된 XAA 수량",
+    "claimed": "청구됨",
+    "claimSuccessWithAmount": "{amount} XAA 청구 성공",
+    "stakeNotStarted": "구매가 시작되지 않았습니다"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
@@ -259,6 +264,7 @@
     "agentAvatar": "에이전트 아바타",
     "creatorAvatar": "생성자 아바타",
     "contractLink": "컨트랙트 상세 보기",
-    "copyContractAddress": "컨트랙트 주소 복사"
+    "copyContractAddress": "컨트랙트 주소 복사",
+    "closeSearch": "검색 닫기"
   }
-} 
+}

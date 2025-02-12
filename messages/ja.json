@@ -27,7 +27,8 @@
     "profile": "プロフィール",
     "trading": "取引AIエージェント",
     "explore": "AIエージェントを探す",
-    "creating": "AIエージェントを作成"
+    "creating": "AIエージェントを作成",
+    "chat": "チャット"
   },
   "agent": {
     "details": "エージェント詳細",
@@ -124,7 +125,7 @@
     "marketCap": "時価総額",
     "volume": "取引量",
     "supply": "供給量",
-    "holders": "保有者",
+
     "contract": "コントラクト"
   },
   "iaoPool": {
@@ -158,7 +159,11 @@
     "stakedAmount": "購入済みの{symbol}量",
     "stakeSuccessful": "購入が成功しました！",
     "stakeFailed": "購入に失敗しました。もう一度お試しください",
-    "claimableAmount": "請求可能なXAA数量"
+    "claimableAmount": "請求可能なXAA数量",
+    "claimedAmount": "請求済みのXAA数量",
+    "claimed": "請求済み",
+    "claimSuccessWithAmount": "{amount} XAAの請求に成功しました",
+    "stakeNotStarted": "購入はまだ開始されていません"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
@@ -258,6 +263,7 @@
     "languageIcon": "言語アイコン",
     "copyIcon": "コピーアイコン",
     "agentAvatar": "エージェントのアバター",
-    "creatorAvatar": "クリエイターのアバター"
+    "creatorAvatar": "クリエイターのアバター",
+    "closeSearch": "検索を閉じる"
   }
-} 
+}

@@ -9,11 +9,19 @@ import { useWalletClient, useChainId, useSwitchChain } from 'wagmi';
 import { dbcTestnet } from '@/config/wagmi';
 import * as React from 'react';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
+import { useTranslations } from 'next-intl';
 
 type ToastMessage = {
   title: string;
   description: string | React.ReactNode;
   txHash?: Hash;
+};
+
+type UserStakeInfo = {
+  userDeposited: string;
+  claimableXAA: string;
+  hasClaimed: boolean;
+  claimedAmount: string;
 };
 
 const createToastMessage = (params: ToastMessage): ToastMessage => {
@@ -53,6 +61,7 @@ export const useStakeContract = () => {
   const [isPoolInfoLoading, setIsPoolInfoLoading] = useState(false);
   const [isUserStakeInfoLoading, setIsUserStakeInfoLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
+  const t = useTranslations('iaoPool');
   
   // 添加备用的交易确认检查函数
   const checkTransactionConfirmation = async (hash: Hash): Promise<boolean> => {
@@ -348,8 +357,8 @@ export const useStakeContract = () => {
   const claimRewards = async () => {
     if (!walletClient || !isConnected || !address) {
       toast(createToastMessage({
-        title: "Error",
-        description: "Please connect your wallet first",
+        title: t('error'),
+        description: t('connectWalletFirst'),
       } as ToastMessage));
       return;
     }
@@ -371,6 +380,10 @@ export const useStakeContract = () => {
         transport: custom(walletClient.transport),
       });
 
+      // 在领取之前获取用户可领取的数量
+      const userStakeInfo = await getUserStakeInfo();
+      const claimableAmount = userStakeInfo.claimableXAA;
+
       const { request } = await publicClient.simulateContract({
         address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
         abi: STAKE_CONTRACT_ABI,
@@ -381,38 +394,49 @@ export const useStakeContract = () => {
       const hash = await viemWalletClient.writeContract(request);
       
       toast(createToastMessage({
-        title: "Transaction Sent",
-        description: "Please wait for confirmation",
+        title: t('success'),
+        description: t('processing'),
         txHash: hash,
       } as ToastMessage));
 
       await publicClient.waitForTransactionReceipt({ hash });
       
       toast(createToastMessage({
-        title: "Success",
-        description: "Successfully claimed XAA rewards",
+        title: t('success'),
+        description: t('claimSuccessWithAmount', { amount: claimableAmount }),
         txHash: hash,
       } as ToastMessage));
 
       // Refresh pool info
       await fetchPoolInfo();
+      
+      return {
+        success: true,
+        amount: claimableAmount,
+        hash
+      };
     } catch (error: any) {
       console.error('Claim rewards failed:', error);
       toast(createToastMessage({
-        title: "Error",
-        description: error?.message || "Failed to claim rewards",
+        title: t('error'),
+        description: error?.message || t('stakeFailed'),
       } as ToastMessage));
+      return {
+        success: false,
+        error: error?.message || t('stakeFailed')
+      };
     } finally {
       setIsLoading(false);
     }
   };
 
   // 计算用户可领取的XAA数量
-  const getUserStakeInfo = useCallback(async () => {
+  const getUserStakeInfo = useCallback(async (): Promise<UserStakeInfo> => {
     if (!walletClient || !isConnected || !address) return {
       userDeposited: '0',
       claimableXAA: '0',
-      hasClaimed: false
+      hasClaimed: false,
+      claimedAmount: '0'
     };
 
     try {
@@ -453,25 +477,35 @@ export const useStakeContract = () => {
       });
 
       let claimableXAA = '0';
-      if (!hasClaimed && totalDeposited !== BigInt(0)) {
+      let claimedAmount = '0';
+
+      if (totalDeposited !== BigInt(0)) {
         // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
-        const claimable = (userDeposited * totalReward) / totalDeposited;
-        claimableXAA = ethers.formatEther(claimable);
-      } else if (hasClaimed) {
-        claimableXAA = '已领取';
+        const calculatedAmount = (userDeposited * totalReward) / totalDeposited;
+        const formattedAmount = ethers.formatEther(calculatedAmount);
+        
+        if (hasClaimed) {
+          claimedAmount = formattedAmount;
+          claimableXAA = '0';
+        } else {
+          claimableXAA = formattedAmount;
+          claimedAmount = '0';
+        }
       }
 
       return {
         userDeposited: ethers.formatEther(userDeposited),
         claimableXAA,
-        hasClaimed
+        hasClaimed,
+        claimedAmount
       };
     } catch (error) {
       console.error('Failed to get user stake info:', error);
       return {
         userDeposited: '0',
         claimableXAA: '0',
-        hasClaimed: false
+        hasClaimed: false,
+        claimedAmount: '0'
       };
     } finally {
       setIsUserStakeInfoLoading(false);

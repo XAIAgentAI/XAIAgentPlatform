@@ -27,7 +27,8 @@
     "profile": "Profile",
     "trading": "Trading AI Agent",
     "explore": "Explore AI Agent",
-    "creating": "Creating AI Agent"
+    "creating": "Creating AI Agent",
+    "chat": "Chat"
   },
   "agent": {
     "details": "Agent Details",
@@ -92,7 +93,8 @@
     "authenticationFailed": "Authentication failed. Please refresh the page and try again",
     "info": "Info",
     "switchedToTestnet": "Switched to testnet, please click again to send",
-    "switchNetworkFailed": "Please switch to DBC testnet and try again"
+    "switchNetworkFailed": "Please switch to DBC testnet and try again",
+    "addressCopied": "Contract address copied"
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -156,7 +158,11 @@
     "stakedAmount": "Purchased {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
     "stakeFailed": "Purchase failed, please try again",
-    "claimableAmount": "Claimable XAA Amount"
+    "claimableAmount": "Claimable XAA Amount",
+    "claimedAmount": "Claimed XAA Amount",
+    "claimed": "Claimed",
+    "claimSuccessWithAmount": "Successfully claimed {amount} XAA",
+    "stakeNotStarted": "Purchase not started"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
@@ -199,14 +205,16 @@
     "languageIcon": "Language Icon",
     "copyIcon": "Copy Icon",
     "agentAvatar": "Agent Avatar",
-    "creatorAvatar": "Creator Avatar"
+    "creatorAvatar": "Creator Avatar",
+    "closeSearch": "Close Search"
   },
   "holderDistribution": {
     "title": "Holder Distribution ({count} holders)",
     "address": "Address",
     "percentage": "Percentage",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "loading": "Loading..."
   },
   "agentDescription": {
     "title": "Description",
@@ -257,4 +265,4 @@
       }
     }
   }
-} 
+}
