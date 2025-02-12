@@ -243,7 +243,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                         : t('stakeNotStarted')}
               </Button>
 
-              {isAuthenticated && (
+              {(
                 <div className="space-y-2 mt-4">
                   <p className="text-sm text-muted-foreground">
                     {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
