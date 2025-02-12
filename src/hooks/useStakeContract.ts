@@ -320,7 +320,7 @@ export const useStakeContract = () => {
       } as ToastMessage));
       
 
-      // await getUserStakeInfo();
+      fetchPoolInfo();
 
       return { hash, receipt };
 

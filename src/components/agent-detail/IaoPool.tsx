@@ -12,7 +12,7 @@ import { useAppKitAccount } from '@reown/appkit/react'
 import { useTranslations } from 'next-intl';
 import { LocalAgent } from "@/data/localAgents";
 import { useChainId, useSwitchChain } from 'wagmi';
-import { dbcTestnet } from '@/config/wagmi';
+import { currentChain, dbcTestnet } from '@/config/wagmi';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, http, formatEther } from 'viem';
@@ -54,7 +54,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
     try {
       const publicClient = createPublicClient({
-        chain: dbcTestnet,
+        chain: currentChain,
         transport: http(),
       });
 
