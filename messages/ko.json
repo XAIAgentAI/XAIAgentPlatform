@@ -170,12 +170,14 @@
     "claimed": "청구됨",
     "claimSuccessWithAmount": "{amount} XAA 청구 성공",
     "stakeNotStarted": "구매가 시작되지 않았습니다",
-    "sendSuccess": "{amount} DBC 전송 성공"
+    "sendSuccess": "{amount} DBC 전송 성공",
+    "transactionSent": "거래가 전송되었습니다",
+    "waitForConfirmation": "확인을 기다려주세요"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
     "iaoAllocation": "토큰의 20%가 IAO를 통해 판매되며, 투자는 오직 $DBC로만 가능합니다. 투자자는 $DBC 투자액에 비례하여 $XAA를 받게 됩니다.",
-    "iaoDuration": "14일 동안의 IAO가 끝난 후, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 할당됩니다.",
+    "iaoDuration": "14일 동안의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 할당되며, 이는 절대 철회되지 않습니다.",
     "tradingPair": "IAO 종료 후, $XAA와 $DBC는 즉시 DBCSwap에서 거래 페어를 형성하여 $XAA의 자유로운 거래가 가능해집니다."
   },
   "agents": {

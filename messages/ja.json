@@ -101,7 +101,8 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
-    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
+    "sendSuccess": "{amount} DBCの送信に成功しました"
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -171,12 +172,14 @@
     "claimed": "請求済み",
     "claimSuccessWithAmount": "{amount} XAAの請求に成功しました",
     "stakeNotStarted": "購入はまだ開始されていません",
-    "sendSuccess": "{amount} DBCの送信に成功しました"
+    "sendSuccess": "{amount} DBCの送信に成功しました",
+    "transactionSent": "取引を送信しました",
+    "waitForConfirmation": "確認をお待ちください"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
     "iaoAllocation": "トークンの20%がIAOを通じて販売され、$DBCのみを受け付けます。投資家は$DBCの投資額に比例して$XAAを受け取ります。",
-    "iaoDuration": "14日間のIAO期間中、$DBCの50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーンの流動性プールに割り当てられます。",
+    "iaoDuration": "14日間のIAO期間中、$DBCの50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーンの流動性プールに割り当てられ、永久に撤回されることはありません。",
     "tradingPair": "IAO終了後、$XAAと$DBCはすぐにDBCSwapで取引ペアを確立し、$XAAの自由な取引が可能になります。"
   },
   "agents": {

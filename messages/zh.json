@@ -175,11 +175,11 @@
     "transactionSent": "交易已发送",
     "waitForConfirmation": "等待确认"
   },
-  
+
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",
     "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
-    "iaoDuration": "在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池。",
+    "iaoDuration": "在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。",
     "tradingPair": "IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。"
   },
   "agents": {

@@ -101,7 +101,8 @@
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
-    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
+    "sendSuccess": "Successfully sent {amount} DBC"
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -170,12 +171,14 @@
     "claimed": "Claimed",
     "claimSuccessWithAmount": "Successfully claimed {amount} XAA",
     "stakeNotStarted": "Purchase not started",
-    "sendSuccess": "Successfully sent {amount} DBC"
+    "sendSuccess": "Successfully sent {amount} DBC",
+    "transactionSent": "Transaction Sent",
+    "waitForConfirmation": "Please wait for confirmation"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
     "iaoAllocation": "20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
-    "iaoDuration": "During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools.",
+    "iaoDuration": "During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools, which will never be revoked.",
     "tradingPair": "After IAO ends, $XAA and $DBC will immediately establish trading pairs on DBCSwap, enabling free trading of $XAA."
   },
   "agents": {
