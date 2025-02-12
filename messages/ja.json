@@ -12,6 +12,8 @@
     "sellAgent": "売却",
     "stake": "購入",
     "unstake": "売却",
+    "dbcBalance": "DBC残高",
+    "xaaBalance": "XAA残高",
     "social": "ソーシャル",
     "timeUnits": {
       "days": "日",

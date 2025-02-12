@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useRouter, usePathname } from "next/navigation";
 import { Link } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
+import { TokenBalance } from "./ui-custom/token-balance"
 
 
 const Navbar = () => {
@@ -131,7 +132,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 left-0 right-0 w-full bg-background z-50">
-      <div className="container mx-auto h-20 lg:h-20 h-16 flex items-center justify-between relative">
+      <div className="container mx-auto lg:h-18 h-16 flex items-center justify-between relative">
         {/* Logo and Navigation Links */}
         <div className="flex items-center justify-start pr-5 gap-8">
           <Link href="/" className="flex flex-shrink-0 items-center gap-2">
@@ -358,6 +359,10 @@ const Navbar = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        
+      </div>
+      <div className=" mt-[-6px] px-8 pb-1">
+          <TokenBalance />
       </div>
     </nav>
   );

@@ -312,8 +312,7 @@ export const useStakeContract = () => {
         txHash: hash,
       } as ToastMessage));
 
-      // Refresh pool info
-      await fetchPoolInfo();
+      await getUserStakeInfo();
 
       return { hash, receipt };
 
@@ -407,8 +406,7 @@ export const useStakeContract = () => {
         txHash: hash,
       } as ToastMessage));
 
-      // Refresh pool info
-      await fetchPoolInfo();
+
       
       return {
         success: true,
