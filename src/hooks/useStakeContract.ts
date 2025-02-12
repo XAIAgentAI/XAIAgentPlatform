@@ -29,26 +29,26 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
   return {
     title: params.title,
     description: params.txHash
-      ? React.createElement('div', { 
-          className: "flex flex-col space-y-3 font-medium"
+      ? React.createElement('div', {
+        className: "flex flex-col space-y-3 font-medium"
+      },
+        React.createElement('p', {
+          className: "text-sm text-muted-foreground"
+        }, params.description),
+        React.createElement('div', {
+          className: "flex items-center space-x-2"
         },
-          React.createElement('p', {
-            className: "text-sm text-muted-foreground"
-          }, params.description),
           React.createElement('div', {
-            className: "flex items-center space-x-2"
-          },
-            React.createElement('div', {
-              className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
-            }),
-            React.createElement('a', {
-              href: getTransactionUrl(params.txHash),
-              target: "_blank",
-              rel: "noopener noreferrer",
-              className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
-            }, "View on DBCScan")
-          )
+            className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
+          }),
+          React.createElement('a', {
+            href: getTransactionUrl(params.txHash),
+            target: "_blank",
+            rel: "noopener noreferrer",
+            className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
+          }, "View on DBCScan")
         )
+      )
       : params.description,
   };
 };
@@ -81,7 +81,7 @@ export const useStakeContract = () => {
 
       // 获取当前区块
       const currentBlock = await publicClient.getBlockNumber();
-      
+
       // 如果交易的区块号存在，且已经有至少1个确认，就认为交易已确认
       if (tx.blockNumber && currentBlock - tx.blockNumber >= 1) {
         return true;
@@ -100,7 +100,7 @@ export const useStakeContract = () => {
       // 使用 dbcscan API
       const response = await fetch(`https://testnet.dbcscan.io/api/v2/transactions/${hash}`);
       if (!response.ok) return false;
-      
+
       const data = await response.json();
       // 如果交易已经被确认（有区块号），返回true
       return data.result === 'success';
@@ -122,7 +122,7 @@ export const useStakeContract = () => {
   const fetchPoolInfo = useCallback(async () => {
     try {
       setIsPoolInfoLoading(true);
-      
+
       const publicClient = createPublicClient({
         chain: currentChain,
         transport: http(),
@@ -152,7 +152,7 @@ export const useStakeContract = () => {
         console.error('Failed to fetch endTime:', error);
         endTime = null;
       }
-      
+
 
       try {
         totalDeposited = await publicClient.readContract({
@@ -175,31 +175,33 @@ export const useStakeContract = () => {
         hasClaimed: false,
       };
 
-      // 只有在钱包连接且认证的情况下才获取用户信息
-      if (walletClient && isConnected && isAuthenticated && address) {
-        try {
-          const [userDeposited, hasClaimed] = await Promise.all([
-            publicClient.readContract({
-              address: CONTRACTS.IAO_CONTRACT,
-              abi: CURRENT_CONTRACT_ABI,
-              functionName: 'userDeposits',
-              args: [address as `0x${string}`],
-            }),
-            publicClient.readContract({
-              address: CONTRACTS.IAO_CONTRACT,
-              abi: CURRENT_CONTRACT_ABI,
-              functionName: 'hasClaimed',
-              args: [address as `0x${string}`],
-            }),
-          ]);
-          newPoolInfo.userDeposited = userDeposited ? ethers.formatEther(userDeposited.toString()) : '';
-          newPoolInfo.hasClaimed = hasClaimed;
-        } catch (error) {
-          console.error('Failed to fetch user info:', error);
-          newPoolInfo.userDeposited = '';
-          newPoolInfo.hasClaimed = false;
-        }
-      }
+      console.log("newPoolInfo", newPoolInfo);
+
+      // // 只有在钱包连接且认证的情况下才获取用户信息
+      // if (walletClient && isConnected && isAuthenticated && address) {
+      //   try {
+      //     const [userDeposited, hasClaimed] = await Promise.all([
+      //       publicClient.readContract({
+      //         address: CONTRACTS.IAO_CONTRACT,
+      //         abi: CURRENT_CONTRACT_ABI,
+      //         functionName: 'userDeposits',
+      //         args: [address as `0x${string}`],
+      //       }),
+      //       publicClient.readContract({
+      //         address: CONTRACTS.IAO_CONTRACT,
+      //         abi: CURRENT_CONTRACT_ABI,
+      //         functionName: 'hasClaimed',
+      //         args: [address as `0x${string}`],
+      //       }),
+      //     ]);
+      //     newPoolInfo.userDeposited = userDeposited ? ethers.formatEther(userDeposited.toString()) : '';
+      //     newPoolInfo.hasClaimed = hasClaimed;
+      //   } catch (error) {
+      //     console.error('Failed to fetch user info:', error);
+      //     newPoolInfo.userDeposited = '';
+      //     newPoolInfo.hasClaimed = false;
+      //   }
+      // }
 
       setPoolInfo(newPoolInfo);
     } catch (error) {
@@ -218,11 +220,7 @@ export const useStakeContract = () => {
 
   // Auto fetch pool info
   useEffect(() => {
-    // 只在 walletClient 加载完成后执行
-    if (address) {
-      console.log('Wallet loaded, fetching pool info');
-      fetchPoolInfo();
-    }
+    fetchPoolInfo();
   }, [fetchPoolInfo, address]);
 
   // Stake DBC
@@ -257,7 +255,7 @@ export const useStakeContract = () => {
       //   address: address as `0x${string}` 
       // });
       const amountWei = parseEther(amount);
-      
+
       // if (balance < amountWei) {
       //   throw new Error('Insufficient balance');
       // }
@@ -279,18 +277,18 @@ export const useStakeContract = () => {
       } as ToastMessage));
 
       console.log('Waiting for transaction confirmation:', hash);
-      
+
       let receipt;
       try {
         // 首先尝试使用RPC节点等待确认
-        receipt = await publicClient.waitForTransactionReceipt({ 
+        receipt = await publicClient.waitForTransactionReceipt({
           hash,
           timeout: 10_000, // 先等10秒
           pollingInterval: 1_000,
         });
       } catch (error) {
         console.log('RPC confirmation failed, checking explorer...');
-        
+
         // 如果RPC确认失败，使用区块链浏览器API检查
         let confirmed = false;
         let attempts = 0;
@@ -318,7 +316,7 @@ export const useStakeContract = () => {
         description: `Successfully staked ${amount} DBC`,
         txHash: hash,
       } as ToastMessage));
-      
+
 
       fetchPoolInfo();
 
@@ -332,7 +330,7 @@ export const useStakeContract = () => {
       //       description: `Successfully staked ${amount} DBC`,
       //       txHash: hash,
       //     } as ToastMessage));
-          
+
       //     // 刷新pool信息
       //     await fetchPoolInfo();
       //   })
@@ -376,7 +374,7 @@ export const useStakeContract = () => {
 
     try {
       setIsLoading(true);
-      
+
       const viemWalletClient = createWalletClient({
         chain: currentChain,
         transport: custom(walletClient.transport),
@@ -399,7 +397,7 @@ export const useStakeContract = () => {
       });
 
       const hash = await viemWalletClient.writeContract(request);
-      
+
       toast(createToastMessage({
         title: t('success'),
         description: t('processing'),
@@ -407,7 +405,7 @@ export const useStakeContract = () => {
       } as ToastMessage));
 
       await publicClient.waitForTransactionReceipt({ hash });
-      
+
       toast(createToastMessage({
         title: t('success'),
         description: t('claimSuccessWithAmount', { amount: claimableAmount }),
@@ -415,7 +413,7 @@ export const useStakeContract = () => {
       } as ToastMessage));
 
 
-      
+
       return {
         success: true,
         amount: claimableAmount,
@@ -489,7 +487,7 @@ export const useStakeContract = () => {
         // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
         const calculatedAmount = (userDeposited * totalReward) / totalDeposited;
         const formattedAmount = ethers.formatEther(calculatedAmount);
-        
+
         if (hasClaimed) {
           claimedAmount = formattedAmount;
           claimableXAA = '0';

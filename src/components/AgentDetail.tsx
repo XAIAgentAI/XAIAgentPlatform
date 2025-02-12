@@ -19,12 +19,13 @@ export function AgentDetail({ id }: AgentDetailProps) {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* 左侧主要内容区域 */}
       <div className="lg:col-span-2 space-y-6">
-        {/* Agent信息卡片 */}
-        <AgentInfo agentId={id} />
         {/* 移动端IaoPool */}
         <div className="md:hidden ">
           <IaoPool agent={agent as any} />
         </div>
+        {/* Agent信息卡片 */}
+        <AgentInfo agentId={id} />
+
         {/* 对话启动器 */}
         <ConversationStarter agentId={id} />
       </div>
