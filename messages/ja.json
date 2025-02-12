@@ -96,7 +96,12 @@
     "addressCopied": "コントラクトアドレスをコピーしました",
     "info": "お知らせ",
     "switchedToTestnet": "テストネットに切り替えました。もう一度クリックして送信してください",
-    "switchNetworkFailed": "DBCテストネットに切り替えて再試行してください"
+    "switchNetworkFailed": "DBCテストネットに切り替えて再試行してください",
+    "viewOnDBCScan": "DBCScanで表示",
+    "transactionSent": "取引を送信しました",
+    "waitForConfirmation": "確認をお待ちください",
+    "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
   },
   "agentList": {
     "sortBy": "並び替え",

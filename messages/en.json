@@ -96,7 +96,12 @@
     "info": "Info",
     "switchedToTestnet": "Switched to testnet, please click again to send",
     "switchNetworkFailed": "Please switch to DBC testnet and try again",
-    "addressCopied": "Contract address copied"
+    "addressCopied": "Contract address copied",
+    "viewOnDBCScan": "View on DBCScan",
+    "transactionSent": "Transaction Sent",
+    "waitForConfirmation": "Please wait for confirmation",
+    "transactionConfirmationTimeout": "Transaction confirmation timeout",
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
   },
   "agentList": {
     "sortBy": "Sort by",

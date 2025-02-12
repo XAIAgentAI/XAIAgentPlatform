@@ -26,6 +26,7 @@ type UserStakeInfo = {
 };
 
 const createToastMessage = (params: ToastMessage): ToastMessage => {
+  const t = useTranslations('messages');
   return {
     title: params.title,
     description: params.txHash
@@ -46,7 +47,7 @@ const createToastMessage = (params: ToastMessage): ToastMessage => {
             target: "_blank",
             rel: "noopener noreferrer",
             className: "text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
-          }, "View on DBCScan")
+          }, t('viewOnDBCScan'))
         )
       )
       : params.description,
@@ -227,8 +228,8 @@ export const useStakeContract = () => {
   const stake = async (amount: string) => {
     if (!walletClient || !isConnected || !address) {
       toast(createToastMessage({
-        title: "Error",
-        description: "Please connect your wallet first",
+        title: t('error'),
+        description: t('connectWalletFirst'),
       } as ToastMessage));
       return null;
     }
@@ -250,15 +251,7 @@ export const useStakeContract = () => {
         transport: custom(walletClient.transport),
       });
 
-      // // Check balance
-      // const balance = await publicClient.getBalance({ 
-      //   address: address as `0x${string}` 
-      // });
       const amountWei = parseEther(amount);
-
-      // if (balance < amountWei) {
-      //   throw new Error('Insufficient balance');
-      // }
 
       console.log('Sending transaction to contract:', CONTRACTS.IAO_CONTRACT);
       const hash = await viemWalletClient.sendTransaction({
@@ -267,12 +260,11 @@ export const useStakeContract = () => {
         account: address as `0x${string}`,
       });
 
-      // 发送交易后立即设置loading为false
       setIsLoading(false);
 
       toast(createToastMessage({
-        title: "Transaction Sent",
-        description: "Please wait for confirmation",
+        title: t('transactionSent'),
+        description: t('waitForConfirmation'),
         txHash: hash,
       } as ToastMessage));
 
@@ -280,16 +272,14 @@ export const useStakeContract = () => {
 
       let receipt;
       try {
-        // 首先尝试使用RPC节点等待确认
         receipt = await publicClient.waitForTransactionReceipt({
           hash,
-          timeout: 10_000, // 先等10秒
+          timeout: 10_000,
           pollingInterval: 1_000,
         });
       } catch (error) {
         console.log('RPC confirmation failed, checking explorer...');
 
-        // 如果RPC确认失败，使用区块链浏览器API检查
         let confirmed = false;
         let attempts = 0;
         const maxAttempts = 30;
@@ -298,7 +288,6 @@ export const useStakeContract = () => {
           confirmed = await getTransactionStatusFromExplorer(hash);
           if (confirmed) {
             console.log('Transaction confirmed via explorer');
-            // 交易确认后，再次尝试获取receipt
             receipt = await publicClient.getTransactionReceipt({ hash });
             break;
           }
@@ -307,50 +296,28 @@ export const useStakeContract = () => {
         }
 
         if (!confirmed) {
-          throw new Error('Transaction confirmation timeout');
+          throw new Error(t('transactionConfirmationTimeout'));
         }
       }
 
       toast(createToastMessage({
-        title: "Success",
-        description: `Successfully staked ${amount} DBC`,
+        title: t('success'),
+        description: t('stakeSuccessWithAmount', { amount }),
         txHash: hash,
       } as ToastMessage));
-
 
       fetchPoolInfo();
 
       return { hash, receipt };
 
-      // // 在后台继续监听交易
-      // publicClient.waitForTransactionReceipt({ hash })
-      //   .then(async () => {
-      //     toast(createToastMessage({
-      //       title: "Success",
-      //       description: `Successfully staked ${amount} DBC`,
-      //       txHash: hash,
-      //     } as ToastMessage));
-
-      //     // 刷新pool信息
-      //     await fetchPoolInfo();
-      //   })
-      //   .catch(error => {
-      //     console.error('Transaction failed:', error);
-      //     toast(createToastMessage({
-      //       title: "Warning",
-      //       description: "Transaction may have failed. Please check your wallet for status.",
-      //     } as ToastMessage));
-      //   });
-
-      // return { hash };
     } catch (error: any) {
       console.error('Stake failed:', error);
       if (error?.code === 4001) {
         throw error;
       }
       toast(createToastMessage({
-        title: "Error",
-        description: error?.message || "Failed to stake",
+        title: t('error'),
+        description: error?.message || t('stakeFailed'),
       } as ToastMessage));
       throw error;
     } finally {
@@ -368,7 +335,6 @@ export const useStakeContract = () => {
       return;
     }
 
-    // 添加网络检查
     const isCorrectNetwork = await ensureTestNetwork();
     if (!isCorrectNetwork) return;
 
@@ -385,7 +351,6 @@ export const useStakeContract = () => {
         transport: custom(walletClient.transport),
       });
 
-      // 在领取之前获取用户可领取的数量
       const userStakeInfo = await getUserStakeInfo();
       const claimableAmount = userStakeInfo.claimableXAA;
 
@@ -411,8 +376,6 @@ export const useStakeContract = () => {
         description: t('claimSuccessWithAmount', { amount: claimableAmount }),
         txHash: hash,
       } as ToastMessage));
-
-
 
       return {
         success: true,
