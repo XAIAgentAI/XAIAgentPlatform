@@ -45,6 +45,15 @@ export function useAuth() {
 
   const authenticate = useCallback(async () => {
     console.log("authenticate被调用");
+
+    console.log("所有参数", {
+      address,
+      isConnected,
+      status,
+      isLoading,
+      isAuthenticated,
+      lastAuthAddress,
+    });
     
     // If loading, don't process again
     if (isLoading) return;

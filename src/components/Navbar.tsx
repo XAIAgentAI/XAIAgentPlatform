@@ -71,21 +71,21 @@ const Navbar = () => {
   }, [error, toast])
 
   useEffect(() => {
-    if (status === 'connected') {
+    if (status === 'connected' && address && isConnected) {
       console.log('status', status, 'authenticate', authenticate);
       
       authenticate();
     }
-  }, [status]);
+  }, [status, address, isConnected, ]);
 
-  // 添加状态变化日志
-  useEffect(() => {
-    console.log('Wallet Status:', {
-      status,
-      isConnected,
-      address
-    })
-  }, [status, isConnected, address])
+  // // 添加状态变化日志
+  // useEffect(() => {
+  //   console.log('Wallet Status:', {
+  //     status,
+  //     isConnected,
+  //     address
+  //   })
+  // }, [status, isConnected, address])
 
   const handleWalletClick = () => {
     if (isConnected) {

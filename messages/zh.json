@@ -157,7 +157,8 @@
     "insufficientBalance": "余额不足，最大可用金额: {amount} DBC",
     "stakedAmount": "已购买的 {symbol} 数量",
     "stakeSuccessful": "购买成功！",
-    "stakeFailed": "购买失败，请重试"
+    "stakeFailed": "购买失败，请重试",
+    "claimableAmount": "可领取的XAA数量"
   },
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",

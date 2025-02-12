@@ -51,6 +51,7 @@ export const useStakeContract = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isPoolInfoLoading, setIsPoolInfoLoading] = useState(false);
+  const [isUserStakeInfoLoading, setIsUserStakeInfoLoading] = useState(false);
   const { ensureTestNetwork } = useTestNetwork();
   
   // 添加备用的交易确认检查函数
@@ -202,11 +203,11 @@ export const useStakeContract = () => {
   // Auto fetch pool info
   useEffect(() => {
     // 只在 walletClient 加载完成后执行
-    if (!isWalletLoading) {
+    if (address) {
       console.log('Wallet loaded, fetching pool info');
       fetchPoolInfo();
     }
-  }, [isWalletLoading, fetchPoolInfo]);
+  }, [fetchPoolInfo, address]);
 
   // Stake DBC
   const stake = async (amount: string) => {
@@ -407,10 +408,15 @@ export const useStakeContract = () => {
   };
 
   // 计算用户可领取的XAA数量
-  const getClaimableXAA = useCallback(async () => {
-    if (!walletClient || !isConnected || !address) return '0';
+  const getUserStakeInfo = useCallback(async () => {
+    if (!walletClient || !isConnected || !address) return {
+      userDeposited: '0',
+      claimableXAA: '0',
+      hasClaimed: false
+    };
 
     try {
+      setIsUserStakeInfoLoading(true);
       const publicClient = createPublicClient({
         chain: dbcTestnet,
         transport: custom(walletClient.transport),
@@ -439,13 +445,6 @@ export const useStakeContract = () => {
         args: [address as `0x${string}`],
       });
 
-      console.log('所有结果', {
-        totalDeposited,
-        userDeposited,
-        hasClaimed,
-      
-      });
-
       // 获取总奖励
       const totalReward = await publicClient.readContract({
         address: CONTRACTS.STAKE_CONTRACT as `0x${string}`,
@@ -453,20 +452,29 @@ export const useStakeContract = () => {
         functionName: 'TOTAL_XAA_REWARD',
       });
 
-      if (hasClaimed) {
-        return '已领取';
+      let claimableXAA = '0';
+      if (!hasClaimed && totalDeposited !== BigInt(0)) {
+        // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
+        const claimable = (userDeposited * totalReward) / totalDeposited;
+        claimableXAA = ethers.formatEther(claimable);
+      } else if (hasClaimed) {
+        claimableXAA = '已领取';
       }
 
-      if (totalDeposited === BigInt(0)) {
-        return '0';
-      }
-
-      // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
-      const claimable = (userDeposited * totalReward) / totalDeposited;
-      return ethers.formatEther(claimable);
+      return {
+        userDeposited: ethers.formatEther(userDeposited),
+        claimableXAA,
+        hasClaimed
+      };
     } catch (error) {
-      console.error('Failed to get claimable XAA:', error);
-      return '0';
+      console.error('Failed to get user stake info:', error);
+      return {
+        userDeposited: '0',
+        claimableXAA: '0',
+        hasClaimed: false
+      };
+    } finally {
+      setIsUserStakeInfoLoading(false);
     }
   }, [walletClient, isConnected, address]);
 
@@ -474,9 +482,10 @@ export const useStakeContract = () => {
     poolInfo,
     isLoading,
     isPoolInfoLoading,
+    isUserStakeInfoLoading,
     stake,
     claimRewards,
     fetchPoolInfo,
-    getClaimableXAA,
+    getUserStakeInfo,
   };
 }; 

@@ -157,7 +157,8 @@
     "insufficientBalance": "残高不足、利用可能な最大額：{amount} DBC",
     "stakedAmount": "購入済みの{symbol}量",
     "stakeSuccessful": "購入が成功しました！",
-    "stakeFailed": "購入に失敗しました。もう一度お試しください"
+    "stakeFailed": "購入に失敗しました。もう一度お試しください",
+    "claimableAmount": "請求可能なXAA数量"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",

@@ -155,7 +155,8 @@
     "insufficientBalance": "Insufficient balance, maximum available amount: {amount} DBC",
     "stakedAmount": "Purchased {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
-    "stakeFailed": "Purchase failed, please try again"
+    "stakeFailed": "Purchase failed, please try again",
+    "claimableAmount": "Claimable XAA Amount"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

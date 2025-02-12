@@ -20,10 +20,22 @@ import { createPublicClient, http, formatEther } from 'viem';
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
-  const [claimableXAA, setClaimableXAA] = useState("0");
+  const [userStakeInfo, setUserStakeInfo] = useState({
+    userDeposited: "0",
+    claimableXAA: "0",
+    hasClaimed: false
+  });
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
-  const { poolInfo, isLoading: isStakeLoading, isPoolInfoLoading, stake, claimRewards, getClaimableXAA } = useStakeContract();
+  const { 
+    poolInfo, 
+    isLoading: isStakeLoading, 
+    isPoolInfoLoading, 
+    isUserStakeInfoLoading,
+    stake, 
+    claimRewards, 
+    getUserStakeInfo 
+  } = useStakeContract();
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
@@ -123,28 +135,28 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const isDepositPeriod = true;
   const isIAOStarted = agent.symbol === 'XAA';
 
-  useEffect(() => {
-    const fetchPoolData = async () => {
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟数据加载
-      } catch (error) {
-        console.error('Failed to fetch pool data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPoolData = async () => {
+  //     try {
+  //       await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟数据加载
+  //     } catch (error) {
+  //       console.error('Failed to fetch pool data:', error);
+  //     }
+  //   };
 
-    fetchPoolData();
-  }, []);
+  //   fetchPoolData();
+  // }, []);
 
-  // 获取可领取的XAA数量
+  // 获取用户质押信息
   useEffect(() => {
-    const fetchClaimableXAA = async () => {
+    const fetchUserStakeInfo = async () => {
       if (!isAuthenticated) return;
-      const amount = await getClaimableXAA();
-      setClaimableXAA(Number(amount).toFixed(2));
+      const info = await getUserStakeInfo();
+      setUserStakeInfo(info);
     };
 
-    fetchClaimableXAA();
-  }, [isAuthenticated, getClaimableXAA, poolInfo]);
+    fetchUserStakeInfo();
+  }, [isAuthenticated, getUserStakeInfo, poolInfo]);
 
   return (
     <Card className="p-6">
@@ -200,7 +212,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 max={maxAmount}
                 step="any"
                 className="pr-16"
-                placeholder="0.0"
+                placeholder="00.00"
                 disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !process.env.NEXT_PUBLIC_IS_TEST_ENV}
               />
               <button
@@ -234,10 +246,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               {isAuthenticated && (
                 <div className="space-y-2 mt-4">
                   <p className="text-sm text-muted-foreground">
-                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isPoolInfoLoading || !poolInfo?.userDeposited ? "--" : Number(poolInfo.userDeposited).toLocaleString()}</span>
+                    {t('stakedAmount', { symbol: 'DBC' })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    可领取的XAA数量: <span className="text-[#F47521]">{isPoolInfoLoading || !claimableXAA || claimableXAA === "0" ? "--" : claimableXAA}</span>
+                    {t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(2)}</span>
                   </p>
                 </div>
               )}
