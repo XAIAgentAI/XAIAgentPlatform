@@ -97,6 +97,7 @@
     "addressCopied": "合约地址已复制",
     "info": "提示",
     "switchedToTestnet": "已切换到测试网，请重新点击发送",
+    "switchedToMainnet": "已切换到主网，请重新点击发送",
     "switchNetworkFailed": "请切换到 DBC 测试网后再试",
     "viewOnDBCScan": "在 DBCScan 上查看",
     "transactionSent": "交易已发送",

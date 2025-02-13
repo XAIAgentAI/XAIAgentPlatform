@@ -71,13 +71,7 @@ export const getExplorerUrl = () => currentNetwork.blockExplorerUrl;
 // 工具函数：获取交易URL
 export const getTransactionUrl = (hash: string) => `${getExplorerUrl()}/tx/${hash}`;
 
-// 工具函数：确保是正确的网络环境
-export const ensureCorrectNetwork = () => {
-  if (!isTestnet) {
-    throw new Error('This feature is only available on testnet');
-  }
-  return true;
-};
+
 
 // 工具函数：确保是主网环境
 export const ensureMainnet = () => {

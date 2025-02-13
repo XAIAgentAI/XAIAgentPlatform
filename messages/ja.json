@@ -96,6 +96,7 @@
     "addressCopied": "コントラクトアドレスをコピーしました",
     "info": "お知らせ",
     "switchedToTestnet": "テストネットに切り替えました。もう一度クリックして送信してください",
+    "switchedToMainnet": "メインネットに切り替えました。もう一度クリックして送信してください",
     "switchNetworkFailed": "DBCテストネットに切り替えて再試行してください",
     "viewOnDBCScan": "DBCScanで表示",
     "transactionSent": "取引を送信しました",

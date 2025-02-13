@@ -96,6 +96,7 @@
     "addressCopied": "컨트랙트 주소가 복사되었습니다",
     "info": "알림",
     "switchedToTestnet": "테스트넷으로 전환되었습니다. 다시 클릭하여 전송해주세요",
+    "switchedToMainnet": "메인넷으로 전환되었습니다. 다시 클릭하여 전송해주세요",
     "switchNetworkFailed": "DBC 테스트넷으로 전환 후 다시 시도해주세요",
     "viewOnDBCScan": "DBCScan에서 보기",
     "transactionSent": "거래가 전송되었습니다",

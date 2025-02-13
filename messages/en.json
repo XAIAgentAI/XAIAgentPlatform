@@ -95,6 +95,7 @@
     "authenticationFailed": "Authentication failed. Please refresh the page and try again",
     "info": "Info",
     "switchedToTestnet": "Switched to testnet, please click again to send",
+    "switchedToMainnet": "Switched to mainnet, please click again to send",
     "switchNetworkFailed": "Please switch to DBC testnet and try again",
     "addressCopied": "Contract address copied",
     "viewOnDBCScan": "View on DBCScan",

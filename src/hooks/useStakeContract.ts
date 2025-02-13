@@ -8,9 +8,9 @@ import { createPublicClient, createWalletClient, custom, http, parseEther, type 
 import { useWalletClient } from 'wagmi';
 import { currentChain } from '@/config/wagmi';
 import * as React from 'react';
-import { useTestNetwork } from '@/hooks/useTestNetwork';
+import { useNetwork } from '@/hooks/useNetwork';
 import { useTranslations } from 'next-intl';
-import { ensureCorrectNetwork, getTransactionUrl } from '@/config/networks';
+import {  getTransactionUrl } from '@/config/networks';
 import { getExplorerUrl } from '@/config/networks';
 
 type ToastMessage = {
@@ -37,7 +37,7 @@ export const useStakeContract = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPoolInfoLoading, setIsPoolInfoLoading] = useState(false);
   const [isUserStakeInfoLoading, setIsUserStakeInfoLoading] = useState(false);
-  const { ensureTestNetwork } = useTestNetwork();
+  const { ensureCorrectNetwork } = useNetwork();
   const t = useTranslations('iaoPool');
   const tMessages = useTranslations('messages');
 
@@ -237,8 +237,17 @@ export const useStakeContract = () => {
       return null;
     }
 
-    const isCorrectNetwork = await ensureTestNetwork();
-    if (!isCorrectNetwork) return null;
+    // 确保网络正确
+    try {
+      const isCorrectNetwork = await ensureCorrectNetwork();
+      if (!isCorrectNetwork) return null;
+    } catch (error: any) {
+      toast(createToastMessage({
+        title: t('error'),
+        description: error.message,
+      } as ToastMessage));
+      return null;
+    }
 
     try {
       setIsLoading(true);
@@ -338,8 +347,17 @@ export const useStakeContract = () => {
       return;
     }
 
-    const isCorrectNetwork = await ensureTestNetwork();
-    if (!isCorrectNetwork) return;
+    // 确保网络正确
+    try {
+      const isCorrectNetwork = await ensureCorrectNetwork();
+      if (!isCorrectNetwork) return null;
+    } catch (error: any) {
+      toast(createToastMessage({
+        title: t('error'),
+        description: error.message,
+      } as ToastMessage));
+      return null;
+    }
 
     try {
       setIsLoading(true);

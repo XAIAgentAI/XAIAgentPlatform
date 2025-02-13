@@ -13,9 +13,9 @@ import { useTranslations } from 'next-intl';
 import { LocalAgent } from "@/data/localAgents";
 import { useChainId, useSwitchChain } from 'wagmi';
 import { currentChain, dbcTestnet } from '@/config/wagmi';
-import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, http, formatEther } from 'viem';
+import { useNetwork } from "@/hooks/useNetwork";
 
 const showIAOReal = "true"
 
@@ -43,7 +43,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
-  const { ensureTestNetwork } = useTestNetwork();
+  const { ensureCorrectNetwork } = useNetwork();
 
   // 获取用户余额
   const fetchUserBalance = useCallback(async () => {
@@ -109,7 +109,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     }
 
     // 检查并尝试切换网络
-    const isCorrectNetwork = await ensureTestNetwork();
+    const isCorrectNetwork = await ensureCorrectNetwork();
     if (!isCorrectNetwork) return;
 
     // 1. 验证输入值是否为有效数字
