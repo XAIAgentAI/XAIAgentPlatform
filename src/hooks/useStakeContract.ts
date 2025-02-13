@@ -29,6 +29,21 @@ type UserStakeInfo = {
 // 检查是否是测试网环境
 const isTestnet = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true";
 
+// 在文件开头添加工具函数
+const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
+  if (!address) throw new Error('Address is required');
+  
+  // 如果地址不是以 0x 开头，添加 0x 前缀
+  const formattedAddress = address.startsWith('0x') ? address : `0x${address}`;
+  
+  // 确保地址长度正确（42 = 0x + 40个字符）
+  if (formattedAddress.length !== 42) {
+    console.warn('Potentially invalid address length:', formattedAddress);
+  }
+  
+  return formattedAddress as `0x${string}`;
+};
+
 export const useStakeContract = () => {
   const { address, isConnected } = useAppKitAccount();
   const { data: walletClient, isLoading: isWalletLoading } = useWalletClient();
@@ -253,6 +268,11 @@ export const useStakeContract = () => {
       setIsLoading(true);
       console.log('Starting stake:', amount, 'DBC');
 
+      // 确保地址格式正确
+      const formattedAddress = ensureAddressFormat(address);
+      console.log('Original address:', address);
+      console.log('Formatted address:', formattedAddress);
+
       const viemWalletClient = createWalletClient({
         chain: currentChain,
         transport: custom(walletClient.transport),
@@ -266,33 +286,32 @@ export const useStakeContract = () => {
       const amountWei = parseEther(amount);
 
       // 先估算 gas
-      const gasEstimate = await publicClient.estimateGas({
-        account: address as `0x${string}`,
-        to: CONTRACTS.IAO_CONTRACT,
-        value: amountWei,
-      });
+      // const gasEstimate = await publicClient.estimateGas({
+      //   account: formattedAddress,
+      //   to: CONTRACTS.IAO_CONTRACT,
+      //   value: amountWei,
+      // });
 
       // 获取当前 gas 价格
-      const gasPrice = await publicClient.getGasPrice();
+      // const gasPrice = await publicClient.getGasPrice();
 
       // 计算总 gas 成本
-      const gasCost = gasEstimate * gasPrice;
+      // const gasCost = gasEstimate * gasPrice;
 
       // 检查用户余额是否足够支付 gas + 质押金额
-      const balance = await publicClient.getBalance({ address: address as `0x${string}` });
-      const totalCost = gasCost + amountWei;
+      // const balance = await publicClient.getBalance({ address: formattedAddress });
+      // const totalCost = gasCost + amountWei;
 
-      if (balance < totalCost) {
-        throw new Error(t('insufficientBalance', { amount: ethers.formatEther(balance - gasCost) }));
-      }
+      // if (balance < totalCost) {
+      //   throw new Error(t('insufficientBalance', { amount: ethers.formatEther(balance - gasCost) }));
+      // }
 
       console.log('Sending transaction to contract:', CONTRACTS.IAO_CONTRACT);
       const hash = await viemWalletClient.sendTransaction({
         to: CONTRACTS.IAO_CONTRACT,
         value: amountWei,
-        account: address as `0x${string}`,
-        gasLimit: gasEstimate,
-        maxFeePerGas: gasPrice
+        account: formattedAddress,
+        // gasLimit: gasEstimate,
       });
 
       setIsLoading(false);
@@ -382,6 +401,9 @@ export const useStakeContract = () => {
     try {
       setIsLoading(true);
 
+      // 确保地址格式正确
+      const formattedAddress = ensureAddressFormat(address);
+
       const viemWalletClient = createWalletClient({
         chain: currentChain,
         transport: custom(walletClient.transport),
@@ -399,7 +421,7 @@ export const useStakeContract = () => {
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'claimRewards',
-        account: address as `0x${string}`,
+        account: formattedAddress,
       });
 
       const hash = await viemWalletClient.writeContract(request);
@@ -428,7 +450,7 @@ export const useStakeContract = () => {
       toast(createToastMessage({
         title: t('error'),
         description: error?.message || t('stakeFailed'),
-      } as ToastMessage));
+      }));
       return {
         success: false,
         error: error?.message || t('stakeFailed')
@@ -449,6 +471,11 @@ export const useStakeContract = () => {
 
     try {
       setIsUserStakeInfoLoading(true);
+      
+      // 确保地址格式正确
+      const formattedAddress = ensureAddressFormat(address);
+      console.log('Getting stake info for address:', formattedAddress);
+
       const publicClient = createPublicClient({
         chain: currentChain,
         transport: custom(walletClient.transport),
@@ -466,7 +493,7 @@ export const useStakeContract = () => {
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'userDeposits',
-        args: [address as `0x${string}`],
+        args: [formattedAddress],
       });
 
       // Get if user has claimed
@@ -474,7 +501,7 @@ export const useStakeContract = () => {
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'hasClaimed',
-        args: [address as `0x${string}`],
+        args: [formattedAddress],
       });
 
       // Get total rewards
