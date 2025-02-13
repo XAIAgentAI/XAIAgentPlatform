@@ -11,6 +11,7 @@ import * as React from 'react';
 import { useTestNetwork } from '@/hooks/useTestNetwork';
 import { useTranslations } from 'next-intl';
 import { ensureCorrectNetwork, getTransactionUrl } from '@/config/networks';
+import { getExplorerUrl } from '@/config/networks';
 
 type ToastMessage = {
   title: string;
@@ -98,8 +99,10 @@ export const useStakeContract = () => {
   // 从区块链浏览器API获取交易状态
   const getTransactionStatusFromExplorer = async (hash: Hash): Promise<boolean> => {
     try {
-      // 使用 dbcscan API
-      const response = await fetch(`https://testnet.dbcscan.io/api/v2/transactions/${hash}`);
+      // 根据当前网络环境获取正确的 API URL
+      const explorerApiUrl = `${getExplorerUrl()}/api/v2/transactions/${hash}`;
+      const response = await fetch(explorerApiUrl);
+
       if (!response.ok) return false;
 
       const data = await response.json();

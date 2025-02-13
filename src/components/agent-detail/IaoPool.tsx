@@ -139,7 +139,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     } catch (error: any) {
       toast({
         title: t('error'),
-        description: t('stakeFailed'),
+        description: t('stakeFailed') + ' ' + error.message,
       });
     }
   };
