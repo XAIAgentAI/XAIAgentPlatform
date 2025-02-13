@@ -265,11 +265,34 @@ export const useStakeContract = () => {
 
       const amountWei = parseEther(amount);
 
+      // 先估算 gas
+      const gasEstimate = await publicClient.estimateGas({
+        account: address as `0x${string}`,
+        to: CONTRACTS.IAO_CONTRACT,
+        value: amountWei,
+      });
+
+      // 获取当前 gas 价格
+      const gasPrice = await publicClient.getGasPrice();
+
+      // 计算总 gas 成本
+      const gasCost = gasEstimate * gasPrice;
+
+      // 检查用户余额是否足够支付 gas + 质押金额
+      const balance = await publicClient.getBalance({ address: address as `0x${string}` });
+      const totalCost = gasCost + amountWei;
+
+      if (balance < totalCost) {
+        throw new Error(t('insufficientBalance', { amount: ethers.formatEther(balance - gasCost) }));
+      }
+
       console.log('Sending transaction to contract:', CONTRACTS.IAO_CONTRACT);
       const hash = await viemWalletClient.sendTransaction({
         to: CONTRACTS.IAO_CONTRACT,
         value: amountWei,
         account: address as `0x${string}`,
+        gasLimit: gasEstimate,
+        maxFeePerGas: gasPrice
       });
 
       setIsLoading(false);
@@ -324,13 +347,10 @@ export const useStakeContract = () => {
 
     } catch (error: any) {
       console.error('Stake failed:', error);
-      if (error?.code === 4001) {
-        throw error;
-      }
       toast(createToastMessage({
         title: t('error'),
         description: error?.message || t('stakeFailed'),
-      } as ToastMessage));
+      }));
       throw error;
     } finally {
       setIsLoading(false);
@@ -418,7 +438,7 @@ export const useStakeContract = () => {
     }
   };
 
-  // 计算用户可领取的XAA数量
+  // Get user stake info
   const getUserStakeInfo = useCallback(async (): Promise<UserStakeInfo> => {
     if (!walletClient || !isConnected || !address) return {
       userDeposited: '0',
@@ -434,14 +454,14 @@ export const useStakeContract = () => {
         transport: custom(walletClient.transport),
       });
 
-      // 获取总质押量
+      // Get total staked amount
       const totalDeposited = await publicClient.readContract({
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'totalDepositedDBC',
       });
 
-      // 获取用户质押量
+      // Get user staked amount
       const userDeposited = await publicClient.readContract({
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
@@ -449,7 +469,7 @@ export const useStakeContract = () => {
         args: [address as `0x${string}`],
       });
 
-      // 获取用户是否已领取
+      // Get if user has claimed
       const hasClaimed = await publicClient.readContract({
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
@@ -457,7 +477,7 @@ export const useStakeContract = () => {
         args: [address as `0x${string}`],
       });
 
-      // 获取总奖励
+      // Get total rewards
       const totalReward = await publicClient.readContract({
         address: CONTRACTS.IAO_CONTRACT,
         abi: CURRENT_CONTRACT_ABI,
@@ -468,7 +488,7 @@ export const useStakeContract = () => {
       let claimedAmount = '0';
 
       if (totalDeposited !== BigInt(0)) {
-        // 计算用户应得的XAA数量：（用户投资数额/总投资量) * 总奖励
+        // Calculate user's XAA amount: (user investment / total investment) * total rewards
         const calculatedAmount = (userDeposited * totalReward) / totalDeposited;
         const formattedAmount = ethers.formatEther(calculatedAmount);
 
