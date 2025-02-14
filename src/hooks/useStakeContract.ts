@@ -4,13 +4,13 @@ import { CONTRACTS, CURRENT_CONTRACT_ABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
-import { createPublicClient, createWalletClient, custom, http, parseEther, type Hash } from 'viem';
+import { createPublicClient, createWalletClient, custom, http, parseEther, parseGwei, type Hash } from 'viem';
 import { useWalletClient } from 'wagmi';
 import { currentChain } from '@/config/wagmi';
 import * as React from 'react';
 import { useNetwork } from '@/hooks/useNetwork';
 import { useTranslations } from 'next-intl';
-import {  getTransactionUrl } from '@/config/networks';
+import { getTransactionUrl } from '@/config/networks';
 import { getExplorerUrl } from '@/config/networks';
 
 type ToastMessage = {
@@ -32,15 +32,15 @@ const isTestnet = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true";
 // 在文件开头添加工具函数
 const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
   if (!address) throw new Error('Address is required');
-  
+
   // 如果地址不是以 0x 开头，添加 0x 前缀
   const formattedAddress = address.startsWith('0x') ? address : `0x${address}`;
-  
+
   // 确保地址长度正确（42 = 0x + 40个字符）
   if (formattedAddress.length !== 42) {
     console.warn('Potentially invalid address length:', formattedAddress);
   }
-  
+
   return formattedAddress as `0x${string}`;
 };
 
@@ -285,33 +285,28 @@ export const useStakeContract = () => {
 
       const amountWei = parseEther(amount);
 
-      // 先估算 gas
-      // const gasEstimate = await publicClient.estimateGas({
-      //   account: formattedAddress,
-      //   to: CONTRACTS.IAO_CONTRACT,
-      //   value: amountWei,
-      // });
+      // 估算gas
+      const estimatedGas = await publicClient.estimateGas({
+        account: formattedAddress,
+        to: CONTRACTS.IAO_CONTRACT,
+        value: amountWei
+      });
 
-      // 获取当前 gas 价格
-      // const gasPrice = await publicClient.getGasPrice();
+      // 增加10% gas limit作为安全缓冲
+      const gasWithBuffer = estimatedGas * BigInt(110) / BigInt(100);
 
-      // 计算总 gas 成本
-      // const gasCost = gasEstimate * gasPrice;
-
-      // 检查用户余额是否足够支付 gas + 质押金额
-      // const balance = await publicClient.getBalance({ address: formattedAddress });
-      // const totalCost = gasCost + amountWei;
-
-      // if (balance < totalCost) {
-      //   throw new Error(t('insufficientBalance', { amount: ethers.formatEther(balance - gasCost) }));
-      // }
-
-      console.log('Sending transaction to contract:', CONTRACTS.IAO_CONTRACT);
-      const hash = await viemWalletClient.sendTransaction({
+      console.log('Sending transaction to contract:', {
         to: CONTRACTS.IAO_CONTRACT,
         value: amountWei,
         account: formattedAddress,
-        // gasLimit: gasEstimate,
+      });
+
+      // 发送交易
+      const hash = await viemWalletClient.sendTransaction({
+        account: formattedAddress,
+        to: CONTRACTS.IAO_CONTRACT,
+        value: amountWei,
+        gas: gasWithBuffer
       });
 
       setIsLoading(false);
@@ -471,7 +466,7 @@ export const useStakeContract = () => {
 
     try {
       setIsUserStakeInfoLoading(true);
-      
+
       // 确保地址格式正确
       const formattedAddress = ensureAddressFormat(address);
       console.log('Getting stake info for address:', formattedAddress);
