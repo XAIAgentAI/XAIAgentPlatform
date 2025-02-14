@@ -74,6 +74,7 @@ const Navbar = () => {
 
   // 添加连接超时处理
   useEffect(() => {
+    console.log('status', status)
     if (status === 'connecting') {
       // 如果连接时间超过10秒，强制重置状态
       const timeout = setTimeout(() => {
@@ -84,8 +85,10 @@ const Navbar = () => {
           });
           // 重新打开钱包连接弹窗
           open({ view: 'Connect' });
+          // 断开连接，会自动把status设置为disconnected
+          
         }
-      }, 10000);
+      }, 8000);
 
       setConnectingTimeout(timeout);
 
@@ -95,7 +98,7 @@ const Navbar = () => {
         }
       };
     }
-  }, [status, open, toast]);
+  }, [status,  ]);
 
   // 添加状态变化日志
   useEffect(() => {
