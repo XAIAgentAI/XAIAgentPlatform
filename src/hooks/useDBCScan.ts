@@ -4,6 +4,9 @@ interface DBCToken {
   symbol: string;
   holders: string;
   address: string;
+  name: string;
+  poolSize: string;
+  totalSupply: string;
 }
 
 export const useDBCScan = () => {
