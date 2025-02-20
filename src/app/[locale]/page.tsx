@@ -41,7 +41,7 @@ export default function Home() {
   useEffect(() => {
     if (!loading && agents && agents.length > 0) {
       const agentsWithPrices = agents.map(agent => {
-        const dbcNum = agent.name === "XAIAgent" ? poolInfo.totalDeposited : 0;
+        const dbcNum : any = agent.name === "XAIAgent" ? poolInfo.totalDeposited : 0;
         console.log("xaiagent poolInfo信息", poolInfo);
 
         const totalSupply = Number(agent.totalSupply?.split(' ')[0].replace(/,/g, '') || 0);
