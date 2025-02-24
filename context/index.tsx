@@ -40,10 +40,10 @@ const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
     networks: networks,
-    defaultNetwork: networks[1],
+    defaultNetwork: networks[0],
     metadata: metadata,
     features: {
-        analytics: true, // Optional - defaults to your Cloud configuration
+        analytics: true,
     }
 })
 

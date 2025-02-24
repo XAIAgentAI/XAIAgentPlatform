@@ -12,10 +12,27 @@ export const useNetwork = () => {
   const t = useTranslations();
 
   const ensureCorrectNetwork = useCallback(async () => {
+    console.log('Network Debug Info:', {
+      currentChainId: chainId,
+      expectedChainId: currentChain.id,
+      isTestnet,
+      currentChainConfig: currentChain,
+      switchChainAvailable: !!switchChain,
+    });
+    
     if (chainId !== currentChain.id) {
       if (switchChain) {
         try {
+          console.log('Attempting to switch to chain:', {
+            chainId: currentChain.id,
+            name: currentChain.name,
+            rpcUrls: currentChain.rpcUrls,
+          });
+          
           await switchChain({ chainId: currentChain.id });
+          
+          console.log('Chain switch successful');
+          
           toast({
             title: t('messages.info'),
             description: isTestnet 
@@ -24,7 +41,7 @@ export const useNetwork = () => {
           });
           return false;
         } catch (error) {
-          console.error('Failed to switch network:', error);
+          console.error('Chain switch failed:', error);
           toast({
             title: t('messages.error'),
             description: t('messages.switchNetworkFailed'),
@@ -32,6 +49,7 @@ export const useNetwork = () => {
           return false;
         }
       } else {
+        console.error('switchChain not available');
         toast({
           title: t('messages.error'),
           description: t('messages.switchNetworkFailed'),

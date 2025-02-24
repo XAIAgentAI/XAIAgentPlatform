@@ -38,39 +38,52 @@ export const TokenBalance = () => {
 
   // 获取DBC余额
   const fetchDBCBalance = async () => {
-    if (!address || !isConnected || !walletClient) {
+    if (!address || !isConnected) {
+      console.log('No address or not connected');
       setDbcBalance("0");
       return;
     }
 
     try {
+      console.log('Fetching DBC balance for address:', address);
+      console.log('Current chain:', currentChain);
+      
       const publicClient = createPublicClient({
         chain: currentChain,
-        transport: custom(walletClient.transport),
+        transport: http(),
       });
 
       const balance = await publicClient.getBalance({
         address: address as `0x${string}`
       });
 
+      console.log('DBC balance:', formatEther(balance));
       setDbcBalance(formatEther(balance));
     } catch (error) {
       console.error('获取DBC余额失败:', error);
+      if (error instanceof Error) {
+        console.error('Error details:', error.message);
+        console.error('Error stack:', error.stack);
+      }
       setDbcBalance("0");
     }
   };
 
   // 获取XAA余额
   const fetchXAABalance = async () => {
-    if (!address || !isConnected || !walletClient) {
+    if (!address || !isConnected) {
+      console.log('No address or not connected for XAA balance');
       setXaaBalance("0");
       return;
     }
 
     try {
+      console.log('Fetching XAA balance for address:', address);
+      console.log('XAA token contract:', CONTRACTS.XAA_TOKEN);
+      
       const publicClient = createPublicClient({
         chain: currentChain,
-        transport: custom(walletClient.transport),
+        transport: http(),
       });
 
       const balance = await publicClient.readContract({
@@ -80,9 +93,14 @@ export const TokenBalance = () => {
         args: [address as `0x${string}`]
       });
 
+      console.log('XAA balance:', formatEther(balance));
       setXaaBalance(formatEther(balance));
     } catch (error) {
       console.error('获取XAA余额失败:', error);
+      if (error instanceof Error) {
+        console.error('Error details:', error.message);
+        console.error('Error stack:', error.stack);
+      }
       setXaaBalance("0");
     }
   };
@@ -98,7 +116,7 @@ export const TokenBalance = () => {
     }, 30000);
 
     return () => clearInterval(timer);
-  }, [address, isConnected, walletClient]);
+  }, [address, isConnected]);
 
   if (!isConnected) return null;
 

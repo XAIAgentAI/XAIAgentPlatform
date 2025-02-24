@@ -85,7 +85,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
-  console.log("sortedAgents", sortedAgents);
+  // console.log("sortedAgents", sortedAgents);
   
 
   const getSortIcon = (field: SortField) => {

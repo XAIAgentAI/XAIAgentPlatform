@@ -42,10 +42,8 @@ export default function Home() {
     if (!loading && agents && agents.length > 0) {
       const agentsWithPrices = agents.map(agent => {
         const dbcNum : any = agent.name === "XAIAgent" ? poolInfo.totalDeposited : 0;
-        console.log("xaiagent poolInfo信息", poolInfo);
 
         const totalSupply = Number(agent.totalSupply?.split(' ')[0].replace(/,/g, '') || 0);
-        console.log("totalSupply", agent.totalSupply, totalSupply);
         
 
         // 确保dbcPrice是数字类型
@@ -53,12 +51,12 @@ export default function Home() {
         const tokenPrice = (dbcNum * dbcPriceNum) / totalSupply;
         const marketCap = dbcPriceNum * dbcNum;
 
-        console.log(`Agent: ${agent.name || 'Unknown'}`);
-        console.log(`池子中DBC个数: ${formatNumber(dbcNum)} DBC`);
-        console.log(`DBC单价: $${formatNumber(dbcPriceNum)}`);
-        console.log(`计算出的token单价: $${formatNumber(tokenPrice)}`);
-        console.log(`计算出的市场总值: $${formatNumber(marketCap)}`);
-        console.log('------------------------');
+        // console.log(`Agent: ${agent.name || 'Unknown'}`);
+        // console.log(`池子中DBC个数: ${formatNumber(dbcNum)} DBC`);
+        // console.log(`DBC单价: $${formatNumber(dbcPriceNum)}`);
+        // console.log(`计算出的token单价: $${formatNumber(tokenPrice)}`);
+        // console.log(`计算出的市场总值: $${formatNumber(marketCap)}`);
+        // console.log('------------------------');
 
         return {
           ...agent,
@@ -79,7 +77,6 @@ export default function Home() {
         }
         return agent;
       });
-      console.log("agentsWithPrices", agentsWithPrices, newAgents);
 
       setAgents(newAgents);
     }
@@ -89,7 +86,6 @@ export default function Home() {
     console.error('Failed to fetch DBC data:', error)
   }
 
-  console.log("页面的agents", agents);
 
 
   return (
