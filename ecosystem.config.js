@@ -39,5 +39,19 @@ module.exports = {
         NODE_ENV: "production",             
         PORT: 3000
       }
+    },
+    {
+      name: "price-updater",           // 价格更新定时任务
+      script: "./node_modules/.bin/ts-node",
+      args: "src/scripts/updatePrices.ts",
+      instances: 1,
+      exec_mode: "fork",
+      watch: false,
+      cron_restart: "0 * * * *",       // 每小时执行一次
+      autorestart: false,              // 执行完成后不自动重启
+      env: {
+        NODE_ENV: "production",
+        TS_NODE_PROJECT: "./tsconfig.json"
+      }
     }]
   } 
