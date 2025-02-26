@@ -40,6 +40,7 @@ model Agent {
   examples        Example[]
   reviews         Review[]
   history         History[]
+  prices          AgentPrice[]
 }
 
 model Example {
@@ -78,4 +79,14 @@ model AuthNonce {
   address   String
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model AgentPrice {
+  id        String   @id @default(uuid())
+  agentId   String
+  price     Float
+  timestamp DateTime @default(now())
+  agent     Agent    @relation(fields: [agentId], references: [id])
+
+  @@index([timestamp])
 }
