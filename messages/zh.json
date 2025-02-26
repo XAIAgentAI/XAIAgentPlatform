@@ -175,7 +175,8 @@
     "sendSuccess": "成功发送 {amount} DBC",
     "transactionSent": "交易已发送",
     "waitForConfirmation": "等待确认",
-    "stakeSuccessWithAmount": "成功质押 {amount} DBC"
+    "stakeSuccessWithAmount": "成功质押 {amount} DBC",
+    "goToDbcswap": "前往 DBCSwap"
   },
 
   "tokenInfo": {

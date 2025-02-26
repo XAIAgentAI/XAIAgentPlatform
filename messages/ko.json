@@ -174,7 +174,8 @@
     "sendSuccess": "{amount} DBC 전송 성공",
     "transactionSent": "거래가 전송되었습니다",
     "waitForConfirmation": "확인을 기다려주세요",
-    "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공"
+    "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공",
+    "goToDbcswap": "DBCSwap 이동"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
