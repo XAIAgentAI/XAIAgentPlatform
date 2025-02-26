@@ -49,7 +49,7 @@ export default function Home() {
         // 确保dbcPrice是数字类型
         const dbcPriceNum = Number(dbcPrice);
         const tokenPrice = (dbcNum * dbcPriceNum) / totalSupply;
-        const marketCap = dbcPriceNum * dbcNum;
+        const marketCap = dbcPriceNum * dbcNum * 2;
 
         // console.log(`Agent: ${agent.name || 'Unknown'}`);
         // console.log(`池子中DBC个数: ${formatNumber(dbcNum)} DBC`);
