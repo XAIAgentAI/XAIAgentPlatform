@@ -179,7 +179,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <Button
           variant="outline"
           className="flex items-center gap-2"
-          onClick={() => window.open('https://dbcswap.io', '_blank')}
+          onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
           aria-label={t('goToDbcswap')}
         >
           {t('goToDbcswap')}
