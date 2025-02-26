@@ -11,8 +11,15 @@ interface Message {
   timestamp: string;
 }
 
+// 定义路由参数的类型
+type ChatParams = {
+  locale: string;
+  agentId: string;
+}
+
 export default function ChatPage() {
-  const { agentId } = useParams();
+  const params = useParams<ChatParams>();
+  const agentId = params?.agentId;
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);

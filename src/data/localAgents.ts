@@ -355,7 +355,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "查看已销毁的ARGU总量",
       "显示AI的交易历史"
     ],
-    socialLinks: "https://x.com/ArgusAI",
+    socialLinks: "",
     chatEntry: "None"
   },
   {
@@ -406,7 +406,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "生成病毒式传播的社交媒体内容",
       "追踪我的活动表现"
     ],
-    socialLinks: "https://x.com/LinkAI",
+    socialLinks: "",
     chatEntry: "None"
   },
   {
@@ -457,7 +457,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "分析我的社交媒体表现",
       "设置空投活动"
     ],
-    socialLinks: "https://x.com/AutoKol",
+    socialLinks: "",
     chatEntry: "None"
   },
   {
@@ -508,7 +508,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "获取性格匹配报告",
       "接收每日匹配推荐"
     ],
-    socialLinks: "https://x.com/LingXiAI",
+    socialLinks: "",
     chatEntry: "None"
   },
   {
@@ -559,7 +559,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "提醒我投资中的潜在风险",
       "生成项目X的综合报告"
     ],
-    socialLinks: "https://x.com/SatoriAI",
+    socialLinks: "",
     chatEntry: "None"
   },
 
@@ -612,7 +612,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "追踪行动项目",
       "实时翻译会议"
     ],
-    socialLinks: "https://x.com/MeetMindAI",
+    socialLinks: "",
     chatEntry: "None"
   },
   {
@@ -663,7 +663,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "追踪时装周趋势",
       "获取个性化风格推荐"
     ],
-    socialLinks: "https://x.com/SynthLookAI",
+    socialLinks: "",
     chatEntry: "None"
   }
 ]; 
