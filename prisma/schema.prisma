@@ -40,7 +40,6 @@ model Agent {
   examples        Example[]
   reviews         Review[]
   history         History[]
-  prices          AgentPrice[]
 }
 
 model Example {
@@ -79,14 +78,4 @@ model AuthNonce {
   address   String
   createdAt DateTime @default(now())
   expiresAt DateTime
-}
-
-model AgentPrice {
-  id        Int      @id @default(autoincrement())
-  agentId   String   // 修改为 String 类型以匹配 Agent 的 id
-  price     Float
-  timestamp DateTime @default(now())
-  agent     Agent    @relation(fields: [agentId], references: [id])
-
-  @@index([agentId, timestamp])
 }
