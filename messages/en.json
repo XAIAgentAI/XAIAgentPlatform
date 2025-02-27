@@ -175,7 +175,8 @@
     "sendSuccess": "Successfully sent {amount} DBC",
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
-    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
+    "goToDbcswap": "Go to DBCSwap to buy XAA"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
