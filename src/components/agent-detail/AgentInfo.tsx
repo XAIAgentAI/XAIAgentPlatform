@@ -10,6 +10,8 @@ import { useAgentStore } from "@/store/useAgentStore";
 import { toast } from "@/components/ui/use-toast";
 import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
+import { useSwapKLineData } from '@/hooks/useSwapKLineData';
+import { TimeInterval } from '@/hooks/useTokenPrice';
 
 interface AgentInfoProps {
   agentId: string;
@@ -23,6 +25,23 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   const locale = useLocale();
   const t = useTranslations('agent');
   const tAgentDetail = useTranslations('agentDetail');
+
+  const {
+    klineData,
+    currentPrice,
+    priceChange,
+    isLoading,
+    error: klineError,
+    refetch
+  } = useSwapKLineData();
+
+  const handleIntervalChange = (interval: TimeInterval) => {
+    console.log('时间间隔改变:', interval);
+    refetch();
+  };
+
+  console.log("klineData", klineData);
+  
 
   // 根据当前语言获取对应的描述
   const getLocalizedDescription = () => {
@@ -172,7 +191,15 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
       {/* Candlestick Chart */}
       <div className="">
-        <CryptoChart agent={agent} />
+        <CryptoChart
+          agent={agent}
+          klineData={klineData}
+          currentPrice={currentPrice}
+          priceChange={priceChange}
+          isLoading={isLoading}
+          error={klineError}
+          onIntervalChange={handleIntervalChange}
+        />
       </div>
 
       {/* Tabs */}

@@ -328,7 +328,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             {t('poolDynamicTip')}
           </p>
 
-          {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000) ? (
+          {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 && isConnected) ? (
             <Button
               className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
               onClick={async () => {

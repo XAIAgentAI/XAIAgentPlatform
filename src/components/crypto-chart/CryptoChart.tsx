@@ -2,19 +2,19 @@
 
 import { createChart, ColorType, IChartApi, DeepPartial, ChartOptions, CrosshairMode, TimeScaleOptions } from 'lightweight-charts';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { TimeInterval, createTokenPriceManager, KLineData } from '@/hooks/useTokenPrice';
+import { TimeInterval, KLineData } from '@/hooks/useTokenPrice';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface CryptoChartProps {
   agent: any;
-}
-
-interface ChartData {
   klineData: KLineData[];
   currentPrice: number;
   priceChange: number;
+  isLoading?: boolean;
+  error?: string | null;
+  onIntervalChange?: (interval: TimeInterval) => void;
 }
 
 const TIME_INTERVALS: { label: string; value: TimeInterval }[] = [
@@ -46,7 +46,26 @@ const CHART_COLORS = {
   },
 };
 
-const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
+const CryptoChart: React.FC<CryptoChartProps> = ({ 
+  agent,
+  klineData,
+  currentPrice,
+  priceChange,
+  isLoading = false,
+  error = null,
+  onIntervalChange 
+}) => {
+  // 添加数据检查日志
+  useEffect(() => {
+    console.log('CryptoChart 组件收到的数据:', {
+      klineData: klineData?.length || 0,
+      currentPrice,
+      priceChange,
+      isLoading,
+      error
+    });
+  }, [klineData, currentPrice, priceChange, isLoading, error]);
+
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chart = useRef<IChartApi | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
@@ -54,75 +73,105 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
   const lineSeries = useRef<any>(null);
   const volumeSeries = useRef<any>(null);
   const [selectedInterval, setSelectedInterval] = useState<TimeInterval>('1h');
-  const [chartData, setChartData] = useState<ChartData>({
-    klineData: [],
-    currentPrice: 0,
-    priceChange: 0
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const priceManagerRef = useRef<ReturnType<typeof createTokenPriceManager> | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // 添加格式化价格的辅助函数
-  const formatPrice = (price: number): string => {
+  const formatPrice = (price: number | undefined): string => {
+    if (price === undefined || price === null) return '$0.00';
     if (price === 0) return '$0.00';
 
-    // 计算小数点后连续0的个数
-    const priceStr = Math.abs(price).toString();
-    const match = priceStr.match(/^0\.0+/);
-    const zeroCount = match ? match[0].length - 2 : 0;
-
-    if (zeroCount >= 2) {
-      // 使用统一的 0.{n}xxx 格式
-      const absPrice = Math.abs(price);
-      const digits = absPrice.toFixed(zeroCount + 3).slice(-3);
-      return `$0.{${zeroCount}}${digits}`;
-    } else if (price < 0.01) {
-      // 对于小于0.01但大于0.00001的数，也使用统一格式
-      const zeroCount = Math.floor(Math.log10(1 / price));
-      const digits = price.toFixed(zeroCount + 3).slice(-3);
-      return `$0.{${zeroCount}}${digits}`;
-    } else {
-      // 常规数字显示2位小数
-      return `$${price.toFixed(2)}`;
+    const absPrice = Math.abs(price);
+    if (absPrice < 0.0001) {
+      // 只有在非常小的数字时才使用 0.0{x}y 格式
+      const priceStr = absPrice.toString();
+      const match = priceStr.match(/^0\.0+/);
+      const zeroCount = match ? match[0].length - 2 : 0;
+      const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+      return `$0.0{${zeroCount}}${lastDigit}`;
+    } else if (absPrice < 1) {
+      // 对于一般的小数，直接显示4位
+      return `$${absPrice.toFixed(4)}`;
     }
+
+    // 常规数字显示2位小数
+    return `$${price.toFixed(2)}`;
   };
 
   // 添加格式化坐标轴价格的函数
-  const formatAxisPrice = (price: number): string => {
+  const formatAxisPrice = (price: number | undefined): string => {
+    if (price === undefined || price === null) return '0.00';
     if (price === 0) return '0.00';
     if (isNaN(price)) return '0.00';
     if (!isFinite(price)) return '0.00';
 
-    // 计算小数点后连续0的个数
-    const priceStr = Math.abs(price).toString();
-    const match = priceStr.match(/^0\.0+/);
-    const zeroCount = match ? match[0].length - 2 : 0;
-
-    if (zeroCount >= 2) {
-      // 使用统一的 0.{n}xxx 格式
-      const absPrice = Math.abs(price);
-      const digits = absPrice.toFixed(zeroCount + 3).slice(-3);
-      return (price < 0 ? '-' : '') + `0.{${zeroCount}}${digits}`;
-    } else if (price < 0.01 && price > 0) {
-      // 对于小于0.01但大于0的数，使用统一格式
-      const zeroCount = Math.floor(Math.log10(1 / price));
-      const digits = price.toFixed(zeroCount + 3).slice(-3);
-      return `0.{${zeroCount}}${digits}`;
-    } else {
-      // 常规数字显示2位小数
-      return price.toFixed(2);
+    const absPrice = Math.abs(price);
+    if (absPrice < 0.0001) {
+      // 只有在非常小的数字时才使用 0.0{x}y 格式
+      const priceStr = absPrice.toString();
+      const match = priceStr.match(/^0\.0+/);
+      const zeroCount = match ? match[0].length - 2 : 0;
+      const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+      return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
+    } else if (absPrice < 1) {
+      // 对于一般的小数，直接显示4位
+      return (price < 0 ? '-' : '') + absPrice.toFixed(4);
     }
+
+    // 常规数字显示2位小数
+    return price.toFixed(2);
   };
 
   // 添加格式化价格变化的辅助函数
-  const formatPriceChange = (change: number): string => {
+  const formatPriceChange = (change: number | undefined): string => {
+    if (change === undefined || change === null) return '+0.00%';
     const sign = change >= 0 ? '+' : '';
     if (Math.abs(change) < 0.01) {
       return `${sign}${change.toFixed(4)}%`;
     }
     return `${sign}${change.toFixed(2)}%`;
+  };
+
+  // 添加时间格式化辅助函数
+  const formatChartTime = (time: number, interval: TimeInterval): string => {
+    const date = new Date(time * 1000);
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    switch (interval) {
+      case '30m':
+      case '1h':
+        return date.toLocaleString(undefined, {
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          timeZone
+        });
+      case '4h':
+        return date.toLocaleString(undefined, {
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          hour12: false,
+          timeZone
+        });
+      case '1d':
+        return date.toLocaleString(undefined, {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          timeZone
+        });
+      default:
+        return date.toLocaleString(undefined, {
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          timeZone
+        });
+    }
   };
 
   // 检测系统主题
@@ -143,17 +192,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
         background: { type: ColorType.Solid, color: colors.background },
         textColor: colors.text,
       },
-      // 十字线（crosshair）的时间显示是需要单独配置的
       localization: {
-        timeFormatter: (time: number) => {
-          const date = new Date(time * 1000);
-          return date.toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-          });
-        },
+        timeFormatter: (time: number) => formatChartTime(time, selectedInterval),
       },
       grid: {
         vertLines: { color: colors.grid },
@@ -176,16 +216,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
         timeVisible: true,
         secondsVisible: false,
         borderColor: colors.grid,
-        tickMarkFormatter: (time: number) => {
-          // 使用用户的本地时区设置
-          const date = new Date(time * 1000);
-          return date.toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone // 自动获取用户时区
-          });
-        },
+        tickMarkFormatter: (time: number) => formatChartTime(time, selectedInterval),
       } as DeepPartial<TimeScaleOptions>,
       rightPriceScale: {
         borderColor: colors.grid,
@@ -193,11 +224,29 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
           top: 0.1,
           bottom: 0.2,
         },
-        formatPrice: formatAxisPrice,
+        formatPrice: (price: number) => {
+          if (price === 0) return '0.0000';
+          if (isNaN(price)) return '0.0000';
+          if (!isFinite(price)) return '0.0000';
+
+          const absPrice = Math.abs(price);
+          // 检查是否需要使用0.0{x}y格式
+          if (absPrice < 0.0001) {
+            const priceStr = absPrice.toString();
+            const match = priceStr.match(/^0\.0+/);
+            const zeroCount = match ? match[0].length - 2 : 0;
+            const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+            return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
+          }
+          // 对于一般的小数，显示4位小数
+          return price.toFixed(4);
+        },
         autoScale: true,
         mode: 0,
         alignLabels: true,
         entireTextOnly: false,
+        ticksVisible: true,
+        borderVisible: true,
       },
       handleScroll: {
         mouseWheel: true,
@@ -211,77 +260,20 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
         pinch: true,
       },
     };
-  }, [isDarkMode]);
-
-  // 初始化价格管理器
-  useEffect(() => {
-    const priceManager = createTokenPriceManager(agent.tokens, selectedInterval, agent.id);
-    priceManagerRef.current = priceManager;
-
-    setLoading(true);
-    priceManager.init()
-      .catch(err => {
-        console.error('Failed to initialize price manager:', err);
-        setError('Failed to load chart data');
-      })
-      .finally(() => setLoading(false));
-
-    const unsubscribe = priceManager.subscribe((data) => {
-      setChartData(data);
-    });
-
-    return () => {
-      unsubscribe();
-      priceManager.destroy();
-      priceManagerRef.current = null;
-    };
-  }, [agent.tokens, selectedInterval, agent.id]);
+  }, [isDarkMode, selectedInterval]);
 
   // 创建和更新图表
   useEffect(() => {
-    if (!chartContainerRef.current || loading || error) return;
+    if (!chartContainerRef.current) return;
 
     const colors = isDarkMode ? CHART_COLORS.dark : CHART_COLORS.light;
 
-    // 创建图表实例
+    // 只在图表不存在时创建图表
     if (!chart.current) {
       chart.current = createChart(chartContainerRef.current, {
         ...chartOptions,
         width: chartContainerRef.current.clientWidth,
         height: 500,
-      });
-
-      // 添加价格线图系列
-      lineSeries.current = chart.current.addLineSeries({
-        color: colors.upColor,
-        lineWidth: 2,
-        lastPriceAnimation: 1,  // 添加最后价格的动画效果
-        priceFormat: {
-          type: 'custom',
-          formatter: (price: number) => {
-            if (price === 0) return '0.00';
-            if (isNaN(price)) return '0.00';
-            if (!isFinite(price)) return '0.00';
-
-            const priceStr = Math.abs(price).toString();
-            const match = priceStr.match(/^0\.0+/);
-            const zeroCount = match ? match[0].length - 2 : 0;
-
-            if (zeroCount >= 2) {
-              // 使用统一的 0.{n}xxx 格式
-              const absPrice = Math.abs(price);
-              const digits = absPrice.toFixed(zeroCount + 3).slice(-3);
-              return (price < 0 ? '-' : '') + `0.{${zeroCount}}${digits}`;
-            } else if (price < 0.01 && price > 0) {
-              // 对于小于0.01但大于0的数，使用统一格式
-              const zeroCount = Math.floor(Math.log10(1 / price));
-              const digits = price.toFixed(zeroCount + 3).slice(-3);
-              return (price < 0 ? '-' : '') + `0.{${zeroCount}}${digits}`;
-            }
-            return price.toFixed(2);
-          },
-          minMove: 0.000000000001,
-        },
       });
 
       // 添加K线数据系列
@@ -298,26 +290,22 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
             if (isNaN(price)) return '0.00';
             if (!isFinite(price)) return '0.00';
 
-            const priceStr = Math.abs(price).toString();
-            const match = priceStr.match(/^0\.0+/);
-            const zeroCount = match ? match[0].length - 2 : 0;
-
-            if (zeroCount >= 2) {
-              // 使用统一的 0.{n}xxx 格式
-              const absPrice = Math.abs(price);
-              const digits = absPrice.toFixed(zeroCount + 3).slice(-3);
-              return (price < 0 ? '-' : '') + `0.{${zeroCount}}${digits}`;
-            } else if (price < 0.01 && price > 0) {
-              // 对于小于0.01但大于0的数，使用统一格式
-              const zeroCount = Math.floor(Math.log10(1 / price));
-              const digits = price.toFixed(zeroCount + 3).slice(-3);
-              return (price < 0 ? '-' : '') + `0.{${zeroCount}}${digits}`;
+            const absPrice = Math.abs(price);
+            if (absPrice < 0.0001) {
+              const priceStr = absPrice.toString();
+              const match = priceStr.match(/^0\.0+/);
+              const zeroCount = match ? match[0].length - 2 : 0;
+              const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+              return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
+            } else if (absPrice < 1) {
+              return (price < 0 ? '-' : '') + absPrice.toFixed(4);
             }
+
             return price.toFixed(2);
           },
-          minMove: 0.000000000001,
+          minMove: 0.0001,
         },
-        visible: false, // 隐藏K线，只显示线图
+        visible: true,
       });
 
       // 添加成交量系列
@@ -326,91 +314,64 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
         priceFormat: {
           type: 'volume',
         },
-        priceScaleId: '',
+        priceScaleId: 'volume',
       });
 
-      // 添加图表交互事件
-      chart.current.subscribeClick((param) => {
-        if (param.time) {
-          const dataPoint = chartData.klineData.find(d => d.time === param.time);
-          if (dataPoint) {
-            console.log('Clicked data point:', dataPoint);
-          }
-        }
+      // 设置成交量图表的位置
+      chart.current.priceScale('volume').applyOptions({
+        scaleMargins: {
+          top: 0.8,
+          bottom: 0,
+        },
       });
 
-      // 添加十字线移动事件
-      chart.current.subscribeCrosshairMove((param) => {
-        if (param.time) {
-          const dataPoint = chartData.klineData.find(d => d.time === param.time);
-          if (dataPoint) {
-            // 这里可以更新tooltip或其他UI元素
-          }
-        }
+      // 设置调整大小观察器
+      resizeObserver.current = new ResizeObserver(entries => {
+        if (entries.length === 0 || !chart.current) return;
+        const { width } = entries[0].contentRect;
+        chart.current.applyOptions({ width });
+        chart.current.timeScale().fitContent();
       });
+
+      resizeObserver.current.observe(chartContainerRef.current);
     }
 
     // 更新数据
-    if (!chartData.klineData.length || !chart.current || !lineSeries.current) {
-      return;
-    }
+    if (!klineData.length || !chart.current) return;
 
-    console.log('Updating chart with new data:', {
-      dataPoints: chartData.klineData.length,
-      currentPrice: chartData.currentPrice,
-      priceChange: chartData.priceChange
-    });
+    // 保存当前的时间范围
+    const timeScale = chart.current.timeScale();
+    const currentTimeRange = timeScale.getVisibleLogicalRange();
 
-    // 更新线图数据
-    lineSeries.current.setData(
-      chartData.klineData.map(item => ({
+    // 更新K线数据
+    candlestickSeries.current?.setData(klineData);
+
+    // 更新成交量数据
+    volumeSeries.current?.setData(
+      klineData.map(item => ({
         time: item.time as any,
-        value: item.close
+        value: item.volume,
+        color: item.close >= item.open ? colors.upColor : colors.downColor,
       }))
     );
 
-    // 更新K线数据
-    candlestickSeries.current.setData(chartData.klineData);
-
-    // // 更新成交量数据
-    // volumeSeries.current.setData(
-    //   chartData.klineData.map(item => ({
-    //     time: item.time,
-    //     value: item.volume,
-    //     color: item.close >= item.open ? colors.upColor : colors.downColor,
-    //   }))
-    // );
-
-    // 自动调整视图以显示最新数据
-    const timeScale = chart.current.timeScale();
-    const lastBar = chartData.klineData[chartData.klineData.length - 1];
-    if (lastBar) {
-      timeScale.scrollToPosition(5, false);
+    // 只在首次加载数据时滚动到最新数据
+    if (!currentTimeRange) {
+      timeScale.fitContent();
+    } else {
+      // 恢复之前的视图位置
+      timeScale.setVisibleLogicalRange(currentTimeRange);
     }
 
-    // 强制重新渲染
-    chart.current.applyOptions(chartOptions);
-
-    // 设置调整大小观察器
-    resizeObserver.current = new ResizeObserver(entries => {
-      if (entries.length === 0 || !chart.current) return;
-      const { width } = entries[0].contentRect;
-      chart.current.applyOptions({ width });
-      chart.current.timeScale().fitContent();
-    });
-
-    resizeObserver.current.observe(chartContainerRef.current);
-
-    // 在更新数据后添加自动调整范围的代码
-    if (chartData.klineData.length > 0) {
-      const prices = chartData.klineData.map(d => d.close);
+    // 更新价格范围
+    if (klineData.length > 0) {
+      const prices = klineData.map(d => d.close);
       const minPrice = Math.min(...prices);
       const maxPrice = Math.max(...prices);
       const priceRange = maxPrice - minPrice;
+      const padding = priceRange * 0.01;
 
-      // 设置价格范围，添加较小的边距以放大波动
-      const padding = priceRange * 0.05; // 使用5%的边距
-      lineSeries.current.applyOptions({
+      candlestickSeries.current?.applyOptions({
         autoscaleInfoProvider: () => ({
           priceRange: {
             minValue: minPrice - padding,
@@ -422,23 +383,31 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
 
     // 清理函数
     return () => {
-      if (chart.current) {
-        chart.current.remove();
-        chart.current = null;
-      }
       if (resizeObserver.current) {
         resizeObserver.current.disconnect();
       }
+      // 不在每次数据更新时销毁图表，只在组件卸载时销毁
+      if (chart.current && !chartContainerRef.current) {
+        chart.current.remove();
+        chart.current = null;
+      }
     };
-  }, [chartData, loading, error, isDarkMode, chartOptions]);
+  }, [klineData, isDarkMode, chartOptions]);
+
+  // 处理暗色模式变化
+  useEffect(() => {
+    if (chart.current) {
+      chart.current.applyOptions(chartOptions);
+    }
+  }, [isDarkMode, chartOptions]);
 
   // 处理时间间隔变化
   const handleIntervalChange = useCallback((interval: TimeInterval) => {
     setSelectedInterval(interval);
-  }, []);
+    onIntervalChange?.(interval);
+  }, [onIntervalChange]);
 
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="space-y-4">
         <div className="flex justify-between items-center">
@@ -467,17 +436,17 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold">
-            {formatPrice(chartData.currentPrice)}
+            {formatPrice(currentPrice)}
           </span>
           <span className={cn(
             "text-sm font-medium",
-            chartData.priceChange >= 0 ? "text-green-500" : "text-red-500"
+            priceChange >= 0 ? "text-green-500" : "text-red-500"
           )}>
-            {formatPriceChange(chartData.priceChange)}
+            {formatPriceChange(priceChange)}
           </span>
         </div>
         <div className="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
-          <div className="flex gap-1 min-w-min">
+          {/* <div className="flex gap-1 min-w-min">
             {TIME_INTERVALS.map(({ label, value }) => (
               <Button
                 key={value}
@@ -489,7 +458,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({ agent }) => {
                 {label}
               </Button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       <div
