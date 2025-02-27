@@ -82,11 +82,11 @@ model AuthNonce {
 }
 
 model AgentPrice {
-  id        String   @id @default(uuid())
-  agentId   String
+  id        Int      @id @default(autoincrement())
+  agentId   String   // 修改为 String 类型以匹配 Agent 的 id
   price     Float
   timestamp DateTime @default(now())
   agent     Agent    @relation(fields: [agentId], references: [id])
 
-  @@index([timestamp])
+  @@index([agentId, timestamp])
 }

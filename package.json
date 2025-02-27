@@ -12,7 +12,11 @@
     "redeploy:prod-old": "git pull &&  pnpm build:prod && PORT=3001 NODE_ENV=production node server.js",
     "redeploy:prod": "git pull &&  pnpm build:prod && pm2 start ecosystem.config.js --only xaiagentplatform-prod",
     "redeploy:beta": "git pull && pnpm install && pnpm run build:prod && pm2 start ecosystem.config.js --only xaiagentplatform",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-prices": "ts-node -P scripts/tsconfig.json scripts/update-prices.ts",
+    "update-prices:dev": "NODE_ENV=development ts-node -P scripts/tsconfig.json scripts/update-prices.ts",
+    "update-prices:prod": "NODE_ENV=production ts-node -P scripts/tsconfig.json scripts/update-prices.ts",
+    "sync-agents": "ts-node -P scripts/tsconfig.json scripts/sync-agents.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -76,6 +80,7 @@
     "prisma": "^6.2.1",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   }
 }
