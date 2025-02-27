@@ -1,7 +1,5 @@
 'use client';
-
 import { useState, useRef, useEffect } from 'react';
-import { Send } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 interface Message {
@@ -27,12 +25,16 @@ export default function ChatPage() {
 
   // 获取历史消息
   useEffect(() => {
-    fetchMessages();
+    if (agentId) {
+      fetchMessages();
+    }
   }, [agentId]);
 
   // 自动滚动到最新消息
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const scrollToBottom = () => {
@@ -87,15 +89,9 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
-      {/* Chat header */}
-      <div className="border-b border-border-color bg-card-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-xl font-semibold text-primary">AI Agent Chat</h1>
-        </div>
-      </div>
 
       {/* Messages container */}
-      <div className="flex-1 overflow-y-auto bg-background">
+      <div className="flex overflow-y-auto float-right bg-background w-[80vw] h-[calc(90vh-4rem)]">
         <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
           {messages.map((message) => (
             <div
@@ -123,31 +119,34 @@ export default function ChatPage() {
       </div>
 
       {/* Input form - Fixed at bottom */}
-      <div className="border-t border-border-color bg-card-background">
+      <div className="bg-card-background">
         <div className="max-w-3xl mx-auto px-4 py-4">
-          <form onSubmit={handleSubmit} className="flex space-x-4">
+          <form onSubmit={handleSubmit} className="space-x-4">
+            <div className="flex content-around gap-5 w-[calc(100vw-8rem)] md:w-[66vw] float-right">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 rounded-full border border-border-color bg-background px-4 py-2 text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Send a message"
+              className="w-[80%] opacity-60 rounded-full bg-zinc-800 px-4 py-2 text-primary placeholder-text-tertiary focus:outline-none border-none focus:text-slate-200 focus:caret-slate-200"
               disabled={isLoading}
             />
             <button
-              type="submit"
+              type="submit" 
               disabled={isLoading}
-              className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary text-primary-foreground hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
+              className="opacity-40 w-8 h-8 rounded-full relative bg-slate-200 text-primary-foreground focus:outline-none focus:opacity-90 focus:border-primary top-1 right-14"
             >
-              {isLoading ? (
-                <div className="w-5 h-5 border-t-2 border-primary-foreground rounded-full animate-spin" />
+             {isLoading ? (
+                <img src="/public/images/vector.png"></img>
               ) : (
-                <Send className="w-5 h-5" />
-              )}
+                <img src="/public/images/vector.png" className="z-2000"></img>
+             )}
             </button>
+            </div>
           </form>
+          <div className="ml-[19vw] mt-4 text-xs text-neutral-700 text-sm mx:auto">AI Agent you can make mistakes. Please check important information.</div>
         </div>
       </div>
     </div>
   );
-} 
+}
