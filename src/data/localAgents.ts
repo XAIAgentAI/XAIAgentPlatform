@@ -206,10 +206,82 @@ export const localAgents: LocalAgent[] = [
     statusJA: "近日公開",
     statusKO: "출시 예정",
     statusZH: "即将公布",
-    description: "DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.",
-    descriptionJA: "DeepLinkはAIとブロックチェーン技術によって駆動される非中心化クラウドゲームプロトコルである。人工知能、ゲーム、GPUと非中心化物理インフラネットワーク（DePIN）を融合させ、新しいWeb 3ゲーム生態を構築した。",
-    descriptionKO: "DeepLink는 AI와 블록체인 기술로 구동되는 탈중심화 클라우드 게임 프로토콜이다.인공지능, 게임, GPU, 탈중심화된 물리적 인프라 네트워크 (DePIN) 를 융합해 새로운 Web3 게임 생태계를 만들었다.",
-    descriptionZH: "DeepLink 是一个由AI和区块链技术驱动的去中心化云游戏协议。它融合了人工智能、游戏、GPU和去中心化物理基础设施网络（DePIN），打造了一个全新的 Web3 游戏生态。",
+    description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
+
+DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.
+
+DeepLink's AI agent is named Dee and provides the following core features:
+
+AI Agent Driven Intelligent Gaming Experience:
+
+1. Real time interaction:
+-AI agents can be activated on demand, recognize users' game interfaces, and provide real-time guidance and strategy recommendations.
+
+2. Automated game control:
+-The functions of AI agents are constantly evolving, gradually improving from basic operations to advanced operations:
+-Basic tasks: resource collection, task guidance.
+-Intermediate tasks: optimizing combat strategies and executing complex tasks.
+-Advanced tasks: Global planning, handling high difficulty game scenes.
+
+3. Voice command support:
+-Users can control AI agents to perform in-game tasks through voice commands, simplifying interaction and reducing learning costs.`,
+    descriptionJA: `DeepLinkはAIとブロックチェーン技術によって駆動される非中心化クラウドゲームプロトコルである。人工知能、ゲーム、GPUと非中心化物理インフラネットワーク（DePIN）を融合させ、新しいWeb 3ゲーム生態を構築した。
+
+DeepLinkは超低遅延のゲームレンダリング技術を採用し、クラウドeスポーツ、クラウドネットカフェ、クラウド3 Aゲーム、ブロックチェーンゲーム及びクラウドVR/AR/XRなどの幅広い応用シーンをサポートしている。DeepLinkプロトコルはAI技術を結合し、ゲームの画質と鮮明さを大幅に向上させ、プレイヤーに究極のクラウドゲーム体験を提供することができる。
+
+DeepLinkのAIエージェント名はDeeで、次のコア機能を提供します。
+
+AIエージェントによるスマートゲーム体験：
+
+1.リアルタイム対話：
+-AIエージェントは必要に応じてアクティブ化し、ユーザーのゲームインタフェースを識別し、リアルタイムのガイダンスとポリシーアドバイスを提供します。
+
+2.自動化ゲーム操作：
+-AIエージェントの機能は進化し続け、基礎操作から高度な操作まで徐々に向上：
+-基本タスク：リソース収集、タスクガイド。
+-中級タスク：戦闘戦略の最適化、複雑なタスクの実行。
+-高度なタスク：高難易度のゲームシーンをグローバルに計画し、処理します。
+
+3.音声命令サポート：
+-ユーザーは音声コマンドを通じてAIエージェントを操作してゲーム内のタスクを実行することができ、インタラクション方式を簡略化し、学習コストを削減することができる。`,
+    descriptionKO: `DeepLink는 AI와 블록체인 기술로 구동되는 탈중심화 클라우드 게임 프로토콜이다.인공지능, 게임, GPU, 탈중심화된 물리적 인프라 네트워크 (DePIN) 를 융합해 새로운 Web3 게임 생태계를 만들었다.
+
+DeepLink는 초저지연의 게임 렌더링 기술을 사용하여 클라우드 e스포츠, 클라우드 PC방, 클라우드 3A 게임, 블록체인 게임 및 클라우드 VR/AR/XR 등을 포함한 광범위한 응용 장면을 지원한다.DeepLink 프로토콜은 AI 기술을 결합하여 게임 화질과 선명도를 크게 향상시키고 게이머에게 최고의 클라우드 게임 경험을 제공합니다.
+
+DeepLink의 AI Agent 이름은 Dee이며 다음 핵심 기능을 제공합니다.
+
+AI Agent 기반 스마트 게임 환경:
+
+1.실시간 상호 작용:
+- AI Agent를 필요에 따라 활성화하고 사용자의 게임 인터페이스를 식별하며 실시간 지침 및 정책 제안을 제공합니다.
+
+2. 게임 조작 자동화:
+- AI Agent의 기능은 기본 작업에서 고급 작업으로 진화하고 있습니다.
+- 기본 작업: 리소스 수집, 작업 지침
+- 중급 임무: 전투 전략 최적화, 복잡한 임무 수행.
+- 고급 작업: 고난도 게임 시나리오를 전체적으로 계획하고 처리합니다.
+
+3. 음성 명령 지원:
+- 사용자는 음성 명령을 통해 AI Agent를 조작하여 게임 내 작업을 수행할 수 있으며, 상호 작용을 간소화하고 학습 비용을 절감할 수 있습니다.`,
+    descriptionZH: `DeepLink 是一个由AI和区块链技术驱动的去中心化云游戏协议。它融合了人工智能、游戏、GPU和去中心化物理基础设施网络（DePIN），打造了一个全新的 Web3 游戏生态。
+
+DeepLink 采用 超低延迟的游戏渲染技术，支持广泛的应用场景，包括云电竞、云网吧、云端 3A 游戏、区块链游戏以及云 VR/AR/XR 等。DeepLink协议结合AI技术，可显著提升游戏画质和清晰度，为玩家提供极致的云游戏体验。
+
+DeepLink的AI Agent名为Dee，并提供以下核心功能：  
+
+AI Agent 驱动的智能游戏体验：
+
+1. 实时交互： 
+- AI Agent 可按需激活，识别用户的游戏界面，并提供实时指导与策略建议。  
+
+2. 自动化游戏操控：  
+- AI Agent 的功能不断进化，从基础操作到高级操作逐步提升：  
+- 基础任务： 资源收集、任务指引。  
+- 中级任务： 战斗策略优化、执行复杂任务。  
+- 高级任务： 全局规划、处理高难度游戏场景。  
+
+3. 语音指令支持： 
+- 用户可通过语音指令操控 AI Agent 执行游戏内任务，简化交互方式，降低学习成本。`,
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
     totalSupply: "5,000,000,0 DLC",
