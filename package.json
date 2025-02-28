@@ -19,7 +19,6 @@
     "sync-agents": "ts-node -P scripts/tsconfig.json scripts/sync-agents.ts"
   },
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@prisma/client": "^6.2.1",
     "@radix-ui/react-avatar": "^1.1.2",
