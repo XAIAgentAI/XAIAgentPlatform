@@ -58,7 +58,7 @@ export async function GET(request: Request) {
     });
 
     // 处理返回数据
-    const formattedItems = items.map(item => ({
+    const formattedItems = items.map((item: Agent) => ({
       id: item.id,
       name: item.name,
       description: item.description,
