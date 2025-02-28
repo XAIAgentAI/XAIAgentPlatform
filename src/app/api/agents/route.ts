@@ -5,6 +5,26 @@ import { verify } from 'jsonwebtoken';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
+// 假设Agent
+type Agent = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  avatar: string;
+  status: string;
+  capabilities: string;
+  rating: number;
+  usageCount: number;
+  creator: {
+    address: string;
+  };
+  _count: {
+    reviews: number;
+  };
+  createdAt: Date;
+};
+
 // 获取 Agent 列表
 export async function GET(request: Request) {
   try {
@@ -58,7 +78,7 @@ export async function GET(request: Request) {
     });
 
     // 处理返回数据
-    const formattedItems = items.map(item => ({
+    const formattedItems = items.map((item: Agent) => ({
       id: item.id,
       name: item.name,
       description: item.description,
@@ -159,4 +179,4 @@ export async function POST(request: Request) {
   } catch (error) {
     return handleError(error);
   }
-} 
+}
