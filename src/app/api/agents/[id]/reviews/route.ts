@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
 import { getUserId } from '@/lib/auth';
-
 // 获取 Agent 评价列表
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -36,7 +36,7 @@ export async function GET(
     });
 
     return createSuccessResponse({
-      reviews: reviews.map(review => ({
+      reviews: reviews.map((review: { id: string; rating: number; comment: string; createdAt: Date; user: { address: string; nickname: string; avatar: string; }; }) => ({
         id: review.id,
         rating: review.rating,
         comment: review.comment,
@@ -51,7 +51,7 @@ export async function GET(
       page,
       pageSize,
     });
-  } catch (error) {
+  } catch (error: any) { 
     return handleError(error);
   }
 }
@@ -125,7 +125,7 @@ export async function POST(
     });
 
     const averageRating =
-      reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+      reviews.reduce((sum: any, r: any) => sum + r.rating, 0) / reviews.length; // 第一百二十八行增加类型说明
 
     await prisma.agent.update({
       where: { id: params.id },
@@ -143,7 +143,7 @@ export async function POST(
         avatar: review.user.avatar,
       },
     }, '评价成功');
-  } catch (error) {
+  } catch (error: any) { // 第三十九行增加类型说明
     return handleError(error);
   }
-} 
+}
