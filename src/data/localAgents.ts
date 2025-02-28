@@ -40,7 +40,7 @@ export const localAgents: LocalAgent[] = [
     avatar: "/logo/XAIAgent.png",
     symbol: "XAA",
     type: "Platform",
-    marketCap: "$1500000",
+    marketCap: "$0",
     change24h: "0",
     lifetime: "",
     tvl: "$0",
@@ -192,7 +192,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 4,
     name: "DeepLink",
-    tokens: "",
+    tokens: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
     avatar: "/logo/DeepLink.png",
     symbol: "DLC",
     type: "AI Agent",
