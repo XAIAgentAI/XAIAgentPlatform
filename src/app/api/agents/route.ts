@@ -5,26 +5,6 @@ import { verify } from 'jsonwebtoken';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
-// 假设Agent
-type Agent = {
-  id: number;
-  name: string;
-  description: string;
-  category: string;
-  avatar: string;
-  status: string;
-  capabilities: string;
-  rating: number;
-  usageCount: number;
-  creator: {
-    address: string;
-  };
-  _count: {
-    reviews: number;
-  };
-  createdAt: Date;
-};
-
 // 获取 Agent 列表
 export async function GET(request: Request) {
   try {
