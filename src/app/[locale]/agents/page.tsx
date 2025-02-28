@@ -64,8 +64,8 @@ export default function AgentsPage() {
   
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
-    ? localAgents.filter(agent => agent.id >= 4 && agent.id <=13 ) // AI Agent: id区间
-    : localAgents.filter(agent => agent.id === 2 || agent.id === 3 || agent.id >= 13) // Infrastructure: id区间
+    ? localAgents.filter(agent => agent.id >= 12 && agent.id <= 21 ) // AI Agent: id区间
+    : localAgents.filter(agent => agent.id >= 2 && agent.id <= 11 ) // Infrastructure: id区间
 
   return (
     <div className="min-h-screen bg-background">
