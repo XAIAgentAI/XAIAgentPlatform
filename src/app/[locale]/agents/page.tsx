@@ -1,31 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
-import { localAgents, LocalAgent } from '@/data/localAgents'
+import { agentAPI } from '@/services/api'
+import { LocalAgent } from '@/types/agent'
 import { useRouter } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 
-interface Agent {
-  id: string;
-  type: string;
-  stats: string;
-  createdBy: string;
-  description: string;
-  avatar: string;
-  timeAgo: string;
-  descriptionJA?: string;
-  descriptionKO?: string;
-  descriptionZH?: string;
-  status: string;
+interface LocalizedAgent extends LocalAgent {
   statusJA?: string;
   statusKO?: string;
   statusZH?: string;
+  descriptionJA?: string;
+  descriptionKO?: string;
+  descriptionZH?: string;
 }
 
-const mockAgents: Agent[] = [
+const mockAgents: LocalizedAgent[] = [
   // {
   //   id: '1',
   //   type: 'Data Analysis',
@@ -59,13 +52,49 @@ const tabs = [
 export default function AgentsPage() {
   const router = useRouter()
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
+  const [agents, setAgents] = useState<LocalizedAgent[]>([])
+  const [loading, setLoading] = useState(true)
   const t = useTranslations()
   const locale = useLocale()
   
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const data = await agentAPI.getAllAgents();
+        // 转换为本地化的 Agent 类型
+        const localizedAgents = data.map(agent => ({
+          ...agent,
+          // 这里可以根据需要添加本地化字段
+          statusJA: agent.status,
+          statusKO: agent.status,
+          statusZH: agent.status,
+          descriptionJA: agent.description,
+          descriptionKO: agent.description,
+          descriptionZH: agent.description,
+        }));
+        setAgents(localizedAgents);
+      } catch (error) {
+        console.error('Failed to fetch agents:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
-    ? localAgents.filter(agent => agent.id >= 4 && agent.id <=12 ) // AI Agent: id 4和5
-    : localAgents.filter(agent => agent.id === 2 || agent.id === 3) // Infrastructure: id 2和3
+    ? agents.filter(agent => agent.id >= 4 && agent.id <=12 ) // AI Agent: id 4和5
+    : agents.filter(agent => agent.id === 2 || agent.id === 3) // Infrastructure: id 2和3
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -107,15 +136,19 @@ export default function AgentsPage() {
                       <div className="flex items-start gap-4">
                         <div className="flex flex-col items-center gap-2">
                           <Avatar className="h-10 w-10 rounded-full bg-card-inner">
-                            <Image 
-                              src={agent.avatar}
-                              alt={agent.name} 
-                              width={40} 
-                              height={40}
-                              className="object-cover"
-                            />
+                            {agent.avatar && (
+                              <Image 
+                                src={agent.avatar}
+                                alt={agent.name} 
+                                width={40} 
+                                height={40}
+                                className="object-cover"
+                              />
+                            )}
                           </Avatar>
-                          <span className="text-[10px] lg:text-xs text-muted-foreground">{agent.createdAt}</span>
+                          <span className="text-[10px] lg:text-xs text-muted-foreground">
+                            {agent.createdAt.toLocaleDateString()}
+                          </span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">

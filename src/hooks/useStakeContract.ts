@@ -194,7 +194,6 @@ export const useStakeContract = () => {
         hasClaimed: false,
       };
 
-      console.log("newPoolInfo", newPoolInfo);
 
       // // 只有在钱包连接且认证的情况下才获取用户信息
       // if (walletClient && isConnected && isAuthenticated && address) {

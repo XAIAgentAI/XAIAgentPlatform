@@ -104,6 +104,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
+  console.log("agents", agents);
+  
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">

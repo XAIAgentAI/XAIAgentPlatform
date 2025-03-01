@@ -33,6 +33,9 @@ model Agent {
   capabilities    String    // JSON string array
   rating          Float     @default(0)
   usageCount      Int       @default(0)
+  marketCap       String    @default("0")
+  change24h       String    @default("0")
+  volume24h       String    @default("0")
   creator         User      @relation(fields: [creatorId], references: [id])
   creatorId       String
   createdAt       DateTime  @default(now())
@@ -41,6 +44,25 @@ model Agent {
   reviews         Review[]
   history         History[]
   prices          AgentPrice[]
+  type            String?
+  tvl             String?
+  holdersCount    Int?
+  socialLinks     String?   // JSON string
+  token           String?
+  totalSupply     String?   // 添加 totalSupply 字段
+  symbol          String?   // 添加 symbol 字段，因为看到代码中也用到了这个
+  chatEntry       String?   // 添加 chatEntry 字段，因为代码中也用到了这个
+  useCases        String?   // JSON string array
+  useCasesJA      String?   // JSON string array
+  useCasesKO      String?   // JSON string array
+  useCasesZH      String?   // JSON string array
+  statusJA        String?
+  statusKO        String?
+  statusZH        String?
+  descriptionJA   String?
+  descriptionKO   String?
+  descriptionZH   String?
+  lifetime        String?   // 添加 lifetime 字段
 }
 
 model Example {

@@ -26,20 +26,10 @@ export const useSwapKLineData = () => {
 
   const fetchKLineData = async () => {
     try {
-      console.log('开始获取swap数据...');
       const swapData = await fetchSwapData();
-      console.log('获取到的原始Swap数据:', {
-        dataLength: swapData?.length || 0,
-        firstItem: swapData?.[0],
-        lastItem: swapData?.[swapData?.length - 1]
-      });
+   
 
       const rawKlineData = convertToKLineData(swapData);
-      console.log('转换后的K线数据:', {
-        dataLength: rawKlineData?.length || 0,
-        firstItem: rawKlineData?.[0],
-        lastItem: rawKlineData?.[rawKlineData?.length - 1]
-      });
 
       // 转换为图表所需的KLineData格式
       const chartKlineData: ChartKLineData[] = rawKlineData.map(item => ({
@@ -51,24 +41,11 @@ export const useSwapKLineData = () => {
         volume: item.volume || 0 // 确保volume总是有值
       }));
 
-      console.log('最终图表数据:', {
-        dataLength: chartKlineData?.length || 0,
-        firstItem: chartKlineData?.[0],
-        lastItem: chartKlineData?.[chartKlineData?.length - 1]
-      });
-
       // 计算当前价格和价格变化
       if (chartKlineData.length > 0) {
         const currentPrice = chartKlineData[chartKlineData.length - 1].close;
         const previousPrice = chartKlineData[chartKlineData.length - 2]?.close || chartKlineData[0].open;
         const priceChange = ((currentPrice - previousPrice) / previousPrice) * 100;
-
-        console.log('计算得到的价格信息:', {
-          currentPrice,
-          previousPrice,
-          priceChange
-        });
-
         setData({
           klineData: chartKlineData,
           currentPrice,
@@ -77,7 +54,6 @@ export const useSwapKLineData = () => {
           error: null
         });
       } else {
-        console.warn('没有可用的K线数据');
         setData(prev => ({
           ...prev,
           isLoading: false,
@@ -85,7 +61,6 @@ export const useSwapKLineData = () => {
         }));
       }
     } catch (error) {
-      console.error('获取数据时出错:', error);
       setData(prev => ({
         ...prev,
         isLoading: false,
@@ -118,7 +93,6 @@ export const useSwapKLineData = () => {
 
   // 初始化和清理
   useEffect(() => {
-    console.log('useSwapKLineData hook 初始化');
     startPolling();
 
     // 清理函数
@@ -127,10 +101,7 @@ export const useSwapKLineData = () => {
     };
   }, []);
 
-  // 添加数据变化日志
-  useEffect(() => {
-    console.log('useSwapKLineData 当前状态:', data);
-  }, [data]);
+
 
   return {
     ...data,

@@ -1,19 +1,52 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { AgentInfo } from "@/components/agent-detail/AgentInfo";
 import { SwapCard } from "@/components/agent-detail/SwapCard";
 import { TokenInfoCard } from "@/components/agent-detail/TokenInfoCard";
-import { ConversationStarter } from "@/components/agent-detail/ConversationStarter";
+import ConversationStarter from "@/components/agent-detail/ConversationStarter";
 import { IaoPool } from "@/components/agent-detail/IaoPool";
-import { useAgentStore } from "@/store/useAgentStore";
+import { agentAPI } from "@/services/api";
+import { LocalAgent } from "@/types/agent";
 
 interface AgentDetailProps {
   id: string;
 }
 
 export function AgentDetail({ id }: AgentDetailProps) {
-  const { agents } = useAgentStore();
-  const agent = agents.find(agent => agent.id === parseInt(id));
+  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAgent = async () => {
+      try {
+        setIsLoading(true);
+        const data = await agentAPI.getAgentById(parseInt(id));
+        console.log("data", data);
+        
+        setAgent(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '获取 Agent 详情失败');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAgent();
+  }, [id]);
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-[200px]">加载中...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center">{error}</div>;
+  }
+
+  if (!agent) {
+    return <div className="text-center">未找到该 Agent</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

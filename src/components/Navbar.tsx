@@ -86,7 +86,7 @@ const Navbar = () => {
           // 重新打开钱包连接弹窗
           open({ view: 'Connect' });
           // 断开连接，会自动把status设置为disconnected
-          
+
         }
       }, 8000);
 
@@ -98,17 +98,7 @@ const Navbar = () => {
         }
       };
     }
-  }, [status,  ]);
-
-  // 添加状态变化日志
-  useEffect(() => {
-    console.log('Wallet Status Changed:', {
-      status,
-      isConnected,
-      address,
-      hasTimeout: !!connectingTimeout
-    });
-  }, [status, isConnected, address, connectingTimeout]);
+  }, [status,]);
 
   // 优化钱包连接状态处理
   useEffect(() => {
@@ -206,8 +196,8 @@ const Navbar = () => {
                   "text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap",
                   "transition-colors hover:text-primary",
                   "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary",
-                  isCurrentPath(link.href) 
-                    ? "text-primary after:w-full" 
+                  isCurrentPath(link.href)
+                    ? "text-primary after:w-full"
                     : "after:w-0 hover:after:w-full after:transition-all",
                 )}
                 onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
@@ -404,10 +394,10 @@ const Navbar = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        
+
       </div>
       <div className=" mt-[-6px] px-8 pb-1">
-          <TokenBalance />
+        <TokenBalance />
       </div>
     </nav>
   );

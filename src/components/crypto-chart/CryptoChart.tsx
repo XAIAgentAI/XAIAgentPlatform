@@ -46,26 +46,15 @@ const CHART_COLORS = {
   },
 };
 
-const CryptoChart: React.FC<CryptoChartProps> = ({ 
+const CryptoChart: React.FC<CryptoChartProps> = ({
   agent,
   klineData,
   currentPrice,
   priceChange,
   isLoading = false,
   error = null,
-  onIntervalChange 
+  onIntervalChange
 }) => {
-  // 添加数据检查日志
-  useEffect(() => {
-    console.log('CryptoChart 组件收到的数据:', {
-      klineData: klineData?.length || 0,
-      currentPrice,
-      priceChange,
-      isLoading,
-      error
-    });
-  }, [klineData, currentPrice, priceChange, isLoading, error]);
-
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chart = useRef<IChartApi | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
@@ -135,7 +124,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   const formatChartTime = (time: number, interval: TimeInterval): string => {
     const date = new Date(time * 1000);
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    
+
     switch (interval) {
       case '30m':
       case '1h':

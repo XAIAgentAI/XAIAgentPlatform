@@ -7,6 +7,8 @@ import { useDBCScan } from "@/hooks/useDBCScan"
 import { useAgentStore } from "@/store/useAgentStore"
 import { useDBCPrice } from "@/hooks/useDBCPrice"
 import { useStakeContract } from "@/hooks/useStakeContract"
+import { LocalAgent } from "@/types/agent"
+import { agentAPI } from "@/services/api"
 
 export default function Home() {
   const { tokens, loading, error } = useDBCScan()
@@ -39,48 +41,52 @@ export default function Home() {
   }, [tokens, loading, updateAgentsWithTokens, dbcPrice,])
 
   useEffect(() => {
-    if (!loading && agents && agents.length > 0) {
-      const agentsWithPrices = agents.map(agent => {
-        const dbcNum : any = agent.name === "XAIAgent" ? poolInfo.totalDeposited : 0;
-
-        const totalSupply = Number(agent.totalSupply?.split(' ')[0].replace(/,/g, '') || 0);
-        
-
-        // 确保dbcPrice是数字类型
-        const dbcPriceNum = Number(dbcPrice);
-        const tokenPrice = (dbcNum * dbcPriceNum) / totalSupply;
-        const marketCap = dbcPriceNum * dbcNum * 2;
-
-        // console.log(`Agent: ${agent.name || 'Unknown'}`);
-        // console.log(`池子中DBC个数: ${formatNumber(dbcNum)} DBC`);
-        // console.log(`DBC单价: $${formatNumber(dbcPriceNum)}`);
-        // console.log(`计算出的token单价: $${formatNumber(tokenPrice)}`);
-        // console.log(`计算出的市场总值: $${formatNumber(marketCap)}`);
-        // console.log('------------------------');
-
-        return {
-          ...agent,
-          tokenPrice: formatNumber(tokenPrice),
-          marketCap: formatNumber(marketCap)
-        };
-      });
-
-
-      const newAgents = agents.map(agent => {
-        const matchingAgent = agentsWithPrices.find(a => a.id === agent.id);
-        if (matchingAgent) {
-          return {
-            ...agent,
-            tvl: `$${matchingAgent.tokenPrice}`,
-            marketCap: `$${Number(matchingAgent.marketCap).toFixed(2)}`
-          }
+    // 请求接口获取所有的agents
+    const fetchAgentsData = async () => {
+      try {
+        const response = await agentAPI.getAllAgents({ pageSize: 30 });
+        console.log('data', response);
+        if (response.code === 200 && response.data?.items) {
+          const updatedAgents = response.data.items.map((item: any) => {
+            // 转换数据格式以匹配组件期望的类型
+            return {
+              id: parseInt(item.id),
+              name: item.name,
+              description: item.description,
+              longDescription: item.longDescription || item.description,
+              category: item.category,
+              avatar: item.avatar || '',
+              status: item.status,
+              capabilities: Array.isArray(item.capabilities) ? item.capabilities : [],
+              rating: item.rating || 0,
+              usageCount: item.usageCount || 0,
+              marketCap: "$0",
+              change24h: "0%",
+              volume24h: "$0",
+              creatorId: item.creatorAddress,
+              createdAt: new Date(item.createdAt),
+              updatedAt: new Date(item.createdAt),
+              symbol: item.symbol || '',
+              type: item.type || item.category,
+              tvl: "$0",
+              holdersCount: 0,
+              socialLinks: item.socialLinks || '',
+              token: item.token || item.symbol || item.id,
+            };
+          });
+          
+          console.log('updatedAgents', updatedAgents);
+          setAgents(updatedAgents);
         }
-        return agent;
-      });
+      } catch (error) {
+        console.error('Failed to fetch agents:', error);
+      }
+    };
 
-      setAgents(newAgents);
-    }
-  }, [poolInfo])
+    fetchAgentsData();
+
+
+  }, [])
 
   if (error) {
     console.error('Failed to fetch DBC data:', error)

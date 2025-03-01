@@ -12,15 +12,43 @@ import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSwapKLineData } from '@/hooks/useSwapKLineData';
 import { TimeInterval } from '@/hooks/useTokenPrice';
+import {
+  agentAPI
+} from '@/services/api'
+import { useState } from "react";
+import { useEffect } from "react";
+import { LocalAgent } from "@/types/agent";
+
+interface ApiResponse<T> {
+  code: number;
+  message: string;
+  data: T;
+}
 
 interface AgentInfoProps {
   agentId: string;
 }
 
 export function AgentInfo({ agentId }: AgentInfoProps) {
-  const { getAgentById } = useAgentStore();
-  const agent = getAgentById(Number(agentId));
-  const { tokenData, loading, error } = useDBCToken(agent?.tokens || null);
+  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const getAgentData = async () => {
+    try {
+      const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
+      console.log("agent", res);
+      if(res?.code === 200) {
+        setAgent(res.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch agent:', error);
+    }
+  }
+
+  useEffect(() => {
+    getAgentData()
+  }, [])
+
+
+  const { tokenData, loading, error } = useDBCToken(agent?.token || null);
   const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
@@ -40,35 +68,16 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     refetch();
   };
 
-  console.log("klineData", klineData);
-  
-
   // 根据当前语言获取对应的描述
   const getLocalizedDescription = () => {
     if (!agent) return "";
-    switch (locale) {
-      case 'ja':
-        return agent.descriptionJA || agent.description;
-      case 'ko':
-        return agent.descriptionKO || agent.description;
-      case 'zh':
-        return agent.descriptionZH || agent.description;
-      default:
-        return agent.description;
-    }
+    return agent.description;
   };
 
   // 根据当前语言获取对应的状态
   const getLocalizedStatus = () => {
     if (!agent) return "";
-    switch (locale) {
-      case 'ja':
-        return agent.statusJA || agent.status;
-      case 'ko':
-        return agent.statusKO || agent.status;
-      default:
-        return agent.status;
-    }
+    return agent.status;
   };
 
   if (loading) {
@@ -96,7 +105,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         <div className="flex items-start gap-4 min-w-0 flex-1">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <img
-              src={agent.avatar}
+              src={agent.avatar || ''}
               alt={t('accessibility.agentAvatar')}
               className="h-full w-full object-cover"
             />
@@ -180,7 +189,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             <span className="text-xs text-muted-foreground whitespace-nowrap">{t('createdBy')}:</span>
             <Avatar className="h-7 w-7">
               <img
-                src={agent.avatar}
+                src={agent.avatar || ''}
                 alt={t('accessibility.creatorAvatar')}
                 className="h-full w-full object-cover rounded-full"
               />
@@ -233,7 +242,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       {/* Description */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">{t('description')}</h2>
-        {getLocalizedDescription()?.split("\n").map((line, index) => (
+        {getLocalizedDescription().split("\n").map((line: string, index: number) => (
           <p key={index} className="text-sm text-muted-foreground break-words mb-2">
             {line}
           </p>

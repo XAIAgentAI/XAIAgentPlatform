@@ -1,14 +1,43 @@
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { CustomButton } from "@/components/ui-custom/custom-button";
 import Image from "next/image";
 import { toast } from "../ui/use-toast";
-import { localAgents } from "@/data/localAgents";
 import { useLocale, useTranslations } from 'next-intl';
+import { agentAPI } from "@/services/api";
+import { LocalAgent } from "@/types/agent";
 
-export function ConversationStarter({ agentId }: { agentId: string }) {
-  const agent = localAgents.find((agent) => agent.id === Number(agentId));
+export default function ConversationStarter({ agentId }: { agentId: string }) {
+  const t = useTranslations();
+  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const locale = useLocale();
-  const t = useTranslations('agent');
+
+
+  useEffect(() => {
+    const fetchAgent = async () => {
+      try {
+        const data = await agentAPI.getAgentById(Number(agentId));
+        setAgent(data);
+      } catch (error) {
+        console.error('Failed to fetch agent:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgent();
+  }, [agentId]);
+
+  if (loading) {
+    return <div className="animate-pulse h-32 bg-card-inner rounded-lg"></div>;
+  }
+
+  if (!agent) {
+    return null;
+  }
+
 
   // 根据当前语言获取对应的用例
   const getLocalizedUseCases = () => {

@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const agent = await prisma.agent.findUnique({
-      where: { id: params.id },
+      where: { id: String(params.id) },
       include: {
         creator: {
           select: {

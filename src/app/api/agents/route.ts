@@ -52,9 +52,9 @@ export async function GET(request: Request) {
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      // orderBy: {
+      //   id: 'asc',
+      // },
     });
 
     // 处理返回数据
@@ -71,6 +71,14 @@ export async function GET(request: Request) {
       creatorAddress: item.creator.address,
       reviewCount: item._count.reviews,
       createdAt: item.createdAt,
+      symbol: item.symbol,
+      token: item.token,
+      totalSupply: item.totalSupply,
+      tvl: item.tvl,
+      holdersCount: item.holdersCount,
+      volume24h: item.volume24h,
+      marketCap: item.marketCap,
+      change24h: item.change24h,
     }));
 
     return createSuccessResponse({

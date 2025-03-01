@@ -37,7 +37,7 @@ export const localAgents: LocalAgent[] = [
     id: 1,
     name: "XAIAgent",
     tokens: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
-    avatar: "/logo/XAIAgent.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XAIAgent.png",
     symbol: "XAA",
     type: "Platform",
     marketCap: "$0",
@@ -47,7 +47,7 @@ export const localAgents: LocalAgent[] = [
     holdersCount: 0,
     volume24h: "$0",
     status: "Tradable",
-    statusJA: "取引可能",
+    statusJA: "トランザクション可能",
     statusKO: "거래 가능",
     statusZH: "可交易",
     description: "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
@@ -85,9 +85,417 @@ export const localAgents: LocalAgent[] = [
   },
   {
     id: 2,
+    name: "StyleID",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/StyleID.png",
+    symbol: "STID",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
+    descriptionZH: "生成任务写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
+    descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
+    descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574id",
+    totalSupply: "5,000,000,000 STID",
+    useCases: [
+      "I want to generate a vintage style photo. Can you help me design the style and background",
+      "Can I adjust my expression and posture in this photo?",
+      "If I want to generate a set of photos, such as Japanese, fresh, and sci-fi styles, how do I do it?",
+      "Can this AI keep my appearance consistent? For example, I can maintain my characteristics in different styles"
+    ],
+    useCasesJA: [
+      "レトロ調の写真を生成したいのですが、スタイルや背景をデザインしてもらえますか？",
+      "似たようなセレブの衣装を探す",
+      "ファッションウィークのトレンドを追跡",
+      "パーソナライズされたスタイル推薦を取得"
+    ],
+    useCasesKO: [
+      "빈티지 스타일의 화보를 만들고 싶은데 스타일과 배경을 디자인해 주시겠어요?",
+      "비슷한 셀럽 의상 찾기",
+      "패션위크 트렌드 추적",
+      "개인화된 스타일 추천 받기"
+    ],
+    useCasesZH: [
+      "我想生成一张复古风格的写真，能帮我设计一下风格和背景吗",
+      "我能在这张写真里调整我的表情和姿势吗?",
+      "如果我想生成一组写真，比如日系、小清新和科幻风格，怎么操作?",
+      "这个AI可以保持我的相貌一致吗？比如不同风格下都能保持我的特征"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 3,
+    name: "FaceSwap",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/FaceSwap.png",
+    symbol: "FASW",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Face changing function, supports image and video face changing, supports multiple different face changing modes: face selection, gender filtering, etc., supports face enlargement/restoration function",
+    descriptionZH: "换脸功能，支持图片和视频换脸，支持多种不同的换脸模式：人脸选择、按性别筛选等等，支持人脸放大/修复功能",
+    descriptionKO: "얼굴 바꾸기 기능, 그림과 동영상 얼굴 바꾸기 지원, 다양한 얼굴 바꾸기 모드 지원: 얼굴 선택, 성별 선별 등, 얼굴 확대/복구 기능 지원",
+    descriptionJA: "顔を変える機能、画像とビデオの顔を変えることを支持して、多種の異なる顔を変えるモードを支持します：人の顔の選択、性別によって選別するなど、人の顔の拡大/修復機能を支持します",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574fa",
+    totalSupply: "5,000,000,000 FASW",
+    useCases: [
+      "I want to change my face in this photo. Can you help me choose the most suitable face shape?",
+      "I want to switch to a female character in this video. Can you help me screen for suitable female faces?",
+      "This photo is a bit blurry. Can you help me fix and enhance its clarity while changing my face?",
+      "Can I replace myself with the face of a movie character? Can you recommend a few suitable roles?"
+    ],
+    useCasesJA: [
+      "私はこの写真を顔を変えたいのですが、最適な顔を選んでもらえますか？",
+      "この動画で女性キャラクターに変えたいのですが、適切な女性の顔を選んでもらえますか？",
+      "この写真は少しぼやけていますが、顔を変えながら鮮明さを修復してくれませんか。",
+      "自分を映画のキャラクターの顔に変えてもいいですか。あなたはいくつかの適した役を推薦することができますか。"
+    ],
+    useCasesKO: [
+      "이 사진 얼굴 바꾸고 싶은데 가장 잘 어울리는 얼굴형을 골라 주시겠어요?",
+      "이 영상에서 여자 캐릭터로 바꾸고 싶은데 적절한 여자 얼굴을 선별해 주시겠어요?",
+      "이 사진은 좀 흐릿한데, 당신은 얼굴을 바꾸는 동시에 나를 도와 선명도를 고치고 강화할 수 있습니까?",
+      "제가 영화 캐릭터의 얼굴로 바꿀 수 있을까요?너는 적합한 배역을 몇 개 추천할 수 있니?"
+    ],
+    useCasesZH: [
+      "我想换脸这张照片，可以帮我选择最适合的脸型吗",
+      "我想在这个视频里换成女性角色，你可以帮我筛选合适的女性脸吗",
+      "这张照片有点模糊，你可以在换脸的同时帮我修复和增强清晰度吗?",
+      "我能把自己换成电影角色的脸吗？你可以推荐几个适合的角色吗？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 4,
+    name: "PicSpan",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/PicSpan.png",
+    symbol: "PIS",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Expand the image to any desired scale",
+    descriptionZH: "扩展图片，可以按照想要的比例进行任意的图片扩展",
+    descriptionKO: "원하는 비율로 원하는 그림을 확장할 수 있는 확장",
+    descriptionJA: "拡張ピクチャ、任意のピクチャ拡張を希望する割合で行うことができます",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574pi",
+    totalSupply: "5,000,000,000 PIS",
+    useCases: [
+      "Can you help me expand the left and bottom of this image while maintaining its original style?",
+      "Can you expand this image to a 16:9 widescreen ratio while keeping the subject centered?",
+      "Can we make the extended parts more creative, such as adding some details related to the original image?",
+      "Can the expanded image blend more naturally? If there are any inconsistencies, can you optimize them?"
+    ],
+    useCasesJA: [
+      "私はこの画像の左側と底部を拡張して、元のスタイルを維持したいのですが、あなたは私を助けることができますか？",
+      "この画像を16:9のワイドスクリーンスケールに拡大して、本体の中央を維持することができますか。",
+      "原図に関連する詳細を追加するなど、拡張された部分をよりクリエイティブにすることはできますか。",
+      "拡張された画像はより自然に融合できますか？もし違和感があれば、最適化できますか。"
+    ],
+    useCasesKO: [
+      "나는 이 그림의 왼쪽과 아래쪽을 확장하여 원래의 스타일을 유지하고 싶은데, 당신은 나를 도와 할 수 있습니까?",
+      "당신은 이 그림을 16: 9의 와이드스크린 비율로 확장할 수 있으며, 동시에 본체를 가운데로 유지할 수 있습니까?",
+      "원래 그림과 관련된 세부 사항을 추가하는 등 확장된 부분을 더 창의적으로 만들 수 있습니까?",
+      "확장된 그림은 더욱 자연스럽게 융합될 수 있습니까?만약 조화롭지 못한 점이 있다면, 당신은 최적화할 수 있습니까?"
+    ],
+    useCasesZH: [
+      "我想扩展这张图片的左侧和底部，保持原有风格，你能帮我做到吗？",
+      "你能把这张图片扩展成16:9的宽屏比例，同时保持主体居中吗？",
+      "能不能让扩展的部分更有创意，比如增加一些与原图相关的细节？",
+      "扩展后的图片可以更自然地融合吗？如果有不协调的地方，你能优化吗？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 5,
+    name: "LogoLift",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png",
+    symbol: "LOGO",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Logo generation, various styles of logos can be generated through text dialogue",
+    descriptionZH: "Logo生成，通过文字对话可以生成各种样式的Logo",
+    descriptionKO: "로고 생성, 문자 대화를 통해 다양한 스타일의 로고 생성",
+    descriptionJA: "Logo生成、文字対話による様々なスタイルのLogo生成",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574lo",
+    totalSupply: "5,000,000,000 LOGO",
+    useCases: [
+      "I want a logo with a strong sense of technology, mainly in blue and purple colors, with a futuristic feel. Can you help me design one?",
+      "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain projects",
+      "I hope the logo can embody the concepts of decentralization and artificial intelligence. Can we try several different design styles?",
+      "Can you generate a logo with dynamic visual effects that is suitable for social media avatars?"
+    ],
+    useCasesJA: [
+      "私は科学技術感のあるロゴがほしいです。色は青と紫を中心にして、未来感があります。あなたは私にデザインしてくれませんか。",
+      "ブロックチェーンプロジェクトに適した抽象的なアルファベット「X」を持つシンプルなロゴをデザインしてください",
+      "私はLogoが脱中心化と人工知能の概念を体現していることを望んで、いくつかの異なるデザインスタイルを試してみてもいいですか？",
+      "動的な視覚効果を持つロゴを生成して、ソーシャルメディアのアイコンの使用に適していますか？"
+    ],
+    useCasesKO: [
+      "나는 과학기술감이 넘치는 로고를 원한다. 색갈은 푸른색과 보라색을 위주로 하고 미래감이 있다. 당신은 나를 도와 하나를 설계할수 있는가?",
+      "저에게 미니멀한 스타일의 로고를 설계해 주십시오. 흑백 배색, 추상적인 알파벳'X'가 있어 블록체인 프로젝트에 적합합니다.",
+      "나는 로고가 탈중심화와 인공지능의 개념을 구현할 수 있기를 바란다. 몇 가지 다른 디자인 스타일을 시도할 수 있을까?",
+      "동적 시각적 효과를 가진 로고를 생성하고 소셜 미디어 프로필 사진에 적합합니까?"
+    ],
+    useCasesZH: [
+      "我想要一个科技感十足的Logo，颜色以蓝色和紫色为主，有未来感，你能帮我设计一个吗？",
+      "请给我设计一个极简风格的Logo，黑白配色，带有抽象的字母‘X’，适合区块链项目",
+      "我希望Logo能体现去中心化和人工智能的概念，可以尝试几种不同的设计风格吗？",
+      "能给我生成一个带有动态视觉效果的Logo，并且适合社交媒体头像使用吗？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 6,
+    name: "LiveEmoji",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LiveEmoji.png",
+    symbol: "LEMO",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Emoji making AI can create various emojis, create specific emojis based on character images, support human and animal modes, and support video editing",
+    descriptionZH: "表情包制作AI，可以制作各种表情，给定人物图像制作特定表情，支持人类模式和动物模式，支持视频的编辑",
+    descriptionKO: "이모티콘 제작 AI, 다양한 이모티콘 제작 가능, 캐릭터 이미지에 특정 이모티콘 제작, 인간 모드와 동물 모드 지원, 동영상 편집 지원",
+    descriptionJA: "表情パックはAIを作成し、さまざまな表情を作成することができ、人物画像を与えて特定の表情を作成し、人間モードと動物モードをサポートし、ビデオの編集をサポートする",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574le",
+    totalSupply: "5,000,000,000 LEMO",
+    useCases: [
+      "I have a photo of a friend, can you help me turn his expression into a funny exaggerated laughter expression?",
+      "Can you generate an emoji of a Shiba Inu for me, making it look like it's thinking about life?",
+      "Can you create a cartoon cat emoji with exaggerated expressions of surprise and add 'Is it real or fake?!' The text?",
+      "Make the second photo the same emoji as the first one"
+    ],
+    useCasesJA: [
+      "友達の写真を持っていますが、彼の表情を笑いの大笑い顔に変えてもらえますか？",
+      "人生を考えているように見えるように、柴犬の表情パックを生成してくれませんか？",
+      "誇張された驚きの表情をしたキャラクター猫の表情パックを作ることができ、「マジ？！」の文字ですか？",
+      "2枚目の写真を1枚目と同じ表情パックにする"
+    ],
+    useCasesKO: [
+      "친구 사진이 있는데 그 친구 표정을 웃긴 오버 웃음 이모티콘으로 바꿔줄래?",
+      "시바견 이모티콘을 만들어서 인생에 대해 생각하는 것처럼 보이게 할 수 있을까?",
+      "만화 고양이 이모티콘을 만들 수 있다. 과장된 놀란 표정과 함께'진짜?!'문자요?",
+      "두 번째 사진을 첫 번째 사진과 같은 이모티콘으로 만들어볼게요."
+    ],
+    useCasesZH: [
+      "我有一张朋友的照片，能帮我把他的表情变成搞笑的夸张大笑表情吗？",
+      "能给我生成一只柴犬的表情包，让它看起来像在思考人生？",
+      "能做一个卡通猫的表情包，带有夸张的惊讶表情，并加上‘真的假的？！’的文字吗？",
+      "把第二张照片制作成和第一张一样的表情包"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 7,
+    name: "Qreator",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Qreator.png",
+    symbol: "QREA",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "A QR code generation AI that can generate various styles of QR codes, which are beautiful and unique. They can be task images or landscape maps",
+    descriptionZH: "二维码生成AI，可以生成各种风格的二维码，美观奇特，可以是任务图像，可以是风景图",
+    descriptionKO: "QR코드는 AI를 생성하여 각종 스타일의 QR코드를 생성할 수 있으며, 미관이 특이하고, 임무 이미지일 수도 있고, 풍경도일 수도 있다",
+    descriptionJA: "二次元コードはAIを生成して、各種の風格の二次元コードを生成することができて、美観は奇抜で、任務の画像であることができて、風景図であることができます",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574qr",
+    totalSupply: "5,000,000,000 QREA",
+    useCases: [
+      "I want to generate a technology style QR code that incorporates some cyberpunk elements, with blue purple as the main color. Is that okay?",
+      "Can you create a QR code that looks like a mountain scenery but can still be scanned?",
+      "I hope the QR code can integrate with my avatar, making it creative yet functional. Can you help me design one?",
+      "Can you create a cartoon style QR code with a pixel art background that looks a bit cute?"
+    ],
+    useCasesJA: [
+      "私は科学技術スタイルのQRコードを生成したいのですが、中にはいくつかのサイボパンク要素が溶け込んでいて、色は青紫色を中心にしていますが、よろしいでしょうか。",
+      "山脈の風景のように見えるようにQRコードを作ってもスキャンできますか？",
+      "QRコードに私の顔を融合させて、クリエイティブになりながらも普通に使えるようにしてほしいのですが、デザインしてもらえますか。",
+      "背景がピクセルアート風で、少し可愛く見えるキャラクター風のQRコードを作ってもらえませんか。"
+    ],
+    useCasesKO: [
+      "나는 과학기술풍격의 QR코드를 생성하려고 하는데 그속에는 일부 싸이보펑크원소가 융합되여있고 색갈은 람자색을 위주로 하는데 괜찮겠는가?",
+      "산맥 풍경처럼 보이지만 여전히 스캔할 수 있는 QR코드를 만들 수 있습니까?",
+      "나는 QR코드가 나의 두상을 융합시켜 창의적이지만 정상적으로 사용할수 있도록 하기를 바란다. 당신은 나를 도와 하나를 설계할수 있는가?",
+      "만화 스타일의 QR코드를 만들 수 있습니까? 배경은 픽셀 예술 스타일이고 좀 귀엽게 보일 수 있습니까?"
+    ],
+    useCasesZH: [
+     "我想生成一个科技风格的二维码，里面融入一些赛博朋克元素，颜色以蓝紫色为主，可以吗？",
+     "能不能做一个二维码，让它看起来像一座山脉风景，但仍然可以扫描？",
+     "我希望二维码能融合我的头像，让它变得有创意但又能正常使用，你能帮我设计一个吗？",
+     "能不能做一个卡通风格的二维码，背景是像素艺术风格，并且能让它看起来有点可爱？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 8,
+    name: "Oldify",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Oldify.png",
+    symbol: "OLD",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "Turning black and white photos into color photos can transform various old photos into colorful ones. Almost completely eliminating faults and artifacts. The skin effect is more natural (reducing zombie feel), the details are richer, the rendering is more realistic, and the 'blue deviation' is significantly reduced",
+    descriptionZH: "黑白照片变彩色照片，可以把各种老照片变成色彩丰富的照片。几乎完全消除了故障和伪影。皮肤效果更自然（减少僵尸感），细节更加丰富，渲染更逼真，显著降低“蓝色偏差”",
+    descriptionKO: "흑백 사진을 컬러 사진으로 바꾸면 각종 오래된 사진을 색채가 풍부한 사진으로 바꿀 수 있다.고장과 가짜를 거의 완전히 없앴다.피부 효과는 더욱 자연스럽고 (좀비감 감소), 디테일은 더욱 풍부하며 렌더링은 더욱 사실적이며'파란색 편차'를 현저하게 낮춘다",
+    descriptionJA: "白黒写真をカラー写真に変えることで、さまざまな古い写真をカラフルな写真に変えることができます。障害やアーティファクトはほとんど完全に解消されました。肌の効果がより自然に（ゾンビ感を減らす）、ディテールがより豊富になり、レンダリングがよりリアルになり、「青偏差」を大幅に低減",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574ol",
+    totalSupply: "5,000,000,000 OLD",
+    useCases: [
+      "I have a black and white photo from the 1930s. Can you help me intelligently color it to make it look more natural and closer to real colors?",
+      "This black and white photo is of my grandfather when he was young. Can you help me repair and color it to make my skin look more natural?",
+      "I want to turn this historical photo into color, but I don't want the color to be too blue. Can I adjust it to be more realistic?",
+      "This old photo has many scratches and noise. Can you help me repair them while coloring to make the details richer?"
+    ],
+    useCasesJA: [
+      "私は1930年代の白黒写真を持っています。スマートに色を塗って、より自然でリアルな色に近づけるようにしてもらえますか。",
+      "この白黒の写真は祖父の若い頃の写真ですが、修復して色を塗って、肌を自然に見せることができますか。",
+      "この歴史写真をカラーにしたいのですが、色が青くなってほしくないので、もう少しリアルに調整できますか？",
+      "この古い写真には傷やノイズがたくさんありますが、色を塗りながら修復して、細部を豊かにしてもらえますか。"
+    ],
+    useCasesKO: [
+      "나는 20세기 30년대의 흑백사진이 있는데 당신은 나를 도와 지능적으로 색칠을 하여 더욱 자연스럽고 더욱 진실한 색채에 접근하게 할수 있는가?",
+      "이 흑백 사진은 우리 할아버지의 젊은 시절 사진인데, 피부를 더 자연스럽게 보이게 복원하고 색칠해 줄 수 있습니까?",
+      "나는 이 역사 사진을 컬러로 바꾸고 싶지만, 색깔이 파란색인 것을 원하지 않는다. 좀 더 사실적으로 조정할 수 있을까?",
+      "이 오래된 사진은 스크래치와 노이즈가 많은데, 색을 칠하는 동시에 나를 도와 복구하여 디테일을 더욱 풍부하게 할 수 있습니까?"
+    ],
+    useCasesZH: [
+      "我有一张上世纪30年代的黑白照片，你能帮我智能上色，让它看起来更自然、更接近真实色彩吗？",
+      "这张黑白合影是我祖父年轻时的照片，能不能帮我修复并上色，让皮肤看起来更自然？",
+      "我想把这张历史照片变成彩色的，但不希望颜色偏蓝，能调整得更真实一些吗？",
+      "这张旧照片有很多划痕和噪点，能在上色的同时帮我修复，让细节更丰富吗？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 9,
+    name: "SuperPixel",
+    tokens: "",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperPixel.png",
+    symbol: "SPIX",
+    type: "Infrastructure",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: "With the help of SuperPixel's cutting-edge artificial intelligence technology, experience a higher level of image processing, which can enhance image resolution by 16 times.",
+    descriptionZH: "借助SuperPixel尖端人工智能技术，体验更高水平的图像处理，可以将图像分辨率增强16倍。",
+    descriptionKO: "슈퍼픽셀의 첨단 인공지능 기술로 더 높은 수준의 이미지 처리를 경험하면 이미지 해상도를 16배 향상시킬 수 있다.",
+    descriptionJA: "SuperPixelの先端人工知能技術を用いて、より高いレベルの画像処理を体験し、画像解像度を16倍に高めることができる。",
+    createdAt: "1 month ago",
+    creatorAddress: "0x12N5N...O574su",
+    totalSupply: "5,000,000,000 SPIX",
+    useCases: [
+      "I have an old photo with a very low resolution. Can you help me increase the clarity by 16 times and enhance the details?",
+      "Can this blurry screenshot be processed into a high-definition version to make both text and images clearer?",
+      "I want to enlarge this small-sized illustration by 16 times, but I don't want to lose details or become blurry. Can you optimize it?",
+      "I have a still frame screenshot of an old movie. Can you increase the resolution and reduce noise to make it closer to 4K quality?"
+    ],
+    useCasesJA: [
+      "解像度の低い古い写真を持っていますが、解像度を16倍にして、詳細を強化してもらえますか。",
+      "このぼやけたスクリーンショットをハイビジョン版に処理して、文字も画像も鮮明にすることができますか？",
+      "この小さいサイズのイラストを16倍に拡大したいのですが、細部を失ったりぼやけたりしたくないので、最適化できますか。",
+      "古い映画の静止画のスクリーンショットを持っていますが、解像度を上げてノイズを減らして、4 K画質に近づけてもらえませんか。"
+    ],
+    useCasesKO: [
+      "해상도가 매우 낮은 오래된 사진이 있는데 16배의 선명도를 높이고 디테일을 강화할 수 있습니까?",
+      "이 흐릿한 스크린샷은 고화질 버전으로 처리되어 문자와 이미지를 더욱 선명하게 할 수 있습니까?",
+      "나는 이 작은 사이즈의 삽화를 16배 확대하고 싶지만, 디테일을 잃거나 흐려지는 것을 원하지 않는다. 당신은 최적화할 수 있습니까?",
+      "나는 오래된 영화의 정적 프레임 스크린샷을 가지고 있는데, 해상도를 높이고 노이즈를 줄여 4K 화질에 더 가깝게 할 수 있습니까?"
+    ],
+    useCasesZH: [
+     "我有一张分辨率很低的老照片，能帮我提升16倍清晰度，并增强细节吗？",
+     "这张模糊的截图能不能处理成高清版本，让文字和图像都更清晰？",
+     "我想把这张小尺寸的插画放大16倍，但不希望失去细节或变得模糊，你能优化吗？",
+     "我有一张老电影的静帧截图，能不能提升分辨率并减少噪点，让它更接近4K画质？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 10,
     name: "SuperImage",
     tokens: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
-    avatar: "/logo/SuperImage.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperImage.png",
     symbol: "SIC",
     type: "Infrastructure",
     marketCap: "$0",
@@ -104,9 +512,9 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "SuperImageは分散型画像生成AIです。SuperImageは、テキスト入力から写実的な画像を生成する複数の潜在的なテキストから画像への拡散モデルを持ち、驚くべき画像を生成する自律的な自由を育み、数十億の人々が数秒で素晴らしいアートを作成することを可能にします。SuperImageはAIエージェントのインフラストラクチャであり、AIエージェントが利用できるAPIインターフェースを提供します。公式ウェブサイト：www.superimage.ai",
     descriptionKO: "SuperImage는 분산형 이미지 생성 AI입니다. SuperImage는 텍스트 입력에서 사실적인 이미지를 생성하는 여러 잠재적 텍스트-이미지 확산 모델을 보유하고 있으며, 놀라운 이미지를 생성하는 자율적 자유를 육성하고, 수십억 명의 사람들이 몇 초 만에 멋진 예술 작품을 만들 수 있게 합니다. SuperImage는 AI 에이전트를 위한 인프라이며, AI 에이전트가 활용할 수 있는 API 인터페이스를 제공합니다. 공식 웹사이트: www.superimage.ai",
     descriptionZH: "SuperImage 是一个去中心化的图像生成 AI。SuperImage 拥有多个潜在的文本到图像扩散模型，可以根据任何文本输入生成照片级真实的图像，培养自主创作令人惊叹图像的自由，使数十亿人能够在几秒钟内创作出令人惊艳的艺术作品。SuperImage 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.superimage.ai",
-    createdAt: "3 months ago",
+    createdAt: "12 months ago",
     creatorAddress: "0x2D5D...E574b4",
-    totalSupply: "5,000,000,000 SIC",
+    totalSupply: "1,000,000,000 SIC",
     useCases: [
       "Draw a picture of a girl with festive holiday costume",
       "Red and white striped Christmas hat and clothes",
@@ -139,10 +547,10 @@ export const localAgents: LocalAgent[] = [
     chatEntry: "https://app.superimage.ai"
   },
   {
-    id: 3,
+    id: 11,
     name: "DecentralGPT",
     tokens: "0x18386F368e7C211E84324337fA8f62d5093272E1",
-    avatar: "/logo/DecentralGPT.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/DecentralGPT.png",
     symbol: "DGC",
     type: "Infrastructure",
     marketCap: "$0",
@@ -159,9 +567,9 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "DecentralGPTは分散型大規模言語モデルAIです。\nDGPTは世界中の様々なトップティアの大規模言語モデル（LLM）の分散型展開をサポートし、LLMの使用コストを大幅に削減します。安全で、プライバシーを保護し、民主的で、透明性があり、オープンソースで、誰もが利用できるAGIの構築に取り組んでいます。\nDecentralGPTはAIエージェントのインフラストラクチャであり、AIエージェントが利用できるAPIインターフェースを提供します。公式ウェブサイト：www.decentralgpt.org",
     descriptionKO: "DecentralGPT는 분산형 대규모 언어 모델 AI입니다.\nDGPT는 전 세계의 다양한 최상위 대규모 언어 모델(LLM)의 분산 배포를 지원하여 LLM 사용 비용을 크게 줄입니다. 안전하고, 프라이버시를 보호하며, 민주적이고, 투명하며, 오픈 소스이고, 누구나 접근할 수 있는 AGI를 구축하는 데 전념하고 있습니다.\nDecentralGPT는 AI 에이전트를 위한 인프라이며, AI 에이전트가 활용할 수 있는 API 인터페이스를 제공합니다. 공식 웹사이트: www.decentralgpt.org",
     descriptionZH: "DecentralGPT 是一个去中心化的大型语言模型 AI。\nDGPT 支持全球各种顶级大型语言模型（LLM）的去中心化部署，显著降低了使用 LLM 的成本。它致力于构建安全、保护隐私、民主、透明、开源且普遍可访问的 AGI。\nDecentralGPT 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.decentralgpt.org",
-    createdAt: "5 months ago",
+    createdAt: "12 months ago",
     creatorAddress: "0x3E6E...F685c5",
-    totalSupply: "5,000,000,000 DGC",
+    totalSupply: "2,000,000,000 DGC",
     useCases: [
       "Write an article about DecentralGPT's features",
       "Help me solve this math problem",
@@ -190,10 +598,133 @@ export const localAgents: LocalAgent[] = [
     chatEntry: "https://www.degpt.ai"
   },
   {
-    id: 4,
+    id: 12,
+    name: "DeepLink",
+    tokens: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/DeepLink.png",
+    symbol: "DLC",
+    type: "AI Agent",
+    marketCap: "$0",
+    change24h: "0",
+    lifetime: "",
+    tvl: "$0",
+    holdersCount: 0,
+    volume24h: "$0",
+    status: "TBA",
+    statusJA: "近日公開",
+    statusKO: "출시 예정",
+    statusZH: "即将公布",
+    description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
+
+DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.
+
+DeepLink's AI agent is named Dee and provides the following core features:
+
+AI Agent Driven Intelligent Gaming Experience:
+
+1. Real time interaction:
+-AI agents can be activated on demand, recognize users' game interfaces, and provide real-time guidance and strategy recommendations.
+
+2. Automated game control:
+-The functions of AI agents are constantly evolving, gradually improving from basic operations to advanced operations:
+-Basic tasks: resource collection, task guidance.
+-Intermediate tasks: optimizing combat strategies and executing complex tasks.
+-Advanced tasks: Global planning, handling high difficulty game scenes.
+
+3. Voice command support:
+-Users can control AI agents to perform in-game tasks through voice commands, simplifying interaction and reducing learning costs.`,
+    descriptionJA: `DeepLinkはAIとブロックチェーン技術によって駆動される非中心化クラウドゲームプロトコルである。人工知能、ゲーム、GPUと非中心化物理インフラネットワーク（DePIN）を融合させ、新しいWeb 3ゲーム生態を構築した。
+
+DeepLinkは超低遅延のゲームレンダリング技術を採用し、クラウドeスポーツ、クラウドネットカフェ、クラウド3 Aゲーム、ブロックチェーンゲーム及びクラウドVR/AR/XRなどの幅広い応用シーンをサポートしている。DeepLinkプロトコルはAI技術を結合し、ゲームの画質と鮮明さを大幅に向上させ、プレイヤーに究極のクラウドゲーム体験を提供することができる。
+
+DeepLinkのAIエージェント名はDeeで、次のコア機能を提供します。
+
+AIエージェントによるスマートゲーム体験：
+
+1.リアルタイム対話：
+-AIエージェントは必要に応じてアクティブ化し、ユーザーのゲームインタフェースを識別し、リアルタイムのガイダンスとポリシーアドバイスを提供します。
+
+2.自動化ゲーム操作：
+-AIエージェントの機能は進化し続け、基礎操作から高度な操作まで徐々に向上：
+-基本タスク：リソース収集、タスクガイド。
+-中級タスク：戦闘戦略の最適化、複雑なタスクの実行。
+-高度なタスク：高難易度のゲームシーンをグローバルに計画し、処理します。
+
+3.音声命令サポート：
+-ユーザーは音声コマンドを通じてAIエージェントを操作してゲーム内のタスクを実行することができ、インタラクション方式を簡略化し、学習コストを削減することができる。`,
+    descriptionKO: `DeepLink는 AI와 블록체인 기술로 구동되는 탈중심화 클라우드 게임 프로토콜이다.인공지능, 게임, GPU, 탈중심화된 물리적 인프라 네트워크 (DePIN) 를 융합해 새로운 Web3 게임 생태계를 만들었다.
+
+DeepLink는 초저지연의 게임 렌더링 기술을 사용하여 클라우드 e스포츠, 클라우드 PC방, 클라우드 3A 게임, 블록체인 게임 및 클라우드 VR/AR/XR 등을 포함한 광범위한 응용 장면을 지원한다.DeepLink 프로토콜은 AI 기술을 결합하여 게임 화질과 선명도를 크게 향상시키고 게이머에게 최고의 클라우드 게임 경험을 제공합니다.
+
+DeepLink의 AI Agent 이름은 Dee이며 다음 핵심 기능을 제공합니다.
+
+AI Agent 기반 스마트 게임 환경:
+
+1.실시간 상호 작용:
+- AI Agent를 필요에 따라 활성화하고 사용자의 게임 인터페이스를 식별하며 실시간 지침 및 정책 제안을 제공합니다.
+
+2. 게임 조작 자동화:
+- AI Agent의 기능은 기본 작업에서 고급 작업으로 진화하고 있습니다.
+- 기본 작업: 리소스 수집, 작업 지침
+- 중급 임무: 전투 전략 최적화, 복잡한 임무 수행.
+- 고급 작업: 고난도 게임 시나리오를 전체적으로 계획하고 처리합니다.
+
+3. 음성 명령 지원:
+- 사용자는 음성 명령을 통해 AI Agent를 조작하여 게임 내 작업을 수행할 수 있으며, 상호 작용을 간소화하고 학습 비용을 절감할 수 있습니다.`,
+    descriptionZH: `DeepLink 是一个由AI和区块链技术驱动的去中心化云游戏协议。它融合了人工智能、游戏、GPU和去中心化物理基础设施网络（DePIN），打造了一个全新的 Web3 游戏生态。
+
+DeepLink 采用 超低延迟的游戏渲染技术，支持广泛的应用场景，包括云电竞、云网吧、云端 3A 游戏、区块链游戏以及云 VR/AR/XR 等。DeepLink协议结合AI技术，可显著提升游戏画质和清晰度，为玩家提供极致的云游戏体验。
+
+DeepLink的AI Agent名为Dee，并提供以下核心功能：  
+
+AI Agent 驱动的智能游戏体验：
+
+1. 实时交互： 
+- AI Agent 可按需激活，识别用户的游戏界面，并提供实时指导与策略建议。  
+
+2. 自动化游戏操控：  
+- AI Agent 的功能不断进化，从基础操作到高级操作逐步提升：  
+- 基础任务： 资源收集、任务指引。  
+- 中级任务： 战斗策略优化、执行复杂任务。  
+- 高级任务： 全局规划、处理高难度游戏场景。  
+
+3. 语音指令支持： 
+- 用户可通过语音指令操控 AI Agent 执行游戏内任务，简化交互方式，降低学习成本。`,
+    createdAt: "12 months ago",
+    creatorAddress: "0x6f8F...BEe",
+    totalSupply: "50,000,000 DLC",
+    useCases: [
+      "Help me increase the volume a bit",
+      "How to break the level of Wukong Huangfengling in the Black Myth",
+      "What new 3A games have been released recently?",
+      "When will GTA6 be released?"
+    ],
+    useCasesJA: [
+      "声を大きくしてください",
+      "黒神話悟空黄風嶺この関はどうする",
+      "最近出てきた新しい3 Aゲームは何ですか。",
+      "GTA 6はいつ発表されますか。"
+    ],
+    useCasesKO: [
+      "소리 좀 키워주세요",
+      "흑신화 오공 황풍령 이 관문 어떻게 하나",
+      "최근에 새로운 3A 게임 뭐가 나왔어요",
+      "GTA6는 언제 출시됩니까?"
+    ],
+    useCasesZH: [
+      "帮我把声音调大一些",
+      "黑神话悟空黄风岭这关怎么破",
+      "最近出来什么新的3A游戏",
+      "GTA6什么时候发布？"
+    ],
+    socialLinks: "",
+    chatEntry: "None"
+  },
+  {
+    id: 13,
     name: "XPersonity",
     tokens: "",
-    avatar: "/logo/XPersonity.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XPersonity.png",
     symbol: "XPER",
     type: "AI Agent",
     marketCap: "$0",
@@ -257,10 +788,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 5,
+    id: 14,
     name: "ASIXT",
     tokens: "",
-    avatar: "/logo/ASIXT.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/ASIXT.png",
     symbol: "ASIXT",
     type: "AI Agent",
     marketCap: "$0",
@@ -308,10 +839,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 6,
+    id: 15,
     name: "ArgusAI",
     tokens: "",
-    avatar: "/logo/ArgusAI.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/ArgusAI.png",
     symbol: "ARGU",
     type: "AI Agent",
     marketCap: "$0",
@@ -359,10 +890,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 9,
+    id: 16,
     name: "LinkAI",
     tokens: "",
-    avatar: "/logo/LinkAI.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LinkAI.png",
     symbol: "LINK",
     type: "AI Agent",
     marketCap: "$0",
@@ -410,10 +941,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 7,
+    id: 17,
     name: "AutoKol",
     tokens: "",
-    avatar: "/logo/AutoKol.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/AutoKol.png",
     symbol: "AKOL",
     type: "AI Agent",
     marketCap: "$0",
@@ -461,10 +992,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 10,
+    id: 18,
     name: "LingXi",
     tokens: "",
-    avatar: "/logo/LingXi.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LingXi.png",
     symbol: "LINGXI",
     type: "AI Agent",
     marketCap: "$0",
@@ -512,10 +1043,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 8,
+    id: 19,
     name: "Satori",
     tokens: "",
-    avatar: "/logo/Satori.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Satori.png",
     symbol: "SATORI",
     type: "AI Agent",
     marketCap: "$0",
@@ -562,13 +1093,11 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     socialLinks: "",
     chatEntry: "None"
   },
-
-
   {
-    id: 11,
+    id: 20,
     name: "MeetMind",
     tokens: "",
-    avatar: "/logo/MeetMind.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/MeetMind.png",
     symbol: "MEET",
     type: "AI Agent",
     marketCap: "$0",
@@ -616,10 +1145,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 12,
+    id: 21,
     name: "SynthLook",
     tokens: "",
-    avatar: "/logo/SynthLook.png",
+    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SynthLook.png",
     symbol: "SYNTH",
     type: "AI Agent",
     marketCap: "$0",
@@ -665,5 +1194,5 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     ],
     socialLinks: "",
     chatEntry: "None"
-  }
-]; 
+  },
+];
