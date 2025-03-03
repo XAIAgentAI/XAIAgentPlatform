@@ -29,6 +29,7 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
   });
 
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
+  const retryCount = useRef<number>(0);
 
   const fetchKLineData = async ({ interval: newInterval }: { interval: TimeInterval } = { interval }) => {
     try {
@@ -52,6 +53,8 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
 
       // 计算当前价格和价格变化
       if (chartKlineData.length > 0) {
+        // 重置重试计数器
+        retryCount.current = 0;
         const currentPrice = chartKlineData[chartKlineData.length - 1].close;
         const previousPrice = chartKlineData[chartKlineData.length - 2]?.close || chartKlineData[0].open;
         const priceChange = ((currentPrice - previousPrice) / previousPrice) * 100;
@@ -63,18 +66,37 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
           error: null
         });
       } else {
+        // 当没有数据时，保持 loading 状态，并保留之前的数据
+        retryCount.current += 1;
         setData(prev => ({
           ...prev,
-          isLoading: false,
-          error: '没有可用的数据'
+          isLoading: true,
+          error: null
         }));
+
+        // 如果连续3次没有数据，则停止轮询
+        if (retryCount.current >= 3) {
+          stopPolling();
+          setData(prev => ({
+            ...prev,
+            isLoading: false,
+            error: '暂无交易数据'
+          }));
+        }
       }
     } catch (error) {
+      console.error('获取K线数据失败', error);
+      // 发生错误时，保留之前的数据
       setData(prev => ({
         ...prev,
         isLoading: false,
         error: error instanceof Error ? error.message : '获取数据失败'
       }));
+      
+      // 如果是网络错误，不要立即停止轮询
+      if (!(error instanceof Error && error.message.includes('network'))) {
+        stopPolling();
+      }
     }
   };
 
@@ -84,6 +106,9 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
     if (pollingRef.current) {
       clearInterval(pollingRef.current);
     }
+
+    // 重置重试计数器
+    retryCount.current = 0;
 
     // 立即执行一次
     fetchKLineData();
