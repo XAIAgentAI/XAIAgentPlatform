@@ -6,6 +6,7 @@ import Image from 'next/image';
 import HeaderComponent from '@/components/chat/Header';
 import MessagesComponent from '@/components/chat/Messages';
 import InputComponent from '@/components/chat/Input';
+import SideBar from '@/components/chat/SideBar';
 
 interface Message {
   id: string;
@@ -153,28 +154,29 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-full px-2">
-      {!messages.length && (
-        <HeaderComponent 
-          selectedAgent={selectedAgent} 
-          handleAgentSelect={handleAgentSelect} 
-          isAgentListOpen={isAgentListOpen} 
-          setIsAgentListOpen={setIsAgentListOpen} 
-          agentDescriptions={agentDescriptions} 
-        />
-      )}
-        <MessagesComponent 
-          setMessages={setMessages}
-          messages={messages} 
-          isLoading={isLoading} 
-          messagesEndRef={messagesEndRef} 
-        />
-        <InputComponent 
-          input={input} 
-          setInput={setInput} 
-          isLoading={isLoading} 
-          handleSubmit={handleSubmit} 
-        />
-    </div>
+      <div className="flex flex-col h-full px-2">
+        <SideBar messages={messages} />
+        {!messages.length && (
+          <HeaderComponent 
+            selectedAgent={selectedAgent} 
+            handleAgentSelect={handleAgentSelect} 
+            isAgentListOpen={isAgentListOpen} 
+            setIsAgentListOpen={setIsAgentListOpen} 
+            agentDescriptions={agentDescriptions} 
+          />
+        )}
+          <MessagesComponent 
+            setMessages={setMessages}
+            messages={messages} 
+            isLoading={isLoading} 
+            messagesEndRef={messagesEndRef} 
+          />
+          <InputComponent 
+            input={input} 
+            setInput={setInput} 
+            isLoading={isLoading} 
+            handleSubmit={handleSubmit} 
+          />
+      </div>
   );
 }

@@ -11,7 +11,7 @@ interface InputComponentProps {
 const InputComponent: React.FC<InputComponentProps> = ({ input, setInput, isLoading, handleSubmit }) => {
   return (
     <div className="fixed bottom-12 w-[97vw] ml-auto">
-      <div className="max-w-3xl px-4 py-4 w-full rounded-2xl md:w-[calc(100%_-_160px)] md:ml-auto md:mr-[calc(4vw+10px)] lg:ml-auto lg:mr-[calc(4.2vw)] xl:ml-auto xl:mr-[calc(8vw-0.8%)]">
+      <div className="max-w-3xl px-4 py-4 w-full rounded-2xl md:w-[calc(700px)] md:ml-auto md:mr-[calc(1.4vw+10px)] lg:w-[calc(620px+12vw)] lg:ml-auto lg:mr-[calc(3.6vw-32px)] xl:w-[calc(62vw-30px)] xl:ml-auto xl:mr-[calc(7.4vw-0.8%)] 2xl:ml-auto 2xl:mr-[calc(7.6vw-0.8%)]">
         <form onSubmit={handleSubmit} className="w-full">
           <div className="w-full relative">
             <input

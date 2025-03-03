@@ -25,7 +25,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handle
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex items-center justify-between px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[16vw] xl:left-[calc(21vw+6%)] top-16"
+          className="flex items-center justify-between px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(21vw+6%)] top-16"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
@@ -52,10 +52,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handle
           Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.com">app.xaiagent.com</a>
         </p>
         <div className="mt-6 flex flex-col items-center justify-center space-y-2">
-          <p className="text-center min-w-[75vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
+          <p className="text-center min-w-[72vw] max-w-[72vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
           <div className="flex flex-wrap justify-center gap-4">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
-              <div key={index} className="rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[200px] lg:w-19vw min-h-[4rem]">
+              <div key={index} className="rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]">
                 {example}
               </div>
             ))}
