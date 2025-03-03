@@ -64,16 +64,16 @@ const SideBar = ({ messages }: SideBarProps) => {
     .slice(0, 2);
 
   const handleSearchOpen = () => {
-    setIsSearchOpen(true);
+    //setIsSearchOpen(true);
   };
 
   const handleEmailOpen = () => {
-    setIsEmailOpen(true);
+    //setIsEmailOpen(true);
   };
 
   const handleClose = () => {
-    setIsSearchOpen(false);
-    setIsEmailOpen(false);
+    //setIsSearchOpen(false);
+    //setIsEmailOpen(false);
   };
 
   return (

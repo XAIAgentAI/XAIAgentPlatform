@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline'; // 使用@heroicons/react库中的XMarkIcon（outline版）
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: string; // 修正为string类型以匹配page.tsx中的定义
+  timestamp: string;
 }
 
 interface MessagesComponentProps {
@@ -17,9 +17,9 @@ interface MessagesComponentProps {
 
 const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, setMessages, messagesEndRef }) => {
   return (
-    <div className="flex flex-col flex-grow bg-background w-full md:w-[80vw] md:ml-[18vw] px-2 py-6">
+    <div className="flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ height: '80vh' }}>
       {messages.length > 0 && (
-        <div className="flex justify-end items-center p-4 bg-background w-full md:w-[80vw]">
+        <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
             type="button"
             className="flex items-center justify-center px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full"
@@ -29,7 +29,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, se
           </button>
         </div>
       )}
-      <div className="flex flex-col space-y-6">
+      <div className="flex flex-col space-y-6 overflow-y-auto max-h-[80vh]">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -50,9 +50,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, se
           </div>
         ))}
         {isLoading && (
-          <div
-            className={`flex justify-center`}
-          >
+          <div className={`flex justify-center`}>
             <p className="text-sm text-gray-500">正在加载...</p>
           </div>
         )}
