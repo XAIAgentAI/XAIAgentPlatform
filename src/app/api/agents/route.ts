@@ -73,7 +73,7 @@ export async function GET(request: Request) {
       createdAt: item.createdAt,
       symbol: item.symbol,
       token: item.token,
-      totalSupply: item.totalSupply,
+      totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
       tvl: item.tvl,
       holdersCount: item.holdersCount,
       volume24h: item.volume24h,

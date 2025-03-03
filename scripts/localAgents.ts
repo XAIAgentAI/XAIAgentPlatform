@@ -20,7 +20,7 @@ export interface LocalAgent {
   creatorAddress?: string;
   tokens?: string;
   descriptionEN?: string;
-  totalSupply?: string;
+  totalSupply?: number;
   useCases?: string[];
   useCasesJA?: string[];
   useCasesKO?: string[];
@@ -56,7 +56,7 @@ export const localAgents: LocalAgent[] = [
     descriptionZH: "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体。通过零代码开发工具服务普通用户，同时提供XAgentScope框架支持高级开发者。XAIAgent依托DBC链的GPU矿工网络，确保AI运行完全去中心化，具备数据隐私、高性能和低成本优势。平台内置多种AI模型，支持复杂任务和多轮对话场景，多代币经济模型促进生态稳定发展，是AI与区块链融合的全功能平台。",
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
-    totalSupply: "20,000,000,000 XAA",
+    totalSupply: 100000000000,
     useCases: [
       "Help me create an AI Agent",
       "What functions do you have?",
@@ -106,7 +106,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574id",
-    totalSupply: "5,000,000,000 STID",
+    totalSupply: 5000000000,
     useCases: [
       "I want to generate a vintage style photo. Can you help me design the style and background",
       "Can I adjust my expression and posture in this photo?",
@@ -157,7 +157,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "顔を変える機能、画像とビデオの顔を変えることを支持して、多種の異なる顔を変えるモードを支持します：人の顔の選択、性別によって選別するなど、人の顔の拡大/修復機能を支持します",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574fa",
-    totalSupply: "5,000,000,000 FASW",
+    totalSupply: 5000000000,
     useCases: [
       "I want to change my face in this photo. Can you help me choose the most suitable face shape?",
       "I want to switch to a female character in this video. Can you help me screen for suitable female faces?",
@@ -208,7 +208,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "拡張ピクチャ、任意のピクチャ拡張を希望する割合で行うことができます",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574pi",
-    totalSupply: "5,000,000,000 PIS",
+    totalSupply: 5000000000,
     useCases: [
       "Can you help me expand the left and bottom of this image while maintaining its original style?",
       "Can you expand this image to a 16:9 widescreen ratio while keeping the subject centered?",
@@ -259,7 +259,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "Logo生成、文字対話による様々なスタイルのLogo生成",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574lo",
-    totalSupply: "5,000,000,000 LOGO",
+    totalSupply: 5000000000,
     useCases: [
       "I want a logo with a strong sense of technology, mainly in blue and purple colors, with a futuristic feel. Can you help me design one?",
       "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain projects",
@@ -310,7 +310,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "表情パックはAIを作成し、さまざまな表情を作成することができ、人物画像を与えて特定の表情を作成し、人間モードと動物モードをサポートし、ビデオの編集をサポートする",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574le",
-    totalSupply: "5,000,000,000 LEMO",
+    totalSupply: 5000000000,
     useCases: [
       "I have a photo of a friend, can you help me turn his expression into a funny exaggerated laughter expression?",
       "Can you generate an emoji of a Shiba Inu for me, making it look like it's thinking about life?",
@@ -361,7 +361,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "二次元コードはAIを生成して、各種の風格の二次元コードを生成することができて、美観は奇抜で、任務の画像であることができて、風景図であることができます",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574qr",
-    totalSupply: "5,000,000,000 QREA",
+    totalSupply: 5000000000,
     useCases: [
       "I want to generate a technology style QR code that incorporates some cyberpunk elements, with blue purple as the main color. Is that okay?",
       "Can you create a QR code that looks like a mountain scenery but can still be scanned?",
@@ -412,7 +412,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "白黒写真をカラー写真に変えることで、さまざまな古い写真をカラフルな写真に変えることができます。障害やアーティファクトはほとんど完全に解消されました。肌の効果がより自然に（ゾンビ感を減らす）、ディテールがより豊富になり、レンダリングがよりリアルになり、「青偏差」を大幅に低減",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574ol",
-    totalSupply: "5,000,000,000 OLD",
+    totalSupply: 5000000000,
     useCases: [
       "I have a black and white photo from the 1930s. Can you help me intelligently color it to make it look more natural and closer to real colors?",
       "This black and white photo is of my grandfather when he was young. Can you help me repair and color it to make my skin look more natural?",
@@ -463,7 +463,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "SuperPixelの先端人工知能技術を用いて、より高いレベルの画像処理を体験し、画像解像度を16倍に高めることができる。",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574su",
-    totalSupply: "5,000,000,000 SPIX",
+    totalSupply: 5000000000,
     useCases: [
       "I have an old photo with a very low resolution. Can you help me increase the clarity by 16 times and enhance the details?",
       "Can this blurry screenshot be processed into a high-definition version to make both text and images clearer?",
@@ -514,7 +514,7 @@ export const localAgents: LocalAgent[] = [
     descriptionZH: "SuperImage 是一个去中心化的图像生成 AI。SuperImage 拥有多个潜在的文本到图像扩散模型，可以根据任何文本输入生成照片级真实的图像，培养自主创作令人惊叹图像的自由，使数十亿人能够在几秒钟内创作出令人惊艳的艺术作品。SuperImage 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.superimage.ai",
     createdAt: "12 months ago",
     creatorAddress: "0x2D5D...E574b4",
-    totalSupply: "1,000,000,000 SIC",
+    totalSupply: 1000000000,
     useCases: [
       "Draw a picture of a girl with festive holiday costume",
       "Red and white striped Christmas hat and clothes",
@@ -569,7 +569,7 @@ export const localAgents: LocalAgent[] = [
     descriptionZH: "DecentralGPT 是一个去中心化的大型语言模型 AI。\nDGPT 支持全球各种顶级大型语言模型（LLM）的去中心化部署，显著降低了使用 LLM 的成本。它致力于构建安全、保护隐私、民主、透明、开源且普遍可访问的 AGI。\nDecentralGPT 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.decentralgpt.org",
     createdAt: "12 months ago",
     creatorAddress: "0x3E6E...F685c5",
-    totalSupply: "2,000,000,000 DGC",
+    totalSupply: 2000000000,
     useCases: [
       "Write an article about DecentralGPT's features",
       "Help me solve this math problem",
@@ -692,7 +692,7 @@ AI Agent 驱动的智能游戏体验：
 - 用户可通过语音指令操控 AI Agent 执行游戏内任务，简化交互方式，降低学习成本。`,
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
-    totalSupply: "50,000,000 DLC",
+    totalSupply: 50000000,
     useCases: [
       "Help me increase the volume a bit",
       "How to break the level of Wukong Huangfengling in the Black Myth",
@@ -759,7 +759,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
 无论你是想发掘一些欢乐，为朋友做性格配对，还是打造你的专属数字分身，XPersonity 都能满足你。快来试试，让你的社交体验更上一层楼！`,
     createdAt: "2 months ago",
     creatorAddress: "0x4F7F...G796d6",
-    totalSupply: "5,000,000,000 XPER",
+    totalSupply: 5000000000,
     useCases: [
       "Analyze @xxxx",
       "Match @xxx and @xxxx",
@@ -810,7 +810,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionZH: "ASIXT 是一个智能助手，旨在帮助投资者在不断变化的加密货币市场中保持领先地位...",
     createdAt: "1 month ago",
     creatorAddress: "0x5G8G...H807e7",
-    totalSupply: "5,000,000,000 ASIXT",
+    totalSupply: 5000000000,
     useCases: [
       "Top 10 meme coins by trading volume in the last 24 hours",
       "What are the new tokens most mentioned by KOLs in the last 24 hours",
@@ -861,7 +861,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "ArgusAIはDBCチェーン上でデジタル通貨を自主的に取引する仮想通貨取引AIです。\n\n初期資金:\n- $ARGUから調達したXAAの50%\n- 投資家にAIの効果を示す参考例として使用\n- 30日周期で決算し、トークンを全量買戻して焼却\n\n投資プラン:\n1. 7日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 週次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\n\n2. 30日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 月次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\n\nリスク通知: 損失が発生した場合、XAA投資比率に応じて返還されます。",
     createdAt: "1 month ago",
     creatorAddress: "0x6H9H...I918f8",
-    totalSupply: "5,000,000,000 ARGU",
+    totalSupply: 5000000000,
     useCases: [
       "Show me the 7-day fund performance",
       "What's the current profit of the 30-day fund",
@@ -912,7 +912,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "世界初のブロックチェーンベースAIエージェントソーシャルマーケティングプラットフォームで、ブランドとKOLを革新的に結びつけます。\n\nプラットフォームの主要機能:\n1. 対話型タスクハブ\n- 自然言語で要件処理\n- 30秒で従来のワークフロー完了\n- 効率性10倍向上\n\n2. 自動コンテンツエンジン\n- 独自のスタイル転送技術\n- コンテンツ制作コスト80%削減\n- KOLペルソナの一貫性維持\n\n3. 不正防止信用システム\n- 生体認証とオンチェーン検証\n- 99%の偽装トラフィック排除\n- 協力信頼性向上\n\n4. インテリジェント経済モデル\n- KOL収益120%増加\n- ブランド獲得コスト40%削減",
     createdAt: "1 month ago",
     creatorAddress: "0x9K2K...L241i1",
-    totalSupply: "5,000,000,000 LINK",
+    totalSupply: 5000000000,
     useCases: [
       "Create a marketing campaign for my token",
       "Find suitable KOLs for my project",
@@ -963,7 +963,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "KOLとプロジェクトチームのためのワンストップソーシャルメディア自動化サポート。\n\n主要機能:\n1. インテリジェントコンテンツ作成\n- ホワイトペーパー、ウェブサイト情報、更新の自動整理\n- 高品質なテキスト、画像、動画コンテンツの生成\n- Xなどのプラットフォームへのワンクリック投稿\n\n2. スマートインタラクション & プロモーション\n- 自動コメント応答\n- 正確な潜在ユーザーの発掘\n- マルチAIアカウントインタラクション\n\n3. キャンペーン運営 & 報酬\n- 簡単なエアドロップとゲームイベントの開始\n- 自動化された報酬配布\n- コミュニティの活性化と参加\n\n4. データ駆動型成長\n- リアルタイムユーザーフィードバック分析\n- 継続的なコンテンツとプロモーションの最適化\n- 持続可能なファン成長と転換",
     createdAt: "1 month ago",
     creatorAddress: "0x7I0I...J029g9",
-    totalSupply: "5,000,000,000 AKOL",
+    totalSupply: 5000000000,
     useCases: [
       "Create a promotional campaign for my new NFT collection",
       "Generate and schedule social media content for the next week",
@@ -1014,7 +1014,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "深層AI分析に基づく世界初の没入型デーティングソーシャルプラットフォームで、マルチモーダルデータ融合とトークン経済システムを通じて、効率的で正確かつ面白いインテリジェントなデーティング体験を提供します。\n\nスローガン：'あなた以上にあなたの愛を理解する' - 霊犀AIが200次元であなたの運命を計算します。\n\nAIデータ次元のアップグレード:\n1. 遺伝子レベルのユーザープロファイリング\n- 公開情報の統合\n- 顔認識と行動力学\n- 第三者機関認証\n- 200+個人特性タグ\n\n2. 感情 & 価値観分析\n- ビデオチャット中の微表情認識\n- 意味論的感情分析\n- 潜在的ニーズ評価\n\n3. 動的マッチングエンジン\n- リアルタイムユーザーデータ更新\n- 日次AI互換性再計算\n- 縁の変動通知",
     createdAt: "1 month ago",
     creatorAddress: "0x10L3L...M352j2",
-    totalSupply: "5,000,000,000 LINGXI",
+    totalSupply: 5000000000,
     useCases: [
       "Find my perfect match",
       "Analyze my dating preferences",
@@ -1065,7 +1065,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "AI投資分析アシスタントは、様々な情報源を統合します。\n\n主要機能:\n1. マルチチャネル情報収集\n- ウェブサイト: 技術文書、ロードマップ、チーム情報の解析\n- ソーシャルメディア: Twitter、Discord、Telegram、Redditの監視\n- ニュース: 暗号資産とブロックチェーン業界のニュース自動キャプチャ\n- GitHub: コード更新、貢献者、品質の分析\n- オンチェーンデータ: トークン分配、取引量の追跡\n- フォーラム & リサーチ: Messari、TokenInsight、CoinGeckoのデータ抽出\n\n2. スマート分析 & 格付け\n- 詳細な根拠を伴うプロジェクトスコアリング\n- リスク評価と早期警告\n- 市場トレンド予測\n\n3. 自動化された投資レポート\n- 日次/週次更新\n- 包括的なプロジェクト分析\n- AI駆動のトレンド予測",
     createdAt: "1 month ago",
     creatorAddress: "0x8J1J...K130h0",
-    totalSupply: "5,000,000,000 SATORI",
+    totalSupply: 5000000000,
     useCases: [
       "Analyze the latest DeFi project",
       "Track the performance of my portfolio",
@@ -1116,7 +1116,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "MeetMindは、会議準備、リアルタイムコラボレーション、動的知識管理、高度なインテリジェント分析を処理する包括的なインテリジェント会議AIエージェントです。\n\n1. 会議前準備システム\n- 過去の会議内容に基づく議題自動生成\n- カスタマイズ可能な役割のAI仮想ホスティング\n- クロスプラットフォームスケジュール同期\n\n2. リアルタイムコラボレーションハブ\n- マルチモーダル記録\n- スマート発言者追跡\n- リアルタイム意思決定タグ付け\n\n3. 動的知識管理\n- プロジェクト/部署別分散メモリーバンク\n- 意味的関係マッピング\n- 多次元トレーサビリティ\n\n4. 高度な分析\n- コミュニケーション効率性レポート\n- 12言語リアルタイム翻訳",
     createdAt: "1 month ago",
     creatorAddress: "0x11M4M...N463k3",
-    totalSupply: "5,000,000,000 MEET",
+    totalSupply: 5000000000,
     useCases: [
       "Schedule a smart meeting",
       "Generate meeting summary",
@@ -1167,7 +1167,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     descriptionJA: "あなたのファッションレーダーとして、AIを使用して世界のラグジュアリーブランドの新製品、セレブの衣装、トレンドアイテムを瞬時に追跡し、最もホットなスタイリング公式を分析して'明日何を着ればバイラルになるか'をお知らせします。\n\n1. グローバル製品トラッカー\n- 7言語圏のマルチモーダルデータモニタリング\n- 50+ファッションEコマースプラットフォームのリアルタイム追跡\n\n2. インフルエンスマッピング\n- セレブリティ人気度定量化エンジン\n- プラットフォーム間KOLエコシステムモニタリング\n- コラボレーション効果予測モデル\n\n3. トレンド進化システム\n- GANを活用したファッションウィーク要素分析\n- 文化要因相関モデリング",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574l4",
-    totalSupply: "5,000,000,000 SYNTH",
+    totalSupply: 5000000000,
     useCases: [
       "What should I wear tomorrow",
       "Find similar celebrity outfits",

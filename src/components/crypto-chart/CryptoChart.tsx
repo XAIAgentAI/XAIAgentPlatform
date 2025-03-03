@@ -73,48 +73,40 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   // 添加格式化价格的辅助函数
   const formatPrice = (price: number | undefined): { value: string; pair: string } => {
     const pair = 'XAA/DBC';
-    if (price === undefined || price === null) return { value: '0.00', pair };
-    if (price === 0) return { value: '0.00', pair };
+    if (price === undefined || price === null) return { value: '0.00000', pair };
+    if (price === 0) return { value: '0.00000', pair };
 
     const absPrice = Math.abs(price);
-    if (absPrice < 0.0001) {
+    if (absPrice < 0.00001) {
       // 只有在非常小的数字时才使用 0.0{x}y 格式
       const priceStr = absPrice.toString();
       const match = priceStr.match(/^0\.0+/);
       const zeroCount = match ? match[0].length - 2 : 0;
       const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
       return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
-    } else if (absPrice < 1) {
-      // 对于一般的小数，直接显示4位
-      return { value: absPrice.toFixed(4), pair };
     }
-
-    // 常规数字显示2位小数
-    return { value: price.toFixed(2), pair };
+    // 所有数字都显示5位小数
+    return { value: absPrice.toFixed(5), pair };
   };
 
   // 添加格式化坐标轴价格的函数
   const formatAxisPrice = (price: number | undefined): string => {
-    if (price === undefined || price === null) return '0.00';
-    if (price === 0) return '0.00';
-    if (isNaN(price)) return '0.00';
-    if (!isFinite(price)) return '0.00';
+    if (price === undefined || price === null) return '0.00000';
+    if (price === 0) return '0.00000';
+    if (isNaN(price)) return '0.00000';
+    if (!isFinite(price)) return '0.00000';
 
     const absPrice = Math.abs(price);
-    if (absPrice < 0.0001) {
+    if (absPrice < 0.00001) {
       // 只有在非常小的数字时才使用 0.0{x}y 格式
       const priceStr = absPrice.toString();
       const match = priceStr.match(/^0\.0+/);
       const zeroCount = match ? match[0].length - 2 : 0;
       const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
       return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
-    } else if (absPrice < 1) {
-      // 对于一般的小数，直接显示4位
-      return (price < 0 ? '-' : '') + absPrice.toFixed(4);
     }
-
-    // 常规数字显示2位小数
-    return price.toFixed(2);
+    // 所有数字都显示5位小数
+    return (price < 0 ? '-' : '') + absPrice.toFixed(5);
   };
 
   // 添加格式化价格变化的辅助函数
@@ -290,19 +282,19 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
           bottom: 0.2,
         },
         formatPrice: (price: number) => {
-          if (price === 0) return '0.0000';
-          if (isNaN(price)) return '0.0000';
-          if (!isFinite(price)) return '0.0000';
+          if (price === 0) return '0.00000';
+          if (isNaN(price)) return '0.00000';
+          if (!isFinite(price)) return '0.00000';
 
           const absPrice = Math.abs(price);
-          if (absPrice < 0.0001) {
+          if (absPrice < 0.00001) {
             const priceStr = absPrice.toString();
             const match = priceStr.match(/^0\.0+/);
             const zeroCount = match ? match[0].length - 2 : 0;
             const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
             return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
           }
-          return price.toFixed(4);
+          return price.toFixed(5);
         },
         autoScale: true,
         mode: 0,

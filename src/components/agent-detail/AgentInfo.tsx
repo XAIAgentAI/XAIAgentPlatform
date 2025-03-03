@@ -147,11 +147,11 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             <h1 className="text-xl font-semibold">{agent?.name}</h1>
             {tokenData && (
               <>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex  items-start md:items-center gap-2 mt-1">
                   <>
-                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData?.symbol}</div>
-                    <div className="flex items-center gap-2 min-w-[80px] max-w-full h-[32px] px-3 py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
-                      <span className="text-muted-foreground text-xs whitespace-nowrap hidden md:block">
+                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px] pt-[3px] md:pt-0">${tokenData?.symbol}</div>
+                    <div className="flex flex-col  md:flex-row  md:items-center  md:gap-1 min-w-[80px] max-w-full p-0 md:px-3 md:py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
+                      <span className="text-muted-foreground text-xs whitespace-nowrap">
                         {tAgentDetail('contract')}:
                       </span>
                       <div className="flex items-center gap-2 flex-1 min-w-0">

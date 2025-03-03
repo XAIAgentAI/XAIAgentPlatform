@@ -37,6 +37,7 @@ export async function GET(
       creatorAddress: agent.creator.address,
       reviewCount: agent._count.reviews,
       historyCount: agent._count.history,
+      totalSupply: agent.totalSupply ? Number(agent.totalSupply) : null,
     });
   } catch (error) {
     return handleError(error);
