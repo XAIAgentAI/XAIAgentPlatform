@@ -2,10 +2,20 @@ import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 
 const SUBGRAPH_URL = 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
+export const DBC_TOKEN_ADDRESS = "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
+export const XAA_TOKEN_ADDRESS = "0x16d83f6b17914a4e88436251589194ca5ac0f452";
+
 
 interface FetchSwapDataParams {
   interval: TimeInterval;
-  tokenAddress: string;
+  targetToken: string;
+  baseToken: string;
+}
+
+interface SwapQueryVariables {
+  targetToken: string;
+  baseToken: string;
+  fromTimestamp: string;
 }
 
 const getTimeRange = (interval: TimeInterval): number => {
@@ -26,24 +36,24 @@ const getTimeRange = (interval: TimeInterval): number => {
   }
 };
 
-const buildSwapQuery = (tokenAddress: string, fromTimestamp: number) => `
-  query GetSwaps {
+const buildSwapQuery = (targetToken: string, baseToken: string, fromTimestamp: number) => `
+  query GetSwaps($targetToken: String!, $baseToken: String!, $fromTimestamp: String!) {
     swaps(
       where: {
         and: [
           {
             or: [
-              { token0: "${tokenAddress.toLowerCase()}" },
-              { token1: "${tokenAddress.toLowerCase()}" }
+              { token0: $targetToken },
+              { token1: $targetToken }
             ]
           },
           {
             or: [
-              { token0: "0x16d83f6b17914a4e88436251589194ca5ac0f452" },
-              { token1: "0x16d83f6b17914a4e88436251589194ca5ac0f452" }
+              { token0: $baseToken },
+              { token1: $baseToken }
             ]
           },
-          { timestamp_gt: "${fromTimestamp}" }
+          { timestamp_gt: $fromTimestamp }
         ]
       },
       orderBy: timestamp, 
@@ -68,10 +78,15 @@ const buildSwapQuery = (tokenAddress: string, fromTimestamp: number) => `
   }
 `;
 
-export const fetchSwapData = async ({ interval, tokenAddress }: FetchSwapDataParams): Promise<SwapData[]> => {
+export const fetchSwapData = async ({ interval, targetToken, baseToken }: FetchSwapDataParams): Promise<SwapData[]> => {
   try {
     const fromTimestamp = getTimeRange(interval);
-    const query = buildSwapQuery(tokenAddress, fromTimestamp);
+    const query = buildSwapQuery(targetToken, baseToken, fromTimestamp);
+    const variables: SwapQueryVariables = {
+      targetToken: targetToken.toLowerCase(),
+      baseToken: baseToken.toLowerCase(),
+      fromTimestamp: fromTimestamp.toString()
+    };
     
     const response = await fetch(SUBGRAPH_URL, {
       method: 'POST',
@@ -80,6 +95,7 @@ export const fetchSwapData = async ({ interval, tokenAddress }: FetchSwapDataPar
       },
       body: JSON.stringify({
         query,
+        variables
       }),
     });
 
@@ -103,7 +119,12 @@ export const fetchSwapData = async ({ interval, tokenAddress }: FetchSwapDataPar
     if (!data.data?.swaps || data.data.swaps.length === 0) {
       // 扩大时间范围到30天
       const extendedFromTimestamp = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
-      const extendedQuery = buildSwapQuery(tokenAddress, extendedFromTimestamp);
+      const extendedQuery = buildSwapQuery(targetToken, baseToken, extendedFromTimestamp);
+      const extendedVariables: SwapQueryVariables = {
+        targetToken: targetToken.toLowerCase(),
+        baseToken: baseToken.toLowerCase(),
+        fromTimestamp: extendedFromTimestamp.toString()
+      };
       
       const extendedResponse = await fetch(SUBGRAPH_URL, {
         method: 'POST',
@@ -112,6 +133,7 @@ export const fetchSwapData = async ({ interval, tokenAddress }: FetchSwapDataPar
         },
         body: JSON.stringify({
           query: extendedQuery,
+          variables: extendedVariables
         }),
       });
 

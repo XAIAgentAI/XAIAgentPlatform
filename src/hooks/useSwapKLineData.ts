@@ -13,12 +13,13 @@ export interface SwapChartData {
 
 interface UseSwapKLineDataParams {
   interval: TimeInterval;
-  tokenAddress: string;
+  targetToken: string;
+  baseToken: string;
 }
 
 const POLLING_INTERVAL = 10000; // 10秒轮询一次
 
-export const useSwapKLineData = ({ interval, tokenAddress }: UseSwapKLineDataParams) => {
+export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKLineDataParams) => {
   const [data, setData] = useState<SwapChartData>({
     klineData: [],
     currentPrice: 0,
@@ -31,7 +32,11 @@ export const useSwapKLineData = ({ interval, tokenAddress }: UseSwapKLineDataPar
 
   const fetchKLineData = async ({ interval: newInterval }: { interval: TimeInterval } = { interval }) => {
     try {
-      const swapData = await fetchSwapData({ interval: newInterval, tokenAddress });
+      const swapData = await fetchSwapData({ 
+        interval: newInterval, 
+        targetToken,
+        baseToken
+      });
 
       const rawKlineData = convertToKLineData(swapData, newInterval);
 
@@ -103,7 +108,7 @@ export const useSwapKLineData = ({ interval, tokenAddress }: UseSwapKLineDataPar
     return () => {
       stopPolling();
     };
-  }, [interval, tokenAddress]); // 添加依赖项
+  }, [interval, targetToken, baseToken]); // 更新依赖项
 
   return {
     ...data,

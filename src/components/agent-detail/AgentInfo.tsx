@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS } from "@/services/swapService";
 
 interface ApiResponse<T> {
   code: number;
@@ -73,7 +74,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     refetch
   } = useSwapKLineData({
     interval: selectedInterval,
-    tokenAddress: agent?.token || ''
+    targetToken: agent?.token || '',
+    baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
   });
 
   const handleIntervalChange = (interval: TimeInterval) => {
