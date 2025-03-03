@@ -80,6 +80,7 @@ export default function ChatPage() {
   const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
   // 获取历史消息
   useEffect(() => {
     if (agentId) {
@@ -154,7 +155,7 @@ export default function ChatPage() {
   };
 
   return (
-      <div className="flex flex-col h-full px-2">
+      <div className="flex flex-col h-[80vh] px-2">
         <SideBar messages={messages} />
         {!messages.length && (
           <HeaderComponent 

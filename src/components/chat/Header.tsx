@@ -6,7 +6,7 @@ import AgentSelector from './AgentSelector'; // 根据您的项目结构调整�
 
 interface AgentDescription {
   metrics: string;
-  prompt: string;
+  prompt: string
   examples: string[];
 }
 
@@ -20,7 +20,7 @@ interface HeaderComponentProps {
 
 const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-[65vh] space-y-2 mt-4 md:justify-start">
+    <div className="flex catcher flex-col items-center justify-center h-[80vh] space-y-2 mt-4 md:justify-start">
       {/* Agent Selection */}
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
@@ -40,9 +40,9 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handle
         )}
       </div>
 
-      <div className="ml-auto md:ml-42 md:pl-26">
-        <div className="w-24 h-24 overflow-scroll mx-auto">
-          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div className="ml-auto md:ml-42 md:pl-26 h-[78vh]">
+        <div className="w-24 h-24 mx-auto">
+          <svg className="w-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="12" stroke="white" strokeWidth="0.5" fill="white" />
           </svg>
         </div>
@@ -53,15 +53,28 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handle
         </p>
         <div className="mt-6 flex flex-col items-center justify-center space-y-2">
           <p className="text-center min-w-[72vw] max-w-[72vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex compress flex-wrap justify-center gap-4">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
-              <div key={index} className="rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]">
+              <div key={index} className="hover:bg-slate-400 rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]">
                 {example}
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* 添加媒体查询以适应屏幕宽度小于400px的情况 */}
+      <style jsx>{`
+        @media (max-width: 400px) {
+          .catcher {
+            height:80vh;
+          }
+          .compress {
+            max-height:100px;
+            overflow:scroll;
+          }
+        }
+      `}</style>
     </div>
   );
 };
