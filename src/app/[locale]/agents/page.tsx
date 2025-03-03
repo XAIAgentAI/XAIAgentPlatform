@@ -62,7 +62,7 @@ export default function AgentsPage() {
       try {
         const data = await agentAPI.getAllAgents();
         // 转换为本地化的 Agent 类型
-        const localizedAgents = data.map(agent => ({
+        const localizedAgents = data.data.items.map(agent => ({
           ...agent,
           // 这里可以根据需要添加本地化字段
           statusJA: agent.status,

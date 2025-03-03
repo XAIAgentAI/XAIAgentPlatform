@@ -18,7 +18,7 @@ interface AgentListProps {
   agents: Array<{
     id: number;
     name: string;
-    avatar: string;
+    avatar?: string;
     symbol: string;
     type: string;
     marketCap: string;

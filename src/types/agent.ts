@@ -4,7 +4,7 @@ export interface LocalAgent {
   description: string;
   longDescription?: string | null;
   category: string;
-  avatar?: string | null;
+  avatar?: string;
   status: string;
   capabilities: string;
   rating: number;
@@ -15,9 +15,9 @@ export interface LocalAgent {
   creatorId: string;
   createdAt: Date;
   updatedAt: Date;
-  type?: string;
-  tvl?: string;
-  holdersCount?: number;
+  type: string;
+  tvl: string;
+  holdersCount: number;
   socialLinks?: string;
   token: string;
   totalSupply?: string;
@@ -26,7 +26,7 @@ export interface LocalAgent {
   useCasesKO?: string[];
   useCasesZH?: string[];
   chatEntry?: string;
-  symbol?: string;
+  symbol: string;
 }
 
 export interface AgentPrice {
