@@ -77,7 +77,7 @@ const SideBar = ({ messages }: SideBarProps) => {
   };
 
   return (
-    <div className="fixed hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-120px)]">
+    <div className="fixed hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
       <div className="flex justify-end space-x-2">
         <Image src="/images/topsearch.png" alt="Search" width={16} height={16} onClick={handleSearchOpen} className="cursor-pointer"/>
         <Image src="/images/email2.png" alt="Email" width={24} height={24} onClick={handleEmailOpen} className="cursor-pointer"/>
