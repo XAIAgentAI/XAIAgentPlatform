@@ -1,11 +1,12 @@
 'use client';
 
-import { createChart, ColorType, IChartApi, DeepPartial, ChartOptions, CrosshairMode, TimeScaleOptions } from 'lightweight-charts';
+import { createChart, ColorType, IChartApi, DeepPartial, ChartOptions, CrosshairMode, TimeScaleOptions, LineWidth } from 'lightweight-charts';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { TimeInterval, KLineData } from '@/hooks/useTokenPrice';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslations } from 'next-intl';
 
 interface CryptoChartProps {
   agent: any;
@@ -25,6 +26,7 @@ const TIME_INTERVALS: { label: string; value: TimeInterval }[] = [
   { label: '1小时', value: '1h' },
   { label: '4小时', value: '4h' },
   { label: '1天', value: '1d' },
+  { label: '1周', value: '1w' },
 ];
 
 const CHART_COLORS = {
@@ -35,6 +37,7 @@ const CHART_COLORS = {
     upColor: '#16a34a',
     downColor: '#dc2626',
     volume: '#9ca3af',
+    separator: 'rgba(55, 65, 81, 0.4)',
   },
   dark: {
     background: '#1a1a1a',
@@ -43,6 +46,7 @@ const CHART_COLORS = {
     upColor: '#22c55e',
     downColor: '#ef4444',
     volume: '#4b5563',
+    separator: 'rgba(209, 213, 219, 0.4)',
   },
 };
 
@@ -55,19 +59,22 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   error = null,
   onIntervalChange
 }) => {
+  const t = useTranslations('cryptoChart');
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chart = useRef<IChartApi | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
   const candlestickSeries = useRef<any>(null);
   const lineSeries = useRef<any>(null);
   const volumeSeries = useRef<any>(null);
+  const separatorSeriesRef = useRef<any>(null);
   const [selectedInterval, setSelectedInterval] = useState<TimeInterval>('1h');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // 添加格式化价格的辅助函数
-  const formatPrice = (price: number | undefined): string => {
-    if (price === undefined || price === null) return '$0.00';
-    if (price === 0) return '$0.00';
+  const formatPrice = (price: number | undefined): { value: string; pair: string } => {
+    const pair = 'XAA/DBC';
+    if (price === undefined || price === null) return { value: '0.00', pair };
+    if (price === 0) return { value: '0.00', pair };
 
     const absPrice = Math.abs(price);
     if (absPrice < 0.0001) {
@@ -76,14 +83,14 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       const match = priceStr.match(/^0\.0+/);
       const zeroCount = match ? match[0].length - 2 : 0;
       const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
-      return `$0.0{${zeroCount}}${lastDigit}`;
+      return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
     } else if (absPrice < 1) {
       // 对于一般的小数，直接显示4位
-      return `$${absPrice.toFixed(4)}`;
+      return { value: absPrice.toFixed(4), pair };
     }
 
     // 常规数字显示2位小数
-    return `$${price.toFixed(2)}`;
+    return { value: price.toFixed(2), pair };
   };
 
   // 添加格式化坐标轴价格的函数
@@ -151,6 +158,13 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
           day: '2-digit',
           timeZone
         });
+      case '1w':
+        return date.toLocaleString(undefined, {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          timeZone
+        });
       default:
         return date.toLocaleString(undefined, {
           month: '2-digit',
@@ -176,10 +190,77 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   // 使用useMemo缓存图表选项
   const chartOptions = useMemo<DeepPartial<ChartOptions>>(() => {
     const colors = isDarkMode ? CHART_COLORS.dark : CHART_COLORS.light;
+
+    // 根据不同的时间间隔设置合适的时间刻度
+    const getTimeScaleOptions = (interval: TimeInterval): DeepPartial<TimeScaleOptions> => {
+      const baseOptions = {
+        timeVisible: true,
+        secondsVisible: false,
+        borderColor: colors.grid,
+        tickMarkFormatter: (time: number) => formatChartTime(time, interval),
+      };
+
+      switch (interval) {
+        case '30m':
+          return {
+            ...baseOptions,
+            timeVisible: true,
+            rightOffset: 12,
+            barSpacing: 6,
+            minBarSpacing: 4,
+            fixLeftEdge: true,
+            fixRightEdge: true,
+          };
+        case '1h':
+          return {
+            ...baseOptions,
+            timeVisible: true,
+            rightOffset: 12,
+            barSpacing: 8,
+            minBarSpacing: 6,
+            fixLeftEdge: true,
+            fixRightEdge: true,
+          };
+        case '4h':
+          return {
+            ...baseOptions,
+            timeVisible: true,
+            rightOffset: 12,
+            barSpacing: 12,
+            minBarSpacing: 8,
+            fixLeftEdge: true,
+            fixRightEdge: true,
+          };
+        case '1d':
+          return {
+            ...baseOptions,
+            timeVisible: true,
+            rightOffset: 12,
+            barSpacing: 16,
+            minBarSpacing: 12,
+            fixLeftEdge: true,
+            fixRightEdge: true,
+          };
+        case '1w':
+          return {
+            ...baseOptions,
+            timeVisible: true,
+            rightOffset: 12,
+            barSpacing: 20,
+            minBarSpacing: 16,
+            fixLeftEdge: true,
+            fixRightEdge: true,
+          };
+        default:
+          return baseOptions;
+      }
+    };
+
     return {
       layout: {
         background: { type: ColorType.Solid, color: colors.background },
         textColor: colors.text,
+        fontSize: 12,
       },
       localization: {
         timeFormatter: (time: number) => formatChartTime(time, selectedInterval),
@@ -201,12 +282,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
           style: 0,
         },
       },
-      timeScale: {
-        timeVisible: true,
-        secondsVisible: false,
-        borderColor: colors.grid,
-        tickMarkFormatter: (time: number) => formatChartTime(time, selectedInterval),
-      } as DeepPartial<TimeScaleOptions>,
+      timeScale: getTimeScaleOptions(selectedInterval),
       rightPriceScale: {
         borderColor: colors.grid,
         scaleMargins: {
@@ -219,7 +295,6 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
           if (!isFinite(price)) return '0.0000';
 
           const absPrice = Math.abs(price);
-          // 检查是否需要使用0.0{x}y格式
           if (absPrice < 0.0001) {
             const priceStr = absPrice.toString();
             const match = priceStr.match(/^0\.0+/);
@@ -227,7 +302,6 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
             return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
           }
-          // 对于一般的小数，显示4位小数
           return price.toFixed(4);
         },
         autoScale: true,
@@ -274,24 +348,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         wickDownColor: colors.downColor,
         priceFormat: {
           type: 'custom',
-          formatter: (price: number) => {
-            if (price === 0) return '0.00';
-            if (isNaN(price)) return '0.00';
-            if (!isFinite(price)) return '0.00';
-
-            const absPrice = Math.abs(price);
-            if (absPrice < 0.0001) {
-              const priceStr = absPrice.toString();
-              const match = priceStr.match(/^0\.0+/);
-              const zeroCount = match ? match[0].length - 2 : 0;
-              const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
-              return (price < 0 ? '-' : '') + `0.0{${zeroCount}}${lastDigit}`;
-            } else if (absPrice < 1) {
-              return (price < 0 ? '-' : '') + absPrice.toFixed(4);
-            }
-
-            return price.toFixed(2);
-          },
+          formatter: formatAxisPrice,
           minMove: 0.0001,
         },
         visible: true,
@@ -306,11 +363,47 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         priceScaleId: 'volume',
       });
 
-      // 设置成交量图表的位置
+      // 设置成交量图表的位置和样式
       chart.current.priceScale('volume').applyOptions({
         scaleMargins: {
-          top: 0.8,
+          top: 0.7,
           bottom: 0,
+        },
+        borderVisible: false,
+        visible: false, // 隐藏成交量的刻度
+      });
+
+      // 添加分隔线系列和标签
+      separatorSeriesRef.current = chart.current.addLineSeries({
+        color: colors.separator,
+        lineWidth: 1 as DeepPartial<LineWidth>,
+        lineStyle: 0,
+        lastValueVisible: false,
+        priceLineVisible: false,
+        crosshairMarkerVisible: false,
+        title: t('volume'),
+        priceScaleId: 'volume',
+        baseLineVisible: false,
+      });
+
+      // 设置标签样式
+      separatorSeriesRef.current.applyOptions({
+        title: `${t('priceArea')} ↑ | ${t('volumeArea')} ↓`,
+        titleVisible: true,
+        lastValueVisible: false,
+      });
+
+      // 设置主图表区域样式
+      chart.current.applyOptions({
+        layout: {
+          background: { 
+            type: ColorType.Solid, 
+            color: colors.background 
+          },
+        },
+        grid: {
+          vertLines: { color: colors.grid },
+          horzLines: { color: colors.grid },
         },
       });
 
@@ -340,48 +433,81 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       klineData.map(item => ({
         time: item.time as any,
         value: item.volume,
-        color: item.close >= item.open ? colors.upColor : colors.downColor,
+        color: item.close >= item.open 
+          ? `${colors.upColor}99`
+          : `${colors.downColor}99`
       }))
     );
 
-    // 只在首次加载数据时滚动到最新数据
-    if (!currentTimeRange) {
-      timeScale.fitContent();
-    } else {
-      // 恢复之前的视图位置
-      timeScale.setVisibleLogicalRange(currentTimeRange);
-    }
-
-    // 更新价格范围
+    // 更新分隔区域
     if (klineData.length > 0) {
-      const prices = klineData.map(d => d.close);
-      const minPrice = Math.min(...prices);
-      const maxPrice = Math.max(...prices);
-      const priceRange = maxPrice - minPrice;
-      const padding = priceRange * 0.01;
+      const firstTime = klineData[0].time;
+      const lastTime = klineData[klineData.length - 1].time;
+      const maxVolume = Math.max(...klineData.map(d => d.volume || 0));
+      const volumeHeight = maxVolume * 0.7;
 
-      candlestickSeries.current?.applyOptions({
-        autoscaleInfoProvider: () => ({
-          priceRange: {
-            minValue: minPrice - padding,
-            maxValue: maxPrice + padding,
-          }
-        })
-      });
+      // 创建一个渐变色的分隔区域
+      const separator = Array.from({ length: klineData.length }, (_, i) => ({
+        time: klineData[i].time as any,
+        value: volumeHeight,
+      }));
+
+      separatorSeriesRef.current?.setData(separator);
     }
+
+    // 调整时间范围
+    const fitContent = () => {
+      if (chart.current) {
+        // 设置合适的时间范围
+        const timeScale = chart.current.timeScale();
+        
+        // 根据不同的时间间隔设置不同的可见范围
+        let visibleRange = 30; // 默认显示30个数据点
+        switch (selectedInterval) {
+          case '30m':
+            visibleRange = 96; // 显示48小时的数据
+            break;
+          case '1h':
+            visibleRange = 72; // 显示72小时的数据
+            break;
+          case '4h':
+            visibleRange = 30; // 显示5天的数据
+            break;
+          case '1d':
+            visibleRange = 30; // 显示30天的数据
+            break;
+          case '1w':
+            visibleRange = 52; // 显示52周的数据
+            break;
+        }
+
+        // 计算要显示的数据范围
+        const dataLength = klineData.length;
+        if (dataLength > 0) {
+          const to = dataLength - 1;
+          const from = Math.max(0, to - visibleRange + 1);
+          timeScale.setVisibleLogicalRange({
+            from,
+            to: to + 5, // 多显示一些空白区域
+          });
+        }
+      }
+    };
+
+    // 在数据更新后调整显示范围
+    setTimeout(fitContent, 0);
 
     // 清理函数
     return () => {
       if (resizeObserver.current) {
         resizeObserver.current.disconnect();
       }
-      // 不在每次数据更新时销毁图表，只在组件卸载时销毁
       if (chart.current && !chartContainerRef.current) {
         chart.current.remove();
         chart.current = null;
       }
     };
-  }, [klineData, isDarkMode, chartOptions]);
+  }, [klineData, isDarkMode, chartOptions, t, selectedInterval]);
 
   // 处理暗色模式变化
   useEffect(() => {
@@ -415,7 +541,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   if (error) {
     return (
       <div className="w-full h-[500px] p-4 bg-background rounded-lg flex items-center justify-center">
-        <div className="text-foreground">Error: {error}</div>
+        <div className="text-foreground">{t('error')}</div>
       </div>
     );
   }
@@ -423,31 +549,48 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   return (
     <div className="space-y-4 pt-2">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold">
-            {formatPrice(currentPrice)}
-          </span>
-          <span className={cn(
-            "text-sm font-medium",
+        <div className="flex  gap-2 items-baseline">
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-bold tracking-tight">
+              {formatPrice(currentPrice).value}
+            </span>
+            <span className="text-xl font-medium text-muted-foreground">
+              {formatPrice(currentPrice).pair}
+            </span>
+          </div>
+          <div className={cn(
+            "text-sm font-medium flex items-center gap-1",
             priceChange >= 0 ? "text-green-500" : "text-red-500"
           )}>
+            {priceChange >= 0 ? (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M12.577 4.878a.75.75 0 01.919-.53l4.78 1.281a.75.75 0 01.531.919l-1.281 4.78a.75.75 0 01-1.449-.387l.81-3.022a19.407 19.407 0 00-5.594 5.203.75.75 0 01-1.139.093L7 10.06l-4.72 4.72a.75.75 0 01-1.06-1.061l5.25-5.25a.75.75 0 011.06 0l3.074 3.073a20.923 20.923 0 015.545-4.931l-3.042-.815a.75.75 0 01-.53-.919z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M1.22 5.222a.75.75 0 011.06 0L7 9.942l3.768-3.769a.75.75 0 011.113.058 20.908 20.908 0 013.813 7.254l1.574-2.727a.75.75 0 011.3.75l-2.475 4.286a.75.75 0 01-1.025.275l-4.287-2.475a.75.75 0 01.75-1.3l2.71 1.565a19.422 19.422 0 00-3.013-6.024L7.53 11.533a.75.75 0 01-1.06 0l-5.25-5.25a.75.75 0 010-1.06z" clipRule="evenodd" />
+              </svg>
+            )}
             {formatPriceChange(priceChange)}
-          </span>
+          </div>
         </div>
         <div className="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
-          {/* <div className="flex gap-1 min-w-min">
+          <div className="flex gap-1 min-w-min">
             {TIME_INTERVALS.map(({ label, value }) => (
               <Button
                 key={value}
                 variant={selectedInterval === value ? "primary" : "outline"}
                 size="sm"
-                className="min-w-[40px]"
+                className={cn(
+                  "min-w-[40px] transition-all duration-200",
+                  selectedInterval === value && "shadow-md"
+                )}
                 onClick={() => handleIntervalChange(value)}
               >
-                {label}
+                {t(`timeIntervals.${value}`)}
               </Button>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
       <div

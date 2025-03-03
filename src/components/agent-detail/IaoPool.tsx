@@ -148,7 +148,6 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
   const isDepositPeriod = true;
   const isIAOStarted = agent?.token === 'XAA';
 
-  console.log("agent", agent);
   
 
   // useEffect(() => {

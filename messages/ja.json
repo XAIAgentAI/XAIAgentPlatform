@@ -279,5 +279,19 @@
     "agentAvatar": "エージェントのアバター",
     "creatorAvatar": "クリエイターのアバター",
     "closeSearch": "検索を閉じる"
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30分",
+      "1h": "1時間",
+      "4h": "4時間",
+      "1d": "1日",
+      "1w": "1週間"
+    },
+    "volume": "取引高",
+    "priceArea": "価格エリア",
+    "volumeArea": "取引高エリア",
+    "loading": "読み込み中...",
+    "error": "チャートデータの読み込みエラー"
   }
 }

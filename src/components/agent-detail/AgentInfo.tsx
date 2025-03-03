@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
+import { Button } from "@/components/ui/button";
 
 interface ApiResponse<T> {
   code: number;
@@ -31,41 +32,53 @@ interface AgentInfoProps {
 
 export function AgentInfo({ agentId }: AgentInfoProps) {
   const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const getAgentData = async () => {
     try {
+      setIsLoading(true);
+      setError(null);
       const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
-      console.log("agent", res);
       if(res?.code === 200) {
         setAgent(res.data);
+      } else {
+        setError(res?.message || '获取数据失败');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch agent:', error);
+      setError(error?.message || '获取数据失败，请稍后重试');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    getAgentData()
-  }, [])
+    getAgentData();
+  }, [agentId]);
 
-
-  const { tokenData, loading, error } = useDBCToken(agent?.token || null);
+  const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.token || null);
   const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
   const tAgentDetail = useTranslations('agentDetail');
 
+  const [selectedInterval, setSelectedInterval] = useState<TimeInterval>('1h');
   const {
     klineData,
     currentPrice,
     priceChange,
-    isLoading,
+    isLoading: klineLoading,
     error: klineError,
     refetch
-  } = useSwapKLineData();
+  } = useSwapKLineData({
+    interval: selectedInterval,
+    tokenAddress: agent?.token || ''
+  });
 
   const handleIntervalChange = (interval: TimeInterval) => {
-    console.log('时间间隔改变:', interval);
-    refetch();
+    setSelectedInterval(interval);
+    refetch({ interval });
   };
 
   // 根据当前语言获取对应的描述
@@ -80,19 +93,36 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     return agent.status;
   };
 
-  if (loading) {
+  if (isLoading || tokenLoading) {
     return (
       <Card className="p-6 bg-card">
-        <div className="text-foreground text-center">{t('loading')}</div>
+        <div className="flex items-center justify-center space-x-2">
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
+        </div>
       </Card>
     );
   }
 
-  if (error || !agent) {
+  if (error || tokenError) {
+    return (
+      <Card className="p-6 bg-card">
+        <div className="text-center space-y-4">
+          <div className="text-red-500">{error || tokenError}</div>
+          <Button onClick={getAgentData} variant="outline">
+            重试
+          </Button>
+        </div>
+      </Card>
+    );
+  }
+
+  if (!agent) {
     return (
       <Card className="p-6 bg-card">
         <div className="text-foreground text-center">
-          {error || t('notFound')}
+          {t('notFound')}
         </div>
       </Card>
     );
@@ -205,7 +235,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           klineData={klineData}
           currentPrice={currentPrice}
           priceChange={priceChange}
-          isLoading={isLoading}
+          isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}
         />

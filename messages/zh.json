@@ -279,5 +279,19 @@
     "agentAvatar": "智能体头像",
     "creatorAvatar": "创建者头像",
     "closeSearch": "关闭搜索"
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30分钟",
+      "1h": "1小时",
+      "4h": "4小时",
+      "1d": "1天",
+      "1w": "1周"
+    },
+    "volume": "成交量",
+    "priceArea": "价格区域",
+    "volumeArea": "成交量区域",
+    "loading": "加载中...",
+    "error": "加载图表数据时出错"
   }
 } 

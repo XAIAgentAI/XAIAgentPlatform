@@ -264,6 +264,20 @@
       }
     }
   },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30분",
+      "1h": "1시간",
+      "4h": "4시간",
+      "1d": "1일",
+      "1w": "1주"
+    },
+    "volume": "거래량",
+    "priceArea": "가격 영역",
+    "volumeArea": "거래량 영역",
+    "loading": "로딩 중...",
+    "error": "차트 데이터 로딩 오류"
+  },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",
     "chatIcon": "채팅 아이콘",

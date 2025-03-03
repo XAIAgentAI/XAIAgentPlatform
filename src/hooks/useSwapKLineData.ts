@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchSwapData, convertToKLineData } from '@/services/swapService';
 import { KLineData as SwapKLineData } from '@/types/swap';
-import { KLineData as ChartKLineData } from '@/hooks/useTokenPrice';
+import { KLineData as ChartKLineData, TimeInterval } from '@/hooks/useTokenPrice';
 
 export interface SwapChartData {
   klineData: ChartKLineData[];
@@ -11,9 +11,14 @@ export interface SwapChartData {
   error: string | null;
 }
 
+interface UseSwapKLineDataParams {
+  interval: TimeInterval;
+  tokenAddress: string;
+}
+
 const POLLING_INTERVAL = 10000; // 10秒轮询一次
 
-export const useSwapKLineData = () => {
+export const useSwapKLineData = ({ interval, tokenAddress }: UseSwapKLineDataParams) => {
   const [data, setData] = useState<SwapChartData>({
     klineData: [],
     currentPrice: 0,
@@ -24,12 +29,11 @@ export const useSwapKLineData = () => {
 
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
 
-  const fetchKLineData = async () => {
+  const fetchKLineData = async ({ interval: newInterval }: { interval: TimeInterval } = { interval }) => {
     try {
-      const swapData = await fetchSwapData();
-   
+      const swapData = await fetchSwapData({ interval: newInterval, tokenAddress });
 
-      const rawKlineData = convertToKLineData(swapData);
+      const rawKlineData = convertToKLineData(swapData, newInterval);
 
       // 转换为图表所需的KLineData格式
       const chartKlineData: ChartKLineData[] = rawKlineData.map(item => ({
@@ -80,7 +84,7 @@ export const useSwapKLineData = () => {
     fetchKLineData();
 
     // 设置新的轮询
-    pollingRef.current = setInterval(fetchKLineData, POLLING_INTERVAL);
+    pollingRef.current = setInterval(() => fetchKLineData(), POLLING_INTERVAL);
   };
 
   // 停止轮询
@@ -99,9 +103,7 @@ export const useSwapKLineData = () => {
     return () => {
       stopPolling();
     };
-  }, []);
-
-
+  }, [interval, tokenAddress]); // 添加依赖项
 
   return {
     ...data,

@@ -278,5 +278,19 @@
         "suffix": "as the network"
       }
     }
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30m",
+      "1h": "1h",
+      "4h": "4h",
+      "1d": "1d",
+      "1w": "1w"
+    },
+    "volume": "Volume",
+    "priceArea": "Price Area",
+    "volumeArea": "Volume Area",
+    "loading": "Loading...",
+    "error": "Error loading chart data"
   }
 }
