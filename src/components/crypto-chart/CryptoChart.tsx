@@ -358,7 +358,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       // 设置成交量图表的位置和样式
       chart.current.priceScale('volume').applyOptions({
         scaleMargins: {
-          top: 0.7,
+          top: 0.85,
           bottom: 0,
         },
         borderVisible: false,
