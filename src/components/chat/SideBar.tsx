@@ -47,7 +47,7 @@ const SideBar = ({ messages }: SideBarProps) => {
   };
 
   return (
-    <div className="fixed hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
+    <div className="fixed 2xl:top-[40px] md:top-[68px] hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
       <div className="flex justify-end space-x-2">
         <div className="inline-block w-[50px] flex items-center self-start relative right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl-[10vw]">
           <AuthButton/>
