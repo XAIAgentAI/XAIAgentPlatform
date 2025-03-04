@@ -124,7 +124,6 @@ export default function AgentsPage() {
           {/* Category Tabs */}
           <Tabs defaultValue="prototype" className="w-full">
             <div className="border-t border-border pt-4 lg:pt-6">
-              <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">{t('agents.featuredAgents')}</h2>
               {filteredAgents.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                   {filteredAgents.map((agent) => (

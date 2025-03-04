@@ -73,7 +73,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
         <div className="md:block hidden">
           <IaoPool agent={agent as any} />
         </div>
-
+        
         {/* 代币信息卡片 */}
         {id === "1" && <TokenInfoCard />}
       </div>
