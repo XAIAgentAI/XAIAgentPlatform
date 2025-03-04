@@ -26,7 +26,7 @@ export function ConversationStarter({ agentId }: { agentId: string }) {
   };
 
   const suggestions = getLocalizedUseCases();
-  const chatEntry = agent?.chatEntry || "";
+  const chatEntry = agentId;
 
   if (!suggestions) {
     return null;
@@ -49,13 +49,13 @@ export function ConversationStarter({ agentId }: { agentId: string }) {
         <CustomButton 
           className="flex items-center gap-2 px-8"
           onClick={() => {
-            if (chatEntry && chatEntry.trim() !== "None") {
-              window.open(chatEntry, "_blank");
-            } else {
+            //if (chatEntry && chatEntry.trim() !== "None") {
+              //window.open(`/zh/chat/${chatEntry}`, "_blank");
+            //} else {
               toast({
                 description: t('chatComingSoon'),
               })
-            }
+            //}
           }}
         >
           <Image 

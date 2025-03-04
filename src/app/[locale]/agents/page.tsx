@@ -64,8 +64,8 @@ export default function AgentsPage() {
   
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
-    ? localAgents.filter(agent => agent.id >= 4 && agent.id <=12 ) // AI Agent: id 4和5
-    : localAgents.filter(agent => agent.id === 2 || agent.id === 3) // Infrastructure: id 2和3
+    ? localAgents.filter(agent => agent.id >= 12 && agent.id <= 21 ) // AI Agent: id区间
+    : localAgents.filter(agent => agent.id >= 2 && agent.id <= 11 ) // Infrastructure: id区间
 
   return (
     <div className="min-h-screen bg-background">
@@ -95,7 +95,6 @@ export default function AgentsPage() {
           {/* Category Tabs */}
           <Tabs defaultValue="prototype" className="w-full">
             <div className="border-t border-border pt-4 lg:pt-6">
-              <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">{t('agents.featuredAgents')}</h2>
               {filteredAgents.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                   {filteredAgents.map((agent) => (
