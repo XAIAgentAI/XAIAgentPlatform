@@ -1,11 +1,11 @@
 {
   "common": {
-    "connect": "ウォレットを接続",
+    "connect": "ウォレット接続",
     "disconnect": "切断",
     "loading": "読み込み中...",
     "error": "エラー",
     "success": "成功",
-    "search": "エージェント/CAを検索",
+    "search": "エージェント/コントラクトアドレスを検索",
     "buy": "購入",
     "sell": "売却",
     "buyAgent": "購入",
@@ -20,7 +20,8 @@
       "hours": "時間",
       "minutes": "分",
       "seconds": "秒"
-    }
+    },
+    "noData": "データなし"
   },
   "navigation": {
     "home": "ホーム",
@@ -134,8 +135,9 @@
     "marketCap": "時価総額",
     "volume": "取引量",
     "supply": "供給量",
-
-    "contract": "コントラクト"
+    "contract": "スマートコントラクト",
+    "fetchError": "エージェント詳細の取得に失敗しました",
+    "agentNotFound": "エージェントが見つかりません"
   },
   "iaoPool": {
     "title": "IAOプール",

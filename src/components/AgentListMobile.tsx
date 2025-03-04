@@ -118,7 +118,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center flex-1">
+        <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">
           <Loading />
         </div>
       ) : (
@@ -155,11 +155,11 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24h')}</span>
-                    <p className="text-[#5BFE42] text-sm font-medium">{agent.priceChange24h}</p>
+                    <p className="text-[#5BFE42] text-sm font-medium">{agent.priceChange24h || '0%'}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('tvl')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.price}</p>
+                    <p className="text-secondary-color text-sm font-medium">{agent.price || '$0'}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('holdersCount')}</span>

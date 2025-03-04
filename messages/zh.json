@@ -20,7 +20,8 @@
       "minutes": "分",
       "seconds": "秒"
     },
-    "social": "社交"
+    "social": "社交",
+    "noData": "暂无数据"
   },
   "navigation": {
     "home": "首页",
@@ -134,7 +135,9 @@
     "marketCap": "市值",
     "volume": "交易量",
     "supply": "供应量",
-    "contract": "智能合约"
+    "contract": "智能合约",
+    "fetchError": "获取 Agent 详情失败",
+    "agentNotFound": "未找到该 Agent"
   },
   "iaoPool": {
     "title": "IAO 池",

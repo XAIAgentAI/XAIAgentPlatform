@@ -20,7 +20,8 @@
       "minutes": "분",
       "seconds": "초"
     },
-    "social": "소셜"
+    "social": "소셜",
+    "noData": "데이터 없음"
   },
   "navigation": {
     "home": "홈",
@@ -133,7 +134,9 @@
     "marketCap": "시가총액",
     "volume": "거래량",
     "supply": "공급량",
-    "contract": "컨트랙트"
+    "contract": "스마트 컨트랙트",
+    "fetchError": "에이전트 상세 정보를 가져오는데 실패했습니다",
+    "agentNotFound": "에이전트를 찾을 수 없습니다"
   },
   "iaoPool": {
     "title": "IAO 풀",

@@ -16,6 +16,7 @@ interface CryptoChartProps {
   isLoading?: boolean;
   error?: string | null;
   onIntervalChange?: (interval: TimeInterval) => void;
+  onRetry?: () => void;
 }
 
 const TIME_INTERVALS: { label: string; value: TimeInterval }[] = [
@@ -57,7 +58,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   priceChange,
   isLoading = false,
   error = null,
-  onIntervalChange
+  onIntervalChange,
+  onRetry
 }) => {
   const t = useTranslations('cryptoChart');
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -69,6 +71,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   const separatorSeriesRef = useRef<any>(null);
   const [selectedInterval, setSelectedInterval] = useState<TimeInterval>('1h');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [chartError, setChartError] = useState<string | null>(null);
 
   // 添加格式化价格的辅助函数
   const formatPrice = (price: number | undefined): { value: string; pair: string } => {
@@ -514,6 +517,28 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     onIntervalChange?.(interval);
   }, [onIntervalChange]);
 
+  // 添加错误恢复机制
+  useEffect(() => {
+    if (error) {
+      setChartError(error);
+      // 清除现有图表
+      if (chart.current) {
+        chart.current.remove();
+        chart.current = null;
+      }
+    } else {
+      setChartError(null);
+    }
+  }, [error]);
+
+  // 处理图表重试
+  const handleRetry = useCallback(() => {
+    setChartError(null);
+    if (onRetry) {
+      onRetry();
+    }
+  }, [onRetry]);
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -530,10 +555,19 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     );
   }
 
-  if (error) {
+  if (error || chartError) {
     return (
-      <div className="w-full h-[500px] p-4 bg-background rounded-lg flex items-center justify-center">
-        <div className="text-foreground">{t('error')}</div>
+      <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
+        <div className="text-destructive text-center">
+          <p className="mb-2">{error || chartError}</p>
+          <Button 
+            variant="outline" 
+            onClick={handleRetry}
+            className="hover:bg-destructive hover:text-destructive-foreground"
+          >
+            {t('retry')}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -541,7 +575,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   return (
     <div className="space-y-4 pt-2">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex  gap-2 items-baseline">
+        <div className="flex gap-2 items-baseline">
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-bold tracking-tight">
               {formatPrice(currentPrice).value}
@@ -587,7 +621,11 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       </div>
       <div
         ref={chartContainerRef}
-        className="w-full h-[500px] bg-background rounded-lg"
+        className={cn(
+          "w-full h-[500px] bg-background rounded-lg",
+          "transition-opacity duration-200",
+          (!klineData.length || isLoading) && "opacity-50"
+        )}
         style={{ cursor: 'crosshair' }}
       />
     </div>

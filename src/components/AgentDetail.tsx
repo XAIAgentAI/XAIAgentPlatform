@@ -8,6 +8,8 @@ import ConversationStarter from "@/components/agent-detail/ConversationStarter";
 import { IaoPool } from "@/components/agent-detail/IaoPool";
 import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
+import { StateDisplay } from "@/components/ui-custom/state-display";
+import { useTranslations } from 'next-intl';
 
 interface AgentDetailProps {
   id: string;
@@ -17,6 +19,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
   const [agent, setAgent] = useState<LocalAgent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations('agentDetail');
 
   useEffect(() => {
     const fetchAgent = async () => {
@@ -28,55 +31,50 @@ export function AgentDetail({ id }: AgentDetailProps) {
         }
         
       } catch (err) {
-        setError(err instanceof Error ? err.message : '获取 Agent 详情失败');
+        setError(err instanceof Error ? err.message : t('fetchError'));
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchAgent();
-  }, [id]);
-
-  if (isLoading) {
-    return <div className="flex items-center justify-center min-h-[200px]">加载中...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500 text-center">{error}</div>;
-  }
-
-  if (!agent) {
-    return <div className="text-center">未找到该 Agent</div>;
-  }
+  }, [id, t]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* 左侧主要内容区域 */}
-      <div className="lg:col-span-2 space-y-6 lg:space-y-0">
-        {/* 移动端IaoPool */}
-        <div className="md:hidden ">
-          <IaoPool agent={agent as any} />
+    <StateDisplay
+      isLoading={isLoading}
+      error={error}
+      isEmpty={!agent}
+      emptyMessage={t('agentNotFound')}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 左侧主要内容区域 */}
+        <div className="lg:col-span-2 space-y-6 lg:space-y-0">
+          {/* 移动端IaoPool */}
+          <div className="md:hidden ">
+            <IaoPool agent={agent as any} />
+          </div>
+          {/* Agent信息卡片 */}
+          <AgentInfo agentId={id} />
+
+          {/* 对话启动器 */}
+          <ConversationStarter agentId={id} />
         </div>
-        {/* Agent信息卡片 */}
-        <AgentInfo agentId={id} />
 
-        {/* 对话启动器 */}
-        <ConversationStarter agentId={id} />
-      </div>
+        {/* 右侧区域 */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Swap卡片 */}
+          {/* <SwapCard /> */}
 
-      {/* 右侧区域 */}
-      <div className="lg:col-span-1 space-y-6">
-        {/* Swap卡片 */}
-        {/* <SwapCard /> */}
-
-        {/* pc端IaoPool */}
-        <div className="md:block hidden">
-          <IaoPool agent={agent as any} />
+          {/* pc端IaoPool */}
+          <div className="md:block hidden">
+            <IaoPool agent={agent as any} />
+          </div>
+          
+          {/* 代币信息卡片 */}
+          {id === "1" && <TokenInfoCard />}
         </div>
-        
-        {/* 代币信息卡片 */}
-        {id === "1" && <TokenInfoCard />}
       </div>
-    </div>
+    </StateDisplay>
   );
 } 

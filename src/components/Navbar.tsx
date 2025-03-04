@@ -157,6 +157,8 @@ const Navbar = () => {
 
   // 在UI中显示钱包状态
   const getWalletDisplayStatus = () => {
+    if (!mounted) return t('wallet.connect');
+    
     if (status === 'connecting') {
       return t('wallet.connecting');
     }
@@ -166,10 +168,6 @@ const Navbar = () => {
     return t('wallet.connect');
   };
 
-  // 在客户端挂载前不渲染内容
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <nav className="sticky top-0 left-0 right-0 w-full bg-background z-50">
@@ -225,13 +223,17 @@ const Navbar = () => {
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary"
             aria-label={t('accessibility.walletIcon')}
           >
-            {status === 'connecting' ? (
-              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            ) : isConnected ? (
-              <div className="relative">
+             {mounted ? (
+              status === 'connecting' ? (
+                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              ) : isConnected ? (
+                <div className="relative">
+                  <Wallet className="w-5 h-5" />
+                  <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-500" />
+                </div>
+              ) : (
                 <Wallet className="w-5 h-5" />
-                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-500" />
-              </div>
+              )
             ) : (
               <Wallet className="w-5 h-5" />
             )}
@@ -339,7 +341,7 @@ const Navbar = () => {
             <Button
               className="h-[38.50px]"
               onClick={handleWalletClick}
-              disabled={status === 'connecting'}
+              disabled={mounted && status === 'connecting'}
             >
               {getWalletDisplayStatus()}
             </Button>
