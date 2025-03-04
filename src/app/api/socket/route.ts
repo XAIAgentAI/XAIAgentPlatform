@@ -80,11 +80,13 @@ async function getPoolDBCAmount(): Promise<bigint> {
       transport: http(),
     });
 
-    const totalDeposited = await publicClient.readContract({
-      address: CONTRACTS.IAO_CONTRACT,
-      abi: CURRENT_CONTRACT_ABI,
-      functionName: 'totalDepositedDBC',
-    });
+    const totalDeposited = BigInt(0);
+    
+    // await publicClient.readContract({
+    //   address: CONTRACTS.IAO_CONTRACT,
+    //   abi: CURRENT_CONTRACT_ABI,
+    //   functionName: 'totalDepositedDBC',
+    // });
 
     console.log('getPoolDBCAmount-totalDeposited', totalDeposited);
 

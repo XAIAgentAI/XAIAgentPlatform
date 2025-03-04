@@ -28,6 +28,8 @@ interface AgentListProps {
     volume24h: string;
     status: string;
     socialLinks?: string;
+    priceChange24h?: string;
+    price?: string;
   }>;
   loading?: boolean;
 }

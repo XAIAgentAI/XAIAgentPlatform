@@ -161,7 +161,7 @@ export default function ChatPage() {
 
   return (
       <div className="flex flex-col h-[80vh] px-2">
-        <SideBar messages={messages} />
+        {/* <SideBar messages={messages} />
         {!messages.length && (
           <HeaderComponent 
             agentId={agentId}
@@ -181,7 +181,7 @@ export default function ChatPage() {
             isLoading={isLoading} 
             agentId={agentId}
             messagesEndRef={messagesEndRef} 
-          />
+          /> */}
           <InputComponent 
             input={input} 
             setInput={setInput} 

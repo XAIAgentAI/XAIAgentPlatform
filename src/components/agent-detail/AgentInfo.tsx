@@ -58,7 +58,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     getAgentData();
   }, [agentId]);
 
-  const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.token || null);
+  const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
   const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');

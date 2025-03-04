@@ -147,7 +147,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
 
   const now = Date.now();
   const isDepositPeriod = true;
-  const isIAOStarted = agent?.token === 'XAA';
+  const isIAOStarted = agent?.symbol === 'XAA';
 
 
 
@@ -217,7 +217,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.token === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
 
           {
             poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
@@ -254,7 +254,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
               <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
 
               <div className="flex items-center gap-4 mb-6">
-                <div className="font-medium">{agent.token === 'XAA' ? 'DBC' : 'XAA'}</div>
+                <div className="font-medium">{agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA'}</div>
                 <div className="flex-1 relative">
                   <Input
                     type="number"
