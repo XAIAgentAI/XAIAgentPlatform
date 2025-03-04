@@ -264,7 +264,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       <TableCell>{agent.marketCap}</TableCell>
                       <TableCell>
                         <span className={agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}>
-                          {agent.priceChange24h ? `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}` : "0%"}
+                          {agent.priceChange24h ? 
+                            (parseFloat(agent.priceChange24h) === -0 ? 
+                              "+0.00%" : 
+                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${parseFloat(agent.priceChange24h).toFixed(2)}%`
+                            ) : 
+                            "0.00%"
+                          }
                         </span>
                       </TableCell>
                       <TableCell>{agent.price || '$0'}</TableCell>

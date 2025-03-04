@@ -156,7 +156,13 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24h')}</span>
                     <p className={`text-sm font-medium ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
-                      {agent.priceChange24h ? `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}` : "0%"}
+                      {agent.priceChange24h ? 
+                        (parseFloat(agent.priceChange24h) === -0 ? 
+                          "+0.00%" : 
+                          `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${parseFloat(agent.priceChange24h).toFixed(2)}%`
+                        ) : 
+                        "0.00%"
+                      }
                     </p>
                   </div>
                   <div className="space-y-1">

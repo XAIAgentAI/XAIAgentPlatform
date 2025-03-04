@@ -17,6 +17,7 @@
     "update-prices:dev": "NODE_ENV=development ts-node -P scripts/tsconfig.json scripts/update-prices.ts",
     "update-prices:prod": "NODE_ENV=production ts-node -P scripts/tsconfig.json scripts/update-prices.ts",
     "sync-agents": "ts-node -P scripts/tsconfig.json scripts/sync-agents.ts",
+    "clear-agents": "ts-node -P scripts/tsconfig.json scripts/clear-agents.ts",
     "prisma:seed": "ts-node -P scripts/tsconfig.json prisma/seed.ts"
   },
   "dependencies": {

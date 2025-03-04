@@ -613,12 +613,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             )}
             {formatPriceChange(priceChange)}
 
-            <div className="flex items-baseline  text-muted-foreground h- ml-1">
-              $
-              <span className="text-sm font-medium">
-                {formatPrice(currentPrice * dbcPriceUsd, 8).value}
-              </span>
-            </div>
+
           </div>
 
 

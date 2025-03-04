@@ -63,7 +63,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
   };
 
   const suggestions = getLocalizedUseCases();
-  console.log("suggestions", suggestions);
 
 
   if (!suggestions) {

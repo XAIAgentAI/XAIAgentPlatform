@@ -149,6 +149,26 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     );
   }
 
+  // 添加格式化价格的辅助函数
+  const formatPrice = (price: number | undefined, decimals: number = 5): { value: string; pair: string } => {
+    const pair = 'XAA/DBC';
+    if (price === undefined || price === null) return { value: `0.${'0'.repeat(decimals)}`, pair };
+    if (price === 0) return { value: `0.${'0'.repeat(decimals)}`, pair };
+
+    const absPrice = Math.abs(price);
+    if (absPrice < Math.pow(10, -decimals)) {
+      // 只有在非常小的数字时才使用 0.0{x}y 格式
+      const priceStr = absPrice.toString();
+      const match = priceStr.match(/^0\.0+/);
+      const zeroCount = match ? match[0].length - 2 : 0;
+      const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+      return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
+    }
+    // 根据指定的精度显示小数位数
+    return { value: absPrice.toFixed(decimals), pair };
+  };
+
+
   return (
     <Card className="p-6 bg-card">
       {/* Agent Basic Information */}
@@ -163,7 +183,16 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold">{agent?.name}</h1>
+            <div className="flex justify-start items-center gap-2">
+              <h1 className="text-xl font-semibold">{agent?.name}</h1>
+              <div className="flex items-baseline  text-muted-foreground h- ml-1">
+                $
+                <span className="text-sm font-medium">
+                  {formatPrice(currentPrice * dbcPriceUsd, 8).value}
+                </span>
+              </div>
+            </div>
+
             {tokenData && (
               <>
                 <div className="flex  items-start md:items-center gap-2 mt-1">
