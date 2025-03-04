@@ -47,11 +47,7 @@ export const localAgents: LocalAgent[] = [
     holdersCount: 0,
     volume24h: "$0",
     status: "Tradable",
-<<<<<<< HEAD
-    statusJA: "取引可能",
-=======
     statusJA: "トランザクション可能",
->>>>>>> deploy-beta
     statusKO: "거래 가능",
     statusZH: "可交易",
     description: "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
