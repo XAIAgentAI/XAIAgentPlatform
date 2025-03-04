@@ -42,7 +42,7 @@ export class TokenPriceManager {
     this.interval = interval;
   }
 
-  async init() {
+  async init(): Promise<void> {
     if (this.initialized) {
       return;
     }
