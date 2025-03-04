@@ -72,13 +72,18 @@ export async function GET(request: Request) {
       reviewCount: item._count.reviews,
       createdAt: item.createdAt,
       symbol: item.symbol,
-      token: item.token,
       totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
       tvl: item.tvl,
       holdersCount: item.holdersCount,
       volume24h: item.volume24h,
       marketCap: item.marketCap,
       change24h: item.change24h,
+      // tokenAddress: item.tokenAddress,
+      // iaoContractAddress: item.iaoContractAddress,
+      // tokenAddressTestnet: item.tokenAddressTestnet,
+      // iaoContractAddressTestnet: item.iaoContractAddressTestnet,
+      tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
+      iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
     }));
 
     return createSuccessResponse({

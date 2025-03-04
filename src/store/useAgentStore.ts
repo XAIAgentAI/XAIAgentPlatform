@@ -44,7 +44,7 @@ export const useAgentStore = create<State & Actions>((set, get) => ({
           tvl: item.tvl || "$0",
           holdersCount: item.holdersCount || 0,
           socialLinks: item.socialLinks || '',
-          token: item.token || item.symbol || item.id,
+          token: item.tokenAddress || item.symbol || item.id,
           symbol: item.symbol || '',
         }));
         set({ agents });
@@ -57,7 +57,7 @@ export const useAgentStore = create<State & Actions>((set, get) => ({
   },
   updateAgentsWithTokens: (tokens) => {
     const updatedAgents = get().agents.map(agent => {
-      const tokenData = tokens.find(token => token.address === agent.token)
+      const tokenData = tokens.find(token => token.address === agent.tokenAddress)
       if (tokenData) {
         return {
           ...agent,

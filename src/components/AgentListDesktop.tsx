@@ -34,7 +34,7 @@ interface AgentListProps {
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
-  
+
   const links = socialLinks.split(",").map(link => link.trim());
   return {
     twitter: links.find(link => link.includes("x.com") || link.includes("twitter.com")) || "",
@@ -85,7 +85,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
-  
+
 
   const getSortIcon = (field: SortField) => {
     return (
@@ -103,7 +103,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
-  
+
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">
@@ -260,8 +260,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                         </div>
                       </TableCell>
                       <TableCell>{agent.marketCap}</TableCell>
-                      <TableCell>{agent.change24h}</TableCell>
-                      <TableCell>{agent.tvl}</TableCell>
+                      <TableCell>{agent.priceChange24h || "0%"}</TableCell>
+                      <TableCell>{agent.price || '$0'}</TableCell>
                       <TableCell>{agent.holdersCount}</TableCell>
                       <TableCell>{agent.volume24h}</TableCell>
                       <TableCell>

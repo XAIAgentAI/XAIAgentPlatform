@@ -20,6 +20,7 @@ import { useNetwork } from "@/hooks/useNetwork";
 const showIAOReal = "true"
 
 export const IaoPool = ({ agent = {} as LocalAgent }) => {
+  
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
   const [userStakeInfo, setUserStakeInfo] = useState({
@@ -38,7 +39,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
     stake,
     claimRewards,
     getUserStakeInfo
-  } = useStakeContract();
+  } = useStakeContract(agent.tokenAddress as `0x${string}`, agent.iaoContractAddress as `0x${string}`);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
@@ -76,11 +77,11 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    
+
     // 只允许数字和一个小数点，且小数位不超过18位
     if (value === '' || (
-      /^\d*\.?\d*$/.test(value) && 
-      Number(value) >= 0 && 
+      /^\d*\.?\d*$/.test(value) &&
+      Number(value) >= 0 &&
       (!value.includes('.') || value.split('.')[1]?.length <= 18)
     )) {
       if (Number(value) > Number(maxAmount)) {
@@ -148,7 +149,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
   const isDepositPeriod = true;
   const isIAOStarted = agent?.token === 'XAA';
 
-  
+
 
   // useEffect(() => {
   //   const fetchPoolData = async () => {
@@ -185,15 +186,15 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
           aria-label={t('goToDbcswap')}
         >
           {t('goToDbcswap')}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
             className="ml-1"
           >
@@ -209,7 +210,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
 
       <div className="space-y-4">
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.token })}:</span>
+          <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
             {agent.totalSupply?.toLocaleString()} {agent.symbol}
           </span>
@@ -219,7 +220,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
           <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.token === 'XAA' ? 'DBC' : 'XAA' })}:</span>
 
           {
-            agent.token === 'XAA' ? (<span className="font-semibold text-[#F47521] break-all">
+            poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
               {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
             </span>
             ) :
@@ -232,7 +233,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          {agent.token === 'XAA'  ? (
+          {poolInfo?.endTime ? (
             isPoolInfoLoading || !poolInfo?.endTime ? (
               <span className="font-semibold text-[#F47521] break-all">--</span>
             ) : (
@@ -310,21 +311,21 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
           )}
 
           {
-            agent.token === 'XAA'  &&(
+            agent.token === 'XAA' && (
               <div className="space-y-2 mt-4">
                 <p className="text-sm text-muted-foreground">
                   {t('stakedAmount', { symbol: 'DBC' })}:
-                <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {userStakeInfo.hasClaimed ? (
-                  <>{t('claimedAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
-                ) : (
-                  <>{t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
-                )}
-              </p>
-            </div>
-          )}
+                  <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {userStakeInfo.hasClaimed ? (
+                    <>{t('claimedAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
+                  ) : (
+                    <>{t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
+                  )}
+                </p>
+              </div>
+            )}
 
           <p className="text-sm text-muted-foreground mt-2">
             {t('poolDynamicTip')}
@@ -345,7 +346,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
                           <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
                           <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
                           <code className="block p-2 bg-black/10 rounded text-xs break-all">
-                            {CONTRACTS.XAA_TOKEN}
+                            {agent.symbol}
                           </code>
                         </div>
                       ),

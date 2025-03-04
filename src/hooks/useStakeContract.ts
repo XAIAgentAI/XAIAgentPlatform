@@ -44,7 +44,8 @@ const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
   return formattedAddress as `0x${string}`;
 };
 
-export const useStakeContract = () => {
+export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress: `0x${string}`) => {
+  
   const { address, isConnected } = useAppKitAccount();
   const { data: walletClient, isLoading: isWalletLoading } = useWalletClient();
   const { isAuthenticated } = useAuth();
@@ -152,7 +153,7 @@ export const useStakeContract = () => {
 
       try {
         startTime = await publicClient.readContract({
-          address: CONTRACTS.IAO_CONTRACT,
+          address: iaoContractAddress,
           abi: CURRENT_CONTRACT_ABI,
           functionName: 'startTime',
         });
@@ -163,7 +164,7 @@ export const useStakeContract = () => {
 
       try {
         endTime = await publicClient.readContract({
-          address: CONTRACTS.IAO_CONTRACT,
+          address: iaoContractAddress,
           abi: CURRENT_CONTRACT_ABI,
           functionName: 'endTime',
         });
@@ -175,7 +176,7 @@ export const useStakeContract = () => {
 
       try {
         totalDeposited = await publicClient.readContract({
-          address: CONTRACTS.IAO_CONTRACT,
+          address: iaoContractAddress,
           abi: CURRENT_CONTRACT_ABI,
           functionName: 'totalDepositedDBC',
         });
@@ -184,7 +185,6 @@ export const useStakeContract = () => {
         totalDeposited = null;
       }
 
-      console.log("totalDeposited", totalDeposited);
 
       const newPoolInfo: any = {
         totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
@@ -194,19 +194,21 @@ export const useStakeContract = () => {
         hasClaimed: false,
       };
 
+      console.log("newPoolInfo", newPoolInfo);
+
 
       // // 只有在钱包连接且认证的情况下才获取用户信息
       // if (walletClient && isConnected && isAuthenticated && address) {
       //   try {
       //     const [userDeposited, hasClaimed] = await Promise.all([
       //       publicClient.readContract({
-      //         address: CONTRACTS.IAO_CONTRACT,
+      //         address: iaoContractAddress,
       //         abi: CURRENT_CONTRACT_ABI,
       //         functionName: 'userDeposits',
       //         args: [address as `0x${string}`],
       //       }),
       //       publicClient.readContract({
-      //         address: CONTRACTS.IAO_CONTRACT,
+      //         address: iaoContractAddress,
       //         abi: CURRENT_CONTRACT_ABI,
       //         functionName: 'hasClaimed',
       //         args: [address as `0x${string}`],
@@ -287,7 +289,7 @@ export const useStakeContract = () => {
       // 估算gas
       const estimatedGas = await publicClient.estimateGas({
         account: formattedAddress,
-        to: CONTRACTS.IAO_CONTRACT,
+        to: iaoContractAddress,
         value: amountWei
       });
 
@@ -295,7 +297,7 @@ export const useStakeContract = () => {
       const gasWithBuffer = estimatedGas * BigInt(110) / BigInt(100);
 
       console.log('Sending transaction to contract:', {
-        to: CONTRACTS.IAO_CONTRACT,
+        to: iaoContractAddress,
         value: amountWei,
         account: formattedAddress,
       });
@@ -303,7 +305,7 @@ export const useStakeContract = () => {
       // 发送交易
       const hash = await viemWalletClient.sendTransaction({
         account: formattedAddress,
-        to: CONTRACTS.IAO_CONTRACT,
+        to: iaoContractAddress,
         value: amountWei,
         gas: gasWithBuffer
       });
@@ -412,7 +414,7 @@ export const useStakeContract = () => {
       const claimableAmount = userStakeInfo.claimableXAA;
 
       const { request } = await publicClient.simulateContract({
-        address: CONTRACTS.IAO_CONTRACT,
+        address: iaoContractAddress,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'claimRewards',
         account: formattedAddress,
@@ -477,14 +479,14 @@ export const useStakeContract = () => {
 
       // Get total staked amount
       const totalDeposited = await publicClient.readContract({
-        address: CONTRACTS.IAO_CONTRACT,
+        address: iaoContractAddress,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'totalDepositedDBC',
       });
 
       // Get user staked amount
       const userDeposited = await publicClient.readContract({
-        address: CONTRACTS.IAO_CONTRACT,
+        address: iaoContractAddress,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'userDeposits',
         args: [formattedAddress],
@@ -492,7 +494,7 @@ export const useStakeContract = () => {
 
       // Get if user has claimed
       const hasClaimed = await publicClient.readContract({
-        address: CONTRACTS.IAO_CONTRACT,
+        address: iaoContractAddress,
         abi: CURRENT_CONTRACT_ABI,
         functionName: 'hasClaimed',
         args: [formattedAddress],
@@ -500,7 +502,7 @@ export const useStakeContract = () => {
 
       // Get total rewards
       const totalReward = await publicClient.readContract({
-        address: CONTRACTS.IAO_CONTRACT,
+        address: iaoContractAddress,
         abi: CURRENT_CONTRACT_ABI,
         functionName: isTestnet ? 'TOTAL_XAA_REWARD' : 'TOTAL_REWARD',
       });

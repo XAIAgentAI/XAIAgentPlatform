@@ -34,14 +34,17 @@ export const transformToLocalAgent = (item: any): LocalAgent => ({
   tvl: item.tvl || "$0",
   holdersCount: item.holdersCount || 0,
   socialLinks: item.socialLinks || '',
-  token: item.token || '',
+  tokenAddress: item.tokenAddress || '',
+  iaoContractAddress: item.iaoContractAddress || '',
+  tokenAddressTestnet: item.tokenAddressTestnet || '',
+  iaoContractAddressTestnet: item.iaoContractAddressTestnet || '',
   totalSupply: item.totalSupply || 0,
 });
 
 // 更新代理列表的代币持有者信息
 export const updateAgentsWithTokens = (agents: LocalAgent[], tokens: DBCToken[]): LocalAgent[] => {
   return agents.map(agent => {
-    const tokenData = tokens.find(token => token.address === agent.token)
+    const tokenData = tokens.find(token => token.address === agent.tokenAddress)
     if (tokenData) {
       return {
         ...agent,
@@ -55,9 +58,9 @@ export const updateAgentsWithTokens = (agents: LocalAgent[], tokens: DBCToken[])
 // 更新代理列表的价格信息
 export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<LocalAgent[]> => {
   const tokenInfos = agents
-    .filter(agent => agent.token && agent.symbol)
+    .filter(agent => agent.tokenAddress && agent.symbol)
     .map(agent => ({
-      address: agent.token as string,
+      address: agent.tokenAddress as string,
       symbol: agent.symbol
     }));
 
@@ -69,7 +72,7 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
     const tokenSwapDatas = await getBatchTokenPrices(tokenInfos);
     
     return agents.map(agent => {
-      if (agent.token && tokenSwapDatas[agent.symbol]) {
+      if (agent.tokenAddress && tokenSwapDatas[agent.symbol]) {
         const tokenSwapInfo = tokenSwapDatas[agent.symbol];
         const usdPrice = tokenSwapInfo.usdPrice || 0;
         return {
@@ -77,7 +80,8 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
           marketCap: `$${formatNumber(usdPrice * (agent.totalSupply || 0))}`,
           tvl: `$${formatNumber(tokenSwapInfo.tvl || 0)}`,
           volume24h: `$${formatNumber(tokenSwapInfo.volume24h || 0)}`,
-          price: `$${formatNumber(usdPrice, 8)}`
+          price: `$${formatNumber(usdPrice, 8)}`,
+          priceChange24h: `${formatNumber(tokenSwapInfo.priceChange24h || 0)}%`
         };
       }
       return agent;

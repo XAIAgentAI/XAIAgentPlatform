@@ -152,11 +152,11 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24h')}</span>
-                    <p className="text-[#5BFE42] text-sm font-medium">{agent.change24h}</p>
+                    <p className="text-[#5BFE42] text-sm font-medium">{agent.priceChange24h}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('tvl')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.tvl}</p>
+                    <p className="text-secondary-color text-sm font-medium">{agent.price}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('holdersCount')}</span>
@@ -164,7 +164,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24hVol')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.volume24h}</p>
+                    <p className="text-secondary-color text-sm font-medium">{(agent.volume24h)}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('status')}</span>

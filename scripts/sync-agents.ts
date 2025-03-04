@@ -63,7 +63,6 @@ async function main() {
           tvl: agent.tvl,
           holdersCount: agent.holdersCount,
           socialLinks: agent.socialLinks || '',
-          token: agent.tokens || '',
           symbol: agent.symbol,
           totalSupply: agent.totalSupply || 0,
           chatEntry: agent.chatEntry || '',
@@ -77,6 +76,10 @@ async function main() {
           descriptionKO: agent.descriptionKO || '',
           descriptionZH: agent.descriptionZH || '',
           lifetime: agent.lifetime || '',
+          tokenAddress: agent.tokenAddress || '',
+          iaoContractAddress: agent.iaoContractAddress || '',
+          tokenAddressTestnet: agent.tokenAddressTestnet || '',
+          iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
         },
         create: {
           id: String(agent.id),
@@ -97,7 +100,6 @@ async function main() {
           tvl: agent.tvl,
           holdersCount: agent.holdersCount,
           socialLinks: agent.socialLinks || '',
-          token: agent.tokens || '',
           symbol: agent.symbol,
           totalSupply: agent.totalSupply || 0,
           chatEntry: agent.chatEntry || '',
@@ -111,6 +113,10 @@ async function main() {
           descriptionKO: agent.descriptionKO || '',
           descriptionZH: agent.descriptionZH || '',
           lifetime: agent.lifetime || '',
+          tokenAddress: agent.tokenAddress || '',
+          iaoContractAddress: agent.iaoContractAddress || '',
+          tokenAddressTestnet: agent.tokenAddressTestnet || '',
+          iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
         },
       });
       console.log(`已同步代理 ${agent.name} (ID: ${agent.id})`);

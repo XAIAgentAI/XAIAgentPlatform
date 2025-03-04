@@ -22,10 +22,11 @@ export function AgentDetail({ id }: AgentDetailProps) {
     const fetchAgent = async () => {
       try {
         setIsLoading(true);
-        const data = await agentAPI.getAgentById(parseInt(id));
-        console.log("data", data);
+        const res: any = await agentAPI.getAgentById(parseInt(id));
+        if(res.code === 200 && res.data){
+          setAgent(res.data);
+        }
         
-        setAgent(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : '获取 Agent 详情失败');
       } finally {

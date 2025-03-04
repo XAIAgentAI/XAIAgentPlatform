@@ -19,8 +19,8 @@ export interface LocalAgent {
   tvl: string;
   holdersCount: number;
   socialLinks?: string;
-  token?: string;
   tokenAddress?: string;
+  iaoContractAddress?: string;
   totalSupply?: number;
   useCases?: string[];
   useCasesJA?: string[];
@@ -28,6 +28,8 @@ export interface LocalAgent {
   useCasesZH?: string[];
   chatEntry?: string;
   symbol: string;
+  tokenAddressTestnet?: string;
+  iaoContractAddressTestnet?: string;
 }
 
 export interface AgentPrice {

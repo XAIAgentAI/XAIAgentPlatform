@@ -30,13 +30,21 @@ export interface LocalAgent {
   statusJA?: string;
   statusKO?: string;
   statusZH?: string;
+  tokenAddress?: string;
+  iaoContractAddress?: string;
+  tokenAddressTestnet?: string;
+  iaoContractAddressTestnet?: string;
 }
 
 export const localAgents: LocalAgent[] = [
   {
     id: 1,
     name: "XAIAgent",
-    tokens: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+    tokenAddress: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+    iaoContractAddress: "0x5AeF02893F05D5422eD0c3bD1D7502Ec6bd6195e",
+    tokenAddressTestnet: "0xC21155334688E2c1Cf89D4aB09d38D30002717DD",
+    iaoContractAddressTestnet: "0x82B7e10Ed1453FBf60c98aFbDeD94159A5E13973",
+
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XAIAgent.png",
     symbol: "XAA",
     type: "Platform",
@@ -86,7 +94,13 @@ export const localAgents: LocalAgent[] = [
   {
     id: 2,
     name: "StyleID",
-    tokens: "",
+    tokenAddress: "",
+    iaoContractAddress: "",
+    tokenAddressTestnet: "0xe581200f8b3c623322392857250c2bc71b9a5122",
+    iaoContractAddressTestnet: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
+
+
+
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/StyleID.png",
     symbol: "STID",
     type: "Infrastructure",
@@ -137,7 +151,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 3,
     name: "FaceSwap",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/FaceSwap.png",
     symbol: "FASW",
     type: "Infrastructure",
@@ -188,7 +202,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 4,
     name: "PicSpan",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/PicSpan.png",
     symbol: "PIS",
     type: "Infrastructure",
@@ -239,7 +253,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 5,
     name: "LogoLift",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png",
     symbol: "LOGO",
     type: "Infrastructure",
@@ -290,7 +304,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 6,
     name: "LiveEmoji",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LiveEmoji.png",
     symbol: "LEMO",
     type: "Infrastructure",
@@ -341,7 +355,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 7,
     name: "Qreator",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Qreator.png",
     symbol: "QREA",
     type: "Infrastructure",
@@ -392,7 +406,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 8,
     name: "Oldify",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Oldify.png",
     symbol: "OLD",
     type: "Infrastructure",
@@ -443,7 +457,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 9,
     name: "SuperPixel",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperPixel.png",
     symbol: "SPIX",
     type: "Infrastructure",
@@ -494,7 +508,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 10,
     name: "SuperImage",
-    tokens: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperImage.png",
     symbol: "SIC",
     type: "Infrastructure",
@@ -549,7 +563,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 11,
     name: "DecentralGPT",
-    tokens: "0x18386F368e7C211E84324337fA8f62d5093272E1",
+    tokenAddress: "0x18386F368e7C211E84324337fA8f62d5093272E1",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/DecentralGPT.png",
     symbol: "DGC",
     type: "Infrastructure",
@@ -600,7 +614,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 12,
     name: "DeepLink",
-    tokens: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
+    tokenAddress: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/DeepLink.png",
     symbol: "DLC",
     type: "AI Agent",
@@ -723,7 +737,7 @@ AI Agent 驱动的智能游戏体验：
   {
     id: 13,
     name: "XPersonity",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XPersonity.png",
     symbol: "XPER",
     type: "AI Agent",
@@ -790,7 +804,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 14,
     name: "ASIXT",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/ASIXT.png",
     symbol: "ASIXT",
     type: "AI Agent",
@@ -841,7 +855,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 15,
     name: "ArgusAI",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/ArgusAI.png",
     symbol: "ARGU",
     type: "AI Agent",
@@ -892,7 +906,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 16,
     name: "LinkAI",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LinkAI.png",
     symbol: "LINK",
     type: "AI Agent",
@@ -943,7 +957,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 17,
     name: "AutoKol",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/AutoKol.png",
     symbol: "AKOL",
     type: "AI Agent",
@@ -994,7 +1008,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 18,
     name: "LingXi",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LingXi.png",
     symbol: "LINGXI",
     type: "AI Agent",
@@ -1045,7 +1059,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 19,
     name: "Satori",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Satori.png",
     symbol: "SATORI",
     type: "AI Agent",
@@ -1096,7 +1110,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 20,
     name: "MeetMind",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/MeetMind.png",
     symbol: "MEET",
     type: "AI Agent",
@@ -1147,7 +1161,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
   {
     id: 21,
     name: "SynthLook",
-    tokens: "",
+    tokenAddress: "",
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SynthLook.png",
     symbol: "SYNTH",
     type: "AI Agent",

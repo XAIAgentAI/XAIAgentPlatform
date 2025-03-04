@@ -74,7 +74,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     refetch
   } = useSwapKLineData({
     interval: selectedInterval,
-    targetToken: agent?.token || '',
+    targetToken: agent?.tokenAddress || '',
     baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
   });
 
