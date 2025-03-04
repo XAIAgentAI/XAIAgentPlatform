@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import AuthButton from './SignUp';
 
 interface SideBarProps {
   messages: { id: string; content: string; timestamp: string }[];
@@ -79,8 +80,11 @@ const SideBar = ({ messages }: SideBarProps) => {
   return (
     <div className="fixed hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
       <div className="flex justify-end space-x-2">
-        <Image src="/images/topsearch.png" alt="Search" width={16} height={16} onClick={handleSearchOpen} className="cursor-pointer"/>
-        <Image src="/images/email2.png" alt="Email" width={24} height={24} onClick={handleEmailOpen} className="cursor-pointer"/>
+        <div className="inline-block w-[50px] flex items-center self-start relative right-[9vw]">
+            <AuthButton/>
+        </div>
+        <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer"/>
+        <Image src="/images/write.png" alt="Email" width={28} height={24} onClick={handleEmailOpen} className="cursor-pointer"/>
       </div>
       {isSearchOpen && <SearchBar onClose={handleClose}/>}
       {isEmailOpen && <EmailEditor onClose={handleClose}/>}
@@ -91,21 +95,21 @@ const SideBar = ({ messages }: SideBarProps) => {
       </div>
       <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
         <div>
-          <div className="text-sm">Today</div>
+          <div className="text-xs">Today</div>
           <div className="overflow-y-auto max-h-35vh">
             {todayMessages.map((msg) => (
-              <div key={msg.id} className="mb-2">
-                {msg.content}
+              <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
+                {msg.content.split(' ').slice(0, 3).join(' ')}
               </div>
             ))}
           </div>
         </div>
         <div>
-          <div className="text-sm">7 days ago</div>
+          <div className="text-xs">7 days ago</div>
           <div className="overflow-y-auto max-h-35vh">
-            {weekAgoMessages.map((msg) => (
-              <div key={msg.id} className="mb-2">
-                {msg.content}
+            {todayMessages.map((msg) => (
+              <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
+                {msg.content.split(' ').slice(0, 3).join(' ')}
               </div>
             ))}
           </div>

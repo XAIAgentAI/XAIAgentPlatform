@@ -6,6 +6,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  conversation: number;
 }
 
 interface MessagesComponentProps {
@@ -13,9 +14,23 @@ interface MessagesComponentProps {
   isLoading: boolean;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   messagesEndRef: any;
+  agentId: string;
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, setMessages, messagesEndRef }) => {
+async function deleteMessages(agentId: string): Promise<void> {
+  const url = `/api/chat/${agentId}/messages`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to delete messages: ${errorText}`);
+  }
+
+}
+
+const MessagesComponent: FC<MessagesComponentProps> = ({ agentId, messages, isLoading, setMessages, messagesEndRef }) => {
   return (
     <div className="flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ height: '80vh' }}>
       {messages.length > 0 && (
@@ -23,7 +38,14 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, se
           <button
             type="button"
             className="flex items-center justify-center px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full"
-            onClick={() => setMessages([])}
+            onClick={() => {setMessages([]);(async () => {
+              try {
+                await deleteMessages(agentId);
+              } catch (error) {
+                console.error(error);
+              }
+            })();
+            }}
           >
             <XMarkIcon className="w-4 h-4 text-zinc-700" />
           </button>
@@ -51,7 +73,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ messages, isLoading, se
         ))}
         {isLoading && (
           <div className={`flex justify-center`}>
-            <p className="text-sm text-gray-500">正在加载...</p>
+            <p className="text-sm text-gray-500">Loading...</p>
           </div>
         )}
         <div ref={messagesEndRef} />

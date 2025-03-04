@@ -13,6 +13,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  conversation: number;
 }
 
 // 定义路由参数的类型
@@ -118,6 +119,7 @@ export default function ChatPage() {
       role: 'user',
       content: input,
       timestamp: new Date().toISOString(),
+      conversation: 1,
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -132,12 +134,15 @@ export default function ChatPage() {
       });
 
       const data = await response.json();
+      
       setMessages(prev => [...prev, {
         id: data.id,
         role: 'assistant',
         content: data.content,
-        timestamp: data.timestamp
+        timestamp: data.timestamp,
+        conversation: 1,
       }]);
+
     } catch (error) {
       console.error('Failed to send message:', error);
     } finally {
@@ -150,26 +155,31 @@ export default function ChatPage() {
     setIsAgentListOpen(false);
   };
 
-  const clearMessages = () => {
-    setMessages([]);
-  };
+  //const clearMessages = () => {
+  //  setMessages([]);
+  //};
 
   return (
       <div className="flex flex-col h-[80vh] px-2">
         <SideBar messages={messages} />
         {!messages.length && (
           <HeaderComponent 
+            agentId={agentId}
+            setIsLoading={setIsLoading}
             selectedAgent={selectedAgent} 
             handleAgentSelect={handleAgentSelect} 
             isAgentListOpen={isAgentListOpen} 
             setIsAgentListOpen={setIsAgentListOpen} 
             agentDescriptions={agentDescriptions} 
+            setMessages={setMessages}
+            messages={messages} 
           />
         )}
           <MessagesComponent 
             setMessages={setMessages}
             messages={messages} 
             isLoading={isLoading} 
+            agentId={agentId}
             messagesEndRef={messagesEndRef} 
           />
           <InputComponent 

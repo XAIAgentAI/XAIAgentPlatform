@@ -10,15 +10,27 @@ interface AgentDescription {
   examples: string[];
 }
 
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+  conversation: number;
+}
+
 interface HeaderComponentProps {
+  agentId: string;
   selectedAgent: string;
   handleAgentSelect: (agent: string) => void;
   isAgentListOpen: boolean;
   setIsAgentListOpen: React.Dispatch<React.SetStateAction<boolean>>;
   agentDescriptions: { [key: string]: AgentDescription };
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  messages: Message[];
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setMessages }) => {
   return (
     <div className="flex catcher flex-col items-center justify-center h-[80vh] space-y-2 mt-4 md:justify-start">
       {/* Agent Selection */}
@@ -55,7 +67,42 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ selectedAgent, handle
           <p className="text-center min-w-[72vw] max-w-[72vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
           <div className="flex compress flex-wrap justify-center gap-4">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
-              <div key={index} className="hover:bg-slate-400 rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]">
+              <div key={index} 
+              className="hover:bg-slate-400 rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
+              onClick={async ()=>{
+                const userMessage: Message = {
+                  id: Date.now().toString(),
+                  role: 'user',
+                  content: example,
+                  timestamp: new Date().toISOString(),
+                  conversation: 1,
+                };
+            
+                setMessages(prev => [...prev, userMessage]);
+                try {
+                  setIsLoading(true);
+                  const response = await fetch(`/api/chat/${agentId}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: example }),
+                  });
+            
+                  const data = await response.json();
+                  setIsLoading(false);
+
+                  setMessages(prev => [...prev, {
+                    id: data.id,
+                    role: 'assistant',
+                    content: data.content,
+                    timestamp: data.timestamp,
+                    conversation: 1,
+                  }]);
+            
+                  } catch (error) {
+                    console.error('Failed to send message:', error);
+                  }
+              }}
+              >
                 {example}
               </div>
             ))}

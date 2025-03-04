@@ -7,6 +7,7 @@ let messageStore: Record<string, Array<{
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  conversation: number;
 }>> = {};
 
 // 获取消息历史
@@ -21,6 +22,16 @@ export async function GET(
     messageStore[agentId] = [];
   }
   
+  return NextResponse.json(messageStore[agentId]);
+}
+
+export async function DELETE (
+  request: NextRequest,
+  { params }: { params : { agentId: string }}
+){
+  const agentId = params.agentId;
+  messageStore[agentId] = [];
+  console.log(messageStore[agentId])
   return NextResponse.json(messageStore[agentId]);
 }
 
@@ -40,6 +51,7 @@ export async function POST(
         role: 'user' as 'user',
         content: message,
         timestamp: new Date().toISOString(),
+        conversation: 1,
       }
     ];
   }
@@ -50,6 +62,7 @@ export async function POST(
     role: "user" as 'user',
     content: message,
     timestamp: new Date().toISOString(),
+    conversation: 1,
   };
 
   // 将用户消息添加到消息存储中
@@ -94,6 +107,7 @@ export async function POST(
     role: aiResponseData.role as 'user' | 'assistant',
     content: aiResponseData.content,
     timestamp: new Date().toISOString(),
+    conversation: 1,
   };
 
   messageStore[agentId].push(aiResponse);
