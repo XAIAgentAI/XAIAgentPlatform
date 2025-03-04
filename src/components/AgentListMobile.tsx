@@ -84,6 +84,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
+  
+
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }

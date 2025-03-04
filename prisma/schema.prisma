@@ -63,6 +63,7 @@ model Agent {
   descriptionKO   String?
   descriptionZH   String?
   lifetime        String?   // 添加 lifetime 字段
+  tokenAddress    String?
 }
 
 model Example {

@@ -19,8 +19,9 @@ export interface LocalAgent {
   tvl: string;
   holdersCount: number;
   socialLinks?: string;
-  token: string;
-  totalSupply?: string;
+  token?: string;
+  tokenAddress?: string;
+  totalSupply?: number;
   useCases?: string[];
   useCasesJA?: string[];
   useCasesKO?: string[];
