@@ -16,6 +16,7 @@ function getIntervalMilliseconds(interval: TimeInterval): number {
     '1h': 60 * 60 * 1000,
     '4h': 4 * 60 * 60 * 1000,
     '1d': 24 * 60 * 60 * 1000,
+    '1w': 7 * 24 * 60 * 60 * 1000,  // 添加一周的毫秒数
   };
   return map[interval] || 60 * 1000; // 默认1分钟
 }

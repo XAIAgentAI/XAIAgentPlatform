@@ -20,7 +20,8 @@
       "minutes": "분",
       "seconds": "초"
     },
-    "social": "소셜"
+    "social": "소셜",
+    "noData": "데이터 없음"
   },
   "navigation": {
     "home": "홈",
@@ -133,7 +134,9 @@
     "marketCap": "시가총액",
     "volume": "거래량",
     "supply": "공급량",
-    "contract": "컨트랙트"
+    "contract": "스마트 컨트랙트",
+    "fetchError": "에이전트 상세 정보를 가져오는데 실패했습니다",
+    "agentNotFound": "에이전트를 찾을 수 없습니다"
   },
   "iaoPool": {
     "title": "IAO 풀",
@@ -156,7 +159,7 @@
     "loadingData": "데이터 로딩 중...",
     "loading": "로딩 중...",
     "claimAfterCountdown": "카운트다운 종료 후 청구 가능",
-    "testClaim": "보상 테스트 청구",
+    "claim": "보상 청구",
     "claimSuccess": "청구 성공",
     "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
     "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
@@ -263,6 +266,22 @@
         "suffix": "를 선택하세요"
       }
     }
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30분",
+      "1h": "1시간",
+      "4h": "4시간",
+      "1d": "1일",
+      "1w": "1주"
+    },
+    "volume": "거래량",
+    "priceArea": "가격 영역",
+    "volumeArea": "거래량 영역",
+    "loading": "로딩 중...",
+    "error": "차트 데이터 로딩 오류",
+    "retry": "다시 시도",
+    "noData": "데이터 없음"
   },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",

@@ -18,7 +18,7 @@ interface AgentListProps {
   agents: Array<{
     id: number;
     name: string;
-    avatar: string;
+    avatar?: string;
     symbol: string;
     type: string;
     marketCap: string;
@@ -28,13 +28,15 @@ interface AgentListProps {
     volume24h: string;
     status: string;
     socialLinks?: string;
+    priceChange24h?: string;
+    price?: string;
   }>;
   loading?: boolean;
 }
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
-  
+
   const links = socialLinks.split(",").map(link => link.trim());
   return {
     twitter: links.find(link => link.includes("x.com") || link.includes("twitter.com")) || "",
@@ -85,8 +87,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
-  // console.log("sortedAgents", sortedAgents);
-  
+
 
   const getSortIcon = (field: SortField) => {
     return (
@@ -103,6 +104,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
+
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
@@ -260,8 +262,18 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                         </div>
                       </TableCell>
                       <TableCell>{agent.marketCap}</TableCell>
-                      <TableCell>{agent.change24h}</TableCell>
-                      <TableCell>{agent.tvl}</TableCell>
+                      <TableCell>
+                        <span className={agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}>
+                          {agent.priceChange24h ? 
+                            (parseFloat(agent.priceChange24h) === -0 ? 
+                              "+0.00%" : 
+                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${parseFloat(agent.priceChange24h).toFixed(2)}%`
+                            ) : 
+                            "0.00%"
+                          }
+                        </span>
+                      </TableCell>
+                      <TableCell>{agent.price || '$0'}</TableCell>
                       <TableCell>{agent.holdersCount}</TableCell>
                       <TableCell>{agent.volume24h}</TableCell>
                       <TableCell>

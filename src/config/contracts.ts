@@ -3,24 +3,20 @@ import { isTestnet } from './networks';
 // 合约类型定义
 type TestnetContracts = {
   XAA_TOKEN: `0x${string}`;
-  IAO_CONTRACT: `0x${string}`;
 };
 
 type MainnetContracts = {
   XAA_TOKEN: `0x${string}`;
-  IAO_CONTRACT: `0x${string}`;
 };
 
 // 测试网合约地址
 export const TESTNET_CONTRACTS: TestnetContracts = {
   XAA_TOKEN: '0xC21155334688E2c1Cf89D4aB09d38D30002717DD',
-  IAO_CONTRACT: '0x82B7e10Ed1453FBf60c98aFbDeD94159A5E13973'
 } as const;
 
 // 主网合约地址
 export const MAINNET_CONTRACTS: MainnetContracts = {
   XAA_TOKEN: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
-  IAO_CONTRACT: '0x5AeF02893F05D5422eD0c3bD1D7502Ec6bd6195e'
 } as const;
 
 // 当前环境合约地址

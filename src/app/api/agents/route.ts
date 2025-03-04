@@ -52,9 +52,9 @@ export async function GET(request: Request) {
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      // orderBy: {
+      //   id: 'asc',
+      // },
     });
 
     // 处理返回数据
@@ -71,6 +71,20 @@ export async function GET(request: Request) {
       creatorAddress: item.creator.address,
       reviewCount: item._count.reviews,
       createdAt: item.createdAt,
+      symbol: item.symbol,
+      totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
+      tvl: item.tvl,
+      holdersCount: item.holdersCount,
+      volume24h: item.volume24h,
+      marketCap: item.marketCap,
+      change24h: item.change24h,
+      type: item.type,
+      // tokenAddress: item.tokenAddress,
+      // iaoContractAddress: item.iaoContractAddress,
+      // tokenAddressTestnet: item.tokenAddressTestnet,
+      // iaoContractAddressTestnet: item.iaoContractAddressTestnet,
+      tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
+      iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
     }));
 
     return createSuccessResponse({

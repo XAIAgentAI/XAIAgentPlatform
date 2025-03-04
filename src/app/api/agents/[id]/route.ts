@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const agent = await prisma.agent.findUnique({
-      where: { id: params.id },
+      where: { id: String(params.id) },
       include: {
         creator: {
           select: {
@@ -37,6 +37,9 @@ export async function GET(
       creatorAddress: agent.creator.address,
       reviewCount: agent._count.reviews,
       historyCount: agent._count.history,
+      totalSupply: agent.totalSupply ? Number(agent.totalSupply) : null,
+      tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress,
+      iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
     });
   } catch (error) {
     return handleError(error);

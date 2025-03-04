@@ -5,7 +5,7 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "search": "Search Agent/Contract Address",
+    "search": "Search agent/contract address",
     "buy": "Buy",
     "sell": "Sell",
     "buyAgent": "Buy",
@@ -16,11 +16,12 @@
     "xaaBalance": "XAA Balance",
     "social": "Social",
     "timeUnits": {
-      "days": "d",
-      "hours": "h",
-      "minutes": "m",
-      "seconds": "s"
-    }
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    },
+    "noData": "No Data"
   },
   "navigation": {
     "home": "Home",
@@ -134,7 +135,9 @@
     "marketCap": "Market Cap",
     "volume": "Volume",
     "supply": "Supply",
-    "contract": "Contract"
+    "contract": "Smart Contract",
+    "fetchError": "Failed to fetch Agent details",
+    "agentNotFound": "Agent not found"
   },
   "iaoPool": {
     "title": "IAO Pool",
@@ -157,7 +160,7 @@
     "loadingData": "Loading data...",
     "loading": "Loading...",
     "claimAfterCountdown": "Claim available after countdown ends",
-    "testClaim": "Claim Rewards",
+    "claim": "Claim Rewards",
     "claimSuccess": "Claim Successful",
     "tokenSentToWallet": "XAA Token has been sent to your wallet",
     "importTokenAddress": "Please import the Token address in MetaMask to view:",
@@ -278,5 +281,21 @@
         "suffix": "as the network"
       }
     }
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30m",
+      "1h": "1h",
+      "4h": "4h",
+      "1d": "1d",
+      "1w": "1w"
+    },
+    "volume": "Volume",
+    "priceArea": "Price Area",
+    "volumeArea": "Volume Area",
+    "loading": "Loading...",
+    "error": "Error loading chart data",
+    "retry": "Retry",
+    "noData": "No data available"
   }
 }

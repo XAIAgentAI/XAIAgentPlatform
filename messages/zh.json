@@ -20,7 +20,8 @@
       "minutes": "分",
       "seconds": "秒"
     },
-    "social": "社交"
+    "social": "社交",
+    "noData": "暂无数据"
   },
   "navigation": {
     "home": "首页",
@@ -134,7 +135,9 @@
     "marketCap": "市值",
     "volume": "交易量",
     "supply": "供应量",
-    "contract": "智能合约"
+    "contract": "智能合约",
+    "fetchError": "获取 Agent 详情失败",
+    "agentNotFound": "未找到该 Agent"
   },
   "iaoPool": {
     "title": "IAO 池",
@@ -157,7 +160,7 @@
     "loadingData": "加载数据中...",
     "loading": "加载中...",
     "claimAfterCountdown": "倒计时结束后可领取",
-    "testClaim": "领取奖励",
+    "claim": "领取奖励",
     "claimSuccess": "领取成功",
     "tokenSentToWallet": "代币已发送到您的钱包",
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",
@@ -279,5 +282,21 @@
     "agentAvatar": "智能体头像",
     "creatorAvatar": "创建者头像",
     "closeSearch": "关闭搜索"
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30分钟",
+      "1h": "1小时",
+      "4h": "4小时",
+      "1d": "1天",
+      "1w": "1周"
+    },
+    "volume": "成交量",
+    "priceArea": "价格区域",
+    "volumeArea": "成交量区域",
+    "loading": "加载中...",
+    "error": "加载图表数据失败",
+    "retry": "重试",
+    "noData": "暂无数据"
   }
 } 

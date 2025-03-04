@@ -25,7 +25,6 @@ export async function GET(request: Request) {
         },
       });
       
-      console.log('Nonce saved successfully:', savedNonce);
 
       return NextResponse.json({
         code: 200,
