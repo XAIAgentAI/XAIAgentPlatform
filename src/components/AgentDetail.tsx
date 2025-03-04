@@ -58,7 +58,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
           <AgentInfo agentId={id} />
 
           {/* 对话启动器 */}
-          <ConversationStarter agentId={id} />
+          <ConversationStarter agent={agent as any} />
         </div>
 
         {/* 右侧区域 */}

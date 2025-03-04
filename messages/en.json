@@ -294,6 +294,8 @@
     "priceArea": "Price Area",
     "volumeArea": "Volume Area",
     "loading": "Loading...",
-    "error": "Error loading chart data"
+    "error": "Error loading chart data",
+    "retry": "Retry",
+    "noData": "No data available"
   }
 }

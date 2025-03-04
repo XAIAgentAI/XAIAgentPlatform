@@ -8,6 +8,7 @@ import { agentAPI } from '@/services/api'
 import { LocalAgent } from '@/types/agent'
 import { useRouter } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
+import { format } from 'date-fns'
 
 interface LocalizedAgent extends LocalAgent {
   statusJA?: string;
@@ -18,26 +19,6 @@ interface LocalizedAgent extends LocalAgent {
   descriptionZH?: string;
 }
 
-const mockAgents: LocalizedAgent[] = [
-  // {
-  //   id: '1',
-  //   type: 'Data Analysis',
-  //   stats: '$DATA +46.67% | Market Cap: $522.M',
-  //   createdBy: '@base',
-  //   description: 'Create a website in seconds! Describe your website idea and write copy for your website. Powered by BI...',
-  //   avatar: '/images/avatar-1.png',
-  //   timeAgo: '21 days ago'
-  // },
-  // {
-  //   id: '2',
-  //   type: 'Data Analysis',
-  //   stats: '$DATA +46.67% | Market Cap: $522.M',
-  //   createdBy: '@base',
-  //   description: 'Create a website in seconds! Describe your website idea and write copy for your website. Powered by BI...',
-  //   avatar: '/images/avatar-2.png',
-  //   timeAgo: '21 days ago'
-  // },
-]
 
 const tabs = [
   { value: "prototype", label: "agents.prototype" },
@@ -85,8 +66,8 @@ export default function AgentsPage() {
 
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
-    ? agents.filter(agent => agent.id >= 4 && agent.id <=12 ) // AI Agent: id 4和5
-    : agents.filter(agent => agent.id === 2 || agent.id === 3) // Infrastructure: id 2和3
+    ? agents.filter(agent => agent.type === "AI Agent") // AI Agent: id 4和5
+    : agents.filter(agent => agent.type === "Infrastructure") // Infrastructure: id 2和3
 
   if (loading) {
     return (
@@ -146,7 +127,7 @@ export default function AgentsPage() {
                             )}
                           </Avatar>
                           <span className="text-[10px] lg:text-xs text-muted-foreground">
-                            {agent.createdAt.toLocaleDateString()}
+                            {format(new Date(agent.createdAt), 'yyyy-MM-dd HH:mm')}
                           </span>
                         </div>
                         <div className="flex-1 min-w-0">

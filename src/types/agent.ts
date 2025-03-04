@@ -2,6 +2,10 @@ export interface LocalAgent {
   id: number;
   name: string;
   description: string;
+  descriptionJA?: string;
+  descriptionKO?: string;
+  descriptionZH?: string;
+
   longDescription?: string | null;
   category: string;
   avatar?: string;
@@ -30,6 +34,7 @@ export interface LocalAgent {
   symbol: string;
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
+
 }
 
 export interface AgentPrice {

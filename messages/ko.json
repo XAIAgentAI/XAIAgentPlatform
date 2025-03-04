@@ -279,7 +279,9 @@
     "priceArea": "가격 영역",
     "volumeArea": "거래량 영역",
     "loading": "로딩 중...",
-    "error": "차트 데이터 로딩 오류"
+    "error": "차트 데이터 로딩 오류",
+    "retry": "다시 시도",
+    "noData": "데이터 없음"
   },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",

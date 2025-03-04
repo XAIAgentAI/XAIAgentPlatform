@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
 import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS } from "@/services/swapService";
+import { fetchDBCPrice as fetchDBCPriceFromHook } from "@/hooks/useDBCPrice";
 
 interface ApiResponse<T> {
   code: number;
@@ -35,13 +36,14 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   const [agent, setAgent] = useState<LocalAgent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dbcPriceUsd, setDBCPriceUsd] = useState<number>(0);
 
   const getAgentData = async () => {
     try {
       setIsLoading(true);
       setError(null);
       const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
-      if(res?.code === 200) {
+      if (res?.code === 200) {
         setAgent(res.data);
       } else {
         setError(res?.message || '获取数据失败');
@@ -57,6 +59,16 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   useEffect(() => {
     getAgentData();
   }, [agentId]);
+
+  useEffect(() => {
+    const getDBCPrice = async () => {
+      const priceInfo = await fetchDBCPriceFromHook();
+      if (priceInfo && typeof priceInfo.priceUsd === 'string') {
+        setDBCPriceUsd(Number(priceInfo.priceUsd));
+      }
+    };
+    getDBCPrice();
+  }, []);
 
   const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
   const chatEntry = agent?.chatEntry || "";
@@ -86,6 +98,13 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   // 根据当前语言获取对应的描述
   const getLocalizedDescription = () => {
     if (!agent) return "";
+    if (locale === 'zh') {
+      return agent.descriptionZH;
+    } else if (locale === 'ko') {
+      return agent.descriptionKO;
+    } else if (locale === 'ja') {
+      return agent.descriptionJA;
+    }
     return agent.description;
   };
 
@@ -240,6 +259,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}
+          dbcPriceUsd={dbcPriceUsd}
         />
       </div>
 
@@ -262,7 +282,12 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           </TabsList>
 
           <TabsContent value="information">
-            <MarketData tokenData={tokenData} />
+            <MarketData
+              tokenData={tokenData}
+              agent={agent}
+              currentPrice={currentPrice}
+              dbcPriceUsd={dbcPriceUsd}
+            />
           </TabsContent>
 
           <TabsContent value="holders">
@@ -274,7 +299,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       {/* Description */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">{t('description')}</h2>
-        {getLocalizedDescription().split("\n").map((line: string, index: number) => (
+        {getLocalizedDescription()?.split("\n").map((line: string, index: number) => (
           <p key={index} className="text-sm text-muted-foreground break-words mb-2">
             {line}
           </p>

@@ -17,6 +17,7 @@ interface CryptoChartProps {
   error?: string | null;
   onIntervalChange?: (interval: TimeInterval) => void;
   onRetry?: () => void;
+  dbcPriceUsd: number;
 }
 
 const TIME_INTERVALS: { label: string; value: TimeInterval }[] = [
@@ -59,7 +60,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   isLoading = false,
   error = null,
   onIntervalChange,
-  onRetry
+  onRetry,
+  dbcPriceUsd
 }) => {
   const t = useTranslations('cryptoChart');
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -74,13 +76,13 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   const [chartError, setChartError] = useState<string | null>(null);
 
   // 添加格式化价格的辅助函数
-  const formatPrice = (price: number | undefined): { value: string; pair: string } => {
+  const formatPrice = (price: number | undefined, decimals: number = 5): { value: string; pair: string } => {
     const pair = 'XAA/DBC';
-    if (price === undefined || price === null) return { value: '0.00000', pair };
-    if (price === 0) return { value: '0.00000', pair };
+    if (price === undefined || price === null) return { value: `0.${'0'.repeat(decimals)}`, pair };
+    if (price === 0) return { value: `0.${'0'.repeat(decimals)}`, pair };
 
     const absPrice = Math.abs(price);
-    if (absPrice < 0.00001) {
+    if (absPrice < Math.pow(10, -decimals)) {
       // 只有在非常小的数字时才使用 0.0{x}y 格式
       const priceStr = absPrice.toString();
       const match = priceStr.match(/^0\.0+/);
@@ -88,8 +90,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
       return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
     }
-    // 所有数字都显示5位小数
-    return { value: absPrice.toFixed(5), pair };
+    // 根据指定的精度显示小数位数
+    return { value: absPrice.toFixed(decimals), pair };
   };
 
   // 添加格式化坐标轴价格的函数
@@ -391,9 +393,9 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       // 设置主图表区域样式
       chart.current.applyOptions({
         layout: {
-          background: { 
-            type: ColorType.Solid, 
-            color: colors.background 
+          background: {
+            type: ColorType.Solid,
+            color: colors.background
           },
         },
         grid: {
@@ -428,7 +430,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       klineData.map(item => ({
         time: item.time as any,
         value: item.volume,
-        color: item.close >= item.open 
+        color: item.close >= item.open
           ? `${colors.upColor}99`
           : `${colors.downColor}99`
       }))
@@ -455,7 +457,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       if (chart.current) {
         // 设置合适的时间范围
         const timeScale = chart.current.timeScale();
-        
+
         // 根据不同的时间间隔设置不同的可见范围
         let visibleRange = 30; // 默认显示30个数据点
         switch (selectedInterval) {
@@ -555,13 +557,23 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     );
   }
 
+  if (!klineData.length) {
+    return (
+      <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
+        <div className="text-muted-foreground text-center">
+          <p>{t('noData')}</p>
+        </div>
+      </div>
+    );
+  }
+
   if (error || chartError) {
     return (
       <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
         <div className="text-destructive text-center">
           <p className="mb-2">{error || chartError}</p>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={handleRetry}
             className="hover:bg-destructive hover:text-destructive-foreground"
           >
@@ -571,6 +583,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
       </div>
     );
   }
+
+
 
   return (
     <div className="space-y-4 pt-2">
@@ -598,7 +612,16 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
               </svg>
             )}
             {formatPriceChange(priceChange)}
+
+            <div className="flex items-baseline  text-muted-foreground h- ml-1">
+              $
+              <span className="text-sm font-medium">
+                {formatPrice(currentPrice * dbcPriceUsd, 8).value}
+              </span>
+            </div>
           </div>
+
+
         </div>
         <div className="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
           <div className="flex gap-1 min-w-min">

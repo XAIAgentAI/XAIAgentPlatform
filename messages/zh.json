@@ -295,6 +295,8 @@
     "priceArea": "价格区域",
     "volumeArea": "成交量区域",
     "loading": "加载中...",
-    "error": "加载图表数据时出错"
+    "error": "加载图表数据失败",
+    "retry": "重试",
+    "noData": "暂无数据"
   }
 } 

@@ -78,6 +78,7 @@ export async function GET(request: Request) {
       volume24h: item.volume24h,
       marketCap: item.marketCap,
       change24h: item.change24h,
+      type: item.type,
       // tokenAddress: item.tokenAddress,
       // iaoContractAddress: item.iaoContractAddress,
       // tokenAddressTestnet: item.tokenAddressTestnet,
