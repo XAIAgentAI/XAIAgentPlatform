@@ -536,11 +536,13 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             return total + (isNaN(swapAmount) ? 0 : swapAmount);
           }, 0) || 0;
 
+          const usdPrice = (currentPrice) ? Number((Number(currentPrice) * Number(dbcPriceUsd)).toFixed(8)) : 0;
+
           priceMap[token.symbol] = {
             tokenAddress: token.address,
-            usdPrice: (currentPrice) ? Number((Number(currentPrice) * Number(dbcPriceUsd)).toFixed(8)) : 0,
+            usdPrice,
             tvl: parseFloat(tokenData.totalValueLockedUSD || '0'),
-            volume24h: volume24h,
+            volume24h: Number(volume24h.toFixed(2) * usdPrice),
             priceChange24h: Number(priceChange24h.toFixed(2))
           };
         } catch (error) {
