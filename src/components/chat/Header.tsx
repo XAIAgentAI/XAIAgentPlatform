@@ -37,14 +37,14 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentId, setIsLoading
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex items-center justify-between px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(21vw+6%)] top-16"
+          className="flex font-light items-center justify-between px-2 py-1 text-neutral-200 text-lg rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(21vw+6%)] top-16"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
           {isAgentListOpen ? (
-            <ArrowUpIcon className="w-4 h-4 text-zinc-700" />
+            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-stone-200" />
           ) : (
-            <ArrowDownIcon className="w-4 h-4 text-zinc-700" />
+            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-stone-200" />
           )}
         </button>
         {isAgentListOpen && (

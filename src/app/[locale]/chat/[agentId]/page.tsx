@@ -160,7 +160,7 @@ export default function ChatPage() {
   //};
 
   return (
-      <div className="flex flex-col h-[80vh] px-2">
+      <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
         <SideBar messages={messages} />
         {!messages.length && (
           <HeaderComponent 
