@@ -20,7 +20,7 @@ import { useNetwork } from "@/hooks/useNetwork";
 const showIAOReal = "true"
 
 export const IaoPool = ({ agent = {} as LocalAgent }) => {
-  
+
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
   const [userStakeInfo, setUserStakeInfo] = useState({
@@ -311,7 +311,7 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
           )}
 
           {
-            agent.token === 'XAA' && (
+            !!userStakeInfo.userDeposited && (
               <div className="space-y-2 mt-4">
                 <p className="text-sm text-muted-foreground">
                   {t('stakedAmount', { symbol: 'DBC' })}:
@@ -359,9 +359,9 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
                   });
                 }
               }}
-              disabled={isStakeLoading || userStakeInfo.hasClaimed}
+              disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
             >
-              {userStakeInfo.hasClaimed ? t('claimed') : t('testClaim')}
+              {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
             </Button>
           )
 

@@ -157,7 +157,7 @@
     "loadingData": "加载数据中...",
     "loading": "加载中...",
     "claimAfterCountdown": "倒计时结束后可领取",
-    "testClaim": "领取奖励",
+    "claim": "领取奖励",
     "claimSuccess": "领取成功",
     "tokenSentToWallet": "代币已发送到您的钱包",
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",

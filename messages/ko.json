@@ -156,7 +156,7 @@
     "loadingData": "데이터 로딩 중...",
     "loading": "로딩 중...",
     "claimAfterCountdown": "카운트다운 종료 후 청구 가능",
-    "testClaim": "보상 테스트 청구",
+    "claim": "보상 청구",
     "claimSuccess": "청구 성공",
     "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
     "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
