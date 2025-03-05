@@ -166,7 +166,7 @@
     "claimSuccess": "领取成功",
     "tokenSentToWallet": "代币已发送到您的钱包",
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",
-    "poolDynamicTip": "随着IAO池子中的$DBC数量增加，对应获得$XAA数量在减少",
+    "poolDynamicTip": "随着IAO池子中的{investSymbol}数量增加，对应获得{symbol}数量在减少",
     "maxButton": "最大",
     "insufficientBalance": "余额不足，最大可用金额: {amount} DBC",
     "stakedAmount": "已支付的 {symbol} 数量",

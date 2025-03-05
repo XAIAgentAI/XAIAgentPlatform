@@ -165,7 +165,7 @@
     "claimSuccess": "청구 성공",
     "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
     "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
-    "poolDynamicTip": "IAO 풀의 $DBC 수량이 증가함에 따라 해당하는 $XAA 수량은 감소합니다",
+    "poolDynamicTip": "IAO 풀의 {investSymbol} 수량이 증가함에 따라 해당하는 {symbol} 수량은 감소합니다",
     "maxButton": "최대",
     "insufficientBalance": "잔액 부족, 최대 사용 가능 금액: {amount} DBC",
     "stakedAmount": "지불한 {symbol} 수량",

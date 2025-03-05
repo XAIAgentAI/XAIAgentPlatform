@@ -164,7 +164,7 @@ export default function ChatPage() {
       <SideBar messages={messages} />
       {!messages.length && (
         <HeaderComponent
-          agentId={agentId}
+          agentId={agentId as string}
           setIsLoading={setIsLoading}
           selectedAgent={selectedAgent}
           handleAgentSelect={handleAgentSelect}
@@ -179,7 +179,7 @@ export default function ChatPage() {
         setMessages={setMessages}
         messages={messages}
         isLoading={isLoading}
-        agentId={agentId}
+        agentId={agentId as string}
         messagesEndRef={messagesEndRef}
       />
       <InputComponent
