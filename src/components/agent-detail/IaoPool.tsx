@@ -50,10 +50,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const { switchChain } = useSwitchChain();
   const { ensureCorrectNetwork } = useNetwork();
 
-
-
-
-
   // 获取用户余额
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
