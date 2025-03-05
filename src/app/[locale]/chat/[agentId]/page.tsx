@@ -97,7 +97,7 @@ export default function ChatPage() {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
   const fetchMessages = async () => {
@@ -134,7 +134,7 @@ export default function ChatPage() {
       });
 
       const data = await response.json();
-      
+
       setMessages(prev => [...prev, {
         id: data.id,
         role: 'assistant',
@@ -160,34 +160,34 @@ export default function ChatPage() {
   //};
 
   return (
-      <div className="flex flex-col h-[80vh] px-2">
-        {/* <SideBar messages={messages} />
-        {!messages.length && (
-          <HeaderComponent 
-            agentId={agentId}
-            setIsLoading={setIsLoading}
-            selectedAgent={selectedAgent} 
-            handleAgentSelect={handleAgentSelect} 
-            isAgentListOpen={isAgentListOpen} 
-            setIsAgentListOpen={setIsAgentListOpen} 
-            agentDescriptions={agentDescriptions} 
-            setMessages={setMessages}
-            messages={messages} 
-          />
-        )}
-          <MessagesComponent 
-            setMessages={setMessages}
-            messages={messages} 
-            isLoading={isLoading} 
-            agentId={agentId}
-            messagesEndRef={messagesEndRef} 
-          /> */}
-          <InputComponent 
-            input={input} 
-            setInput={setInput} 
-            isLoading={isLoading} 
-            handleSubmit={handleSubmit} 
-          />
-      </div>
+    <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
+      <SideBar messages={messages} />
+      {!messages.length && (
+        <HeaderComponent
+          agentId={agentId}
+          setIsLoading={setIsLoading}
+          selectedAgent={selectedAgent}
+          handleAgentSelect={handleAgentSelect}
+          isAgentListOpen={isAgentListOpen}
+          setIsAgentListOpen={setIsAgentListOpen}
+          agentDescriptions={agentDescriptions}
+          setMessages={setMessages}
+          messages={messages}
+        />
+      )}
+      <MessagesComponent
+        setMessages={setMessages}
+        messages={messages}
+        isLoading={isLoading}
+        agentId={agentId}
+        messagesEndRef={messagesEndRef}
+      />
+      <InputComponent
+        input={input}
+        setInput={setInput}
+        isLoading={isLoading}
+        handleSubmit={handleSubmit}
+      />
+    </div>
   );
 }

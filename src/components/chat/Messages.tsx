@@ -32,7 +32,7 @@ async function deleteMessages(agentId: string): Promise<void> {
 
 const MessagesComponent: FC<MessagesComponentProps> = ({ agentId, messages, isLoading, setMessages, messagesEndRef }) => {
   return (
-    <div className="flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ height: '80vh' }}>
+    <div className="flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ height: '75vh' }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
@@ -51,7 +51,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agentId, messages, isLo
           </button>
         </div>
       )}
-      <div className="flex flex-col space-y-6 overflow-y-auto max-h-[80vh]">
+      <div className="flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
         {messages.map((message) => (
           <div
             key={message.id}
