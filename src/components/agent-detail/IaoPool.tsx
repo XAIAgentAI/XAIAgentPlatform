@@ -355,7 +355,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
               onClick={async () => {
                 try {
-                  const result = await claimRewards();
+                  const result : any = await claimRewards();
                   if (result?.success) {
                     toast({
                       title: t('claimSuccess'),

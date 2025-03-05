@@ -553,11 +553,11 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const { request } = await publicClient.simulateContract({
         address: iaoContractAddress,
         abi: getContractABI(symbol),
-        functionName: claimRewardsFunctionName,
+        functionName: claimRewardsFunctionName as any,
         account: formattedAddress,
       });
 
-      const hash = await viemWalletClient.writeContract(request);
+      const hash = await viemWalletClient.writeContract(request as any);
 
       toast(createToastMessage({
         title: t('success'),
