@@ -64,7 +64,7 @@ const SideBar = ({ messages }: SideBarProps) => {
             onChange={(e) => setQuery(e.target.value)}
             className="w-[64%] text-neutral-700 pl-2 focus:outline-none rounded-lg space-x-2 space-y-2 focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition duration-300"
           />
-          <button onClick={handleClose} className="w-[30%] bg-zinc-700 text-white px-2 py-1 rounded-full">
+          <button onClick={handleClose} className="w-auto ml-[6px] xl:ml-[0] xl:w-[30%] bg-zinc-700 text-white px-2 py-1 rounded-full">
             Cancel
           </button>
         </div>
@@ -82,9 +82,9 @@ const SideBar = ({ messages }: SideBarProps) => {
           {isEmailOpen && (
             <div className="mt-4">
               <div className="text-lg mb-2 text-stone-50 font-light">Email Us:</div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col items-start xl:flex-row xl:items-center xl:justify-between">
                 <div className="text-stone-100 font-light">endless_sword@163.com</div>
-                <button onClick={handleCopyEmail} className={`${bgCopy} text-slate-200 px-2 py-1 rounded-md`}>
+                <button onClick={handleCopyEmail} className={`${bgCopy} relative top-[4px] xl:top-0 text-slate-200 px-2 py-1 rounded-md`}>
                   Copy
                 </button>
               </div>

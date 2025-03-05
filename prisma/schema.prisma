@@ -63,6 +63,14 @@ model Review {
   createdAt   DateTime @default(now())
 }
 
+model Chat {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  password  String
+  chat      Json    // 用于存储复杂的对话结构
+  createdAt DateTime @default(now())
+}
+
 model History {
   id        String   @id @default(uuid())
   action    String
