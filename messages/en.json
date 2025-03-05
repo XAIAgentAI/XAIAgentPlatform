@@ -165,7 +165,7 @@
     "claimSuccess": "Claim Successful",
     "tokenSentToWallet": "XAA Token has been sent to your wallet",
     "importTokenAddress": "Please import the Token address in MetaMask to view:",
-    "poolDynamicTip": "As the amount of $DBC in the IAO pool increases, the corresponding amount of $XAA decreases",
+    "poolDynamicTip": "As the amount of {investSymbol} in the IAO pool increases, the corresponding amount of {symbol} decreases",
     "maxButton": "Max",
     "insufficientBalance": "Insufficient balance, maximum available amount: {amount} DBC",
     "stakedAmount": "Paid {symbol} Amount",

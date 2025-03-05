@@ -91,7 +91,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       isTestnet ? 'TOTAL_XAA_REWARD' : 'TOTAL_REWARD' :
       isTestnet ? 'totalReward' : 'totalReward';
   }
-  const claimRewardsFunctionName = symbol === 'XAA' ? 'claimRewards' : 'getReward';
+  const claimRewardsFunctionName = symbol === 'XAA' ? 'claimRewards' : 'claimRewards';
 
   const createToastMessage = useCallback((params: ToastMessage): ToastMessage => {
     return {

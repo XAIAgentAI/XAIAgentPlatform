@@ -347,7 +347,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             )}
 
           <p className="text-sm text-muted-foreground mt-2">
-            {t('poolDynamicTip')}
+            {t('poolDynamicTip', { symbol: agent.symbol, investSymbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}
           </p>
 
           {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 && isConnected) ? (
@@ -355,7 +355,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
               onClick={async () => {
                 try {
-                  const result : any = await claimRewards();
+                  const result: any = await claimRewards();
                   if (result?.success) {
                     toast({
                       title: t('claimSuccess'),
