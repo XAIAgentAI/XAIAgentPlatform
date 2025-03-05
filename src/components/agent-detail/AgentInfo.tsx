@@ -183,7 +183,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <div className="flex justify-start items-center gap-2">
+            <div className="flex justify-start items-center flex-wrap">
               <h1 className="text-xl font-semibold">{agent?.name}</h1>
               <div className="flex items-baseline  text-muted-foreground h- ml-1">
                 $

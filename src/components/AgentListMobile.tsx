@@ -30,6 +30,7 @@ interface AgentListProps {
     priceChange24h?: string;
     price?: string;
     tokenAddress?: string;
+    lp?: string;
   }>;
   loading?: boolean;
 }
@@ -176,6 +177,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24hVol')}</span>
                     <p className="text-secondary-color text-sm font-medium">{(agent.volume24h)}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-muted-color text-xs block">{t('lp')}</span>
+                    <p className="text-secondary-color text-sm font-medium">{agent.lp || '$0'}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('status')}</span>

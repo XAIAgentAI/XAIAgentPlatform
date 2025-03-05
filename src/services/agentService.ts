@@ -81,7 +81,8 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
           tvl: `$${formatNumber(tokenSwapInfo.tvl || 0)}`,
           volume24h: `$${formatNumber(tokenSwapInfo.volume24h || 0)}`,
           price: `$${formatNumber(usdPrice, 8)}`,
-          priceChange24h: `${formatNumber(tokenSwapInfo.priceChange24h || 0)}%`
+          priceChange24h: `${formatNumber(tokenSwapInfo.priceChange24h || 0)}%`,
+          lp: `$${formatNumber(tokenSwapInfo.lp || 0)}`
         };
       }
       return agent;

@@ -52,40 +52,38 @@ export async function GET(request: Request) {
           },
         },
       },
-      // orderBy: {
-      //   id: 'asc',
-      // },
+      orderBy: {
+        id: 'asc',
+      },
     });
 
     // 处理返回数据
-    const formattedItems = items.map(item => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      category: item.category,
-      avatar: item.avatar,
-      status: item.status,
-      capabilities: JSON.parse(item.capabilities),
-      rating: item.rating,
-      usageCount: item.usageCount,
-      creatorAddress: item.creator.address,
-      reviewCount: item._count.reviews,
-      createdAt: item.createdAt,
-      symbol: item.symbol,
-      totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
-      tvl: item.tvl,
-      holdersCount: item.holdersCount,
-      volume24h: item.volume24h,
-      marketCap: item.marketCap,
-      change24h: item.change24h,
-      type: item.type,
-      // tokenAddress: item.tokenAddress,
-      // iaoContractAddress: item.iaoContractAddress,
-      // tokenAddressTestnet: item.tokenAddressTestnet,
-      // iaoContractAddressTestnet: item.iaoContractAddressTestnet,
-      tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
-      iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
-    }));
+    const formattedItems = items
+      .map(item => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        category: item.category,
+        avatar: item.avatar,
+        status: item.status,
+        capabilities: JSON.parse(item.capabilities),
+        rating: item.rating,
+        usageCount: item.usageCount,
+        creatorAddress: item.creator.address,
+        reviewCount: item._count.reviews,
+        createdAt: item.createdAt,
+        symbol: item.symbol,
+        totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
+        tvl: item.tvl,
+        holdersCount: item.holdersCount,
+        volume24h: item.volume24h,
+        marketCap: item.marketCap,
+        change24h: item.change24h,
+        type: item.type,
+        tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
+        iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
+      }))
+      .sort((a, b) => Number(a.id) - Number(b.id));
 
     return createSuccessResponse({
       items: formattedItems,

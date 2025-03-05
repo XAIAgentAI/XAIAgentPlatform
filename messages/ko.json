@@ -104,6 +104,7 @@
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공"
+
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -117,7 +118,8 @@
     "24hVol": "24시간 거래량",
     "status": "상태",
     "loading": "로딩 중...",
-    "social": "소셜"
+    "social": "소셜",
+    "lp": "유동성 풀"
   },
   "agentDetail": {
     "overview": "개요",
@@ -169,16 +171,20 @@
     "stakedAmount": "지불한 {symbol} 수량",
     "stakeSuccessful": "구매 성공!",
     "stakeFailed": "구매 실패, 다시 시도해주세요",
-    "claimableAmount": "청구 가능한 XAA 수량",
-    "claimedAmount": "청구된 XAA 수량",
+    "claimableAmount": "청구 가능한 {symbol} 수량",
+    "claimedAmount": "청구된 {symbol} 수량",
     "claimed": "청구됨",
     "claimSuccessWithAmount": "{amount} XAA 청구 성공",
     "stakeNotStarted": "구매가 시작되지 않았습니다",
-    "sendSuccess": "{amount} DBC 전송 성공",
+    "sendSuccess": "{amount} {symbol} 전송 성공",
     "transactionSent": "거래가 전송되었습니다",
     "waitForConfirmation": "확인을 기다려주세요",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공",
-    "goToDbcswap": "DBCSwap에서 XAA 구매"
+    "goToDbcswap": "DBCSwap에서 XAA 구매",
+    "approveTransaction": "토큰 승인",
+    "approveWaitingConfirm": "승인 확인 대기 중",
+    "approveSuccess": "승인이 완료되었습니다",
+    "approveFailed": "승인에 실패했습니다. 다시 시도해주세요"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",

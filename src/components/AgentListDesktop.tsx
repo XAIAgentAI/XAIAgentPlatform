@@ -30,6 +30,7 @@ interface AgentListProps {
     socialLinks?: string;
     priceChange24h?: string;
     price?: string;
+    lp?: string;
   }>;
   loading?: boolean;
 }
@@ -86,6 +87,9 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       ? aValue - bValue
       : bValue - aValue
   })
+
+  console.log("sortedAgents", sortedAgents);
+  
 
 
 
@@ -177,6 +181,11 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                 </TableHead>
                 <TableHead className="w-[150px]">
                   <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]">
+                    {t('lp')}
+                  </div>
+                </TableHead>
+                <TableHead className="w-[150px]">
+                  <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]">
                     {t('status')}
                   </div>
                 </TableHead>
@@ -261,9 +270,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>{agent.marketCap}</TableCell>
                       <TableCell>
-                        <span className={agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.marketCap}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className={`text-sm font-normal font-['Sora'] leading-[10px] ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
                           {agent.priceChange24h ? 
                             (parseFloat(agent.priceChange24h) === -0 ? 
                               "+0.00%" : 
@@ -271,15 +284,34 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                             ) : 
                             "0.00%"
                           }
-                        </span>
+                        </div>
                       </TableCell>
-                      <TableCell>{agent.price || '$0'}</TableCell>
-                      <TableCell>{agent.holdersCount}</TableCell>
-                      <TableCell>{agent.volume24h}</TableCell>
                       <TableCell>
-                        <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
-                          {agent.status}
-                        </CustomBadge>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.price || '$0'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.holdersCount.toLocaleString()}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.volume24h}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.lp || '$0'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
+                            {agent.status}
+                          </CustomBadge>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

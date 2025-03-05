@@ -19,7 +19,11 @@ import { useNetwork } from "@/hooks/useNetwork";
 
 const showIAOReal = "true"
 
-export const IaoPool = ({ agent = {} as LocalAgent }) => {
+export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
+  console.log("agent", agent);
+  // 检查必要的合约地址是否存在
+  const iaoContractAddress = agent?.iaoContractAddress || '';
+  const tokenAddress = agent?.tokenAddress || '';
 
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
@@ -39,12 +43,16 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
     stake,
     claimRewards,
     getUserStakeInfo
-  } = useStakeContract(agent.tokenAddress as `0x${string}`, agent.iaoContractAddress as `0x${string}`);
+  } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
   const { ensureCorrectNetwork } = useNetwork();
+
+
+
+
 
   // 获取用户余额
   const fetchUserBalance = useCallback(async () => {
@@ -126,13 +134,13 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
     const formattedAmount = Number(dbcAmount).toFixed(18); // DBC最多18位小数
 
     try {
-      const result = await stake(formattedAmount);
+      const result = await stake(formattedAmount, agent.symbol, agent.tokenAddress);
       // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
       if (result && result.hash) {
         toast({
           variant: "default",
           title: t('success'),
-          description: t('sendSuccess', { amount: formattedAmount }),
+          description: t('sendSuccess', { amount: Number(formattedAmount).toFixed(2), symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' }),
         });
         fetchUserStakeInfo()
         setDbcAmount("");
@@ -147,7 +155,10 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
 
   const now = Date.now();
   const isDepositPeriod = true;
-  const isIAOStarted = agent?.symbol === 'XAA';
+  const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
+
+
+
 
 
 
@@ -282,6 +293,14 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
                 </div>
               </div>
 
+
+              {/* <div>showIAOReal: {showIAOReal}</div>
+              <div>isDepositPeriod: {String(isDepositPeriod)}</div>
+              <div>isStakeLoading: {String(isStakeLoading)}</div>
+              <div>isAuthenticated: {String(isAuthenticated)}</div>
+              <div>isIAOStarted: {String(isIAOStarted)}</div>
+              <div>isConnected: {String(isConnected)}</div> */}
+
               {showIAOReal === "true" ? (
                 <Button
                   className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
@@ -314,14 +333,14 @@ export const IaoPool = ({ agent = {} as LocalAgent }) => {
             !!userStakeInfo.userDeposited && (
               <div className="space-y-2 mt-4">
                 <p className="text-sm text-muted-foreground">
-                  {t('stakedAmount', { symbol: 'DBC' })}:
+                  {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                   <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {userStakeInfo.hasClaimed ? (
-                    <>{t('claimedAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
+                    <>{t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
                   ) : (
-                    <>{t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
+                    <>{t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
                   )}
                 </p>
               </div>

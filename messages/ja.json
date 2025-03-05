@@ -103,8 +103,8 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
-    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "sendSuccess": "{amount} DBCの送信に成功しました"
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
+
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -112,13 +112,14 @@
     "latest": "最新",
     "aiAgents": "AIエージェント",
     "24h": "24時間",
-    "24hChange": "24時間の変動",
-    "tvl": "ロック済み総額",
+    "24hChange": "24時間変動",
+    "tvl": "トークン価格",
     "holdersCount": "保有者数",
     "24hVol": "24時間取引量",
     "status": "ステータス",
     "loading": "読み込み中...",
-    "social": "ソーシャル"
+    "social": "ソーシャル",
+    "lp": "流動性プール"
   },
   "agentDetail": {
     "overview": "概要",
@@ -170,16 +171,20 @@
     "stakedAmount": "支払済みの{symbol}量",
     "stakeSuccessful": "購入が成功しました！",
     "stakeFailed": "購入に失敗しました。もう一度お試しください",
-    "claimableAmount": "請求可能なXAA数量",
-    "claimedAmount": "請求済みのXAA数量",
+    "claimableAmount": "請求可能な {symbol} 数量",
+    "claimedAmount": "請求済みの {symbol} 数量",
     "claimed": "請求済み",
     "claimSuccessWithAmount": "{amount} XAAの請求に成功しました",
     "stakeNotStarted": "購入はまだ開始されていません",
-    "sendSuccess": "{amount} DBCの送信に成功しました",
+    "sendSuccess": "{amount} {symbol}の送信に成功しました",
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "goToDbcswap": "DBCSwapでXAAを購入"
+    "goToDbcswap": "DBCSwapでXAAを購入",
+    "approveTransaction": "トークン承認",
+    "approveWaitingConfirm": "承認の確認を待っています",
+    "approveSuccess": "承認が完了しました",
+    "approveFailed": "承認に失敗しました。もう一度お試しください"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",

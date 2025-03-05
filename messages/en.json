@@ -103,22 +103,23 @@
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
-    "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "sendSuccess": "Successfully sent {amount} DBC"
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
+
   },
   "agentList": {
     "sortBy": "Sort by",
-    "marketCap": "Market Cap",
+    "marketCap": "FDV",
     "latest": "Latest",
     "aiAgents": "AI Agents",
     "24h": "24h",
     "tvl": "Token Price",
-    "holdersCount": "Holders Count",
-    "24hVol": "24h Vol",
+    "holdersCount": "Holders",
+    "24hVol": "24h Volume",
     "status": "Status",
     "loading": "Loading...",
     "24hChange": "24h Change",
-    "social": "Social"
+    "social": "Social",
+    "lp": "LP"
   },
   "agentDetail": {
     "overview": "Overview",
@@ -170,16 +171,20 @@
     "stakedAmount": "Paid {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
     "stakeFailed": "Purchase failed, please try again",
-    "claimableAmount": "Claimable XAA Amount",
-    "claimedAmount": "Claimed XAA Amount",
+    "claimableAmount": "Claimable {symbol} Amount",
+    "claimedAmount": "Claimed {symbol} Amount",
     "claimed": "Claimed",
     "claimSuccessWithAmount": "Successfully claimed {amount} XAA",
     "stakeNotStarted": "Purchase not started",
-    "sendSuccess": "Successfully sent {amount} DBC",
+    "sendSuccess": "Successfully sent {amount} {symbol}",
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "goToDbcswap": "Go to DBCSwap to buy XAA"
+    "goToDbcswap": "Go to DBCSwap to buy XAA",
+    "approveTransaction": "Token Authorization",
+    "approveWaitingConfirm": "Waiting for authorization confirmation",
+    "approveSuccess": "Authorization successful",
+    "approveFailed": "Authorization failed, please try again"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { currentChain } from '@/config/wagmi';
-import { CONTRACTS, CURRENT_CONTRACT_ABI } from '@/config/contracts';
 import { prisma } from '@/lib/prisma';
 import type { Agent } from '@prisma/client';
 

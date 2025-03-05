@@ -310,6 +310,7 @@ interface TokenPriceInfo {
   volume24h: number;
   usdPrice?: number;
   priceChange24h?: number; // 24小时价格变化百分比
+  lp?: number; // LP 数量
 }
 
 // 批量获取代币价格
@@ -324,6 +325,37 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       const targetToken = token.address;
 
       return `
+        ${token.symbol}Pool: pools(
+          first: 1,
+          where: {
+            and: [
+              {
+                or: [
+                  { token0: "${targetToken.toLowerCase()}" },
+                  { token1: "${targetToken.toLowerCase()}" }
+                ]
+              },
+              {
+                or: [
+                  { token0: "${baseToken.toLowerCase()}" },
+                  { token1: "${baseToken.toLowerCase()}" }
+                ]
+              }
+            ]
+          }
+        ) {
+          id
+          token0 {
+            id
+            decimals
+            totalValueLocked
+          }
+          token1 {
+            id
+            decimals
+            totalValueLocked
+          }
+        }
         ${token.symbol}: swaps(
           first: 1,
           orderBy: timestamp,
@@ -358,6 +390,19 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             volume
           }
           timestamp
+          pool {
+            id
+            token0 {
+              id
+              totalSupply
+              volume
+            }
+            token1 {
+              id
+              totalSupply
+              volume
+            }
+          }
         }
         ${token.symbol}24h: swaps(
           where: {
@@ -465,12 +510,14 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
     // 处理每个代币的数据
     tokens.forEach((token) => {
+      const poolData = data.data[`${token.symbol}Pool`];
       const swapData = data.data[token.symbol];
       const swapData24h = data.data[`${token.symbol}24h`];
       const swapData24hAgo = data.data[`${token.symbol}24hAgo`];
 
-      if (swapData && swapData[0]) {
+      if (swapData && swapData[0] && poolData && poolData[0]) {
         const swap = swapData[0];
+        const pool = poolData[0];
         try {
           // 确定 baseToken 和 targetToken 的位置
           const baseToken = token.symbol.toUpperCase() === 'XAA' ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS;
@@ -488,7 +535,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
               usdPrice: 0,
               tvl: 0,
               volume24h: 0,
-              priceChange24h: 0
+              priceChange24h: 0,
+              lp: 0
             };
             return;
           }
@@ -538,12 +586,20 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
           const usdPrice = (currentPrice) ? Number((Number(currentPrice) * Number(dbcPriceUsd)).toFixed(8)) : 0;
 
+          // 计算 LP 数量 - 使用对标代币的 totalValueLocked 乘以 DBC 单价
+          const targetTokenAmount = targetTokenIsToken0 ? 
+            parseFloat(pool.token0.totalValueLocked || '0') : 
+            parseFloat(pool.token1.totalValueLocked || '0');
+          const lp = Number((targetTokenAmount * dbcPriceUsd).toFixed(2)); // 乘以 DBC 单价
+          console.log(token.symbol, lp);
+          
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,
             tvl: parseFloat(tokenData.totalValueLockedUSD || '0'),
             volume24h: Number(volume24h.toFixed(2) * usdPrice),
-            priceChange24h: Number(priceChange24h.toFixed(2))
+            priceChange24h: Number(priceChange24h.toFixed(2)),
+            lp
           };
         } catch (error) {
           console.error(`处理代币 ${token.symbol} 数据时出错:`, error);
@@ -552,7 +608,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             usdPrice: 0,
             tvl: 0,
             volume24h: 0,
-            priceChange24h: 0
+            priceChange24h: 0,
+            lp: 0
           };
         }
       } else {
@@ -562,11 +619,15 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           usdPrice: 0,
           tvl: 0,
           volume24h: 0,
-          priceChange24h: 0
+          priceChange24h: 0,
+          lp: 0
         };
       }
     });
 
+
+    console.log("priceMap", priceMap);
+    
     return priceMap;
 
   } catch (error) {
@@ -578,7 +639,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
         usdPrice: 0,
         tvl: 0,
         volume24h: 0,
-        priceChange24h: 0
+        priceChange24h: 0,
+        lp: 0
       };
       return acc;
     }, {} as { [symbol: string]: TokenPriceInfo });

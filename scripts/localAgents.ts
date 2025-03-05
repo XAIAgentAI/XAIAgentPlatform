@@ -95,6 +95,12 @@ export const localAgents: LocalAgent[] = [
     id: 2,
     name: "StyleID",
 
+    tokenAddress: "",
+    iaoContractAddress: "",
+    tokenAddressTestnet: "0xe581200f8b3c623322392857250c2bc71b9a5122",
+    iaoContractAddressTestnet: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
+
+
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/StyleID.png",
     symbol: "STID",
     type: "Infrastructure",
@@ -104,10 +110,10 @@ export const localAgents: LocalAgent[] = [
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
+    status: "IAO coming soon",
+    statusJA: "IAO 近日公開",
+    statusKO: "IAO 출시 예정",
+    statusZH: "IAO 即将公布",
     description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
     descriptionZH: "生成任务写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
     descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
@@ -143,7 +149,7 @@ export const localAgents: LocalAgent[] = [
     chatEntry: "None"
   },
   {
-    id: 3,
+    id: 12,
     name: "FaceSwap",
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/FaceSwap.png",
@@ -609,7 +615,7 @@ export const localAgents: LocalAgent[] = [
   },
 
   {
-    id: 12,
+    id: 3,
     name: "DeepLink",
     tokens: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
     avatar: "/logo/DeepLink.png",
@@ -621,10 +627,10 @@ export const localAgents: LocalAgent[] = [
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
+    status: "IAO coming soon",
+    statusJA: "IAO 近日公開",
+    statusKO: "IAO 출시 예정",
+    statusZH: "IAO 即将公布",
     description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
 
 DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.

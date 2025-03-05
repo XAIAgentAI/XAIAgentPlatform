@@ -45,9 +45,6 @@ const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
 };
 
 export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress: `0x${string}`, symbol: string = 'XAA') => {
-  console.log("tokenAddress", tokenAddress);
-  console.log("iaoContractAddress", iaoContractAddress);
-  console.log("symbol", symbol);
   // 验证合约地址
   if (!iaoContractAddress || iaoContractAddress === '0x' || iaoContractAddress.length !== 42) {
     console.error('Invalid IAO contract address:', iaoContractAddress);
@@ -91,7 +88,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       isTestnet ? 'TOTAL_XAA_REWARD' : 'TOTAL_REWARD' :
       isTestnet ? 'totalReward' : 'totalReward';
   }
-  const claimRewardsFunctionName = symbol === 'XAA' ? 'claimRewards' : 'getReward';
 
   const createToastMessage = useCallback((params: ToastMessage): ToastMessage => {
     return {
@@ -377,18 +373,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
     const amountWei = parseEther(amount);
 
-    // 1. 检查已授权额度
+    // 1. Approve XAA
     const xaaABI = [
-      {
-        name: 'allowance',
-        type: 'function',
-        inputs: [
-          { name: 'owner', type: 'address' },
-          { name: 'spender', type: 'address' }
-        ],
-        outputs: [{ type: 'uint256' }],
-        stateMutability: 'view'
-      },
       {
         name: 'approve',
         type: 'function',
@@ -401,53 +387,26 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       }
     ] as const;
 
-    const XAA_TOKEN_Address = CONTRACTS.XAA_TOKEN;
+    console.log("iaoContractAddress", iaoContractAddress);
+    console.log("tokenAddress", tokenAddress);
+    console.log("amountWei", amountWei);
 
-    // 检查当前授权额度
-    const currentAllowance = await publicClient.readContract({
+    const XAA_TOKEN_Address = CONTRACTS.XAA_TOKEN
+
+    const approveHash = await walletClient.writeContract({
       address: XAA_TOKEN_Address,
       abi: xaaABI,
-      functionName: 'allowance',
-      args: [formattedAddress, iaoContractAddress]
+      functionName: 'approve',
+      args: [iaoContractAddress, amountWei]
     });
 
-    // 只有当授权额度不足时才进行 approve
-    if (currentAllowance < amountWei) {
-      console.log("currentAllowance", currentAllowance);
-      console.log("amountWei", amountWei);
+    toast(createToastMessage({
+      title: t('transactionSent'),
+      description: t('waitForConfirmation'),
+      txHash: approveHash,
+    } as ToastMessage));
 
-      // 授权一个相对合理的金额（比如当前金额的5倍），避免频繁授权
-      // 1000 XAA = 1000 * 10^18
-      const reasonableAmount = amountWei * BigInt(5);
-      const approveHash = await walletClient.writeContract({
-        address: XAA_TOKEN_Address,
-        abi: xaaABI,
-        functionName: 'approve',
-        args: [iaoContractAddress, reasonableAmount]
-      });
-
-      toast(createToastMessage({
-        title: t('approveTransaction'),
-        description: t('approveWaitingConfirm'),
-        txHash: approveHash,
-      } as ToastMessage));
-
-      try {
-        await waitForTransactionConfirmation(approveHash, publicClient);
-        toast(createToastMessage({
-          title: t('success'),
-          description: t('approveSuccess'),
-          txHash: approveHash,
-        } as ToastMessage));
-      } catch (error) {
-        toast(createToastMessage({
-          title: t('error'),
-          description: t('approveFailed'),
-          txHash: approveHash,
-        } as ToastMessage));
-        throw error;
-      }
-    }
+    await waitForTransactionConfirmation(approveHash, publicClient);
 
     // 2. Deposit XAA
     const depositHash = await walletClient.writeContract({
@@ -553,7 +512,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const { request } = await publicClient.simulateContract({
         address: iaoContractAddress,
         abi: getContractABI(symbol),
-        functionName: claimRewardsFunctionName,
+        functionName: 'claimRewards',
         account: formattedAddress,
       });
 
