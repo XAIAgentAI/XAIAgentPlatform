@@ -157,11 +157,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const isDepositPeriod = true;
   const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
 
-
-
-
-
-
   // useEffect(() => {
   //   const fetchPoolData = async () => {
   //     try {
