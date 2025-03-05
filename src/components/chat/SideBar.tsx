@@ -1,30 +1,35 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import AuthButton from './SignUp';
 
 interface SideBarProps {
-  messages: { id: string; content: string; timestamp: string }[];
+  conversations: { [id: string]: { id: string; content: string; timestamp: string }[] };
+  userName: string | null;
+  setUserName: any;
 }
 
-const SideBar = ({ messages }: SideBarProps) => {
+const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isEmailOpen, setIsEmailOpen] = useState(false);
-  const [bgCopy, setBgCopy] = useState<string>('bg-stone-700')
+  const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<{ id: string; content: string; timestamp: string }[]>([]);
 
+  // 使用当前的agentId获取消息
+  const agentId = Object.keys(conversations).length > 0 ? Object.keys(conversations)[0] : null;
+
   useEffect(() => {
-    if (query) {
-      const results = messages.filter(msg =>
+    if (query && agentId) {
+      const results = conversations[agentId].filter(msg =>
         msg.content.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(results);
     } else {
       setSearchResults([]);
     }
-  }, [query, messages]);
+  }, [query, conversations, agentId]);
 
   const handleSearchOpen = () => {
     setIsSearchOpen(true);
@@ -42,7 +47,7 @@ const SideBar = ({ messages }: SideBarProps) => {
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('endless_sword@163.com');
-    setBgCopy('bg-stone-500')
+    setBgCopy('bg-stone-500');
     setTimeout(() => setBgCopy('bg-stone-700'), 200);
   };
 
@@ -50,10 +55,10 @@ const SideBar = ({ messages }: SideBarProps) => {
     <div className="fixed 2xl:top-[40px] md:top-[68px] hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
       <div className="flex justify-end space-x-2">
         <div className="inline-block w-[50px] flex items-center self-start relative right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl-[10vw]">
-          <AuthButton/>
+          <AuthButton setUserName={setUserName} userName={userName} />
         </div>
-        <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer relative right-[4px]"/>
-        <Image src="/images/write.png" alt="Email" width={28} height={24} onClick={handleEmailOpen} className="cursor-pointer relative right-[4px]"/>
+        <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer relative right-[4px]" />
+        <Image src="/images/write.png" alt="Email" width={28} height={24} onClick={handleEmailOpen} className="cursor-pointer relative right-[4px]" />
       </div>
       {isSearchOpen && (
         <div className="w-full flex items-center justify-between rounded mb-4 p-2">
@@ -96,35 +101,39 @@ const SideBar = ({ messages }: SideBarProps) => {
             <div>Trading AI Agent</div>
           </div>
           <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
-            <div>
-              <div className="text-xs">Today</div>
-              <div className="overflow-y-auto max-h-33vh">
-                {messages
-                  .filter((msg) => new Date(msg.timestamp).getDate() === new Date().getDate())
-                  .slice(0, 2)
-                  .map((msg) => (
-                    <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                      {msg.content.split(' ').slice(0, 3).join(' ')}
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <div>
-              <div className="text-xs">7 days ago</div>
-              <div className="overflow-y-auto max-h-35vh">
-                {messages
-                  .filter(
-                    (msg) =>
-                      new Date(msg.timestamp).getDate() === new Date().getDate() - 7
-                  )
-                  .slice(0, 2)
-                  .map((msg) => (
-                    <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                      {msg.content.split(' ').slice(0, 3).join(' ')}
-                    </div>
-                  ))}
-              </div>
-            </div>
+            {agentId && (
+              <>
+                <div>
+                  <div className="text-xs">Today</div>
+                  <div className="overflow-y-auto max-h-33vh">
+                    {conversations[agentId]
+                      .filter((msg) => new Date(msg.timestamp).getDate() === new Date().getDate())
+                      .slice(0, 2)
+                      .map((msg) => (
+                        <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
+                          {msg.content.split(' ').slice(0, 3).join(' ')}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs">7 days ago</div>
+                  <div className="overflow-y-auto max-h-35vh">
+                    {conversations[agentId]
+                      .filter(
+                        (msg) =>
+                          new Date(msg.timestamp).getDate() === new Date().getDate() - 7
+                      )
+                      .slice(0, 2)
+                      .map((msg) => (
+                        <div key={msg.id} className="mb-2 bg-neutral-900 w-[60%] text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
+                          {msg.content.split(' ').slice(0, 3).join(' ')}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}
@@ -133,4 +142,3 @@ const SideBar = ({ messages }: SideBarProps) => {
 };
 
 export default SideBar;
-
