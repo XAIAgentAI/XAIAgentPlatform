@@ -95,8 +95,8 @@ export const localAgents: LocalAgent[] = [
     id: 2,
     name: "StyleID",
 
-    tokenAddress: "",
-    iaoContractAddress: "",
+    tokenAddress: "0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965",
+    iaoContractAddress: "0xc21155334688e2c1cf89d4ab09d38d30002717dd",
     tokenAddressTestnet: "0xe581200f8b3c623322392857250c2bc71b9a5122",
     iaoContractAddressTestnet: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
 
