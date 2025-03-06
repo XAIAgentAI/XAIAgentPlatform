@@ -59,6 +59,18 @@ async function main() {
     });
   }
 
+  await prisma.agent.update({
+    where: { id: '1' },
+    data: {
+      projectDescription: JSON.stringify({
+        en: "1. Total Supply: 5,000,000,000 tokens\n2. IAO Allocation: 10% of total supply\n3. IAO Duration: 7 days\n4. Trading Pair: TOKEN/ETH",
+        zh: "1. 总供应量：5,000,000,000 代币\n2. IAO 分配：总供应量的 10%\n3. IAO 持续时间：7 天\n4. 交易对：TOKEN/ETH",
+        ja: "1. 総供給量：5,000,000,000 トークン\n2. IAO 配分：総供給量の 10%\n3. IAO 期間：7 日間\n4. 取引ペア：TOKEN/ETH",
+        ko: "1. 총 공급량: 5,000,000,000 토큰\n2. IAO 할당: 총 공급량의 10%\n3. IAO 기간: 7일\n4. 거래 쌍: TOKEN/ETH"
+      }),
+    } as any,
+  });
+
   console.log('数据库种子数据已添加');
 }
 

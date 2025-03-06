@@ -34,6 +34,7 @@ export interface LocalAgent {
   iaoContractAddress?: string;
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
+  projectDescription?: string;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -90,6 +91,13 @@ export const localAgents: LocalAgent[] = [
       "你能告诉我如何使用 xx 作为智能体吗？"
     ],
     socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
+    projectDescription: JSON.stringify({
+      en: "1. Total Supply: 5,000,000,000 tokens\n\n2. IAO Allocation: 10% of total supply\n\n3. IAO Duration: 7 days\n\n4. Trading Pair: TOKEN/ETH",
+      zh: "1. 总供应量：5,000,000,000 代币\n\n2. IAO 分配：总供应量的 10%\n\n3. IAO 持续时间：7 天\n\n4. 交易对：TOKEN/ETH",
+      ja: "1. 総供給量：5,000,000,000 トークン\n\n2. IAO 配分：総供給量の 10%\n\n3. IAO 期間：7 日間\n\n4. 取引ペア：TOKEN/ETH",
+      ko: "1. 총 공급량: 5,000,000,000 토큰\n\n2. IAO 할당: 총 공급량의 10%\n\n3. IAO 기간: 7일\n\n4. 거래 쌍: TOKEN/ETH"
+    })
+
   },
   {
     id: 2,
@@ -110,10 +118,10 @@ export const localAgents: LocalAgent[] = [
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO coming soon",
-    statusJA: "IAO 近日公開",
-    statusKO: "IAO 출시 예정",
-    statusZH: "IAO 即将公布",
+    status: "IAO ongoing",
+    statusJA: "IAO 進行中",
+    statusKO: "IAO 진행중",
+    statusZH: "IAO 进行中",
     description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
     descriptionZH: "生成任务写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
     descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
@@ -146,7 +154,61 @@ export const localAgents: LocalAgent[] = [
       "这个AI可以保持我的相貌一致吗？比如不同风格下都能保持我的特征"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    projectDescription: JSON.stringify({
+      en: `1. $STID Total Supply: 100 billion
+
+2. 10% of tokens will be sold through IAO, accepting only $XAA. Investors will receive $STID proportional to their $XAA investment.
+
+3. After the 72-hour IAO ends, 95% of $XAA will be allocated to on-chain liquidity pools, never to be revoked, with liquidity LP certificates sent to a black hole address. 5% of $XAA will be burned.
+
+4. After the IAO ends, 10% of $STID and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of $STID.
+
+5. The team owns 30% of $STID, which begins unlocking after the IAO ends, with linear unlocking over 2000 days.
+
+6. 48% of $STID is generated through mining, halving every 4 years. In the first 4 years, 600 million $STID will be mined annually. Of the mined $STID, 40% is received immediately, and 60% is linearly unlocked over 120 days.
+
+7. 1% of $STID will be airdropped to the first 10,000 holders of $XAA and $DBC, and 1% of $STID will be airdropped to holders of XAA node NFTs.`,
+      zh: `1.$STID 总供应量：1000亿
+
+2.10% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 $STID
+
+3.在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁
+
+4.IAO 结束后，10%的$STID和$XAA将立即在DBCSwap上建立流动性池，实现$STID的自由交易
+
+5.团队拥有30%的$STID,IAO结束后开始解锁，分2000天线性解锁
+
+6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生6亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
+
+7.1%的$STID空投给$XAA和$DBC前10000名持有者，1%$STID空投给XAA的节点NFT持有者`,
+      ja: `1. $STID 総供給量：1000億
+
+2. トークンの10%はIAOを通じて販売され、$XAAのみ受け付けます。投資家は$XAA投資比率に応じて$STIDを受け取ります。
+
+3. 72時間のIAO終了後、$XAAの95%はオンチェーン流動性プールに割り当てられ、撤回されることはなく、流動性LP証明書はブラックホールアドレスに送られます。$XAAの5%は焼却されます。
+
+4. IAO終了後、$STIDと$XAAの10%はすぐにDBCSwapで流動性プールを確立し、$STIDの自由取引を可能にします。
+
+5. チームは$STIDの30%を所有し、IAO終了後に解除が始まり、2000日間にわたって線形解除されます。
+
+6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間6億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
+
+7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAノードNFT保有者にエアドロップされます。`,
+      ko: `1. $STID 총 공급량: 1000억
+
+2. 토큰의 10%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $STID를 받게 됩니다.
+
+3. 72시간 IAO 종료 후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 철회되지 않으며, 유동성 LP 증명서는 블랙홀 주소로 보내집니다. $XAA의 5%는 소각됩니다.
+
+4. IAO 종료 후, $STID와 $XAA의 10%는 즉시 DBCSwap에서 유동성 풀을 구축하여 $STID의 자유로운 거래를 가능하게 합니다.
+
+5. 팀은 $STID의 30%를 소유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 잠금 해제됩니다.
+
+6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 6억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
+
+7. $STID의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, $STID의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다.`
+    })
   },
   {
     id: 12,
@@ -294,7 +356,7 @@ export const localAgents: LocalAgent[] = [
     ],
     useCasesZH: [
       "我想要一个科技感十足的Logo，颜色以蓝色和紫色为主，有未来感，你能帮我设计一个吗？",
-      "请给我设计一个极简风格的Logo，黑白配色，带有抽象的字母‘X’，适合区块链项目",
+      "请给我设计一个极简风格的Logo，黑白配色，带有抽象的字母'X'，适合区块链项目",
       "我希望Logo能体现去中心化和人工智能的概念，可以尝试几种不同的设计风格吗？",
       "能给我生成一个带有动态视觉效果的Logo，并且适合社交媒体头像使用吗？"
     ],
@@ -346,7 +408,7 @@ export const localAgents: LocalAgent[] = [
     useCasesZH: [
       "我有一张朋友的照片，能帮我把他的表情变成搞笑的夸张大笑表情吗？",
       "能给我生成一只柴犬的表情包，让它看起来像在思考人生？",
-      "能做一个卡通猫的表情包，带有夸张的惊讶表情，并加上‘真的假的？！’的文字吗？",
+      "能做一个卡通猫的表情包，带有夸张的惊讶表情，并加上'真的假的？！'的文字吗？",
       "把第二张照片制作成和第一张一样的表情包"
     ],
     socialLinks: "",
@@ -421,9 +483,9 @@ export const localAgents: LocalAgent[] = [
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "Turning black and white photos into color photos can transform various old photos into colorful ones. Almost completely eliminating faults and artifacts. The skin effect is more natural (reducing zombie feel), the details are richer, the rendering is more realistic, and the 'blue deviation' is significantly reduced",
-    descriptionZH: "黑白照片变彩色照片，可以把各种老照片变成色彩丰富的照片。几乎完全消除了故障和伪影。皮肤效果更自然（减少僵尸感），细节更加丰富，渲染更逼真，显著降低“蓝色偏差”",
-    descriptionKO: "흑백 사진을 컬러 사진으로 바꾸면 각종 오래된 사진을 색채가 풍부한 사진으로 바꿀 수 있다.고장과 가짜를 거의 완전히 없앴다.피부 효과는 더욱 자연스럽고 (좀비감 감소), 디테일은 더욱 풍부하며 렌더링은 더욱 사실적이며'파란색 편차'를 현저하게 낮춘다",
-    descriptionJA: "白黒写真をカラー写真に変えることで、さまざまな古い写真をカラフルな写真に変えることができます。障害やアーティファクトはほとんど完全に解消されました。肌の効果がより自然に（ゾンビ感を減らす）、ディテールがより豊富になり、レンダリングがよりリアルになり、「青偏差」を大幅に低減",
+    descriptionZH: "黑白照片变彩色照片，可以把各种老照片变成色彩丰富的照片。几乎完全消除了故障和伪影。皮肤效果更自然（减少僵尸感），细节更加丰富，渲染更逼真，显著降低\"蓝色偏差\"",
+    descriptionKO: "흑백 사진을 컬러 사진으로 바꾸면 각종 오래된 사진을 색채가 풍부한 사진으로 바꿀 수 있다.고장과 가짜를 거의 완전히 없앴다.피부 효과는 더욱 자연스럽고 (좀비감 감소), 디테일은 더욱 풍부하며 렌더링은 더욱 사실적이며\"파란색 편차\"를 현저하게 낮춘다",
+    descriptionJA: "白黒写真をカラー写真に変えることで、さまざまな古い写真をカラフルな写真に変えることができます。障害やアーティファクトはほとんど完全に解消されました。肌の効果がより自然に（ゾンビ感を減らす）、ディテールがより豊富になり、レンダリングがよりリアルになり、\"青偏差\"を大幅に低減",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574ol",
     totalSupply: 5000000000,
@@ -505,11 +567,11 @@ export const localAgents: LocalAgent[] = [
     socialLinks: "",
     chatEntry: "None"
   },
-
   {
     id: 10,
     name: "SuperImage",
-    tokens: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    iaoContractAddress: "",
     avatar: "/logo/SuperImage.png",
     symbol: "SIC",
     type: "Infrastructure",
@@ -617,7 +679,8 @@ export const localAgents: LocalAgent[] = [
   {
     id: 3,
     name: "DeepLink",
-    tokens: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
+    tokenAddress: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
+    iaoContractAddress: "",
     avatar: "/logo/DeepLink.png",
     symbol: "DLC",
     type: "AI Agent",

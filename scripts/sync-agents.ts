@@ -80,6 +80,7 @@ async function main() {
           iaoContractAddress: agent.iaoContractAddress || '',
           tokenAddressTestnet: agent.tokenAddressTestnet || '',
           iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
+          projectDescription: agent.projectDescription || '',
         },
         create: {
           id: String(agent.id),
@@ -117,6 +118,7 @@ async function main() {
           iaoContractAddress: agent.iaoContractAddress || '',
           tokenAddressTestnet: agent.tokenAddressTestnet || '',
           iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
+          projectDescription: agent.projectDescription || '',
         },
       });
       console.log(`已同步代理 ${agent.name} (ID: ${agent.id})`);

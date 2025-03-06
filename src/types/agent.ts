@@ -34,7 +34,7 @@ export interface LocalAgent {
   symbol: string;
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
-
+  projectDescription?: string;
 }
 
 export interface AgentPrice {

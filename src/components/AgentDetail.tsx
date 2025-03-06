@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { AgentInfo } from "@/components/agent-detail/AgentInfo";
-import { SwapCard } from "@/components/agent-detail/SwapCard";
 import { TokenInfoCard } from "@/components/agent-detail/TokenInfoCard";
 import ConversationStarter from "@/components/agent-detail/ConversationStarter";
 import { IaoPool } from "@/components/agent-detail/IaoPool";
@@ -15,6 +14,13 @@ interface AgentDetailProps {
   id: string;
 }
 
+// API响应类型
+interface ApiResponse<T> {
+  code: number;
+  data: T;
+  message?: string;
+}
+
 export function AgentDetail({ id }: AgentDetailProps) {
   const [agent, setAgent] = useState<LocalAgent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +31,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
     const fetchAgent = async () => {
       try {
         setIsLoading(true);
-        const res: any = await agentAPI.getAgentById(parseInt(id));
+        const res = await agentAPI.getAgentById(parseInt(id)) as unknown as ApiResponse<LocalAgent>;
         if(res.code === 200 && res.data){
           setAgent(res.data);
         }
@@ -52,13 +58,13 @@ export function AgentDetail({ id }: AgentDetailProps) {
         <div className="lg:col-span-2 space-y-6 lg:space-y-0">
           {/* 移动端IaoPool */}
           <div className="md:hidden ">
-            <IaoPool agent={agent as any} />
+            {agent && <IaoPool agent={agent} />}
           </div>
           {/* Agent信息卡片 */}
           <AgentInfo agentId={id} />
 
           {/* 对话启动器 */}
-          <ConversationStarter agent={agent as any} />
+          {agent && <ConversationStarter agent={agent} />}
         </div>
 
         {/* 右侧区域 */}
@@ -68,11 +74,11 @@ export function AgentDetail({ id }: AgentDetailProps) {
 
           {/* pc端IaoPool */}
           <div className="md:block hidden">
-            <IaoPool agent={agent as any} />
+            {agent && <IaoPool agent={agent} />}
           </div>
           
           {/* 代币信息卡片 */}
-          {id === "1" && <TokenInfoCard />}
+          {agent && <TokenInfoCard projectDescription={agent.projectDescription} />}
         </div>
       </div>
     </StateDisplay>
