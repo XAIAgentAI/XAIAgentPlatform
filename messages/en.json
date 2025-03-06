@@ -323,6 +323,13 @@
           "List my general research skills."
         ]
       }
-    }    
+    },
+    "explore":"Explore AI Agent",
+    "trade":"Trade AI Agent",
+    "signup":"Signup",
+    "login":"login",
+    "username":"Username",
+    "password":"Password",
+    "confirm":"Confirm"
   }
 }

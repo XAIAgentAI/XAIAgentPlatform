@@ -282,7 +282,7 @@
   },
   "chat": {
     "inputHolder": "发送消息",
-    "inputInfo": "AI代理可能会出错。请检查重要信息。",
+    "inputInfo": "AI智能体可能会出错。请检查重要信息。",
     "Data": {
       "Scholar GPT": {
         "metrics": "DATA +45.67% | 市值: $222M",
@@ -324,6 +324,13 @@
           "列出我的一般性研究技能。"
         ]
       }
-    }    
+    },
+    "explore":"探索AI智能体",
+    "trade":"交易AI智能体",
+    "signup":"注册", 
+    "login":"登录", 
+    "username":"用户名", 
+    "password":"密码", 
+    "confirm":"确认"  
   }
 } 

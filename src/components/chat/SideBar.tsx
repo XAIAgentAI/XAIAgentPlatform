@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import AuthButton from './SignUp';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface SideBarProps {
   conversations: { [id: string]: { id: string; content: string; timestamp: string }[] };
@@ -16,7 +17,10 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
   const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<{ id: string; content: string; timestamp: string }[]>([]);
-
+  
+  const locale = useLocale();
+  const t = useTranslations("chat");
+  
   // 使用当前的agentId获取消息
   const agentId = Object.keys(conversations).length > 0 ? Object.keys(conversations)[0] : null;
 
@@ -97,8 +101,8 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
           )}
           <hr className="my-4 border-gray-700" />
           <div className="text-lg mb-4 space-y-2">
-            <div>Explore AI Agent</div>
-            <div>Trading AI Agent</div>
+            <div>{t("explore")}</div>
+            <div>{t("trade")}</div>
           </div>
           <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
             {agentId && (

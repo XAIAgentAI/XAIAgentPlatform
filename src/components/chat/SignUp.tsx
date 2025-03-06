@@ -1,6 +1,7 @@
 // components/SignUp.tsx
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface AuthButtonProps {
   userName: any;
@@ -14,6 +15,9 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
   const [loggedInUsername, setLoggedInUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const locale = useLocale();
+  const t = useTranslations("chat");
 
   const handleAuth = async (username: string, password: string) => {
     const response = await fetch('/api/chat/1/messages', {
@@ -81,7 +85,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
               <XMarkIcon className="w-4 h-4 text-zinc-700" />
             </button>
             <h2 className="text-lg text-center font-medium mb-4 text-zinc-700">
-              {isLoginMode ? 'Log in' : 'Sign up'}
+              {isLoginMode ? t("login") : t("signup")}
             </h2>
             <form onSubmit={(e) => {
               e.preventDefault();
@@ -90,7 +94,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
               <div className="mb-4">
                 <input
                   type="text"
-                  placeholder="Username"
+                  placeholder={t("username")}
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded text-zinc-600"
@@ -99,7 +103,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
               <div className="mb-4">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder={t("password")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded text-zinc-600"
@@ -111,13 +115,13 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
                 </div>
               )}
               <div className="mb-4 text-sm text-blue-500 cursor-pointer" onClick={toggleMode}>
-                {isLoginMode ? 'Sign up' : 'Log in'}
+                {isLoginMode ? t("signup") : t("login")}
               </div>
               <button
                 type="submit"
                 className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
-                Confirm
+                {t("confirm")}
               </button>
             </form>
           </div>
