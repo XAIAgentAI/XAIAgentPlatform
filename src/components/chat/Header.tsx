@@ -28,9 +28,10 @@ interface HeaderComponentProps {
   setConversations: React.Dispatch<React.SetStateAction<{ [id: string]: Message[] }>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   conversations: { [id: string]: Message[] };
+  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserStatus, userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
   return (
     <div className="flex catcher flex-col items-center justify-center h-[80vh] space-y-2 mt-4 md:justify-start">
       {/* Agent Selection */}
@@ -70,6 +71,14 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ userName, agentId, se
               <div key={index} 
                    className="hover:bg-slate-400 rounded-xl bg-zinc-800 px-4 py-6 text-zinc-700 text-sm flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
                    onClick={async () => {
+                     if (!userName) {
+                       setUserStatus(false);
+                       setTimeout(() => {
+                        setUserStatus(true);
+                       }, 1000);
+                       return;
+                     }
+                     
                      const userMessage: Message = {
                        id: Date.now().toString(),
                        role: 'user',

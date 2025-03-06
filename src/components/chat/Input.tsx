@@ -1,16 +1,30 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface InputComponentProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
+  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
+  userName: string | null;
   handleSubmit: (e: React.FormEvent) => any;
 }
 
-const InputComponent: React.FC<InputComponentProps> = ({ input, setInput, isLoading, handleSubmit }) => {
+const InputComponent: React.FC<InputComponentProps> = ({ userName, setUserStatus, input, setInput, isLoading, handleSubmit }) => {
   // 确定发送按钮是否可点击
   const isSubmitEnabled = !isLoading && input.trim() !== '';
+
+  const handleSendClick = (e: React.FormEvent) => {
+    if (!userName) {
+      setUserStatus(false);
+      const timer = setTimeout(() => {
+        setUserStatus(true);
+      }, 1000);
+      e.preventDefault(); // 阻止表单提交
+      return;
+    }
+    handleSubmit(e);
+  };
 
   return (
     <div className="fixed bottom-6 w-[97vw] ml-auto">
@@ -23,12 +37,12 @@ const InputComponent: React.FC<InputComponentProps> = ({ input, setInput, isLoad
               onChange={(e) => setInput(e.target.value)}
               placeholder="Send a message"
               className="w-full font-light rounded-full bg-zinc-800 px-4 py-2 placeholder-text-tertiary focus:outline-none border-none focus:text-slate-200 focus:caret-slate-200 pr-10"
-              disabled={isLoading}
+              disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}
             <button
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleSendClick}
               disabled={!isSubmitEnabled}
               className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-white bg-opacity-10 ${
                 isSubmitEnabled ? 'bg-opacity-30' : ''

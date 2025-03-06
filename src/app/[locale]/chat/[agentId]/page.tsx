@@ -90,6 +90,7 @@ export default function ChatPage() {
   const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); // 新增userName状态
+  const [userStatus, setUserStatus] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 获取历史消息
@@ -185,7 +186,13 @@ export default function ChatPage() {
           agentDescriptions={agentDescriptions} 
           conversations={conversations}
           setConversations={setConversations}
+          setUserStatus={setUserStatus}
         />
+      )}
+      {!userStatus && (
+        <div className="fixed w-[220px] top-[100px] right-[-60px] bg-pink-200 p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+          <p className="text-center h-[24px]">Please Signup/Login First</p>
+        </div>
       )}
       <MessagesComponent 
         userName={userName}
@@ -198,6 +205,8 @@ export default function ChatPage() {
       <InputComponent 
         input={input} 
         setInput={setInput} 
+        setUserStatus={setUserStatus}
+        userName={userName}
         isLoading={isLoading} 
         handleSubmit={handleSubmit} 
       />
