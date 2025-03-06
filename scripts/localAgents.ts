@@ -59,7 +59,11 @@ export const localAgents: LocalAgent[] = [
     statusJA: "トランザクション可能",
     statusKO: "거래 가능",
     statusZH: "可交易",
-    description: "XAIAgent is a decentralized AI agent platform that integrates AI agent creation, usage, deployment and trading.",
+    description: `XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents.\n
+It offers no-code development tools for everyday users while providing the XAgentScope framework for advanced developers.\n
+Powered by the GPU miner network on the DBC blockchain, XAIAgent ensures fully decentralized AI operations, offering advantages like data privacy, high performance, and low costs.\n
+The platform comes preloaded with various AI models, enabling complex tasks and multi-turn conversational scenarios.\n
+Its multi-token economic model fosters sustainable ecosystem growth, making XAIAgent a comprehensive platform for merging AI and blockchain technologies.`,
     descriptionJA: "XAIAgentは、AIエージェントの作成、使用、デプロイメント、取引を統合した分散型AIエージェントプラットフォームです。",
     descriptionKO: "XAIAgent는 AI Agent의 생성, 활용, 배포 및 거래를 하나로 통합한 블록체인 기반 탈중앙화 AI Agent 플랫폼입니다. 노코드 개발 도구를 통해 일반 사용자는 손쉽게 AI Agent를 만들 수 있고, XAgentScope 프레임워크를 통해 고급 개발자는 더욱 정교한 AI Agent를 개발 및 배포할 수 있으며, DBC 체인의 GPU 채굴 네트워크를 활용해 AI 실행의 완전한 탈중앙화를 보장하면서 데이턄 프라이버시, 높은 성능, 저비용의 장점을 제공하고, 다양한 AI 모델을 내장해 복잡한 작업과 다중 회차 대화를 지원하며, 멀티 토큰 경제 모델을 통해 생태계의 지속적인 성장을 촉진하는 AI와 블록체인의 융합형 올인원 플랫폼입니다.",
     descriptionZH: "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体。通过零代码开发工具服务普通用户，同时提供XAgentScope框架支持高级开发者。XAIAgent依托DBC链的GPU矿工网络，确保AI运行完全去中心化，具备数据隐私、高性能和低成本优势。平台内置多种AI模型，支持复杂任务和多轮对话场景，多代币经济模型促进生态稳定发展，是AI与区块链融合的全功能平台。",
@@ -92,10 +96,10 @@ export const localAgents: LocalAgent[] = [
     ],
     socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
     projectDescription: JSON.stringify({
-      en: "1. Total Supply: 5,000,000,000 tokens\n\n2. IAO Allocation: 10% of total supply\n\n3. IAO Duration: 7 days\n\n4. Trading Pair: TOKEN/ETH",
-      zh: "1. 总供应量：5,000,000,000 代币\n\n2. IAO 分配：总供应量的 10%\n\n3. IAO 持续时间：7 天\n\n4. 交易对：TOKEN/ETH",
-      ja: "1. 総供給量：5,000,000,000 トークン\n\n2. IAO 配分：総供給量の 10%\n\n3. IAO 期間：7 日間\n\n4. 取引ペア：TOKEN/ETH",
-      ko: "1. 총 공급량: 5,000,000,000 토큰\n\n2. IAO 할당: 총 공급량의 10%\n\n3. IAO 기간: 7일\n\n4. 거래 쌍: TOKEN/ETH"
+      en: "1. Total Supply: 100 billion XAA\n2. 20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.\n3. During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools, never to be revoked.\n4. After IAO ends, $XAA and $DBC trading pairs will be immediately established on DBCSwap, enabling free trading of $XAA.",
+      zh: "1. XAA 总供应量：1000亿\n2. 20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。\n3. 在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。\n4. IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。",
+      ja: "1. 総供給量：1000億 XAA\n2. トークンの20%は IAO を通じて販売され、$DBC のみを受け付けます。投資家は $DBC 投資額に比例して $XAA を受け取ります。\n3. 14日間の IAO 期間中、$DBC の50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーン流動性プールに永続的に割り当てられます。\n4. IAO 終了後、$XAA と $DBC の取引ペアが DBCSwap に即時に設立され、$XAA の自由取引が可能になります。",
+      ko: "1. 총 공급량: 1000억 XAA\n2. 토큰의 20%는 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자 비율에 따라 $XAA를 받게 됩니다.\n3. 14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 영구적으로 할당됩니다.\n4. IAO 종료 후, $XAA와 $DBC 거래쌍이 DBCSwap에 즉시 설립되어 $XAA의 자유로운 거래가 가능해집니다."
     })
 
   },
@@ -123,7 +127,7 @@ export const localAgents: LocalAgent[] = [
     statusKO: "IAO 진행중",
     statusZH: "IAO 进行中",
     description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
-    descriptionZH: "生成任务写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
+    descriptionZH: "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
     descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
@@ -194,7 +198,7 @@ export const localAgents: LocalAgent[] = [
 
 6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間6億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
 
-7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAノードNFT保有者にエアドロップされます。`,
+7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAのノードNFT保有者にエアドロップされます。`,
       ko: `1. $STID 총 공급량: 1000억
 
 2. 토큰의 10%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $STID를 받게 됩니다.
@@ -935,10 +939,10 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusJA: "近日公開",
     statusKO: "출시 예정",
     statusZH: "即将公布",
-    description: "A cryptocurrency trading AI that autonomously analyzes market strategies and trades digital currencies on the DBC chain.\n\nInitial Fund:\n- 50% of XAA raised from $ARGU\n- Serves as a reference example to show investors the AI's effectiveness\n- 30-day settlement cycle with complete token buyback and burn\n\nInvestment Plans:\n1. 7-Day Settlement Fund\n- Maximum investment: 100,000 XAA per investor\n- Weekly settlement\n- Principal returned in XAA\n- Profits distributed in ARGU with 10% burn\n\n2. 30-Day Settlement Fund\n- Maximum investment: 100,000 XAA per investor\n- Monthly settlement\n- Principal returned in XAA\n- Profits distributed in ARGU with 10% burn\n\nRisk Notice: In case of loss, returns are proportional to XAA investment.",
-    descriptionZH: "炒币AI，AI自主分析市场策略，根据不同来源的宏观和微观信息，在DBC链上自主买卖数字货币，定期会将利润回购代币进行销毁。\n\n原始资金：用50%的$ARGU募集到的XAA，作为参照样例，让投资者看到AI的效果。这个30天结算一次，会将利润购买$ARGUS并且全部销毁。\n\n投资方案：\n1. 7天结算基金\n- 每个投资者最多投资10万个$XAA\n- 7天结算一次\n- 本金以$XAA的形式返回\n- 利润回购成$ARGU分配给投资者，其中10%的$ARGU会被销毁\n\n2. 30天结算基金\n- 每个投资者最多投资10万个$XAA\n- 1个月结算一次\n- 本金以$XAA的形式返回\n- 利润回购成$ARGU分配给投资者，其中10%的$ARGUS会被销毁\n\n风险说明：如果到期亏损，也是按照投资的$XAA比例返回。",
-    descriptionKO: "ArgusAI는 DBC 체인상에서 디지털 통화를 자율적으로 거래하는 암호화폐 트레이딩 AI입니다.\n\n초기 자금:\n- $ARGU에서 모금한 XAA의 50%\n- 투자자들에게 AI의 효과를 보여주는 참조 사례로 사용\n- 30일 주기로 정산되며 토큰 전량 매입 및 소각\n\n투자 계획:\n1. 7일 정산 펀드\n- 투자자당 최대 투자: 100,000 XAA\n- 주간 정산\n- 원금은 XAA로 반환\n- 수익은 ARGU로 분배되며 10% 소각\n\n2. 30일 정산 펀드\n- 투자자당 최대 투자: 100,000 XAA\n- 월간 정산\n- 원금은 XAA로 반환\n- 수익은 ARGU로 분배되며 10% 소각\n\n리스크 공지: 손실 발생 시 XAA 투자 비율에 따라 반환됩니다.",
-    descriptionJA: "ArgusAIはDBCチェーン上でデジタル通貨を自主的に取引する仮想通貨取引AIです。\n\n初期資金:\n- $ARGUから調達したXAAの50%\n- 投資家にAIの効果を示す参考例として使用\n- 30日周期で決算し、トークンを全量買戻して焼却\n\n投資プラン:\n1. 7日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 週次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\n\n2. 30日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 月次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\n\nリスク通知: 損失が発生した場合、XAA投資比率に応じて返還されます。",
+    description: "A cryptocurrency trading AI that autonomously analyzes market strategies and trades digital currencies on the DBC chain.\nInitial Fund:\n- 50% of XAA raised from $ARGU\n- Serves as a reference example to show investors the AI's effectiveness\n- 30-day settlement cycle with complete token buyback and burn\nInvestment Plans:\n1. 7-Day Settlement Fund\n- Maximum investment: 100,000 XAA per investor\n- Weekly settlement\n- Principal returned in XAA\n- Profits distributed in ARGU with 10% burn\n2. 30-Day Settlement Fund\n- Maximum investment: 100,000 XAA per investor\n- Monthly settlement\n- Principal returned in XAA\n- Profits distributed in ARGU with 10% burn\nRisk Notice: In case of loss, returns are proportional to XAA investment.",
+    descriptionZH: "炒币AI，AI自主分析市场策略，根据不同来源的宏观和微观信息，在DBC链上自主买卖数字货币，定期会将利润回购代币进行销毁。\n原始资金：用50%的$ARGU募集到的XAA，作为参照样例，让投资者看到AI的效果。这个30天结算一次，会将利润购买$ARGUS并且全部销毁。\n投资方案：\n1. 7天结算基金\n- 每个投资者最多投资10万个$XAA\n- 7天结算一次\n- 本金以$XAA的形式返回\n- 利润回购成$ARGU分配给投资者，其中10%的$ARGU会被销毁\n2. 30天结算基金\n- 每个投资者最多投资10万个$XAA\n- 1个月结算一次\n- 本金以$XAA的形式返回\n- 利润回购成$ARGU分配给投资者，其中10%的$ARGUS会被销毁\n风险说明：如果到期亏损，也是按照投资的$XAA比例返回。",
+    descriptionKO: "ArgusAI는 DBC 체인상에서 디지털 통화를 자율적으로 거래하는 암호화폐 트레이딩 AI입니다.\n초기 자금:\n- $ARGU에서 모금한 XAA의 50%\n- 투자자들에게 AI의 효과를 보여주는 참조 사례로 사용\n- 30일 주기로 정산되며 토큰 전량 매입 및 소각\n투자 계획:\n1. 7일 정산 펀드\n- 투자자당 최대 투자: 100,000 XAA\n- 주간 정산\n- 원금은 XAA로 반환\n- 수익은 ARGU로 분배되며 10% 소각\n2. 30일 정산 펀드\n- 투자자당 최대 투자: 100,000 XAA\n- 월간 정산\n- 원금은 XAA로 반환\n- 수익은 ARGU로 분배되며 10% 소각\n리스크 공지: 손실 발생 시 XAA 투자 비율에 따라 반환됩니다.",
+    descriptionJA: "ArgusAIはDBCチェーン上でデジタル通貨を自主的に取引する仮想通貨取引AIです。\n初期資金:\n- $ARGUから調達したXAAの50%\n- 投資家にAIの効果を示す参考例として使用\n- 30日周期で決算し、トークンを全量買戻して焼却\n投資プラン:\n1. 7日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 週次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\n2. 30日決算ファンド\n- 投資家あたりの最大投資額: 100,000 XAA\n- 月次決算\n- 元本はXAAで返還\n- 利益はARGUで分配され、10%が焼却\nリスク通知: 損失が発生した場合、XAA投資比率に応じて返還されます。",
     createdAt: "1 month ago",
     creatorAddress: "0x6H9H...I918f8",
     totalSupply: 5000000000,
@@ -970,57 +974,6 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     chatEntry: "None"
   },
   {
-    id: 16,
-    name: "LinkAI",
-    tokenAddress: "",
-    avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LinkAI.png",
-    symbol: "LINK",
-    type: "AI Agent",
-    marketCap: "$0",
-    change24h: "0",
-    lifetime: "",
-    tvl: "$0",
-    holdersCount: 0,
-    volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
-    description: "The world's first blockchain-based AI Agent social marketing platform, revolutionarily connecting brands with KOLs. Through AI dialogue, quickly create promotional tasks, automatically match KOLs and generate multi-platform compatible content (text/video/live streaming), and complete trusted matching and settlement based on blockchain, achieving efficient, secure, and transparent social media marketing.",
-    descriptionZH: "全球首个基于区块链技术的AI Agent社交营销平台，革命性连接品牌方与KOL。\n\n平台核心特点：\n1. 对话式任务中枢\n- 通过自然语言对接需求\n- 30秒内完成传统需数日的沟通流程\n- 效率提升10倍\n\n2. 全自动创作引擎\n- 采用独创风格迁移技术\n- 降低内容生产成本80%\n- 保持KOL人设统一\n\n3. 防伪信用体系\n- 结合生物识别与链上存证技术\n- 杜绝99%虚假流量\n- 提升合作可信度\n\n4. 智能经济模型\n- 动态定价算法提高KOL收益120%\n- 帮助品牌降低获客成本40%",
-    descriptionKO: "세계 최초의 블록체인 기반 AI Agent 소셜 마케팅 플랫폼으로, 브랜드와 KOL을 혁신적으로 연결합니다.\n\n플랫폼 핵심 특징:\n1. 대화식 작업 허브\n- 자연어로 요구사항 처리\n- 30초 내 기존 워크플로우 완료\n- 효율성 10배 향상\n\n2. 자동 콘텐츠 엔진\n- 독자적인 스타일 전환 기술\n- 콘텐츠 제작 비용 80% 절감\n- KOL 페르소나 일관성 유지\n\n3. 부정 방지 신용 시스템\n- 생체 인식 및 온체인 검증\n- 99% 가짜 트래픽 제거\n- 협력 신뢰도 향상\n\n4. 지능형 경제 모델\n- KOL 수익 120% 증가\n- 브랜드 고객 획득 비용 40% 절감",
-    descriptionJA: "世界初のブロックチェーンベースAIエージェントソーシャルマーケティングプラットフォームで、ブランドとKOLを革新的に結びつけます。\n\nプラットフォームの主要機能:\n1. 対話型タスクハブ\n- 自然言語で要件処理\n- 30秒で従来のワークフロー完了\n- 効率性10倍向上\n\n2. 自動コンテンツエンジン\n- 独自のスタイル転送技術\n- コンテンツ制作コスト80%削減\n- KOLペルソナの一貫性維持\n\n3. 不正防止信用システム\n- 生体認証とオンチェーン検証\n- 99%の偽装トラフィック排除\n- 協力信頼性向上\n\n4. インテリジェント経済モデル\n- KOL収益120%増加\n- ブランド獲得コスト40%削減",
-    createdAt: "1 month ago",
-    creatorAddress: "0x9K2K...L241i1",
-    totalSupply: 5000000000,
-    useCases: [
-      "Create a marketing campaign for my token",
-      "Find suitable KOLs for my project",
-      "Generate viral social media content",
-      "Track my campaign performance"
-    ],
-    useCasesJA: [
-      "トークンのマーケティングキャンペーンを作成",
-      "プロジェクトに適したKOLを見つける",
-      "バイラルなソーシャルメディアコンテンツを生成",
-      "キャンペーンのパフォーマンスを追跡"
-    ],
-    useCasesKO: [
-      "내 토큰을 위한 마케팅 캠페인 생성",
-      "내 프로젝트에 적합한 KOL 찾기",
-      "바이럴한 소셜 미디어 콘텐츠 생성",
-      "캠페인 성과 추적"
-    ],
-    useCasesZH: [
-      "为我的代币创建营销活动",
-      "为我的项目找到合适的KOL",
-      "生成病毒式传播的社交媒体内容",
-      "追踪我的活动表现"
-    ],
-    socialLinks: "",
-    chatEntry: "None"
-  },
-  {
     id: 17,
     name: "AutoKol",
     tokenAddress: "",
@@ -1038,9 +991,9 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "AutoKol provides one-stop social media automation support for KOLs and project teams, helping them promote brands, attract fans, and enhance market influence more efficiently.",
-    descriptionZH: "为 KOL 和项目方提供一站式的社交媒体自动化运营支持，帮助他们更高效地推广品牌、吸引粉丝，并提升市场影响力。\n\n核心功能：\n1. 智能内容创作\n- 自动整理白皮书、官网信息和最新动态\n- 生成优质的文字、图片或视频内容\n- 一键发布到 X 等社交平台，让宣传更简单高效\n\n2. 智能互动与推广\n- 自动回复评论、精准发现潜在用户\n- 通过多个 AI 账号互动推广\n- 提高曝光度和品牌影响力\n\n3. 活动运营与奖励发放\n- 轻松发起空投、游戏等互动活动\n- 自动完成奖励分发\n- 激活社群，提升用户参与度和忠诚度\n\n4. 数据驱动增长\n- 实时分析用户反馈\n- 不断优化内容和推广策略\n- 实现粉丝的持续增长和高效转化\n\n解决方案价值：大幅降低运营成本，让 KOL 和项目方在激烈竞争中快速崛起，建立强大的品牌影响力，并最大化社交媒体营销的价值。",
-    descriptionKO: "KOL과 프로젝트 팀을 위한 원스톱 소셜 미디어 자동화 지원.\n\n핵심 기능:\n1. 지능형 콘텐츠 제작\n- 백서, 웹사이트 정보 및 업데이트 자동 정리\n- 고품질 텍스트, 이미지, 비디오 콘텐츠 생성\n- X 등 플랫폼에 원클릭 게시\n\n2. 스마트 상호작용 & 프로모션\n- 자동 댓글 응답\n- 정확한 잠재 사용자 발굴\n- 다중 AI 계정 상호작용\n\n3. 캠페인 운영 & 보상\n- 손쉬운 에어드롭 및 게임 이벤트 시작\n- 자동화된 보상 분배\n- 커뮤니티 활성화 및 참여\n\n4. 데이터 기반 성장\n- 실시간 사용자 피드백 분석\n- 지속적인 콘텐츠 및 프로모션 최적화\n- 지속 가능한 팬 성장 및 전환",
-    descriptionJA: "KOLとプロジェクトチームのためのワンストップソーシャルメディア自動化サポート。\n\n主要機能:\n1. インテリジェントコンテンツ作成\n- ホワイトペーパー、ウェブサイト情報、更新の自動整理\n- 高品質なテキスト、画像、動画コンテンツの生成\n- Xなどのプラットフォームへのワンクリック投稿\n\n2. スマートインタラクション & プロモーション\n- 自動コメント応答\n- 正確な潜在ユーザーの発掘\n- マルチAIアカウントインタラクション\n\n3. キャンペーン運営 & 報酬\n- 簡単なエアドロップとゲームイベントの開始\n- 自動化された報酬配布\n- コミュニティの活性化と参加\n\n4. データ駆動型成長\n- リアルタイムユーザーフィードバック分析\n- 継続的なコンテンツとプロモーションの最適化\n- 持続可能なファン成長と転換",
+    descriptionZH: "为 KOL 和项目方提供一站式的社交媒体自动化运营支持，帮助他们更高效地推广品牌、吸引粉丝，并提升市场影响力。\n核心功能：\n1. 智能内容创作\n- 自动整理白皮书、官网信息和最新动态\n- 生成优质的文字、图片或视频内容\n- 一键发布到 X 等社交平台，让宣传更简单高效\n2. 智能互动与推广\n- 自动回复评论、精准发现潜在用户\n- 通过多个 AI 账号互动推广\n- 提高曝光度和品牌影响力\n3. 活动运营与奖励发放\n- 轻松发起空投、游戏等互动活动\n- 自动完成奖励分发\n- 激活社群，提升用户参与度和忠诚度\n4. 数据驱动增长\n- 实时分析用户反馈\n- 不断优化内容和推广策略\n- 实现粉丝的持续增长和高效转化\n解决方案价值：大幅降低运营成本，让 KOL 和项目方在激烈竞争中快速崛起，建立强大的品牌影响力，并最大化社交媒体营销的价值。",
+    descriptionKO: "KOL과 프로젝트 팀을 위한 원스톱 소셜 미디어 자동화 지원.\n핵심 기능:\n1. 지능형 콘텐츠 제작\n- 백서, 웹사이트 정보 및 업데이트 자동 정리\n- 고품질 텍스트, 이미지, 비디오 콘텐츠 생성\n- X 등 플랫폼에 원클릭 게시\n2. 스마트 상호작용 & 프로모션\n- 자동 댓글 응답\n- 정확한 잠재 사용자 발굴\n- 다중 AI 계정 상호작용\n3. 캠페인 운영 & 보상\n- 손쉬운 에어드롭 및 게임 이벤트 시작\n- 자동화된 보상 분배\n- 커뮤니티 활성화 및 참여\n4. 데이터 기반 성장\n- 실시간 사용자 피드백 분석\n- 지속적인 콘텐츠 및 프로모션 최적화\n- 지속 가능한 팬 성장 및 전환",
+    descriptionJA: "KOLとプロジェクトチームのためのワンストップソーシャルメディア自動化サポート。\n主要機能:\n1. インテリジェントコンテンツ作成\n- ホワイトペーパー、ウェブサイト情報、更新の自動整理\n- 高品質なテキスト、画像、動画コンテンツの生成\n- Xなどのプラットフォームへのワンクリック投稿\n2. スマートインタラクション & プロモーション\n- 自動コメント応答\n- 正確な潜在ユーザーの発掘\n- マルチAIアカウントインタラクション\n3. キャンペーン運営 & 報酬\n- 簡単なエアドロップとゲームイベントの開始\n- 自動化された報酬配布\n- コミュニティの活性化と参加\n4. データ駆動型成長\n- リアルタイムユーザーフィードバック分析\n- 継続的なコンテンツとプロモーションの最適化\n- 持続可能なファン成長と転換",
     createdAt: "1 month ago",
     creatorAddress: "0x7I0I...J029g9",
     totalSupply: 5000000000,
@@ -1089,9 +1042,9 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "The world's first immersive dating social platform based on deep AI analysis, creating efficient, precise, and interesting intelligent dating experiences through multi-modal data fusion and Token economic system.",
-    descriptionZH: "定位：全球首款基于深度AI分析的沉浸式婚恋社交平台，通过多模态数据融合和Token经济系统，打造高效、精准、有趣的智能婚恋体验。\n\n一句话slogan：'比你自己更懂你想要的爱情'——灵犀AI，从200个维度计算你的命中注定。\n\nAI数据维度全面升级：\n1. 基因级用户画像\n- 识别整合公开资料\n- 人脸识别、动态行为（如聊天语气、互动频率）\n- 第三方权威认证\n- 构建超过200项个人特征标签\n\n2. 情绪与价值观分析\n- 通过智能对话中的微表情识别（视频聊天时）\n- 语义情感分析\n- 判断用户隐性需求（如'是否接受丁克'或'家庭责任感'权重）\n\n3. 动态匹配引擎\n- 用户数据实时更新（如职业变动、兴趣迁移）\n- AI每天重新计算匹配度\n- 推送'缘分波动提示'",
-    descriptionKO: "심층 AI 분석 기반의 세계 최초 몰입형 데이팅 소셜 플랫폼으로, 멀티모달 데이터 융합과 토큰 경제 시스템을 통해 효율적이고 정확하며 재미있는 지능형 데이팅 경험을 제공합니다.\n\n슬로건: '당신보다 더 잘 아는 당신의 사랑' - 링시 AI가 200가지 차원에서 당신의 운명을 계산합니다.\n\nAI 데이터 차원 업그레이드:\n1. 유전자 수준 사용자 프로필링\n- 공개 정보 통합\n- 얼굴 인식 및 행동 역학\n- 제3자 권위 인증\n- 200+ 개인 특성 태그\n\n2. 감정 & 가치관 분석\n- 화상 채팅 중 미세 표정 인식\n- 의미론적 감정 분석\n- 숨겨진 요구 사항 평가\n\n3. 동적 매칭 엔진\n- 실시간 사용자 데이터 업데이트\n- 일일 AI 호환성 재계산\n- 인연 변동 알림",
-    descriptionJA: "深層AI分析に基づく世界初の没入型デーティングソーシャルプラットフォームで、マルチモーダルデータ融合とトークン経済システムを通じて、効率的で正確かつ面白いインテリジェントなデーティング体験を提供します。\n\nスローガン：'あなた以上にあなたの愛を理解する' - 霊犀AIが200次元であなたの運命を計算します。\n\nAIデータ次元のアップグレード:\n1. 遺伝子レベルのユーザープロファイリング\n- 公開情報の統合\n- 顔認識と行動力学\n- 第三者機関認証\n- 200+個人特性タグ\n\n2. 感情 & 価値観分析\n- ビデオチャット中の微表情認識\n- 意味論的感情分析\n- 潜在的ニーズ評価\n\n3. 動的マッチングエンジン\n- リアルタイムユーザーデータ更新\n- 日次AI互換性再計算\n- 縁の変動通知",
+    descriptionZH: "定位：全球首款基于深度AI分析的沉浸式婚恋社交平台，通过多模态数据融合和Token经济系统，打造高效、精准、有趣的智能婚恋体验。\n一句话slogan：'比你自己更懂你想要的爱情'——灵犀AI，从200个维度计算你的命中注定。\nAI数据维度全面升级：\n1. 基因级用户画像\n- 识别整合公开资料\n- 人脸识别、动态行为（如聊天语气、互动频率）\n- 第三方权威认证\n- 构建超过200项个人特征标签\n2. 情绪与价值观分析\n- 通过智能对话中的微表情识别（视频聊天时）\n- 语义情感分析\n- 判断用户隐性需求（如'是否接受丁克'或'家庭责任感'权重）\n3. 动态匹配引擎\n- 用户数据实时更新（如职业变动、兴趣迁移）\n- AI每天重新计算匹配度\n- 推送'缘分波动提示'",
+    descriptionKO: "심층 AI 분석 기반의 세계 최초 몰입형 데이팅 소셜 플랫폼으로, 멀티모달 데이터 융합과 토큰 경제 시스템을 통해 효율적이고 정확하며 재미있는 지능형 데이팅 경험을 제공합니다.\n슬로건: '당신보다 더 잘 아는 당신의 사랑' - 링시 AI가 200가지 차원에서 당신의 운명을 계산합니다.\nAI 데이터 차원 업그레이드:\n1. 유전자 수준 사용자 프로필링\n- 공개 정보 통합\n- 얼굴 인식 및 행동 역학\n- 제3자 권위 인증\n- 200+ 개인 특성 태그\n2. 감정 & 가치관 분석\n- 화상 채팅 중 미세 표정 인식\n- 의미론적 감정 분석\n- 숨겨진 요구 사항 평가\n3. 동적 매칭 엔진\n- 실시간 사용자 데이터 업데이트\n- 일일 AI 호환성 재계산\n- 인연 변동 알림",
+    descriptionJA: "深層AI分析に基づく世界初の没入型デーティングソーシャルプラットフォームで、マルチモーダルデータ融合とトークン経済システムを通じて、効率的で正確かつ面白いインテリジェントなデーティング体験を提供します。\nスローガン：'あなた以上にあなたの愛を理解する' - 霊犀AIが200次元であなたの運命を計算します。\nAIデータ次元のアップグレード:\n1. 遺伝子レベルのユーザープロファイリング\n- 公開情報の統合\n- 顔認識と行動力学\n- 第三者機関認証\n- 200+個人特性タグ\n2. 感情 & 価値観分析\n- ビデオチャット中の微表情認識\n- 意味論的感情分析\n- 潜在的ニーズ評価\n3. 動的マッチングエンジン\n- リアルタイムユーザーデータ更新\n- 日次AI互換性再計算\n- 縁の変動通知",
     createdAt: "1 month ago",
     creatorAddress: "0x10L3L...M352j2",
     totalSupply: 5000000000,
@@ -1140,9 +1093,9 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "Satori AI investment analysis assistant integrates various information sources to conduct comprehensive project analysis and generate easy-to-understand investment reports, helping investors quickly understand project value, reduce investment risks, and provide real-time updates and dynamic consulting services.",
-    descriptionZH: "AI 投资分析助手能够整合各类信息来源，对项目进行全面分析，并形成简明易懂的投资报告，帮助投资者快速理解项目价值，降低投资风险，同时提供实时更新和动态咨询服务。\n\n核心功能：\n1. 多渠道信息采集\n- 官网：解析项目官网的技术文档、路线图、团队信息、合作伙伴等\n- 社交媒体：监控 Twitter、Discord、Telegram、Reddit 等，分析社群活跃度、关注者增长、KOL 评价等\n- 新闻资讯：自动抓取加密货币和区块链行业的新闻，判断项目是否有正面或负面报道\n- GitHub/代码库：分析代码更新频率、贡献者数量、代码质量等，判断技术活跃度\n- 链上数据：追踪代币持仓分布、交易量变化、大户买入卖出情况等\n- 论坛 & 研究报告：提取 Messari、TokenInsight、CoinGecko 等研究机构的数据，结合 AI 进行分析",
-    descriptionKO: "AI 투자 분석 어시스턴트는 다양한 정보 소스를 통합합니다.\n\n핵심 기능:\n1. 다중 채널 정보 수집\n- 웹사이트: 기술 문서, 로드맵, 팀 정보 파싱\n- 소셜 미디어: Twitter, Discord, Telegram, Reddit 모니터링\n- 뉴스: 암호화폐 및 블록체인 산업 뉴스 자동 캡처\n- GitHub: 코드 업데이트, 기여자, 품질 분석\n- 온체인 데이터: 토큰 분배, 거래량 추적\n- 포럼 & 리서치: Messari, TokenInsight, CoinGecko 데이터 추출\n\n2. 스마트 분석 & 등급\n- 상세한 근거와 함께 프로젝트 점수 산정\n- 리스크 평가 및 조기 경보\n- 시장 트렌드 예측\n\n3. 자동화된 투자 보고서\n- 일간/주간 업데이트\n- 종합적인 프로젝트 분석\n- AI 기반 트렌드 예측",
-    descriptionJA: "AI投資分析アシスタントは、様々な情報源を統合します。\n\n主要機能:\n1. マルチチャネル情報収集\n- ウェブサイト: 技術文書、ロードマップ、チーム情報の解析\n- ソーシャルメディア: Twitter、Discord、Telegram、Redditの監視\n- ニュース: 暗号資産とブロックチェーン業界のニュース自動キャプチャ\n- GitHub: コード更新、貢献者、品質の分析\n- オンチェーンデータ: トークン分配、取引量の追跡\n- フォーラム & リサーチ: Messari、TokenInsight、CoinGeckoのデータ抽出\n\n2. スマート分析 & 格付け\n- 詳細な根拠を伴うプロジェクトスコアリング\n- リスク評価と早期警告\n- 市場トレンド予測\n\n3. 自動化された投資レポート\n- 日次/週次更新\n- 包括的なプロジェクト分析\n- AI駆動のトレンド予測",
+    descriptionZH: "AI 投资分析助手能够整合各类信息来源，对项目进行全面分析，并形成简明易懂的投资报告，帮助投资者快速理解项目价值，降低投资风险，同时提供实时更新和动态咨询服务。\n核心功能：\n1. 多渠道信息采集\n- 官网：解析项目官网的技术文档、路线图、团队信息、合作伙伴等\n- 社交媒体：监控 Twitter、Discord、Telegram、Reddit 等，分析社群活跃度、关注者增长、KOL 评价等\n- 新闻资讯：自动抓取加密货币和区块链行业的新闻，判断项目是否有正面或负面报道\n- GitHub/代码库：分析代码更新频率、贡献者数量、代码质量等，判断技术活跃度\n- 链上数据：追踪代币持仓分布、交易量变化、大户买入卖出情况等\n- 论坛 & 研究报告：提取 Messari、TokenInsight、CoinGecko 等研究机构的数据，结合 AI 进行分析",
+    descriptionKO: "AI 투자 분석 어시스턴트는 다양한 정보 소스를 통합합니다.\n핵심 기능:\n1. 다중 채널 정보 수집\n- 웹사이트: 기술 문서, 로드맵, 팀 정보 파싱\n- 소셜 미디어: Twitter, Discord, Telegram, Reddit 모니터링\n- 뉴스: 암호화폐 및 블록체인 산업 뉴스 자동 캡처\n- GitHub: 코드 업데이트, 기여자, 품질 분석\n- 온체인 데이터: 토큰 분배, 거래량 추적\n- 포럼 & 리서치: Messari, TokenInsight, CoinGecko 데이터 추출\n2. 스마트 분석 & 등급\n- 상세한 근거와 함께 프로젝트 점수 산정\n- 리스크 평가 및 조기 경보\n- 시장 트렌드 예측\n3. 자동화된 투자 보고서\n- 일간/주간 업데이트\n- 종합적인 프로젝트 분석\n- AI 기반 트렌드 예측",
+    descriptionJA: "AI投資分析アシスタントは、様々な情報源を統合します。\n主要機能:\n1. マルチチャネル情報収集\n- ウェブサイト: 技術文書、ロードマップ、チーム情報の解析\n- ソーシャルメディア: Twitter、Discord、Telegram、Redditの監視\n- ニュース: 暗号資産とブロックチェーン業界のニュース自動キャプチャ\n- GitHub: コード更新、貢献者、品質の分析\n- オンチェーンデータ: トークン分配、取引量の追跡\n- フォーラム & リサーチ: Messari、TokenInsight、CoinGeckoのデータ抽出\n2. スマート分析 & 格付け\n- 詳細な根拠を伴うプロジェクトスコアリング\n- リスク評価と早期警告\n- 市場トレンド予測\n3. 自動化された投資レポート\n- 日次/週次更新\n- 包括的なプロジェクト分析\n- AI駆動のトレンド予測",
     createdAt: "1 month ago",
     creatorAddress: "0x8J1J...K130h0",
     totalSupply: 5000000000,
@@ -1191,9 +1144,9 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "MeetMind is a comprehensive intelligent meeting AI Agent that handles pre-meeting preparation, real-time collaboration, dynamic knowledge management, and advanced intelligent analysis.",
-    descriptionZH: "MeetMind 全流程智能会议AI Agent\n\n1. 会前准备系统\n- 议程自动生成（基于历史会议内容智能建议）\n- AI虚拟主持（支持个性化角色设定：部门例会模式/客户会议模式/头脑风暴模式）\n- 跨平台日程同步（自动抓取邮件/钉钉/Teams的会议邀请）\n\n2. 实时协作中枢\n- 多模态记录（同时记录语音转录、聊天区信息）\n- 智能发言人追踪（声纹识别+视频分析，自动标注发言归属）\n- 实时标注系统（对关键决策/待办事项进行即时打标）\n\n3. 动态知识管理系统\n- 分权式记忆库：按项目/部门/保密等级建立独立记忆单元\n- 语义关系图谱：自动构建议题-决策-责任人关联网络\n- 多维度溯源：支持通过关键词/时间线/参与人进行立体检索\n\n4. 进阶智能分析\n- 沟通效率报告（发言时长分布、话题偏离度分析）\n- 多语种实时转译（支持中日英等12种语言实时字幕）",
-    descriptionKO: "MeetMind는 회의 준비, 실시간 협업, 동적 지식 관리, 고급 지능형 분석을 처리하는 종합 지능형 회의 AI Agent입니다.\n\n1. 회의 전 준비 시스템\n- 과거 회의 내용 기반 의제 자동 생성\n- 맞춤형 역할의 AI 가상 호스팅\n- 크로스 플랫폼 일정 동기화\n\n2. 실시간 협업 허브\n- 다중 모달 기록\n- 스마트 발언자 추적\n- 실시간 의사결정 태깅\n\n3. 동적 지식 관리\n- 프로젝트/부서별 분산 메모리 뱅크\n- 의미론적 관계 매핑\n- 다차원 추적성\n\n4. 고급 분석\n- 커뮤니케이션 효율성 보고서\n- 12개 언어 실시간 번역",
-    descriptionJA: "MeetMindは、会議準備、リアルタイムコラボレーション、動的知識管理、高度なインテリジェント分析を処理する包括的なインテリジェント会議AIエージェントです。\n\n1. 会議前準備システム\n- 過去の会議内容に基づく議題自動生成\n- カスタマイズ可能な役割のAI仮想ホスティング\n- クロスプラットフォームスケジュール同期\n\n2. リアルタイムコラボレーションハブ\n- マルチモーダル記録\n- スマート発言者追跡\n- リアルタイム意思決定タグ付け\n\n3. 動的知識管理\n- プロジェクト/部署別分散メモリーバンク\n- 意味的関係マッピング\n- 多次元トレーサビリティ\n\n4. 高度な分析\n- コミュニケーション効率性レポート\n- 12言語リアルタイム翻訳",
+    descriptionZH: "MeetMind 全流程智能会议AI Agent\n1. 会前准备系统\n- 议程自动生成（基于历史会议内容智能建议）\n- AI虚拟主持（支持个性化角色设定：部门例会模式/客户会议模式/头脑风暴模式）\n- 跨平台日程同步（自动抓取邮件/钉钉/Teams的会议邀请）\n2. 实时协作中枢\n- 多模态记录（同时记录语音转录、聊天区信息）\n- 智能发言人追踪（声纹识别+视频分析，自动标注发言归属）\n- 实时标注系统（对关键决策/待办事项进行即时打标）\n3. 动态知识管理系统\n- 分权式记忆库：按项目/部门/保密等级建立独立记忆单元\n- 语义关系图谱：自动构建议题-决策-责任人关联网络\n- 多维度溯源：支持通过关键词/时间线/参与人进行立体检索\n4. 进阶智能分析\n- 沟通效率报告（发言时长分布、话题偏离度分析）\n- 多语种实时转译（支持中日英等12种语言实时字幕）",
+    descriptionKO: "MeetMind는 회의 준비, 실시간 협업, 동적 지식 관리, 고급 지능형 분석을 처리하는 종합 지능형 회의 AI Agent입니다.\n1. 회의 전 준비 시스템\n- 과거 회의 내용 기반 의제 자동 생성\n- 맞춤형 역할의 AI 가상 호스팅\n- 크로스 플랫폼 일정 동기화\n2. 실시간 협업 허브\n- 다중 모달 기록\n- 스마트 발언자 추적\n- 실시간 의사결정 태깅\n3. 동적 지식 관리\n- 프로젝트/부서별 분산 메모리 뱅크\n- 의미론적 관계 매핑\n- 다차원 추적성\n4. 고급 분석\n- 커뮤니케이션 효율성 보고서\n- 12개 언어 실시간 번역",
+    descriptionJA: "MeetMindは、会議準備、リアルタイムコラボレーション、動的知識管理、高度なインテリジェント分析を処理する包括的なインテリジェント会議AIエージェントです。\n1. 会議前準備システム\n- 過去の会議内容に基づく議題自動生成\n- カスタマイズ可能な役割のAI仮想ホスティング\n- クロスプラットフォームスケジュール同期\n2. リアルタイムコラボレーションハブ\n- マルチモーダル記録\n- スマート発言者追跡\n- リアルタイム意思決定タグ付け\n3. 動的知識管理\n- プロジェクト/部署別分散メモリーバンク\n- 意味的関係マッピング\n- 多次元トレーサビリティ\n4. 高度な分析\n- コミュニケーション効率性レポート\n- 12言語リアルタイム翻訳",
     createdAt: "1 month ago",
     creatorAddress: "0x11M4M...N463k3",
     totalSupply: 5000000000,
@@ -1242,9 +1195,9 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
     statusKO: "출시 예정",
     statusZH: "即将公布",
     description: "Your fashion radar, tracking global luxury brand new products, celebrity outfits, and trending items in seconds, using AI to analyze the hottest styling formulas and telling you 'what to wear tomorrow to go viral'.",
-    descriptionZH: "你的时尚雷达，秒级追踪全球大牌新品、明星同款和网红爆款，用AI分析最火穿搭公式，提前告诉你'明天该穿什么会爆红'。\n\n1. 全球新品雷达系统（Global Product Tracker）\n- 多模态数据监测：通过AI抓取7种语言区（中英法意日韩西）的品牌官方Release\n- 动态热榜引擎：实时追踪50+时尚电商（Farfetch/Net-a-Porter等）新品销量TOP100\n\n2. 影响力图谱分析（Influence Mapping）\n- 明星热度量化引擎：构建艺人造型数据库（含单品种草转化率KPI）\n- KOL生态监控：跨境追踪Instagram/TikTok/小红书等平台5万+账号\n- 联名效应预测模型：基于品牌历史联名销量预测新款期待值\n\n3. 趋势演化系统（Trend Evolution System）\n- 秀场基因测序：运用GAN解析四大时装周设计元素沿袭度\n- 文化因子关联：构建影视作品/艺术展览等文化事件与单品热度相关性模型",
-    descriptionKO: "당신의 패션 레이더로, AI를 사용하여 전 세계 럭셔리 브랜드 신제품, 셀러브리티 의상, 트렌드 아이템을 순식간에 추적하고 가장 핫한 스타일링 공식을 분석하여 '내일 무엇을 입으면 바이럴할지' 알려줍니다.\n\n1. 글로벌 제품 트래커\n- 7개 언어권의 멀티모달 데이터 모니터링\n- 50+ 패션 E커머스 플랫폼 실시간 추적\n\n2. 영향력 매핑\n- 셀러브리티 인기도 정량화 엔진\n- 플랫폼 간 KOL 생태계 모니터링\n- 콜라보레이션 효과 예측 모델\n\n3. 트렌드 진화 시스템\n- GAN을 활용한 패션위크 요소 분석\n- 문화 요인 상관관계 모델링",
-    descriptionJA: "あなたのファッションレーダーとして、AIを使用して世界のラグジュアリーブランドの新製品、セレブの衣装、トレンドアイテムを瞬時に追跡し、最もホットなスタイリング公式を分析して'明日何を着ればバイラルになるか'をお知らせします。\n\n1. グローバル製品トラッカー\n- 7言語圏のマルチモーダルデータモニタリング\n- 50+ファッションEコマースプラットフォームのリアルタイム追跡\n\n2. インフルエンスマッピング\n- セレブリティ人気度定量化エンジン\n- プラットフォーム間KOLエコシステムモニタリング\n- コラボレーション効果予測モデル\n\n3. トレンド進化システム\n- GANを活用したファッションウィーク要素分析\n- 文化要因相関モデリング",
+    descriptionZH: "你的时尚雷达，秒级追踪全球大牌新品、明星同款和网红爆款，用AI分析最火穿搭公式，提前告诉你'明天该穿什么会爆红'。\n1. 全球新品雷达系统（Global Product Tracker）\n- 多模态数据监测：通过AI抓取7种语言区（中英法意日韩西）的品牌官方Release\n- 动态热榜引擎：实时追踪50+时尚电商（Farfetch/Net-a-Porter等）新品销量TOP100\n2. 影响力图谱分析（Influence Mapping）\n- 明星热度量化引擎：构建艺人造型数据库（含单品种草转化率KPI）\n- KOL生态监控：跨境追踪Instagram/TikTok/小红书等平台5万+账号\n- 联名效应预测模型：基于品牌历史联名销量预测新款期待值\n3. 趋势演化系统（Trend Evolution System）\n- 秀场基因测序：运用GAN解析四大时装周设计元素沿袭度\n- 文化因子关联：构建影视作品/艺术展览等文化事件与单品热度相关性模型",
+    descriptionKO: "당신의 패션 레이더로, AI를 사용하여 전 세계 럭셔리 브랜드 신제품, 셀러브리티 의상, 트렌드 아이템을 순식간에 추적하고 가장 핫한 스타일링 공식을 분석하여 '내일 무엇을 입으면 바이럴할지' 알려줍니다.\n1. 글로벌 제품 트래커\n- 7개 언어권의 멀티모달 데이터 모니터링\n- 50+ 패션 E커머스 플랫폼 실시간 추적\n2. 영향력 매핑\n- 셀러브리티 인기도 정량화 엔진\n- 플랫폼 간 KOL 생태계 모니터링\n- 콜라보레이션 효과 예측 모델\n3. 트렌드 진화 시스템\n- GAN을 활용한 패션위크 요소 분석\n- 문화 요인 상관관계 모델링",
+    descriptionJA: "あなたのファッションレーダーとして、AIを使用して世界のラグジュアリーブランドの新製品、セレブの衣装、トレンドアイテムを瞬時に追跡し、最もホットなスタイリング公式を分析して'明日何を着ればバイラルになるか'をお知らせします。\n1. グローバル製品トラッカー\n- 7言語圏のマルチモーダルデータモニタリング\n- 50+ファッションEコマースプラットフォームのリアルタイム追跡\n2. インフルエンスマッピング\n- セレブリティ人気度定量化エンジン\n- プラットフォーム間KOLエコシステムモニタリング\n- コラボレーション効果予測モデル\n3. トレンド進化システム\n- GANを活用したファッションウィーク要素分析\n- 文化要因相関モデリング",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574l4",
     totalSupply: 5000000000,

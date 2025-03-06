@@ -66,6 +66,7 @@ async function main() {
           symbol: agent.symbol,
           totalSupply: agent.totalSupply || 0,
           chatEntry: agent.chatEntry || '',
+          useCases: agent.useCases ? JSON.stringify(agent.useCases) : '',
           useCasesJA: agent.useCasesJA ? JSON.stringify(agent.useCasesJA) : '',
           useCasesKO: agent.useCasesKO ? JSON.stringify(agent.useCasesKO) : '',
           useCasesZH: agent.useCasesZH ? JSON.stringify(agent.useCasesZH) : '',

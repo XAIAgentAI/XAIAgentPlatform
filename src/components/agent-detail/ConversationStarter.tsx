@@ -28,7 +28,8 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
   const getLocalizedUseCases = () => {
     if (!agent) return [];
     let useCases: string[] | string | undefined;
-    
+
+
     switch (locale) {
       case 'ja':
         useCases = agent.useCasesJA || agent.useCases;
@@ -63,7 +64,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
   };
 
   const suggestions = getLocalizedUseCases();
-
+  console.log("suggestions", suggestions);
 
   if (!suggestions) {
     return null;

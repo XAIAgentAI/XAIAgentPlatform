@@ -66,7 +66,7 @@ export function Countdown({ remainingTime, className, onEnd }: CountdownProps) {
   }, [remainingTime, onEnd]);
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2 flex-wrap", className)}>
       {timeLeft.days > 0 && (
         <div className="flex items-center gap-1">
           <span className="font-medium">{timeLeft.days}</span>

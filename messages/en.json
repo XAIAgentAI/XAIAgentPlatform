@@ -16,10 +16,10 @@
     "xaaBalance": "XAA Balance",
     "social": "Social",
     "timeUnits": {
-      "days": "days",
-      "hours": "hours",
-      "minutes": "minutes",
-      "seconds": "seconds"
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s"
     },
     "noData": "No Data"
   },

@@ -345,15 +345,15 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           }
         ) {
           id
+          volumeToken0
+          volumeToken1
           token0 {
             id
             decimals
-            totalValueLocked
           }
           token1 {
             id
             decimals
-            totalValueLocked
           }
         }
         ${token.symbol}: swaps(
@@ -586,12 +586,13 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
           const usdPrice = (currentPrice) ? Number((Number(currentPrice) * Number(dbcPriceUsd)).toFixed(8)) : 0;
 
-          // 计算 LP 数量 - 使用对标代币的 totalValueLocked 乘以 DBC 单价
-          const targetTokenAmount = targetTokenIsToken0 ? 
-            parseFloat(pool.token0.totalValueLocked || '0') : 
-            parseFloat(pool.token1.totalValueLocked || '0');
+          // 计算 LP 数量 - 使用对标代币的 volumeToken 而不是 totalValueLocked
+          const targetTokenAmount = !targetTokenIsToken0 ? 
+          
+            parseFloat(pool.volumeToken0 || '0') : 
+            parseFloat(pool.volumeToken1 || '0');
           const lp = Number((targetTokenAmount * dbcPriceUsd).toFixed(2)); // 乘以 DBC 单价
-          console.log(token.symbol, lp);
+          console.log(token.symbol, lp, targetTokenAmount, dbcPriceUsd);
           
           priceMap[token.symbol] = {
             tokenAddress: token.address,
