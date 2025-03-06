@@ -141,4 +141,4 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
   );
 };
 
-export default SideBar;
+export default SideBar

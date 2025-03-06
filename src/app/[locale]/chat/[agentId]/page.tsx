@@ -9,6 +9,7 @@ import MessagesComponent from '@/components/chat/Messages';
 import InputComponent from '@/components/chat/Input';
 import SideBar from '@/components/chat/SideBar';
 import AuthButton from '@/components/chat/SignUp'; // 假设SignUp.tsx导出了一个名为AuthButton的组件
+import { useLocale, useTranslations } from 'next-intl';
 
 interface Message {
   id: string;
@@ -26,7 +27,6 @@ interface Sentence {
 
 // 定义路由参数的类型
 type ChatParams = {
-
   locale: string;
   agentId: string;
 }
@@ -37,49 +37,6 @@ interface AgentDescription {
   prompt: string;
   examples: string[];
 }
-
-const agentDescriptions: { [key: string]: AgentDescription } = {
-  'Scholar GPT': {
-    metrics: 'DATA +45.67% | Market Cap: $222M',
-    prompt: 'Enhance research with 200M+ resources and built-in critical reading skills. Access Google Scholar, PubMed, JSTOR, Arxiv, and more, effortlessly.',
-    examples: [
-      'Find the latest research about AI',
-      'I\'ll provide a research paper link; Please review it critically.',
-      'I\'ll upload a PDF paper; Use critical skills to read it.',
-      'Type "ls" to list my built-in critical reading skills.'
-    ]
-  },
-  'DeepSeek V3': {
-    metrics: 'DATA +50.23% | Market Cap: $230M',
-    prompt: 'Explore deep learning research with over 250M resources. Access specialized datasets and models.',
-    examples: [
-      'Find recent advancements in deep learning',
-      'Review this research paper on neural networks.',
-      'Analyze this PDF on convolutional neural networks.',
-      'List my deep learning expertise.'
-    ]
-  },
-  'DeepSeek R1': {
-    metrics: 'DATA +48.33% | Market Cap: $225M',
-    prompt: 'Dive into research on reinforcement learning. Access cutting-edge papers and models.',
-    examples: [
-      'Find the latest in reinforcement learning',
-      'Critically review this research paper.',
-      'Read this PDF on reinforcement learning.',
-      'List my expertise in reinforcement learning.'
-    ]
-  },
-  'Chatgpt o4': {
-    metrics: 'DATA +44.67% | Market Cap: $220M',
-    prompt: 'Conduct general research with GPT-4. Access a wide range of topics and resources.',
-    examples: [
-      'Find information on a general topic',
-      'Review this research paper.',
-      'Read this document.',
-      'List my general research skills.'
-    ]
-  }
-};
 
 export default function ChatPage() {
   const params = useParams<ChatParams>();
@@ -92,6 +49,52 @@ export default function ChatPage() {
   const [userName, setUserName] = useState<string | null>(null); // 新增userName状态
   const [userStatus, setUserStatus] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  const locale = useLocale();
+  const t = useTranslations("chat");
+    
+  const agentDescriptions: { [key: string]: AgentDescription } = {
+    'Scholar GPT': {
+      metrics: t("Data.Scholar GPT.metrics"),
+      prompt: t("Data.Scholar GPT.prompt"),
+      examples: [
+        t("Data.Scholar GPT.examples.0"),
+        t("Data.Scholar GPT.examples.1"),
+        t("Data.Scholar GPT.examples.2"),
+        t("Data.Scholar GPT.examples.3")
+      ]
+    },
+    'DeepSeek V3': {
+      metrics: t("Data.DeepSeek V3.metrics"),
+      prompt: t("Data.DeepSeek V3.prompt"),
+      examples: [
+        t("Data.DeepSeek V3.examples.0"),
+        t("Data.DeepSeek V3.examples.1"),
+        t("Data.DeepSeek V3.examples.2"),
+        t("Data.DeepSeek V3.examples.3")
+      ]
+    },
+    'DeepSeek R1': {
+      metrics: t("Data.DeepSeek R1.metrics"),
+      prompt: t("Data.DeepSeek R1.prompt"),
+      examples: [
+        t("Data.DeepSeek R1.examples.0"),
+        t("Data.DeepSeek R1.examples.1"),
+        t("Data.DeepSeek R1.examples.2"),
+        t("Data.DeepSeek R1.examples.3")
+      ]
+    },
+    'Chatgpt o4': {
+      metrics: t("Data.Chatgpt o4.metrics"),
+      prompt: t("Data.Chatgpt o4.prompt"),
+      examples: [
+        t("Data.Chatgpt o4.examples.0"),
+        t("Data.Chatgpt o4.examples.1"),
+        t("Data.Chatgpt o4.examples.2"),
+        t("Data.Chatgpt o4.examples.3")
+      ]
+    }
+  };
 
   // 获取历史消息
   useEffect(() => {
@@ -100,7 +103,7 @@ export default function ChatPage() {
       fetchMessages();
     }
   }, [agentId, userName]);
-
+  
   const fetchMessages = async () => {
     if (!agentId || !userName) return;
 
