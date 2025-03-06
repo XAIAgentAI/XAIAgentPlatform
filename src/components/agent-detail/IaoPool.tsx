@@ -50,10 +50,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const { switchChain } = useSwitchChain();
   const { ensureCorrectNetwork } = useNetwork();
 
-
-
-
-
   // 获取用户余额
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
@@ -156,11 +152,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const now = Date.now();
   const isDepositPeriod = true;
   const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
-
-
-
-
-
 
   // useEffect(() => {
   //   const fetchPoolData = async () => {
