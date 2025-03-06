@@ -27,6 +27,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
+  const [xaaBalance, setXaaBalance] = useState<string>("0");
   const [userStakeInfo, setUserStakeInfo] = useState({
     userDeposited: "0",
     claimableXAA: "0",
@@ -54,6 +55,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
       setMaxAmount("0");
+      setXaaBalance("0");
       return;
     }
 
@@ -63,24 +65,70 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         transport: http(),
       });
 
-      const balance = await publicClient.getBalance({
+      // 获取DBC余额
+      const dbcBalance = await publicClient.getBalance({
         address: address as `0x${string}`
       });
+      setMaxAmount(formatEther(dbcBalance));
 
-      setMaxAmount(formatEther(balance));
+      // 获取XAA余额
+      const ERC20_ABI = [
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "_owner",
+              "type": "address"
+            }
+          ],
+          "name": "balanceOf",
+          "outputs": [
+            {
+              "name": "balance",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ] as const;
+
+      try {
+        const xaaBalance = await publicClient.readContract({
+          address: CONTRACTS.XAA_TOKEN as `0x${string}`,
+          abi: ERC20_ABI,
+          functionName: 'balanceOf',
+          args: [address as `0x${string}`]
+        });
+        setXaaBalance(formatEther(xaaBalance));
+      } catch (error) {
+        console.error('获取XAA余额失败:', error);
+        setXaaBalance("0");
+      }
     } catch (error) {
       console.error('获取余额失败:', error);
       setMaxAmount("0");
+      setXaaBalance("0");
     }
   }, [address, isConnected]);
 
   // 在组件加载和地址变化时获取余额
   useEffect(() => {
     fetchUserBalance();
-  }, [fetchUserBalance, address]);
+    // 设置定时器，每30秒更新一次余额
+    const timer = setInterval(() => {
+      fetchUserBalance();
+    }, 30000);
+
+    return () => clearInterval(timer);
+  }, [fetchUserBalance, address, isConnected]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
+    // 当前最大可用金额
+    const currentMaxAmount = agent.symbol === 'XAA' ? maxAmount : xaaBalance;
 
     // 只允许数字和一个小数点，且小数位不超过18位
     if (value === '' || (
@@ -88,11 +136,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       Number(value) >= 0 &&
       (!value.includes('.') || value.split('.')[1]?.length <= 18)
     )) {
-      if (Number(value) > Number(maxAmount)) {
-        setDbcAmount(maxAmount);
+      if (Number(value) > Number(currentMaxAmount)) {
+        setDbcAmount(currentMaxAmount);
         toast({
           title: t('error'),
-          description: t('insufficientBalance', { amount: maxAmount }),
+          description: t('insufficientBalance', { amount: currentMaxAmount }),
         });
       } else {
         setDbcAmount(value);
@@ -101,7 +149,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   };
 
   const handleSetMaxAmount = () => {
-    setDbcAmount(maxAmount);
+    // 如果symbol是XAA，使用DBC的最大值；否则使用XAA的最大值
+    if (agent.symbol === 'XAA') {
+      setDbcAmount(maxAmount);
+    } else {
+      setDbcAmount(xaaBalance);
+    }
   };
 
   const handleStake = async () => {
@@ -256,7 +309,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
 
               <div className="flex items-center gap-4 mb-6">
-                <div className="font-medium">{agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA'}</div>
+                <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
                 <div className="flex-1 relative">
                   <Input
                     type="number"
@@ -268,7 +321,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                       }
                     }}
                     min="0"
-                    max={maxAmount}
+                    max={agent.symbol === 'XAA' ? maxAmount : xaaBalance}
                     step="any"
                     className="pr-16"
                     placeholder="00.00"
