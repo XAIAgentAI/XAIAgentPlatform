@@ -9,31 +9,10 @@ import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
+import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
-
-interface AgentListProps {
-  agents: Array<{
-    id: number;
-    name: string;
-    avatar?: string;
-    symbol: string;
-    type: string;
-    marketCap: string;
-    change24h: string;
-    tvl: string;
-    holdersCount: number;
-    volume24h: string;
-    status: string;
-    socialLinks?: string;
-    priceChange24h?: string;
-    price?: string;
-    tokenAddress?: string;
-    lp?: string;
-  }>;
-  loading?: boolean;
-}
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
@@ -185,7 +164,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('status')}</span>
                     <div className="text-secondary-color text-sm font-medium">
-                      <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
+                      <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
                         {agent.status}
                       </CustomBadge>
                     </div>

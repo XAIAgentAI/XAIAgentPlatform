@@ -128,7 +128,7 @@ export const localAgents: LocalAgent[] = [
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574id",
-    totalSupply: 5000000000,
+    totalSupply: 10000000000,
     useCases: [
       "I want to generate a vintage style photo. Can you help me design the style and background",
       "Can I adjust my expression and posture in this photo?",
