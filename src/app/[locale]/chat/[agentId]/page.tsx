@@ -26,6 +26,7 @@ interface Sentence {
 
 // 定义路由参数的类型
 type ChatParams = {
+
   locale: string;
   agentId: string;
 }
@@ -93,29 +94,20 @@ export default function ChatPage() {
 
   // 获取历史消息
   useEffect(() => {
-    if (agentId) {
+    if (agentId && userName) {
+      console.log(userName)
       fetchMessages();
     }
-  }, [agentId]);
-
-  // 自动滚动到最新消息
-  useEffect(() => {
-    if (conversations[agentId]?.length > 0) {
-      scrollToBottom();
-    }
-  }, [conversations, agentId]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }
+  }, [agentId, userName]);
 
   const fetchMessages = async () => {
-    if (!agentId) return;
+    if (!agentId || !userName) return;
 
     try {
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         headers: { 'Content-Type': 'application/json' },
         method: 'GET',
+        body: JSON.stringify({ user: userName }), // 手动添加user参数
       });
       
       const data: Sentence[] = await response.json();
@@ -183,6 +175,7 @@ export default function ChatPage() {
       <SideBar conversations={conversations} setUserName={setUserName} userName={userName}/>
       {!conversations[agentId]?.length && (
         <HeaderComponent 
+          userName={userName}
           agentId={agentId}
           setIsLoading={setIsLoading}
           selectedAgent={selectedAgent} 

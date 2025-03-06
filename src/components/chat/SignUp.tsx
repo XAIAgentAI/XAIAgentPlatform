@@ -29,7 +29,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
     });
 
     const data = await response.json();
-
+    
     if (data.success) {
       setIsLoggedIn(true);
       setLoggedInUsername(username);
@@ -47,7 +47,6 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
 
   const closeModal = () => {
     setModalOpen(false);
-    setUserName('');
     setPassword('');
     setError('');
   };
@@ -77,7 +76,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
             <button
               type="button"
               className="flex items-center justify-center px-2 py-1 text-zinc-700 rounded-full ml-[88%] hover:bg-teal-100 cursor-pointer"
-              onClick={() => { setModalOpen(false) }}
+              onClick={() => { closeModal() }}
             >
               <XMarkIcon className="w-4 h-4 text-zinc-700" />
             </button>

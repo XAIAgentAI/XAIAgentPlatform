@@ -57,6 +57,15 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ userName, agentId, isLo
     setMessages(conversations[agentId] || []);
   }, [conversations, agentId]);
 
+  // 自动滚动到最新消息
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]); // 监听 messages 的变化
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+  
   const isValidDate = (dateString: string): boolean => {
     return !isNaN(Date.parse(dateString));
   };
@@ -90,7 +99,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ userName, agentId, isLo
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                 message.role === 'user'
                   ? 'bg-gray-600 text-white'
-                  : 'text-white'
+                  : 'text-foreground'
               }`}
             >
               <p className="text-sm">{message.content}</p>

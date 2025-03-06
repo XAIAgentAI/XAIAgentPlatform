@@ -18,6 +18,7 @@ interface Message {
 }
 
 interface HeaderComponentProps {
+  userName: string | null;
   agentId: string;
   selectedAgent: string;
   handleAgentSelect: (agent: string) => void;
@@ -29,21 +30,21 @@ interface HeaderComponentProps {
   conversations: { [id: string]: Message[] };
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
   return (
     <div className="flex catcher flex-col items-center justify-center h-[80vh] space-y-2 mt-4 md:justify-start">
       {/* Agent Selection */}
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-neutral-200 text-lg rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
+          className="flex font-light items-center justify-between px-2 py-1 text-foreground text-lg rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
           {isAgentListOpen ? (
-            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-stone-200" />
+            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-foreground" />
           ) : (
-            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-stone-200" />
+            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-foreground" />
           )}
         </button>
         {isAgentListOpen && (
@@ -83,17 +84,17 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentId, setIsLoading
                        const response = await fetch(`/api/chat/${agentId}/messages`, {
                          method: 'POST',
                          headers: { 'Content-Type': 'application/json' },
-                         body: JSON.stringify({ message: example, user: 'Sword', thing: "message", isNew: "yes" }),
+                         body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes" }),
                        });
 
                        const data = await response.json();
                        setIsLoading(false);
 
                        setConversations(prev => ({ ...prev, [agentId]: [...prev[agentId] || [], {
-                         id: data.id,
+                         id: `${data.convid}-${Date.now()}`,
                          role: 'assistant',
-                         content: data.content,
-                         timestamp: data.timestamp,
+                         content: data.assistant,
+                         timestamp: new Date().toISOString(),
                        }] }));
 
                      } catch (error) {
