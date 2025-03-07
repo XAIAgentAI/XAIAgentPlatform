@@ -79,7 +79,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
           <div className="bg-white rounded-lg p-6 shadow-lg w-64">
             <button
               type="button"
-              className="flex items-center justify-center px-2 py-1 text-zinc-700 rounded-full ml-[88%] hover:bg-teal-100 cursor-pointer"
+              className="flex items-center justify-center px-2 py-1 text-zinc-700 rounded-full ml-[88%] hover:bg-zinc-200 cursor-pointer"
               onClick={() => { closeModal() }}
             >
               <XMarkIcon className="w-4 h-4 text-zinc-700" />

@@ -16,10 +16,13 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
   const [isEmailOpen, setIsEmailOpen] = useState(false);
   const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
+  const [smallHidden, setSmallHidden] = useState('hidden');
+  const [moreground, setMoreground] = useState('bg-stone-200');
   const [searchResults, setSearchResults] = useState<{ id: string; content: string; timestamp: string }[]>([]);
   
   const locale = useLocale();
   const t = useTranslations("chat");
+  const lessground = "bg-slate-300";
   
   // 使用当前的agentId获取消息
   const agentId = Object.keys(conversations).length > 0 ? Object.keys(conversations)[0] : null;
@@ -55,10 +58,23 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
     setTimeout(() => setBgCopy('bg-stone-700'), 200);
   };
 
+  const moreHandler = () => {
+    setSmallHidden("transition-discrete duration-300 block flex z-20 w-[245px]");
+    setMoreground("bg-stone-500");
+  }
+
+  const lessHandler = () => {
+    setSmallHidden("hidden");
+    setMoreground("bg-stone-300");
+  }
+
   return (
-    <div className="fixed 2xl:top-[40px] md:top-[68px] hidden lg:flex flex-col w-[20vw] bg-zinc-800 p-4 text-white h-[calc(100vh-115px)]">
+    <>
+    <button className={`fixed top-[100px] left-[20px] lg:hidden block w-[60px] h-[30px] rounded-lg lg:flex ${moreground} text-zinc-600`} onClick={moreHandler}>More</button>
+    <div className={`fixed 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)]`}>
+    <button className={`mb-[5px] mt-[-10px] ml-auto lg:hidden block w-[60px] h-[30px] rounded-lg lg:flex ${lessground} text-foreground`} onClick={lessHandler}>Less</button>
       <div className="flex justify-end space-x-2">
-        <div className="inline-block w-[50px] flex items-center self-start relative right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl-[10vw]">
+        <div className="inline-block relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl-[10vw]">
           <AuthButton setUserName={setUserName} userName={userName} />
         </div>
         <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer relative right-[4px]" />
@@ -142,6 +158,7 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
         </>
       )}
     </div>
+    </>
   );
 };
 
