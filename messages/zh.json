@@ -181,7 +181,7 @@
     "transactionSent": "交易已发送",
     "waitForConfirmation": "等待确认",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC",
-    "goToDbcswap": "购买XAA 前往DBCSwap",
+    "goToDbcswap": "前往 DBCSwap 购买 {symbol}",
     "approveTransaction": "授权交易",
     "approveWaitingConfirm": "等待授权确认",
     "approveSuccess": "授权成功",

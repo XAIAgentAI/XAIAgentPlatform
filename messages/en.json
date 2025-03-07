@@ -180,7 +180,7 @@
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "goToDbcswap": "Go to DBCSwap to buy XAA",
+    "goToDbcswap": "Go to DBCSwap to buy {symbol}",
     "approveTransaction": "Token Authorization",
     "approveWaitingConfirm": "Waiting for authorization confirmation",
     "approveSuccess": "Authorization successful",

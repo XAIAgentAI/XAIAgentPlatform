@@ -180,7 +180,7 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "goToDbcswap": "DBCSwapでXAAを購入",
+    "goToDbcswap": "DBCSwapで{symbol}を購入",
     "approveTransaction": "トークン承認",
     "approveWaitingConfirm": "承認の確認を待っています",
     "approveSuccess": "承認が完了しました",

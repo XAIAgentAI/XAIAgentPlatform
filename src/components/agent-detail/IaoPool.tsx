@@ -241,7 +241,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
           aria-label={t('goToDbcswap')}
         >
-          {t('goToDbcswap')}
+          {t('goToDbcswap', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
