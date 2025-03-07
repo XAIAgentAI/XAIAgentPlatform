@@ -572,6 +572,12 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           const priceChange24h = price24hAgo > 0 
             ? ((currentPrice - price24hAgo) / price24hAgo) * 100 
             : 0;
+            
+          console.log(`代币 ${token.symbol} 价格变化计算:`, {
+            currentPrice,
+            price24hAgo,
+            priceChange24h
+          });
 
           // 获取 TVL 和 Volume
           const tokenData = targetTokenIsToken0 ? swap.token0 : swap.token1;

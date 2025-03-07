@@ -71,17 +71,30 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
   try {
     const tokenSwapDatas = await getBatchTokenPrices(tokenInfos);
     
+    // 记录获取到的价格变化数据，用于调试
+    console.log('首页获取到的价格变化数据:', 
+      Object.entries(tokenSwapDatas).map(([symbol, data]) => ({
+        symbol,
+        priceChange24h: data.priceChange24h
+      }))
+    );
+    
     return agents.map(agent => {
       if (agent.tokenAddress && tokenSwapDatas[agent.symbol]) {
         const tokenSwapInfo = tokenSwapDatas[agent.symbol];
         const usdPrice = tokenSwapInfo.usdPrice || 0;
+        
+        // 确保价格变化格式一致，保留两位小数
+        const priceChange = tokenSwapInfo.priceChange24h || 0;
+        const formattedPriceChange = priceChange === 0 ? "0.00" : priceChange.toFixed(2);
+        
         return {
           ...agent,
           marketCap: `$${formatNumber(usdPrice * (agent.totalSupply || 0))}`,
           tvl: `$${formatNumber(tokenSwapInfo.tvl || 0)}`,
           volume24h: `$${formatNumber(tokenSwapInfo.volume24h || 0)}`,
           price: `$${formatNumber(usdPrice, 8)}`,
-          priceChange24h: `${formatNumber(tokenSwapInfo.priceChange24h || 0)}%`,
+          priceChange24h: formattedPriceChange,
           lp: `$${formatNumber(tokenSwapInfo.lp || 0)}`
         };
       }

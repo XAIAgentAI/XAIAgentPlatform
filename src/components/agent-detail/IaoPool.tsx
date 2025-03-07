@@ -126,7 +126,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    
     // 当前最大可用金额
     const currentMaxAmount = agent.symbol === 'XAA' ? maxAmount : xaaBalance;
 
@@ -221,6 +220,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserStakeInfo = async () => {
     if (!isAuthenticated) return;
     const info = await getUserStakeInfo();
+
+
     setUserStakeInfo(info);
   };
 
@@ -378,13 +379,19 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               <div className="space-y-2 mt-4">
                 <p className="text-sm text-muted-foreground">
                   {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-                  <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
+                  <span className="text-[#F47521] ml-1">
+                    {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                  </span>
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {userStakeInfo.hasClaimed ? (
-                    <>{t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
+                    <>
+                      {t('claimedAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                    </>
                   ) : (
-                    <>{t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
+                    <>
+                      {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                    </>
                   )}
                 </p>
               </div>

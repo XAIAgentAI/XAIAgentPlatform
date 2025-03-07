@@ -56,8 +56,29 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
         // 重置重试计数器
         retryCount.current = 0;
         const currentPrice = chartKlineData[chartKlineData.length - 1].close;
-        const previousPrice = chartKlineData[chartKlineData.length - 2]?.close || chartKlineData[0].open;
-        const priceChange = ((currentPrice - previousPrice) / previousPrice) * 100;
+        
+        // 计算24小时价格变化
+        const oneDayAgoTimestamp = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+        
+        // 找到最接近24小时前的数据点
+        let closestIndex = 0;
+        let minTimeDiff = Number.MAX_SAFE_INTEGER;
+        
+        for (let i = 0; i < chartKlineData.length; i++) {
+          const timeDiff = Math.abs(chartKlineData[i].time - oneDayAgoTimestamp);
+          if (timeDiff < minTimeDiff) {
+            minTimeDiff = timeDiff;
+            closestIndex = i;
+          }
+        }
+        
+        const price24hAgo = chartKlineData[closestIndex].close;
+        
+        // 计算价格变化百分比
+        const priceChange = price24hAgo > 0 
+          ? ((currentPrice - price24hAgo) / price24hAgo) * 100 
+          : 0;
+          
         setData({
           klineData: chartKlineData,
           currentPrice,

@@ -118,8 +118,10 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   const formatPriceChange = (change: number | undefined): string => {
     if (change === undefined || change === null) return '+0.00%';
     const sign = change >= 0 ? '+' : '';
+    
+    // 确保格式与首页一致，始终保留两位小数
     if (Math.abs(change) < 0.01) {
-      return `${sign}${change.toFixed(4)}%`;
+      return `${sign}${change.toFixed(2)}%`;
     }
     return `${sign}${change.toFixed(2)}%`;
   };
@@ -584,8 +586,6 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     );
   }
 
-
-
   return (
     <div className="space-y-4 pt-2">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -611,12 +611,9 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                 <path fillRule="evenodd" d="M1.22 5.222a.75.75 0 011.06 0L7 9.942l3.768-3.769a.75.75 0 011.113.058 20.908 20.908 0 013.813 7.254l1.574-2.727a.75.75 0 011.3.75l-2.475 4.286a.75.75 0 01-1.025.275l-4.287-2.475a.75.75 0 01.75-1.3l2.71 1.565a19.422 19.422 0 00-3.013-6.024L7.53 11.533a.75.75 0 01-1.06 0l-5.25-5.25a.75.75 0 010-1.06z" clipRule="evenodd" />
               </svg>
             )}
-            {formatPriceChange(priceChange)}
-
-
+            <span>{formatPriceChange(priceChange)}</span>
+            <span className="text-xs text-muted-foreground">24h</span>
           </div>
-
-
         </div>
         <div className="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
           <div className="flex gap-1 min-w-min">

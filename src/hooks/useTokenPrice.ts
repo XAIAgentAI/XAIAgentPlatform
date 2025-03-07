@@ -127,10 +127,8 @@ export class TokenPriceManager {
         const latestKline = this.data[this.data.length - 1];
         this.currentPrice = latestKline.close;
         
-        if (this.data.length >= 2) {
-          const previousKline = this.data[this.data.length - 2];
-          this.priceChange = ((latestKline.close - previousKline.close) / previousKline.close) * 100;
-        }
+        // 计算24小时价格变化
+        this.calculatePriceChange24h();
 
         // 通知所有订阅者
         this.notifySubscribers();
@@ -195,10 +193,8 @@ export class TokenPriceManager {
       const latestKline = this.data[this.data.length - 1];
       this.currentPrice = latestKline.close;
       
-      if (this.data.length >= 2) {
-        const previousKline = this.data[this.data.length - 2];
-        this.priceChange = ((latestKline.close - previousKline.close) / previousKline.close) * 100;
-      }
+      // 计算24小时价格变化
+      this.calculatePriceChange24h();
 
       this.notifySubscribers();
     } catch (error) {
@@ -229,6 +225,38 @@ export class TokenPriceManager {
     const currentTime = Date.now();
     await this.fetchHistoricalData(this.lastFetchedTime, currentTime);
     this.lastFetchedTime = currentTime;
+  }
+
+  // 添加计算24小时价格变化的方法
+  private calculatePriceChange24h() {
+    if (this.data.length === 0) return;
+    
+    const latestKline = this.data[this.data.length - 1];
+    const currentPrice = latestKline.close;
+    
+    // 获取24小时前的时间戳（秒）
+    const oneDayAgoTimestamp = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+    
+    // 找到最接近24小时前的数据点
+    let closestIndex = 0;
+    let minTimeDiff = Number.MAX_SAFE_INTEGER;
+    
+    for (let i = 0; i < this.data.length; i++) {
+      const timeDiff = Math.abs(this.data[i].time - oneDayAgoTimestamp);
+      if (timeDiff < minTimeDiff) {
+        minTimeDiff = timeDiff;
+        closestIndex = i;
+      }
+    }
+    
+    const price24hAgo = this.data[closestIndex].close;
+    
+    // 计算价格变化百分比
+    if (price24hAgo > 0) {
+      this.priceChange = ((currentPrice - price24hAgo) / price24hAgo) * 100;
+    } else {
+      this.priceChange = 0;
+    }
   }
 }
 

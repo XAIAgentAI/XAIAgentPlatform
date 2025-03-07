@@ -18,6 +18,9 @@ type SortDirection = "asc" | "desc"
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
 
+  console.log("socialLinks", socialLinks);
+  
+
   const links = socialLinks.split(",").map(link => link.trim());
   return {
     twitter: links.find(link => link.includes("x.com") || link.includes("twitter.com")) || "",
@@ -185,6 +188,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               <TableBody>
                 {sortedAgents.map((agent) => {
                   const socialLinks = parseSocialLinks(agent.socialLinks);
+                  console.log("socialLinks", socialLinks);
                   return (
                     <TableRow
                       key={agent.id}
@@ -252,7 +256,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.marketCap}
+                          {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, ""))) 
+                            ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : agent.marketCap}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -260,7 +270,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                           {agent.priceChange24h ? 
                             (parseFloat(agent.priceChange24h) === -0 ? 
                               "+0.00%" : 
-                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${parseFloat(agent.priceChange24h).toFixed(2)}%`
+                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
                             ) : 
                             "0.00%"
                           }
@@ -268,7 +278,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.price || '$0'}
+                          {agent.price && !isNaN(parseFloat(agent.price.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.price.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 2
+                              })
+                            : '$0'}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -278,12 +294,24 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.volume24h}
+                          {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : agent.volume24h}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.lp || '$0'}
+                          {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : '$0'}
                         </div>
                       </TableCell>
                       <TableCell>

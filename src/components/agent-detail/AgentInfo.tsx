@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
-import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS } from "@/services/swapService";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices } from "@/services/swapService";
 import { fetchDBCPrice as fetchDBCPriceFromHook } from "@/hooks/useDBCPrice";
 
 interface ApiResponse<T> {
@@ -37,6 +37,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dbcPriceUsd, setDBCPriceUsd] = useState<number>(0);
+  const [homepagePriceChange, setHomepagePriceChange] = useState<number | null>(null);
 
   const getAgentData = async () => {
     try {
@@ -45,6 +46,20 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
       if (res?.code === 200) {
         setAgent(res.data);
+        
+        // 获取与首页相同的价格变化数据
+        if (res.data.tokenAddress && res.data.symbol) {
+          const tokenInfo = {
+            address: res.data.tokenAddress,
+            symbol: res.data.symbol
+          };
+          
+          const tokenSwapDatas = await getBatchTokenPrices([tokenInfo]);
+          if (tokenSwapDatas[res.data.symbol]) {
+            setHomepagePriceChange(tokenSwapDatas[res.data.symbol].priceChange24h || 0);
+            console.log('首页价格变化数据:', tokenSwapDatas[res.data.symbol].priceChange24h);
+          }
+        }
       } else {
         setError(res?.message || '获取数据失败');
       }
@@ -89,6 +104,16 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     targetToken: agent?.tokenAddress || '',
     baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
   });
+
+  // 记录详情页面的价格变化数据
+  useEffect(() => {
+    console.log('详情页面价格变化数据:', priceChange);
+  }, [priceChange]);
+
+  // 记录最终使用的价格变化数据
+  useEffect(() => {
+    console.log('最终使用的价格变化数据:', homepagePriceChange !== null ? homepagePriceChange : priceChange);
+  }, [homepagePriceChange, priceChange]);
 
   const handleIntervalChange = (interval: TimeInterval) => {
     setSelectedInterval(interval);
@@ -284,7 +309,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           agent={agent}
           klineData={klineData}
           currentPrice={currentPrice}
-          priceChange={priceChange}
+          priceChange={homepagePriceChange !== null ? homepagePriceChange : priceChange}
           isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}

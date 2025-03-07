@@ -80,6 +80,7 @@ export async function GET(request: Request) {
         marketCap: item.marketCap,
         change24h: item.change24h,
         type: item.type,
+        socialLinks: item.socialLinks,
         tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
         iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
       }))
