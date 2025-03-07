@@ -22,7 +22,6 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
   
   const locale = useLocale();
   const t = useTranslations("chat");
-  const lessground = "bg-slate-300";
   
   // 使用当前的agentId获取消息
   const agentId = Object.keys(conversations).length > 0 ? Object.keys(conversations)[0] : null;
@@ -72,7 +71,7 @@ const SideBar = ({ conversations, userName, setUserName }: SideBarProps) => {
     <>
     <button className={`fixed top-[100px] left-[20px] lg:hidden block w-[60px] h-[30px] rounded-lg lg:flex ${moreground} text-zinc-600`} onClick={moreHandler}>More</button>
     <div className={`fixed 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)]`}>
-    <button className={`mb-[5px] mt-[-10px] ml-auto lg:hidden block w-[60px] h-[30px] rounded-lg lg:flex ${lessground} text-foreground`} onClick={lessHandler}>Less</button>
+    <button className={`mb-[5px] mt-[-10px] ml-auto lg:hidden block w-[60px] h-[30px] rounded-lg lg:flex bg-stone-300 text-foreground`} onClick={lessHandler}>Less</button>
       <div className="flex justify-end space-x-2">
         <div className="inline-block relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl-[10vw]">
           <AuthButton setUserName={setUserName} userName={userName} />

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
 interface Sentence {
   user?: string;
@@ -10,6 +11,9 @@ interface Sentence {
 interface Conversation {
   [id: string]: Array<Sentence>;
 }
+
+const total = await prisma.agent.count()
+console.log(total)
 
 // 示例使用
 const conversationData: Conversation = {
