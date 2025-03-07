@@ -1,92 +1,54 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import AgentListDesktop from "@/components/AgentListDesktop"
 import AgentListMobile from "@/components/AgentListMobile"
-import { useDBCScan } from "@/hooks/useDBCScan"
-import { useAgentStore } from "@/store/useAgentStore"
-import { useDBCPrice } from "@/hooks/useDBCPrice"
-import { useStakeContract } from "@/hooks/useStakeContract"
+import { fetchDBCTokens } from "@/hooks/useDBCScan"
+import { LocalAgent } from "@/types/agent"
+import { agentAPI } from "@/services/api"
+import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
 
 export default function Home() {
-  const { tokens, loading, error } = useDBCScan()
-  const { agents, updateAgentsWithTokens, setAgents } = useAgentStore()
-  const { price: dbcPrice } = useDBCPrice()
+  const [agents, setAgents] = useState<LocalAgent[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const {
-    poolInfo,
-    isLoading: isStakeLoading,
-    isPoolInfoLoading,
-    isUserStakeInfoLoading,
-    stake,
-    claimRewards,
-    getUserStakeInfo
-  } = useStakeContract();
 
-  const formatNumber = (num: string | number | undefined, decimals: number = 6): string => {
-    // 确保转换为数字类型
-    const numValue = Number(num);
 
-    // 检查是否为有效数字
-    if (isNaN(numValue) || !isFinite(numValue)) return '0';
-    if (numValue === 0) return '0';
-    if (numValue < 0.000001) return numValue.toExponential(decimals);
-    return numValue.toFixed(decimals).replace(/\.?0+$/, '');
+  // 获取代理列表
+  const fetchAgentsData = async () => {
+    try {
+      setLoading(true)
+      // 并行获取 agents 和 tokens 数据
+      const [response, tokens] = await Promise.all([
+        agentAPI.getAllAgents({ pageSize: 30 }),
+        fetchDBCTokens()
+      ]);
+
+      if (response.code === 200 && response.data?.items) {
+        // 转换数据
+        let agents = response.data.items.map(transformToLocalAgent);
+
+        // 更新价格信息
+        agents = await updateAgentsWithPrices(agents);
+
+
+        // 更新代币持有者信息
+        if (tokens.length > 0) {
+          agents = updateAgentsWithTokens(agents, tokens);
+        }
+
+        setAgents(agents);
+      }
+    } catch (error) {
+      console.error('Failed to fetch agents:', error);
+    } finally {
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
-    updateAgentsWithTokens(tokens)
-  }, [tokens, loading, updateAgentsWithTokens, dbcPrice,])
-
-  useEffect(() => {
-    if (!loading && agents && agents.length > 0) {
-      const agentsWithPrices = agents.map(agent => {
-        const dbcNum : any = agent.name === "XAIAgent" ? poolInfo.totalDeposited : 0;
-
-        const totalSupply = Number(agent.totalSupply?.split(' ')[0].replace(/,/g, '') || 0);
-        
-
-        // 确保dbcPrice是数字类型
-        const dbcPriceNum = Number(dbcPrice);
-        const tokenPrice = (dbcNum * dbcPriceNum) / totalSupply;
-        const marketCap = dbcPriceNum * dbcNum * 2;
-
-        // console.log(`Agent: ${agent.name || 'Unknown'}`);
-        // console.log(`池子中DBC个数: ${formatNumber(dbcNum)} DBC`);
-        // console.log(`DBC单价: $${formatNumber(dbcPriceNum)}`);
-        // console.log(`计算出的token单价: $${formatNumber(tokenPrice)}`);
-        // console.log(`计算出的市场总值: $${formatNumber(marketCap)}`);
-        // console.log('------------------------');
-
-        return {
-          ...agent,
-          tokenPrice: formatNumber(tokenPrice),
-          marketCap: formatNumber(marketCap)
-        };
-      });
-
-
-      const newAgents = agents.map(agent => {
-        const matchingAgent = agentsWithPrices.find(a => a.id === agent.id);
-        if (matchingAgent) {
-          return {
-            ...agent,
-            tvl: `$${matchingAgent.tokenPrice}`,
-            marketCap: `$${Number(matchingAgent.marketCap).toFixed(2)}`
-          }
-        }
-        return agent;
-      });
-
-      setAgents(newAgents);
-    }
-  }, [poolInfo])
-
-  if (error) {
-    console.error('Failed to fetch DBC data:', error)
-  }
-
-
+    fetchAgentsData();
+  }, []);
 
   return (
     <>

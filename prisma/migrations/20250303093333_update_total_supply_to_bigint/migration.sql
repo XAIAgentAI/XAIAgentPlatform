@@ -23,9 +23,31 @@ CREATE TABLE "Agent" (
     "capabilities" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "usageCount" INTEGER NOT NULL DEFAULT 0,
+    "marketCap" TEXT NOT NULL DEFAULT '0',
+    "change24h" TEXT NOT NULL DEFAULT '0',
+    "volume24h" TEXT NOT NULL DEFAULT '0',
     "creatorId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "type" TEXT,
+    "tvl" TEXT,
+    "holdersCount" INTEGER,
+    "socialLinks" TEXT,
+    "token" TEXT,
+    "totalSupply" BIGINT,
+    "symbol" TEXT,
+    "chatEntry" TEXT,
+    "useCases" TEXT,
+    "useCasesJA" TEXT,
+    "useCasesKO" TEXT,
+    "useCasesZH" TEXT,
+    "statusJA" TEXT,
+    "statusKO" TEXT,
+    "statusZH" TEXT,
+    "descriptionJA" TEXT,
+    "descriptionKO" TEXT,
+    "descriptionZH" TEXT,
+    "lifetime" TEXT,
 
     CONSTRAINT "Agent_pkey" PRIMARY KEY ("id")
 );
@@ -75,11 +97,24 @@ CREATE TABLE "AuthNonce" (
     CONSTRAINT "AuthNonce_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "AgentPrice" (
+    "id" SERIAL NOT NULL,
+    "agentId" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "AgentPrice_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_address_key" ON "User"("address");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AuthNonce_nonce_key" ON "AuthNonce"("nonce");
+
+-- CreateIndex
+CREATE INDEX "AgentPrice_agentId_timestamp_idx" ON "AgentPrice"("agentId", "timestamp");
 
 -- AddForeignKey
 ALTER TABLE "Agent" ADD CONSTRAINT "Agent_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -95,3 +130,6 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_agentId_fkey" FOREIGN KEY ("agentId"
 
 -- AddForeignKey
 ALTER TABLE "History" ADD CONSTRAINT "History_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "Agent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AgentPrice" ADD CONSTRAINT "AgentPrice_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "Agent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

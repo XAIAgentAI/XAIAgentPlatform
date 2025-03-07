@@ -39,14 +39,11 @@ export const TokenBalance = () => {
   // 获取DBC余额
   const fetchDBCBalance = async () => {
     if (!address || !isConnected) {
-      console.log('No address or not connected');
       setDbcBalance("0");
       return;
     }
 
     try {
-      console.log('Fetching DBC balance for address:', address);
-      console.log('Current chain:', currentChain);
       
       const publicClient = createPublicClient({
         chain: currentChain,
@@ -72,14 +69,11 @@ export const TokenBalance = () => {
   // 获取XAA余额
   const fetchXAABalance = async () => {
     if (!address || !isConnected) {
-      console.log('No address or not connected for XAA balance');
       setXaaBalance("0");
       return;
     }
 
     try {
-      console.log('Fetching XAA balance for address:', address);
-      console.log('XAA token contract:', CONTRACTS.XAA_TOKEN);
       
       const publicClient = createPublicClient({
         chain: currentChain,

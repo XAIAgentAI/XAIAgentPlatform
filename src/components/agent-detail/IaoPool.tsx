@@ -10,7 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppKitAccount } from '@reown/appkit/react'
 import { useTranslations } from 'next-intl';
-import { LocalAgent } from "@/data/localAgents";
+import { LocalAgent } from "@/types/agent";
 import { useChainId, useSwitchChain } from 'wagmi';
 import { currentChain, dbcTestnet } from '@/config/wagmi';
 import { CONTRACTS } from "@/config/contracts";
@@ -20,8 +20,14 @@ import { useNetwork } from "@/hooks/useNetwork";
 const showIAOReal = "true"
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
+  console.log("agent", agent);
+  // 检查必要的合约地址是否存在
+  const iaoContractAddress = agent?.iaoContractAddress || '';
+  const tokenAddress = agent?.tokenAddress || '';
+
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
+  const [xaaBalance, setXaaBalance] = useState<string>("0");
   const [userStakeInfo, setUserStakeInfo] = useState({
     userDeposited: "0",
     claimableXAA: "0",
@@ -38,7 +44,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     stake,
     claimRewards,
     getUserStakeInfo
-  } = useStakeContract();
+  } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
@@ -49,6 +55,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
       setMaxAmount("0");
+      setXaaBalance("0");
       return;
     }
 
@@ -58,36 +65,81 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         transport: http(),
       });
 
-      const balance = await publicClient.getBalance({
+      // 获取DBC余额
+      const dbcBalance = await publicClient.getBalance({
         address: address as `0x${string}`
       });
+      setMaxAmount(formatEther(dbcBalance));
 
-      setMaxAmount(formatEther(balance));
+      // 获取XAA余额
+      const ERC20_ABI = [
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "_owner",
+              "type": "address"
+            }
+          ],
+          "name": "balanceOf",
+          "outputs": [
+            {
+              "name": "balance",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ] as const;
+
+      try {
+        const xaaBalance = await publicClient.readContract({
+          address: CONTRACTS.XAA_TOKEN as `0x${string}`,
+          abi: ERC20_ABI,
+          functionName: 'balanceOf',
+          args: [address as `0x${string}`]
+        });
+        setXaaBalance(formatEther(xaaBalance));
+      } catch (error) {
+        console.error('获取XAA余额失败:', error);
+        setXaaBalance("0");
+      }
     } catch (error) {
       console.error('获取余额失败:', error);
       setMaxAmount("0");
+      setXaaBalance("0");
     }
   }, [address, isConnected]);
 
   // 在组件加载和地址变化时获取余额
   useEffect(() => {
     fetchUserBalance();
-  }, [fetchUserBalance, address]);
+    // 设置定时器，每30秒更新一次余额
+    const timer = setInterval(() => {
+      fetchUserBalance();
+    }, 30000);
+
+    return () => clearInterval(timer);
+  }, [fetchUserBalance, address, isConnected]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    
+    // 当前最大可用金额
+    const currentMaxAmount = agent.symbol === 'XAA' ? maxAmount : xaaBalance;
+
     // 只允许数字和一个小数点，且小数位不超过18位
     if (value === '' || (
-      /^\d*\.?\d*$/.test(value) && 
-      Number(value) >= 0 && 
+      /^\d*\.?\d*$/.test(value) &&
+      Number(value) >= 0 &&
       (!value.includes('.') || value.split('.')[1]?.length <= 18)
     )) {
-      if (Number(value) > Number(maxAmount)) {
-        setDbcAmount(maxAmount);
+      if (Number(value) > Number(currentMaxAmount)) {
+        setDbcAmount(currentMaxAmount);
         toast({
           title: t('error'),
-          description: t('insufficientBalance', { amount: maxAmount }),
+          description: t('insufficientBalance', { amount: currentMaxAmount }),
         });
       } else {
         setDbcAmount(value);
@@ -96,7 +148,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   };
 
   const handleSetMaxAmount = () => {
-    setDbcAmount(maxAmount);
+    // 如果symbol是XAA，使用DBC的最大值；否则使用XAA的最大值
+    if (agent.symbol === 'XAA') {
+      setDbcAmount(maxAmount);
+    } else {
+      setDbcAmount(xaaBalance);
+    }
   };
 
   const handleStake = async () => {
@@ -125,13 +182,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     const formattedAmount = Number(dbcAmount).toFixed(18); // DBC最多18位小数
 
     try {
-      const result = await stake(formattedAmount);
+      const result = await stake(formattedAmount, agent.symbol, agent.tokenAddress);
       // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
       if (result && result.hash) {
         toast({
           variant: "default",
           title: t('success'),
-          description: t('sendSuccess', { amount: formattedAmount }),
+          description: t('sendSuccess', { amount: Number(formattedAmount).toFixed(2), symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' }),
         });
         fetchUserStakeInfo()
         setDbcAmount("");
@@ -146,7 +203,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   const now = Date.now();
   const isDepositPeriod = true;
-  const isIAOStarted = agent.symbol === 'XAA';
+  const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
 
   // useEffect(() => {
   //   const fetchPoolData = async () => {
@@ -163,6 +220,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserStakeInfo = async () => {
     if (!isAuthenticated) return;
     const info = await getUserStakeInfo();
+
+
     setUserStakeInfo(info);
   };
 
@@ -183,15 +242,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           aria-label={t('goToDbcswap')}
         >
           {t('goToDbcswap')}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
             className="ml-1"
           >
@@ -209,15 +268,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {agent.totalSupply}
+            {agent.totalSupply?.toLocaleString()} {agent.symbol}
           </span>
         </div>
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
 
           {
-            agent.symbol === 'XAA' ? (<span className="font-semibold text-[#F47521] break-all">
+            poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
               {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
             </span>
             ) :
@@ -230,7 +289,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
         <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
           <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          {agent.symbol === 'XAA'  ? (
+          {poolInfo?.endTime ? (
             isPoolInfoLoading || !poolInfo?.endTime ? (
               <span className="font-semibold text-[#F47521] break-all">--</span>
             ) : (
@@ -263,7 +322,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                       }
                     }}
                     min="0"
-                    max={maxAmount}
+                    max={agent.symbol === 'XAA' ? maxAmount : xaaBalance}
                     step="any"
                     className="pr-16"
                     placeholder="00.00"
@@ -278,6 +337,14 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                   </button>
                 </div>
               </div>
+
+
+              {/* <div>showIAOReal: {showIAOReal}</div>
+              <div>isDepositPeriod: {String(isDepositPeriod)}</div>
+              <div>isStakeLoading: {String(isStakeLoading)}</div>
+              <div>isAuthenticated: {String(isAuthenticated)}</div>
+              <div>isIAOStarted: {String(isIAOStarted)}</div>
+              <div>isConnected: {String(isConnected)}</div> */}
 
               {showIAOReal === "true" ? (
                 <Button
@@ -308,24 +375,30 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           )}
 
           {
-            agent.symbol === 'XAA'  &&(
+            !!userStakeInfo.userDeposited && (
               <div className="space-y-2 mt-4">
                 <p className="text-sm text-muted-foreground">
-                  {t('stakedAmount', { symbol: 'DBC' })}:
-                <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {userStakeInfo.hasClaimed ? (
-                  <>{t('claimedAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toFixed(0)}</span></>
-                ) : (
-                  <>{t('claimableAmount')}: <span className="text-[#F47521]">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toFixed(0)}</span></>
-                )}
-              </p>
-            </div>
-          )}
+                  {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                  <span className="text-[#F47521] ml-1">
+                    {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {userStakeInfo.hasClaimed ? (
+                    <>
+                      {t('claimedAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                    </>
+                  ) : (
+                    <>
+                      {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                    </>
+                  )}
+                </p>
+              </div>
+            )}
 
           <p className="text-sm text-muted-foreground mt-2">
-            {t('poolDynamicTip')}
+            {t('poolDynamicTip', { symbol: agent.symbol, investSymbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}
           </p>
 
           {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 && isConnected) ? (
@@ -333,7 +406,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
               onClick={async () => {
                 try {
-                  const result = await claimRewards();
+                  const result: any = await claimRewards();
                   if (result?.success) {
                     toast({
                       title: t('claimSuccess'),
@@ -343,7 +416,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                           <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
                           <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
                           <code className="block p-2 bg-black/10 rounded text-xs break-all">
-                            {CONTRACTS.XAA_TOKEN}
+                            {agent.symbol}
                           </code>
                         </div>
                       ),
@@ -356,9 +429,9 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                   });
                 }
               }}
-              disabled={isStakeLoading || userStakeInfo.hasClaimed}
+              disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
             >
-              {userStakeInfo.hasClaimed ? t('claimed') : t('testClaim')}
+              {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
             </Button>
           )
 

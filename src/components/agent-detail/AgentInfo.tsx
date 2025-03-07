@@ -12,82 +12,187 @@ import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSwapKLineData } from '@/hooks/useSwapKLineData';
 import { TimeInterval } from '@/hooks/useTokenPrice';
+import {
+  agentAPI
+} from '@/services/api'
+import { useState } from "react";
+import { useEffect } from "react";
+import { LocalAgent } from "@/types/agent";
+import { Button } from "@/components/ui/button";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices } from "@/services/swapService";
+import { fetchDBCPrice as fetchDBCPriceFromHook } from "@/hooks/useDBCPrice";
+
+interface ApiResponse<T> {
+  code: number;
+  message: string;
+  data: T;
+}
 
 interface AgentInfoProps {
   agentId: string;
 }
 
 export function AgentInfo({ agentId }: AgentInfoProps) {
-  const { getAgentById } = useAgentStore();
-  const agent = getAgentById(Number(agentId));
-  const { tokenData, loading, error } = useDBCToken(agent?.tokens || null);
+  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [dbcPriceUsd, setDBCPriceUsd] = useState<number>(0);
+  const [homepagePriceChange, setHomepagePriceChange] = useState<number | null>(null);
+
+  const getAgentData = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
+      if (res?.code === 200) {
+        setAgent(res.data);
+        
+        // 获取与首页相同的价格变化数据
+        if (res.data.tokenAddress && res.data.symbol) {
+          const tokenInfo = {
+            address: res.data.tokenAddress,
+            symbol: res.data.symbol
+          };
+          
+          const tokenSwapDatas = await getBatchTokenPrices([tokenInfo]);
+          if (tokenSwapDatas[res.data.symbol]) {
+            setHomepagePriceChange(tokenSwapDatas[res.data.symbol].priceChange24h || 0);
+            console.log('首页价格变化数据:', tokenSwapDatas[res.data.symbol].priceChange24h);
+          }
+        }
+      } else {
+        setError(res?.message || '获取数据失败');
+      }
+    } catch (error: any) {
+      console.error('Failed to fetch agent:', error);
+      setError(error?.message || '获取数据失败，请稍后重试');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getAgentData();
+  }, [agentId]);
+
+  useEffect(() => {
+    const getDBCPrice = async () => {
+      const priceInfo = await fetchDBCPriceFromHook();
+      if (priceInfo && typeof priceInfo.priceUsd === 'string') {
+        setDBCPriceUsd(Number(priceInfo.priceUsd));
+      }
+    };
+    getDBCPrice();
+  }, []);
+
+  const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
   const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
   const tAgentDetail = useTranslations('agentDetail');
 
+  const [selectedInterval, setSelectedInterval] = useState<TimeInterval>('1h');
   const {
     klineData,
     currentPrice,
     priceChange,
-    isLoading,
+    isLoading: klineLoading,
     error: klineError,
     refetch
-  } = useSwapKLineData();
+  } = useSwapKLineData({
+    interval: selectedInterval,
+    targetToken: agent?.tokenAddress || '',
+    baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
+  });
+
+  // 记录详情页面的价格变化数据
+  useEffect(() => {
+    console.log('详情页面价格变化数据:', priceChange);
+  }, [priceChange]);
+
+  // 记录最终使用的价格变化数据
+  useEffect(() => {
+    console.log('最终使用的价格变化数据:', homepagePriceChange !== null ? homepagePriceChange : priceChange);
+  }, [homepagePriceChange, priceChange]);
 
   const handleIntervalChange = (interval: TimeInterval) => {
-    console.log('时间间隔改变:', interval);
-    refetch();
+    setSelectedInterval(interval);
+    refetch({ interval });
   };
-
-  console.log("klineData", klineData);
-  
 
   // 根据当前语言获取对应的描述
   const getLocalizedDescription = () => {
     if (!agent) return "";
-    switch (locale) {
-      case 'ja':
-        return agent.descriptionJA || agent.description;
-      case 'ko':
-        return agent.descriptionKO || agent.description;
-      case 'zh':
-        return agent.descriptionZH || agent.description;
-      default:
-        return agent.description;
+    if (locale === 'zh') {
+      return agent.descriptionZH;
+    } else if (locale === 'ko') {
+      return agent.descriptionKO;
+    } else if (locale === 'ja') {
+      return agent.descriptionJA;
     }
+    return agent.description;
   };
 
   // 根据当前语言获取对应的状态
   const getLocalizedStatus = () => {
     if (!agent) return "";
-    switch (locale) {
-      case 'ja':
-        return agent.statusJA || agent.status;
-      case 'ko':
-        return agent.statusKO || agent.status;
-      default:
-        return agent.status;
-    }
+    return agent.status;
   };
 
-  if (loading) {
+  if (isLoading || tokenLoading) {
     return (
       <Card className="p-6 bg-card">
-        <div className="text-foreground text-center">{t('loading')}</div>
-      </Card>
-    );
-  }
-
-  if (error || !agent) {
-    return (
-      <Card className="p-6 bg-card">
-        <div className="text-foreground text-center">
-          {error || t('notFound')}
+        <div className="flex items-center justify-center space-x-2">
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
+          <div className="w-4 h-4 rounded-full animate-pulse bg-foreground"></div>
         </div>
       </Card>
     );
   }
+
+  if (error || tokenError) {
+    return (
+      <Card className="p-6 bg-card">
+        <div className="text-center space-y-4">
+          <div className="text-red-500">{error || tokenError}</div>
+          <Button onClick={getAgentData} variant="outline">
+            重试
+          </Button>
+        </div>
+      </Card>
+    );
+  }
+
+  if (!agent) {
+    return (
+      <Card className="p-6 bg-card">
+        <div className="text-foreground text-center">
+          {t('notFound')}
+        </div>
+      </Card>
+    );
+  }
+
+  // 添加格式化价格的辅助函数
+  const formatPrice = (price: number | undefined, decimals: number = 5): { value: string; pair: string } => {
+    const pair = 'XAA/DBC';
+    if (price === undefined || price === null) return { value: `0.${'0'.repeat(decimals)}`, pair };
+    if (price === 0) return { value: `0.${'0'.repeat(decimals)}`, pair };
+
+    const absPrice = Math.abs(price);
+    if (absPrice < Math.pow(10, -decimals)) {
+      // 只有在非常小的数字时才使用 0.0{x}y 格式
+      const priceStr = absPrice.toString();
+      const match = priceStr.match(/^0\.0+/);
+      const zeroCount = match ? match[0].length - 2 : 0;
+      const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
+      return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
+    }
+    // 根据指定的精度显示小数位数
+    return { value: absPrice.toFixed(decimals), pair };
+  };
+
 
   return (
     <Card className="p-6 bg-card">
@@ -96,21 +201,30 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
         <div className="flex items-start gap-4 min-w-0 flex-1">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <img
-              src={agent.avatar}
+              src={agent.avatar || ''}
               alt={t('accessibility.agentAvatar')}
               className="h-full w-full object-cover"
             />
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold">{agent?.name}</h1>
+            <div className="flex justify-start items-center flex-wrap">
+              <h1 className="text-xl font-semibold">{agent?.name}</h1>
+              <div className="flex items-baseline  text-muted-foreground h- ml-1">
+                $
+                <span className="text-sm font-medium">
+                  {formatPrice(currentPrice * dbcPriceUsd, 8).value}
+                </span>
+              </div>
+            </div>
+
             {tokenData && (
               <>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex  items-start md:items-center gap-2 mt-1">
                   <>
-                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">${tokenData?.symbol}</div>
-                    <div className="flex items-center gap-2 min-w-[80px] max-w-full h-[32px] px-3 py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
-                      <span className="text-muted-foreground text-xs whitespace-nowrap hidden md:block">
+                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px] pt-[3px] md:pt-0">${tokenData?.symbol}</div>
+                    <div className="flex flex-col  md:flex-row  md:items-center  md:gap-1 min-w-[80px] max-w-full p-0 md:px-3 md:py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
+                      <span className="text-muted-foreground text-xs whitespace-nowrap">
                         {tAgentDetail('contract')}:
                       </span>
                       <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -180,7 +294,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
             <span className="text-xs text-muted-foreground whitespace-nowrap">{t('createdBy')}:</span>
             <Avatar className="h-7 w-7">
               <img
-                src={agent.avatar}
+                src={agent.avatar || ''}
                 alt={t('accessibility.creatorAvatar')}
                 className="h-full w-full object-cover rounded-full"
               />
@@ -195,10 +309,11 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           agent={agent}
           klineData={klineData}
           currentPrice={currentPrice}
-          priceChange={priceChange}
-          isLoading={isLoading}
+          priceChange={homepagePriceChange !== null ? homepagePriceChange : priceChange}
+          isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}
+          dbcPriceUsd={dbcPriceUsd}
         />
       </div>
 
@@ -221,7 +336,12 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           </TabsList>
 
           <TabsContent value="information">
-            <MarketData tokenData={tokenData} />
+            <MarketData
+              tokenData={tokenData}
+              agent={agent}
+              currentPrice={currentPrice}
+              dbcPriceUsd={dbcPriceUsd}
+            />
           </TabsContent>
 
           <TabsContent value="holders">
@@ -233,7 +353,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
       {/* Description */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold mb-2">{t('description')}</h2>
-        {getLocalizedDescription()?.split("\n").map((line, index) => (
+        {getLocalizedDescription()?.split("\n").map((line: string, index: number) => (
           <p key={index} className="text-sm text-muted-foreground break-words mb-2">
             {line}
           </p>

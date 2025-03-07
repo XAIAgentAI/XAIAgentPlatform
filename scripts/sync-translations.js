@@ -51,7 +51,7 @@ const DEFAULT_TRANSLATIONS = {
       loadingData: "Loading data...",
       loading: "Loading...",
       claimAfterCountdown: "Claim available after countdown ends",
-      testClaim: "Test Claim Rewards",
+      testClaim: "Claim Rewards",
       claimSuccess: "Claim Successful",
       tokenSentToWallet: "XAA Token has been sent to your wallet",
       importTokenAddress: "Please import the Token address in MetaMask to view:",

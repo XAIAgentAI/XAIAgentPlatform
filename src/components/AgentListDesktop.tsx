@@ -10,31 +10,17 @@ import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
+import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
 
-interface AgentListProps {
-  agents: Array<{
-    id: number;
-    name: string;
-    avatar: string;
-    symbol: string;
-    type: string;
-    marketCap: string;
-    change24h: string;
-    tvl: string;
-    holdersCount: number;
-    volume24h: string;
-    status: string;
-    socialLinks?: string;
-  }>;
-  loading?: boolean;
-}
-
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
+
+  console.log("socialLinks", socialLinks);
   
+
   const links = socialLinks.split(",").map(link => link.trim());
   return {
     twitter: links.find(link => link.includes("x.com") || link.includes("twitter.com")) || "",
@@ -85,8 +71,10 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
-  // console.log("sortedAgents", sortedAgents);
+  console.log("sortedAgents", sortedAgents);
   
+
+
 
   const getSortIcon = (field: SortField) => {
     return (
@@ -103,6 +91,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
+
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
@@ -175,6 +164,11 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                 </TableHead>
                 <TableHead className="w-[150px]">
                   <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]">
+                    {t('lp')}
+                  </div>
+                </TableHead>
+                <TableHead className="w-[150px]">
+                  <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]">
                     {t('status')}
                   </div>
                 </TableHead>
@@ -194,6 +188,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               <TableBody>
                 {sortedAgents.map((agent) => {
                   const socialLinks = parseSocialLinks(agent.socialLinks);
+                  console.log("socialLinks", socialLinks);
                   return (
                     <TableRow
                       key={agent.id}
@@ -259,15 +254,72 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>{agent.marketCap}</TableCell>
-                      <TableCell>{agent.change24h}</TableCell>
-                      <TableCell>{agent.tvl}</TableCell>
-                      <TableCell>{agent.holdersCount}</TableCell>
-                      <TableCell>{agent.volume24h}</TableCell>
                       <TableCell>
-                        <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
-                          {agent.status}
-                        </CustomBadge>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, ""))) 
+                            ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : agent.marketCap}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className={`text-sm font-normal font-['Sora'] leading-[10px] ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
+                          {agent.priceChange24h ? 
+                            (parseFloat(agent.priceChange24h) === -0 ? 
+                              "+0.00%" : 
+                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
+                            ) : 
+                            "0.00%"
+                          }
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.price && !isNaN(parseFloat(agent.price.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.price.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 2
+                              })
+                            : '$0'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.holdersCount.toLocaleString()}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : agent.volume24h}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
+                            ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                            : '$0'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                          <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
+                            {agent.status}
+                          </CustomBadge>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

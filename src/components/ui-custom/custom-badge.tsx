@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
 export type AgentType = "Platform" | "Infrastructure" | "AI Agent"
-export type BadgeVariant = "default" | "success" | "warning" | "error"
+export type BadgeVariant = "default" | "success" | "warning" | "error" | "info" | "lightSuccess" | "coffee"
 
 interface CustomBadgeProps {
   className?: string
@@ -24,9 +24,12 @@ const getCategoryColor = (category: string) => {
 const getVariantColor = (variant: BadgeVariant = "default") => {
   const colors: Record<BadgeVariant, string> = {
     "default": "bg-secondary",
-    "success": "bg-[#74992E]",
-    "warning": "bg-[#99642E]",
-    "error": "bg-[#992E2E]"
+    "success": "bg-[#2E9951]",
+    "lightSuccess": "bg-[#74992E]",
+    "warning": "bg-[#FF8A00]",
+    "coffee": "bg-[#99642E]",
+    "error": "bg-[#992E2E]",
+    "info": "bg-[#2E6599]"
   }
   return colors[variant]
 }

@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { currentChain } from '@/config/wagmi';
-import { CONTRACTS, CURRENT_CONTRACT_ABI } from '@/config/contracts';
 import { prisma } from '@/lib/prisma';
 import type { Agent } from '@prisma/client';
-import { LocalAgent, localAgents } from '@/data/localAgents';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -56,11 +54,13 @@ async function getPoolDBCAmount(): Promise<bigint> {
       transport: http(),
     });
 
-    const totalDeposited = await publicClient.readContract({
-      address: CONTRACTS.IAO_CONTRACT,
-      abi: CURRENT_CONTRACT_ABI,
-      functionName: 'totalDepositedDBC',
-    });
+    const totalDeposited = BigInt(0);
+    
+    // await publicClient.readContract({
+    //   address: CONTRACTS.IAO_CONTRACT,
+    //   abi: CURRENT_CONTRACT_ABI,
+    //   functionName: 'totalDepositedDBC',
+    // });
 
     return totalDeposited;
   } catch (error) {
@@ -94,19 +94,13 @@ async function calculateXAAPrice(): Promise<number> {
 // 更新所有 Agent 的价格
 async function updateAllAgentPrices() {
   try {
-
     // 获取 XAA 价格（Agent ID 1）
     const xaaPrice = await calculateXAAPrice();
     console.log('xaaPrice', xaaPrice);
 
-    // 获取所有 Agent
-    // const agents = await prisma.agent.findMany();
-    // console.log('agents', agents);
-    const agents: any = localAgents.map((agent: LocalAgent) => ({
-      id: String(agent.id),
-      name: agent.name,
-      symbol: agent.symbol,
-    }));
+    // 从数据库获取所有 Agent
+    const agents = await prisma.agent.findMany();
+    console.log('agents', agents);
 
     // 批量创建价格记录
     const priceRecords = agents.map((agent: Agent) => ({

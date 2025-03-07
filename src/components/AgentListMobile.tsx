@@ -9,27 +9,10 @@ import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
+import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
-
-interface AgentListProps {
-  agents: Array<{
-    id: number;
-    name: string;
-    avatar: string;
-    symbol: string;
-    type: string;
-    marketCap: string;
-    change24h: string;
-    tvl: string;
-    holdersCount: number;
-    volume24h: string;
-    status: string;
-    socialLinks?: string;
-  }>;
-  loading?: boolean;
-}
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
@@ -84,6 +67,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
+  
+
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
@@ -113,7 +98,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center flex-1">
+        <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">
           <Loading />
         </div>
       ) : (
@@ -146,15 +131,39 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                 <div className="grid grid-cols-2 gap-x-8 gap-y-3">
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('marketCap')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.marketCap}</p>
+                    <p className="text-secondary-color text-sm font-medium">
+                      {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, ""))) 
+                        ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          })
+                        : agent.marketCap}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24h')}</span>
-                    <p className="text-[#5BFE42] text-sm font-medium">{agent.change24h}</p>
+                    <p className={`text-sm font-medium ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
+                      {agent.priceChange24h ? 
+                        (parseFloat(agent.priceChange24h) === -0 ? 
+                          "+0.00%" : 
+                          `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
+                        ) : 
+                        "0.00%"
+                      }
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('tvl')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.tvl}</p>
+                    <p className="text-secondary-color text-sm font-medium">
+                      {agent.price && !isNaN(parseFloat(agent.price.replace(/[^0-9.-]+/g, "")))
+                        ? parseFloat(agent.price.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 2
+                          })
+                        : '$0'}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('holdersCount')}</span>
@@ -162,12 +171,32 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24hVol')}</span>
-                    <p className="text-secondary-color text-sm font-medium">{agent.volume24h}</p>
+                    <p className="text-secondary-color text-sm font-medium">
+                      {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
+                        ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          })
+                        : agent.volume24h}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-muted-color text-xs block">{t('lp')}</span>
+                    <p className="text-secondary-color text-sm font-medium">
+                      {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
+                        ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          })
+                        : '$0'}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('status')}</span>
                     <div className="text-secondary-color text-sm font-medium">
-                      <CustomBadge variant={agent.status === 'Active' ? 'success' : 'warning'}>
+                      <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
                         {agent.status}
                       </CustomBadge>
                     </div>

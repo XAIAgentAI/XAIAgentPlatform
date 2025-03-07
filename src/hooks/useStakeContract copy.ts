@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { CONTRACTS, getContractABI } from '@/config/contracts';
+import { getContractABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
@@ -45,9 +45,6 @@ const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
 };
 
 export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress: `0x${string}`, symbol: string = 'XAA') => {
-  console.log("tokenAddress", tokenAddress);
-  console.log("iaoContractAddress", iaoContractAddress);
-  console.log("symbol", symbol);
   // 验证合约地址
   if (!iaoContractAddress || iaoContractAddress === '0x' || iaoContractAddress.length !== 42) {
     console.error('Invalid IAO contract address:', iaoContractAddress);
@@ -91,7 +88,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       isTestnet ? 'TOTAL_XAA_REWARD' : 'TOTAL_REWARD' :
       isTestnet ? 'totalReward' : 'totalReward';
   }
-  const claimRewardsFunctionName = symbol === 'XAA' ? 'claimRewards' : 'claimRewards';
 
   const createToastMessage = useCallback((params: ToastMessage): ToastMessage => {
     return {
@@ -257,257 +253,249 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     fetchPoolInfo();
   }, [fetchPoolInfo, address]);
 
-  // 共用的交易确认和等待逻辑
-  const waitForTransactionConfirmation = async (hash: Hash, publicClient: any) => {
-    let receipt;
-    try {
-      receipt = await publicClient.waitForTransactionReceipt({
-        hash,
-        timeout: 10_000,
-        pollingInterval: 1_000,
-      });
-    } catch (error) {
-      console.log('RPC confirmation failed, checking explorer...');
+  // Stake DBC
+  const stake = async (amount: string, agentSymbol: string = 'XAA', agentTokenAddress: string = '') => {
+    // 投资DBC
+    if (agentSymbol === 'XAA') {
 
-      let confirmed = false;
-      let attempts = 0;
-      const maxAttempts = 30;
-
-      while (!confirmed && attempts < maxAttempts) {
-        confirmed = await getTransactionStatusFromExplorer(hash);
-        if (confirmed) {
-          console.log('Transaction confirmed via explorer');
-          receipt = await publicClient.getTransactionReceipt({ hash });
-          break;
-        }
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        attempts++;
-      }
-
-      if (!confirmed) {
-        throw new Error(t('transactionConfirmationTimeout'));
-      }
-    }
-    return receipt;
-  };
-
-  // 共用的前置检查
-  const performPreChecks = async () => {
-    if (!walletClient || !isConnected || !address) {
-      toast(createToastMessage({
-        title: t('error'),
-        description: t('connectWalletFirst'),
-      } as ToastMessage));
-      return false;
-    }
-
-    try {
-      const isCorrectNetwork = await ensureCorrectNetwork();
-      if (!isCorrectNetwork) return false;
-    } catch (error: any) {
-      toast(createToastMessage({
-        title: t('error'),
-        description: error.message,
-      } as ToastMessage));
-      return false;
-    }
-
-    return true;
-  };
-
-  // 处理 DBC 质押
-  const handleStakeDBC = async (amount: string, formattedAddress: `0x${string}`) => {
-    if (!walletClient) throw new Error('Wallet client not found');
-    
-    const viemWalletClient = createWalletClient({
-      chain: currentChain,
-      transport: custom(walletClient.transport),
-    });
-
-    const publicClient = createPublicClient({
-      chain: currentChain,
-      transport: custom(walletClient.transport),
-    });
-
-    const amountWei = parseEther(amount);
-
-    // 估算gas
-    const estimatedGas = await publicClient.estimateGas({
-      account: formattedAddress,
-      to: iaoContractAddress,
-      value: amountWei
-    });
-
-    // 增加10% gas limit作为安全缓冲
-    const gasWithBuffer = estimatedGas * BigInt(110) / BigInt(100);
-
-    // 发送交易
-    const hash = await viemWalletClient.sendTransaction({
-      account: formattedAddress,
-      to: iaoContractAddress,
-      value: amountWei,
-      gas: gasWithBuffer
-    });
-
-    toast(createToastMessage({
-      title: t('transactionSent'),
-      description: t('waitForConfirmation'),
-      txHash: hash,
-    } as ToastMessage));
-
-    const receipt = await waitForTransactionConfirmation(hash, publicClient);
-
-    toast(createToastMessage({
-      title: t('success'),
-      description: t('stakeSuccessWithAmount', { amount }),
-      txHash: hash,
-    } as ToastMessage));
-
-    return { hash, receipt };
-  };
-
-  // 处理 XAA 质押
-  const handleStakeXAA = async (amount: string, formattedAddress: `0x${string}`) => {
-    if (!walletClient) throw new Error('Wallet client not found');
-    
-    const publicClient = createPublicClient({
-      chain: currentChain,
-      transport: custom(walletClient.transport),
-    });
-
-    const amountWei = parseEther(amount);
-
-    // 1. 检查已授权额度
-    const xaaABI = [
-      {
-        name: 'allowance',
-        type: 'function',
-        inputs: [
-          { name: 'owner', type: 'address' },
-          { name: 'spender', type: 'address' }
-        ],
-        outputs: [{ type: 'uint256' }],
-        stateMutability: 'view'
-      },
-      {
-        name: 'approve',
-        type: 'function',
-        inputs: [
-          { name: 'spender', type: 'address' },
-          { name: 'amount', type: 'uint256' }
-        ],
-        outputs: [{ type: 'bool' }],
-        stateMutability: 'nonpayable'
-      }
-    ] as const;
-
-    const XAA_TOKEN_Address = CONTRACTS.XAA_TOKEN;
-
-    // 检查当前授权额度
-    const currentAllowance = await publicClient.readContract({
-      address: XAA_TOKEN_Address,
-      abi: xaaABI,
-      functionName: 'allowance',
-      args: [formattedAddress, iaoContractAddress]
-    });
-
-    // 只有当授权额度不足时才进行 approve
-    if (currentAllowance < amountWei) {
-      console.log("currentAllowance", currentAllowance);
-      console.log("amountWei", amountWei);
-
-      // 授权一个相对合理的金额（比如当前金额的5倍），避免频繁授权
-      // 1000 XAA = 1000 * 10^18
-      const reasonableAmount = amountWei ;
-      const approveHash = await walletClient.writeContract({
-        address: XAA_TOKEN_Address,
-        abi: xaaABI,
-        functionName: 'approve',
-        args: [iaoContractAddress, reasonableAmount]
-      });
-
-      toast(createToastMessage({
-        title: t('approveTransaction'),
-        description: t('approveWaitingConfirm'),
-        txHash: approveHash,
-      } as ToastMessage));
-
-      try {
-        await waitForTransactionConfirmation(approveHash, publicClient);
-        toast(createToastMessage({
-          title: t('success'),
-          description: t('approveSuccess'),
-          txHash: approveHash,
-        } as ToastMessage));
-      } catch (error) {
+      if (!walletClient || !isConnected || !address) {
         toast(createToastMessage({
           title: t('error'),
-          description: t('approveFailed'),
-          txHash: approveHash,
+          description: t('connectWalletFirst'),
         } as ToastMessage));
+        return null;
+      }
+
+      // 确保网络正确
+      try {
+        const isCorrectNetwork = await ensureCorrectNetwork();
+        if (!isCorrectNetwork) return null;
+      } catch (error: any) {
+        toast(createToastMessage({
+          title: t('error'),
+          description: error.message,
+        } as ToastMessage));
+        return null;
+      }
+
+      try {
+        setIsLoading(true);
+        console.log('Starting stake:', amount, 'DBC');
+
+        // 确保地址格式正确
+        const formattedAddress = ensureAddressFormat(address);
+        console.log('Original address:', address);
+        console.log('Formatted address:', formattedAddress);
+
+        const viemWalletClient = createWalletClient({
+          chain: currentChain,
+          transport: custom(walletClient.transport),
+        });
+
+        const publicClient = createPublicClient({
+          chain: currentChain,
+          transport: custom(walletClient.transport),
+        });
+
+        const amountWei = parseEther(amount);
+
+        // 估算gas
+        const estimatedGas = await publicClient.estimateGas({
+          account: formattedAddress,
+          to: iaoContractAddress,
+          value: amountWei
+        });
+
+        // 增加10% gas limit作为安全缓冲
+        const gasWithBuffer = estimatedGas * BigInt(110) / BigInt(100);
+
+        console.log('Sending transaction to contract:', {
+          to: iaoContractAddress,
+          value: amountWei,
+          account: formattedAddress,
+        });
+
+        // 发送交易
+        const hash = await viemWalletClient.sendTransaction({
+          account: formattedAddress,
+          to: iaoContractAddress,
+          value: amountWei,
+          gas: gasWithBuffer
+        });
+
+        setIsLoading(false);
+
+        toast(createToastMessage({
+          title: t('transactionSent'),
+          description: t('waitForConfirmation'),
+          txHash: hash,
+        } as ToastMessage));
+
+        console.log('Waiting for transaction confirmation:', hash);
+
+        let receipt;
+        try {
+          receipt = await publicClient.waitForTransactionReceipt({
+            hash,
+            timeout: 10_000,
+            pollingInterval: 1_000,
+          });
+        } catch (error) {
+          console.log('RPC confirmation failed, checking explorer...');
+
+          let confirmed = false;
+          let attempts = 0;
+          const maxAttempts = 30;
+
+          while (!confirmed && attempts < maxAttempts) {
+            confirmed = await getTransactionStatusFromExplorer(hash);
+            if (confirmed) {
+              console.log('Transaction confirmed via explorer');
+              receipt = await publicClient.getTransactionReceipt({ hash });
+              break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            attempts++;
+          }
+
+          if (!confirmed) {
+            throw new Error(t('transactionConfirmationTimeout'));
+          }
+        }
+
+        toast(createToastMessage({
+          title: t('success'),
+          description: t('stakeSuccessWithAmount', { amount }),
+          txHash: hash,
+        } as ToastMessage));
+
+        fetchPoolInfo();
+
+        return { hash, receipt };
+
+      } catch (error: any) {
+        console.error('Stake failed:', error);
+        toast(createToastMessage({
+          title: t('error'),
+          description: error?.message || t('stakeFailed'),
+        }));
         throw error;
+      } finally {
+        setIsLoading(false);
       }
     }
 
-    // 2. Deposit XAA
-    const depositHash = await walletClient.writeContract({
-      address: iaoContractAddress,
-      abi: getContractABI(symbol),
-      functionName: 'deposit',
-      args: [amountWei]
-    });
+    // 投资XAA
+    else {
+      const handleStakeXAA = async () => {
+        try {
+          if (!walletClient || !isConnected || !address) {
+            toast(createToastMessage({
+              title: t('error'),
+              description: t('connectWalletFirst'),
+            } as ToastMessage));
+            return;
+          }
 
-    toast(createToastMessage({
-      title: t('transactionSent'),
-      description: t('waitForConfirmation'),
-      txHash: depositHash,
-    } as ToastMessage));
 
-    const receipt = await waitForTransactionConfirmation(depositHash, publicClient);
+          console.log("agentTokenAddress", agentTokenAddress);
 
-    toast(createToastMessage({
-      title: t('success'),
-      description: t('stakeSuccessWithAmount', { amount }),
-      txHash: depositHash,
-    } as ToastMessage));
 
-    return { hash: depositHash, receipt };
-  };
 
-  // 主 stake 函数
-  const stake = async (amount: string, agentSymbol: string = 'XAA', agentTokenAddress: string = '') => {
-    try {
-      setIsLoading(true);
-      
-      // 前置检查
-      const preCheckPassed = await performPreChecks();
-      if (!preCheckPassed) return null;
+          // 创建publicClient
+          const publicClient = createPublicClient({
+            chain: currentChain,
+            transport: custom(walletClient.transport),
+          });
 
-      // 确保地址格式正确
-      const formattedAddress = ensureAddressFormat(address!);
-      console.log('Starting stake:', amount, agentSymbol);
+          console.log("publicClient", publicClient);
 
-      let result;
-      if (agentSymbol === 'XAA') {
-        result = await handleStakeDBC(amount, formattedAddress);
-      } else {
-        result = await handleStakeXAA(amount, formattedAddress);
+          // XAA代币合约地址
+          const xaaAddress = '0xC21155334688E2c1Cf89D4aB09d38D30002717DD'
+          // IAO合约地址
+          const iaoAddress = '0xcc6c5b583dd03a900dbf850449d50cec8833273f'
+
+          // 测试数据：投资1000 XAA
+          const amount = BigInt(1000 * 10 ** 18) // 假设XAA有18位小数
+
+          // 1. 先approve XAA给IAO合约
+          const approveHash = await walletClient.writeContract({
+            address: xaaAddress,
+            abi: [
+              {
+                name: 'approve',
+                type: 'function',
+                inputs: [
+                  { name: 'spender', type: 'address' },
+                  { name: 'amount', type: 'uint256' }
+                ],
+                outputs: [{ type: 'bool' }],
+                stateMutability: 'nonpayable'
+              }
+            ],
+            functionName: 'approve',
+            args: [iaoAddress, amount]
+          })
+
+          console.log("approveHash", approveHash);
+
+          toast(createToastMessage({
+            title: t('transactionSent'),
+            description: t('waitForConfirmation'),
+            txHash: approveHash,
+          } as ToastMessage));
+
+          // 等待approve交易确认
+          await publicClient.waitForTransactionReceipt({
+            hash: approveHash
+          })
+
+          // 2. 调用IAO合约的deposit方法
+          const depositHash = await walletClient.writeContract({
+            address: iaoAddress,
+            abi: [
+              {
+                name: 'deposit',
+                type: 'function',
+                inputs: [{ name: 'amount', type: 'uint256' }],
+                outputs: [],
+                stateMutability: 'nonpayable'
+              }
+            ],
+            functionName: 'deposit',
+            args: [amount]
+          })
+
+          toast(createToastMessage({
+            title: t('transactionSent'),
+            description: t('waitForConfirmation'),
+            txHash: depositHash,
+          } as ToastMessage));
+
+          // 等待deposit交易确认
+          await publicClient.waitForTransactionReceipt({
+            hash: depositHash
+          })
+
+          toast(createToastMessage({
+            title: t('success'),
+            description: t('stakeSuccessWithAmount', { amount: '1000' }),
+            txHash: depositHash,
+          } as ToastMessage));
+
+          fetchPoolInfo();
+        } catch (error: any) {
+          console.error('投资失败:', error)
+          toast(createToastMessage({
+            title: t('error'),
+            description: error?.message || t('stakeFailed'),
+          } as ToastMessage));
+        }
       }
 
-      fetchPoolInfo();
-      return result;
-
-    } catch (error: any) {
-      console.error('Stake failed:', error);
-      toast(createToastMessage({
-        title: t('error'),
-        description: error?.message || t('stakeFailed'),
-      }));
-      throw error;
-    } finally {
-      setIsLoading(false);
+      handleStakeXAA()
     }
-  };
+  }
 
   // Claim rewards
   const claimRewards = async () => {
@@ -553,11 +541,11 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const { request } = await publicClient.simulateContract({
         address: iaoContractAddress,
         abi: getContractABI(symbol),
-        functionName: claimRewardsFunctionName as any,
+        functionName: 'claimRewards',
         account: formattedAddress,
       });
 
-      const hash = await viemWalletClient.writeContract(request as any);
+      const hash = await viemWalletClient.writeContract(request);
 
       toast(createToastMessage({
         title: t('success'),

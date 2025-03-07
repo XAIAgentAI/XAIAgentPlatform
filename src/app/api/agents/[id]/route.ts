@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const agent = await prisma.agent.findUnique({
-      where: { id: params.id },
+      where: { id: String(params.id) },
       include: {
         creator: {
           select: {
@@ -31,12 +31,20 @@ export async function GET(
       throw new ApiError(404, 'Agent不存在');
     }
 
+    console.log("process.env.NEXT_PUBLIC_IS_TEST_ENV", process.env.NEXT_PUBLIC_IS_TEST_ENV, process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true');
+    
+    console.log("tokenAddress", process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress);
+    console.log("iaoContractAddress", process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress);
     return createSuccessResponse({
       ...agent,
       capabilities: JSON.parse(agent.capabilities),
       creatorAddress: agent.creator.address,
       reviewCount: agent._count.reviews,
       historyCount: agent._count.history,
+      totalSupply: agent.totalSupply ? Number(agent.totalSupply) : null,
+      tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress,
+      iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
+      projectDescription: (agent as any).projectDescription,
     });
   } catch (error) {
     return handleError(error);
@@ -122,6 +130,46 @@ export async function PUT(
       capabilities: JSON.parse(updatedAgent.capabilities),
       creatorAddress: updatedAgent.creator.address,
     }, '更新成功');
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+// 更新 Agent
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const userId = getUserId();
+    if (!userId) {
+      throw new ApiError(401, '未授权');
+    }
+
+    const agent = await prisma.agent.findUnique({
+      where: { id: params.id },
+      select: { creatorId: true },
+    });
+
+    if (!agent) {
+      throw new ApiError(404, 'Agent不存在');
+    }
+
+    if (agent.creatorId !== userId) {
+      throw new ApiError(403, '无权限更新');
+    }
+
+    const data = await request.json();
+    
+    // 更新 Agent
+    const updatedAgent = await prisma.agent.update({
+      where: { id: params.id },
+      data: {
+        projectDescription: data.projectDescription,
+      } as any,
+    });
+
+    return createSuccessResponse(updatedAgent, '更新成功');
   } catch (error) {
     return handleError(error);
   }
