@@ -331,15 +331,15 @@
           "List my general research skills."
         ]
       }
+     },
+     "explore":"Explore AI Agent",
+      "trade":"Trade AI Agent",
+      "signup":"Signup",
+      "login":"login",
+      "username":"Username",
+      "password":"Password",
+      "confirm":"Confirm"
     },
-    "explore":"Explore AI Agent",
-    "trade":"Trade AI Agent",
-    "signup":"Signup",
-    "login":"login",
-    "username":"Username",
-    "password":"Password",
-    "confirm":"Confirm"
-  },
   "cryptoChart": {
     "timeIntervals": {
       "30m": "30m",
@@ -357,3 +357,4 @@
     "noData": "No data available"
   }
 }
+

@@ -92,7 +92,13 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
                 description: t('chatComingSoon'),
               })
             }
-          }}
+            if (chatEntry && chatEntry.trim() !== "None") {
+            window.open(`/zh/chat/${chatEntry}`, "_blank");
+            } else {
+            toast({
+              description: t('agent.chatComingSoon'),
+            })
+          }}}
         >
           <Image
             src="/images/chat.svg"
