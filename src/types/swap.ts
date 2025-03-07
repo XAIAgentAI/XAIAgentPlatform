@@ -13,10 +13,17 @@ export interface SwapData {
   timestamp: string;
 }
 
+interface GraphQLError {
+  message: string;
+  locations?: { line: number; column: number }[];
+  path?: string[];
+}
+
 export interface SwapResponse {
   data: {
     swaps: SwapData[];
   };
+  errors?: GraphQLError[];
 }
 
 export interface KLineData {

@@ -9,7 +9,7 @@ export interface KLineData {
   volume: number;
 }
 
-export type TimeInterval = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
+export type TimeInterval = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d' | '1w';
 
 export interface TokenPrice {
   price: number;
@@ -34,12 +34,15 @@ export class TokenPriceManager {
   private priceChange = 0;
   private initialized = false;
   private readonly POLLING_INTERVAL = 10000; // 10秒
+  private retryCount = 0;
+  private readonly MAX_RETRIES = 3;
+  private readonly RETRY_DELAY = 2000; // 2秒
 
   constructor(interval: TimeInterval = '1h') {
     this.interval = interval;
   }
 
-  async init() {
+  async init(): Promise<void> {
     if (this.initialized) {
       return;
     }
@@ -51,51 +54,92 @@ export class TokenPriceManager {
       
       this.startPolling();
       this.initialized = true;
+      this.retryCount = 0; // 重置重试计数
     } catch (err) {
       console.error('Failed to initialize TokenPriceManager:', err);
+      if (this.retryCount < this.MAX_RETRIES) {
+        this.retryCount++;
+        console.log(`Retrying initialization (attempt ${this.retryCount})...`);
+        await new Promise(resolve => setTimeout(resolve, this.RETRY_DELAY * this.retryCount));
+        return this.init();
+      }
       throw err;
     }
   }
 
   private startPolling() {
-    // 立即执行一次增量更新
-    this.pollIncrementalData();
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+    }
 
-    // 设置定期轮询
-    this.pollingInterval = setInterval(() => {
-      this.pollIncrementalData();
+    this.pollingInterval = setInterval(async () => {
+      try {
+        await this.pollIncrementalData();
+        this.retryCount = 0; // 成功后重置重试计数
+      } catch (err) {
+        console.error('Polling failed:', err);
+        if (this.retryCount < this.MAX_RETRIES) {
+          this.retryCount++;
+          console.log(`Retrying polling (attempt ${this.retryCount})...`);
+          setTimeout(() => this.pollIncrementalData(), this.RETRY_DELAY * this.retryCount);
+        } else {
+          // 达到最大重试次数后，尝试重新初始化
+          this.initialized = false;
+          this.init().catch(console.error);
+        }
+      }
     }, this.POLLING_INTERVAL);
   }
 
   private async pollIncrementalData() {
+    if (!this.lastFetchedTime) return;
+    
     try {
-      // 只获取上次获取时间之后的数据
-      await this.fetchHistoricalData(this.lastFetchedTime, Date.now());
-      
-      // 更新当前价格和价格变化
-      const latestKline = this.data[this.data.length - 1];
-      this.currentPrice = latestKline.close;
-      
-      if (this.data.length >= 2) {
-        const previousKline = this.data[this.data.length - 2];
-        this.priceChange = ((latestKline.close - previousKline.close) / previousKline.close) * 100;
+      const currentTime = Date.now();
+      const response = await fetch(
+        `/api/kline/1?from=${this.lastFetchedTime}&to=${currentTime}&interval=${this.interval}`,
+        {
+          cache: 'no-store'
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // 通知所有订阅者
-      this.notifySubscribers();
-      
-      console.log('Updated price data:', {
-        currentPrice: this.currentPrice,
-        priceChange: this.priceChange,
-        totalDataPoints: this.data.length,
-        timeRange: {
-          start: new Date(this.data[0]?.time * 1000).toISOString(),
-          end: new Date(this.data[this.data.length - 1]?.time * 1000).toISOString()
-        },
-        interval: this.interval
-      });
+      const newData: KLineData[] = await response.json();
+
+      if (!Array.isArray(newData)) {
+        throw new Error('Invalid data format received');
+      }
+
+      // 过滤掉重复的数据点
+      const existingTimes = new Set(this.data.map(d => d.time));
+      const uniqueNewData = newData.filter(d => !existingTimes.has(d.time));
+
+      if (uniqueNewData.length > 0) {
+        // 添加新数据
+        this.data = [...this.data, ...uniqueNewData]
+          .sort((a, b) => a.time - b.time)
+          .slice(-this.maxDataPoints);
+
+        // 更新当前价格和价格变化
+        const latestKline = this.data[this.data.length - 1];
+        this.currentPrice = latestKline.close;
+        
+        if (this.data.length >= 2) {
+          const previousKline = this.data[this.data.length - 2];
+          this.priceChange = ((latestKline.close - previousKline.close) / previousKline.close) * 100;
+        }
+
+        // 通知所有订阅者
+        this.notifySubscribers();
+      }
+
+      this.lastFetchedTime = currentTime;
     } catch (err) {
-      console.error('Polling failed:', err);
+      console.error('Error in pollIncrementalData:', err);
+      throw err;
     }
   }
 
@@ -172,9 +216,12 @@ export class TokenPriceManager {
   }
 
   setInterval(interval: TimeInterval) {
-    this.interval = interval;
-    this.data = []; // 清空现有数据
-    this.init(); // 重新获取数据
+    if (this.interval !== interval) {
+      this.interval = interval;
+      this.data = []; // 清空现有数据
+      this.initialized = false; // 重置初始化状态
+      this.init().catch(console.error);
+    }
   }
 
   async pollData() {

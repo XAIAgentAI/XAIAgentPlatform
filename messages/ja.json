@@ -1,11 +1,11 @@
 {
   "common": {
-    "connect": "ウォレットを接続",
+    "connect": "ウォレット接続",
     "disconnect": "切断",
     "loading": "読み込み中...",
     "error": "エラー",
     "success": "成功",
-    "search": "エージェント/CAを検索",
+    "search": "エージェント/コントラクトアドレスを検索",
     "buy": "購入",
     "sell": "売却",
     "buyAgent": "購入",
@@ -20,7 +20,8 @@
       "hours": "時間",
       "minutes": "分",
       "seconds": "秒"
-    }
+    },
+    "noData": "データなし"
   },
   "navigation": {
     "home": "ホーム",
@@ -102,8 +103,8 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
-    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "sendSuccess": "{amount} DBCの送信に成功しました"
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
+
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -111,13 +112,14 @@
     "latest": "最新",
     "aiAgents": "AIエージェント",
     "24h": "24時間",
-    "24hChange": "24時間の変動",
-    "tvl": "ロック済み総額",
+    "24hChange": "24時間変動",
+    "tvl": "トークン価格",
     "holdersCount": "保有者数",
     "24hVol": "24時間取引量",
     "status": "ステータス",
     "loading": "読み込み中...",
-    "social": "ソーシャル"
+    "social": "ソーシャル",
+    "lp": "流動性プール"
   },
   "agentDetail": {
     "overview": "概要",
@@ -134,8 +136,9 @@
     "marketCap": "時価総額",
     "volume": "取引量",
     "supply": "供給量",
-
-    "contract": "コントラクト"
+    "contract": "スマートコントラクト",
+    "fetchError": "エージェント詳細の取得に失敗しました",
+    "agentNotFound": "エージェントが見つかりません"
   },
   "iaoPool": {
     "title": "IAOプール",
@@ -158,26 +161,30 @@
     "loadingData": "データを読み込み中...",
     "loading": "読み込み中...",
     "claimAfterCountdown": "カウントダウン終了後に請求可能",
-    "testClaim": "報酬をテスト請求",
+    "claim": "報酬を請求",
     "claimSuccess": "請求成功",
     "tokenSentToWallet": "XAAトークンがウォレットに送信されました",
     "importTokenAddress": "MetaMaskでトークンアドレスをインポートして確認してください：",
-    "poolDynamicTip": "IAOプール内の$DBCの量が増えるにつれて、対応する$XAAの量は減少します",
+    "poolDynamicTip": "IAOプール内の{investSymbol}の量が増えるにつれて、対応する{symbol}の量は減少します",
     "maxButton": "最大",
     "insufficientBalance": "残高不足、利用可能な最大額：{amount} DBC",
     "stakedAmount": "支払済みの{symbol}量",
     "stakeSuccessful": "購入が成功しました！",
     "stakeFailed": "購入に失敗しました。もう一度お試しください",
-    "claimableAmount": "請求可能なXAA数量",
-    "claimedAmount": "請求済みのXAA数量",
+    "claimableAmount": "請求可能な {symbol} 数量",
+    "claimedAmount": "請求済みの {symbol} 数量",
     "claimed": "請求済み",
     "claimSuccessWithAmount": "{amount} XAAの請求に成功しました",
     "stakeNotStarted": "購入はまだ開始されていません",
-    "sendSuccess": "{amount} DBCの送信に成功しました",
+    "sendSuccess": "{amount} {symbol}の送信に成功しました",
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "goToDbcswap": "DBCSwapでXAAを購入"
+    "goToDbcswap": "DBCSwapでXAAを購入",
+    "approveTransaction": "トークン承認",
+    "approveWaitingConfirm": "承認の確認を待っています",
+    "approveSuccess": "承認が完了しました",
+    "approveFailed": "承認に失敗しました。もう一度お試しください"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
@@ -332,5 +339,21 @@
     "username":"ユーザー名", 
     "password":"パスワード", 
     "confirm":"確認"
+  },
+  "cryptoChart": {
+    "timeIntervals": {
+      "30m": "30分",
+      "1h": "1時間",
+      "4h": "4時間",
+      "1d": "1日",
+      "1w": "1週間"
+    },
+    "volume": "取引高",
+    "priceArea": "価格エリア",
+    "volumeArea": "取引高エリア",
+    "loading": "読み込み中...",
+    "error": "チャートデータの読み込みエラー",
+    "retry": "再試行",
+    "noData": "データなし"
   }
 }

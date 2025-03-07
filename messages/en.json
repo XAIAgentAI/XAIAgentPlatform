@@ -5,7 +5,7 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "search": "Search Agent/Contract Address",
+    "search": "Search agent/contract address",
     "buy": "Buy",
     "sell": "Sell",
     "buyAgent": "Buy",
@@ -16,11 +16,12 @@
     "xaaBalance": "XAA Balance",
     "social": "Social",
     "timeUnits": {
-      "days": "d",
-      "hours": "h",
-      "minutes": "m",
-      "seconds": "s"
-    }
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    },
+    "noData": "No Data"
   },
   "navigation": {
     "home": "Home",
@@ -102,22 +103,23 @@
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
-    "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "sendSuccess": "Successfully sent {amount} DBC"
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
+
   },
   "agentList": {
     "sortBy": "Sort by",
-    "marketCap": "Market Cap",
+    "marketCap": "FDV",
     "latest": "Latest",
     "aiAgents": "AI Agents",
     "24h": "24h",
     "tvl": "Token Price",
-    "holdersCount": "Holders Count",
-    "24hVol": "24h Vol",
+    "holdersCount": "Holders",
+    "24hVol": "24h Volume",
     "status": "Status",
     "loading": "Loading...",
     "24hChange": "24h Change",
-    "social": "Social"
+    "social": "Social",
+    "lp": "LP"
   },
   "agentDetail": {
     "overview": "Overview",
@@ -134,7 +136,9 @@
     "marketCap": "Market Cap",
     "volume": "Volume",
     "supply": "Supply",
-    "contract": "Contract"
+    "contract": "Smart Contract",
+    "fetchError": "Failed to fetch Agent details",
+    "agentNotFound": "Agent not found"
   },
   "iaoPool": {
     "title": "IAO Pool",
@@ -157,26 +161,30 @@
     "loadingData": "Loading data...",
     "loading": "Loading...",
     "claimAfterCountdown": "Claim available after countdown ends",
-    "testClaim": "Test Claim Rewards",
+    "claim": "Claim Rewards",
     "claimSuccess": "Claim Successful",
     "tokenSentToWallet": "XAA Token has been sent to your wallet",
     "importTokenAddress": "Please import the Token address in MetaMask to view:",
-    "poolDynamicTip": "As the amount of $DBC in the IAO pool increases, the corresponding amount of $XAA decreases",
+    "poolDynamicTip": "As the amount of {investSymbol} in the IAO pool increases, the corresponding amount of {symbol} decreases",
     "maxButton": "Max",
     "insufficientBalance": "Insufficient balance, maximum available amount: {amount} DBC",
     "stakedAmount": "Paid {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
     "stakeFailed": "Purchase failed, please try again",
-    "claimableAmount": "Claimable XAA Amount",
-    "claimedAmount": "Claimed XAA Amount",
+    "claimableAmount": "Claimable {symbol} Amount",
+    "claimedAmount": "Claimed {symbol} Amount",
     "claimed": "Claimed",
     "claimSuccessWithAmount": "Successfully claimed {amount} XAA",
     "stakeNotStarted": "Purchase not started",
-    "sendSuccess": "Successfully sent {amount} DBC",
+    "sendSuccess": "Successfully sent {amount} {symbol}",
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "goToDbcswap": "Go to DBCSwap to buy XAA"
+    "goToDbcswap": "Go to DBCSwap to buy XAA",
+    "approveTransaction": "Token Authorization",
+    "approveWaitingConfirm": "Waiting for authorization confirmation",
+    "approveSuccess": "Authorization successful",
+    "approveFailed": "Authorization failed, please try again"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
@@ -323,13 +331,30 @@
           "List my general research skills."
         ]
       }
+     },
+     "explore":"Explore AI Agent",
+      "trade":"Trade AI Agent",
+      "signup":"Signup",
+      "login":"login",
+      "username":"Username",
+      "password":"Password",
+      "confirm":"Confirm"
     },
-    "explore":"Explore AI Agent",
-    "trade":"Trade AI Agent",
-    "signup":"Signup",
-    "login":"login",
-    "username":"Username",
-    "password":"Password",
-    "confirm":"Confirm"
-  }
+    "cryptoChart": {
+      "timeIntervals": {
+        "30m": "30m",
+        "1h": "1h",
+        "4h": "4h",
+        "1d": "1d",
+        "1w": "1w"
+      },
+      "volume": "Volume",
+      "priceArea": "Price Area",
+      "volumeArea": "Volume Area",
+      "loading": "Loading...",
+      "error": "Error loading chart data",
+      "retry": "Retry",
+      "noData": "No data available"
+    }
 }
+

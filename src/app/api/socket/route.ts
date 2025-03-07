@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { currentChain } from '@/config/wagmi';
-import { CONTRACTS, CURRENT_CONTRACT_ABI } from '@/config/contracts';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -21,6 +20,7 @@ interface DBCPriceResponse {
     percent_change_24h: number;
   };
 }
+
 
 // 获取 DBC 价格
 async function getDBCPrice(): Promise<TokenPriceData> {
@@ -80,11 +80,13 @@ async function getPoolDBCAmount(): Promise<bigint> {
       transport: http(),
     });
 
-    const totalDeposited = await publicClient.readContract({
-      address: CONTRACTS.IAO_CONTRACT,
-      abi: CURRENT_CONTRACT_ABI,
-      functionName: 'totalDepositedDBC',
-    });
+    const totalDeposited = BigInt(0);
+    
+    // await publicClient.readContract({
+    //   address: CONTRACTS.IAO_CONTRACT,
+    //   abi: CURRENT_CONTRACT_ABI,
+    //   functionName: 'totalDepositedDBC',
+    // });
 
     console.log('getPoolDBCAmount-totalDeposited', totalDeposited);
 
