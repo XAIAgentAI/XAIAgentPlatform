@@ -57,9 +57,9 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
 
   if (isLoggedIn) return (
     <div
-      className="bg-orange-100 rounded-full w-8 h-8 flex text-zinc-700 items-center justify-center cursor-pointer"
+      className="bg-orange-100 rounded-full w-8 h-8 flex text-zinc-700 items-center justify-center cursor-pointer text-center"
     >
-      {loggedInUsername.slice(0, 3)}
+      {loggedInUsername.slice(0, 2)}
     </div>
   );
 

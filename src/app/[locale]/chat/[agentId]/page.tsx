@@ -44,6 +44,7 @@ export default function ChatPage() {
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [convid, setConvid] = useState<string>("");
   const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); // 新增userName状态

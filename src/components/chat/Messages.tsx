@@ -24,25 +24,7 @@ interface MessagesComponentProps {
 async function deleteMessages(userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
   const url = `/api/chat/${agentId}/messages`;
 
-  // 构建请求体
-  const requestBody = {
-    user: userName, // 将userName赋值给user参数
-  };
-
-  const response = await fetch(url, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json', // 设置请求头
-    },
-    body: JSON.stringify(requestBody), // 将请求体转换为JSON字符串
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Failed to delete messages: ${errorText}`);
-  }
-
-  // 更新本地的 conversations 状态，清空指定 agentId 的消息数组
+  // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
     const newConversations = { ...prev };
     newConversations[agentId] = [];
