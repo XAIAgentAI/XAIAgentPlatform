@@ -418,7 +418,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
       // 授权一个相对合理的金额（比如当前金额的5倍），避免频繁授权
       // 1000 XAA = 1000 * 10^18
-      const reasonableAmount = amountWei * BigInt(5);
+      const reasonableAmount = amountWei ;
       const approveHash = await walletClient.writeContract({
         address: XAA_TOKEN_Address,
         abi: xaaABI,
