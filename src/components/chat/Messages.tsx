@@ -6,6 +6,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  convid: string;
 }
 
 interface Conversations {
@@ -19,11 +20,12 @@ interface MessagesComponentProps {
   setConversations: Dispatch<SetStateAction<Conversations>>;
   messagesEndRef: RefObject<HTMLDivElement | null>;
   agentId: string;
+  setIsNew: React.Dispatch<SetStateAction<string>>
 }
 
-async function deleteMessages(userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
+async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
   const url = `/api/chat/${agentId}/messages`;
-
+  setIsNew("true");
   // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
     const newConversations = { ...prev };
@@ -32,7 +34,7 @@ async function deleteMessages(userName: string | null, agentId: string, setConve
   });
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
+const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations[agentId] || []);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ userName, agentId, isLo
             className="flex items-center justify-center px-2 py-1 bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
-                await deleteMessages(userName, agentId, setConversations);
+                await deleteMessages(setIsNew, userName, agentId, setConversations);
               } catch (error) {
                 console.error(error);
               }

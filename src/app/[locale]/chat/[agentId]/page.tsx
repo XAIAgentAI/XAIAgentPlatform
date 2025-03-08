@@ -16,6 +16,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  convid: string;
 }
 
 // 新增Sentence接口
@@ -45,6 +46,7 @@ export default function ChatPage() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [convid, setConvid] = useState<string>("");
+  const [isNew, setIsNew] = useState<string>("yes");
   const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); // 新增userName状态
@@ -123,8 +125,18 @@ export default function ChatPage() {
         role: sentence.user ? 'user' : 'assistant',
         content: sentence.user || sentence.assistant || '', // 确保content字段不为undefined
         timestamp: new Date().toISOString(),
+        convid: sentence.convid
       }));
 
+      // 找到最大的 convid
+      const maxConvid = data.reduce((max, sentence) => {
+        const convidNumber = Number(sentence.convid);
+        return Math.max(max, convidNumber);
+      }, 0);
+
+      // 更新 convid 状态
+      setConvid(String(maxConvid));
+      
       setConversations(prev => ({ ...prev, [agentId]: messages }));
     } catch (error) {
       console.error('Failed to fetch messages:', error);
@@ -140,6 +152,7 @@ export default function ChatPage() {
       role: 'user',
       content: input,
       timestamp: new Date().toISOString(),
+      convid: convid
     };
 
     setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), userMessage] }));
@@ -150,7 +163,7 @@ export default function ChatPage() {
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: "yes" }),
+        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew }),
       });
 
       const data: Sentence = await response.json();
@@ -159,6 +172,7 @@ export default function ChatPage() {
         role: 'assistant',
         content: data.assistant || '',
         timestamp: new Date().toISOString(),
+        convid: data.convid
       };
 
       setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), aiMessage] }));
@@ -191,10 +205,12 @@ export default function ChatPage() {
           conversations={conversations}
           setConversations={setConversations}
           setUserStatus={setUserStatus}
+          convid={convid}
+          setIsNew={setIsNew}
         />
       )}
       {!userStatus && (
-        <div className="fixed w-[220px] top-[100px] right-[-60px] bg-pink-200 p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+        <div className="fixed w-[220px] top-[100px] right-[-100px] bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
           <p className="text-center h-[24px]">Please Signup/Login First</p>
         </div>
       )}
@@ -205,6 +221,7 @@ export default function ChatPage() {
         isLoading={isLoading} 
         agentId={agentId}
         messagesEndRef={messagesEndRef} 
+        setIsNew={setIsNew}
       />
       <InputComponent 
         input={input} 

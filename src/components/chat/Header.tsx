@@ -15,9 +15,11 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  convid: string;
 }
 
 interface HeaderComponentProps {
+  convid: string;
   userName: string | null;
   agentId: string;
   selectedAgent: string;
@@ -29,9 +31,10 @@ interface HeaderComponentProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   conversations: { [id: string]: Message[] };
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNew: React.Dispatch<React.SetStateAction<string>>
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserStatus, userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ setIsNew, convid, setUserStatus, userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
   return (
     <div className="flex catcher flex-col items-center justify-center h-[80vh] space-y-2 mt-4 md:justify-start">
       {/* Agent Selection */}
@@ -84,6 +87,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserStatus, userNa
                        role: 'user',
                        content: example,
                        timestamp: new Date().toISOString(),
+                       convid: convid
                      };
 
                      setConversations(prev => ({ ...prev, [agentId]: [...prev[agentId] || [], userMessage] }));
@@ -96,6 +100,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserStatus, userNa
                          body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes" }),
                        });
 
+                       setIsNew("no");
+
                        const data = await response.json();
                        setIsLoading(false);
 
@@ -104,6 +110,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserStatus, userNa
                          role: 'assistant',
                          content: data.assistant,
                          timestamp: new Date().toISOString(),
+                         convid: convid
                        }] }));
 
                      } catch (error) {
