@@ -37,6 +37,7 @@ const Navbar = () => {
   const router = useRouter()
   const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isTimeout, setIsTimeout] = useState(false);
+  const [isManualConnecting, setIsManualConnecting] = useState(false);
 
   const navigationLinks = [
     {
@@ -77,11 +78,12 @@ const Navbar = () => {
 
   // 添加连接超时处理
   useEffect(() => {
-    if (status === 'connecting' && !isTimeout) {
+    if (status === 'connecting' && !isTimeout && isManualConnecting) {
       // 如果连接时间超过8秒，强制重置状态
       const timeout = setTimeout(() => {
         if (status === 'connecting') {
           setIsTimeout(true);
+          setIsManualConnecting(false);
           toast({
             description: t('wallet.connectionTimeout'),
             variant: "destructive"
@@ -100,11 +102,12 @@ const Navbar = () => {
       };
     }
 
-    // 当状态不是connecting时，重置超时状态
+    // 当状态不是connecting时，重置状态
     if (status !== 'connecting') {
       setIsTimeout(false);
+      setIsManualConnecting(false);
     }
-  }, [status, disconnect, t, toast, isTimeout]);
+  }, [status, disconnect, t, toast, isTimeout, isManualConnecting]);
 
   // 优化钱包连接状态处理
   useEffect(() => {
@@ -115,6 +118,7 @@ const Navbar = () => {
         setConnectingTimeout(null);
       }
       setIsTimeout(false);
+      setIsManualConnecting(false);
       authenticate();
     }
   }, [address, connectingTimeout, authenticate]);
@@ -132,6 +136,7 @@ const Navbar = () => {
         }
         setIsTimeout(false);
       }
+      setIsManualConnecting(true);
       open({ view: 'Connect' });
     }
     setIsMenuOpen(false);
@@ -169,7 +174,7 @@ const Navbar = () => {
   const getWalletDisplayStatus = () => {
     if (!mounted) return t('wallet.connect');
     
-    if (status === 'connecting' && !isTimeout) {
+    if (status === 'connecting' && !isTimeout && isManualConnecting) {
       return t('wallet.connecting');
     }
     if (address) {
@@ -234,7 +239,7 @@ const Navbar = () => {
             aria-label={t('accessibility.walletIcon')}
           >
              {mounted ? (
-              status === 'connecting' && !isTimeout ? (
+              status === 'connecting' && !isTimeout && isManualConnecting ? (
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : isConnected ? (
                 <div className="relative">
