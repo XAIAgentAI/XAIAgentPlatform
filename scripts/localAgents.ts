@@ -122,10 +122,11 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO ongoing",
-    statusJA: "IAO 進行中",
-    statusKO: "IAO 진행중",
-    statusZH: "IAO 进行中",
+    // status: "IAO ongoing",
+    status: "Tradable",
+    statusJA: "トランザクション可能",
+    statusKO: "거래 가능",
+    statusZH: "可交易",
     description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
     descriptionZH: "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
     descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
@@ -170,7 +171,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. The team owns 30% of $STID, which begins unlocking after the IAO ends, with linear unlocking over 2000 days.
 
-6. 48% of $STID is generated through mining, halving every 4 years. In the first 4 years, 600 million $STID will be mined annually. Of the mined $STID, 40% is received immediately, and 60% is linearly unlocked over 120 days.
+6. 48% of $STID is generated through mining, halving every 4 years. In the first 4 years, 6 billion $STID will be mined annually. Of the mined $STID, 40% is received immediately, and 60% is linearly unlocked over 120 days.
 
 7. 1% of $STID will be airdropped to the first 10,000 holders of $XAA and $DBC, and 1% of $STID will be airdropped to holders of XAA node NFTs.`,
       zh: `1.$STID 总供应量：1000亿
@@ -183,7 +184,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5.团队拥有30%的$STID,IAO结束后开始解锁，分2000天线性解锁
 
-6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生6亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
+6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生60亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
 
 7.1%的$STID空投给$XAA和$DBC前10000名持有者，1%$STID空投给XAA的节点NFT持有者`,
       ja: `1. $STID 総供給量：1000億
@@ -196,7 +197,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. チームは$STIDの30%を所有し、IAO終了後に解除が始まり、2000日間にわたって線形解除されます。
 
-6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間6億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
+6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間60億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
 
 7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAのノードNFT保有者にエアドロップされます。`,
       ko: `1. $STID 총 공급량: 1000억
@@ -209,7 +210,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. 팀은 $STID의 30%를 소유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 잠금 해제됩니다.
 
-6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 6억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
+6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 60억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
 
 7. $STID의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, $STID의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다.`
     })

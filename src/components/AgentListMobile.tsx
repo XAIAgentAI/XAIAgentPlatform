@@ -67,6 +67,9 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       : bValue - aValue
   })
 
+  console.log("sortedAgents", sortedAgents);
+  
+
   
 
   const handleRowClick = (id: number) => {
@@ -156,13 +159,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('tvl')}</span>
                     <p className="text-secondary-color text-sm font-medium">
-                      {agent.price && !isNaN(parseFloat(agent.price.replace(/[^0-9.-]+/g, "")))
-                        ? parseFloat(agent.price.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 2
-                          })
-                        : '$0'}
+                      {agent.price || '$0'}
                     </p>
                   </div>
                   <div className="space-y-1">
