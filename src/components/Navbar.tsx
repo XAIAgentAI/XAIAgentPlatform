@@ -36,6 +36,7 @@ const Navbar = () => {
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
   const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isTimeout, setIsTimeout] = useState(false);
 
   const navigationLinks = [
     {
@@ -76,11 +77,11 @@ const Navbar = () => {
 
   // 添加连接超时处理
   useEffect(() => {
-    console.log('status', status)
-    if (status === 'connecting') {
-      // 如果连接时间超过10秒，强制重置状态
+    if (status === 'connecting' && !isTimeout) {
+      // 如果连接时间超过8秒，强制重置状态
       const timeout = setTimeout(() => {
         if (status === 'connecting') {
+          setIsTimeout(true);
           toast({
             description: t('wallet.connectionTimeout'),
             variant: "destructive"
@@ -98,7 +99,12 @@ const Navbar = () => {
         }
       };
     }
-  }, [status, disconnect, t, toast]);
+
+    // 当状态不是connecting时，重置超时状态
+    if (status !== 'connecting') {
+      setIsTimeout(false);
+    }
+  }, [status, disconnect, t, toast, isTimeout]);
 
   // 优化钱包连接状态处理
   useEffect(() => {
@@ -108,6 +114,7 @@ const Navbar = () => {
         clearTimeout(connectingTimeout);
         setConnectingTimeout(null);
       }
+      setIsTimeout(false);
       authenticate();
     }
   }, [address, connectingTimeout, authenticate]);
@@ -118,9 +125,12 @@ const Navbar = () => {
       open({ view: 'Account' });
     } else {
       // 如果当前状态是connecting，先重置状态
-      if (status === 'connecting' && connectingTimeout) {
-        clearTimeout(connectingTimeout);
-        setConnectingTimeout(null);
+      if (status === 'connecting') {
+        if (connectingTimeout) {
+          clearTimeout(connectingTimeout);
+          setConnectingTimeout(null);
+        }
+        setIsTimeout(false);
       }
       open({ view: 'Connect' });
     }
@@ -159,7 +169,7 @@ const Navbar = () => {
   const getWalletDisplayStatus = () => {
     if (!mounted) return t('wallet.connect');
     
-    if (status === 'connecting') {
+    if (status === 'connecting' && !isTimeout) {
       return t('wallet.connecting');
     }
     if (address) {
@@ -224,7 +234,7 @@ const Navbar = () => {
             aria-label={t('accessibility.walletIcon')}
           >
              {mounted ? (
-              status === 'connecting' ? (
+              status === 'connecting' && !isTimeout ? (
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : isConnected ? (
                 <div className="relative">
