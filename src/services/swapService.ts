@@ -209,21 +209,28 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
       const targetTokenAddress = targetToken.toLowerCase();
       const baseTokenAddress = baseToken.toLowerCase();
 
-      // 如果是XAA和DBC的交易对，始终使用XAA/DBC的比率
-      if ((token0Address === XAA_TOKEN_ADDRESS.toLowerCase() && token1Address === DBC_TOKEN_ADDRESS.toLowerCase()) ||
-          (token1Address === XAA_TOKEN_ADDRESS.toLowerCase() && token0Address === DBC_TOKEN_ADDRESS.toLowerCase())) {
-        return token0Address === XAA_TOKEN_ADDRESS.toLowerCase() ? 
-          Math.abs(amount0 / amount1) : Math.abs(amount1 / amount0);
-      }
+      // // 如果是XAA和DBC的交易对，始终使用XAA/DBC的比率
+      // if ((token0Address === XAA_TOKEN_ADDRESS.toLowerCase() && token1Address === DBC_TOKEN_ADDRESS.toLowerCase()) ||
+      //     (token1Address === XAA_TOKEN_ADDRESS.toLowerCase() && token0Address === DBC_TOKEN_ADDRESS.toLowerCase())) {
+      //   return token0Address === XAA_TOKEN_ADDRESS.toLowerCase() ? 
+      //     Math.abs(amount0 / amount1) : Math.abs(amount1 / amount0);
+      // }
 
       
 
-      // 对于其他代币和XAA的交易对，使用其他代币/XAA的比率
-      if (token1Address === XAA_TOKEN_ADDRESS.toLowerCase()) {
+      // // 对于其他代币和XAA的交易对，使用其他代币/XAA的比率
+      // if (token1Address === XAA_TOKEN_ADDRESS.toLowerCase()) {
+      //   return Math.abs(amount1 / amount0);
+      // } else {
+      //   return Math.abs(amount0 / amount1);
+      // }
+
+      if(targetTokenAddress === DBC_TOKEN_ADDRESS || baseTokenAddress === DBC_TOKEN_ADDRESS) {
         return Math.abs(amount1 / amount0);
       } else {
         return Math.abs(amount0 / amount1);
       }
+
     }).filter(rate => !isNaN(rate) && isFinite(rate) && rate > 0);
 
     if (rates.length === 0) {
