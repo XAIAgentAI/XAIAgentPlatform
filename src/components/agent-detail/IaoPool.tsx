@@ -386,7 +386,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 <p className="text-sm text-muted-foreground">
                   {userStakeInfo.hasClaimed ? (
                     <>
-                      {t('claimedAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                      {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
                     </>
                   ) : (
                     <>
