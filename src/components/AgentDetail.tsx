@@ -61,7 +61,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
             {agent && <IaoPool agent={agent} />}
           </div>
           {/* Agent信息卡片 */}
-          <AgentInfo agent={agent} currentPrice={0} />
+          <AgentInfo agent={agent as any} currentPrice={0} />
 
           {/* 对话启动器 */}
           {agent && <ConversationStarter agent={agent} />}

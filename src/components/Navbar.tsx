@@ -17,11 +17,13 @@ import { useRouter, usePathname } from "next/navigation";
 import { Link } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
 import { TokenBalance } from "./ui-custom/token-balance"
+import { useDisconnect } from 'wagmi';
 
 
 const Navbar = () => {
   const locale = useLocale();
   const pathname = usePathname();
+  const { disconnect } = useDisconnect();
 
   const t = useTranslations();
   const { toast } = useToast()
@@ -83,10 +85,8 @@ const Navbar = () => {
             description: t('wallet.connectionTimeout'),
             variant: "destructive"
           });
-          // 重新打开钱包连接弹窗
-          open({ view: 'Connect' });
-          // 断开连接，会自动把status设置为disconnected
-
+          // 断开连接
+          disconnect();
         }
       }, 8000);
 
@@ -98,7 +98,7 @@ const Navbar = () => {
         }
       };
     }
-  }, [status,]);
+  }, [status, disconnect, t, toast]);
 
   // 优化钱包连接状态处理
   useEffect(() => {

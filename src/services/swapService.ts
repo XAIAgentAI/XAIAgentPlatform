@@ -203,7 +203,7 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
     const rates = periodSwaps.map(swap => {
       const amount0 = parseFloat(swap.amount0);
       const amount1 = parseFloat(swap.amount1);
-      
+
       // 判断token0和token1的位置
       const token0Address = swap.token0.id.toLowerCase();
       const token1Address = swap.token1.id.toLowerCase();
@@ -217,7 +217,7 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
       //     Math.abs(amount0 / amount1) : Math.abs(amount1 / amount0);
       // }
 
-      
+
 
       // // 对于其他代币和XAA的交易对，使用其他代币/XAA的比率
       // if (token1Address === XAA_TOKEN_ADDRESS.toLowerCase()) {
@@ -226,7 +226,7 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
       //   return Math.abs(amount0 / amount1);
       // }
 
-      if(targetTokenAddress === DBC_TOKEN_ADDRESS || baseTokenAddress === DBC_TOKEN_ADDRESS) {
+      if (targetTokenAddress === DBC_TOKEN_ADDRESS || baseTokenAddress === DBC_TOKEN_ADDRESS) {
         return Math.abs(amount1 / amount0);
       } else {
         return Math.abs(amount0 / amount1);
@@ -345,7 +345,7 @@ interface TokenPriceInfo {
 // 批量获取代币价格
 export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbol: string]: TokenPriceInfo }> => {
   console.log("getBatchTokenPrices-tokens", tokens);
-  
+
   try {
     // 获取24小时前的时间戳
     const oneDayAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
@@ -662,10 +662,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             currentPrice = 0;
           }
 
-          // 如果基准代币是XAA，需要转换为DBC价格
-          if (baseToken === XAA_TOKEN_ADDRESS) {
-            currentPrice = currentPrice * xaaDbcRate;
-          }
 
           // 获取24小时前的价格
           const { price24hAgo, isWithin24h, timeDiff } = find24hAgoPrice({
@@ -678,7 +674,7 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             baseTokenIsXAA: baseToken === XAA_TOKEN_ADDRESS
           });
 
-          
+
 
           // 如果时间差太大，可能需要处理
           if (timeDiff > 3600) { // 如果差距超过1小时
@@ -696,15 +692,32 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             return total + (isNaN(swapAmount) ? 0 : swapAmount);
           }, 0) || 0;
 
+          // 如果基准代币是XAA，需要转换为DBC价格
+          if (baseToken === XAA_TOKEN_ADDRESS) {
+            currentPrice = currentPrice * xaaDbcRate;
+          }
           const usdPrice = (currentPrice) ? Number((Number(currentPrice) * Number(dbcPriceUsd)).toFixed(8)) : 0;
 
+          console.log("token", token, "currentPrice", currentPrice, "usdPrice", usdPrice, "dbcPriceUsd", dbcPriceUsd);
+
           // 计算 LP 数量 - 使用对标代币的 volumeToken 而不是 totalValueLocked
-          const targetTokenAmount = !targetTokenIsToken0 ? 
-          
-            parseFloat(pool.volumeToken0 || '0') : 
+          const baseTokenAmount = !targetTokenIsToken0 ?
+
+            parseFloat(pool.volumeToken0 || '0') :
             parseFloat(pool.volumeToken1 || '0');
-          const lp = Number((targetTokenAmount * usdPrice).toFixed(2)); // 乘以 DBC 单价
-          
+
+          // 1STID = 0.13 XAA = 0.13XAA * 0.02048 = 0.0026624 DBC = 0.0026624 DBC * 0.001981 = 0.00000527344 USDT
+
+
+          // XAA对应的是DBC，其他代币对应的是XAA
+          const baseTokenUsdPrice = token.symbol === "XAA" ? dbcPriceUsd :
+            xaaUsdPrice
+
+
+          const baseTokenUsdPriceFormatted = Number(baseTokenUsdPrice.toFixed(8));
+          const lp = Number((baseTokenAmount * baseTokenUsdPriceFormatted).toFixed(2)); // 乘以 DBC 单价
+          console.log("baseTokenAmount", baseTokenAmount, "baseTokenUsdPriceFormatted", baseTokenUsdPriceFormatted, "lp", lp);
+          6095240865
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,
@@ -738,7 +751,7 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
     });
 
 
-    
+
     return priceMap;
 
   } catch (error) {
