@@ -1,6 +1,7 @@
 import { fetchDBCPrice } from '@/hooks/useDBCPrice';
 import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
+import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
 
 const SUBGRAPH_URL = 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
 export const DBC_TOKEN_ADDRESS = "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
@@ -458,7 +459,7 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           timestamp
         }
         ${token.symbol}24hAgo: swaps(
-          first: 1,
+          first: 1000,
           orderBy: timestamp,
           orderDirection: desc,
           where: {
@@ -476,6 +477,32 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
                 ]
               },
               { timestamp_lt: "${oneDayAgo}" }
+            ]
+          }
+        ) {
+          amount0
+          amount1
+          timestamp
+        },
+        ${token.symbol}24hWithin: swaps(
+          first: 1,
+          orderBy: timestamp,
+          orderDirection: asc,
+          where: {
+            and: [
+              {
+                or: [
+                  { token0: "${targetToken.toLowerCase()}" },
+                  { token1: "${targetToken.toLowerCase()}" }
+                ]
+              },
+              {
+                or: [
+                  { token0: "${baseToken.toLowerCase()}" },
+                  { token1: "${baseToken.toLowerCase()}" }
+                ]
+              },
+              { timestamp_gt: "${oneDayAgo}" }
             ]
           }
         ) {
@@ -596,6 +623,7 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       const swapData = data.data[token.symbol];
       const swapData24h = data.data[`${token.symbol}24h`];
       const swapData24hAgo = data.data[`${token.symbol}24hAgo`];
+      const swapData24hWithin = data.data[`${token.symbol}24hWithin`];
 
       if (swapData && swapData[0] && poolData && poolData[0]) {
         const swap = swapData[0];
@@ -639,37 +667,23 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             currentPrice = currentPrice * xaaDbcRate;
           }
 
-          // 计算24小时前的价格
-          let price24hAgo = 0;
-          if (swapData24hAgo && swapData24hAgo[0]) {
-            const swap24hAgo = swapData24hAgo[0];
-            const amount24h0 = parseFloat(swap24hAgo.amount0);
-            const amount24h1 = parseFloat(swap24hAgo.amount1);
-
-            if (amount24h0 !== 0 && amount24h1 !== 0) {
-              if (baseTokenIsToken0 && !targetTokenIsToken0) {
-                price24hAgo = Math.abs(amount24h0 / amount24h1);
-              } else if (!baseTokenIsToken0 && targetTokenIsToken0) {
-                price24hAgo = Math.abs(amount24h1 / amount24h0);
-              }
-
-              // 如果基准代币是XAA，需要转换为DBC价格
-              if (baseToken === XAA_TOKEN_ADDRESS) {
-                price24hAgo = price24hAgo * xaaDbcRate;
-              }
-            }
-          }
-
-          // 计算价格变化百分比
-          const priceChange24h = price24hAgo > 0 
-            ? ((currentPrice - price24hAgo) / price24hAgo) * 100 
-            : 0;
-            
-          console.log(`代币 ${token.symbol} 价格变化计算:`, {
-            currentPrice,
-            price24hAgo,
-            priceChange24h
+          // 获取24小时前的价格
+          const { price24hAgo, isWithin24h, timeDiff } = find24hAgoPrice({
+            swaps24hAgo: swapData24hAgo,
+            swaps24hWithin: swapData24hWithin,
+            targetTimestamp: oneDayAgo,
+            baseTokenIsToken0,
+            targetTokenIsToken0,
+            xaaDbcRate,
+            baseTokenIsXAA: baseToken === XAA_TOKEN_ADDRESS
           });
+
+          
+
+          // 如果时间差太大，可能需要处理
+          if (timeDiff > 3600) { // 如果差距超过1小时
+            console.warn(`警告: 24小时前价格数据时间差较大 (${timeDiff} 秒)`);
+          }
 
           // 获取 TVL 和 Volume
           const tokenData = targetTokenIsToken0 ? swap.token0 : swap.token1;
@@ -689,15 +703,14 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           
             parseFloat(pool.volumeToken0 || '0') : 
             parseFloat(pool.volumeToken1 || '0');
-          const lp = Number((targetTokenAmount * dbcPriceUsd).toFixed(2)); // 乘以 DBC 单价
-          console.log(token.symbol, lp, targetTokenAmount, dbcPriceUsd);
+          const lp = Number((targetTokenAmount * usdPrice).toFixed(2)); // 乘以 DBC 单价
           
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,
             tvl: parseFloat(tokenData.totalValueLockedUSD || '0'),
             volume24h: Number(volume24h.toFixed(2) * usdPrice),
-            priceChange24h: Number(priceChange24h.toFixed(2)),
+            priceChange24h: Number(calculatePriceChange(currentPrice, price24hAgo).toFixed(2)),
             lp
           };
         } catch (error) {
@@ -725,7 +738,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
     });
 
 
-    console.log("priceMap", priceMap);
     
     return priceMap;
 
@@ -743,5 +755,124 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       };
       return acc;
     }, {} as { [symbol: string]: TokenPriceInfo });
+  }
+};
+
+interface TokenExchangeRateResponse {
+  data: {
+    swaps: Array<{
+      id: string;
+      amount0: string;
+      amount1: string;
+      token0: {
+        id: string;
+      };
+      token1: {
+        id: string;
+      };
+      timestamp: string;
+    }>;
+  };
+  errors?: Array<{
+    message: string;
+  }>;
+}
+
+/**
+ * 获取两个代币之间的最新兑换比例
+ * @param token0Address 代币0地址
+ * @param token1Address 代币1地址
+ * @returns 返回代币0对代币1的兑换比例，如果无法获取则返回 1
+ */
+export const getTokenExchangeRate = async (token0Address: string, token1Address: string): Promise<number> => {
+  try {
+    const query = `
+      query GetTokenExchangeRate($token0Address: String!, $token1Address: String!) {
+        swaps(
+          first: 1,
+          orderBy: timestamp,
+          orderDirection: desc,
+          where: {
+            and: [
+              {
+                or: [
+                  { token0: $token0Address },
+                  { token1: $token0Address }
+                ]
+              },
+              {
+                or: [
+                  { token0: $token1Address },
+                  { token1: $token1Address }
+                ]
+              }
+            ]
+          }
+        ) {
+          id
+          amount0
+          amount1
+          token0 {
+            id
+          }
+          token1 {
+            id
+          }
+          timestamp
+        }
+      }
+    `;
+
+    const response = await fetch(SUBGRAPH_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          token0Address: token0Address.toLowerCase(),
+          token1Address: token1Address.toLowerCase()
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('获取代币兑换比例API响应错误:', {
+        status: response.status,
+        statusText: response.statusText
+      });
+      return 1;
+    }
+
+    const data: TokenExchangeRateResponse = await response.json();
+
+    if (data.errors) {
+      console.error('获取代币兑换比例查询错误:', data.errors);
+      return 1;
+    }
+
+    const latestSwap = data.data.swaps[0];
+    if (!latestSwap) {
+      console.warn('未找到代币兑换记录');
+      return 1;
+    }
+
+    const amount0 = parseFloat(latestSwap.amount0);
+    const amount1 = parseFloat(latestSwap.amount1);
+    const isToken0Token0 = latestSwap.token0.id.toLowerCase() === token0Address.toLowerCase();
+
+    if (amount0 === 0 || amount1 === 0) {
+      console.warn('代币兑换金额为0');
+      return 1;
+    }
+
+    // 如果 token0 是 token0，则使用 amount0/amount1，否则使用 amount1/amount0
+    const rate = isToken0Token0 ? Math.abs(amount1 / amount0) : Math.abs(amount0 / amount1);
+
+    return rate;
+  } catch (error) {
+    console.error('获取代币兑换比例失败:', error);
+    return 1;
   }
 };

@@ -30,13 +30,15 @@ interface MarketDataProps {
   agent: LocalAgent | null;
   currentPrice: number | null;
   dbcPriceUsd: number;
+  baseTokenXaaRate: number;
 }
 
 export function MarketData({
   tokenData,
   agent,
   currentPrice,
-  dbcPriceUsd
+  dbcPriceUsd,
+  baseTokenXaaRate
 }: MarketDataProps) {
   const t = useTranslations('marketData');
   const [tokenPrice, setTokenPrice] = useState<TokenPriceInfo | null>(null);
@@ -90,7 +92,7 @@ export function MarketData({
         <div className="text-lg font-semibold mt-1">
           {formatNumber(
             agent?.totalSupply && currentPrice && dbcPriceUsd
-              ? Number(agent.totalSupply * currentPrice * dbcPriceUsd)
+              ? Number(agent.totalSupply * currentPrice * dbcPriceUsd * baseTokenXaaRate)
               : null,
             t('tba')
           )}

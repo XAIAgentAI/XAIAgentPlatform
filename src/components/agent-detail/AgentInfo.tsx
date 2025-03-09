@@ -15,12 +15,12 @@ import { TimeInterval } from '@/hooks/useTokenPrice';
 import {
   agentAPI
 } from '@/services/api'
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
-import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices } from "@/services/swapService";
-import { fetchDBCPrice as fetchDBCPriceFromHook } from "@/hooks/useDBCPrice";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices, getTokenExchangeRate } from "@/services/swapService";
+import { useDBCPrice } from '@/hooks/useDBCPrice';
+import { formatPrice } from '@/lib/format';
 
 interface ApiResponse<T> {
   code: number;
@@ -29,61 +29,29 @@ interface ApiResponse<T> {
 }
 
 interface AgentInfoProps {
-  agentId: string;
+  agent: LocalAgent;
+  currentPrice: number;
 }
 
-export function AgentInfo({ agentId }: AgentInfoProps) {
-  const [agent, setAgent] = useState<LocalAgent | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [dbcPriceUsd, setDBCPriceUsd] = useState<number>(0);
-  const [homepagePriceChange, setHomepagePriceChange] = useState<number | null>(null);
+export function AgentInfo({ agent }: AgentInfoProps) {
+  const { dbcPriceUsd } = useDBCPrice();
+  const [baseTokenXaaRate, setBaseTokenXaaRate] = useState<number>(1);
 
-  const getAgentData = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const res = await agentAPI.getAgentById(Number(agentId)) as unknown as ApiResponse<LocalAgent>;
-      if (res?.code === 200) {
-        setAgent(res.data);
-        
-        // 获取与首页相同的价格变化数据
-        if (res.data.tokenAddress && res.data.symbol) {
-          const tokenInfo = {
-            address: res.data.tokenAddress,
-            symbol: res.data.symbol
-          };
-          
-          const tokenSwapDatas = await getBatchTokenPrices([tokenInfo]);
-          if (tokenSwapDatas[res.data.symbol]) {
-            setHomepagePriceChange(tokenSwapDatas[res.data.symbol].priceChange24h || 0);
-            console.log('首页价格变化数据:', tokenSwapDatas[res.data.symbol].priceChange24h);
-          }
+  useEffect(() => {
+    const fetchBaseTokenXaaRate = async () => {
+      if (agent?.tokenAddress && agent.symbol !== "XAA") {
+        try {
+          const rate = await getTokenExchangeRate(XAA_TOKEN_ADDRESS, DBC_TOKEN_ADDRESS);
+          setBaseTokenXaaRate(rate);
+        } catch (error) {
+          console.error('获取代币XAA兑换比例失败:', error);
+          setBaseTokenXaaRate(1);
         }
-      } else {
-        setError(res?.message || '获取数据失败');
-      }
-    } catch (error: any) {
-      console.error('Failed to fetch agent:', error);
-      setError(error?.message || '获取数据失败，请稍后重试');
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getAgentData();
-  }, [agentId]);
-
-  useEffect(() => {
-    const getDBCPrice = async () => {
-      const priceInfo = await fetchDBCPriceFromHook();
-      if (priceInfo && typeof priceInfo.priceUsd === 'string') {
-        setDBCPriceUsd(Number(priceInfo.priceUsd));
       }
     };
-    getDBCPrice();
-  }, []);
+
+    fetchBaseTokenXaaRate();
+  }, [agent?.tokenAddress, agent?.symbol]);
 
   const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
   const chatEntry = agent?.chatEntry || "";
@@ -105,9 +73,6 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
   });
 
-  
-  
-
   // 记录详情页面的价格变化数据
   useEffect(() => {
     console.log('详情页面价格变化数据:', priceChange);
@@ -115,8 +80,8 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
 
   // 记录最终使用的价格变化数据
   useEffect(() => {
-    console.log('最终使用的价格变化数据:', homepagePriceChange !== null ? homepagePriceChange : priceChange);
-  }, [homepagePriceChange, priceChange]);
+    console.log('最终使用的价格变化数据:', priceChange);
+  }, [priceChange]);
 
   const handleIntervalChange = (interval: TimeInterval) => {
     setSelectedInterval(interval);
@@ -142,7 +107,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     return agent.status;
   };
 
-  if (isLoading || tokenLoading) {
+  if (tokenLoading) {
     return (
       <Card className="p-6 bg-card">
         <div className="flex items-center justify-center space-x-2">
@@ -154,12 +119,14 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     );
   }
 
-  if (error || tokenError) {
+  if (tokenError) {
     return (
       <Card className="p-6 bg-card">
         <div className="text-center space-y-4">
-          <div className="text-red-500">{error || tokenError}</div>
-          <Button onClick={getAgentData} variant="outline">
+          <div className="text-red-500">{tokenError}</div>
+          <Button onClick={() => {
+            // Implement the logic to retry fetching the agent data
+          }} variant="outline">
             重试
           </Button>
         </div>
@@ -177,24 +144,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     );
   }
 
-  // 添加格式化价格的辅助函数
-  const formatPrice = (price: number | undefined, decimals: number = 5): { value: string; pair: string } => {
-    const pair = 'XAA/DBC';
-    if (price === undefined || price === null) return { value: `0.${'0'.repeat(decimals)}`, pair };
-    if (price === 0) return { value: `0.${'0'.repeat(decimals)}`, pair };
-
-    const absPrice = Math.abs(price);
-    if (absPrice < Math.pow(10, -decimals)) {
-      // 只有在非常小的数字时才使用 0.0{x}y 格式
-      const priceStr = absPrice.toString();
-      const match = priceStr.match(/^0\.0+/);
-      const zeroCount = match ? match[0].length - 2 : 0;
-      const lastDigit = priceStr.replace(/^0\.0+/, '')[0] || '0';
-      return { value: `0.0{${zeroCount}}${lastDigit}`, pair };
-    }
-    // 根据指定的精度显示小数位数
-    return { value: absPrice.toFixed(decimals), pair };
-  };
+  console.log("currentPrice", currentPrice, "dbcPriceUsd", dbcPriceUsd, "baseTokenXaaRate", baseTokenXaaRate);
 
 
   return (
@@ -216,7 +166,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
               <div className="flex items-baseline  text-muted-foreground h- ml-1">
                 $
                 <span className="text-sm font-medium">
-                  {formatPrice(currentPrice * dbcPriceUsd, 8).value}
+                  {formatPrice(currentPrice * Number(dbcPriceUsd || 0) * (agent?.symbol === "XAA" ? 1 : baseTokenXaaRate), 8).value}
                 </span>
               </div>
             </div>
@@ -312,7 +262,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
           agent={agent}
           klineData={klineData}
           currentPrice={currentPrice}
-          priceChange={homepagePriceChange !== null ? homepagePriceChange : priceChange}
+          priceChange={priceChange}
           isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}
@@ -344,6 +294,7 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
               agent={agent}
               currentPrice={currentPrice}
               dbcPriceUsd={dbcPriceUsd}
+              baseTokenXaaRate={baseTokenXaaRate}
             />
           </TabsContent>
 

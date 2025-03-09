@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
+import { formatPriceChange } from '@/lib/utils';
 
 interface CryptoChartProps {
   agent: any;
@@ -112,18 +113,6 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     }
     // 所有数字都显示5位小数
     return (price < 0 ? '-' : '') + absPrice.toFixed(5);
-  };
-
-  // 添加格式化价格变化的辅助函数
-  const formatPriceChange = (change: number | undefined): string => {
-    if (change === undefined || change === null) return '+0.00%';
-    const sign = change >= 0 ? '+' : '';
-    
-    // 确保格式与首页一致，始终保留两位小数
-    if (Math.abs(change) < 0.01) {
-      return `${sign}${change.toFixed(2)}%`;
-    }
-    return `${sign}${change.toFixed(2)}%`;
   };
 
   // 添加时间格式化辅助函数

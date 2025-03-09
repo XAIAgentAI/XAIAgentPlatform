@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchSwapData, convertToKLineData } from '@/services/swapService';
-import { KLineData as SwapKLineData } from '@/types/swap';
+import { KLineData as SwapKLineData, SwapData } from '@/types/swap';
 import { KLineData as ChartKLineData, TimeInterval } from '@/hooks/useTokenPrice';
+import { calculatePriceChange, find24hAgoPrice } from '@/lib/utils';
 
 export interface SwapChartData {
   klineData: ChartKLineData[];
@@ -53,34 +54,42 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
         volume: item.volume || 0 // 确保volume总是有值
       }));
 
-      // 计算当前价格和价格变化
       if (chartKlineData.length > 0) {
         // 重置重试计数器
         retryCount.current = 0;
         const currentPrice = chartKlineData[chartKlineData.length - 1].close;
         
-        // 计算24小时价格变化
-        const oneDayAgoTimestamp = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-        
-        // 找到最接近24小时前的数据点
-        let closestIndex = 0;
-        let minTimeDiff = Number.MAX_SAFE_INTEGER;
-        
-        for (let i = 0; i < chartKlineData.length; i++) {
-          const timeDiff = Math.abs(chartKlineData[i].time - oneDayAgoTimestamp);
-          if (timeDiff < minTimeDiff) {
-            minTimeDiff = timeDiff;
-            closestIndex = i;
-          }
+
+        // 获取24小时前的时间戳
+        const oneDayAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+
+        // 将swap数据分为24小时前和24小时内的数据
+        const swaps24hAgo = swapData.filter(swap => parseInt(swap.timestamp) < oneDayAgo);
+        const swaps24hWithin = swapData.filter(swap => parseInt(swap.timestamp) >= oneDayAgo);
+
+        // 获取24小时前的价格
+        const baseTokenIsToken0 = swapData[0]?.token0.id.toLowerCase() === baseToken.toLowerCase();
+        const targetTokenIsToken0 = swapData[0]?.token0.id.toLowerCase() === targetToken.toLowerCase();
+
+
+        const { price24hAgo, isWithin24h, timeDiff } = find24hAgoPrice({
+          swaps24hAgo,
+          swaps24hWithin,
+          targetTimestamp: oneDayAgo,
+          baseTokenIsToken0,
+          targetTokenIsToken0,
+          xaaDbcRate: 1, // 如果需要XAA/DBC转换，这里需要传入正确的比率
+          baseTokenIsXAA: false // 根据实际情况设置
+        });
+
+        // 计算价格变化
+        const priceChange = calculatePriceChange(currentPrice, price24hAgo);
+
+        // 如果时间差太大，记录警告
+        if (timeDiff > 3600) {
+          console.warn(`警告: 24小时前价格数据时间差较大 (${timeDiff} 秒)`);
         }
-        
-        const price24hAgo = chartKlineData[closestIndex].close;
-        
-        // 计算价格变化百分比
-        const priceChange = price24hAgo > 0 
-          ? ((currentPrice - price24hAgo) / price24hAgo) * 100 
-          : 0;
-          
+
         setData({
           klineData: chartKlineData,
           currentPrice,

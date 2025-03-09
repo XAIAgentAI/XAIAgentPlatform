@@ -10,6 +10,7 @@ import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
+import { formatPriceChange } from '@/lib/utils';
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -147,13 +148,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('24h')}</span>
                     <p className={`text-sm font-medium ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
-                      {agent.priceChange24h ? 
-                        (parseFloat(agent.priceChange24h) === -0 ? 
-                          "+0.00%" : 
-                          `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
-                        ) : 
-                        "0.00%"
-                      }
+                      {formatPriceChange(agent.priceChange24h)}
                     </p>
                   </div>
                   <div className="space-y-1">
