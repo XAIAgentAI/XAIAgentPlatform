@@ -184,7 +184,8 @@
     "approveTransaction": "토큰 승인",
     "approveWaitingConfirm": "승인 확인 대기 중",
     "approveSuccess": "승인이 완료되었습니다",
-    "approveFailed": "승인에 실패했습니다. 다시 시도해주세요"
+    "approveFailed": "승인에 실패했습니다. 다시 시도해주세요",
+    "copy": "복사"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",

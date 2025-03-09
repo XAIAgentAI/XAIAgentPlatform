@@ -152,7 +152,7 @@ export const fetchSwapData = async ({ interval, targetToken, baseToken }: FetchS
   }
 };
 
-export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '1h'): KLineData[] => {
+export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '1h', targetToken: string, baseToken: string): KLineData[] => {
   if (!swaps || swaps.length === 0) {
     return [];
   }
@@ -202,7 +202,28 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
     const rates = periodSwaps.map(swap => {
       const amount0 = parseFloat(swap.amount0);
       const amount1 = parseFloat(swap.amount1);
-      return Math.abs(amount1 / amount0);
+      
+      // 判断token0和token1的位置
+      const token0Address = swap.token0.id.toLowerCase();
+      const token1Address = swap.token1.id.toLowerCase();
+      const targetTokenAddress = targetToken.toLowerCase();
+      const baseTokenAddress = baseToken.toLowerCase();
+
+      // 如果是XAA和DBC的交易对，始终使用XAA/DBC的比率
+      if ((token0Address === XAA_TOKEN_ADDRESS.toLowerCase() && token1Address === DBC_TOKEN_ADDRESS.toLowerCase()) ||
+          (token1Address === XAA_TOKEN_ADDRESS.toLowerCase() && token0Address === DBC_TOKEN_ADDRESS.toLowerCase())) {
+        return token0Address === XAA_TOKEN_ADDRESS.toLowerCase() ? 
+          Math.abs(amount0 / amount1) : Math.abs(amount1 / amount0);
+      }
+
+      
+
+      // 对于其他代币和XAA的交易对，使用其他代币/XAA的比率
+      if (token1Address === XAA_TOKEN_ADDRESS.toLowerCase()) {
+        return Math.abs(amount1 / amount0);
+      } else {
+        return Math.abs(amount0 / amount1);
+      }
     }).filter(rate => !isNaN(rate) && isFinite(rate) && rate > 0);
 
     if (rates.length === 0) {
@@ -315,6 +336,8 @@ interface TokenPriceInfo {
 
 // 批量获取代币价格
 export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbol: string]: TokenPriceInfo }> => {
+  console.log("getBatchTokenPrices-tokens", tokens);
+  
   try {
     // 获取24小时前的时间戳
     const oneDayAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
@@ -456,10 +479,46 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       `;
     });
 
+    // 添加XAA-DBC兑换比例查询
+    const xaaDbcQuery = `
+      xaaDbcSwap: swaps(
+        first: 1,
+        orderBy: timestamp,
+        orderDirection: desc,
+        where: {
+          and: [
+            {
+              or: [
+                { token0: "${XAA_TOKEN_ADDRESS.toLowerCase()}" },
+                { token1: "${XAA_TOKEN_ADDRESS.toLowerCase()}" }
+              ]
+            },
+            {
+              or: [
+                { token0: "${DBC_TOKEN_ADDRESS.toLowerCase()}" },
+                { token1: "${DBC_TOKEN_ADDRESS.toLowerCase()}" }
+              ]
+            }
+          ]
+        }
+      ) {
+        amount0
+        amount1
+        token0 {
+          id
+        }
+        token1 {
+          id
+        }
+        timestamp
+      }
+    `;
+
     // 构建完整的 GraphQL 查询
     const query = `
       query GetBatchTokenPrices {
         ${queries.join('\n')}
+        ${xaaDbcQuery}
       }
     `;
 
@@ -505,6 +564,22 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
     const dbcPriceInfo = await fetchDBCPrice();
     const dbcPriceUsd = parseFloat(dbcPriceInfo.priceUsd);
+
+    // 计算XAA-DBC兑换比例
+    let xaaDbcRate = 1;
+    const xaaDbcSwap = data.data.xaaDbcSwap?.[0];
+    if (xaaDbcSwap) {
+      const isXaaToken0 = xaaDbcSwap.token0.id.toLowerCase() === XAA_TOKEN_ADDRESS.toLowerCase();
+      const amount0 = parseFloat(xaaDbcSwap.amount0);
+      const amount1 = parseFloat(xaaDbcSwap.amount1);
+      if (amount0 !== 0 && amount1 !== 0) {
+        xaaDbcRate = isXaaToken0 ? Math.abs(amount1 / amount0) : Math.abs(amount0 / amount1);
+      }
+    }
+
+    // 计算XAA的USD价格
+    const xaaUsdPrice = xaaDbcRate * dbcPriceUsd;
+    console.log("XAA USD Price:", xaaUsdPrice);
 
     const priceMap: { [symbol: string]: TokenPriceInfo } = {};
 
@@ -552,6 +627,11 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             currentPrice = 0;
           }
 
+          // 如果基准代币是XAA，需要转换为DBC价格
+          if (baseToken === XAA_TOKEN_ADDRESS) {
+            currentPrice = currentPrice * xaaDbcRate;
+          }
+
           // 计算24小时前的价格
           let price24hAgo = 0;
           if (swapData24hAgo && swapData24hAgo[0]) {
@@ -564,6 +644,11 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
                 price24hAgo = Math.abs(amount24h0 / amount24h1);
               } else if (!baseTokenIsToken0 && targetTokenIsToken0) {
                 price24hAgo = Math.abs(amount24h1 / amount24h0);
+              }
+
+              // 如果基准代币是XAA，需要转换为DBC价格
+              if (baseToken === XAA_TOKEN_ADDRESS) {
+                price24hAgo = price24hAgo * xaaDbcRate;
               }
             }
           }

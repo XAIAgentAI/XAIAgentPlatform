@@ -39,7 +39,9 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
         baseToken
       });
 
-      const rawKlineData = convertToKLineData(swapData, newInterval);
+      const rawKlineData = convertToKLineData(swapData, newInterval, targetToken, baseToken);
+
+      
 
       // 转换为图表所需的KLineData格式
       const chartKlineData: ChartKLineData[] = rawKlineData.map(item => ({

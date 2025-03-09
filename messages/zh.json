@@ -185,7 +185,8 @@
     "approveTransaction": "授权交易",
     "approveWaitingConfirm": "等待授权确认",
     "approveSuccess": "授权成功",
-    "approveFailed": "授权失败，请重试"
+    "approveFailed": "授权失败，请重试",
+    "copy": "复制"
   },
 
   "tokenInfo": {

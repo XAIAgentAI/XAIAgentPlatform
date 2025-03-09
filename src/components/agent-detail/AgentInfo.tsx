@@ -105,6 +105,9 @@ export function AgentInfo({ agentId }: AgentInfoProps) {
     baseToken: agent?.symbol === "XAA" ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS
   });
 
+  
+  
+
   // 记录详情页面的价格变化数据
   useEffect(() => {
     console.log('详情页面价格变化数据:', priceChange);

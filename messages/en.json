@@ -184,7 +184,8 @@
     "approveTransaction": "Token Authorization",
     "approveWaitingConfirm": "Waiting for authorization confirmation",
     "approveSuccess": "Authorization successful",
-    "approveFailed": "Authorization failed, please try again"
+    "approveFailed": "Authorization failed, please try again",
+    "copy": "Copy"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

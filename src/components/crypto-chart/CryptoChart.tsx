@@ -595,7 +595,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
               {formatPrice(currentPrice).value}
             </span>
             <span className="text-xl font-medium text-muted-foreground">
-              {formatPrice(currentPrice).pair}
+              {agent.symbol + '/' + (agent.symbol === 'XAA' ? 'DBC' : 'XAA')}
             </span>
           </div>
           <div className={cn(
