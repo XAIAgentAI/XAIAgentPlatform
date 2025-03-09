@@ -376,8 +376,10 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           }
         ) {
           id
-          volumeToken0
-          volumeToken1
+          totalValueLockedToken0
+          totalValueLockedToken1
+          totalValueLockedUSD
+          liquidity
           token0 {
             id
             decimals
@@ -702,9 +704,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
           // 计算 LP 数量 - 使用对标代币的 volumeToken 而不是 totalValueLocked
           const baseTokenAmount = !targetTokenIsToken0 ?
-
-            parseFloat(pool.volumeToken0 || '0') :
-            parseFloat(pool.volumeToken1 || '0');
+            parseFloat(pool.totalValueLockedToken0 || '0') :
+            parseFloat(pool.totalValueLockedToken1 || '0');
 
           // 1STID = 0.13 XAA = 0.13XAA * 0.02048 = 0.0026624 DBC = 0.0026624 DBC * 0.001981 = 0.00000527344 USDT
 
