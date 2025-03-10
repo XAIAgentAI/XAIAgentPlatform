@@ -144,6 +144,7 @@
     "title": "IAO Pool",
     "totalInPool": "Total {symbol} in IAO Pool",
     "currentTotal": "Current Total {symbol} in IAO Pool",
+    "startCountdown": "Start Countdown",
     "endCountdown": "End Countdown",
     "toBeAnnounced": "To Be Announced",
     "youSend": "You Send",

@@ -145,6 +145,7 @@
     "title": "IAO 池",
     "totalInPool": "IAO 池中的总 {symbol}",
     "currentTotal": "当前 IAO 池中的总 {symbol}",
+    "startCountdown": "开始倒计时",
     "endCountdown": "结束倒计时",
     "toBeAnnounced": "待公布",
     "youSend": "您发送",

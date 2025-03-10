@@ -11,19 +11,21 @@ import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
+import { SocialLinks } from "@/components/ui/social-links"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
 
 const parseSocialLinks = (socialLinks?: string) => {
-  if (!socialLinks) return { twitter: "", telegram: "", medium: "", github: "" };
+  if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
   
   const links = socialLinks.split(",").map(link => link.trim());
   return {
-    twitter: links.find(link => link.includes("x.com") || link.includes("twitter.com")) || "",
-    telegram: links.find(link => link.includes("t.me")) || "",
-    medium: links.find(link => link.includes("medium.com")) || "",
-    github: links.find(link => link.includes("github.com")) || "",
+    twitter: links.filter(link => link.includes("x.com") || link.includes("twitter.com")),
+    telegram: links.filter(link => link.includes("t.me")),
+    medium: links.filter(link => link.includes("medium.com")),
+    github: links.filter(link => link.includes("github.com")),
+    youtube: links.filter(link => link.includes("youtube.com") || link.includes("youtu.be")),
   };
 };
 
@@ -193,48 +195,21 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                       </CustomBadge>
                     </div>
                   </div>
-                  {(socialLinks.twitter || socialLinks.telegram || socialLinks.medium) && (
+                  {(socialLinks.twitter.length > 0 || socialLinks.telegram.length > 0 || socialLinks.medium.length > 0 || socialLinks.youtube.length > 0) && (
                     <div className="space-y-1 col-span-2">
                       <span className="text-muted-color text-xs block">Social</span>
-                      <div className="flex items-center gap-2">
-                        {socialLinks.twitter && (
-                          <button
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-all duration-200 hover:scale-110 hover:-rotate-12"
-                            onClick={(e) => handleSocialClick(e, socialLinks.twitter)}
-                          >
-                            <svg
-                              viewBox="0 0 24 24"
-                              className="w-4 h-4 fill-current"
-                            >
-                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                            </svg>
-                          </button>
+                      <div className="flex flex-wrap gap-4">
+                        {socialLinks.twitter.length > 0 && (
+                          <SocialLinks links={socialLinks.twitter.join(", ")} />
                         )}
-                        {socialLinks.telegram && (
-                          <button
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-muted-foreground hover:bg-[#229ED9]/10 hover:text-[#229ED9] transition-all duration-200 hover:scale-110 hover:rotate-12"
-                            onClick={(e) => handleSocialClick(e, socialLinks.telegram)}
-                          >
-                            <svg
-                              viewBox="0 0 25 20"
-                              className="w-4 h-4 fill-current"
-                            >
-                              <path d="M22.8686 0.172433C22.8686 0.172433 25.1814 -0.673005 24.9886 1.38018C24.9243 2.22561 24.3462 5.18457 23.8965 8.38514L22.3547 17.8659C22.3547 17.8659 22.2262 19.2548 21.0698 19.4965C19.9135 19.738 18.179 18.6511 17.8578 18.4094C17.6008 18.2283 13.0398 15.5109 11.4337 14.1823C10.984 13.82 10.4701 13.0953 11.4979 12.2499L18.2433 6.21119C19.0141 5.48654 19.7851 3.7957 16.573 5.84887L7.57924 11.5857C7.57924 11.5857 6.55137 12.1895 4.62416 11.6461L0.448471 10.4383C0.448471 10.4383 -1.09332 9.53252 1.54054 8.62665C7.9647 5.78842 15.8664 2.88984 22.8686 0.172433Z" />
-                            </svg>
-                          </button>
+                        {socialLinks.telegram.length > 0 && (
+                          <SocialLinks links={socialLinks.telegram.join(", ")} />
                         )}
-                        {socialLinks.medium && (
-                          <button
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-muted-foreground hover:bg-[#02B875]/10 hover:text-[#02B875] transition-all duration-200 hover:scale-110 hover:-rotate-12"
-                            onClick={(e) => handleSocialClick(e, socialLinks.medium)}
-                          >
-                            <svg
-                              viewBox="0 0 24 24"
-                              className="w-4 h-4 fill-current"
-                            >
-                              <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
-                            </svg>
-                          </button>
+                        {socialLinks.medium.length > 0 && (
+                          <SocialLinks links={socialLinks.medium.join(", ")} />
+                        )}
+                        {socialLinks.youtube.length > 0 && (
+                          <SocialLinks links={socialLinks.youtube.join(", ")} />
                         )}
                       </div>
                     </div>

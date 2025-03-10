@@ -689,6 +689,11 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     name: "DeepLink",
     tokenAddress: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
     iaoContractAddress: "",
+    tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
+    iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
+
+
+
     avatar: "/logo/DeepLink.png",
     symbol: "DLC",
     type: "AI Agent",
@@ -781,6 +786,7 @@ AI Agent 驱动的智能游戏体验：
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
     totalSupply: 50000000,
+    marketCapTokenNumber: 50000000,
     useCases: [
       "Help me increase the volume a bit",
       "How to break the level of Wukong Huangfengling in the Black Myth",
@@ -805,8 +811,18 @@ AI Agent 驱动的智能游戏体验：
       "最近出来什么新的3A游戏",
       "GTA6什么时候发布？"
     ],
-    socialLinks: "",
-    chatEntry: "None"
+    // 英文推特： https://x.com/DeepLinkGlobal
+    //   日文推特：https://x.com/DeepLinkJapan
+    //   英文电报：https://t.me/deeplinkglobal 
+    //   youtube：https://www.youtube.com/@deeplinkglobal
+    //   日文电报： https://t.me/DeepLinkJapan
+    socialLinks: "https://x.com/DeepLinkGlobal, https://x.com/DeepLinkJapan, https://t.me/deeplinkglobal, https://www.youtube.com/@deeplinkglobal, https://t.me/DeepLinkJapan",
+    chatEntry: "None",
+    projectDescription: `1. $DLC总供应量：1000亿。
+2. 5000万枚的$DLC将通过IAO销售,仅接受$XAA,
+投资者将根据其$XAA投资比例获得$DLC。
+3. 在为期7天的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
+4. IAO 结束后，1000万枚$DLC和$XAA将立即在DBCSwap上建立流动性池，实现$DLC的自由交易`,
   },
   {
     id: 13,

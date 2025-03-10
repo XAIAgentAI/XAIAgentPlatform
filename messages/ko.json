@@ -144,6 +144,7 @@
     "title": "IAO 풀",
     "totalInPool": "IAO 풀의 총 {symbol} 수량",
     "currentTotal": "IAO 풀의 현재 총 {symbol} 수량",
+    "startCountdown": "시작까지 남은 시간",
     "endCountdown": "종료까지 남은 시간",
     "toBeAnnounced": "곧 발표",
     "youSend": "입금 수량",

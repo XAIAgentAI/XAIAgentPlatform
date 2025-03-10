@@ -144,6 +144,7 @@
     "title": "IAOプール",
     "totalInPool": "IAOプール内の{symbol}の総量",
     "currentTotal": "IAOプール内の{symbol}の現在の総量",
+    "startCountdown": "開始までのカウントダウン",
     "endCountdown": "終了までのカウントダウン",
     "toBeAnnounced": "近日発表",
     "youSend": "送信する量",
