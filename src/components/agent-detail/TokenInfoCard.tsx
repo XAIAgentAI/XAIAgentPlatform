@@ -8,21 +8,30 @@ interface TokenInfoCardProps {
 export function TokenInfoCard({ projectDescription }: TokenInfoCardProps) {
   const locale = useLocale();
 
-  // 解析项目说明JSON字符串，如果解析失败则返回空对象
-  const projectDescriptionObj = projectDescription ? 
-    (() => {
-      try {
-        return JSON.parse(projectDescription);
-      } catch (e) {
-        console.error('Failed to parse projectDescription:', e);
-        return {};
-      }
-    })() : {};
+  if (!projectDescription) {
+    return null;
+  }
 
-  // 根据当前语言获取项目说明，如果没有对应语言的说明则使用英文（默认）
-  const localizedDescription = projectDescriptionObj[locale] || projectDescriptionObj['en'] || '';
+  // 尝试判断是否为 JSON 格式
+  const isJsonString = (str: string) => {
+    try {
+      return typeof JSON.parse(str) === 'object';
+    } catch (e) {
+      return false;
+    }
+  };
 
-  // 如果没有项目说明，则不渲染任何内容
+  // 获取最终要显示的描述文本
+  const getDescription = () => {
+    if (isJsonString(projectDescription)) {
+      const descObj = JSON.parse(projectDescription);
+      return descObj[locale] || descObj['en'] || '';
+    }
+    return projectDescription;
+  };
+
+  const localizedDescription = getDescription();
+
   if (!localizedDescription) {
     return null;
   }
