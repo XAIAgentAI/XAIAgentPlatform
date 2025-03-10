@@ -9,10 +9,13 @@ interface InputComponentProps {
   isLoading: boolean;
   userName: string | null;
   handleSubmit: (e: React.FormEvent) => any;
+  conversations: any;
+  setIsNew: any;
+  agentId: any;
 }
 
 
-const InputComponent: React.FC<InputComponentProps> = ({ userName, setUserStatus, input, setInput, isLoading, handleSubmit }) => {
+const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conversations, userName, setUserStatus, input, setInput, isLoading, handleSubmit }) => {
   // 确定发送按钮是否可点击
   const isSubmitEnabled = !isLoading && input.trim() !== '';
 
@@ -24,6 +27,9 @@ const InputComponent: React.FC<InputComponentProps> = ({ userName, setUserStatus
       }, 1000);
       e.preventDefault(); // 阻止表单提交
       return;
+    }
+    if(conversations[agentId]?.length > 0){
+      setIsNew("yes");
     }
     handleSubmit(e);
   };

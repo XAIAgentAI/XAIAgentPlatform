@@ -25,7 +25,7 @@ interface MessagesComponentProps {
 
 async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
   const url = `/api/chat/${agentId}/messages`;
-  setIsNew("true");
+  setIsNew("yes");
   // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
     const newConversations = { ...prev };
@@ -39,7 +39,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
 
   useEffect(() => {
     setMessages(conversations[agentId] || []);
-  }, [conversations, agentId]);
+  }, [conversations[agentId]]);  
 
   // 自动滚动到最新消息
   useEffect(() => {

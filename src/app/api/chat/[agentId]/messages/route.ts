@@ -41,7 +41,7 @@ export async function GET(
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const { user } = await request.json();
+  const user = request.nextUrl.searchParams.get('user'); // 从URL参数中获取用户信息
   
   console.log(chatStore);
   

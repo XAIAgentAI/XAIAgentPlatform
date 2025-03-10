@@ -98,51 +98,7 @@ export default function ChatPage() {
       ]
     }
   };
-
-  // 获取历史消息
-  useEffect(() => {
-    if (agentId && userName) {
-      console.log(userName)
-      fetchMessages();
-    }
-  }, [agentId, userName]);
   
-  const fetchMessages = async () => {
-    if (!agentId || !userName) return;
-
-    try {
-      const response = await fetch(`/api/chat/${agentId}/messages`, {
-        headers: { 'Content-Type': 'application/json' },
-        method: 'GET',
-        body: JSON.stringify({ user: userName }), // 手动添加user参数
-      });
-      
-      const data: Sentence[] = await response.json();
-      
-      // 将后端Sentence数组转换为前端Message数组
-      const messages: Message[] = data.map((sentence: Sentence) => ({
-        id: `${sentence.convid}-${Date.now()}`, // 使用convid和当前时间戳确保唯一性
-        role: sentence.user ? 'user' : 'assistant',
-        content: sentence.user || sentence.assistant || '', // 确保content字段不为undefined
-        timestamp: new Date().toISOString(),
-        convid: sentence.convid
-      }));
-
-      // 找到最大的 convid
-      const maxConvid = data.reduce((max, sentence) => {
-        const convidNumber = Number(sentence.convid);
-        return Math.max(max, convidNumber);
-      }, 0);
-
-      // 更新 convid 状态
-      setConvid(String(maxConvid));
-      
-      setConversations(prev => ({ ...prev, [agentId]: messages }));
-    } catch (error) {
-      console.error('Failed to fetch messages:', error);
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || !userName) return;
@@ -160,6 +116,7 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
+      console.log(isNew);
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -181,6 +138,7 @@ export default function ChatPage() {
       console.error('Failed to send message:', error);
     } finally {
       setIsLoading(false);
+      setIsNew("no");
     }
   };
 
@@ -191,7 +149,7 @@ export default function ChatPage() {
 
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
-      <SideBar conversations={conversations} setUserName={setUserName} userName={userName}/>
+      <SideBar conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} setUserName={setUserName} userName={userName}/>
       {!conversations[agentId]?.length && (
         <HeaderComponent 
           userName={userName}
@@ -210,7 +168,7 @@ export default function ChatPage() {
         />
       )}
       {!userStatus && (
-        <div className="fixed w-[220px] top-[100px] right-[-100px] bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+        <div className="border-2 border-solid border-stone-700 fixed w-[220px] top-[100px] right-[-100px] bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
           <p className="text-center h-[24px]">Please Signup/Login First</p>
         </div>
       )}
@@ -224,7 +182,10 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />
       <InputComponent 
+        conversations={conversations}
+        setIsNew={setIsNew}
         input={input} 
+        agentId={agentId}
         setInput={setInput} 
         setUserStatus={setUserStatus}
         userName={userName}
