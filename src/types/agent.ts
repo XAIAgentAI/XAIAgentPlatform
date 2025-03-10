@@ -30,6 +30,7 @@ export interface LocalAgent {
   rating: number;
   usageCount: number;
   marketCap: string;
+  marketCapTokenNumber?: number;
   change24h: string;
   volume24h: string;
   creatorId: string;

@@ -35,6 +35,7 @@ export interface LocalAgent {
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
   projectDescription?: string;
+  marketCapTokenNumber?: number;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -70,6 +71,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
     totalSupply: 100000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "Help me create an AI Agent",
       "What functions do you have?",
@@ -133,7 +135,8 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574id",
-    totalSupply: 100000000000,
+    totalSupply: 10000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "I want to generate a vintage style photo. Can you help me design the style and background",
       "Can I adjust my expression and posture in this photo?",

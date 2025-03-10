@@ -78,6 +78,7 @@ export async function GET(request: Request) {
         holdersCount: item.holdersCount,
         volume24h: item.volume24h,
         marketCap: item.marketCap,
+        marketCapTokenNumber: item.marketCapTokenNumber ? Number(item.marketCapTokenNumber) : null,
         change24h: item.change24h,
         type: item.type,
         socialLinks: item.socialLinks,
