@@ -173,7 +173,7 @@ const Navbar = () => {
   // 在UI中显示钱包状态
   const getWalletDisplayStatus = () => {
     if (!mounted) return t('wallet.connect');
-    
+
     if (status === 'connecting' && !isTimeout && isManualConnecting) {
       return t('wallet.connecting');
     }
@@ -238,7 +238,7 @@ const Navbar = () => {
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary"
             aria-label={t('accessibility.walletIcon')}
           >
-             {mounted ? (
+            {mounted ? (
               status === 'connecting' && !isTimeout && isManualConnecting ? (
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : isConnected ? (
@@ -356,7 +356,7 @@ const Navbar = () => {
             <Button
               className="h-[38.50px]"
               onClick={handleWalletClick}
-              disabled={mounted && status === 'connecting'}
+              disabled={mounted && status === 'connecting' && isManualConnecting === true}
             >
               {getWalletDisplayStatus()}
             </Button>
