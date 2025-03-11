@@ -3,7 +3,7 @@ import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
 
-const SUBGRAPH_URL = 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
+const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "http://8.214.55.62:8022/subgraphs/name/ianlapham/uniswap-v3-test" : 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
 export const DBC_TOKEN_ADDRESS = "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
 export const XAA_TOKEN_ADDRESS = "0x16d83f6b17914a4e88436251589194ca5ac0f452";
 
@@ -340,6 +340,8 @@ interface TokenPriceInfo {
   usdPrice?: number;
   priceChange24h?: number; // 24小时价格变化百分比
   lp?: number; // LP 数量
+  targetTokenAmountLp?: number; // 目标代币LP数量
+  baseTokenAmountLp?: number; // 基础代币LP数量
 }
 
 // 批量获取代币价格
@@ -707,6 +709,10 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             parseFloat(pool.totalValueLockedToken0 || '0') :
             parseFloat(pool.totalValueLockedToken1 || '0');
 
+          const targetTokenAmount = !targetTokenIsToken0 ?
+            parseFloat(pool.totalValueLockedToken1 || '0') :
+            parseFloat(pool.totalValueLockedToken0 || '0');
+
           // 1STID = 0.13 XAA = 0.13XAA * 0.02048 = 0.0026624 DBC = 0.0026624 DBC * 0.001981 = 0.00000527344 USDT
 
 
@@ -725,7 +731,9 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             tvl: parseFloat(tokenData.totalValueLockedUSD || '0'),
             volume24h: Number(volume24h.toFixed(2) * usdPrice),
             priceChange24h: Number(calculatePriceChange(currentPrice, price24hAgo).toFixed(2)),
-            lp
+            lp,
+            targetTokenAmountLp: Number((targetTokenAmount).toFixed(2)),
+            baseTokenAmountLp: Number((baseTokenAmount).toFixed(2)),
           };
         } catch (error) {
           console.error(`处理代币 ${token.symbol} 数据时出错:`, error);
@@ -746,7 +754,9 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           tvl: 0,
           volume24h: 0,
           priceChange24h: 0,
-          lp: 0
+          lp: 0,
+          targetTokenAmountLp: 0,
+          baseTokenAmountLp: 0,
         };
       }
     });

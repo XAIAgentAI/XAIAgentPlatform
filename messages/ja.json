@@ -104,7 +104,6 @@
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
-
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -186,7 +185,16 @@
     "approveWaitingConfirm": "承認の確認を待っています",
     "approveSuccess": "承認が完了しました",
     "approveFailed": "承認に失敗しました。もう一度お試しください",
-    "copy": "コピー"
+    "copy": "コピー",
+    "copied": "コピーしました",
+
+    "lpPoolData": "流動性プールデータ",
+    "iaoCompletedData": "IAOが終了しました。完了データ",
+    "iaoReleasedAmount": "IAOで配布された{symbol}の数量",
+    "iaoParticipatedAmount": "IAOに参加した{symbol}の数量",
+    "currentLpPoolData": "現在のLPプールデータ",
+    "lpPoolTokenAmount": "LPプールの{symbol}数量",
+    "lpPoolBaseAmount": "LPプールの{symbol}数量"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",

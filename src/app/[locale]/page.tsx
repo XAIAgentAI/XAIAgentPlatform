@@ -12,8 +12,6 @@ export default function Home() {
   const [agents, setAgents] = useState<LocalAgent[]>([])
   const [loading, setLoading] = useState(true)
 
-
-
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {
@@ -30,7 +28,6 @@ export default function Home() {
 
         // 更新价格信息
         agents = await updateAgentsWithPrices(agents);
-
 
         // 更新代币持有者信息
         if (tokens.length > 0) {

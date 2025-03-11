@@ -703,10 +703,10 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO coming soon",
-    statusJA: "IAO 近日公開",
-    statusKO: "IAO 출시 예정",
-    statusZH: "IAO 即将公布",
+    status: "IAO ongoing",
+    statusJA: "IAO 進行中",
+    statusKO: "IAO 진행중",
+    statusZH: "IAO 进行中",
     description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
 
 DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.

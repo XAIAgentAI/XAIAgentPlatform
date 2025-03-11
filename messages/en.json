@@ -104,7 +104,6 @@
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
     "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
-
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -186,7 +185,16 @@
     "approveWaitingConfirm": "Waiting for authorization confirmation",
     "approveSuccess": "Authorization successful",
     "approveFailed": "Authorization failed, please try again",
-    "copy": "Copy"
+    "copy": "Copy",
+    "copied": "Copied",
+
+    "lpPoolData": "Liquidity Pool Data",
+    "iaoCompletedData": "IAO has ended, completed data",
+    "iaoReleasedAmount": "IAO Released {symbol} Amount",
+    "iaoParticipatedAmount": "IAO Participated {symbol} Amount",
+    "currentLpPoolData": "Current LP Pool Data",
+    "lpPoolTokenAmount": "LP Pool {symbol} Amount",
+    "lpPoolBaseAmount": "LP Pool {symbol} Amount"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

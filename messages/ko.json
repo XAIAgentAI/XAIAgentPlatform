@@ -104,7 +104,6 @@
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공"
-
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -186,7 +185,15 @@
     "approveWaitingConfirm": "승인 확인 대기 중",
     "approveSuccess": "승인이 완료되었습니다",
     "approveFailed": "승인에 실패했습니다. 다시 시도해주세요",
-    "copy": "복사"
+    "copy": "복사",
+    "copied": "복사됨",
+    "lpPoolData": "유동성 풀 데이터",
+    "iaoCompletedData": "IAO가 종료되었습니다. 완료된 데이터",
+    "iaoReleasedAmount": "IAO 배포된 {symbol} 수량",
+    "iaoParticipatedAmount": "IAO 참여한 {symbol} 수량",
+    "currentLpPoolData": "현재 LP 풀 데이터",
+    "lpPoolTokenAmount": "LP 풀의 {symbol} 수량",
+    "lpPoolBaseAmount": "LP 풀의 {symbol} 수량"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",

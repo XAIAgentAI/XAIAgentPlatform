@@ -32,7 +32,12 @@ export function AgentDetail({ id }: AgentDetailProps) {
       try {
         setIsLoading(true);
         const res = await agentAPI.getAgentById(parseInt(id)) as unknown as ApiResponse<LocalAgent>;
+
+        console.log("fetchAgent res", res);
+        const agent = await agentAPI.getAgentById(parseInt(id));
         if(res.code === 200 && res.data){
+          console.log("res.data1", res.data);
+          
           setAgent(res.data);
         }
         
