@@ -688,7 +688,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     id: 3,
     name: "DeepLink",
     tokenAddress: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
-    iaoContractAddress: "IAO：0xcc6c5b583dd03a900dbf850449d50cec8833273f",
+    iaoContractAddress: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
     tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
     iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
 
