@@ -40,6 +40,7 @@ export const transformToLocalAgent = (item: any): LocalAgent => ({
   iaoContractAddressTestnet: item.iaoContractAddressTestnet || '',
   totalSupply: item.totalSupply || 0,
   marketCapTokenNumber: item.marketCapTokenNumber || 0,
+  iaoTokenAmount: item.iaoTokenAmount || 0,
 });
 
 // 更新代理列表的代币持有者信息
@@ -92,7 +93,7 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
         
         return {
           ...agent,
-          marketCap: `$${formatNumber(usdPrice * (agent.marketCapTokenNumber || 0))}`,
+          marketCap: `$${formatNumber(usdPrice * (agent.totalSupply || 0))}`,
           tvl: `$${formatNumber(tokenSwapInfo.tvl || 0)}`,
           volume24h: `$${formatNumber(tokenSwapInfo.volume24h || 0)}`,
           price: `$${formatNumber(usdPrice, 8)}`,

@@ -84,6 +84,7 @@ export async function GET(request: Request) {
         socialLinks: item.socialLinks,
         tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress,
         iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
+        iaoTokenAmount: item.iaoTokenAmount ? Number(item.iaoTokenAmount) : null,
       }))
       .sort((a, b) => Number(a.id) - Number(b.id));
 

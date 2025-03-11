@@ -36,6 +36,7 @@ export interface LocalAgent {
   iaoContractAddressTestnet?: string;
   projectDescription?: string;
   marketCapTokenNumber?: number;
+  iaoTokenAmount?: number;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -102,12 +103,14 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       zh: "1. XAA 总供应量：1000亿\n2. 20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。\n3. 在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。\n4. IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。",
       ja: "1. 総供給量：1000億 XAA\n2. トークンの20%は IAO を通じて販売され、$DBC のみを受け付けます。投資家は $DBC 投資額に比例して $XAA を受け取ります。\n3. 14日間の IAO 期間中、$DBC の50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーン流動性プールに永続的に割り当てられます。\n4. IAO 終了後、$XAA と $DBC の取引ペアが DBCSwap に即時に設立され、$XAA の自由取引が可能になります。",
       ko: "1. 총 공급량: 1000억 XAA\n2. 토큰의 20%는 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자 비율에 따라 $XAA를 받게 됩니다.\n3. 14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 영구적으로 할당됩니다.\n4. IAO 종료 후, $XAA와 $DBC 거래쌍이 DBCSwap에 즉시 설립되어 $XAA의 자유로운 거래가 가능해집니다."
-    })
+    }),
+    iaoTokenAmount: 20000000000
 
   },
   {
     id: 2,
     name: "StyleID",
+    iaoTokenAmount: 10000000000,
 
     tokenAddress: "0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965",
     iaoContractAddress: "0xc21155334688e2c1cf89d4ab09d38d30002717dd",
@@ -135,7 +138,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574id",
-    totalSupply: 10000000000,
+    totalSupply: 100000000000,
     marketCapTokenNumber: 100000000000,
     useCases: [
       "I want to generate a vintage style photo. Can you help me design the style and background",
@@ -221,6 +224,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 12,
     name: "FaceSwap",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/FaceSwap.png",
     symbol: "FASW",
@@ -272,6 +276,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 4,
     name: "PicSpan",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/PicSpan.png",
     symbol: "PIS",
@@ -323,6 +328,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 5,
     name: "LogoLift",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png",
     symbol: "LOGO",
@@ -374,6 +380,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 6,
     name: "LiveEmoji",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LiveEmoji.png",
     symbol: "LEMO",
@@ -425,6 +432,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 7,
     name: "Qreator",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Qreator.png",
     symbol: "QREA",
@@ -476,6 +484,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 8,
     name: "Oldify",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Oldify.png",
     symbol: "OLD",
@@ -527,6 +536,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 9,
     name: "SuperPixel",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperPixel.png",
     symbol: "SPIX",
@@ -629,7 +639,8 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "一幅写实的雪豹野生动物肖像"
     ],
     socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
-    chatEntry: "https://app.superimage.ai"
+    chatEntry: "https://app.superimage.ai",
+    iaoTokenAmount: 1000000000
   },
 
   {
@@ -681,7 +692,8 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "总结 DecentralGPT 和 ChatGPT 的区别"
     ],
     socialLinks: "https://x.com/DecentralGPT, https://t.me/DecentralGPT, https://medium.com/@DecentralGPT",
-    chatEntry: "https://www.degpt.ai"
+    chatEntry: "https://www.degpt.ai",
+    iaoTokenAmount: 5000000000
   },
 
   {
@@ -889,7 +901,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "记住以下内容：xxxxx"
     ],
     socialLinks: "https://x.com/XPersonity",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 14,
@@ -940,7 +953,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "知名人士发行的正规代币即时通知"
     ],
     socialLinks: "https://x.com/ASIXTAI",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 15,
@@ -991,7 +1005,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "显示AI的交易历史"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 17,
@@ -1042,7 +1057,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "设置空投活动"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 18,
@@ -1093,7 +1109,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "接收每日匹配推荐"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 19,
@@ -1144,7 +1161,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "生成项目X的综合报告"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 20,
@@ -1195,7 +1213,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "实时翻译会议"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 21,
@@ -1246,6 +1265,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "获取个性化风格推荐"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
 ];

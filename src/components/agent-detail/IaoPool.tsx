@@ -279,7 +279,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 {t('iaoReleasedAmount', { symbol: agent.symbol })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
-                {agent.totalSupply?.toLocaleString()}
+                {Number(agent.iaoTokenAmount)?.toLocaleString()}
               </span>
             </div>
 
@@ -318,96 +318,103 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
 
 
-          {/* 募资结束后，Claim按钮 */}
-          {(isIAOEnded && isConnected) ? (
-            <Button
-              className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
-              onClick={async () => {
-                try {
-                  const result: any = await claimRewards();
-                  if (result?.success) {
-                    toast({
-                      title: t('claimSuccess'),
-                      description: (
-                        <div className="space-y-2">
-                          <p>{t('tokenSentToWallet')}</p>
-                          <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
-                          <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
-                          <div className="relative">
-                            <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
-                              {agent.tokenAddress}
-                            </code>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="absolute right-2 top-1/2 -translate-y-1/2"
-                              onClick={() => {
-                                if (agent.tokenAddress) {
-                                  navigator.clipboard.writeText(agent.tokenAddress);
-                                  toast({
-                                    description: t('copied'),
-                                    duration: 2000,
-                                  });
-                                }
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="mr-1"
-                              >
-                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                              </svg>
-                              {t('copy')}
-                            </Button>
-                          </div>
-                        </div>
-                      ),
-                    });
-                  }
-                } catch (error: any) {
-                  toast({
-                    title: t('error'),
-                    description: error.message || t('stakeFailed'),
-                  });
-                }
-              }}
-              disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
-            >
-              {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
-            </Button>
-          ) : <></>}
+          {
+            agent.symbol === 'XAA' ? (<>
+            </>) :
+              // ({/* 募资结束后，Claim按钮 */ }
+              (isIAOEnded && isConnected) ? (
+                <>
+                  <Button
+                    className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+                    onClick={async () => {
+                      try {
+                        const result: any = await claimRewards();
+                        if (result?.success) {
+                          toast({
+                            title: t('claimSuccess'),
+                            description: (
+                              <div className="space-y-2">
+                                <p>{t('tokenSentToWallet')}</p>
+                                <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
+                                <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
+                                <div className="relative">
+                                  <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
+                                    {agent.tokenAddress}
+                                  </code>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                                    onClick={() => {
+                                      if (agent.tokenAddress) {
+                                        navigator.clipboard.writeText(agent.tokenAddress);
+                                        toast({
+                                          description: t('copied'),
+                                          duration: 2000,
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="14"
+                                      height="14"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      className="mr-1"
+                                    >
+                                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                                    </svg>
+                                    {t('copy')}
+                                  </Button>
+                                </div>
+                              </div>
+                            ),
+                          });
+                        }
+                      } catch (error: any) {
+                        toast({
+                          title: t('error'),
+                          description: error.message || t('stakeFailed'),
+                        });
+                      }
+                    }}
+                    disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
+                  >
+                    {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
+                  </Button>
 
-          {/* 募资结束后，投资数量统计个人信息 */}
-          {!!userStakeInfo.userDeposited && (
-            <div className="space-y-2 mt-4">
-              <p className="text-sm text-muted-foreground">
-                {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-                <span className="text-[#F47521] ml-1">
-                  {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
-                </span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {userStakeInfo.hasClaimed ? (
-                  <>
-                    {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
-                  </>
-                ) : (
-                  <>
-                    {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
-                  </>
-                )}
-              </p>
-            </div>
-          )}
+                  {/* 募资结束后，投资数量统计个人信息 */}
+                  {!!userStakeInfo.userDeposited && (
+                    <div className="space-y-2 mt-4">
+                      <p className="text-sm text-muted-foreground">
+                        {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                        <span className="text-[#F47521] ml-1">
+                          {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                        </span>
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {userStakeInfo.hasClaimed ? (
+                          <>
+                            {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                          </>
+                        ) : (
+                          <>
+                            {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : <></>}
+
+
         </>
       )
         :
