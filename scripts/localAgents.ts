@@ -830,11 +830,25 @@ AI Agent 驱动的智能游戏体验：
     //   日文电报： https://t.me/DeepLinkJapan
     socialLinks: "https://x.com/DeepLinkGlobal, https://x.com/DeepLinkJapan, https://t.me/deeplinkglobal, https://www.youtube.com/@deeplinkglobal, https://t.me/DeepLinkJapan",
     chatEntry: "None",
-    projectDescription: `1. $DLC总供应量：1000亿。
-2. 5000万枚的$DLC将通过IAO销售,仅接受$XAA,
-投资者将根据其$XAA投资比例获得$DLC。
+    projectDescription: JSON.stringify({
+      'zh': `1. $DLC总供应量：1000亿。
+2. 5000万枚的$DLC将通过IAO销售,仅接受$XAA,投资者将根据其$XAA投资比例获得$DLC。
 3. 在为期7天的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
 4. IAO 结束后，1000万枚$DLC和$XAA将立即在DBCSwap上建立流动性池，实现$DLC的自由交易`,
+      'en': `1. $DLC total supply: 100 billion.
+2. 50 million $DLC will be sold through IAO, only accepting $XAA.Investors will receive $DLC based on their $XAA investment ratio.
+3. After 7 days of IAO, 95% of $XAA will be allocated to the on-chain liquidity pool, never revoked, and the liquidity LP certificate will be sent to the black hole address. 5% of $XAA will be destroyed. 
+4. After IAO, 10 million $DLC and $XAA will be immediately listed on DBCSwap, enabling free trading of $DLC.`,
+      'ja': `1. $DLC総供給量：1000億。
+2. 5000万枚の$DLCはIAOで販売され、$XAAのみを受け入れます。投資家は、$XAAの投資比率に応じて$DLCを受け取ります。
+3. IAO終了後、7日間で95%の$XAAがオンチェーン流動性プールに割り当てられ、流動性LP証券がブラックホールアドレスに送信されます。5%の$XAAは破壊されます。
+4. IAO終了後、1000万枚の$DLCと$XAAはすぐにDBCSwapで流動性プールを作成し、$DLCの自由取引を可能にします。`,
+      'ko': `1. $DLC 총 공급량: 1000억.
+2. 5000만 개의 $DLC가 IAO를 통해 판매될 것입니다. 단, $XAA만 받습니다.
+3. IAO 종료 후 7일 동안 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않고, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
+4. IAO 종료 후 1000만 개의 $DLC와 $XAA는 즉시 DBCSwap에 상장되어 $DLC의 자유 거래를 가능하게 합니다.`,
+    })
+    
   },
   {
     id: 13,

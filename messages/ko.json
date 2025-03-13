@@ -296,7 +296,8 @@
     "loading": "로딩 중...",
     "error": "차트 데이터 로딩 오류",
     "retry": "다시 시도",
-    "noData": "데이터 없음"
+    "noData": "데이터 없음",
+    "waitForIoComplete": "IAO 종료 후 거래가 시작되면 가격 추이가 표시됩니다"
   },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",

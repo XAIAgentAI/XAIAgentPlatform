@@ -314,6 +314,7 @@
     "loading": "加载中...",
     "error": "加载图表数据失败",
     "retry": "重试",
-    "noData": "暂无数据"
+    "noData": "暂无数据",
+    "waitForIoComplete": "IAO 结束并开始交易后将显示价格走势"
   }
 } 

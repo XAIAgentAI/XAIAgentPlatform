@@ -552,7 +552,9 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     return (
       <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
         <div className="text-muted-foreground text-center">
-          <p>{t('noData')}</p>
+          {/* <p>{t('noData')}</p> */}
+          {t('waitForIoComplete')}
+
         </div>
       </div>
     );

@@ -311,6 +311,7 @@
     "loading": "Loading...",
     "error": "Error loading chart data",
     "retry": "Retry",
-    "noData": "No data available"
+    "noData": "No data available",
+    "waitForIoComplete": "Price trend will be available after IAO ends and trading begins"
   }
 }

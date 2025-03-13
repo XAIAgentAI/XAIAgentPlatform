@@ -319,7 +319,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
 
           {
-            agent.symbol === 'XAA' ? (<>
+            userStakeInfo.hasClaimed ? (<>
             </>) :
               // ({/* 募资结束后，Claim按钮 */ }
               (isIAOEnded && isConnected) ? (
