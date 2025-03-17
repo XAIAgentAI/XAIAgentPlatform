@@ -156,7 +156,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
           <div className="overflow-y-auto">
             {searchResults.map((msg) => (
               <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-neutral-900 w-full text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                {msg.content}
+                {msg.content.substring(0, 20)+"..."}
               </div>
             ))}
           </div>
@@ -178,7 +178,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-neutral-900 w-full text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                  {msg.content}
+                  {msg.content.substring(0,20)+"..."}
                 </div>
               ))}
             </div>

@@ -136,11 +136,7 @@ export async function GET(
   }
 
   let chat = userChat.chat;
-
-  if (typeof chat === 'string') {
-    chat = JSON.parse(chat);
-  }
-
+  
   if (!chat[agentId]) {
     return NextResponse.json([]);
   }
@@ -148,39 +144,36 @@ export async function GET(
   return NextResponse.json(chat[agentId]);
 }
 
-// 发送新消息
 export async function POST(
   request: NextRequest,
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
   const { message, password, user, thing, isNew } = await request.json();
-  
-  if (thing === 'signup' && password) {
-    const existingUser = await getUserRecord(user);
-    
-    if (!existingUser) {
-      await insertUserRecord(user, password, {});
-      return NextResponse.json({ success: true, message: 'User registered successfully.' });
-    }
-    return NextResponse.json({ success: false, message: 'User already exists.' });
-  } else if (thing === "login" && password) {
-    const existingUser = await getUserRecord(user);
-    if (existingUser && existingUser.password === password) {
-      return NextResponse.json({ success: true, message: 'Login successful.', chat: chat[agentId] || [] });
-    } else {
-      return NextResponse.json({ success: false, message: 'Invalid username or password.' });
-    }
-  }
 
+  // 获取用户记录
   const userChat = await getUserRecord(user);
   if (!userChat) {
+    if (thing === 'signup' && password) {
+      await insertUserRecord(user, password, { chat: {} });
+      return NextResponse.json({ success: true, message: 'User registered successfully.' });
+    }
     return NextResponse.json({ error: 'User not found.' });
   }
 
   let chat = userChat.chat;
   if (!chat[agentId]) {
     chat[agentId] = [];
+  }
+
+  if (thing === 'signup' && password) {
+    return NextResponse.json({ success: false, message: 'User already exists.' });
+  } else if (thing === "login" && password) {
+    if (userChat.password === password) {
+      return NextResponse.json({ success: true, message: 'Login successful.', chat: chat[agentId] || [] });
+    } else {
+      return NextResponse.json({ success: false, message: 'Invalid username or password.' });
+    }
   }
 
   let maxConvid = 0;
