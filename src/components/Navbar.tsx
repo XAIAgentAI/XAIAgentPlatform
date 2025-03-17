@@ -17,11 +17,13 @@ import { useRouter, usePathname } from "next/navigation";
 import { Link } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
 import { TokenBalance } from "./ui-custom/token-balance"
+import { useDisconnect } from 'wagmi';
 
 
 const Navbar = () => {
   const locale = useLocale();
   const pathname = usePathname();
+  const { disconnect } = useDisconnect();
 
   const t = useTranslations();
   const { toast } = useToast()
@@ -34,6 +36,8 @@ const Navbar = () => {
   const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const router = useRouter()
   const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const [isManualConnecting, setIsManualConnecting] = useState(false);
 
   const navigationLinks = [
     {
@@ -74,19 +78,18 @@ const Navbar = () => {
 
   // 添加连接超时处理
   useEffect(() => {
-    console.log('status', status)
-    if (status === 'connecting') {
-      // 如果连接时间超过10秒，强制重置状态
+    if (status === 'connecting' && !isTimeout && isManualConnecting) {
+      // 如果连接时间超过8秒，强制重置状态
       const timeout = setTimeout(() => {
         if (status === 'connecting') {
+          setIsTimeout(true);
+          setIsManualConnecting(false);
           toast({
             description: t('wallet.connectionTimeout'),
             variant: "destructive"
           });
-          // 重新打开钱包连接弹窗
-          open({ view: 'Connect' });
-          // 断开连接，会自动把status设置为disconnected
-
+          // 断开连接
+          disconnect();
         }
       }, 8000);
 
@@ -98,7 +101,13 @@ const Navbar = () => {
         }
       };
     }
-  }, [status,]);
+
+    // 当状态不是connecting时，重置状态
+    if (status !== 'connecting') {
+      setIsTimeout(false);
+      setIsManualConnecting(false);
+    }
+  }, [status, disconnect, t, toast, isTimeout, isManualConnecting]);
 
   // 优化钱包连接状态处理
   useEffect(() => {
@@ -108,6 +117,8 @@ const Navbar = () => {
         clearTimeout(connectingTimeout);
         setConnectingTimeout(null);
       }
+      setIsTimeout(false);
+      setIsManualConnecting(false);
       authenticate();
     }
   }, [address, connectingTimeout, authenticate]);
@@ -118,10 +129,14 @@ const Navbar = () => {
       open({ view: 'Account' });
     } else {
       // 如果当前状态是connecting，先重置状态
-      if (status === 'connecting' && connectingTimeout) {
-        clearTimeout(connectingTimeout);
-        setConnectingTimeout(null);
+      if (status === 'connecting') {
+        if (connectingTimeout) {
+          clearTimeout(connectingTimeout);
+          setConnectingTimeout(null);
+        }
+        setIsTimeout(false);
       }
+      setIsManualConnecting(true);
       open({ view: 'Connect' });
     }
     setIsMenuOpen(false);
@@ -158,8 +173,8 @@ const Navbar = () => {
   // 在UI中显示钱包状态
   const getWalletDisplayStatus = () => {
     if (!mounted) return t('wallet.connect');
-    
-    if (status === 'connecting') {
+
+    if (status === 'connecting' && !isTimeout && isManualConnecting) {
       return t('wallet.connecting');
     }
     if (address) {
@@ -223,8 +238,8 @@ const Navbar = () => {
             className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary"
             aria-label={t('accessibility.walletIcon')}
           >
-             {mounted ? (
-              status === 'connecting' ? (
+            {mounted ? (
+              status === 'connecting' && !isTimeout && isManualConnecting ? (
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : isConnected ? (
                 <div className="relative">
@@ -341,7 +356,7 @@ const Navbar = () => {
             <Button
               className="h-[38.50px]"
               onClick={handleWalletClick}
-              disabled={mounted && status === 'connecting'}
+              disabled={mounted && status === 'connecting' && isManualConnecting === true}
             >
               {getWalletDisplayStatus()}
             </Button>

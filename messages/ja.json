@@ -104,7 +104,6 @@
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
-
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -144,6 +143,7 @@
     "title": "IAOプール",
     "totalInPool": "IAOプール内の{symbol}の総量",
     "currentTotal": "IAOプール内の{symbol}の現在の総量",
+    "startCountdown": "開始までのカウントダウン",
     "endCountdown": "終了までのカウントダウン",
     "toBeAnnounced": "近日発表",
     "youSend": "送信する量",
@@ -180,11 +180,21 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "goToDbcswap": "DBCSwapでXAAを購入",
+    "goToDbcswap": "DBCSwapで{symbol}を購入",
     "approveTransaction": "トークン承認",
     "approveWaitingConfirm": "承認の確認を待っています",
     "approveSuccess": "承認が完了しました",
-    "approveFailed": "承認に失敗しました。もう一度お試しください"
+    "approveFailed": "承認に失敗しました。もう一度お試しください",
+    "copy": "コピー",
+    "copied": "コピーしました",
+
+    "lpPoolData": "流動性プールデータ",
+    "iaoCompletedData": "IAOが終了しました。完了データ",
+    "iaoReleasedAmount": "IAOで配布された{symbol}の数量",
+    "iaoParticipatedAmount": "IAOに参加した{symbol}の数量",
+    "currentLpPoolData": "現在のLPプールデータ",
+    "lpPoolTokenAmount": "LPプールの{symbol}数量",
+    "lpPoolBaseAmount": "LPプールの{symbol}数量"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
@@ -356,6 +366,7 @@
     "loading": "読み込み中...",
     "error": "チャートデータの読み込みエラー",
     "retry": "再試行",
-    "noData": "データなし"
+    "noData": "データなし",
+    "waitForIoComplete": "IAO終了後、取引開始時に価格推移が表示されます"
   }
 }

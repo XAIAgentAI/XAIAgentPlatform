@@ -32,7 +32,12 @@ export function AgentDetail({ id }: AgentDetailProps) {
       try {
         setIsLoading(true);
         const res = await agentAPI.getAgentById(parseInt(id)) as unknown as ApiResponse<LocalAgent>;
+
+        console.log("fetchAgent res", res);
+        const agent = await agentAPI.getAgentById(parseInt(id));
         if(res.code === 200 && res.data){
+          console.log("res.data1", res.data);
+          
           setAgent(res.data);
         }
         
@@ -61,7 +66,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
             {agent && <IaoPool agent={agent} />}
           </div>
           {/* Agent信息卡片 */}
-          <AgentInfo agentId={id} />
+          <AgentInfo agent={agent as any} currentPrice={0} />
 
           {/* 对话启动器 */}
           {agent && <ConversationStarter agent={agent} />}

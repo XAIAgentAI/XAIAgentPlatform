@@ -65,6 +65,7 @@ async function main() {
           socialLinks: agent.socialLinks || '',
           symbol: agent.symbol,
           totalSupply: agent.totalSupply || 0,
+          marketCapTokenNumber: agent.marketCapTokenNumber || 0,
           chatEntry: agent.chatEntry || '',
           useCases: agent.useCases ? JSON.stringify(agent.useCases) : '',
           useCasesJA: agent.useCasesJA ? JSON.stringify(agent.useCasesJA) : '',
@@ -82,6 +83,7 @@ async function main() {
           tokenAddressTestnet: agent.tokenAddressTestnet || '',
           iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
           projectDescription: agent.projectDescription || '',
+          iaoTokenAmount: agent.iaoTokenAmount || 0,
         },
         create: {
           id: String(agent.id),
@@ -104,6 +106,7 @@ async function main() {
           socialLinks: agent.socialLinks || '',
           symbol: agent.symbol,
           totalSupply: agent.totalSupply || 0,
+          marketCapTokenNumber: agent.marketCapTokenNumber || 0,
           chatEntry: agent.chatEntry || '',
           useCasesJA: agent.useCasesJA ? JSON.stringify(agent.useCasesJA) : '',
           useCasesKO: agent.useCasesKO ? JSON.stringify(agent.useCasesKO) : '',
@@ -120,6 +123,7 @@ async function main() {
           tokenAddressTestnet: agent.tokenAddressTestnet || '',
           iaoContractAddressTestnet: agent.iaoContractAddressTestnet || '',
           projectDescription: agent.projectDescription || '',
+          iaoTokenAmount: agent.iaoTokenAmount || 0,
         },
       });
       console.log(`已同步代理 ${agent.name} (ID: ${agent.id})`);

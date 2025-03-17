@@ -648,6 +648,13 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       let claimableXAA = '0';
       let claimedAmount = '0';
 
+      console.log('totalDeposited', totalDeposited.toString());
+      console.log('userDeposited', userDeposited.toString());
+      console.log('totalReward', totalReward.toString());
+      console.log('hasClaimed', hasClaimed.toString());
+      console.log('claimableXAA', claimableXAA.toString());
+      console.log('claimedAmount', claimedAmount.toString());
+
       if (totalDeposited !== BigInt(0)) {
         // Calculate user's XAA amount: (user investment / total investment) * total rewards
         const calculatedAmount = (userDeposited * totalReward) / totalDeposited;

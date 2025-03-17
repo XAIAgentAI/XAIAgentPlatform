@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { LocalAgent } from '@/types/agent';
+import { getBatchTokenPrices } from './swapService';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL + '/api' || 'http://localhost:3000/api';
 
@@ -38,7 +39,7 @@ export const agentAPI = {
     const { page = 1, pageSize = 20, searchKeyword, category, status } = params;
 
     console.log('getAllAgents params', params);
-    
+
     const queryParams = new URLSearchParams({
       page: page.toString(),
       pageSize: pageSize.toString(),
@@ -53,8 +54,40 @@ export const agentAPI = {
 
   // 获取单个 agent
   getAgentById: async (id: number): Promise<LocalAgent> => {
-    const response = await api.get(`/agents/${id}`);
-    return response.data;
+    const { data } = await api.get(`/agents/${id}`);
+    console.log("response1", data);
+
+
+    // 获取池子数据
+    const poolsResponse = await getBatchTokenPrices([{
+      symbol: data.data.symbol,
+      address: data.data.tokenAddress,
+    }]);
+
+    const poolData = poolsResponse[data.data.symbol];
+
+
+    const res = {
+      data: {
+        ...data.data,
+        targetTokenAmountLp: poolData?.targetTokenAmountLp || 0,
+        baseTokenAmountLp: poolData?.baseTokenAmountLp || 0,
+      }
+    }
+
+    console.log("poolResponse", poolData, "res", res);
+
+
+
+
+    return {
+      ...data,
+      data: {
+        ...data.data,
+        ...poolData,
+        
+      }
+    }
   },
 
   // 获取实时价格数据

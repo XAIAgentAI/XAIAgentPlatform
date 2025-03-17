@@ -35,6 +35,8 @@ export interface LocalAgent {
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
   projectDescription?: string;
+  marketCapTokenNumber?: number;
+  iaoTokenAmount?: number;
 }
 
 export const localAgents: LocalAgent[] = [
@@ -70,6 +72,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     createdAt: "4 months ago",
     creatorAddress: "0x1C4C...F463a3",
     totalSupply: 100000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "Help me create an AI Agent",
       "What functions do you have?",
@@ -100,12 +103,14 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       zh: "1. XAA 总供应量：1000亿\n2. 20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。\n3. 在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。\n4. IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。",
       ja: "1. 総供給量：1000億 XAA\n2. トークンの20%は IAO を通じて販売され、$DBC のみを受け付けます。投資家は $DBC 投資額に比例して $XAA を受け取ります。\n3. 14日間の IAO 期間中、$DBC の50%はプロジェクトチームのエコシステム開発に、残りの50%はオンチェーン流動性プールに永続的に割り当てられます。\n4. IAO 終了後、$XAA と $DBC の取引ペアが DBCSwap に即時に設立され、$XAA の自由取引が可能になります。",
       ko: "1. 총 공급량: 1000억 XAA\n2. 토큰의 20%는 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자 비율에 따라 $XAA를 받게 됩니다.\n3. 14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 영구적으로 할당됩니다.\n4. IAO 종료 후, $XAA와 $DBC 거래쌍이 DBCSwap에 즉시 설립되어 $XAA의 자유로운 거래가 가능해집니다."
-    })
+    }),
+    iaoTokenAmount: 20000000000
 
   },
   {
     id: 2,
     name: "StyleID",
+    iaoTokenAmount: 10000000000,
 
     tokenAddress: "0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965",
     iaoContractAddress: "0xc21155334688e2c1cf89d4ab09d38d30002717dd",
@@ -122,17 +127,19 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO ongoing",
-    statusJA: "IAO 進行中",
-    statusKO: "IAO 진행중",
-    statusZH: "IAO 进行中",
+    // status: "IAO ongoing",
+    status: "Tradable",
+    statusJA: "トランザクション可能",
+    statusKO: "거래 가능",
+    statusZH: "可交易",
     description: "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
     descriptionZH: "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格。可实现兼具可控性与ID保持能力的无限风格写真与固定模板写真功能",
     descriptionKO: "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다.)컨트롤 및 ID 보존 기능을 갖춘 무제한 스타일링 및 고정 템플릿 포토 기능 제공",
     descriptionJA: "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）。制御性とID保持能力を兼ね備えた無限スタイル写真と固定テンプレート写真機能を実現できる",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574id",
-    totalSupply: 10000000000,
+    totalSupply: 100000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "I want to generate a vintage style photo. Can you help me design the style and background",
       "Can I adjust my expression and posture in this photo?",
@@ -170,7 +177,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. The team owns 30% of $STID, which begins unlocking after the IAO ends, with linear unlocking over 2000 days.
 
-6. 48% of $STID is generated through mining, halving every 4 years. In the first 4 years, 600 million $STID will be mined annually. Of the mined $STID, 40% is received immediately, and 60% is linearly unlocked over 120 days.
+6. 48% of $STID is generated through mining, halving every 4 years. In the first 4 years, 6 billion $STID will be mined annually. Of the mined $STID, 40% is received immediately, and 60% is linearly unlocked over 120 days.
 
 7. 1% of $STID will be airdropped to the first 10,000 holders of $XAA and $DBC, and 1% of $STID will be airdropped to holders of XAA node NFTs.`,
       zh: `1.$STID 总供应量：1000亿
@@ -183,7 +190,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5.团队拥有30%的$STID,IAO结束后开始解锁，分2000天线性解锁
 
-6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生6亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
+6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生60亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
 
 7.1%的$STID空投给$XAA和$DBC前10000名持有者，1%$STID空投给XAA的节点NFT持有者`,
       ja: `1. $STID 総供給量：1000億
@@ -196,7 +203,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. チームは$STIDの30%を所有し、IAO終了後に解除が始まり、2000日間にわたって線形解除されます。
 
-6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間6億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
+6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間60億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
 
 7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAのノードNFT保有者にエアドロップされます。`,
       ko: `1. $STID 총 공급량: 1000억
@@ -209,7 +216,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 5. 팀은 $STID의 30%를 소유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 잠금 해제됩니다.
 
-6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 6억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
+6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 60억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
 
 7. $STID의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, $STID의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다.`
     })
@@ -217,6 +224,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 12,
     name: "FaceSwap",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/FaceSwap.png",
     symbol: "FASW",
@@ -268,6 +276,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 4,
     name: "PicSpan",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/PicSpan.png",
     symbol: "PIS",
@@ -319,6 +328,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 5,
     name: "LogoLift",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png",
     symbol: "LOGO",
@@ -370,6 +380,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 6,
     name: "LiveEmoji",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LiveEmoji.png",
     symbol: "LEMO",
@@ -421,6 +432,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 7,
     name: "Qreator",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Qreator.png",
     symbol: "QREA",
@@ -472,6 +484,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 8,
     name: "Oldify",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/Oldify.png",
     symbol: "OLD",
@@ -523,6 +536,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 9,
     name: "SuperPixel",
+    iaoTokenAmount: 5000000000,
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/SuperPixel.png",
     symbol: "SPIX",
@@ -625,7 +639,8 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "一幅写实的雪豹野生动物肖像"
     ],
     socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
-    chatEntry: "https://app.superimage.ai"
+    chatEntry: "https://app.superimage.ai",
+    iaoTokenAmount: 1000000000
   },
 
   {
@@ -677,14 +692,20 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "总结 DecentralGPT 和 ChatGPT 的区别"
     ],
     socialLinks: "https://x.com/DecentralGPT, https://t.me/DecentralGPT, https://medium.com/@DecentralGPT",
-    chatEntry: "https://www.degpt.ai"
+    chatEntry: "https://www.degpt.ai",
+    iaoTokenAmount: 5000000000
   },
 
   {
     id: 3,
     name: "DeepLink",
     tokenAddress: "0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe",
-    iaoContractAddress: "",
+    iaoContractAddress: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
+    tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
+    iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
+
+
+
     avatar: "/logo/DeepLink.png",
     symbol: "DLC",
     type: "AI Agent",
@@ -694,10 +715,10 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO coming soon",
-    statusJA: "IAO 近日公開",
-    statusKO: "IAO 출시 예정",
-    statusZH: "IAO 即将公布",
+    status: "IAO ongoing",
+    statusJA: "IAO 進行中",
+    statusKO: "IAO 진행중",
+    statusZH: "IAO 进行中",
     description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
 
 DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.
@@ -777,6 +798,7 @@ AI Agent 驱动的智能游戏体验：
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
     totalSupply: 50000000,
+    marketCapTokenNumber: 50000000,
     useCases: [
       "Help me increase the volume a bit",
       "How to break the level of Wukong Huangfengling in the Black Myth",
@@ -801,8 +823,32 @@ AI Agent 驱动的智能游戏体验：
       "最近出来什么新的3A游戏",
       "GTA6什么时候发布？"
     ],
-    socialLinks: "",
-    chatEntry: "None"
+    // 英文推特： https://x.com/DeepLinkGlobal
+    //   日文推特：https://x.com/DeepLinkJapan
+    //   英文电报：https://t.me/deeplinkglobal 
+    //   youtube：https://www.youtube.com/@deeplinkglobal
+    //   日文电报： https://t.me/DeepLinkJapan
+    socialLinks: "https://x.com/DeepLinkGlobal, https://x.com/DeepLinkJapan, https://t.me/deeplinkglobal, https://www.youtube.com/@deeplinkglobal, https://t.me/DeepLinkJapan",
+    chatEntry: "None",
+    projectDescription: JSON.stringify({
+      'zh': `1. $DLC总供应量：1000亿。
+2. 5000万枚的$DLC将通过IAO销售,仅接受$XAA,投资者将根据其$XAA投资比例获得$DLC。
+3. 在为期7天的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
+4. IAO 结束后，1000万枚$DLC和$XAA将立即在DBCSwap上建立流动性池，实现$DLC的自由交易`,
+      'en': `1. $DLC total supply: 100 billion.
+2. 50 million $DLC will be sold through IAO, only accepting $XAA.Investors will receive $DLC based on their $XAA investment ratio.
+3. After 7 days of IAO, 95% of $XAA will be allocated to the on-chain liquidity pool, never revoked, and the liquidity LP certificate will be sent to the black hole address. 5% of $XAA will be destroyed. 
+4. After IAO, 10 million $DLC and $XAA will be immediately listed on DBCSwap, enabling free trading of $DLC.`,
+      'ja': `1. $DLC総供給量：1000億。
+2. 5000万枚の$DLCはIAOで販売され、$XAAのみを受け入れます。投資家は、$XAAの投資比率に応じて$DLCを受け取ります。
+3. IAO終了後、7日間で95%の$XAAがオンチェーン流動性プールに割り当てられ、流動性LP証券がブラックホールアドレスに送信されます。5%の$XAAは破壊されます。
+4. IAO終了後、1000万枚の$DLCと$XAAはすぐにDBCSwapで流動性プールを作成し、$DLCの自由取引を可能にします。`,
+      'ko': `1. $DLC 총 공급량: 1000억.
+2. 5000만 개의 $DLC가 IAO를 통해 판매될 것입니다. 단, $XAA만 받습니다.
+3. IAO 종료 후 7일 동안 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않고, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
+4. IAO 종료 후 1000만 개의 $DLC와 $XAA는 즉시 DBCSwap에 상장되어 $DLC의 자유 거래를 가능하게 합니다.`,
+    })
+    
   },
   {
     id: 13,
@@ -869,7 +915,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "记住以下内容：xxxxx"
     ],
     socialLinks: "https://x.com/XPersonity",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 14,
@@ -920,7 +967,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "知名人士发行的正规代币即时通知"
     ],
     socialLinks: "https://x.com/ASIXTAI",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 15,
@@ -971,7 +1019,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "显示AI的交易历史"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 17,
@@ -1022,7 +1071,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "设置空投活动"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 18,
@@ -1073,7 +1123,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "接收每日匹配推荐"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 19,
@@ -1124,7 +1175,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "生成项目X的综合报告"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 20,
@@ -1175,7 +1227,8 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "实时翻译会议"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
   {
     id: 21,
@@ -1226,6 +1279,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "获取个性化风格推荐"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: "None",
+    iaoTokenAmount: 5000000000
   },
 ];

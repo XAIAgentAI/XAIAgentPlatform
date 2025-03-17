@@ -104,7 +104,6 @@
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공"
-
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -144,6 +143,7 @@
     "title": "IAO 풀",
     "totalInPool": "IAO 풀의 총 {symbol} 수량",
     "currentTotal": "IAO 풀의 현재 총 {symbol} 수량",
+    "startCountdown": "시작까지 남은 시간",
     "endCountdown": "종료까지 남은 시간",
     "toBeAnnounced": "곧 발표",
     "youSend": "입금 수량",
@@ -180,11 +180,20 @@
     "transactionSent": "거래가 전송되었습니다",
     "waitForConfirmation": "확인을 기다려주세요",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공",
-    "goToDbcswap": "DBCSwap에서 XAA 구매",
+    "goToDbcswap": "DBCSwap에서 {symbol} 구매",
     "approveTransaction": "토큰 승인",
     "approveWaitingConfirm": "승인 확인 대기 중",
     "approveSuccess": "승인이 완료되었습니다",
-    "approveFailed": "승인에 실패했습니다. 다시 시도해주세요"
+    "approveFailed": "승인에 실패했습니다. 다시 시도해주세요",
+    "copy": "복사",
+    "copied": "복사됨",
+    "lpPoolData": "유동성 풀 데이터",
+    "iaoCompletedData": "IAO가 종료되었습니다. 완료된 데이터",
+    "iaoReleasedAmount": "IAO 배포된 {symbol} 수량",
+    "iaoParticipatedAmount": "IAO 참여한 {symbol} 수량",
+    "currentLpPoolData": "현재 LP 풀 데이터",
+    "lpPoolTokenAmount": "LP 풀의 {symbol} 수량",
+    "lpPoolBaseAmount": "LP 풀의 {symbol} 수량"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
@@ -287,7 +296,8 @@
     "loading": "로딩 중...",
     "error": "차트 데이터 로딩 오류",
     "retry": "다시 시도",
-    "noData": "데이터 없음"
+    "noData": "데이터 없음",
+    "waitForIoComplete": "IAO 종료 후 거래가 시작되면 가격 추이가 표시됩니다"
   },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",

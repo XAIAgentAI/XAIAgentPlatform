@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Countdown } from "../ui-custom/countdown";
 import { useStakeContract } from "@/hooks/useStakeContract";
 import { useToast } from "@/components/ui/use-toast";
@@ -20,7 +20,6 @@ import { useNetwork } from "@/hooks/useNetwork";
 const showIAOReal = "true"
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
-  console.log("agent", agent);
   // 检查必要的合约地址是否存在
   const iaoContractAddress = agent?.iaoContractAddress || '';
   const tokenAddress = agent?.tokenAddress || '';
@@ -220,6 +219,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserStakeInfo = async () => {
     if (!isAuthenticated) return;
     const info = await getUserStakeInfo();
+    console.log("fetchUserStakeInfo", info);
+
 
 
     setUserStakeInfo(info);
@@ -231,6 +232,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     fetchUserStakeInfo();
   }, [isAuthenticated, getUserStakeInfo,]);
 
+  const isIAOEnded = useMemo(() => {
+    return poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 24 * 60 * 60 * 1000;
+  }, [poolInfo]);
+
   return (
     <Card className="p-6">
 
@@ -239,9 +244,9 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           variant="outline"
           className="flex items-center gap-2"
           onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
-          aria-label={t('goToDbcswap')}
+          aria-label={t('goToDbcswap', { symbol: agent.symbol })}
         >
-          {t('goToDbcswap')}
+          {t('goToDbcswap', { symbol: agent.symbol })}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -262,182 +267,326 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       </div>
 
 
-      <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
 
-      <div className="space-y-4">
-        <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">
-            {agent.totalSupply?.toLocaleString()} {agent.symbol}
-          </span>
-        </div>
+      {isIAOEnded ? (
+        // 募资结束后，显示的池子数据
+        <>
+          <h2 className="text-xl font-bold mb-6">IAO已结束，完成的数据:</h2>
 
-        <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+          <div className="space-y-4">
+            <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
+              <span className="text-black whitespace-nowrap">
+                {t('iaoReleasedAmount', { symbol: agent.symbol })}:
+              </span>
+              <span className="font-semibold text-[#F47521] break-all">
+                {Number(agent.iaoTokenAmount)?.toLocaleString()}
+              </span>
+            </div>
+
+            <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
+              <span className="text-black whitespace-nowrap">
+                {t('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+              </span>
+              <span className="font-semibold text-[#F47521] break-all">
+                {Number(poolInfo?.totalDeposited)?.toLocaleString()}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold mb-4">{t('lpPoolData')}</h3>
+            <div className="space-y-4">
+              <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
+                <span className="text-black whitespace-nowrap">
+                  {t('lpPoolTokenAmount', { symbol: agent.symbol })}:
+                </span>
+                <span className="font-semibold text-[#F47521] break-all">
+                  {(agent as any).targetTokenAmountLp?.toLocaleString() || 0}
+                </span>
+              </div>
+
+              <div className="text-base flex flex-wrap items-center gap-2 bg-green-50 p-3 rounded-lg">
+                <span className="text-black whitespace-nowrap">
+                  {t('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                </span>
+                <span className="font-semibold text-[#F47521] break-all">
+                  {(agent as any).baseTokenAmountLp?.toLocaleString() || 0}
+                </span>
+              </div>
+            </div>
+          </div>
+
+
 
           {
-            poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
-              {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
-            </span>
-            ) :
-              <span className="font-semibold text-[#F47521] break-all">
-                0
-              </span>
-          }
-
-        </div>
-
-        <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
-          <span className="text-black whitespace-nowrap">{t('endCountdown')}:</span>
-          {poolInfo?.endTime ? (
-            isPoolInfoLoading || !poolInfo?.endTime ? (
-              <span className="font-semibold text-[#F47521] break-all">--</span>
-            ) : (
-              <Countdown
-                remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
-                className="font-semibold text-[#F47521] break-all"
-              />
-            )
-          ) : (
-            <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
-          )}
-        </div>
-
-        <div className="mt-8 p-6 bg-muted rounded-lg">
-
-          {(!poolInfo?.endTime || Date.now() < poolInfo.endTime * 1000) && (
-            <>
-              <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
-
-              <div className="flex items-center gap-4 mb-6">
-                <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
-                <div className="flex-1 relative">
-                  <Input
-                    type="number"
-                    value={dbcAmount}
-                    onChange={handleInputChange}
-                    onKeyDown={(e) => {
-                      if (e.key === '-' || e.key === 'e') {
-                        e.preventDefault();
+            userStakeInfo.hasClaimed ? (<>
+            </>) :
+              // ({/* 募资结束后，Claim按钮 */ }
+              (isIAOEnded && isConnected) ? (
+                <>
+                  <Button
+                    className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+                    onClick={async () => {
+                      try {
+                        const result: any = await claimRewards();
+                        if (result?.success) {
+                          toast({
+                            title: t('claimSuccess'),
+                            description: (
+                              <div className="space-y-2">
+                                <p>{t('tokenSentToWallet')}</p>
+                                <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
+                                <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
+                                <div className="relative">
+                                  <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
+                                    {agent.tokenAddress}
+                                  </code>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                                    onClick={() => {
+                                      if (agent.tokenAddress) {
+                                        navigator.clipboard.writeText(agent.tokenAddress);
+                                        toast({
+                                          description: t('copied'),
+                                          duration: 2000,
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="14"
+                                      height="14"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      className="mr-1"
+                                    >
+                                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                                    </svg>
+                                    {t('copy')}
+                                  </Button>
+                                </div>
+                              </div>
+                            ),
+                          });
+                        }
+                      } catch (error: any) {
+                        toast({
+                          title: t('error'),
+                          description: error.message || t('stakeFailed'),
+                        });
                       }
                     }}
-                    min="0"
-                    max={agent.symbol === 'XAA' ? maxAmount : xaaBalance}
-                    step="any"
-                    className="pr-16"
-                    placeholder="00.00"
-                    disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !showIAOReal}
-                  />
-                  <button
-                    onClick={handleSetMaxAmount}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
+                    disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
                   >
-                    {t('maxButton')}
-                  </button>
-                </div>
-              </div>
+                    {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
+                  </Button>
+
+                  {/* 募资结束后，投资数量统计个人信息 */}
+                  {!!userStakeInfo.userDeposited && (
+                    <div className="space-y-2 mt-4">
+                      <p className="text-sm text-muted-foreground">
+                        {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                        <span className="text-[#F47521] ml-1">
+                          {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                        </span>
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {userStakeInfo.hasClaimed ? (
+                          <>
+                            {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                          </>
+                        ) : (
+                          <>
+                            {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : <></>}
 
 
-              {/* <div>showIAOReal: {showIAOReal}</div>
-              <div>isDepositPeriod: {String(isDepositPeriod)}</div>
-              <div>isStakeLoading: {String(isStakeLoading)}</div>
-              <div>isAuthenticated: {String(isAuthenticated)}</div>
-              <div>isIAOStarted: {String(isIAOStarted)}</div>
-              <div>isConnected: {String(isConnected)}</div> */}
+        </>
+      )
+        :
+        // 募资结束前，显示的池子数据
 
-              {showIAOReal === "true" ? (
-                <Button
-                  className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-                  onClick={handleStake}
-                  disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
-                >
-                  {!isIAOStarted
-                    ? t('iaoNotStarted')
-                    : !isAuthenticated
-                      ? t('connectWalletFirst')
-                      : isStakeLoading
-                        ? t('processing')
-                        : isDepositPeriod
-                          ? t('send')
-                          : t('stakeNotStarted')}
-                </Button>
+        <>
+          {/* 募资进行中，显示的池子数据 */}
+          <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
+
+          <div className="space-y-4">
+            <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
+              <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
+              <span className="font-semibold text-[#F47521] break-all">
+                {agent.totalSupply?.toLocaleString()} {agent.symbol}
+              </span>
+            </div>
+
+            <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
+              <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+
+              {
+                poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
+                  {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
+                </span>
+                ) :
+                  <span className="font-semibold text-[#F47521] break-all">
+                    0
+                  </span>
+              }
+
+            </div>
+
+            <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
+              <span className="text-black whitespace-nowrap">
+                {poolInfo?.startTime && Date.now() < poolInfo.startTime * 1000
+                  ? t('startCountdown')
+                  : t('endCountdown')
+                }:
+              </span>
+              {poolInfo?.startTime ? (
+                isPoolInfoLoading ? (
+                  <span className="font-semibold text-[#F47521] break-all">--</span>
+                ) : Date.now() < poolInfo.startTime * 1000 ? (
+                  // 显示距离开始的倒计时
+                  <Countdown
+                    remainingTime={Math.max(0, poolInfo.startTime * 1000 - Date.now())}
+                    className="font-semibold text-[#F47521] break-all"
+                  />
+                ) : poolInfo?.endTime ? (
+                  // 显示距离结束的倒计时
+                  <Countdown
+                    remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
+                    className="font-semibold text-[#F47521] break-all"
+                  />
+                ) : (
+                  <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+                )
               ) : (
-                <Button
-                  className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
-                  onClick={handleStake}
-                  disabled={true}
-                >
-                  {t('iaoNotStarted')}
-                </Button>
+                <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
               )}
-            </>
+            </div>
+
+
+          </div>
+
+
+
+
+
+          {/* 募资结束前，投资按钮 */}
+          {
+            (!poolInfo?.endTime || Date.now() < poolInfo.endTime * 1000) && (
+              <div className="mt-0 pt-6 bg-muted rounded-lg">
+
+                {(
+                  <>
+                    <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
+
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
+                      <div className="flex-1 relative">
+                        <Input
+                          type="number"
+                          value={dbcAmount}
+                          onChange={handleInputChange}
+                          onKeyDown={(e) => {
+                            if (e.key === '-' || e.key === 'e') {
+                              e.preventDefault();
+                            }
+                          }}
+                          min="0"
+                          max={agent.symbol === 'XAA' ? maxAmount : xaaBalance}
+                          step="any"
+                          className="pr-16"
+                          placeholder="00.00"
+                          disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !showIAOReal}
+                        />
+                        <button
+                          onClick={handleSetMaxAmount}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
+                        >
+                          {t('maxButton')}
+                        </button>
+                      </div>
+                    </div>
+
+
+                    {showIAOReal === "true" ? (
+                      <Button
+                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                        onClick={handleStake}
+                        disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
+                      >
+                        {!isIAOStarted
+                          ? t('iaoNotStarted')
+                          : !isAuthenticated
+                            ? t('connectWalletFirst')
+                            : isStakeLoading
+                              ? t('processing')
+                              : isDepositPeriod
+                                ? t('send')
+                                : t('stakeNotStarted')}
+                      </Button>
+                    ) : (
+                      <Button
+                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                        onClick={handleStake}
+                        disabled={true}
+                      >
+                        {t('iaoNotStarted')}
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
+            )
+          }
+
+          {/* 募资结束后，投资数量统计个人信息 */}
+          {!!userStakeInfo.userDeposited && (
+            <div className="space-y-2 mt-4">
+              <p className="text-sm text-muted-foreground">
+                {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                <span className="text-[#F47521] ml-1">
+                  {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                </span>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {userStakeInfo.hasClaimed ? (
+                  <>
+                    {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                  </>
+                ) : (
+                  <>
+                    {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                  </>
+                )}
+              </p>
+            </div>
           )}
 
-          {
-            !!userStakeInfo.userDeposited && (
-              <div className="space-y-2 mt-4">
-                <p className="text-sm text-muted-foreground">
-                  {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-                  <span className="text-[#F47521] ml-1">
-                    {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
-                  </span>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {userStakeInfo.hasClaimed ? (
-                    <>
-                      {t('claimedAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
-                    </>
-                  ) : (
-                    <>
-                      {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
-                    </>
-                  )}
-                </p>
-              </div>
-            )}
+
 
           <p className="text-sm text-muted-foreground mt-2">
             {t('poolDynamicTip', { symbol: agent.symbol, investSymbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}
           </p>
 
-          {(poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 && isConnected) ? (
-            <Button
-              className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
-              onClick={async () => {
-                try {
-                  const result: any = await claimRewards();
-                  if (result?.success) {
-                    toast({
-                      title: t('claimSuccess'),
-                      description: (
-                        <div className="space-y-2">
-                          <p>{t('tokenSentToWallet')}</p>
-                          <p className="text-sm text-green-600">{t('claimSuccessWithAmount', { amount: result.amount })}</p>
-                          <p className="text-sm text-muted-foreground">{t('importTokenAddress')}</p>
-                          <code className="block p-2 bg-black/10 rounded text-xs break-all">
-                            {agent.symbol}
-                          </code>
-                        </div>
-                      ),
-                    });
-                  }
-                } catch (error: any) {
-                  toast({
-                    title: t('error'),
-                    description: error.message || t('stakeFailed'),
-                  });
-                }
-              }}
-              disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
-            >
-              {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
-            </Button>
-          )
 
-            : <></>}
-        </div>
-      </div>
+        </>
+
+      }
     </Card>
   );
 }; 

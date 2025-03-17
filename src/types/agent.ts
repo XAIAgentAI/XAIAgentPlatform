@@ -30,6 +30,7 @@ export interface LocalAgent {
   rating: number;
   usageCount: number;
   marketCap: string;
+  marketCapTokenNumber?: number;
   change24h: string;
   volume24h: string;
   creatorId: string;
@@ -51,6 +52,7 @@ export interface LocalAgent {
   tokenAddressTestnet?: string;
   iaoContractAddressTestnet?: string;
   projectDescription?: string;
+  iaoTokenAmount?: number;
 }
 
 export interface AgentPrice {
@@ -75,6 +77,7 @@ export interface Agent {
   priceChange24h?: string;
   price?: string;
   lp?: string;
+  iaoTokenAmount?: number;
 }
 
 export interface AgentListProps {

@@ -145,6 +145,7 @@
     "title": "IAO 池",
     "totalInPool": "IAO 池中的总 {symbol}",
     "currentTotal": "当前 IAO 池中的总 {symbol}",
+    "startCountdown": "开始倒计时",
     "endCountdown": "结束倒计时",
     "toBeAnnounced": "待公布",
     "youSend": "您发送",
@@ -181,11 +182,21 @@
     "transactionSent": "交易已发送",
     "waitForConfirmation": "等待确认",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC",
-    "goToDbcswap": "购买XAA 前往DBCSwap",
+    "goToDbcswap": "前往 DBCSwap 购买 {symbol}",
     "approveTransaction": "授权交易",
     "approveWaitingConfirm": "等待授权确认",
     "approveSuccess": "授权成功",
-    "approveFailed": "授权失败，请重试"
+    "approveFailed": "授权失败，请重试",
+    "copy": "复制",
+    "copied": "已复制",
+
+    "lpPoolData": "流动性池数据",
+    "iaoCompletedData": "IAO已结束，完成的数据",
+    "iaoReleasedAmount": "IAO 释放的 {symbol} 数量",
+    "iaoParticipatedAmount": "参与 IAO 的 {symbol} 数量",
+    "currentLpPoolData": "当前LP池数据",
+    "lpPoolTokenAmount": "LP 池中的 {symbol} 数量",
+    "lpPoolBaseAmount": "LP 池中的 {symbol} 数量"
   },
 
   "tokenInfo": {
@@ -358,6 +369,7 @@
     "loading": "加载中...",
     "error": "加载图表数据失败",
     "retry": "重试",
-    "noData": "暂无数据"
+    "noData": "暂无数据",
+    "waitForIoComplete": "IAO 结束并开始交易后将显示价格走势"
   }
 } 
