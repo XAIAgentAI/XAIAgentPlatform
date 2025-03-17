@@ -338,7 +338,9 @@
       "login":"login",
       "username":"Username",
       "password":"Password",
-      "confirm":"Confirm"
+      "confirm":"Confirm",
+      "today":"Today",
+      "7daysago":"This week"
     },
   "cryptoChart": {
     "timeIntervals": {

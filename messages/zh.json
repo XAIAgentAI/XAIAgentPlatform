@@ -340,7 +340,9 @@
     "login":"登录", 
     "username":"用户名", 
     "password":"密码", 
-    "confirm":"确认"  
+    "confirm":"确认",
+    "today":"今天",
+    "7daysago":"本周"
   },
   "cryptoChart": {
     "timeIntervals": {

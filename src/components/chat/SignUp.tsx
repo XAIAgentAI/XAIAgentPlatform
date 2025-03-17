@@ -57,7 +57,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
 
   if (isLoggedIn) return (
     <div
-      className="bg-orange-100 rounded-full w-8 h-8 flex text-zinc-700 items-center justify-center cursor-pointer text-center"
+      className="bg-orange-100 rounded-full w-[34px] h-[34px] flex text-zinc-700 items-center justify-center cursor-pointer text-center"
     >
       {loggedInUsername.slice(0, 2)}
     </div>
@@ -66,7 +66,8 @@ const AuthButton: React.FC<AuthButtonProps> = ({ userName, setUserName }) => {
   return (
     <>
       <div
-        className="bg-slate-200 rounded-full w-8 h-8 flex text-zinc-700 items-center justify-center cursor-pointer"
+        className="bg-slate-200 rounded-full w-[34px] h-[34px] flex text-zinc-700 items-center justify-center cursor-pointer"
+        aria-label="Sign up"
         onClick={() => {
           setModalOpen(true);
           setLoginMode(false);

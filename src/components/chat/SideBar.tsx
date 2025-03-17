@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import AuthButton from './SignUp';
 import { useLocale, useTranslations } from 'next-intl';
 import { v4 as uuidv4 } from 'uuid'; // 引入uuid库
 
@@ -134,8 +133,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
       <div className={`fixed 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)]`}>
         <button className={`mb-[5px] mt-[-10px] ml-auto lg:hidden block w-[60px] h-[30px] rounded-lg bg-stone-300 text-foreground`} onClick={lessHandler}>Less</button>
         <div className="flex justify-end space-x-2">
-          <div className="inline-block relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
-            <AuthButton setUserName={setUserName} userName={userName} />
+          <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
           <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer relative right-[4px]" />
           <Image src="/images/write.png" alt="Email" width={28} height={24} onClick={handleEmailOpen} className="cursor-pointer relative right-[4px]" />
@@ -176,11 +174,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
               </div>
             )}
             <hr className="my-4 border-gray-700" />
-            <div className="text-lg mb-4 space-y-2">
-              <div>{t("explore")}</div>
-              <div>{t("trade")}</div>
-            </div>
-            <div className="text-sm mt-[-4px]">history</div>
+            <div className="text-sm mt-[-4px]">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-neutral-900 w-full text-zinc-700 text-center hover:bg-slate-400 rounded-xl">

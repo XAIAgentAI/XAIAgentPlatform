@@ -338,7 +338,9 @@
     "login":"ログイン", 
     "username":"ユーザー名", 
     "password":"パスワード", 
-    "confirm":"確認"
+    "confirm":"確認",
+    "today":"今日",
+    "7daysago":"今週"
   },
   "cryptoChart": {
     "timeIntervals": {

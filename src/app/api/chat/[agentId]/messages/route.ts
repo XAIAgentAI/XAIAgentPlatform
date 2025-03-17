@@ -1,5 +1,7 @@
+"use server";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { neonConfig, Pool } from "@neondatabase/serverless";
 
 interface Sentence {
   user?: string;
@@ -11,7 +13,11 @@ interface Conversation {
   [id: string]: Array<Sentence>;
 }
 
-// 示例使用
+const connectionString = process.env.CHAT_URL;
+
+const pool = new Pool({ connectionString });
+
+//初始化数据
 const conversationData: Conversation = {
   "1": [
       {convid: "1", user: "What is your name?"},
@@ -28,12 +34,88 @@ const conversationData: Conversation = {
   ]
 };
 
-// 模拟数据库
-let chatStore: Array<{
-  user: string;
-  password: string;
-  chat: Conversation;
-}> = [];
+// 确保chat表存在
+async function ensureChatTable() {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS chat (
+      name VARCHAR(255) PRIMARY KEY,
+      password VARCHAR(255) NOT NULL,
+      chat JSONB NOT NULL
+    );
+  `;
+  try {
+    await pool.query(createTableQuery);
+    console.log('Chat table ensured.');
+  } catch (error) {
+    console.error('Error ensuring chat table:', error);
+    throw error;
+  }
+}
+
+// 向chat表中插入一条新记录
+async function insertUserRecord(user: string, password: string, chat: Conversation) {
+  const insertUserQuery = `
+    INSERT INTO chat (name, password, chat)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (name) DO NOTHING;
+  `;
+  const values = [user, password, JSON.stringify(chat)]; 
+  
+  try {
+    await pool.query(insertUserQuery, values);
+    console.log('User record inserted successfully.');
+  } catch (error) {
+    console.error('Error inserting user record:', error);
+    throw error;
+  }
+}
+
+// 从chat表中获取用户记录
+async function getUserRecord(user: string) {
+  const getUserQuery = `
+    SELECT * FROM chat WHERE name = $1;
+  `;
+  const values = [user];
+  
+  try {
+    const result = await pool.query(getUserQuery, values);
+    if (result.rows.length > 0) {
+      return result.rows[0];
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting user record:', error);
+    throw error;
+  }
+}
+
+// 更新chat字段
+async function updateUserChat(user: string, chat: Conversation) {
+  const updateUserQuery = `
+    UPDATE chat
+    SET chat = $1
+    WHERE name = $2;
+  `;
+  const values = [JSON.stringify(chat), user];
+  
+  try {
+    await pool.query(updateUserQuery, values);
+    console.log('User chat updated successfully.');
+  } catch (error) {
+    console.error('Error updating user chat:', error);
+    throw error;
+  }
+}
+
+// 初始化并执行插入操作
+(async () => {
+  try {
+    await ensureChatTable();
+    await insertUserRecord("Sword", '666666', conversationData); 
+  } catch (error) {
+    console.error('Failed to initialize and insert data:', error);
+  }
+})();
 
 // 获取消息历史
 export async function GET(
@@ -41,43 +123,29 @@ export async function GET(
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const user = request.nextUrl.searchParams.get('user'); // 从URL参数中获取用户信息
+  const user = request.nextUrl.searchParams.get('user'); 
   
-  console.log(chatStore);
-  
-  // 找到对应用户的数据项
-  const userChat = chatStore.find(item => item.user === user);
+  if (!user) {
+    return NextResponse.json([]);
+  }
 
-  // 如果用户不存在，返回空数组
+  const userChat = await getUserRecord(user);
+
   if (!userChat) {
     return NextResponse.json([]);
   }
 
-  // 如果没有历史记录，返回空数组
-  if (!userChat.chat[agentId]) {
-    userChat.chat[agentId] = [];
+  let chat = userChat.chat;
+
+  if (typeof chat === 'string') {
+    chat = JSON.parse(chat);
   }
 
-  return NextResponse.json(userChat.chat[agentId]);
-}
-
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { agentId: string } }
-) {
-  const { user } = await request.json();
-  const { agentId } = params;
-
-  // 找到对应用户的数据项
-  const userChat = chatStore.find(item => item.user === user);
-
-  // 如果用户存在，删除指定agentId的聊天记录
-  if (userChat && userChat.chat[agentId]) {
-    userChat.chat[agentId] = [];
+  if (!chat[agentId]) {
+    return NextResponse.json([]);
   }
 
-  console.log(chatStore);
-  return NextResponse.json(userChat ? userChat.chat[agentId] : []);
+  return NextResponse.json(chat[agentId]);
 }
 
 // 发送新消息
@@ -88,57 +156,45 @@ export async function POST(
   const { agentId } = params;
   const { message, password, user, thing, isNew } = await request.json();
   
-  // 如果请求是signup，添加新用户
   if (thing === 'signup' && password) {
-    const existingUser = chatStore.find(item => item.user === user);
+    const existingUser = await getUserRecord(user);
+    
     if (!existingUser) {
-      chatStore.push({
-        user: user,
-        password: password,
-        chat: {}
-      });
+      await insertUserRecord(user, password, {});
+      return NextResponse.json({ success: true, message: 'User registered successfully.' });
     }
-    console.log(chatStore); //调试
-    return NextResponse.json({ success: existingUser ? false : true, message: existingUser ? 'User already exists.' : 'User registered successfully.' });
+    return NextResponse.json({ success: false, message: 'User already exists.' });
   } else if (thing === "login" && password) {
-    const existingUser = chatStore.find(item => item.user === user);
+    const existingUser = await getUserRecord(user);
     if (existingUser && existingUser.password === password) {
-        console.log(chatStore); //调试
-        return NextResponse.json({ success: true, message: 'Login successful.', chat: existingUser.chat[agentId] });
+      return NextResponse.json({ success: true, message: 'Login successful.', chat: chat[agentId] || [] });
     } else {
-        return NextResponse.json({ success: false, message: 'Invalid username or password.' });
+      return NextResponse.json({ success: false, message: 'Invalid username or password.' });
     }
   }
 
-  // 找到对应用户的数据项
-  const userChat = chatStore.find(item => item.user === user);
-
-  // 如果用户不存在，返回错误
+  const userChat = await getUserRecord(user);
   if (!userChat) {
     return NextResponse.json({ error: 'User not found.' });
   }
 
-  // 初始化用户聊天记录
-  if (!userChat.chat[agentId]) {
-    userChat.chat[agentId] = [];
+  let chat = userChat.chat;
+  if (!chat[agentId]) {
+    chat[agentId] = [];
   }
 
-  // 计算当前最大convid值
   let maxConvid = 0;
-  if (userChat.chat[agentId].length > 0) {
-    maxConvid = Math.max(...userChat.chat[agentId].map(sentence => parseInt(sentence.convid)));
+  if (chat[agentId].length > 0) {
+    maxConvid = Math.max(...chat[agentId].map(sentence => parseInt(sentence.convid)));
   }
 
-  // 用户消息对象
   const userMessage: Sentence = {
     user: message,
     convid: isNew === "yes" ? (maxConvid + 1).toString() : maxConvid.toString()
   };
 
-  // 将用户消息添加到消息存储中
-  userChat.chat[agentId].push(userMessage);
+  chat[agentId].push(userMessage);
 
-  // 构建要发送给AI的请求体
   const requestBody = {
     project: "DecentralGPT",
     model: "Llama3.3-70B",
@@ -158,7 +214,6 @@ export async function POST(
     hash: "not yet"
   };
 
-  // 向向AI发送POST请求
   const response = await fetch('https://korea-chat.degpt.ai/api/v0/chat/completion/proxy', {
     method: 'POST',
     headers: {
@@ -167,17 +222,16 @@ export async function POST(
     body: JSON.stringify(requestBody)
   });
 
-  // 解析AI的返回结果
   const responseData = await response.json();
   const aiResponseData = responseData.choices[0].message;
 
-  // 构建消息对象并添加到消息存储中
   const aiResponse: Sentence = {
     assistant: aiResponseData.content,
     convid: userMessage.convid
   };
 
-  userChat.chat[agentId].push(aiResponse);
-  console.log(chatStore); //调试
+  chat[agentId].push(aiResponse);
+  await updateUserChat(user, chat);
+  
   return NextResponse.json(aiResponse);
 }
