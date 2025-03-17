@@ -21,6 +21,7 @@
     "prisma:seed": "ts-node -P scripts/tsconfig.json prisma/seed.ts"
   },
   "dependencies": {
+    "3x2": "link:country-flag-icons/react/3x2",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@neondatabase/serverless": "^0.10.4",
