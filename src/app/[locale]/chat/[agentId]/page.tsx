@@ -149,7 +149,7 @@ export default function ChatPage() {
 
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
-      <SideBar conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} userName={userName}/>
+      <SideBar conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} userName={userName} setUserName={setUserName}/>
       {!conversations[agentId]?.length && (
         <HeaderComponent 
           userName={userName}

@@ -53,7 +53,7 @@ async function ensureChatTable() {
 }
 
 // 向chat表中插入一条新记录
-async function insertUserRecord(user: string, password: string, chat: Conversation) {
+async function insertUserRecord(user: string, password: string, chat: any) {
   const insertUserQuery = `
     INSERT INTO chat (name, password, chat)
     VALUES ($1, $2, $3)
@@ -178,7 +178,7 @@ export async function POST(
 
   let maxConvid = 0;
   if (chat[agentId].length > 0) {
-    maxConvid = Math.max(...chat[agentId].map(sentence => parseInt(sentence.convid)));
+    maxConvid = Math.max(...chat[agentId].map((sentence:any) => parseInt(sentence.convid)));
   }
 
   const userMessage: Sentence = {
