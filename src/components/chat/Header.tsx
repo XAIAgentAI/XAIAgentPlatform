@@ -79,7 +79,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
           <div className="flex compress flex-wrap justify-center gap-4 max-h-[240px] overflow-y-hidden">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
               <div key={index} 
-                   className="hover:bg-zinc-700 rounded-xl bg-zinc-800 px-2 py-6 text-neutral-500 font-light text-sm text-center flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
+                   className="bg-stone-400 hover:bg-stone-300 dark:hover:bg-zinc-700 rounded-xl dark:bg-zinc-800 px-2 py-6 text-foreground dark:text-neutral-500 font-light text-sm text-center flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
                    onClick={async () => {
                      if (!userName) {
                        setUserStatus(false);

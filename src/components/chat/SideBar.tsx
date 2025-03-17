@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
+import { Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid'; // 引入uuid库
 
 interface SideBarProps {
@@ -90,20 +92,10 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     setIsSearchOpen(true);
   };
 
-  const handleEmailOpen = () => {
-    setIsEmailOpen(!isEmailOpen);
-  };
-
   const handleClose = () => {
     setIsSearchOpen(false);
     setIsEmailOpen(false);
     setQuery('');
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('endless_sword@163.com');
-    setBgCopy('bg-stone-500');
-    setTimeout(() => setBgCopy('bg-stone-700'), 200);
   };
 
   const moreHandler = () => {
@@ -129,14 +121,25 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
 
   return (
     <>
-      <button className={`fixed top-[100px] left-[20px] lg:hidden block w-[60px] h-[30px] rounded-lg ${moreground} text-zinc-600`} onClick={moreHandler}>More</button>
-      <div className={`fixed 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)]`}>
-        <button className={`mb-[5px] mt-[-10px] ml-auto lg:hidden block w-[60px] h-[30px] rounded-lg bg-stone-300 text-foreground`} onClick={lessHandler}>Less</button>
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        className="fixed top-[100px] left-[30px]"
+        onClick={moreHandler}
+      >
+        <Menu></Menu>
+      </motion.button>
+      <div className={`fixed top-[90px] 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-700 dark:bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
           <Image src="/images/search.png" alt="Search" width={28} height={28} onClick={handleSearchOpen} className="cursor-pointer relative right-[4px]" />
-          <Image src="/images/write.png" alt="Email" width={28} height={24} onClick={handleEmailOpen} className="cursor-pointer relative right-[4px]" />
+          <motion.button
+           whileTap={{ scale: 0.95 }}
+           className="relative right-[4px]"
+           onClick={lessHandler}
+          >
+            <Menu></Menu>
+          </motion.button>
         </div>
         {isSearchOpen && (
           <div className="w-full flex items-center justify-between rounded mb-4 p-2">
@@ -162,17 +165,6 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
           </div>
         ) : (
           <>
-            {isEmailOpen && (
-              <div className="mt-4">
-                <div className="text-lg mb-2 text-stone-50 font-light">Email Us:</div>
-                <div className="flex flex-col items-start xl:flex-row xl:items-center xl:justify-between">
-                  <div className="text-stone-100 font-light">endless_sword@163.com</div>
-                  <button onClick={handleCopyEmail} className={`${bgCopy} relative top-[4px] xl:top-0 text-slate-200 px-2 py-1 rounded-md`}>
-                    Copy
-                  </button>
-                </div>
-              </div>
-            )}
             <hr className="my-4 border-gray-700" />
             <div className="text-sm mt-[-4px]">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">

@@ -169,7 +169,7 @@ export default function ChatPage() {
         />
       )}
       {!userStatus && (
-        <div className="border-2 border-solid border-stone-700 fixed w-[220px] top-[100px] right-[-100px] bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+        <div className="border-2 border-solid border-stone-700 fixed w-[220px] top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
           <p className="text-center h-[24px]">Please Signup/Login First</p>
         </div>
       )}
