@@ -43,7 +43,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-foreground text-lg rounded-full fixed left-[4vw] md:left-[11vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
+          className="flex font-light items-center justify-between px-2 py-1 text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
@@ -62,7 +62,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
         <AuthButton setUserName={setUserName} userName={userName} />
       </div>
 
-      <div className="w-[80vw] mx-auto md:ml-[20vw] flex flex-row justify-center h-[70vh] md:h-[78vh]">
+      <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
       <div className="h-[78vh]">
         <div className="w-24 h-24 mx-auto">
           <svg className="w-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +79,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
           <div className="flex compress flex-wrap justify-center gap-4 max-h-[240px] overflow-y-hidden">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
               <div key={index} 
-                   className="bg-stone-400 hover:bg-stone-300 dark:hover:bg-zinc-700 rounded-xl dark:bg-zinc-800 px-2 py-6 text-foreground dark:text-neutral-500 font-light text-sm text-center flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
+                   className="bg-stone-400 hover:bg-stone-300 dark:hover:bg-zinc-700 rounded-xl dark:bg-zinc-800 px-2 py-6 text-stone-700 dark:text-neutral-500 font-light text-sm text-center flex items-center justify-center w-[210px] md:w-[180px] lg:w-19vw min-h-[4rem]"
                    onClick={async () => {
                      if (!userName) {
                        setUserStatus(false);

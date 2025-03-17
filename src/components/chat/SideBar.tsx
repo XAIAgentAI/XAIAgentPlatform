@@ -123,12 +123,12 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-[100px] left-[30px]"
+        className="fixed top-[100px] left-[30px] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-[90px] 2xl:top-[40px] md:top-[68px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-zinc-700 dark:bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)] rounded-md`}>
+      <div className={`fixed top-[94px] lg:top-[66px] 2xl:top-[40px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -165,7 +165,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
           </div>
         ) : (
           <>
-            <hr className="my-4 border-gray-700" />
+            <hr className="my-4 border-slate-200" />
             <div className="text-sm mt-[-4px]">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
               {messages.map((msg) => (
