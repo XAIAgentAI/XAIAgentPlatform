@@ -89,13 +89,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
   }, [query, messages]);
 
   const handleSearchOpen = () => {
-    setIsSearchOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsSearchOpen(false);
-    setIsEmailOpen(false);
-    setQuery('');
+    setIsSearchOpen(isSearchOpen ? false : true);
   };
 
   const moreHandler = () => {
@@ -128,7 +122,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-[94px] lg:top-[66px] 2xl:top-[40px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[77vh] md:h-[calc(100vh-115px)] rounded-md`}>
+      <div className={`fixed top-[94px] lg:top-[66px] 2xl:top-[40px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -148,11 +142,8 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
               placeholder="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-[64%] text-neutral-700 pl-2 focus:outline-none rounded-lg space-x-2 space-y-2 focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition duration-300"
+              className="w-[84%] text-neutral-700 mx-auto pl-2 focus:outline-none rounded-lg space-x-2 space-y-2 focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition duration-300"
             />
-            <button onClick={handleClose} className="ml-[6px] xl:ml-[0] xl:w-[30%] bg-zinc-700 text-white px-2 py-1 rounded-full">
-              Cancel
-            </button>
           </div>
         )}
         {isSearchOpen ? (
