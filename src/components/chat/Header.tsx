@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid'; // 假设您使用的是heroicons库
 import AgentSelector from './AgentSelector'; // 根据您的项目结构调整路径
-import AuthButton from './SignUp'
 
 interface AgentDescription {
   metrics: string;
@@ -43,7 +42,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-stone-400 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
+          className="flex font-light items-center justify-between px-2 py-1 text-stone-400 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-20"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
@@ -56,10 +55,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
         {isAgentListOpen && (
           <AgentSelector handleAgentSelect={handleAgentSelect} />
         )}
-      </div>
-      
-      <div className="fixed top-[54px] right-[20px]">
-        <AuthButton setUserName={setUserName} userName={userName} />
       </div>
 
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">

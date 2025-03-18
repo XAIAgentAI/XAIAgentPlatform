@@ -117,12 +117,12 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-[100px] left-[36px] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-28 left-[26px] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-[94px] lg:top-[66px] 2xl:top-[40px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
+      <div className={`fixed top-28 lg:top-20 2xl:top-20 ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>

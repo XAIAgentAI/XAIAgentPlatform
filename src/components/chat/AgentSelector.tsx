@@ -6,7 +6,7 @@ interface AgentSelectorProps {
 
 const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect }) => {
     return (
-        <div className="min-w-[135px] fixed top-[100px] left-[2.84vw] md:left-[1.6vw] lg:left-[20.6vw] xl:left-[26.2vw] w-[26vw] max-w-[150px] bg-stone-400 dark:bg-zinc-800 rounded-b-lg shadow-lg">
+        <div className="min-w-[135px] fixed top-28 left-[2.84vw] md:left-[1.6vw] lg:left-[20.6vw] xl:left-[26.2vw] w-[26vw] max-w-[150px] bg-stone-400 dark:bg-zinc-800 rounded-b-lg shadow-lg">
             <button
                 type="button"
                 className="flex items-center justify-between w-full px-4 py-2 text-stone-200 dark:text-zinc-700 hover:bg-stone-500 dark:hover:bg-zinc-500 hover:text-white"

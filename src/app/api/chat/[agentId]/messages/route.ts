@@ -53,7 +53,7 @@ async function ensureChatTable() {
 }
 
 // 向chat表中插入一条新记录
-async function insertUserRecord(user: string, password: string, chat: any) {
+async function insertUserRecord(user: string, password:string, chat: any) {
   const insertUserQuery = `
     INSERT INTO chat (name, password, chat)
     VALUES ($1, $2, $3)
@@ -111,7 +111,7 @@ async function updateUserChat(user: string, chat: Conversation) {
 (async () => {
   try {
     await ensureChatTable();
-    await insertUserRecord("Sword", '666666', conversationData); 
+    await insertUserRecord("Sword", "666666", conversationData); 
   } catch (error) {
     console.error('Failed to initialize and insert data:', error);
   }
@@ -143,88 +143,97 @@ export async function GET(
 
   return NextResponse.json(chat[agentId]);
 }
-
 export async function POST(
   request: NextRequest,
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const { message, password, user, thing, isNew } = await request.json();
+  const { message, thing, isNew, user: requestUser } = await request.json();
 
-  // 获取用户记录
-  const userChat = await getUserRecord(user);
-  if (!userChat) {
-    if (thing === 'signup' && password) {
-      await insertUserRecord(user, password, { chat: {} });
-      return NextResponse.json({ success: true, message: 'User registered successfully.' });
+  if (thing === 'signup') {
+    // 生成用户名
+    const timestamp = Math.floor(Date.now() / 1000);
+    const randomNumbers = Math.floor(1000 + Math.random() * 9000).toString();
+    const user = `${timestamp}${randomNumbers}`;
+    console.log(user);
+
+    // 检查数据库中是否存在相同用户名
+    const existingUser = await getUserRecord(user);
+    if (existingUser) {
+      return NextResponse.json({ error: 'User already exists.' });
     }
-    return NextResponse.json({ error: 'User not found.' });
-  }
 
-  let chat = userChat.chat;
-  if (!chat[agentId]) {
-    chat[agentId] = [];
-  }
-
-  if (thing === 'signup' && password) {
-    return NextResponse.json({ success: false, message: 'User already exists.' });
-  } else if (thing === "login" && password) {
-    if (userChat.password === password) {
-      return NextResponse.json({ success: true, message: 'Login successful.', chat: chat[agentId] || [] });
-    } else {
-      return NextResponse.json({ success: false, message: 'Invalid username or password.' });
+    // 插入新用户的记录
+    await insertUserRecord(user, "******", { chat: {} });
+    return NextResponse.json({ success: true, message: user });
+  } else {
+    // 使用请求中提供的用户名
+    const user = requestUser;
+    if (!user) {
+      return NextResponse.json({ error: 'User not found in request.' });
     }
-  }
 
-  let maxConvid = 0;
-  if (chat[agentId].length > 0) {
-    maxConvid = Math.max(...chat[agentId].map((sentence:any) => parseInt(sentence.convid)));
-  }
+    // 获取用户记录
+    const userChat = await getUserRecord(user);
+    if (!userChat) {
+      return NextResponse.json({ error: 'User not found.' });
+    }
 
-  const userMessage: Sentence = {
-    user: message,
-    convid: isNew === "yes" ? (maxConvid + 1).toString() : maxConvid.toString()
-  };
+    let chat = userChat.chat;
+    if (!chat[agentId]) {
+      chat[agentId] = [];
+    }
 
-  chat[agentId].push(userMessage);
+    let maxConvid = 0;
+    if (chat[agentId].length > 0) {
+      maxConvid = Math.max(...chat[agentId].map((sentence: any) => parseInt(sentence.convid)));
+    }
 
-  const requestBody = {
-    project: "DecentralGPT",
-    model: "Llama3.3-70B",
-    messages: [
-      {
-        role: "system",
-        content: "You are a helpful assistant."
+    const userMessage: Sentence = {
+      user: message,
+      convid: isNew === "yes" ? (maxConvid + 1).toString() : maxConvid.toString()
+    };
+
+    chat[agentId].push(userMessage);
+
+    const requestBody = {
+      project: "DecentralGPT",
+      model: "Llama3.3-70B",
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant."
+        },
+        {
+          role: "user",
+          content: message
+        }
+      ],
+      stream: false,
+      wallet: "not yet",
+      signature: "no signature yet",
+      hash: "not yet"
+    };
+
+    const response = await fetch('https://korea-chat.degpt.ai/api/v0/chat/completion/proxy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
       },
-      {
-        role: "user",
-        content: message
-      }
-    ],
-    stream: false,
-    wallet: "not yet",
-    signature: "no signature yet",
-    hash: "not yet"
-  };
+      body: JSON.stringify(requestBody)
+    });
 
-  const response = await fetch('https://korea-chat.degpt.ai/api/v0/chat/completion/proxy', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(requestBody)
-  });
+    const responseData = await response.json();
+    const aiResponseData = responseData.choices[0].message;
 
-  const responseData = await response.json();
-  const aiResponseData = responseData.choices[0].message;
+    const aiResponse: Sentence = {
+      assistant: aiResponseData.content,
+      convid: userMessage.convid
+    };
 
-  const aiResponse: Sentence = {
-    assistant: aiResponseData.content,
-    convid: userMessage.convid
-  };
-
-  chat[agentId].push(aiResponse);
-  await updateUserChat(user, chat);
-  
-  return NextResponse.json(aiResponse);
+    chat[agentId].push(aiResponse);
+    await updateUserChat(user, chat);
+    
+    return NextResponse.json(aiResponse);
+  }
 }

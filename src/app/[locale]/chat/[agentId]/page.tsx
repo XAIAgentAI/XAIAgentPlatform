@@ -8,7 +8,6 @@ import HeaderComponent from '@/components/chat/Header';
 import MessagesComponent from '@/components/chat/Messages';
 import InputComponent from '@/components/chat/Input';
 import SideBar from '@/components/chat/SideBar';
-import AuthButton from '@/components/chat/SignUp'; // 假设SignUp.tsx导出了一个名为AuthButton的组件
 import { useLocale, useTranslations } from 'next-intl';
 
 interface Message {
@@ -49,7 +48,7 @@ export default function ChatPage() {
   const [isNew, setIsNew] = useState<string>("yes");
   const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null); // 新增userName状态
+  const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -147,6 +146,34 @@ export default function ChatPage() {
     setIsAgentListOpen(false);
   };
 
+  const handleAuth = async () => {
+    const response = await fetch('/api/chat/1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        thing: 'signup',
+      })
+    });
+
+    const data = await response.json();
+    const username = data.message;
+    
+    if (data.success) {
+      setUserName(username); // 更新用户名
+      localStorage.setItem('chat-username', username); // 存储用户名到localStorage
+    }
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem('chat-username')) {
+      handleAuth();
+    } else {
+      setUserName(localStorage.getItem('chat-username'));
+    }
+  }, []); // 空数组作为依赖项，确保只在组件初始化时执行一次
+
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
       <SideBar conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} userName={userName} setUserName={setUserName}/>
@@ -169,8 +196,8 @@ export default function ChatPage() {
         />
       )}
       {!userStatus && (
-        <div className="border-2 border-solid border-stone-700 fixed w-[220px] top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
-          <p className="text-center h-[24px]">Please Signup/Login First</p>
+        <div className="border-2 px-4 border-solid border-stone-400 fixed w-auto top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+          <p className="text-center h-[24px]">Please Connect a Wallet First</p>
         </div>
       )}
       <MessagesComponent 
