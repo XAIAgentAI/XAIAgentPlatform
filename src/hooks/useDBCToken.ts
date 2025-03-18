@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_CONFIG } from '@/config/api';
 
 interface TokenDetail {
   address: string;
@@ -27,10 +28,7 @@ export const useDBCToken = (tokenAddress: string | null) => {
       setError(null);
       
       try {
-        const response = await fetch(`https://www.dbcscan.io/api/v2/tokens/${tokenAddress}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch token data');
-        }
+        const response = await fetch(`${API_CONFIG.DBCSCAN.BASE_URL}${API_CONFIG.DBCSCAN.ENDPOINTS.TOKEN_DETAIL(tokenAddress)}`);
         const data = await response.json();
         setTokenData(data);
       } catch (err) {

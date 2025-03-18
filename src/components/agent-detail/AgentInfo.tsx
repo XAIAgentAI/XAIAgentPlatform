@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices, getTokenExchangeRate } from "@/services/swapService";
 import { useDBCPrice } from '@/hooks/useDBCPrice';
 import { formatPrice } from '@/lib/format';
+import { API_CONFIG } from '@/config/api';
 
 interface ApiResponse<T> {
   code: number;
@@ -182,7 +183,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                       </span>
                       <div className="flex items-center gap-2 flex-1 min-w-0">
                         <a
-                          href={`https://dbcscan.io/token/${tokenData?.address}`}
+                          href={`${API_CONFIG.DBCSCAN.BASE_URL.replace('/api/v2', '')}/token/${tokenData?.address}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-tertiary-color text-xs hover:text-primary transition-colors truncate"

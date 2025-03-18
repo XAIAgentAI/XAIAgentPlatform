@@ -4,8 +4,8 @@ import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
 
 const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "http://8.214.55.62:8022/subgraphs/name/ianlapham/uniswap-v3-test" : 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
-export const DBC_TOKEN_ADDRESS = "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
-export const XAA_TOKEN_ADDRESS = "0x16d83f6b17914a4e88436251589194ca5ac0f452";
+export const DBC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "" : "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
+export const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "0xC21155334688E2c1Cf89D4aB09d38D30002717DD" : "0x16d83f6b17914a4e88436251589194ca5ac0f452";
 
 
 interface FetchSwapDataParams {
