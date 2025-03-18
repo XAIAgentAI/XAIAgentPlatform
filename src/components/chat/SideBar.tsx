@@ -117,7 +117,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-[100px] left-[30px] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[100px] left-[36px] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
