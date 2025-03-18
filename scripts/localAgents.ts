@@ -703,7 +703,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     iaoContractAddress: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
     tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
     iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
-    iaoTokenAmount: 500000000000,
+    iaoTokenAmount: 50000000,
 
 
     avatar: "/logo/DeepLink.png",
