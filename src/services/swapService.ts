@@ -214,7 +214,6 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
       const baseTokenIsToken0 = token0Address === baseTokenAddress;
       const targetTokenIsToken0 = token0Address === targetTokenAddress;
 
-      debugger
       // 根据token位置计算价格
       if (baseTokenIsToken0 && !targetTokenIsToken0) {
         return Math.abs(amount0 / amount1);  // 每个baseToken能换多少targetToken

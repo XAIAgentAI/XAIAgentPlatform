@@ -703,7 +703,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     iaoContractAddress: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
     tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
     iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
-
+    iaoTokenAmount: 500000000000,
 
 
     avatar: "/logo/DeepLink.png",
@@ -715,10 +715,10 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO ongoing",
-    statusJA: "IAO 進行中",
-    statusKO: "IAO 진행중",
-    statusZH: "IAO 进行中",
+    status: "Tradable",
+    statusJA: "トランザクション可能",
+    statusKO: "거래 가능",
+    statusZH: "可交易",
     description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
 
 DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.
@@ -797,8 +797,8 @@ AI Agent 驱动的智能游戏体验：
 - 用户可通过语音指令操控 AI Agent 执行游戏内任务，简化交互方式，降低学习成本。`,
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
-    totalSupply: 50000000,
-    marketCapTokenNumber: 50000000,
+    totalSupply: 100000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "Help me increase the volume a bit",
       "How to break the level of Wukong Huangfengling in the Black Myth",
@@ -848,7 +848,7 @@ AI Agent 驱动的智能游戏体验：
 3. IAO 종료 후 7일 동안 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않고, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
 4. IAO 종료 후 1000만 개의 $DLC와 $XAA는 즉시 DBCSwap에 상장되어 $DLC의 자유 거래를 가능하게 합니다.`,
     })
-    
+
   },
   {
     id: 13,
