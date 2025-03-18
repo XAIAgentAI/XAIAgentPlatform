@@ -160,8 +160,8 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
             <div className="text-sm mt-[-4px]">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
               {messages.map((msg) => (
-                <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-neutral-900 w-full text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                  {msg.content.substring(0,20)+"..."}
+                <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-stone-300 dark:bg-neutral-900 w-full text-zinc-700 text-center hover:bg-stone-400 dark:hover:bg-zinc-800 rounded-md">
+                  {msg.content.substring(0,12)+"..."}
                 </div>
               ))}
             </div>
