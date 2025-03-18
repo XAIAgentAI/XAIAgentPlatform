@@ -233,7 +233,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   }, [isAuthenticated, getUserStakeInfo,]);
 
   const isIAOEnded = useMemo(() => {
-    return poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 24 * 60 * 60 * 1000;
+    return poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000;
   }, [poolInfo]);
 
   return (
