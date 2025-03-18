@@ -3,9 +3,9 @@ import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
 
-const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "http://8.214.55.62:8022/subgraphs/name/ianlapham/uniswap-v3-test" : 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
-export const DBC_TOKEN_ADDRESS = "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
-export const XAA_TOKEN_ADDRESS = "0x16d83f6b17914a4e88436251589194ca5ac0f452";
+const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "https://test.dbcswap.io/api/graph/subgraphs/name/ianlapham/uniswap-v3-test" : 'https://test.dbcswap.io/api/graph-mainnet/subgraphs/name/ianlapham/dbcswap-v3-mainnet';
+export const DBC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "" : "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
+export const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "0xC21155334688E2c1Cf89D4aB09d38D30002717DD" : "0x16d83f6b17914a4e88436251589194ca5ac0f452";
 
 
 interface FetchSwapDataParams {
@@ -210,26 +210,18 @@ export const convertToKLineData = (swaps: SwapData[], interval: TimeInterval = '
       const targetTokenAddress = targetToken.toLowerCase();
       const baseTokenAddress = baseToken.toLowerCase();
 
-      // // 如果是XAA和DBC的交易对，始终使用XAA/DBC的比率
-      // if ((token0Address === XAA_TOKEN_ADDRESS.toLowerCase() && token1Address === DBC_TOKEN_ADDRESS.toLowerCase()) ||
-      //     (token1Address === XAA_TOKEN_ADDRESS.toLowerCase() && token0Address === DBC_TOKEN_ADDRESS.toLowerCase())) {
-      //   return token0Address === XAA_TOKEN_ADDRESS.toLowerCase() ? 
-      //     Math.abs(amount0 / amount1) : Math.abs(amount1 / amount0);
-      // }
+      // 确定baseToken和targetToken的位置
+      const baseTokenIsToken0 = token0Address === baseTokenAddress;
+      const targetTokenIsToken0 = token0Address === targetTokenAddress;
 
-
-
-      // // 对于其他代币和XAA的交易对，使用其他代币/XAA的比率
-      // if (token1Address === XAA_TOKEN_ADDRESS.toLowerCase()) {
-      //   return Math.abs(amount1 / amount0);
-      // } else {
-      //   return Math.abs(amount0 / amount1);
-      // }
-
-      if (targetTokenAddress === DBC_TOKEN_ADDRESS || baseTokenAddress === DBC_TOKEN_ADDRESS) {
-        return Math.abs(amount1 / amount0);
+      // 根据token位置计算价格
+      if (baseTokenIsToken0 && !targetTokenIsToken0) {
+        return Math.abs(amount0 / amount1);  // 每个baseToken能换多少targetToken
+      } else if (!baseTokenIsToken0 && targetTokenIsToken0) {
+        return Math.abs(amount1 / amount0);  // 每个baseToken能换多少targetToken
       } else {
-        return Math.abs(amount0 / amount1);
+        console.warn('Token位置异常，无法计算价格');
+        return 0;
       }
 
     }).filter(rate => !isNaN(rate) && isFinite(rate) && rate > 0);
@@ -725,6 +717,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           const lp = Number((baseTokenAmount * baseTokenUsdPriceFormatted).toFixed(2)); // 乘以 DBC 单价
           console.log("baseTokenAmount", baseTokenAmount, "baseTokenUsdPriceFormatted", baseTokenUsdPriceFormatted, "lp", lp);
           6095240865
+
+          // debugger
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,

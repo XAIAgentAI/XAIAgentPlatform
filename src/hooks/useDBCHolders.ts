@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_CONFIG } from '@/config/api';
 
 // Interface for a single holder's data
 interface HolderItem {
@@ -20,25 +21,22 @@ interface HoldersResponse {
 }
 
 export const useDBCHolders = (tokenAddress: string | null) => {
-  const [holders, setHolders] = useState<HolderItem[]>([]);
+  const [holdersData, setHoldersData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchHolders = async () => {
+    const fetchHoldersData = async () => {
       if (!tokenAddress) return;
       
       setLoading(true);
       setError(null);
       
       try {
-        const response = await fetch(`https://www.dbcscan.io/api/v2/tokens/${tokenAddress}/holders`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch holders data');
-        }
-        const data: HoldersResponse = await response.json();
-        console.log("HoldersResponse", data);
-        setHolders(data.items);
+        const response = await fetch(`${API_CONFIG.DBCSCAN.BASE_URL}${API_CONFIG.DBCSCAN.ENDPOINTS.TOKEN_HOLDERS(tokenAddress)}`);
+        const data = await response.json();
+
+        setHoldersData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -46,8 +44,8 @@ export const useDBCHolders = (tokenAddress: string | null) => {
       }
     };
 
-    fetchHolders();
+    fetchHoldersData();
   }, [tokenAddress]);
 
-  return { holders, loading, error };
+  return { holdersData, loading, error };
 }; 

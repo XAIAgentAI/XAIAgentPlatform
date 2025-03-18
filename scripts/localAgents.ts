@@ -45,7 +45,7 @@ export const localAgents: LocalAgent[] = [
     name: "XAIAgent",
     tokenAddress: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
     iaoContractAddress: "0x5AeF02893F05D5422eD0c3bD1D7502Ec6bd6195e",
-    tokenAddressTestnet: "0xC21155334688E2c1Cf89D4aB09d38D30002717DD",
+    tokenAddressTestnet: "0xeC848d39a97B5753bAdcE5084957F75b0F78C242",
     iaoContractAddressTestnet: "0x82B7e10Ed1453FBf60c98aFbDeD94159A5E13973",
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XAIAgent.png",
@@ -97,7 +97,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "你可以创建哪些类型的 AI 智能体？",
       "你能告诉我如何使用 xx 作为智能体吗？"
     ],
-    socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
+    socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI/1",
     projectDescription: JSON.stringify({
       en: "1. Total Supply: 100 billion XAA\n2. 20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.\n3. During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools, never to be revoked.\n4. After IAO ends, $XAA and $DBC trading pairs will be immediately established on DBCSwap, enabling free trading of $XAA.",
       zh: "1. XAA 总供应量：1000亿\n2. 20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。\n3. 在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。\n4. IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。",
@@ -703,7 +703,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     iaoContractAddress: "0xcc6c5b583dd03a900dbf850449d50cec8833273f",
     tokenAddressTestnet: "0x4aF0632B0E63EE55e69e76c912E376731EECdbc5",
     iaoContractAddressTestnet: "0xb65ecab181c3298adea95e13d4a70377ea6db074",
-
+    iaoTokenAmount: 50000000,
 
 
     avatar: "/logo/DeepLink.png",
@@ -715,10 +715,10 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "IAO ongoing",
-    statusJA: "IAO 進行中",
-    statusKO: "IAO 진행중",
-    statusZH: "IAO 进行中",
+    status: "Tradable",
+    statusJA: "トランザクション可能",
+    statusKO: "거래 가능",
+    statusZH: "可交易",
     description: `DeepLink is a decentralized cloud gaming protocol driven by AI and blockchain technology. It integrates artificial intelligence, gaming, GPU, and decentralized physical infrastructure network (DePIN) to create a brand new Web3 gaming ecosystem.
 
 DeepLink adopts ultra-low latency game rendering technology, supporting a wide range of application scenarios, including cloud esports, cloud internet cafes, cloud 3A games, blockchain games, and cloud VR/AR/XR. The DeepLink protocol combined with AI technology can significantly improve game graphics and clarity, providing players with the ultimate cloud gaming experience.
@@ -797,8 +797,8 @@ AI Agent 驱动的智能游戏体验：
 - 用户可通过语音指令操控 AI Agent 执行游戏内任务，简化交互方式，降低学习成本。`,
     createdAt: "12 months ago",
     creatorAddress: "0x6f8F...BEe",
-    totalSupply: 50000000,
-    marketCapTokenNumber: 50000000,
+    totalSupply: 100000000000,
+    marketCapTokenNumber: 100000000000,
     useCases: [
       "Help me increase the volume a bit",
       "How to break the level of Wukong Huangfengling in the Black Myth",
@@ -848,7 +848,7 @@ AI Agent 驱动的智能游戏体验：
 3. IAO 종료 후 7일 동안 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않고, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
 4. IAO 종료 후 1000만 개의 $DLC와 $XAA는 즉시 DBCSwap에 상장되어 $DLC의 자유 거래를 가능하게 합니다.`,
     })
-    
+
   },
   {
     id: 13,

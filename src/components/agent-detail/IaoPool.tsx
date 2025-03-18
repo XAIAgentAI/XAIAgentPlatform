@@ -233,7 +233,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   }, [isAuthenticated, getUserStakeInfo,]);
 
   const isIAOEnded = useMemo(() => {
-    return poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 24 * 60 * 60 * 1000;
+    return poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000;
   }, [poolInfo]);
 
   return (
@@ -319,7 +319,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
 
           {
-            userStakeInfo.hasClaimed ? (<>
+            userStakeInfo.hasClaimed && poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 7 * 24 * 60 * 60 * 1000 ? (<>
             </>) :
               // ({/* 募资结束后，Claim按钮 */ }
               (isIAOEnded && isConnected) ? (
