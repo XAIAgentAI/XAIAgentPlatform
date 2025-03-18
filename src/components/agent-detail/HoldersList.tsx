@@ -12,25 +12,36 @@ import React, { useState } from 'react';
 import { useDBCHolders } from "@/hooks/useDBCHolders";
 import { useTranslations } from 'next-intl';
 
+interface HolderItem {
+  address: {
+    hash: string;
+    is_contract: boolean;
+  };
+  value: string;
+  token?: {
+    total_supply: string;
+  };
+}
+
 interface HoldersListProps {
   tokenAddress: string;
   holders: string;
 }
 
 export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
-  const { holders: holdersList, loading, error } = useDBCHolders(tokenAddress);
+  const { holdersData, loading, error } = useDBCHolders(tokenAddress);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const t = useTranslations('holderDistribution');
 
   // Calculate total pages
-  const totalPages = Math.ceil(holdersList.length / itemsPerPage);
+  const totalPages = Math.ceil((holdersData?.items?.length || 0) / itemsPerPage);
 
   // Get current page data
-  const currentHolders = holdersList.slice(
+  const currentHolders = holdersData?.items?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  ) || [];
 
   const handlePreviousPage = () => {
     setCurrentPage(prev => Math.max(1, prev - 1));
@@ -40,10 +51,13 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
     setCurrentPage(prev => Math.min(totalPages, prev + 1));
   };
 
-  const totalSupply = BigInt((currentHolders[0] as any)?.token?.total_supply || '0');
+  const totalSupply = holdersData?.items?.[0]?.token?.total_supply 
+    ? BigInt(holdersData.items[0].token.total_supply) 
+    : BigInt(0);
 
   // Format percentage with 2 decimal places
   const formatPercentage = (value: string) => {
+    if (!value || !totalSupply) return '0.00';
     const percentage = (Number(BigInt(value) * BigInt(10000) / totalSupply) / 100).toFixed(2);
     return percentage;
   };
@@ -79,7 +93,7 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {currentHolders.map((holder, index) => (
+          {currentHolders.map((holder: HolderItem, index: number) => (
             <TableRow key={holder.address.hash} className="border-b border-border dark:border-border">
               <TableCell className="font-medium">
                 {(currentPage - 1) * itemsPerPage + index + 1}
