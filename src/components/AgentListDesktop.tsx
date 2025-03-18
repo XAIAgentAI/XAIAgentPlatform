@@ -52,23 +52,25 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     }
   };
 
-  const sortedAgents = [...agents].sort((a, b) => {
-    if (!sortField) return 0
+  // const sortedAgents = [...agents].sort((a, b) => {
+  //   if (!sortField) return 0
 
-    let aValue: number, bValue: number;
+  //   let aValue: number, bValue: number;
 
-    if (sortField === 'holdersCount') {
-      aValue = a[sortField];
-      bValue = b[sortField];
-    } else {
-      aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
-      bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
-    }
+  //   if (sortField === 'holdersCount') {
+  //     aValue = a[sortField];
+  //     bValue = b[sortField];
+  //   } else {
+  //     aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
+  //     bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
+  //   }
 
-    return sortDirection === "asc"
-      ? aValue - bValue
-      : bValue - aValue
-  })
+  //   return sortDirection === "asc"
+  //     ? aValue - bValue
+  //     : bValue - aValue
+  // })
+
+  const sortedAgents = [...agents]
 
   console.log("sortedAgents", sortedAgents);
   

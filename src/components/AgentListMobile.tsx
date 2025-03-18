@@ -18,7 +18,7 @@ type SortDirection = "asc" | "desc"
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
-  
+
   const links = socialLinks.split(",").map(link => link.trim());
   return {
     twitter: links.filter(link => link.includes("x.com") || link.includes("twitter.com")),
@@ -52,28 +52,29 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
     }
   };
 
-  const sortedAgents = [...agents].sort((a, b) => {
-    if (!sortField) return 0
+  // const sortedAgents = [...agents].sort((a, b) => {
+  //   if (!sortField) return 0
 
-    let aValue: number, bValue: number;
+  //   let aValue: number, bValue: number;
 
-    if (sortField === 'holdersCount') {
-      aValue = a[sortField];
-      bValue = b[sortField];
-    } else {
-      aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
-      bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
-    }
+  //   if (sortField === 'holdersCount') {
+  //     aValue = a[sortField];
+  //     bValue = b[sortField];
+  //   } else {
+  //     aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
+  //     bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
+  //   }
 
-    return sortDirection === "asc"
-      ? aValue - bValue
-      : bValue - aValue
-  })
+  //   return sortDirection === "asc"
+  //     ? aValue - bValue
+  //     : bValue - aValue
+  // })
 
+  const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
-  
 
-  
+
+
 
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
@@ -138,12 +139,12 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('marketCap')}</span>
                     <p className="text-secondary-color text-sm font-medium">
-                      {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, ""))) 
+                      {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")))
                         ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0
+                        })
                         : agent.marketCap}
                     </p>
                   </div>
@@ -168,10 +169,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                     <p className="text-secondary-color text-sm font-medium">
                       {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
                         ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0
+                        })
                         : agent.volume24h}
                     </p>
                   </div>
@@ -180,10 +181,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                     <p className="text-secondary-color text-sm font-medium">
                       {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
                         ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0
+                        })
                         : '$0'}
                     </p>
                   </div>

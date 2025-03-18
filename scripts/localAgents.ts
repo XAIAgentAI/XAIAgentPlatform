@@ -97,7 +97,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "你可以创建哪些类型的 AI 智能体？",
       "你能告诉我如何使用 xx 作为智能体吗？"
     ],
-    socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI",
+    socialLinks: "https://x.com/XAIAgentAI, https://github.com/XAIAgentAI, https://t.me/XAIAgentAI/1",
     projectDescription: JSON.stringify({
       en: "1. Total Supply: 100 billion XAA\n2. 20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.\n3. During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools, never to be revoked.\n4. After IAO ends, $XAA and $DBC trading pairs will be immediately established on DBCSwap, enabling free trading of $XAA.",
       zh: "1. XAA 总供应量：1000亿\n2. 20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。\n3. 在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。\n4. IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。",

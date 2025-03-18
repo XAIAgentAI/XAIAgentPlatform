@@ -72,25 +72,27 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
 
   try {
     const tokenSwapDatas = await getBatchTokenPrices(tokenInfos);
-    
+
     // 记录获取到的价格变化数据，用于调试
-    console.log('首页获取到的价格变化数据:', 
+    console.log('首页获取到的价格变化数据:',
       Object.entries(tokenSwapDatas).map(([symbol, data]) => ({
         symbol,
         priceChange24h: data.priceChange24h
       }))
     );
-    
-    return agents.map(agent => {
+
+
+
+    const newAgents = agents.map(agent => {
       console.log('agent', agent)
       if (agent.tokenAddress && tokenSwapDatas[agent.symbol]) {
         const tokenSwapInfo = tokenSwapDatas[agent.symbol];
         const usdPrice = tokenSwapInfo.usdPrice || 0;
-        
+
         // 确保价格变化格式一致，保留两位小数
         const priceChange = tokenSwapInfo.priceChange24h || 0;
         const formattedPriceChange = priceChange === 0 ? "0.00" : priceChange.toFixed(2);
-        
+
         return {
           ...agent,
           marketCap: `$${formatNumber(usdPrice * (agent.totalSupply || 0))}`,
@@ -101,8 +103,12 @@ export const updateAgentsWithPrices = async (agents: LocalAgent[]): Promise<Loca
           lp: `$${formatNumber(tokenSwapInfo.lp || 0)}`
         };
       }
+
       return agent;
     });
+
+
+    return newAgents;
   } catch (error) {
     console.error('获取代币价格失败:', error);
     return agents;
