@@ -122,7 +122,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-24 lg:top-[76px] 2xl:top-[76px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-300 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
+      <div className={`fixed top-24 lg:top-[74px] xl:left-[1vw] 2xl:top-[74px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-300 dark:bg-zinc-800 p-4 text-white h-[calc(98.5vh-104px)] md:h-[calc(97vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -149,8 +149,8 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
         {isSearchOpen ? (
           <div className="overflow-y-auto">
             {searchResults.map((msg) => (
-              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-neutral-900 w-full text-zinc-700 text-center hover:bg-slate-400 rounded-xl">
-                {msg.content.substring(0, 20)+"..."}
+              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 w-full text-white rounded-m">
+                {msg.content.substring(0, 12)+"..."}
               </div>
             ))}
           </div>

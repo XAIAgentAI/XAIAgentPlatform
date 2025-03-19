@@ -38,7 +38,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
   const t = useTranslations("chat");
 
   return (
-    <div className="fixed bottom-6 w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]">
+    <div className="fixed bottom-[10px] md:bottom-[50px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]">
       <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
         <form onSubmit={handleSubmit} className="w-full relative">
           <div className="w-full relative">
@@ -47,7 +47,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("inputHolder")}
-              className="w-full rounded-full bg-stone-200 dark:bg-zinc-800 px-[18px] py-2 placeholder:text-white focus:outline-none border-none text-white focus:caret-white pr-10"
+              className="w-full rounded-full bg-stone-300 dark:bg-zinc-800 px-[18px] py-2 pb-[-0.6px] placeholder:text-white focus:outline-none border-none text-white focus:caret-white pr-10"
               disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}
@@ -55,8 +55,8 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
               type="submit"
               onClick={handleSendClick}
               disabled={!isSubmitEnabled}
-              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-white bg-opacity-10 dark:bg-opacity-10 ${
-                isSubmitEnabled ? 'bg-opacity-80 dark:bg-opacity-30' : ''
+              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-white dark:bg-white bg-opacity-30 dark:bg-opacity-10 ${
+                isSubmitEnabled ? 'bg-opacity-90 dark:bg-opacity-30' : ''
               }`}
             >
               <img
