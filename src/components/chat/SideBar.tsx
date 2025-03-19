@@ -117,12 +117,12 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-28 left-[26px] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[92px] left-[26px] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-28 lg:top-20 2xl:top-20 ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-400 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
+      <div className={`fixed top-24 lg:top-[76px] 2xl:top-[76px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-300 dark:bg-zinc-800 p-4 text-white h-[calc(100vh-104px)] md:h-[calc(100vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -157,10 +157,10 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
         ) : (
           <>
             <hr className="my-4 border-slate-200" />
-            <div className="text-sm mt-[-4px]">{t("7daysago")}</div>
+            <div className="text-sm mt-[-4px] mb-4">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
               {messages.map((msg) => (
-                <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 bg-stone-300 dark:bg-neutral-900 w-full text-zinc-700 text-center hover:bg-stone-400 dark:hover:bg-zinc-800 rounded-md">
+                <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 w-full text-white rounded-md">
                   {msg.content.substring(0,12)+"..."}
                 </div>
               ))}

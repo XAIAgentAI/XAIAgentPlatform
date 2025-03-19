@@ -57,7 +57,6 @@ async function insertUserRecord(user: string, password:string, chat: any) {
   const insertUserQuery = `
     INSERT INTO chat (name, password, chat)
     VALUES ($1, $2, $3)
-    ON CONFLICT (name) DO NOTHING;
   `;
   const values = [user, password, JSON.stringify(chat)]; 
   
@@ -148,23 +147,25 @@ export async function POST(
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const { message, thing, isNew, user: requestUser } = await request.json();
+  const { message, thing, isNew, user: requestUser, convid } = await request.json();
 
   if (thing === 'signup') {
-    // 生成用户名
-    const timestamp = Math.floor(Date.now() / 1000);
-    const randomNumbers = Math.floor(1000 + Math.random() * 9000).toString();
-    const user = `${timestamp}${randomNumbers}`;
+    // 生成初始用户名
+    let timestamp = Math.floor(Date.now() / 1000);
+    let randomNumbers = Math.floor(1000 + Math.random() * 90000).toString();
+    let user = `${timestamp}${randomNumbers}`;
     console.log(user);
 
-    // 检查数据库中是否存在相同用户名
-    const existingUser = await getUserRecord(user);
-    if (existingUser) {
-      return NextResponse.json({ error: 'User already exists.' });
+    let existingUser = await getUserRecord(user);
+    while (existingUser) {
+        randomNumbers = Math.floor(1000 + Math.random() * 90000).toString();
+        user = `${timestamp}${randomNumbers}`;
+        console.log(user);
+        existingUser = await getUserRecord(user);
     }
 
     // 插入新用户的记录
-    await insertUserRecord(user, "******", { chat: {} });
+    await insertUserRecord(user, "******", {});
     return NextResponse.json({ success: true, message: user });
   } else {
     // 使用请求中提供的用户名
@@ -191,7 +192,7 @@ export async function POST(
 
     const userMessage: Sentence = {
       user: message,
-      convid: isNew === "yes" ? (maxConvid + 1).toString() : maxConvid.toString()
+      convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString()
     };
 
     chat[agentId].push(userMessage);

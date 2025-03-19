@@ -42,14 +42,14 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-stone-400 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-20"
+          className="flex font-light items-center justify-between px-2 py-1 text-stone-300 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
           {isAgentListOpen ? (
-            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-stone-400 dark:text-foreground" />
+            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-stone-300 dark:text-foreground" />
           ) : (
-            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-stone-400 dark:text-foreground" />
+            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-stone-300 dark:text-foreground" />
           )}
         </button>
         {isAgentListOpen && (

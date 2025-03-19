@@ -119,7 +119,7 @@ export default function ChatPage() {
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew }),
+        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid }),
       });
 
       const data: Sentence = await response.json();
@@ -196,7 +196,7 @@ export default function ChatPage() {
         />
       )}
       {!userStatus && (
-        <div className="border-2 px-4 border-solid border-stone-400 fixed w-auto top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center align-center">
+        <div className="border-2 px-4 border-solid border-stone-400 fixed w-[260px] md:w-auto top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <p className="text-center h-[24px]">Please Connect a Wallet First</p>
         </div>
       )}
