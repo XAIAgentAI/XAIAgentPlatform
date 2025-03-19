@@ -47,7 +47,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("inputHolder")}
-              className="w-full rounded-full bg-stone-400 dark:bg-zinc-800 px-4 py-2 placeholder:text-stone-500 dark:placeholder:text-white focus:outline-none border-none text-slate-200 focus:caret-slate-200 pr-10"
+              className="w-full rounded-full bg-stone-400 dark:bg-zinc-800 px-4 py-2 placeholder:text-white focus:outline-none border-none text-slate-200 focus:caret-slate-200 pr-10"
               disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}
