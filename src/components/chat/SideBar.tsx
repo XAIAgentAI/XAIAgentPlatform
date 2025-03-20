@@ -121,12 +121,12 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-[88px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[116px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-[90px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(99vh-88px)] md:h-[calc(98vh-95px)] rounded-md`}>
+      <div className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -146,7 +146,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
               placeholder="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-[90%] h-[3.6vh] text-neutral-700 mx-auto pl-2 focus:outline-none rounded-sm space-x-2 space-y-2 focus:ring-2 focus:ring-stone-300 focus:border-stone-300 transition duration-300"
+              className="w-[90%] h-[3.6vh] min-h-[3.6vh] text-neutral-700 mx-auto pl-2 focus:outline-none rounded-sm space-x-2 space-y-2 focus:ring-2 focus:ring-stone-300 focus:border-stone-300 transition duration-300"
             />
           </div>
         )}

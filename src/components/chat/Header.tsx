@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid'; // 假设您使用的是heroicons库
+import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import AgentSelector from './AgentSelector'; // 根据您的项目结构调整路径
 
 interface AgentDescription {
@@ -39,19 +39,13 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
   return (
     <div className="flex catcher flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       {/* Agent Selection */}
-      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
-        <button
-          type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-stone-300 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-[60px]"
+      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] z-100">
+        <GradientBorderButton
+          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[22.5vw] xl:left-[calc(22vw+66px)] top-[72px]"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}
-          {isAgentListOpen ? (
-            <ArrowUpIcon className="w-5 h-5 mb-[2px] font-light text-stone-300 dark:text-foreground" />
-          ) : (
-            <ArrowDownIcon className="w-5 h-5 mb-[2px] font-light text-stone-300 dark:text-foreground" />
-          )}
-        </button>
+        </GradientBorderButton>
         {isAgentListOpen && (
           <AgentSelector handleAgentSelect={handleAgentSelect} />
         )}

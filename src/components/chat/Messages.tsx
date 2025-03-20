@@ -60,7 +60,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
             type="button"
-            className="fixed right-[10px] top-[85px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
+            className="fixed right-[10px] top-[113px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
                 await deleteMessages(setIsNew, userName, agentId, setConversations);
@@ -73,7 +73,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
           </button>
         </div>
       )}
-      <div className="flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
+      <div className="relative top-[22px] flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
         {messages.map((message) => (
           <div
             key={message.id}
