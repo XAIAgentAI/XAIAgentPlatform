@@ -60,7 +60,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
             type="button"
-            className="fixed right-[10px] top-[88px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
+            className="fixed right-[10px] top-[87px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
                 await deleteMessages(setIsNew, userName, agentId, setConversations);

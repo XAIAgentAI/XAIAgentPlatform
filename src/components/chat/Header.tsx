@@ -42,7 +42,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw]">
         <button
           type="button"
-          className="flex font-light items-center justify-between px-2 py-1 text-stone-300 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-16"
+          className="flex font-light items-center justify-between px-2 py-1 text-stone-300 dark:text-foreground text-lg rounded-full fixed left-[4vw] md:left-[2.6vw] lg:left-[21vw] xl:left-[calc(22vw+66px)] top-[60px]"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {selectedAgent}

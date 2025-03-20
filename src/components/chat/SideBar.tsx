@@ -113,16 +113,20 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     console.log(conversations);
   }
 
+  // 对messages进行分组，每个convid只取第一条消息
+  const uniqueConversations = Array.from(new Set(messages.map(msg => msg.convid)))
+  .map(convid => messages.find(msg => msg.convid === convid));
+
   return (
     <>
       <motion.button
         whileTap={{ scale: 0.95 }}
-        className="fixed top-[92px] left-[26px] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[88px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-24 lg:top-[74px] xl:left-[1vw] 2xl:top-[74px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-300 dark:bg-zinc-800 p-4 text-white h-[calc(98.5vh-104px)] md:h-[calc(97vh-115px)] rounded-md`}>
+      <div className={`fixed top-[90px] lg:top-[74px] xl:left-[1vw] 2xl:top-[74px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(99vh-100px)] md:h-[calc(98vh-115px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
@@ -142,25 +146,25 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
               placeholder="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-[90%] h-[3.6vh] text-neutral-700 mx-auto pl-2 focus:outline-none rounded-sm space-x-2 space-y-2 focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition duration-300"
+              className="w-[90%] h-[3.6vh] text-neutral-700 mx-auto pl-2 focus:outline-none rounded-sm space-x-2 space-y-2 focus:ring-2 focus:ring-stone-300 focus:border-stone-300 transition duration-300"
             />
           </div>
         )}
         {isSearchOpen ? (
-          <div className="overflow-y-auto">
+          <div className="flex flex-col flex-1 space-y-4 overflow-y-auto">
             {searchResults.map((msg) => (
-              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 w-full text-white rounded-m">
+              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="px-2 py-1 w-full text-white rounded-md bg-stone-300 hover:bg-stone-200 dark:bg-zinc-900 dark:hover:bg-zinc-800">
                 {msg.content.substring(0, 12)+"..."}
               </div>
             ))}
           </div>
         ) : (
           <>
-            <hr className="my-4 border-slate-200" />
-            <div className="text-sm mt-[-4px] mb-4">{t("7daysago")}</div>
+            <hr className="my-4 border-white" />
+            <div className="text-sm mt-[-4px] mb-4 text-white">{t("7daysago")}</div>
             <div className="flex flex-col flex-1 overflow-y-auto space-y-4">
-              {messages.map((msg) => (
-                <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="mb-2 w-full text-white rounded-md">
+              {uniqueConversations.map((msg:any) => (
+                <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="px-2 py-1 w-full text-white rounded-md bg-stone-300 hover:bg-stone-200 dark:bg-zinc-900 dark:hover:bg-zinc-800">
                   {msg.content.substring(0,12)+"..."}
                 </div>
               ))}
