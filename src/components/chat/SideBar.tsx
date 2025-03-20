@@ -126,7 +126,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed top-[90px] lg:top-[74px] xl:left-[1vw] 2xl:top-[74px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(99vh-100px)] md:h-[calc(98vh-115px)] rounded-md`}>
+      <div className={`fixed top-[90px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(99vh-88px)] md:h-[calc(98vh-95px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>

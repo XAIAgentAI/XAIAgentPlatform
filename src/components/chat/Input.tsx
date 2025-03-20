@@ -38,7 +38,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
   const t = useTranslations("chat");
 
   return (
-    <div className="fixed bottom-[2px] md:bottom-[40px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]">
+    <div className="fixed bottom-[2px] md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]">
       <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
         <form onSubmit={handleSubmit} className="w-full relative">
           <div className="w-full relative">
