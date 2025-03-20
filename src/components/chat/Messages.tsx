@@ -86,7 +86,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
                   : 'text-foreground'
               }`}
             >
-              <p className="text-sm">{message.content}</p>
+              <p className="text-sm text-justify">{message.content}</p>
               <p className={`text-xs mt-1 text-white/70`}>
                 {isValidDate(message.timestamp) ? new Date(message.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString()}
               </p>
