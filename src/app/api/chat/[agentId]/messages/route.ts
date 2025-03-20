@@ -75,18 +75,12 @@ async function getUserRecord(user: string) {
     SELECT * FROM chat WHERE name = $1;
   `;
   const values = [user];
-  
-  try {
-    const result = await pool.query(getUserQuery, values);
-    if (result.rows.length > 0) {
-      return result.rows[0];
-    }
-    return null;
-  } catch (error) {
-    console.error('Error getting user record:', error);
-    throw error;
+  const result = await pool.query(getUserQuery, values);
+  if (result.rows.length > 0) {
+    return result.rows[0];
   }
-}
+  return null;
+} 
 
 // 更新chat字段
 async function updateUserChat(user: string, chat: Conversation) {
@@ -142,12 +136,13 @@ export async function GET(
 
   return NextResponse.json(chat[agentId]);
 }
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const { message, thing, isNew, user: requestUser, convid } = await request.json();
+  const { message, thing, isNew, user: requestUser, convid, model } = await request.json();
 
   if (thing === 'signup') {
     // 生成初始用户名
@@ -165,7 +160,7 @@ export async function POST(
     }
 
     // 插入新用户的记录
-    await insertUserRecord(user, "******", {});
+    await insertUserRecord(user, "******", {"0":[]});
     return NextResponse.json({ success: true, message: user });
   } else {
     // 使用请求中提供的用户名
@@ -181,6 +176,9 @@ export async function POST(
     }
 
     let chat = userChat.chat;
+    if (typeof chat === 'string') {
+      chat = JSON.parse(chat); // 将字符串解析为对象
+    }
     if (!chat[agentId]) {
       chat[agentId] = [];
     }
@@ -197,9 +195,21 @@ export async function POST(
 
     chat[agentId].push(userMessage);
 
+    let selectedModel;
+    if(!model){
+      selectedModel = "DeepSeek-V3";
+    } else if (model == "DeepSeek V3") {
+      selectedModel = "DeepSeek-V3";
+    } else if (model == "DeepSeek R1") {
+      selectedModel = "DeepSeek-R1";
+    } else {
+      selectedModel = "DeepSeek-V3";
+    }
+    console.log(selectedModel);
+
     const requestBody = {
       project: "DecentralGPT",
-      model: "Llama3.3-70B",
+      model: selectedModel,
       messages: [
         {
           role: "system",
@@ -225,6 +235,12 @@ export async function POST(
     });
 
     const responseData = await response.json();
+    console.log(responseData); // 添加一行调试输出
+
+    if (!responseData.choices || responseData.choices.length === 0) {
+      return NextResponse.json({ error: 'No choices found in response.' });
+    }
+
     const aiResponseData = responseData.choices[0].message;
 
     const aiResponse: Sentence = {

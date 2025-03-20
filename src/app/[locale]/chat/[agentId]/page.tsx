@@ -119,7 +119,7 @@ export default function ChatPage() {
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid }),
+        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: selectedAgent }),
       });
 
       const data: Sentence = await response.json();
