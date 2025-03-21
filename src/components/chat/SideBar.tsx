@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
@@ -40,6 +40,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
   const [moreground, setMoreground] = useState('bg-stone-200');
   const [searchResults, setSearchResults] = useState<Message[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   
   const locale = useLocale();
   const t = useTranslations("chat");
@@ -102,6 +103,24 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     setMoreground("bg-stone-300");
   }
 
+  useEffect(()=>{
+    const handleClickOutside = (event: MouseEvent) => {
+      if(smallHidden !== "hidden" && sidebarRef.current && !sidebarRef.current.contains(event.target as Node)){
+        setSmallHidden("hidden");
+      }
+    };
+
+    // 如果侧边栏不是隐藏状态，则添加事件监听器
+    if (smallHidden !== "hidden") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // 清理事件监听器，防止内存泄漏
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  },[smallHidden])
+
   // 修改消息点击处理函数
   const handleConversationClick = (convid: string) => {
     setIsNew("no");
@@ -126,7 +145,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
       >
         <Menu></Menu>
       </motion.button>
-      <div className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`}>
+      <div ref={sidebarRef} className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-stone-200 dark:bg-zinc-800 p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`}>
         <div className="flex justify-end space-x-2">
           <div className="relative right-[88px] w-[50px] flex items-center self-start lg:right-[calc(8vw-20px)] xl:right-[calc(9vw-5px)] 2xl:right-[10vw]">
           </div>
