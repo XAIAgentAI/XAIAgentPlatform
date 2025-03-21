@@ -14,6 +14,7 @@ interface Conversation {
 }
 
 const connectionString = process.env.CHAT_URL;
+const chatDeployed = process.env.LLM_URL || "";
 
 const pool = new Pool({ connectionString });
 
@@ -226,7 +227,7 @@ export async function POST(
       hash: "not yet"
     };
 
-    const response = await fetch('https://korea-chat.degpt.ai/api/v0/chat/completion/proxy', {
+    const response = await fetch(chatDeployed, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
