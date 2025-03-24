@@ -19,6 +19,7 @@ interface Message {
 }
 
 interface HeaderComponentProps {
+  agent: string,
   convid: string;
   userName: string | null;
   setUserName: any;
@@ -35,22 +36,9 @@ interface HeaderComponentProps {
   setIsNew: React.Dispatch<React.SetStateAction<string>>
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agentId, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agentId, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
   return (
     <div className="flex catcher flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
-      {/* Agent Selection */}
-      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] z-100">
-        <GradientBorderButton
-          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[22.5vw] xl:left-[calc(22vw+66px)] top-[72px]"
-          onClick={() => setIsAgentListOpen(!isAgentListOpen)}
-        >
-          {selectedAgent}
-        </GradientBorderButton>
-        {isAgentListOpen && (
-          <AgentSelector handleAgentSelect={handleAgentSelect} />
-        )}
-      </div>
-
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
       <div className="h-[78vh]">
         <div className="w-24 h-24 mx-auto">
@@ -58,7 +46,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
             <circle cx="12" cy="12" r="12" stroke="rgb(237,237,237)" strokeWidth="0.5" fill="rgb(237,237,237)" />
           </svg>
         </div>
-        <p className="text-lg font-semibold text-center">{selectedAgent}</p>
+        <p className="text-lg font-semibold text-center">{agent}</p>
         <p className="text-md text-center">{agentDescriptions[selectedAgent]?.metrics}</p>
         <p className="text-sm text-neutral-700 text-center">
           Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.com">app.xaiagent.com</a>
@@ -93,7 +81,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        const response = await fetch(`/api/chat/${agentId}/messages`, {
                          method: 'POST',
                          headers: { 'Content-Type': 'application/json' },
-                         body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes", model: selectedAgent}),
+                         body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes", model: "DeepSeek V3"}),
                        });
 
                        setIsNew("no");

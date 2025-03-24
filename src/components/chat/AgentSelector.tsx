@@ -1,40 +1,32 @@
 import React from 'react';
 
 interface AgentSelectorProps {
-    handleAgentSelect: (agent:string) => void
+    handleAgentSelect: any;
+    agent: string | null;
 }
 
-const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect }) => {
+const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect, agent }) => {
     return (
-        <div className="fixed top-[114px] left-[2.24vw] md:left-[1.4vw] lg:left-[21.98vw] xl:left-[25.9vw] w-[120px] bg-stone-200 dark:bg-zinc-800 rounded-b-lg shadow-lg z-10000">
-            <button
-                type="button"
-                className="relative z-10000 flex items-center w-full pl-[13px] py-2 text-white dark:text-zinc-700 hover:bg-stone-300 dark:hover:bg-zinc-500 hover:text-white"
-                onClick={() => handleAgentSelect('Scholar GPT')}
-            >
-                <p>Scholar GPT</p>
-            </button>
-            <button
-                type="button"
-                className="relative z-10000 flex items-center w-full pl-[13px] py-2 text-white dark:text-zinc-700 hover:bg-stone-300 dark:hover:bg-zinc-500 hover:text-white"
-                onClick={() => handleAgentSelect('DeepSeek V3')}
-            >
-                <p>DeepSeek V3</p>
-            </button>
-            <button
-                type="button"
-                className="relative z-10000 flex items-center w-full pl-[13px] py-2 text-white dark:text-zinc-700 hover:bg-stone-300 dark:hover:bg-zinc-500 hover:text-white"
-                onClick={() => handleAgentSelect('DeepSeek R1')}
-            >
-               <p>DeepSeek R1</p>
-            </button>
-            <button
-                type="button"
-                className="relative z-10000 flex items-center w-full pl-[13px] py-2 text-white dark:text-zinc-700 hover:bg-stone-300 dark:hover:bg-zinc-500 hover:text-white"
-                onClick={() => handleAgentSelect('Chatgpt o4')}
-            >
-               <p>Chatgpt o4</p>
-            </button>
+        <div className="fixed z-20000 top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-slate-200 bg-opacity-50" style={{zIndex:200}}>
+            <div className="bg-stone-400 dark:bg-[#333333] w-[300px] rounded-lg shadow-lg flex flex-col mx-auto my-auto absolute" style={{zIndex:220}}>
+                <h3 className="text-white p-4 text-left">Select an Agent</h3>
+                <div className="flex flex-col items-center justify-center space-y-2">
+                    {['Xaiagent','StyleID','DecentralGPT','SuperImage'].map((eachagent,index) => (
+                        <button
+                            key={eachagent}
+                            type="button"
+                            className="relative flex flex-col w-full pl-4 py-2 text-white"
+                            onClick={() => handleAgentSelect(eachagent)}
+                        >
+                            <p className="w-full text-left">{eachagent}</p>
+                            {agent === eachagent && <span className="absolute right-4 top-4">&#10004;</span>}
+                            <div className="mt-2 text-xs w-full">
+                              <p className="text-start text-stone-200">This is a recommended model</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };

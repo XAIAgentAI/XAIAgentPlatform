@@ -9,6 +9,8 @@ import MessagesComponent from '@/components/chat/Messages';
 import InputComponent from '@/components/chat/Input';
 import SideBar from '@/components/chat/SideBar';
 import { useLocale, useTranslations } from 'next-intl';
+import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
+import AgentSelector from '@/components/chat/AgentSelector'; 
 
 interface Message {
   id: string;
@@ -46,7 +48,8 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [convid, setConvid] = useState<string>("");
   const [isNew, setIsNew] = useState<string>("yes");
-  const [selectedAgent, setSelectedAgent] = useState('Scholar GPT');
+  const [agent, setAgent] = useState<string>("Xaiagent");
+  const [selectedAgent, setSelectedAgent] = useState('DeepSeek V3');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
@@ -119,7 +122,7 @@ export default function ChatPage() {
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: selectedAgent }),
+        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: "DeepSeek V3" }),
       });
 
       const data: Sentence = await response.json();
@@ -142,8 +145,8 @@ export default function ChatPage() {
   };
 
   const handleAgentSelect = (agent: string) => {
-    setSelectedAgent(agent);
-    setIsAgentListOpen(false);
+    setAgent(agent);
+    setTimeout(()=>{setIsAgentListOpen(false)},200);
   };
 
   const handleAuth = async () => {
@@ -179,6 +182,7 @@ export default function ChatPage() {
       <SideBar conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} userName={userName} setUserName={setUserName}/>
       {!conversations[agentId]?.length && (
         <HeaderComponent 
+          agent={agent}
           userName={userName}
           setUserName={setUserName}
           agentId={agentId}
@@ -195,12 +199,25 @@ export default function ChatPage() {
           setIsNew={setIsNew}
         />
       )}
+      {/* Agent Selection */}
+      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] z-100">
+        <GradientBorderButton
+          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[22.5vw] xl:left-[calc(22vw+66px)] top-[72px]"
+          onClick={() => setIsAgentListOpen(!isAgentListOpen)}
+        >
+          {agent}
+        </GradientBorderButton>
+        {isAgentListOpen && (
+          <AgentSelector handleAgentSelect={handleAgentSelect} agent={agent}/>
+        )}
+      </div>
       {!userStatus && (
         <div className="border-2 px-4 border-solid border-stone-400 fixed w-[260px] md:w-auto top-[100px] left-[50vw] bg-stone-300 dark:bg-stone-700 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <p className="text-center h-[24px]">Waiting for connection...</p>
         </div>
       )}
       <MessagesComponent 
+        agent={agent}
         userName={userName}
         conversations={conversations}
         setConversations={setConversations}

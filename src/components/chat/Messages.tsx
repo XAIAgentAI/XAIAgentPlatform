@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image' ;
 
 interface Message {
   id: string;
@@ -20,7 +21,8 @@ interface MessagesComponentProps {
   setConversations: Dispatch<SetStateAction<Conversations>>;
   messagesEndRef: RefObject<HTMLDivElement | null>;
   agentId: string;
-  setIsNew: React.Dispatch<SetStateAction<string>>
+  setIsNew: React.Dispatch<SetStateAction<string>>;
+  agent: string;
 }
 
 async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
@@ -34,7 +36,7 @@ async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userNam
   });
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
+const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations[agentId] || []);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
   };
 
   return (
-    <div className="flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ maxHeight:"75vh" }}>
+    <div className="z-1 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ maxHeight:"75vh" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
@@ -73,12 +75,16 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ setIsNew, userName, age
           </button>
         </div>
       )}
-      <div className="relative top-[22px] flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
+      <div className="relative z-1 top-[22px] flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start flex-col'}`}
+          > 
+            <div className="flex flex-row">
+            <Image alt={agent} src="/logo/ArgusAI.png" width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
+            <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{agent}</div>
+            </div>
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                 message.role === 'user'
