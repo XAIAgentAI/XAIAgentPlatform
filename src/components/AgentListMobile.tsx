@@ -1,20 +1,19 @@
 "use client"
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
 import { useState } from "react"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
+import { Card } from "@/components/ui/card"
+import { SocialLinks } from "@/components/ui/social-links"
+import { BatchStakeNFTDialog } from "@/components/agent-list/batch-stake-nft-dialog"
 import { Button } from "@/components/ui/button"
+import { BuyNFTButton } from "@/components/agent-list/buy-nft-button"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
-import { SocialLinks } from "@/components/ui/social-links"
-
-type SortField = "marketCap" | "holdersCount" | "tvl" | null
-type SortDirection = "asc" | "desc"
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -31,50 +30,49 @@ const parseSocialLinks = (socialLinks?: string) => {
 
 const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const t = useTranslations('agentList');
-  const [sortField, setSortField] = useState<SortField>("marketCap")
-  const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
   const locale = useLocale();
-
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-    } else {
-      setSortField(field)
-      setSortDirection("desc")
+  const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
+  
+  // NFT数据
+  const nftItems = [
+    {
+      id: 1,
+      name: "Starter Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819487.png",
+      totalReward: 4000,
+      dailyReward: 40,
+      iaoExtraPercentage: 3,
+      isStaked: false,
+      count: 2,
+      price: 99
+    },
+    {
+      id: 2,
+      name: "Pro Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819543.png",
+      totalReward: 8000,
+      dailyReward: 80,
+      iaoExtraPercentage: 5,
+      isStaked: true,
+      count: 1,
+      price: 199
+    },
+    {
+      id: 3,
+      name: "Master Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819347.png",
+      totalReward: 10000,
+      dailyReward: 100,
+      iaoExtraPercentage: 10,
+      isStaked: false,
+      count: 1,
+      price: 299
     }
-  }
-
-  const handleSocialClick = (e: React.MouseEvent<HTMLButtonElement>, url: string) => {
-    e.stopPropagation();
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
-  // const sortedAgents = [...agents].sort((a, b) => {
-  //   if (!sortField) return 0
-
-  //   let aValue: number, bValue: number;
-
-  //   if (sortField === 'holdersCount') {
-  //     aValue = a[sortField];
-  //     bValue = b[sortField];
-  //   } else {
-  //     aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
-  //     bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
-  //   }
-
-  //   return sortDirection === "asc"
-  //     ? aValue - bValue
-  //     : bValue - aValue
-  // })
+  ];
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
-
-
-
 
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
@@ -101,8 +99,87 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
               </TabsTrigger>
             </TabsList>
           </Tabs>
+          
+          <div className="ml-auto">
+            <Button
+              variant="colored"
+              onClick={() => setStakeDialogOpen(true)}
+              className="px-4 py-2 h-auto text-xs"
+            >
+              批量质押
+            </Button>
+          </div>
         </div>
       </div>
+
+      {/* NFT质押汇总卡片 */}
+      <div className="px-4 mb-6 mt-4">
+        <Card className="p-4">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-medium">我的NFT</h3>
+            <div className="text-xs text-muted-color">总计: 4个</div>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-3 mb-4">
+            {nftItems.map((item) => (
+              <div key={item.id} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
+                <div className="flex items-center">
+                  <Avatar className={`w-8 h-8 rounded-md mr-3 ${
+                    item.id === 1 ? "bg-blue-100" : 
+                    item.id === 2 ? "bg-purple-100" : "bg-red-100"
+                  }`}>
+                    <img 
+                      src={item.image} 
+                      alt={item.name} 
+                      className="object-cover" 
+                    />
+                  </Avatar>
+                  <div>
+                    <div className="text-sm font-medium">{item.name}</div>
+                    <div className="text-xs text-muted-color">
+                      {item.count > 1 ? `${item.count}个` : "1个"}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="text-right mr-3">
+                    <div className="text-sm">{item.dailyReward * (item.count || 1)} XAA/天</div>
+                    <div className="text-xs text-muted-color">
+                      {item.isStaked ? "已质押" : "未质押"}
+                    </div>
+                  </div>
+                  {!item.isStaked && (
+                    <BuyNFTButton 
+                      nftName={item.name} 
+                      price={item.price} 
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex items-center justify-between pt-2 border-t border-border/30">
+            <div>
+              <div className="text-sm">总每日奖励</div>
+              <div className="text-lg font-bold text-primary">120 XAA</div>
+            </div>
+            <Button
+              variant="colored"
+              onClick={() => setStakeDialogOpen(true)}
+              className="px-6 py-2 h-auto"
+            >
+              批量质押
+            </Button>
+          </div>
+        </Card>
+      </div>
+      
+      <BatchStakeNFTDialog 
+        open={stakeDialogOpen}
+        onOpenChange={setStakeDialogOpen}
+        nftItems={nftItems}
+      />
 
       {loading ? (
         <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">

@@ -11,8 +11,10 @@ import { Loading } from "@/components/ui-custom/loading"
 import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
-import { formatPriceChange } from '@/lib/utils';
 import { SocialLinks } from "@/components/ui/social-links"
+import { BatchStakeNFTDialog } from "@/components/agent-list/batch-stake-nft-dialog"
+import { BuyNFTButton } from "@/components/agent-list/buy-nft-button"
+import { Card } from "@/components/ui/card"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -35,6 +37,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
   const locale = useLocale();
+  const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -44,31 +47,6 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       setSortDirection("desc")
     }
   }
-
-  const handleSocialClick = (e: React.MouseEvent<HTMLButtonElement>, url: string) => {
-    e.stopPropagation();
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
-  // const sortedAgents = [...agents].sort((a, b) => {
-  //   if (!sortField) return 0
-
-  //   let aValue: number, bValue: number;
-
-  //   if (sortField === 'holdersCount') {
-  //     aValue = a[sortField];
-  //     bValue = b[sortField];
-  //   } else {
-  //     aValue = parseFloat(a[sortField].replace(/[^0-9.-]+/g, ""));
-  //     bValue = parseFloat(b[sortField].replace(/[^0-9.-]+/g, ""));
-  //   }
-
-  //   return sortDirection === "asc"
-  //     ? aValue - bValue
-  //     : bValue - aValue
-  // })
 
   const sortedAgents = [...agents]
 
@@ -93,6 +71,42 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
+  // NFT数据
+  const nftItems = [
+    {
+      id: 1,
+      name: "Starter Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819487.png",
+      totalReward: 4000,
+      dailyReward: 40,
+      iaoExtraPercentage: 3,
+      isStaked: false,
+      count: 2,
+      price: 99
+    },
+    {
+      id: 2,
+      name: "Pro Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819543.png",
+      totalReward: 8000,
+      dailyReward: 80,
+      iaoExtraPercentage: 5,
+      isStaked: true,
+      count: 1,
+      price: 199
+    },
+    {
+      id: 3,
+      name: "Master Node",
+      image: "https://cdn-icons-png.flaticon.com/512/8819/8819347.png",
+      totalReward: 10000,
+      dailyReward: 100,
+      iaoExtraPercentage: 10,
+      isStaked: false,
+      count: 1,
+      price: 299
+    }
+  ];
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
@@ -114,7 +128,99 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
+        
+        <div className="ml-auto">
+          <Button
+            variant="colored"
+            onClick={() => setStakeDialogOpen(true)}
+            className="px-4 py-2 h-auto text-sm"
+          >
+            批量质押NFT
+          </Button>
+        </div>
       </div>
+
+      {/* NFT区域 */}
+      {/* <div className="border-b border-[#E5E5E5] dark:border-white/10 mb-6">
+        <div className="flex justify-between items-center py-4">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-medium">我的NFT</h3>
+            <CustomBadge variant="default" className="text-[10px] py-px px-1.5">
+              4个
+            </CustomBadge>
+          </div>
+          <Button
+            variant="colored"
+            onClick={() => setStakeDialogOpen(true)}
+            className="h-auto py-2 px-6"
+          >
+            批量质押NFT
+          </Button>
+        </div>
+        
+        <div className="grid grid-cols-3 gap-6 mb-6">
+          {nftItems.map((item) => (
+            <Card key={item.id} className="p-4">
+              <div className="flex items-center mb-4">
+                <Avatar className={`w-12 h-12 rounded-md mr-4 ${
+                  item.id === 1 ? "bg-blue-100" : 
+                  item.id === 2 ? "bg-purple-100" : "bg-red-100"
+                }`}>
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="object-cover" 
+                  />
+                </Avatar>
+                <div>
+                  <h3 className="font-medium">{item.name}</h3>
+                  <p className="text-xs text-muted-color">
+                    {item.count > 1 ? `${item.count}个` : "1个"}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-color">每日奖励</span>
+                  <span className="font-medium">{item.dailyReward * (item.count || 1)} XAA</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-color">IAO额外收益</span>
+                  <span className="font-medium">+{item.iaoExtraPercentage}%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-color">状态</span>
+                  <span className="font-medium">{item.isStaked ? "已质押" : "未质押"}</span>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 mt-auto">
+                {!item.isStaked && (
+                  <BuyNFTButton 
+                    nftName={item.name} 
+                    price={item.price} 
+                    className="flex-1"
+                  />
+                )}
+                <Button
+                  variant="colored"
+                  onClick={() => setStakeDialogOpen(true)}
+                  className="h-auto py-2 flex-1"
+                >
+                  {item.isStaked ? "查看" : "质押"}
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div> */}
+
+      <BatchStakeNFTDialog 
+        open={stakeDialogOpen}
+        onOpenChange={setStakeDialogOpen}
+        nftItems={nftItems}
+      />
 
       <div className="overflow-x-auto hide-scrollbar">
         <div className="min-w-[1000px]">
