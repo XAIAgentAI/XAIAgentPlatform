@@ -298,7 +298,7 @@
     }
   },
   "chat": {
-    "inputHolder": "Send a Message",
+    "inputHolder": "Send a message",
     "inputInfo": "AI agent might make mistakes. Please check important information.",
     "Data": {
       "Scholar GPT": {

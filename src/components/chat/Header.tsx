@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
-import AgentSelector from './AgentSelector'; // 根据您的项目结构调整路径
+import AgentSelector from './AgentSelector'; 
+import Image from 'next/image';
 
 interface AgentDescription {
   metrics: string;
@@ -37,14 +38,18 @@ interface HeaderComponentProps {
 }
 
 const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agentId, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+  const src: {[key:string]:string} = {
+    "Xaiagent":"/logo/XAIAgent.png",
+    "StyleID":"/logo/StyleID.png",
+    "DeepLink":"/logo/DeepLink.png",
+    "PicSpan":"/logo/PicSpan.png"
+  }
   return (
     <div className="flex catcher flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
       <div className="h-[78vh]">
         <div className="w-24 h-24 mx-auto">
-          <svg className="w-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="12" stroke="rgb(237,237,237)" strokeWidth="0.5" fill="rgb(237,237,237)" />
-          </svg>
+          <Image src={`${src[agent]}`} width={24} height={24} alt="logo" className="mx-auto w-[10vh] h-[10vh] rounded-full relative top-2 md:top-4"></Image>
         </div>
         <p className="text-lg font-semibold text-center">{agent}</p>
         <p className="text-md text-center">{agentDescriptions[selectedAgent]?.metrics}</p>

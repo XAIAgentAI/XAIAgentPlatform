@@ -38,7 +38,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
   const t = useTranslations("chat");
 
   return (
-    <div className="fixed bottom-[2px] md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]">
+    <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw]" style={{zIndex:10000}}>
       <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
         <form onSubmit={handleSubmit} className="w-full relative">
           <div className="w-full relative">
@@ -47,7 +47,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ agentId, setIsNew, conv
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("inputHolder")}
-              className="w-full rounded-full bg-stone-200 dark:bg-zinc-800 px-[18px] py-[10px] pb-[12px] placeholder-stone-400 dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10"
+              className="w-full rounded-full bg-stone-200 dark:bg-zinc-800 px-[18px] py-[10px] pb-[10.5px] placeholder-stone-400 dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10"
               disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}

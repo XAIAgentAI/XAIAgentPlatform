@@ -11,11 +11,11 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect, agent 
             <div className="bg-stone-400 dark:bg-[#333333] w-[300px] rounded-lg shadow-lg flex flex-col mx-auto my-auto absolute" style={{zIndex:220}}>
                 <h3 className="text-white p-4 text-left">Select an Agent</h3>
                 <div className="flex flex-col items-center justify-center space-y-2">
-                    {['Xaiagent','StyleID','DecentralGPT','SuperImage'].map((eachagent,index) => (
+                    {['Xaiagent','StyleID','DeepLink','PicSpan'].map((eachagent,index) => (
                         <button
                             key={eachagent}
                             type="button"
-                            className="relative flex flex-col w-full pl-4 py-2 text-white"
+                            className="relative flex flex-col w-full pl-4 py-2 text-white hover:w-[98.6%] hover:mx-auto duration-200"
                             onClick={() => handleAgentSelect(eachagent)}
                         >
                             <p className="w-full text-left">{eachagent}</p>
