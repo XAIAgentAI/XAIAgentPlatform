@@ -100,6 +100,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             </div>
           </div>
         ))}
+        {isLoading && (
+          <div className={`flex justify-center`}>
+            <p className="text-sm text-gray-500">Loading...</p>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
     </div>
