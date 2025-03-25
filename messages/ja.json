@@ -1,6 +1,6 @@
 {
   "common": {
-    "connect": "ウォレット接続",
+    "connect": "ウォレットを接続",
     "disconnect": "切断",
     "loading": "読み込み中...",
     "error": "エラー",
@@ -21,7 +21,9 @@
       "minutes": "分",
       "seconds": "秒"
     },
-    "noData": "データなし"
+    "noData": "データなし",
+    "status": "ステータス",
+    "view": "表示"
   },
   "navigation": {
     "home": "ホーム",
@@ -313,5 +315,57 @@
     "retry": "再試行",
     "noData": "データなし",
     "waitForIoComplete": "IAO終了後、取引開始時に価格推移が表示されます"
+  },
+  "nft": {
+    "batchStakeNFT": "NFTステーク",
+    "batchStake": "ステーク",
+    "itemCountSingle": "1個",
+    "itemCountMultiple": "{count}個",
+    "dailyReward": "日次報酬",
+    "iaoExtraIncome": "IAO追加収益",
+    "staked": "ステーク済み",
+    "unstaked": "未ステーク",
+    "stake": "ステーク",
+    "totalDailyReward": "総日次報酬",
+    "pleaseSelectNFT": "ステークするNFTを最低1つ選択してください",
+    "stakeFailRetry": "ステークに失敗しました。後でもう一度お試しください",
+    "stakeableNFT": "ステーク可能なNFT",
+    "totalReward": "総報酬額（XAA）",
+    "dailyRewardXAA": "日次報酬（XAA）",
+    "iaoExtraReward": "IAO追加報酬",
+    "stakedNFT": "ステーク済みNFT",
+    "count": "数量",
+    "claimedReward": "請求済み報酬（XAA）",
+    "startTime": "開始時間",
+    "currentTime": "現在時刻",
+    "stakeExpireTime": "ステーク期限",
+    "noStakeableNFT": "ステーク可能なNFTはありません",
+    "confirming": "処理中...",
+    "confirmStake": "ステーク確認",
+    "noStakedNFT": "ステーク済みNFTはありません",
+    "stakeSuccess": "ステーク成功",
+    "claimReward": "報酬を請求",
+    "stakeNFTRewardDetail": "NFTステーク報酬の詳細",
+    "stakeNFTForReward": "報酬を得るためにNFTをステーク",
+    "viewStakeDetailAndReward": "ステーク詳細と現在の報酬を表示",
+    "stakeNFTForDailyReward": "日次XAA報酬を得るためにNFTをステーク",
+    "staking": "ステーク中...",
+    "selected": "選択済み",
+    "itemCount": "NFT",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "totalRewardLabel": "総報酬額",
+    "stakeSuccessDesc": "{name}のステークに成功しました。毎日{reward} XAAの報酬が得られます",
+    "claimRewardDesc": "{reward} XAAの報酬請求に成功しました"
+  },
+  "regions": {
+    "japan": "日本",
+    "global": "グローバル",
+    "korea": "韓国",
+    "china": "中国",
+    "us": "アメリカ",
+    "vietnam": "ベトナム",
+    "thailand": "タイ",
+    "indonesia": "インドネシア"
   }
 }

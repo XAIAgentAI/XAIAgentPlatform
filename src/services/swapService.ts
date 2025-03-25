@@ -717,10 +717,8 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
           const baseTokenUsdPriceFormatted = Number(baseTokenUsdPrice.toFixed(8));
           const lp = Number((baseTokenAmount * baseTokenUsdPriceFormatted).toFixed(2)); // 乘以 DBC 单价
-          console.log("baseTokenAmount", baseTokenAmount, "baseTokenUsdPriceFormatted", baseTokenUsdPriceFormatted, "lp", lp);
-          6095240865
+     
 
-          debugger
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,

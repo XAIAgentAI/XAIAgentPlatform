@@ -2,6 +2,7 @@ import { Twitter, MessageCircle as Telegram, Youtube } from "lucide-react"
 import type { ReactNode } from 'react'
 import { GB, JP, KR, CN, US, VN, TH, ID } from 'country-flag-icons/react/3x2'
 import { Globe } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface SocialLinksProps {
   links: string
@@ -14,6 +15,7 @@ interface RegionInfo {
 }
 
 export function SocialLinks({ links, className = "" }: SocialLinksProps) {
+  const t = useTranslations('regions')
   const socialLinks = links.split(",").map(link => link.trim())
 
   const handleSocialClick = (e: React.MouseEvent, url: string) => {
@@ -64,48 +66,48 @@ export function SocialLinks({ links, className = "" }: SocialLinksProps) {
 
     if (url.includes("DeepLinkJapan")) {
       return {
-        name: "日本",
+        name: t('japan'),
         flag: <JP className={flagClass} />
       }
     }
     if (url.includes("DeepLinkGlobal")) {
       return {
-        name: "全球"
+        name: t('global')
       }
     }
     if (url.includes("DeepLinkKorea")) {
       return {
-        name: "韩国",
+        name: t('korea'),
         flag: <KR className={flagClass} />
       }
     }
     if (url.includes("DeepLinkChina")) {
       return {
-        name: "中国",
+        name: t('china'),
         flag: <CN className={flagClass} />
       }
     }
     if (url.includes("DeepLinkUS")) {
       return {
-        name: "美国",
+        name: t('us'),
         flag: <US className={flagClass} />
       }
     }
     if (url.includes("DeepLinkVietnam")) {
       return {
-        name: "越南",
+        name: t('vietnam'),
         flag: <VN className={flagClass} />
       }
     }
     if (url.includes("DeepLinkThailand")) {
       return {
-        name: "泰国",
+        name: t('thailand'),
         flag: <TH className={flagClass} />
       }
     }
     if (url.includes("DeepLinkIndonesia")) {
       return {
-        name: "印尼",
+        name: t('indonesia'),
         flag: <ID className={flagClass} />
       }
     }

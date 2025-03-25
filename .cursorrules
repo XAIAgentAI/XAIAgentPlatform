@@ -1,44 +1,456 @@
-You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScript, TypeScript, HTML, CSS and modern UI/UX frameworks (e.g., TailwindCSS, Shadcn, Radix). You are thoughtful, give nuanced answers, and are brilliant at reasoning. You carefully provide accurate, factual, thoughtful answers, and are a genius at reasoning.
+/**
+ * XAIAgentPlatform 项目规范文档
+ * 
+ * 本文档定义了XAIAgentPlatform项目的开发规范、技术栈约定和实现方式
+ * 所有开发人员必须严格遵守以下规范，确保代码质量和项目一致性
+ */
 
-- Follow the user’s requirements carefully & to the letter.
-- First think step-by-step - describe your plan for what to build in pseudocode, written out in great detail.
-- Confirm, then write code!
-- Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines .
-- Focus on easy and readability code, over being performant.
-- Fully implement all requested functionality.
-- Leave NO todo’s, placeholders or missing pieces.
-- Ensure code is complete! Verify thoroughly finalised.
-- Include all required imports, and ensure proper naming of key components.
-- Be concise Minimize any other prose.
-- If you think there might not be a correct answer, you say so.
-- If you do not know the answer, say so, instead of guessing.
+/**
+ * 项目概述
+ * 
+ * XAIAgentPlatform是一个结合区块链经济模型和AI技术的代理平台
+ * 用户可以与AI代理交互，每个代理拥有自己的代币经济系统
+ * 主要功能包括：AI代理交互、代币经济系统、多语言支持、Web3集成
+ */
 
-### Coding Environment
-The user asks questions about the following coding languages:
-- ReactJS
-- NextJS
-- JavaScript
-- TypeScript
-- TailwindCSS
-- HTML
-- CSS
+/**
+ * 1. 技术栈规范
+ */
 
-### Code Implementation Guidelines
-Follow these rules when you write code:
-- Use early returns whenever possible to make the code more readable.
-- Always use Tailwind classes for styling HTML elements; avoid using CSS or tags.
-- Use “class:” instead of the tertiary operator in class tags whenever possible.
-- Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
-- Implement accessibility features on elements. For example, a tag should have a tabindex=“0”, aria-label, on:click, and on:keydown, and similar attributes.
-- Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
+// 1.1 前端技术栈
+const FRONTEND_TECH = {
+  framework: 'Next.js 14.0.4', // 必须使用App Router模式
+  language: 'TypeScript', // 严格模式，禁止使用any类型
+  styling: 'Tailwind CSS', // 禁止使用内联样式和传统CSS文件
+  uiComponents: 'Shadcn/UI', // 基于Radix UI，需要二次封装后使用
+  stateManagement: ['Zustand', '@tanstack/react-query'], // 全局状态用Zustand，API请求用React Query
+  formHandling: 'React Hook Form + Zod', // 所有表单必须使用此组合进行验证
+  i18n: 'next-intl', // 所有文本必须支持国际化
+  web3Tools: ['Ethers.js', 'Wagmi', 'Viem'], // Web3交互优先使用这些工具
+  animation: 'Framer Motion', // 复杂动画必须使用Framer Motion
+  charts: 'lightweight-charts', // 图表展示必须使用此库
+  packageManager: 'pnpm', // 必须使用pnpm作为包管理器，禁止使用npm或yarn
+};
 
-### Dependency installation tool
-pnpm
+// 1.2 后端技术栈
+const BACKEND_TECH = {
+  server: 'Node.js with Next.js API Routes', // API必须按功能模块组织
+  database: 'PostgreSQL with Prisma ORM', // 数据库操作必须通过Prisma进行
+  authentication: 'JWT (jsonwebtoken, jose)', // 认证必须使用JWT
+  storage: ['阿里云OSS', 'Cloudinary'], // 文件存储必须使用这些服务
+  realtime: 'Socket.io', // 实时通信必须使用Socket.io
+  processManagement: 'PM2', // 生产环境必须使用PM2管理进程
+};
 
-### 组件库
-shadcn/ui
+/**
+ * 2. 项目结构规范
+ */
 
-### 所有行为前，先阅读整个项目。考虑问题要全面
+// 2.1 目录组织
+// - 严格遵循项目既定目录结构
+// - 不允许在src外创建源代码文件
+// - 每个功能模块必须包含自己的类型定义和测试
 
+// 2.2 组件组织
+// - UI组件必须放在components/ui目录下
+// - 自定义UI组件必须放在components/ui-custom目录下
+// - 业务组件必须按功能分目录存放
+// - 每个组件目录需包含index.ts导出文件
 
-### 组件库的组件，不要直接使用，而是要根据组件库的组件，进行二次封装，然后使用二次封装的组件
+// 2.3 页面组织
+// - 必须使用App Router模式组织页面
+// - 页面组件必须放在app/[locale]下对应目录中
+// - 所有页面必须支持国际化路由
+
+/**
+ * 3. 编码规范
+ */
+
+// 3.1 TypeScript使用规范
+// - 严格模式：启用strict:true
+// - 禁止使用any类型，必须定义明确的接口或类型
+// - 所有API响应必须有类型定义
+// - 使用type而非interface定义对象类型
+// - 函数必须声明返回类型
+// - 使用解构获取对象属性
+
+// 3.2 React组件规范
+// - 使用函数式组件，禁止使用类组件
+// - props必须定义类型接口
+// - 使用React Hooks管理状态和副作用
+// - 使用memo、useMemo和useCallback优化性能
+// - 组件文件名必须使用PascalCase
+// - 自定义hooks文件名必须使用camelCase并以use前缀开头
+// - 事件处理函数必须使用handle前缀命名
+
+// 3.3 Shadcn/UI组件封装规范
+// - 禁止直接使用Shadcn/UI组件，必须进行二次封装
+// - 封装组件必须保持原组件的API兼容性
+// - 封装组件必须支持自定义样式
+// - 封装组件必须支持所有无障碍功能
+// - 封装组件必须添加适当的TypeScript类型
+
+// 3.4 样式规范
+// - 仅使用Tailwind类进行样式设置
+// - 禁止使用内联样式和传统CSS文件
+// - 使用class:条件语法代替三元运算符
+// - 颜色必须使用Tailwind的颜色系统
+// - 响应式设计必须使用Tailwind的断点系统
+// - 自定义Tailwind类必须在tailwind.config.ts中定义
+
+/**
+ * 4. 状态管理规范
+ */
+
+// 4.1 Zustand使用规范
+// - 按功能模块划分store
+// - store必须定义类型
+// - store必须在store目录下定义
+// - 禁止在store中直接修改深层嵌套对象
+// - 必须使用immer进行不可变更新
+
+// 4.2 React Query使用规范
+// - API请求必须使用React Query
+// - 查询键必须使用数组形式并包含版本号
+// - 必须设置适当的缓存时间和重试策略
+// - 使用预取(prefetch)优化用户体验
+// - 所有查询必须处理加载、成功和错误状态
+
+/**
+ * 5. 国际化规范
+ */
+
+// 5.1 文本国际化
+// - 所有用户可见文本必须使用国际化机制
+// - 禁止硬编码文本字符串
+// - 文本键必须使用层级结构组织
+// - 文本必须支持英文、中文、日文、韩文
+
+// 5.2 日期和数字国际化
+// - 日期显示必须使用date-fns国际化
+// - 数字格式化必须考虑不同地区习惯
+// - 货币格式必须使用适当符号和千位分隔符
+
+/**
+ * 6. Web3集成规范
+ */
+
+// 6.1 钱包连接
+// - 必须支持多种钱包(MetaMask, WalletConnect等)
+// - 必须使用Wagmi管理钱包连接状态
+// - 必须处理网络切换和账户变更
+// - 必须保存用户连接记录
+
+// 6.2 合约交互
+// - 合约地址必须通过环境变量配置
+// - 合约ABI必须从单一源导入
+// - 必须处理所有合约交互错误
+// - 必须显示交易等待和确认状态
+// - Gas估算必须准确
+
+/**
+ * 7. 数据库模型规范
+ */
+
+// 7.1 Prisma模型
+// - 模型必须包含创建和更新时间字段
+// - 外键关系必须显式定义
+// - 关系字段必须使用relation指令
+// - 字段必须定义适当的约束条件
+// - JSON字段必须有对应的TypeScript类型
+
+// 7.2 数据操作
+// - 使用事务保证数据一致性
+// - 查询必须考虑性能，使用适当的索引
+// - 增删改操作必须进行权限验证
+// - 敏感数据必须加密存储
+
+/**
+ * 8. API规范
+ */
+
+// 8.1 RESTful API
+// - 遵循RESTful设计原则
+// - URL使用kebab-case命名
+// - 使用适当的HTTP方法(GET, POST, PUT, DELETE)
+// - 使用适当的HTTP状态码表示结果
+// - 响应格式统一为{code, message, data}
+// - 设计新接口或修改现有接口后，必须自行发送请求进行验证
+
+// 8.2 API安全
+// - 敏感API必须进行认证
+// - 输入必须进行验证和清洗
+// - 防止SQL注入和XSS攻击
+// - 使用CSRF令牌防止跨站请求伪造
+// - 实现请求限流防止DOS攻击
+
+/**
+ * 9. 实时通信规范
+ */
+
+// 9.1 Socket.io使用
+// - 连接必须处理认证
+// - 事件名称必须使用统一命名规则
+// - 必须处理连接错误和重连
+// - 消息格式必须统一定义
+// - 必须实现心跳检测
+
+/**
+ * 10. 性能优化规范
+ */
+
+// 10.1 前端优化
+// - 组件必须懒加载
+// - 图片必须使用Next.js优化组件
+// - 必须使用React.memo减少不必要的渲染
+// - 大列表必须使用虚拟滚动
+// - 必须优化代码分割和包体积
+
+// 10.2 后端优化
+// - API必须实现缓存策略
+// - 数据库查询必须优化
+// - 静态资源必须使用CDN
+// - 必须进行服务器负载均衡
+
+/**
+ * 11. 测试规范
+ */
+
+// 11.1 单元测试
+// - 使用Jest进行测试
+// - 核心功能必须编写测试
+// - 测试文件必须与源文件同目录
+// - 测试必须覆盖所有边界情况
+
+// 11.2 集成测试
+// - 使用Cypress进行端到端测试
+// - 必须测试关键用户流程
+// - 测试必须在CI/CD中自动运行
+
+/**
+ * 12. 安全规范
+ */
+
+// 12.1 前端安全
+// - 敏感信息不得存储在前端
+// - localStorage/sessionStorage中不得存储敏感数据
+// - 避免使用eval()和Function构造函数
+// - 第三方库必须经过安全审核
+
+// 12.2 后端安全
+// - 所有外部输入必须验证和净化
+// - 敏感数据必须加密存储
+// - 日志中不得包含敏感信息
+// - 定期更新依赖包修复漏洞
+
+/**
+ * 13. 代码审查规范
+ */
+
+// 13.1 Pull Request
+// - PR必须包含清晰的描述
+// - PR必须通过所有自动化测试
+// - PR必须经过至少一人审查
+// - 代码冲突必须在合并前解决
+
+// 13.2 代码审查标准
+// - 代码是否符合项目规范
+// - 逻辑是否清晰正确
+// - 是否有优化空间
+// - 是否有安全隐患
+
+// 13.3 代码质量检查
+// - 每次代码修改后必须运行lint检查
+// - 禁止提交包含lint错误的代码
+// - 新开发的功能必须经过全面检查再提交
+// - 接口实现必须经过实际请求验证其功能正确性
+
+/**
+ * 14. 部署规范
+ */
+
+// 14.1 环境配置
+// - 开发、测试、生产环境配置必须分离
+// - 敏感配置必须使用环境变量
+// - 环境变量必须有明确的说明文档
+
+// 14.2 部署流程
+// - 使用CI/CD自动化部署
+// - 部署前必须通过所有测试
+// - 部署过程必须可回滚
+// - 部署后必须验证服务可用性
+
+/**
+ * 15. 文档规范
+ */
+
+// 15.1 代码文档
+// - 复杂函数必须添加JSDoc注释
+// - 公共API必须有完整文档
+// - 类型定义必须包含详细说明
+
+// 15.2 项目文档
+// - README必须包含项目概述和启动指南
+// - API文档必须保持更新
+// - 架构设计必须有明确文档
+
+/**
+ * 16. 实现细节约定
+ */
+
+// 16.1 AI代理交互
+// - 代理对话必须使用Socket.io实现实时通信
+// - 对话记录必须持久化存储
+// - 必须实现打字机效果的消息显示
+// - 代理回复必须支持markdown格式
+// - 必须处理网络错误和重试机制
+
+// 16.2 代币经济系统
+// - 代币价格走势必须使用lightweight-charts渲染
+// - 价格数据必须定时更新
+// - 交易功能必须实现双重确认
+// - 必须显示交易历史记录
+// - 钱包连接状态必须在多个页面间保持
+
+// 16.3 用户界面交互
+// - 表单提交必须有加载状态反馈
+// - 错误消息必须明确指出问题和解决方案
+// - 必须实现适当的加载骨架屏
+// - 必须支持键盘导航和快捷键
+// - 滚动位置必须在页面导航后恢复
+
+// 16.4 响应式设计
+// - 移动端优先设计
+// - 必须适配至少四种屏幕尺寸：手机、平板、笔记本、桌面
+// - 布局必须使用Flexbox或Grid
+// - 字体大小必须使用rem或em单位
+// - 必须支持横屏和竖屏模式
+
+/**
+ * 17. 云服务和基础设施规范
+ */
+
+// 17.1 服务器
+// - 使用PM2管理Node.js进程
+// - 必须配置合理的内存限制
+// - 必须实现日志轮转
+// - 必须配置监控和告警
+
+// 17.2 数据库
+// - PostgreSQL必须设置合理的连接池
+// - 必须定期备份数据
+// - 必须实现数据迁移计划
+// - 必须监控性能并优化
+
+// 17.3 存储服务
+// - 阿里云OSS必须设置适当的访问权限
+// - 必须使用STS临时凭证上传文件
+// - 必须实现文件类型和大小限制
+- 必须配置CDN加速静态资源
+
+/**
+ * 18. 包管理和开发流程规范
+ */
+
+// 18.1 包管理
+// - 必须使用pnpm作为包管理工具
+// - 禁止使用npm或yarn安装依赖
+// - 必须保持pnpm-lock.yaml文件的一致性
+// - 新增依赖必须指定确切版本号
+
+// 18.2 开发流程
+// - 每次代码修改后必须运行`pnpm lint`检查代码质量
+// - 修改接口后必须进行实际请求测试验证功能
+// - 必须在提交前解决所有lint警告和错误
+// - 开发新功能前必须更新依赖到最新稳定版本
+
+/**
+ * 附加说明：项目特性实现方式详解
+ */
+
+/**
+ * A. 多语言支持实现方式
+ *
+ * 1. 使用next-intl实现国际化
+ * 2. 语言文件按语言代码存放在messages目录
+ * 3. 使用[locale]动态路由参数实现语言切换
+ * 4. 所有文本必须使用t()函数或useTranslations()钩子获取
+ * 5. 日期格式化使用date-fns国际化功能
+ * 6. 数字和货币格式化使用Intl.NumberFormat
+ * 7. 必须同时支持服务端和客户端的翻译
+ */
+
+/**
+ * B. Web3钱包集成实现方式
+ *
+ * 1. 使用wagmi和viem管理钱包连接
+ * 2. 实现至少支持MetaMask、WalletConnect和Coinbase Wallet
+ * 3. 钱包连接状态存储在全局Zustand状态
+ * 4. 实现自动连接上次使用的钱包
+ * 5. 必须处理网络切换、账户变更和断开连接
+ * 6. 显示钱包地址时必须进行截断显示
+ * 7. 必须显示当前连接的网络
+ */
+
+/**
+ * C. AI代理对话实现方式
+ *
+ * 1. 使用Socket.io实现实时通信
+ * 2. 对话采用类似聊天应用的UI设计
+ * 3. 消息必须支持markdown格式
+ * 4. 实现打字机效果的消息显示
+ * 5. 对话历史记录存储在PostgreSQL中
+ * 6. 实现上下文记忆功能
+ * 7. 支持图片和链接在消息中的展示
+ */
+
+/**
+ * D. 代币经济系统实现方式
+ *
+ * 1. 使用lightweight-charts渲染价格图表
+ * 2. 价格数据定时从后端API获取
+ * 3. 支持多种时间范围的价格显示
+ * 4. 实现代币交易功能
+ * 5. 交易前必须显示确认对话框
+ * 6. 显示交易状态和历史记录
+ * 7. 支持链上和链下数据的综合显示
+ */
+
+/**
+ * E. 响应式设计实现方式
+ *
+ * 1. 使用Tailwind CSS的断点系统
+ * 2. 移动端优先设计
+ * 3. 根据屏幕尺寸调整组件布局
+ * 4. 在小屏幕上简化界面元素
+ * 5. 导航在移动端使用抽屉式菜单
+ * 6. 表格在移动端使用卡片式布局
+ * 7. 确保触摸目标足够大
+ */
+
+/**
+ * F. 表单处理实现方式
+ *
+ * 1. 使用React Hook Form管理表单状态
+ * 2. 使用Zod验证表单输入
+ * 3. 错误消息必须国际化
+ * 4. 表单提交必须显示加载状态
+ * 5. 必须防止重复提交
+ * 6. 表单必须支持键盘导航
+ * 7. 自动聚焦第一个输入字段
+ */
+
+/**
+ * G. 认证系统实现方式
+ *
+ * 1. 使用钱包签名进行身份验证
+ * 2. 生成JWT令牌并存储在Cookie中
+ * 3. 令牌必须设置适当的过期时间
+ * 4. 实现令牌刷新机制
+ * 5. 敏感操作必须重新验证身份
+ * 6. 必须处理钱包地址变更的情况
+ * 7. 必须实现退出登录功能
+ */
+
+// 遵循以上规范和实现方式，确保项目的一致性、可维护性和性能。
+// 规范可能会随项目发展进行适当调整，但核心原则保持不变。

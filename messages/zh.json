@@ -21,7 +21,9 @@
       "seconds": "秒"
     },
     "social": "社交",
-    "noData": "暂无数据"
+    "noData": "暂无数据",
+    "status": "状态",
+    "view": "查看"
   },
   "navigation": {
     "home": "首页",
@@ -105,7 +107,6 @@
     "waitForConfirmation": "等待确认",
     "transactionConfirmationTimeout": "交易确认超时",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC"
-
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -316,5 +317,57 @@
     "retry": "重试",
     "noData": "暂无数据",
     "waitForIoComplete": "IAO 结束并开始交易后将显示价格走势"
+  },
+  "nft": {
+    "batchStakeNFT": "质押NFT",
+    "batchStake": "质押",
+    "itemCountSingle": "1个",
+    "itemCountMultiple": "{count}个",
+    "dailyReward": "每日奖励",
+    "iaoExtraIncome": "IAO额外收益",
+    "staked": "已质押",
+    "unstaked": "未质押",
+    "stake": "质押",
+    "totalDailyReward": "总每日奖励",
+    "pleaseSelectNFT": "请至少选择一个NFT进行质押",
+    "stakeFailRetry": "质押失败，请稍后重试",
+    "stakeableNFT": "你可质押的NFT",
+    "totalReward": "奖励总额（XAA）",
+    "dailyRewardXAA": "每日奖励（XAA）",
+    "iaoExtraReward": "IAO额外收益",
+    "stakedNFT": "你已质押的NFT",
+    "count": "数量",
+    "claimedReward": "已领取奖励（XAA）",
+    "startTime": "起始时间",
+    "currentTime": "当前时间",
+    "stakeExpireTime": "质押到期时间",
+    "noStakeableNFT": "暂无可质押的NFT",
+    "confirming": "处理中...",
+    "confirmStake": "确认质押",
+    "noStakedNFT": "暂无已质押的NFT",
+    "stakeSuccess": "质押成功",
+    "claimReward": "领取奖励",
+    "stakeNFTRewardDetail": "NFT质押奖励详情",
+    "stakeNFTForReward": "质押NFT获取奖励",
+    "viewStakeDetailAndReward": "查看你的质押详情和当前奖励",
+    "stakeNFTForDailyReward": "质押你的NFT获取每日XAA奖励",
+    "staking": "质押中...",
+    "selected": "已选择",
+    "itemCount": "个 NFT",
+    "cancel": "取消",
+    "close": "关闭",
+    "totalRewardLabel": "总奖励额度",
+    "stakeSuccessDesc": "你已成功质押 {name}，每日可获得 {reward} XAA 奖励",
+    "claimRewardDesc": "你已成功领取 {reward} XAA 奖励"
+  },
+  "regions": {
+    "japan": "日本",
+    "global": "全球",
+    "korea": "韩国",
+    "china": "中国",
+    "us": "美国",
+    "vietnam": "越南",
+    "thailand": "泰国",
+    "indonesia": "印尼"
   }
 } 

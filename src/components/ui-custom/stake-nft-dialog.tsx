@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from 'next-intl';
 
 interface StakeNFTInfo {
   id: number;
@@ -33,6 +34,7 @@ export const StakeNFTDialog = ({
   nftInfo,
   isStaked,
 }: StakeNFTDialogProps) => {
+  const t = useTranslations('nft');
   const { toast } = useToast();
   const [isStaking, setIsStaking] = useState(false);
 
@@ -42,8 +44,11 @@ export const StakeNFTDialog = ({
     setTimeout(() => {
       setIsStaking(false);
       toast({
-        title: "质押成功",
-        description: `你已成功质押 ${nftInfo.name}，每日可获得 ${nftInfo.dailyReward} XAA 奖励`,
+        title: t('stakeSuccess'),
+        description: `${t('stakeSuccessDesc', {
+          name: nftInfo.name,
+          reward: nftInfo.dailyReward
+        })}`,
       });
       onOpenChange(false);
       console.log("质押NFT:", nftInfo);
@@ -52,8 +57,10 @@ export const StakeNFTDialog = ({
 
   const handleClaimReward = () => {
     toast({
-      title: "领取奖励",
-      description: `你已成功领取 ${nftInfo.dailyReward} XAA 奖励`,
+      title: t('claimReward'),
+      description: `${t('claimRewardDesc', {
+        reward: nftInfo.dailyReward
+      })}`,
     });
     onOpenChange(false);
     console.log("领取奖励:", nftInfo);
@@ -64,12 +71,12 @@ export const StakeNFTDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            {isStaked ? "NFT质押奖励详情" : "质押NFT获取奖励"}
+            {isStaked ? t('stakeNFTRewardDetail') : t('stakeNFTForReward')}
           </DialogTitle>
           <DialogDescription>
             {isStaked 
-              ? "查看你的质押详情和当前奖励" 
-              : "质押你的NFT获取每日XAA奖励"}
+              ? t('viewStakeDetailAndReward') 
+              : t('stakeNFTForDailyReward')}
           </DialogDescription>
         </DialogHeader>
 
@@ -89,15 +96,15 @@ export const StakeNFTDialog = ({
           <h3 className="text-lg font-semibold">{nftInfo.name}</h3>
           
           <div className="grid grid-cols-2 gap-x-12 gap-y-4 mt-6 w-full">
-            <div className="text-muted-color">总奖励额度:</div>
+            <div className="text-muted-color">{t('totalRewardLabel')}:</div>
             <div className="font-medium text-right">{nftInfo.totalReward} XAA</div>
             
-            <div className="text-muted-color">每日奖励:</div>
+            <div className="text-muted-color">{t('dailyReward')}:</div>
             <div className="font-medium text-right">{nftInfo.dailyReward} XAA</div>
             
             {nftInfo.iaoExtraPercentage && (
               <>
-                <div className="text-muted-color">IAO额外收益:</div>
+                <div className="text-muted-color">{t('iaoExtraIncome')}:</div>
                 <div className="font-medium text-right">{nftInfo.iaoExtraPercentage}%</div>
               </>
             )}
@@ -111,7 +118,7 @@ export const StakeNFTDialog = ({
               className="w-full"
               onClick={handleClaimReward}
             >
-              领取奖励
+              {t('claimReward')}
             </Button>
           ) : (
             <Button
@@ -120,7 +127,7 @@ export const StakeNFTDialog = ({
               onClick={handleStakeNFT}
               disabled={isStaking}
             >
-              {isStaking ? "质押中..." : "质押NFT"}
+              {isStaking ? t('staking') : t('stake')}
             </Button>
           )}
         </DialogFooter>

@@ -21,7 +21,9 @@
       "seconds": "초"
     },
     "social": "소셜",
-    "noData": "데이터 없음"
+    "noData": "데이터 없음",
+    "status": "상태",
+    "view": "보기"
   },
   "navigation": {
     "home": "홈",
@@ -295,9 +297,9 @@
     "volumeArea": "거래량 영역",
     "loading": "로딩 중...",
     "error": "차트 데이터 로딩 오류",
-    "retry": "다시 시도",
+    "retry": "재시도",
     "noData": "데이터 없음",
-    "waitForIoComplete": "IAO 종료 후 거래가 시작되면 가격 추이가 표시됩니다"
+    "waitForIoComplete": "IAO 종료 후 거래가 시작되면 가격 추세가 표시됩니다"
   },
   "accessibility": {
     "logo": "XAI Agent 플랫폼 로고",
@@ -314,5 +316,57 @@
     "contractLink": "컨트랙트 상세 보기",
     "copyContractAddress": "컨트랙트 주소 복사",
     "closeSearch": "검색 닫기"
+  },
+  "nft": {
+    "batchStakeNFT": "NFT 스테이킹",
+    "batchStake": "스테이킹",
+    "itemCountSingle": "1개",
+    "itemCountMultiple": "{count}개",
+    "dailyReward": "일일 보상",
+    "iaoExtraIncome": "IAO 추가 수익",
+    "staked": "스테이킹됨",
+    "unstaked": "스테이킹되지 않음",
+    "stake": "스테이킹",
+    "totalDailyReward": "총 일일 보상",
+    "pleaseSelectNFT": "스테이킹할 NFT를 최소 하나 이상 선택해주세요",
+    "stakeFailRetry": "스테이킹 실패, 나중에 다시 시도해주세요",
+    "stakeableNFT": "스테이킹 가능한 NFT",
+    "totalReward": "총 보상 (XAA)",
+    "dailyRewardXAA": "일일 보상 (XAA)",
+    "iaoExtraReward": "IAO 추가 보상",
+    "stakedNFT": "스테이킹된 NFT",
+    "count": "수량",
+    "claimedReward": "청구된 보상 (XAA)",
+    "startTime": "시작 시간",
+    "currentTime": "현재 시간",
+    "stakeExpireTime": "스테이킹 만료 시간",
+    "noStakeableNFT": "스테이킹 가능한 NFT가 없습니다",
+    "confirming": "처리 중...",
+    "confirmStake": "스테이킹 확인",
+    "noStakedNFT": "스테이킹된 NFT가 없습니다",
+    "stakeSuccess": "스테이킹 성공",
+    "claimReward": "보상 청구",
+    "stakeNFTRewardDetail": "NFT 스테이킹 보상 세부 정보",
+    "stakeNFTForReward": "보상을 받기 위해 NFT 스테이킹",
+    "viewStakeDetailAndReward": "스테이킹 세부 정보 및 현재 보상 보기",
+    "stakeNFTForDailyReward": "일일 XAA 보상을 받기 위해 NFT 스테이킹",
+    "staking": "스테이킹 중...",
+    "selected": "선택됨",
+    "itemCount": "NFT",
+    "cancel": "취소",
+    "close": "닫기",
+    "totalRewardLabel": "총 보상 금액",
+    "stakeSuccessDesc": "{name} 스테이킹 성공, 매일 {reward} XAA 보상을 받을 수 있습니다",
+    "claimRewardDesc": "{reward} XAA 보상 청구에 성공했습니다"
+  },
+  "regions": {
+    "japan": "일본",
+    "global": "글로벌",
+    "korea": "한국",
+    "china": "중국",
+    "us": "미국",
+    "vietnam": "베트남",
+    "thailand": "태국",
+    "indonesia": "인도네시아"
   }
 }

@@ -8,13 +8,11 @@ import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
-import { Button } from "@/components/ui/button"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 import { SocialLinks } from "@/components/ui/social-links"
-import { BatchStakeNFTDialog } from "@/components/agent-list/batch-stake-nft-dialog"
-import { BuyNFTButton } from "@/components/agent-list/buy-nft-button"
-import { Card } from "@/components/ui/card"
+import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
+import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -33,6 +31,7 @@ const parseSocialLinks = (socialLinks?: string) => {
 
 const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const t = useTranslations('agentList');
+  const tNft = useTranslations('nft');
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
@@ -130,13 +129,17 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
         </Tabs>
         
         <div className="ml-auto">
-          <Button
+          {/* <Button
             variant="colored"
             onClick={() => setStakeDialogOpen(true)}
             className="px-4 py-2 h-auto text-sm"
           >
             批量质押NFT
-          </Button>
+          </Button> */}
+
+          <GradientBorderButton className="bg-card  " onClick={() => setStakeDialogOpen(true)}>
+            {tNft('batchStakeNFT')}
+          </GradientBorderButton>
         </div>
       </div>
 
@@ -216,7 +219,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
         </div>
       </div> */}
 
-      <BatchStakeNFTDialog 
+      <StakeNFTsDialog 
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
         nftItems={nftItems}

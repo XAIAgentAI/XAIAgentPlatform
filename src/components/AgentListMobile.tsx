@@ -6,14 +6,12 @@ import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
-import { Card } from "@/components/ui/card"
 import { SocialLinks } from "@/components/ui/social-links"
-import { BatchStakeNFTDialog } from "@/components/agent-list/batch-stake-nft-dialog"
-import { Button } from "@/components/ui/button"
-import { BuyNFTButton } from "@/components/agent-list/buy-nft-button"
+import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
+import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -30,6 +28,7 @@ const parseSocialLinks = (socialLinks?: string) => {
 
 const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const t = useTranslations('agentList');
+  const tNft = useTranslations('nft');
   const router = useRouter()
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
@@ -101,23 +100,26 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
           </Tabs>
           
           <div className="ml-auto">
-            <Button
-              variant="colored"
+            <GradientBorderButton
               onClick={() => setStakeDialogOpen(true)}
-              className="px-4 py-2 h-auto text-xs"
+              className="text-xs"
             >
-              批量质押
-            </Button>
+              {tNft('batchStake')}
+            </GradientBorderButton>
           </div>
         </div>
       </div>
 
       {/* NFT质押汇总卡片 */}
-      <div className="px-4 mb-6 mt-4">
+      {/* <div className="px-4 mb-6 mt-4">
         <Card className="p-4">
           <div className="flex justify-between items-center mb-3">
-            <h3 className="font-medium">我的NFT</h3>
-            <div className="text-xs text-muted-color">总计: 4个</div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-medium">我的NFT</h3>
+              <CustomBadge variant="default" className="text-[10px] py-px px-1.5">
+                4个
+              </CustomBadge>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 gap-3 mb-4">
@@ -164,18 +166,16 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
               <div className="text-sm">总每日奖励</div>
               <div className="text-lg font-bold text-primary">120 XAA</div>
             </div>
-            <Button
-              variant="colored"
+            <GradientBorderButton
               onClick={() => setStakeDialogOpen(true)}
-              className="px-6 py-2 h-auto"
             >
               批量质押
-            </Button>
+            </GradientBorderButton>
           </div>
         </Card>
-      </div>
+      </div> */}
       
-      <BatchStakeNFTDialog 
+      <StakeNFTsDialog 
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
         nftItems={nftItems}
