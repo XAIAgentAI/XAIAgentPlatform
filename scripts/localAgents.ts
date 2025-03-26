@@ -45,7 +45,7 @@ export const localAgents: LocalAgent[] = [
     name: "XAIAgent",
     tokenAddress: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
     iaoContractAddress: "0x5AeF02893F05D5422eD0c3bD1D7502Ec6bd6195e",
-    tokenAddressTestnet: "0xeC848d39a97B5753bAdcE5084957F75b0F78C242",
+    tokenAddressTestnet: "0x8dAb697D931B342e80354A4BED2d8d5d5Ee9003E",
     iaoContractAddressTestnet: "0x82B7e10Ed1453FBf60c98aFbDeD94159A5E13973",
 
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/XAIAgent.png",

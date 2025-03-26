@@ -1,3 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to
+
+
 /**
  * XAIAgentPlatform 项目规范文档
  * 
@@ -368,17 +380,7 @@ const BACKEND_TECH = {
  * 附加说明：项目特性实现方式详解
  */
 
-/**
- * A. 多语言支持实现方式
- *
- * 1. 使用next-intl实现国际化
- * 2. 语言文件按语言代码存放在messages目录
- * 3. 使用[locale]动态路由参数实现语言切换
- * 4. 所有文本必须使用t()函数或useTranslations()钩子获取
- * 5. 日期格式化使用date-fns国际化功能
- * 6. 数字和货币格式化使用Intl.NumberFormat
- * 7. 必须同时支持服务端和客户端的翻译
- */
+
 
 /**
  * B. Web3钱包集成实现方式

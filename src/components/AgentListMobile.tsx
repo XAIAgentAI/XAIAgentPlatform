@@ -32,43 +32,6 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const router = useRouter()
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
-  
-  // NFT数据
-  const nftItems = [
-    {
-      id: 1,
-      name: "Starter Node",
-      image: "https://cdn-icons-png.flaticon.com/512/8819/8819487.png",
-      totalReward: 4000,
-      dailyReward: 40,
-      iaoExtraPercentage: 3,
-      isStaked: false,
-      count: 2,
-      price: 99
-    },
-    {
-      id: 2,
-      name: "Pro Node",
-      image: "https://cdn-icons-png.flaticon.com/512/8819/8819543.png",
-      totalReward: 8000,
-      dailyReward: 80,
-      iaoExtraPercentage: 5,
-      isStaked: true,
-      count: 1,
-      price: 199
-    },
-    {
-      id: 3,
-      name: "Master Node",
-      image: "https://cdn-icons-png.flaticon.com/512/8819/8819347.png",
-      totalReward: 10000,
-      dailyReward: 100,
-      iaoExtraPercentage: 10,
-      isStaked: false,
-      count: 1,
-      price: 299
-    }
-  ];
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
@@ -175,12 +138,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         </Card>
       </div> */}
       
-      <StakeNFTsDialog 
+     { stakeDialogOpen && <StakeNFTsDialog 
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
-        nftItems={nftItems}
-      />
-
+      />}
       {loading ? (
         <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">
           <Loading />
