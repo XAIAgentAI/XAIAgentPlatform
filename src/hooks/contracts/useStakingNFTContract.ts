@@ -48,7 +48,8 @@ export const useStakingNFTContract = () => {
   // 计算总质押价值
   const calculateTotalStakedValue = (stakes: StakeInfo[]) => {
     return stakes.reduce((total, stake) => {
-      const price = getNFTPriceById(stake.id);
+      const nftConfig = getNFTConfigById(stake.id);
+      const price = nftConfig ? nftConfig.price : 0;
       return total + (price * stake.count);
     }, 0);
   };
@@ -407,7 +408,7 @@ toast(createToastMessage({
         const stakedAt = new Date(Number(stakeInfo.stakedAt) * 1000);
         const duration = Number(tokenConfig.duration);
         const tokenId = Number(stakeInfo.tokenId);
-        const nftConfig = getNFTConfigById(tokenId);
+        const nftConfig: any = getNFTConfigById(tokenId);
         if (!nftConfig) return null;
         
         return {
@@ -415,7 +416,7 @@ toast(createToastMessage({
           name: nftConfig.name,
           image: nftConfig.image,
           count: Number(stakeInfo.amount),
-          totalReward: nftConfig.totalReward,
+          totalReward: nftConfig.totalReward ,
           dailyReward: nftConfig.dailyReward,
           iaoExtraPercentage: nftConfig.iaoExtraPercentage,
           isStaked: true,
