@@ -15,6 +15,7 @@ interface SideBarProps {
   setConvid: any;
   setIsNew: any;
   conversations: any;
+  agent: string;
 }
 
 interface Sentence {
@@ -30,9 +31,10 @@ interface Message {
   content: string;
   timestamp: string; // 假设后端返回timestamp字段
   convid: string;
+  agent?: string;
 }
 
-const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId, userName, setUserName }: SideBarProps) => {
+const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, agentId, userName, setUserName }: SideBarProps) => {
   const [isEmailOpen, setIsEmailOpen] = useState(false);
   const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
@@ -74,7 +76,7 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
   
         setMessages(newMessages);
       } catch (error) {
-        console.error("Failed to fetch messages:", error);
+        console.log("Your internet is not available");
       }
     }
   };  
@@ -129,9 +131,10 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
     console.log(conversations);
   }
 
-  // 对messages进行分组，每个convid只取第一条消息
-  const uniqueConversations = Array.from(new Set(messages.map(msg => msg.convid)))
-  .map(convid => messages.find(msg => msg.convid === convid));
+  // 对messages进行分组---选择特定agent;每个convid只取第一条消息
+  let specificMessages = messages.filter(msg => msg.agent === agent);
+  let uniqueConversations = Array.from(new Set(specificMessages.map(msg => msg.convid)))
+  .map(convid => specificMessages.find(msg => msg.convid === convid));
 
   return (
     <>

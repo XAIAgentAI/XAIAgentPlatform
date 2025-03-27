@@ -36,6 +36,13 @@ async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userNam
   });
 }
 
+const src: {[key:string]:string} = {
+  "Xaiagent":"/logo/XAIAgent.png",
+  "StyleID":"/logo/StyleID.png",
+  "DeepLink":"/logo/DeepLink.png",
+  "PicSpan":"/logo/PicSpan.png"
+}
+
 const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations[agentId] || []);
 
@@ -82,7 +89,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start flex-col'}`}
           > 
             <div className="flex flex-row">
-            <Image alt={agent} src="/logo/ArgusAI.png" width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
+            <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
             <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
             </div>
             <div
