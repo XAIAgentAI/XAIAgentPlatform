@@ -17,6 +17,7 @@ interface Message {
   content: string;
   timestamp: string;
   convid: string;
+  agent: string;
 }
 
 interface HeaderComponentProps {
@@ -76,7 +77,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        role: 'user',
                        content: example,
                        timestamp: new Date().toISOString(),
-                       convid: convid
+                       convid: convid,
+                       agent: agent
                      };
 
                      setConversations(prev => ({ ...prev, [agentId]: [...prev[agentId] || [], userMessage] }));
@@ -99,7 +101,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                          role: 'assistant',
                          content: data.assistant,
                          timestamp: new Date().toISOString(),
-                         convid: convid
+                         convid: convid,
+                         agent: agent
                        }] }));
 
                      } catch (error) {

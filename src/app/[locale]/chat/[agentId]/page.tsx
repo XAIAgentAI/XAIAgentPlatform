@@ -18,6 +18,7 @@ interface Message {
   content: string;
   timestamp: string;
   convid: string;
+  agent: string;
 }
 
 // 新增Sentence接口
@@ -110,7 +111,8 @@ export default function ChatPage() {
       role: 'user',
       content: input,
       timestamp: new Date().toISOString(),
-      convid: convid
+      convid: convid,
+      agent: agent
     };
 
     setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), userMessage] }));
@@ -118,11 +120,12 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
+      const fixedagent = agent;
       console.log(isNew);
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: "DeepSeek V3" }),
+        body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: "DeepSeek V3", agent: agent }),
       });
 
       const data: Sentence = await response.json();
@@ -131,7 +134,8 @@ export default function ChatPage() {
         role: 'assistant',
         content: data.assistant || '',
         timestamp: new Date().toISOString(),
-        convid: data.convid
+        convid: data.convid,
+        agent: fixedagent
       };
 
       setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), aiMessage] }));

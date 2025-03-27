@@ -1,4 +1,3 @@
-
 import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image' ;
@@ -9,6 +8,7 @@ interface Message {
   content: string;
   timestamp: string;
   convid: string;
+  agent: string;
 }
 
 interface Conversations {
@@ -27,7 +27,6 @@ interface MessagesComponentProps {
 }
 
 async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
-  const url = `/api/chat/${agentId}/messages`;
   setIsNew("yes");
   // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
@@ -84,7 +83,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           > 
             <div className="flex flex-row">
             <Image alt={agent} src="/logo/ArgusAI.png" width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
-            <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{agent}</div>
+            <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
             </div>
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${

@@ -143,7 +143,7 @@ export async function POST(
   { params }: { params: { agentId: string } }
 ) {
   const { agentId } = params;
-  const { message, thing, isNew, user: requestUser, convid, model } = await request.json();
+  const { message, thing, isNew, user: requestUser, convid, model, agent } = await request.json();
 
   if (thing === 'signup') {
     // 生成初始用户名
@@ -195,17 +195,9 @@ export async function POST(
     };
 
     chat[agentId].push(userMessage);
-
-    let selectedModel;
-    if(!model){
-      selectedModel = "DeepSeek-V3";
-    } else if (model == "DeepSeek V3") {
-      selectedModel = "DeepSeek-V3";
-    } else if (model == "DeepSeek R1") {
-      selectedModel = "DeepSeek-R1";
-    } else {
-      selectedModel = "DeepSeek-V3";
-    }
+    
+    //固定Model
+    const selectedModel = "DeepSeek-V3";
     console.log(selectedModel);
 
     const requestBody = {
