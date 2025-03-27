@@ -21,6 +21,7 @@ interface Sentence {
   convid: string;
   user?: string;
   assistant?: string;
+  agent?: string;
 }
 
 interface Message {
@@ -66,7 +67,8 @@ const SideBar = ({ conversations, setIsNew, setConvid, setConversations, agentId
           role: sentence.user ? 'user' : 'assistant',
           content: sentence.user || sentence.assistant || '',
           timestamp: new Date().toISOString(), // 如果后端没有返回timestamp，则在此处生成
-          convid: sentence.convid
+          convid: sentence.convid,
+          agent: sentence.agent || ''
         }));
         console.log(data)
   

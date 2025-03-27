@@ -88,7 +88,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        const response = await fetch(`/api/chat/${agentId}/messages`, {
                          method: 'POST',
                          headers: { 'Content-Type': 'application/json' },
-                         body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes", model: "DeepSeek V3"}),
+                         body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes", model: "DeepSeek V3", agent}),
                        });
 
                        setIsNew("no");

@@ -26,6 +26,7 @@ interface Sentence {
   user?: string; 
   assistant?: string;
   convid: string;
+  agent: string;
 }
 
 // 定义路由参数的类型
@@ -120,7 +121,6 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
-      const fixedagent = agent;
       console.log(isNew);
       const response = await fetch(`/api/chat/${agentId}/messages`, {
         method: 'POST',
@@ -135,7 +135,7 @@ export default function ChatPage() {
         content: data.assistant || '',
         timestamp: new Date().toISOString(),
         convid: data.convid,
-        agent: fixedagent
+        agent: data.agent
       };
 
       setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), aiMessage] }));

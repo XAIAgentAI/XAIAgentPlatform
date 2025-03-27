@@ -7,6 +7,7 @@ interface Sentence {
   user?: string;
   assistant?: string;
   convid: string;
+  agent?: string;
 }
 
 interface Conversation {
@@ -22,16 +23,15 @@ const pool = new Pool({ connectionString });
 const conversationData: Conversation = {
   "1": [
       {convid: "1", user: "What is your name?"},
-      {convid: "1", assistant: "Hello, I am your AI assistant, I am Fitten Code."},
-      {convid: "1", assistant: "Is there anything else you would like to know?"},
+      {convid: "1", assistant: "Hello, I am your AI assistant, I am Fitten Code.", agent:"Xaiagent"},
       {convid: "2", user: "Yes, what services do you offer?"},
-      {convid: "2", assistant: "I can help you with coding, answering questions, and more."}
+      {convid: "2", assistant: "I can help you with coding, answering questions, and more.", agent:"Xaiagent"}
   ],
   "5": [
       {convid: "1", user: "Hello, can you assist me with something?"},
-      {convid: "1", assistant: "Of course! What do you need help with?"},
+      {convid: "1", assistant: "Of course! What do you need help with?", agent:"Xaiagent"},
       {convid: "1", user: "I need to debug some JavaScript code."},
-      {convid: "1", assistant: "Sure, I can help with that. Please share the code you're having trouble with."}
+      {convid: "1", assistant: "Sure, I can help with that. Please share the code you're having trouble with.", agent:"Xaiagent"}
   ]
 };
 
@@ -238,7 +238,8 @@ export async function POST(
 
     const aiResponse: Sentence = {
       assistant: aiResponseData.content,
-      convid: userMessage.convid
+      convid: userMessage.convid,
+      agent: agent
     };
 
     chat[agentId].push(aiResponse);
