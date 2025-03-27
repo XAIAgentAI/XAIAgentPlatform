@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
@@ -12,6 +12,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
+import { useAccount } from 'wagmi';
+import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -32,6 +34,23 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const router = useRouter()
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
+  const [totalDailyRewards, setTotalDailyRewards] = useState(0);
+  const { address } = useAccount();
+  const { getStakeList } = useStakingNFTContract();
+
+  useEffect(() => {
+    const fetchStakedInfo = async () => {
+      if (!address) return;
+      const stakedList = await getStakeList();
+      const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
+        const count = item.count || 0;
+        return total + (item.dailyReward * count);
+      }, 0);
+      setTotalDailyRewards(totalDaily);
+    };
+
+    fetchStakedInfo();
+  }, [address, getStakeList]);
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
@@ -43,29 +62,38 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   return (
     <div className="w-full flex-1 flex flex-col">
       <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-card border-b border-[#E5E5E5] dark:border-white/10">
-        <div className="flex items-center gap-4 p-4">
-          <span className="text-muted-color text-xs">{t('sortBy')}</span>
-          <Tabs defaultValue="marketCap" className="w-auto">
-            <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
-              <TabsTrigger
-                value="marketCap"
-                className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
-              >
-                {t('marketCap')}
-              </TabsTrigger>
-              <TabsTrigger
-                value="latest"
-                className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
-              >
-                {t('latest')}
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+        <div className="flex flex-col p-4 gap-4">
+          <div className="flex items-center justify-between w-full">
+            <span className="text-muted-color text-xs">{t('sortBy')}</span>
+            <Tabs defaultValue="marketCap" className="w-auto">
+              <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
+                <TabsTrigger
+                  value="marketCap"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
+                >
+                  {t('marketCap')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="latest"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
+                >
+                  {t('latest')}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
           
-          <div className="ml-auto">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
+              <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+              </span>
+              <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
+            </div>
             <GradientBorderButton
               onClick={() => setStakeDialogOpen(true)}
-              className="text-xs"
+              className="text-xs whitespace-nowrap"
             >
               {tNft('batchStake')}
             </GradientBorderButton>

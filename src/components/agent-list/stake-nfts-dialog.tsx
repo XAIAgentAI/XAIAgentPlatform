@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { format } from "date-fns";
 import { useTranslations } from 'next-intl';
 import {
   ConfigurableTable,
@@ -20,12 +19,12 @@ import {
   type ColumnConfig
 } from "@/components/ui-custom/configurable-table";
 import { Input } from "@/components/ui/input";
+import { NFT_CONFIGS } from './constants/nft-config';
 
 interface NFTItem {
   id: number;
   name: string;
   image: string;
-  totalReward: number;
   dailyReward: number;
   iaoExtraPercentage: number;
   isStaked: boolean;
@@ -41,41 +40,39 @@ interface StakeNFTsDialogProps {
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
 }
-const nftItems = [
-  {
-    id: 1,
-    name: "Starter Node",
-    image: "https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/image/1.png",
-    totalReward: 4000,
-    dailyReward: 40,
-    iaoExtraPercentage: 3,
-    isStaked: false,
-    // count: 2,
-    price: 99
-  },
-  {
-    id: 2,
-    name: "Pro Node",
-    image: "https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/image/2.png",
-    totalReward: 4000,
-    dailyReward: 40,
-    iaoExtraPercentage: 5,
-    isStaked: false,
-    // count: 1,
-    price: 199
-  },
-  {
-    id: 3,
-    name: "Master Node",
-    image: "https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/image/3.png",
-    totalReward: 10000,
-    dailyReward: 100,
-    iaoExtraPercentage: 10,
-    isStaked: false,
-    // count: 1,
-    price: 299
-  }
-];
+
+// 使用 NFT_CONFIGS 替换原来的 nftItems
+const nftItems: NFTItem[] = NFT_CONFIGS.map(config => ({
+  ...config,
+  isStaked: false,
+  count: 0
+}));
+
+// 格式化数字
+const formatNumber = (num: number) => {
+  return num.toLocaleString('en-US');
+};
+
+// 添加倒计时格式化函数
+const formatCountdown = (endTime?: Date) => {
+  if (!endTime) return '-';
+  
+  const now = new Date();
+  const diff = endTime.getTime() - now.getTime();
+  
+  if (diff <= 0) return '已到期';
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  
+  const parts = [];
+  if (days > 0) parts.push(`${days}天`);
+  if (hours > 0) parts.push(`${hours}时`);
+  if (minutes > 0) parts.push(`${minutes}分`);
+  
+  return parts.join(' ');
+};
 
 export const StakeNFTsDialog = ({
   open,
@@ -83,19 +80,28 @@ export const StakeNFTsDialog = ({
   onSuccess,
 }: StakeNFTsDialogProps) => {
   const t = useTranslations('nft');
+  const { address } = useAccount();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("stake");
   const [isStaking, setIsStaking] = useState(false);
   const [selectedNFTs, setSelectedNFTs] = useState<NFTItem[]>([]);
   const [nftAmounts, setNftAmounts] = useState<{ [key: number]: number }>({});
-  const { address } = useAccount()
   const {
     stakeNFTs,
     getStakeList,
     isLoading,
+    getNFTBalance
   } = useStakingNFTContract()
-  // const [totalClaimable, setTotalClaimable] = useState(0)
   const [stakedList, setStakedList] = useState<NFTItem[]>([]);
+  const [nftBalances, setNftBalances] = useState<{ [key: number]: number }>({});
   
+  // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
+  const totalStakedDailyReward = stakedList.reduce((total, item) => {
+    // 确保使用实际质押的数量
+    const count = item.count || 0;
+    return total + (item.dailyReward * count);
+  }, 0);
+
   useEffect(() => {
     const fetchStakedList = async () => {
       const list = await getStakeList();
@@ -108,7 +114,21 @@ export const StakeNFTsDialog = ({
     }
   }, [address]);
 
-  const { toast } = useToast();
+  useEffect(() => {
+    const fetchNFTBalances = async () => {
+      if (address) {
+        const res = await getNFTBalance();
+        const [tokenIds, amounts] = res as [bigint[], bigint[]];
+        const balances: { [key: number]: number } = {};
+        tokenIds.forEach((id, index) => {
+          balances[Number(id)] = Number(amounts[index]);
+        });
+        setNftBalances(balances);
+      }
+    };
+
+    fetchNFTBalances();
+  }, [address, getNFTBalance]);
 
   // 计算总每日奖励
   const totalDailyReward = selectedNFTs
@@ -157,39 +177,6 @@ export const StakeNFTsDialog = ({
     }
   };
 
-  // // 处理解除质押
-  // const handleUnstake = async (nft: NFTItem) => {
-  //   try {
-  //     const success = await unstakeNFTs([nft.id])
-  //     if (success) {
-  //       onSuccess?.();
-  //     }
-  //   } catch (error) {
-  //     console.error('Unstake error:', error)
-  //   }
-  // };
-
-  // // 处理领取奖励
-  // const handleClaim = async () => {
-  //   // try {
-  //   //   const success = await claimRewards()
-  //   //   if (success) {
-  //   //     setTotalClaimable(0)
-  //   //     onSuccess?.();
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error('Claim rewards error:', error)
-  //   // }
-  // };
-
-  // 格式化日期
-  const formatDate = (date?: Date) => {
-    return date ? format(date, 'yyyy-MM-dd HH:mm') : '-';
-  };
-
-  // 获取当前时间
-  const currentTime = new Date();
-
   // 可质押NFT的表格列配置
   const unstakeNFTColumns: ColumnConfig<NFTItem>[] = [
     {
@@ -210,6 +197,7 @@ export const StakeNFTsDialog = ({
                 <Input
                   type="number"
                   min="0"
+                  max={nftBalances[row.id] || 0}
                   value={nftAmounts[row.id] || 0}
                   onChange={(e) => {
                     const inputValue = e.target.value;
@@ -228,8 +216,9 @@ export const StakeNFTsDialog = ({
                       return;
                     }
 
-                    // 限制数值范围
-                    const value = (Math.max(0, parsedValue));
+                    // 限制数值范围在0到余额之间
+                    const maxAmount = nftBalances[row.id] || 0;
+                    const value = Math.min(Math.max(0, parsedValue), maxAmount);
                     setNftAmounts(prev => ({
                       ...prev,
                       [row.id]: value
@@ -244,16 +233,22 @@ export const StakeNFTsDialog = ({
       ),
     },
     {
+      id: "balance",
+      header: t('nftBalance'),
+      width: "100px",
+      cell: (row) => <span>{formatNumber(nftBalances[row.id] || 0)} {t('itemCount')}</span>,
+    },
+    {
       id: "totalReward",
       header: t('totalReward'),
       width: "150px",
-      cell: (row) => <span>{row.totalReward} XAA</span>,
+      cell: (row) => <span>{formatNumber(500000 * (nftBalances[row.id] || 0))} XAA</span>,
     },
     {
       id: "dailyReward",
       header: t('dailyRewardXAA'),
       width: "150px",
-      cell: (row) => <span>{row.dailyReward} XAA/天</span>,
+      cell: (row) => <span>{formatNumber(row.dailyReward)} XAA/天</span>,
     },
     {
       id: "iaoExtraPercentage",
@@ -283,60 +278,32 @@ export const StakeNFTsDialog = ({
       id: "count",
       header: t('count'),
       width: "100px",
-      cell: (row) => <span>{row.count}个</span>,
+      cell: (row) => <span>{formatNumber(row.count)}个</span>,
     },
     {
       id: "totalReward",
       header: t('totalReward'),
       width: "150px",
-      cell: (row) => <span>{row.totalReward * row.count} XAA</span>,
+      cell: (row) => <span>{formatNumber(500000 * row.count)} XAA</span>,
     },
     {
       id: "dailyReward",
       header: t('dailyRewardXAA'),
       width: "150px",
-      cell: (row) => <span>{row.dailyReward * row.count} XAA/天</span>,
+      cell: (row) => <span>{formatNumber(row.dailyReward * row.count)} XAA/天</span>,
     },
     {
       id: "receivedReward",
       header: t('claimedReward'),
       width: "150px",
-      cell: (row) => <span>{row.receivedReward || 0} XAA</span>,
-    },
-    {
-      id: "stakeStartTime",
-      header: t('startTime'),
-      width: "180px",
-      cell: (row) => <span>{formatDate(row.stakeStartTime)}</span>,
-    },
-    {
-      id: "currentTime",
-      header: t('currentTime'),
-      width: "180px",
-      cell: () => <span>{formatDate(currentTime)}</span>,
+      cell: (row) => <span>{formatNumber(row.receivedReward || 0)} XAA</span>,
     },
     {
       id: "stakeEndTime",
       header: t('stakeExpireTime'),
-      width: "180px",
-      cell: (row) => <span>{formatDate(row.stakeEndTime)}</span>,
+      width: "150px",
+      cell: (row) => <span>{formatCountdown(row.stakeEndTime)}</span>,
     },
-    // {
-    //   id: "actions",
-    //   header: t('actions'),
-    //   width: "150px",
-    //   cell: (row) => (
-    //     <div className="flex gap-2">
-    //       <Button
-    //         variant="outline"
-    //         size="sm"
-    //         onClick={() => handleUnstake(row)}
-    //       >
-    //         {t('unstake')}
-    //       </Button>
-    //     </div>
-    //   ),
-    // }
   ];
 
   // 处理选择变化
@@ -368,6 +335,26 @@ export const StakeNFTsDialog = ({
           </DialogDescription>
         </DialogHeader>
 
+        <div className="flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 p-4 rounded-lg border border-orange-500/20 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <div className="text-base font-medium text-foreground">{t('noNFTTip')}</div>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-orange-500 hover:bg-orange-600 text-white hover:text-white border-none whitespace-nowrap ml-4"
+            onClick={() => window.open('https://www.drcpad.io/project?name=XAIAgent', '_blank')}
+          >
+            {t('buyNFT')}
+          </Button>
+        </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full overflow-hidden">
           <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 grid grid-cols-2 w-full mb-4">
@@ -399,11 +386,11 @@ export const StakeNFTsDialog = ({
             <div className="bg-muted/20 p-4 rounded-lg h-16">
               <div className="flex justify-between mb-2">
                 <span>{t('selected')}:</span>
-                <span>{selectedNFTs.length} {t('itemCount')}</span>
+                <span>{formatNumber(selectedNFTs.length)} {t('itemCount')}</span>
               </div>
               <div className="flex justify-between font-medium">
                 <span>{t('totalDailyReward')}:</span>
-                <span className="text-primary">{totalDailyReward} XAA</span>
+                <span className="text-primary">{formatNumber(totalDailyReward)} XAA</span>
               </div>
             </div>
 
@@ -437,18 +424,19 @@ export const StakeNFTsDialog = ({
                   data={stakedList}
                   emptyText={t('noStakedNFT')}
                   height="400px"
-                  scroll={{ x: 1200, y: true }}
+                  scroll={{ x: 900, y: true }}
                   fixedLeftColumn={true}
-                  tableClassName="min-w-[1200px]"
+                  tableClassName="min-w-[900px]"
+                  rowKey={(row: NFTItem) => `${row.id}-${row.stakeStartTime?.getTime() || Date.now()}`}
                 />
               )}
             </div>
 
             <div className="bg-muted/20 p-4 rounded-lg space-y-2">
-              {/* <div className="flex justify-between items-center">
-                <span>{t('totalStakedValue')}:</span>
-                <span className="text-lg font-semibold">${totalStakedValue.toLocaleString()}</span>
-              </div> */}
+              <div className="flex justify-between items-center">
+                <span>{t('totalDailyReward')}:</span>
+                <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/天</span>
+              </div>
               {/* <div className="flex justify-between items-center">
                 <span>{t('totalClaimableRewards')}:</span>
                 <span>{totalClaimable} XAA</span>

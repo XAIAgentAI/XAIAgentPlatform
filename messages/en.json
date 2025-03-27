@@ -327,7 +327,8 @@
     "staked": "Staked",
     "selected": "Selected",
     "itemCount": "items",
-    "totalDailyReward": "Total Daily Reward",
+    "totalDailyReward": "NFT Staking Daily Rewards",
+    "rewardUnit": "XAA/Day",
     "cancel": "Cancel",
     "confirming": "Confirming...",
     "confirmStake": "Confirm Stake",
@@ -339,7 +340,7 @@
     "count": "Count",
     "totalReward": "Total Reward",
     "dailyRewardXAA": "Daily Reward",
-    "iaoExtraReward": "IAO Extra Reward",
+    "iaoExtraReward": "IAO Extra Percentage",
     "claimedReward": "Claimed Reward",
     "startTime": "Start Time",
     "currentTime": "Current Time",
@@ -362,7 +363,11 @@
     "claimingInProgress": "Claiming rewards...",
     "claimingSuccess": "Claiming successful",
     "claimingFailed": "Claiming failed",
-    "viewOnExplorer": "View on Explorer"
+    "viewOnExplorer": "View on Explorer",
+    "batchStake": "Stake NFT",
+    "nftBalance": "NFT Balance",
+    "noNFTTip": "Don't have any NFTs yet? Buy now to start earning rewards",
+    "buyNFT": "Buy NFT"
   },
   "regions": {
     "japan": "Japan",

@@ -3,7 +3,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
@@ -13,6 +13,8 @@ import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/ag
 import { SocialLinks } from "@/components/ui/social-links"
 import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
+import { useAccount } from 'wagmi';
+import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -37,6 +39,9 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const router = useRouter()
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
+  const [totalDailyRewards, setTotalDailyRewards] = useState(0);
+  const { address } = useAccount();
+  const { getStakeList } = useStakingNFTContract();
   
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -65,6 +70,20 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
+  useEffect(() => {
+    const fetchStakedInfo = async () => {
+      if (!address) return;
+      const stakedList = await getStakeList();
+      const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
+        const count = item.count || 0;
+        return total + (item.dailyReward * count);
+      }, 0);
+      setTotalDailyRewards(totalDaily);
+    };
+
+    fetchStakedInfo();
+  }, [address, getStakeList]);
+
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">
@@ -86,8 +105,15 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
           </TabsList>
         </Tabs>
         
-        <div className="ml-auto">
-          <GradientBorderButton className="bg-card  " onClick={() => setStakeDialogOpen(true)}>
+        <div className="ml-auto flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">
+            <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
+            <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+              {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+            </span>
+            <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
+          </div>
+          <GradientBorderButton className="bg-card whitespace-nowrap" onClick={() => setStakeDialogOpen(true)}>
             {tNft('batchStake')}
           </GradientBorderButton>
         </div>

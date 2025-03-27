@@ -10,6 +10,7 @@ import * as React from 'react';
 import stakingNFTABI from "@/config/abis/staking-nft.json"
 import NFTABI from "@/config/abis/nft.json"
 import { useTranslations } from 'next-intl';
+import { NFT_CONFIGS, getNFTConfigById } from '@/components/agent-list/constants/nft-config';
 
 type ToastMessage = {
   title: string;
@@ -43,20 +44,6 @@ export const useStakingNFTContract = () => {
   const { ensureCorrectNetwork } = useNetwork();
   const [isLoading, setIsLoading] = useState(false);
   const [totalStakedValue, setTotalStakedValue] = useState(0);
-
-  // 计算 NFT 价格
-  const getNFTPriceById = (id: number) => {
-    switch (id) {
-      case 1:
-        return 99;
-      case 2:
-        return 199;
-      case 3:
-        return 299;
-      default:
-        return 0;
-    }
-  };
 
   // 计算总质押价值
   const calculateTotalStakedValue = (stakes: StakeInfo[]) => {
@@ -420,28 +407,30 @@ toast(createToastMessage({
         const stakedAt = new Date(Number(stakeInfo.stakedAt) * 1000);
         const duration = Number(tokenConfig.duration);
         const tokenId = Number(stakeInfo.tokenId);
+        const nftConfig = getNFTConfigById(tokenId);
+        if (!nftConfig) return null;
         
         return {
           id: tokenId,
-          name: getNFTNameById(tokenId),
-          image: getNFTImageById(tokenId),
+          name: nftConfig.name,
+          image: nftConfig.image,
           count: Number(stakeInfo.amount),
-          totalReward: getTotalRewardById(tokenId),
-          dailyReward: getDailyRewardById(tokenId),
-          iaoExtraPercentage: getIAOExtraPercentageById(tokenId),
+          totalReward: nftConfig.totalReward,
+          dailyReward: nftConfig.dailyReward,
+          iaoExtraPercentage: nftConfig.iaoExtraPercentage,
           isStaked: true,
           receivedReward: Number(stakeInfo.claimed) / 1e18,
           pendingReward: Number(pendingReward) / 1e18,
           stakeStartTime: stakedAt,
           stakeEndTime: new Date(stakedAt.getTime() + duration * 1000),
-          price: getNFTPriceById(tokenId)
+          price: nftConfig.price
         };
       });
 
-      const stakes = await Promise.all(stakesPromises);
+      const stakes = (await Promise.all(stakesPromises)).filter((stake): stake is NonNullable<typeof stake> => stake !== null);
       
       // 计算总质押价值
-      const totalValue = calculateTotalStakedValue(stakes);
+      const totalValue = stakes.reduce((total, stake) => total + (stake.price * stake.count), 0);
       setTotalStakedValue(totalValue);
 
       return stakes;
@@ -453,62 +442,15 @@ toast(createToastMessage({
     }
   }
 
-// 辅助函数
-const getNFTNameById = (id: number) => {
-  switch (id) {
-    case 1:
-      return "Starter Node";
-    case 2:
-      return "Pro Node";
-    case 3:
-      return "Master Node";
-    default:
-      return `Node #${id}`;
-  }
-};
-
-const getNFTImageById = (id: number) => {
-  return `https://raw.githubusercontent.com/XAIAgentAI/NodeNFTForXAA/main/resource/image/${id}.png`;
-};
-
-const getTotalRewardById = (id: number) => {
-  switch (id) {
-    case 1:
-      return 4000;
-    case 2:
-      return 4000;
-    case 3:
-      return 10000;
-    default:
-      return 4000;
-  }
-};
-
-const getDailyRewardById = (id: number) => {
-  switch (id) {
-    case 1:
-      return 40;
-    case 2:
-      return 40;
-    case 3:
-      return 100;
-    default:
-      return 40;
-  }
-};
-
-const getIAOExtraPercentageById = (id: number) => {
-  switch (id) {
-    case 1:
-      return 3;
-    case 2:
-      return 5;
-    case 3:
-      return 10;
-    default:
-      return 3;
-  }
-};
+const getNFTBalance = async () => {
+  const balance = await publicClient.readContract({
+    address: nftContractAddress,
+    abi: NFTABI,
+    functionName: 'getBalance',
+    args: [address as `0x${string}` , 100000],
+  });
+  return balance;
+}
 
   return {
     stakeNFTs,
@@ -518,6 +460,7 @@ const getIAOExtraPercentageById = (id: number) => {
     getClaimableRewards,
     getStakeList,
     isLoading,
-    totalStakedValue
+    totalStakedValue,
+    getNFTBalance 
   };
 }; 

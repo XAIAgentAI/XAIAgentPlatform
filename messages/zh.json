@@ -329,7 +329,8 @@
     "staked": "已质押",
     "selected": "已选择",
     "itemCount": "个",
-    "totalDailyReward": "每日总奖励",
+    "totalDailyReward": "质押NFT每日奖励",
+    "rewardUnit": "XAA/天",
     "cancel": "取消",
     "confirming": "确认中...",
     "confirmStake": "确认质押",
@@ -341,7 +342,7 @@
     "count": "数量",
     "totalReward": "总奖励",
     "dailyRewardXAA": "每日奖励",
-    "iaoExtraReward": "IAO 额外奖励",
+    "iaoExtraReward": "参与IAO 额外加成比例",
     "claimedReward": "已领取奖励",
     "startTime": "开始时间",
     "currentTime": "当前时间",
@@ -365,7 +366,10 @@
     "claimingSuccess": "领取成功",
     "claimingFailed": "领取失败",
     "viewOnExplorer": "在区块浏览器中查看",
-    "batchStake": "质押NFT"
+    "batchStake": "质押NFT",
+    "nftBalance": "NFT 余额",
+    "noNFTTip": "还没有NFT？立即购买开始质押赚取收益",
+    "buyNFT": "购买 NFT"
   },
   "regions": {
     "japan": "日本",
