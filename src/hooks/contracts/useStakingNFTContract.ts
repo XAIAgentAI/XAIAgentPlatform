@@ -110,6 +110,8 @@ export const useStakingNFTContract = () => {
   // 质押 NFT
   const stakeNFTs = useCallback(async (tokenIds: {tokenId: number, amount: number}[]) => {
     try {
+      console.log('质押输入参数:', JSON.stringify(tokenIds, null, 2));
+      
       const preCheckPassed = await performPreChecks();
       if (!preCheckPassed) return false;
 
@@ -140,38 +142,44 @@ export const useStakingNFTContract = () => {
 
         toast(createToastMessage({
           title: t('stakingInProgress'),
-          description: t('stakingInProgress'),
+          description: "",
           txHash: approveHash,
         }));
 
         await publicClient.waitForTransactionReceipt({ hash: approveHash });
       }
 
-      // 遍历所有tokenId进行质押
-      for (const {tokenId, amount} of tokenIds) {
-        // 调用合约的 stake 方法
-        const hash = await viemWalletClient.writeContract({
-          address: stakeContractAddress,
-          abi: stakingNFTABI,
-          functionName: 'stake',
-          args: [tokenId, amount],
-          account: address as `0x${string}`,
-        });
+      // 准备批量质押的参数
+      const tokenIdArray = tokenIds.map(item => item.tokenId);
+      const amountArray = tokenIds.map(item => item.amount);
 
-        toast(createToastMessage({
-          title: t('stakingInProgress'),
-          description: t('stakingInProgress'),
-          txHash: hash,
-        }));
+      console.log('批量质押参数:', {
+        tokenIds: tokenIdArray,
+        amounts: amountArray
+      });
 
-        await publicClient.waitForTransactionReceipt({ hash });
+      // 调用合约的 batchStake 方法
+      const hash = await viemWalletClient.writeContract({
+        address: stakeContractAddress,
+        abi: stakingNFTABI,
+        functionName: 'batchStake',
+        args: [tokenIdArray, amountArray],
+        account: address as `0x${string}`,
+      });
 
-        toast(createToastMessage({
-          title: t('success'),
-          description: t('stakingSuccess'),
-          txHash: hash,
-        }));
-      }
+      toast(createToastMessage({
+        title: t('stakingInProgress'),
+        description: t('stakingInProgress'),
+        txHash: hash,
+      }));
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      toast(createToastMessage({
+        title: t('success'),
+        description: t('stakingSuccess'),
+        txHash: hash,
+      }));
 
       return true;
     } catch {

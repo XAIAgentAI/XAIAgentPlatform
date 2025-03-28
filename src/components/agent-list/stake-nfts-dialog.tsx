@@ -20,7 +20,7 @@ import {
 } from "@/components/ui-custom/configurable-table";
 import { Input } from "@/components/ui/input";
 import { NFT_CONFIGS } from './constants/nft-config';
-
+import { mockNFTItems } from './mock-data';
 interface NFTItem {
   id: number;
   name: string;
@@ -167,11 +167,27 @@ export const StakeNFTsDialog = ({
       const success = await stakeNFTs(tokenIdsWithAmounts);
 
       if (success) {
+        // 刷新质押列表
+        await getStakeList().then(list => {
+          setStakedList(list);
+        });
+        // 刷新 NFT 余额
+        await getNFTBalance().then(res => {
+          const [tokenIds, amounts] = res as [bigint[], bigint[]];
+          const balances: { [key: number]: number } = {};
+          tokenIds.forEach((id, index) => {
+            balances[Number(id)] = Number(amounts[index]);
+          });
+          setNftBalances(balances);
+        });
+        // 重置状态并关闭对话框
         onOpenChange(false);
         setSelectedNFTs([]);
         setNftAmounts({});
         onSuccess?.();
       }
+    } catch (error) {
+      console.error('Stake error:', error);
     } finally {
       setIsStaking(false);
     }
@@ -335,7 +351,7 @@ export const StakeNFTsDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 p-4 rounded-lg border border-orange-500/20 mb-4">
+        <div className="hidden md:flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 px-4 py-1 rounded-lg border border-orange-500/20 mb-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -376,7 +392,7 @@ export const StakeNFTsDialog = ({
                 selectable={true}
                 onSelectionChange={handleSelectionChange}
                 emptyText={t('noStakeableNFT')}
-                height="400px"
+                // height="400px"
                 scroll={{ x: 650, y: true }}
                 fixedLeftColumn={true}
                 tableClassName="min-w-[650px]"
@@ -395,13 +411,13 @@ export const StakeNFTsDialog = ({
             </div>
 
             <DialogFooter>
-              <Button
+              {/* <Button
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 className="w-full sm:w-auto"
               >
                 {t('cancel')}
-              </Button>
+              </Button> */}
               <Button onClick={handleStake}
                 disabled={!address || selectedNFTs.length === 0 || !selectedNFTs.some(nft => (nftAmounts[nft.id] || 0) > 0) || isStaking}>
                 {isStaking ? t('confirming') : t('confirmStake')}
@@ -421,9 +437,11 @@ export const StakeNFTsDialog = ({
               ) : (
                 <ConfigurableTable<NFTItem>
                   columns={stakedNFTColumns}
+                  // data={mockNFTItems}
                   data={stakedList}
                   emptyText={t('noStakedNFT')}
-                  height="400px"
+                  className="overflow-hidden"
+                  height="300px"
                   scroll={{ x: 900, y: true }}
                   fixedLeftColumn={true}
                   tableClassName="min-w-[900px]"
@@ -450,7 +468,7 @@ export const StakeNFTsDialog = ({
               </Button> */}
             </div>
 
-            <DialogFooter>
+            {/* <DialogFooter>
               <Button
                 variant="outline"
                 onClick={() => onOpenChange(false)}
@@ -458,7 +476,7 @@ export const StakeNFTsDialog = ({
               >
                 {t('close')}
               </Button>
-            </DialogFooter>
+            </DialogFooter> */}
           </TabsContent>
         </Tabs>
       </DialogContent>

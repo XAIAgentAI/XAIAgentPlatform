@@ -339,7 +339,7 @@
     "stakedNFT": "ステーキング中のNFT",
     "count": "数量",
     "totalReward": "総報酬",
-    "dailyRewardXAA": "1日あたりの報酬",
+    "dailyRewardXAA": "NFT1個あたりの日次報酬",
     "iaoExtraReward": "IAO追加ボーナス率",
     "claimedReward": "請求済み報酬",
     "startTime": "開始時間",

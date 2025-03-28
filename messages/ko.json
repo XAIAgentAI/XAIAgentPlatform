@@ -340,7 +340,7 @@
     "stakedNFT": "스테이킹된 NFT",
     "count": "수량",
     "totalReward": "총 보상",
-    "dailyRewardXAA": "일일 보상",
+    "dailyRewardXAA": "NFT당 일일 보상",
     "iaoExtraReward": "IAO 추가 보너스 비율",
     "claimedReward": "청구된 보상",
     "startTime": "시작 시간",

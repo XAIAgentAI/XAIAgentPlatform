@@ -332,13 +332,14 @@ export const ConfigurableTable = <T extends object>({
   const tableContainerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
-    height,
-    maxHeight,
+    height: height || 'auto',
+    maxHeight: maxHeight,
     overflow: 'hidden',
   };
 
   // 创建表格内容样式
   const tableWrapperStyle: React.CSSProperties = {
+    position: 'relative',
     overflowX: scroll?.x ? 'auto' : 'hidden',
     overflowY: scroll?.y ? 'auto' : 'hidden',
     height: '100%',
@@ -358,7 +359,7 @@ export const ConfigurableTable = <T extends object>({
 
   return (
     <div className={cn("w-full rounded-md", className)} style={tableContainerStyle}>
-      <div style={tableWrapperStyle} className="rounded-md border">
+      <div className="rounded-md border h-full" style={tableWrapperStyle}>
         <Table className={tableClassName} style={tableStyle}>
           <TableHeader className={headerClassName}>
             <TableRow>
@@ -464,7 +465,7 @@ export const ConfigurableTable = <T extends object>({
                         )}
                       >
                         <Checkbox 
-                          id={`row-${key}`}
+                          id={`select-${key}`}
                           checked={selectedKeys.has(key)}
                           onCheckedChange={(checked) => handleSelectRow(key, checked as boolean)}
                           onClick={(e) => e.stopPropagation()}
@@ -498,4 +499,4 @@ export const ConfigurableTable = <T extends object>({
       </div>
     </div>
   );
-}; 
+};

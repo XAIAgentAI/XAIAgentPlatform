@@ -16,10 +16,10 @@
     "xaaBalance": "XAA Balance",
     "social": "Social",
     "timeUnits": {
-      "days": "days",
-      "hours": "hours",
-      "minutes": "minutes",
-      "seconds": "seconds"
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s"
     },
     "noData": "No Data",
     "status": "Status",
@@ -339,7 +339,7 @@
     "stakedNFT": "Staked NFT",
     "count": "Count",
     "totalReward": "Total Reward",
-    "dailyRewardXAA": "Daily Reward",
+    "dailyRewardXAA": "Daily Reward Per NFT",
     "iaoExtraReward": "IAO Extra Percentage",
     "claimedReward": "Claimed Reward",
     "startTime": "Start Time",

@@ -588,10 +588,15 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
   {
     id: 10,
     name: "SuperImage",
-    tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
-    iaoContractAddress: "",
     avatar: "/logo/SuperImage.png",
     symbol: "SIC",
+
+    tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    iaoContractAddress: "",
+    tokenAddressTestnet: "0x2fD253cE28deF759FC1063ccFb24a1cC389757eC",
+    iaoContractAddressTestnet: "0x14207289db490cc15c2d74411e25e23f5fdaadda",
+   
+
     type: "Infrastructure",
     marketCap: "$0",
     change24h: "0",
@@ -599,10 +604,12 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
+    
+    status: "IAO coming soon",
+    statusJA: "IAO が始まる",
+    statusKO: "IAO 시작",
+    statusZH: "IAO 即将开始",
+
     description: "SuperImage is a Decentralized Image Generation AI. SuperImage has multiple latent text-to-image diffusion models of generating photo-realistic images given any text input, cultivates autonomous freedom to produce incredible imagery, empowers billions of people to create stunning art within seconds. SuperImage is the infrastructure for AI Agents, providing API interfaces for AI Agents to utilize. Official website address: www.superimage.ai",
     descriptionJA: "SuperImageは分散型画像生成AIです。SuperImageは、テキスト入力から写実的な画像を生成する複数の潜在的なテキストから画像への拡散モデルを持ち、驚くべき画像を生成する自律的な自由を育み、数十億の人々が数秒で素晴らしいアートを作成することを可能にします。SuperImageはAIエージェントのインフラストラクチャであり、AIエージェントが利用できるAPIインターフェースを提供します。公式ウェブサイト：www.superimage.ai",
     descriptionKO: "SuperImage는 분산형 이미지 생성 AI입니다. SuperImage는 텍스트 입력에서 사실적인 이미지를 생성하는 여러 잠재적 텍스트-이미지 확산 모델을 보유하고 있으며, 놀라운 이미지를 생성하는 자율적 자유를 육성하고, 수십억 명의 사람들이 몇 초 만에 멋진 예술 작품을 만들 수 있게 합니다. SuperImage는 AI 에이전트를 위한 인프라이며, AI 에이전트가 활용할 수 있는 API 인터페이스를 제공합니다. 공식 웹사이트: www.superimage.ai",
@@ -640,7 +647,38 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     ],
     socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
     chatEntry: "https://app.superimage.ai",
-    iaoTokenAmount: 1000000000
+    iaoTokenAmount: 1000000000,
+//     projectDescription: `1. $SIC总供应量：1000亿。
+// 2. 20亿枚的$SIC将通过IAO销售,仅接受$XAA,
+// 投资者将根据其$XAA投资比例获得$SIC。
+// 3.如果持有Starter NFT，投资100万$XAA,等同于投资103万$XAA，对应收益会增加3%。Pro NFT节点对应增加5%，Master NFT节点对应增加10%。
+// 4. 在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
+// 4. IAO 结束后，10亿枚$SIC和$XAA将立即在DBCSwap上建立流动性池，实现$SIC的自由交易`
+//   },
+
+projectDescription: JSON.stringify({
+  'zh': `1. $SIC总供应量：1000亿。
+2. 20亿枚的$SIC将通过IAO销售,仅接受$XAA,
+投资者将根据其$XAA投资比例获得$SIC。
+3.如果持有Starter NFT，投资100万$XAA,等同于投资103万$XAA，对应收益会增加3%。Pro NFT节点对应增加5%，Master NFT节点对应增加10%。
+4. 在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
+4. IAO 结束后，10亿枚$SIC和$XAA将立即在DBCSwap上建立流动性池，实现$SIC的自由交易`,
+  'en': `1. $SIC total supply: 100 billion.
+2. 2 billion $SIC will be sold through IAO, only accepting $XAA. Investors will receive $SIC based on their $XAA investment ratio.
+3. If holding a Starter NFT, investing 1 million $XAA is equivalent to investing 1.03 million $XAA, corresponding to a 3% increase in returns. Pro NFT nodes correspond to a 5% increase, and Master NFT nodes correspond to a 10% increase.
+4. After the 72-hour IAO ends, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, and the liquidity LP certificate will be sent to the black hole address. 5% of $XAA will be destroyed.
+5. After IAO, 1 billion $SIC and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of $SIC.`,
+  'ja': `1. $SIC総供給量：1000億。
+2. 20億枚の$SICがIAOを通じて販売され、$XAAのみを受け付けます。投資家は$XAAの投資比率に応じて$SICを受け取ります。
+3. Starter NFTを保有している場合、100万$XAAの投資は103万$XAAの投資と同等となり、収益が3%増加します。Pro NFTノードは5%増加、Master NFTノードは10%増加します。
+4. 72時間のIAO終了後、95%の$XAAがオンチェーン流動性プールに割り当てられ、永久に取り消されることはなく、流動性LP証明書がブラックホールアドレスに送信されます。5%の$XAAは破壊されます。
+5. IAO終了後、10億枚の$SICと$XAAは直ちにDBCSwapで流動性プールを確立し、$SICの自由取引を可能にします。`,
+  'ko': `1. $SIC 총 공급량: 1000억.
+2. 20억 개의 $SIC가 IAO를 통해 판매될 것이며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $SIC를 받게 됩니다.
+3. Starter NFT를 보유한 경우, 100만 $XAA 투자는 103만 $XAA 투자와 동등하며, 수익이 3% 증가합니다. Pro NFT 노드는 5% 증가, Master NFT 노드는 10% 증가합니다.
+4. 72시간의 IAO 종료 후, 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않으며, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
+5. IAO 종료 후, 10억 개의 $SIC와 $XAA는 즉시 DBCSwap에 유동성 풀을 구축하여 $SIC의 자유로운 거래를 가능하게 합니다.`
+})
   },
 
   {

@@ -58,6 +58,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         endTime: 0,
         userDeposited: '',
         hasClaimed: false,
+        totalReward: ''
       },
       isLoading: false,
       isPoolInfoLoading: false,
@@ -172,6 +173,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     endTime: 0,
     userDeposited: '',
     hasClaimed: false,
+    totalReward: ''
   });
 
   // Fetch pool info
@@ -229,12 +231,26 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalDeposited = null;
       }
 
+      // 获取 totalReward
+      let totalReward;
+      try {
+        totalReward = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: getTotalRewardNumberFunctionName(),
+        });
+      } catch (error) {
+        console.error('Failed to fetch totalReward:', error);
+        totalReward = null;
+      }
+
       const newPoolInfo: any = {
         totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
         startTime: startTime ? Number(startTime) : 0,
         endTime: endTime ? Number(endTime) : 0,
         userDeposited: '',
         hasClaimed: false,
+        totalReward: totalReward ? ethers.formatEther(totalReward?.toString()) : ''
       };
 
       setPoolInfo(newPoolInfo);
@@ -246,6 +262,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         endTime: 0,
         userDeposited: '',
         hasClaimed: false,
+        totalReward: ''
       });
     } finally {
       setIsPoolInfoLoading(false);
@@ -673,7 +690,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         userDeposited: ethers.formatEther(userDeposited),
         claimableXAA,
         hasClaimed,
-        claimedAmount
+        claimedAmount,
       };
     } catch (error) {
       console.error('Failed to get user stake info:', error);

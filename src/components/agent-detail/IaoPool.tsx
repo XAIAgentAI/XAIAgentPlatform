@@ -428,7 +428,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
               <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
               <span className="font-semibold text-[#F47521] break-all">
-                {agent.totalSupply?.toLocaleString()} {agent.symbol}
+                {isPoolInfoLoading ? "--" : Number(poolInfo.totalReward).toLocaleString()} {agent.symbol}
               </span>
             </div>
 
