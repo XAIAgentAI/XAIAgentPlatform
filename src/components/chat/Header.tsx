@@ -25,7 +25,6 @@ interface HeaderComponentProps {
   convid: string;
   userName: string | null;
   setUserName: any;
-  agentId: string;
   selectedAgent: string;
   handleAgentSelect: (agent: string) => void;
   isAgentListOpen: boolean;
@@ -38,7 +37,7 @@ interface HeaderComponentProps {
   setIsNew: React.Dispatch<React.SetStateAction<string>>
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agentId, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
   const src: {[key:string]:string} = {
     "Xaiagent":"/logo/XAIAgent.png",
     "StyleID":"/logo/StyleID.png",
@@ -81,11 +80,11 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        agent: agent
                      };
 
-                     setConversations(prev => ({ ...prev, [agentId]: [...prev[agentId] || [], userMessage] }));
+                     setConversations(prev => ({ ...prev, ["1"]: [...prev["1"] || [], userMessage] }));
                      setIsLoading(true);
 
                      try {
-                       const response = await fetch(`/api/chat/${agentId}/messages`, {
+                       const response = await fetch(`/api/chat/messages`, {
                          method: 'POST',
                          headers: { 'Content-Type': 'application/json' },
                          body: JSON.stringify({ message: example, user: userName, thing: "message", isNew: "yes", model: "DeepSeek V3", agent}),
@@ -96,7 +95,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        const data = await response.json();
                        setIsLoading(false);
 
-                       setConversations(prev => ({ ...prev, [agentId]: [...prev[agentId] || [], {
+                       setConversations(prev => ({ ...prev, ["1"]: [...prev["1"] || [], {
                          id: `${data.convid}-${Date.now()}`,
                          role: 'assistant',
                          content: data.assistant,

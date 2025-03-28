@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from 'uuid'; // 引入uuid库
 interface SideBarProps {
   userName: string | null;
   setUserName: any;
-  agentId: string;
   setConversations: any;
   setConvid: any;
   setIsNew: any;
@@ -34,7 +33,7 @@ interface Message {
   agent?: string;
 }
 
-const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, agentId, userName, setUserName }: SideBarProps) => {
+const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, userName, setUserName }: SideBarProps) => {
   const [isEmailOpen, setIsEmailOpen] = useState(false);
   const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
@@ -52,12 +51,12 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       fetchMessages();
     }, 5000);
     return () => clearInterval(interval);
-  }, [agentId, userName]);
+  }, ["1", userName]);
 
   const fetchMessages = async () => {
-    if (agentId && userName) {
+    if (true && userName) {
       try {
-        const response = await fetch(`/api/chat/${agentId}/messages?user=${userName}`, {
+        const response = await fetch(`/api/chat/messages?user=${userName}`, {
           headers: { 'Content-Type': 'application/json' },
           method: 'GET',
         });
@@ -126,7 +125,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
     setConvid(convid);
     const conversationMessages = messages.filter(msg => msg.convid === convid);
     setConversations({
-      [agentId]: conversationMessages
+      ["1"]: conversationMessages
     });
     console.log(conversations);
   }

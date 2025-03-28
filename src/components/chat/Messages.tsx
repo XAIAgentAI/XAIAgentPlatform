@@ -22,17 +22,16 @@ interface MessagesComponentProps {
   isLoading: boolean;
   setConversations: Dispatch<SetStateAction<Conversations>>;
   messagesEndRef: RefObject<HTMLDivElement | null>;
-  agentId: string;
   setIsNew: React.Dispatch<SetStateAction<string>>;
   agent: string;
 }
 
-async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, agentId: string, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
+async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
   setIsNew("yes");
   // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
     const newConversations = { ...prev };
-    newConversations[agentId] = [];
+    newConversations["1"] = [];
     return newConversations;
   });
 }
@@ -44,12 +43,12 @@ const src: {[key:string]:string} = {
   "PicSpan":"/logo/PicSpan.png"
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, agentId, isLoading, conversations, setConversations, messagesEndRef }) => {
-  const [messages, setMessages] = useState<Message[]>(conversations[agentId] || []);
+const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, setConversations, messagesEndRef }) => {
+  const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
 
   useEffect(() => {
-    setMessages(conversations[agentId] || []);
-  }, [conversations[agentId]]);  
+    setMessages(conversations["1"] || []);
+  }, [conversations["1"]]);  
 
   // 自动滚动到最新消息
   useEffect(() => {
@@ -74,7 +73,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             onClick={async () => {
               try {
                 if(!isLoading){
-                  await deleteMessages(setIsNew, userName, agentId, setConversations);
+                  await deleteMessages(setIsNew, userName, setConversations);
                 }
               } catch (error) {
                 console.error(error);

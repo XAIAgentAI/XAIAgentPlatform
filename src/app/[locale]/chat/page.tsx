@@ -44,7 +44,6 @@ interface AgentDescription {
 
 export default function ChatPage() {
   const params = useParams<ChatParams>();
-  const agentId = params?.agentId;
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -116,13 +115,13 @@ export default function ChatPage() {
       agent: agent
     };
 
-    setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), userMessage] }));
+    setConversations(prev => ({ ...prev, ["1"]: [...(prev["1"] || []), userMessage] }));
     setInput('');
     setIsLoading(true);
 
     try {
       console.log(isNew);
-      const response = await fetch(`/api/chat/${agentId}/messages`, {
+      const response = await fetch(`/api/chat/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input, user: userName, thing: "message", isNew: isNew, convid: convid, model: "DeepSeek V3", agent: agent }),
@@ -138,7 +137,7 @@ export default function ChatPage() {
         agent: data.agent
       };
 
-      setConversations(prev => ({ ...prev, [agentId]: [...(prev[agentId] || []), aiMessage] }));
+      setConversations(prev => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
 
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -154,7 +153,7 @@ export default function ChatPage() {
   };
 
   const handleAuth = async () => {
-    const response = await fetch('/api/chat/1/messages', {
+    const response = await fetch('/api/chat/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -183,13 +182,12 @@ export default function ChatPage() {
 
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
-      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} agentId={agentId} userName={userName} setUserName={setUserName}/>
-      {!conversations[agentId]?.length && (
+      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
+      {!conversations["1"]?.length && (
         <HeaderComponent 
           agent={agent}
           userName={userName}
           setUserName={setUserName}
-          agentId={agentId}
           setIsLoading={setIsLoading}
           selectedAgent={selectedAgent} 
           handleAgentSelect={handleAgentSelect} // 修改这里，应该是handleAgentSelect
@@ -226,7 +224,6 @@ export default function ChatPage() {
         conversations={conversations}
         setConversations={setConversations}
         isLoading={isLoading} 
-        agentId={agentId}
         messagesEndRef={messagesEndRef} 
         setIsNew={setIsNew}
       />
@@ -234,7 +231,6 @@ export default function ChatPage() {
         conversations={conversations}
         setIsNew={setIsNew}
         input={input} 
-        agentId={agentId}
         setInput={setInput} 
         setUserStatus={setUserStatus}
         userName={userName}

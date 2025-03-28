@@ -26,12 +26,6 @@ const conversationData: Conversation = {
       {convid: "1", assistant: "Hello, I am your AI assistant, I am Fitten Code.", agent:"Xaiagent"},
       {convid: "2", user: "Yes, what services do you offer?"},
       {convid: "2", assistant: "I can help you with coding, answering questions, and more.", agent:"Xaiagent"}
-  ],
-  "5": [
-      {convid: "1", user: "Hello, can you assist me with something?"},
-      {convid: "1", assistant: "Of course! What do you need help with?", agent:"Xaiagent"},
-      {convid: "1", user: "I need to debug some JavaScript code."},
-      {convid: "1", assistant: "Sure, I can help with that. Please share the code you're having trouble with.", agent:"Xaiagent"}
   ]
 };
 
@@ -101,22 +95,20 @@ async function updateUserChat(user: string, chat: Conversation) {
   }
 }
 
-// 初始化并执行插入操作
+//初始化并执行插入操作
 //(async () => {
-//  try {
-//    await ensureChatTable();
-//    await insertUserRecord("Sword", "666666", conversationData); 
-//  } catch (error) {
-//    console.error('Failed to initialize and insert data:', error);
-//  }
+// try {
+//   await ensureChatTable();
+//  await insertUserRecord("Sword", "666666", conversationData); 
+//} catch (error) {
+//   console.error('Failed to initialize and insert data:', error);
+// }
 //})();
 
 // 获取消息历史
 export async function GET(
   request: NextRequest,
-  { params }: { params: { agentId: string } }
 ) {
-  const { agentId } = params;
   const user = request.nextUrl.searchParams.get('user'); 
   
   if (!user) {
@@ -131,19 +123,17 @@ export async function GET(
 
   let chat = userChat.chat;
   
-  if (!chat[agentId]) {
+  if (!chat["1"]) {
     return NextResponse.json([]);
   }
 
-  return NextResponse.json(chat[agentId]);
+  return NextResponse.json(chat["1"]);
 }
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { agentId: string } }
 ) {
-  const { agentId } = params;
-  const { message, thing, isNew, user: requestUser, convid, model, agent } = await request.json();
+  const { message, thing, isNew, user: requestUser, convid, agent } = await request.json();
 
   if (thing === 'signup') {
     // 生成初始用户名
@@ -180,13 +170,13 @@ export async function POST(
     if (typeof chat === 'string') {
       chat = JSON.parse(chat); // 将字符串解析为对象
     }
-    if (!chat[agentId]) {
-      chat[agentId] = [];
+    if (!chat["1"]) {
+      chat["1"] = [];
     }
 
     let maxConvid = 0;
-    if (chat[agentId].length > 0) {
-      maxConvid = Math.max(...chat[agentId].map((sentence: any) => parseInt(sentence.convid)));
+    if (chat["1"].length > 0) {
+      maxConvid = Math.max(...chat["1"].map((sentence: any) => parseInt(sentence.convid)));
     }
 
     const userMessage: Sentence = {
@@ -194,7 +184,7 @@ export async function POST(
       convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString()
     };
 
-    chat[agentId].push(userMessage);
+    chat["1"].push(userMessage);
     
     //固定Model
     const selectedModel = "DeepSeek-V3";
@@ -242,7 +232,7 @@ export async function POST(
       agent: agent
     };
 
-    chat[agentId].push(aiResponse);
+    chat["1"].push(aiResponse);
     await updateUserChat(user, chat);
     
     return NextResponse.json(aiResponse);
