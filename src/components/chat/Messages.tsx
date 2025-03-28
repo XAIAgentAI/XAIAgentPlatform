@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image' ;
+import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string;
@@ -39,7 +40,7 @@ async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userNam
 const src: {[key:string]:string} = {
   "Xaiagent":"/logo/XAIAgent.png",
   "StyleID":"/logo/StyleID.png",
-  "DeepLink":"/logo/DeepLink.png",
+  "LogoLift":"/logo/LogoLift.png",
   "PicSpan":"/logo/PicSpan.png"
 }
 
@@ -72,7 +73,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             className="fixed right-[10px] top-[113px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
-                await deleteMessages(setIsNew, userName, agentId, setConversations);
+                if(!isLoading){
+                  await deleteMessages(setIsNew, userName, agentId, setConversations);
+                }
               } catch (error) {
                 console.error(error);
               }
@@ -89,8 +92,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start flex-col'}`}
           > 
             <div className="flex flex-row">
-            <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
-            <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
+              <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
+              <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
             </div>
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${
@@ -99,7 +102,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   : 'text-foreground'
               }`}
             >
-              <p className="text-sm text-justify">{message.content}</p>
+              {message.role === 'assistant' ? (
+                <ReactMarkdown>{message.content}</ReactMarkdown>
+              ) : (
+                <p className="text-sm text-justify">{message.content}</p>
+              )}
               <p className={`text-xs mt-1 text-white/70`}>
                 {isValidDate(message.timestamp) ? new Date(message.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString()}
               </p>
@@ -108,7 +115,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
         ))}
         {isLoading && (
           <div className={`flex justify-center`}>
-            <p className="text-sm text-gray-500">Loading...</p>
+            <p className="text-sm text-gray-500">Thinking...</p>
           </div>
         )}
         <div ref={messagesEndRef} />

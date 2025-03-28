@@ -42,7 +42,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
   const src: {[key:string]:string} = {
     "Xaiagent":"/logo/XAIAgent.png",
     "StyleID":"/logo/StyleID.png",
-    "DeepLink":"/logo/DeepLink.png",
+    "LogoLift":"/logo/LogoLift.png",
     "PicSpan":"/logo/PicSpan.png"
   }
   return (
