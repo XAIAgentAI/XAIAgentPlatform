@@ -42,7 +42,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address } = useAccount();
   const { getStakeList } = useStakingNFTContract();
-  
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc")
@@ -104,22 +104,26 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        
+
         <div className="ml-auto flex items-center gap-6">
-          <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">
-            <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
-            <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-              {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
-            </span>
-            <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
-          </div>
+          {
+            address ? (
+              <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">
+                <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
+                <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                  {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+                </span>
+                <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
+              </div>
+            ) : null
+          }
           <GradientBorderButton className="bg-card whitespace-nowrap" onClick={() => setStakeDialogOpen(true)}>
             {tNft('batchStake')}
           </GradientBorderButton>
         </div>
       </div>
 
-      {stakeDialogOpen && <StakeNFTsDialog 
+      {stakeDialogOpen && <StakeNFTsDialog
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
       />}
@@ -236,22 +240,22 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, ""))) 
+                          {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")))
                             ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                                maximumFractionDigits: 0
-                              })
+                              style: 'currency',
+                              currency: 'USD',
+                              maximumFractionDigits: 0
+                            })
                             : agent.marketCap}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className={`text-sm font-normal font-['Sora'] leading-[10px] ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
-                          {agent.priceChange24h ? 
-                            (parseFloat(agent.priceChange24h) === -0 ? 
-                              "+0.00%" : 
+                          {agent.priceChange24h ?
+                            (parseFloat(agent.priceChange24h) === -0 ?
+                              "+0.00%" :
                               `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
-                            ) : 
+                            ) :
                             "0.00%"
                           }
                         </div>
@@ -270,10 +274,10 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
                           {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
                             ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                                maximumFractionDigits: 0
-                              })
+                              style: 'currency',
+                              currency: 'USD',
+                              maximumFractionDigits: 0
+                            })
                             : agent.volume24h}
                         </div>
                       </TableCell>
@@ -281,10 +285,10 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
                           {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
                             ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                                maximumFractionDigits: 0
-                              })
+                              style: 'currency',
+                              currency: 'USD',
+                              maximumFractionDigits: 0
+                            })
                             : '$0'}
                         </div>
                       </TableCell>

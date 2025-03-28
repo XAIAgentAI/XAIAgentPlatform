@@ -82,15 +82,19 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
               </TabsList>
             </Tabs>
           </div>
-          
+
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
-              <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
-              </span>
-              <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
-            </div>
+            {
+              address ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
+                  <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                    {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+                  </span>
+                  <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
+                </div>
+              ) : <div />
+            }
             <GradientBorderButton
               onClick={() => setStakeDialogOpen(true)}
               className="text-xs whitespace-nowrap"
@@ -165,8 +169,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
           </div>
         </Card>
       </div> */}
-      
-     { stakeDialogOpen && <StakeNFTsDialog 
+
+      {stakeDialogOpen && <StakeNFTsDialog
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
       />}
