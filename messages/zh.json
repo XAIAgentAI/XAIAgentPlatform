@@ -186,6 +186,7 @@
     "stakeSuccessWithAmount": "成功质押 {amount} DBC",
     "goToDbcswap": "前往 DBCSwap 购买 {symbol}",
     "approveTransaction": "授权交易",
+    "approving": "批准交易中",
     "approveWaitingConfirm": "等待授权确认",
     "approveSuccess": "授权成功",
     "approveFailed": "授权失败，请重试",
@@ -370,7 +371,19 @@
     "batchStake": "质押NFT",
     "nftBalance": "NFT 余额",
     "noNFTTip": "还没有NFT？立即购买开始质押赚取收益",
-    "buyNFT": "购买 NFT"
+    "buyNFT": "购买 NFT",
+    "batchClaim": "批量领取",
+    "claiming": "领取中",
+    "selectedNFTCount": "已选择数量",
+    "batchClaimingInProgress": "批量领取进行中",
+    "batchClaimingSuccess": "批量领取成功",
+    "batchClaimingFailed": "批量领取失败",
+    "approving": "批准交易中",
+    "pendingReward": "待领取奖励",
+    "canClaim": "可领取",
+    "noPendingReward": "暂无待领取",
+    "noClaimableRewards": "无可领取奖励",
+    "pleaseSelectNFTsWithPendingRewards": "请选择有待领取奖励的 NFT"
   },
   "regions": {
     "japan": "日本",

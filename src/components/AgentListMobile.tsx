@@ -38,24 +38,31 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { getStakeList } = useStakingNFTContract();
   const { open } = useAppKit();
   const { toast } = useToast();
 
   useEffect(() => {
+
     const fetchStakedInfo = async () => {
       if (!address) return;
+      console.log("mobile-fetchStakedInfo - address", address);
+
       const stakedList = await getStakeList();
       const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
         const count = item.count || 0;
         return total + (item.dailyReward * count);
       }, 0);
+
+      console.log('stakedList', stakedList, totalDaily);
       setTotalDailyRewards(totalDaily);
     };
 
-    fetchStakedInfo();
-  }, [address]);
+    if (address) {
+      fetchStakedInfo();
+    }
+  }, [address,  getStakeList]);
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);

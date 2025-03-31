@@ -31,8 +31,10 @@ interface NFTItem {
   count: number;
   price?: number;
   receivedReward?: number;
+  pendingReward?: number;
   stakeStartTime?: Date;
   stakeEndTime?: Date;
+  stakeIndex?: number;
 }
 
 interface StakeNFTsDialogProps {
@@ -91,10 +93,13 @@ export const StakeNFTsDialog = ({
     stakeNFTs,
     getStakeList,
     isLoading,
-    getNFTBalance
+    getNFTBalance,
+    batchClaimRewards
   } = useStakingNFTContract()
   const [stakedList, setStakedList] = useState<NFTItem[]>([]);
   const [nftBalances, setNftBalances] = useState<{ [key: number]: number }>({});
+  const [selectedStakedNFTs, setSelectedStakedNFTs] = useState<NFTItem[]>([]);
+  const [isClaiming, setIsClaiming] = useState(false);
 
   // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
   const totalStakedDailyReward = stakedList.reduce((total, item) => {
@@ -106,7 +111,6 @@ export const StakeNFTsDialog = ({
   useEffect(() => {
     const fetchStakedList = async () => {
       const list = await getStakeList();
-      console.log('stakedList', list);
       setStakedList(list);
     };
 
@@ -195,6 +199,59 @@ export const StakeNFTsDialog = ({
     } finally {
       setIsStaking(false);
       setStakeStep('idle');
+    }
+  };
+
+  // 处理批量领取奖励
+  const handleBatchClaim = async () => {
+    if (selectedStakedNFTs.length === 0) {
+      toast({
+        title: t('pleaseSelectNFT'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // 检查选中的 NFT 是否有可领取的奖励
+    const hasClaimableRewards = selectedStakedNFTs.some(nft => (nft.pendingReward || 0) > 0);
+    if (!hasClaimableRewards) {
+      toast({
+        title: t('noClaimableRewards'),
+        description: t('pleaseSelectNFTsWithPendingRewards'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsClaiming(true);
+
+    try {
+      // 只处理有待领取奖励的 NFT
+      const claimableNFTs = selectedStakedNFTs.filter(nft => (nft.pendingReward || 0) > 0);
+      const tokenIds: number[] = [];
+      const stakeIndexes: number[] = [];
+      
+      claimableNFTs.forEach(nft => {
+        if (nft.stakeIndex !== undefined) {
+          tokenIds.push(nft.id);
+          stakeIndexes.push(nft.stakeIndex);
+        }
+      });
+
+      const success = await batchClaimRewards(tokenIds, stakeIndexes);
+
+      if (success) {
+        // 刷新质押列表
+        await getStakeList().then(list => {
+          setStakedList(list);
+        });
+        // 重置选中状态
+        setSelectedStakedNFTs([]);
+      }
+    } catch (error) {
+      console.error('Batch claim error:', error);
+    } finally {
+      setIsClaiming(false);
     }
   };
 
@@ -310,6 +367,21 @@ export const StakeNFTsDialog = ({
       header: t('claimedReward'),
       width: "150px",
       cell: (row) => <span>{formatNumber(row.receivedReward || 0)} XAA</span>,
+    },
+    {
+      id: "pendingReward",
+      header: t('pendingReward'),
+      width: "150px",
+      cell: (row) => (
+        <div className="flex flex-col">
+          <span>{formatNumber(row.pendingReward || 0)} XAA</span>
+          {(row.pendingReward || 0) > 0 ? (
+            <span className="text-xs text-green-500">{t('canClaim')}</span>
+          ) : (
+            <span className="text-xs text-gray-500">{t('noPendingReward')}</span>
+          )}
+        </div>
+      ),
     },
     {
       id: "stakeEndTime",
@@ -449,7 +521,6 @@ export const StakeNFTsDialog = ({
               ) : (
                 <ConfigurableTable<NFTItem>
                   columns={stakedNFTColumns}
-                  // data={mockNFTItems}
                   data={stakedList}
                   emptyText={t('noStakedNFT')}
                   className="overflow-hidden"
@@ -458,6 +529,8 @@ export const StakeNFTsDialog = ({
                   fixedLeftColumn={true}
                   tableClassName="min-w-[900px]"
                   rowKey={(row: NFTItem) => `${row.id}-${row.stakeStartTime?.getTime() || Date.now()}`}
+                  selectable={true}
+                  onSelectionChange={setSelectedStakedNFTs}
                 />
               )}
             </div>
@@ -467,17 +540,35 @@ export const StakeNFTsDialog = ({
                 <span>{t('totalDailyReward')}:</span>
                 <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/天</span>
               </div>
-              {/* <div className="flex justify-between items-center">
-                <span>{t('totalClaimableRewards')}:</span>
-                <span>{totalClaimable} XAA</span>
-              </div> */}
-              {/* <Button
-                onClick={handleClaim}
-                disabled={totalClaimable <= 0}
+              <div className="flex justify-between items-center">
+                <span>{t('selectedNFTCount')}:</span>
+                <span>{selectedStakedNFTs.length} {t('itemCount')}</span>
+              </div>
+              <Button
+                onClick={handleBatchClaim}
+                disabled={
+                  selectedStakedNFTs.length === 0 || 
+                  isClaiming || 
+                  !selectedStakedNFTs.some(nft => (nft.pendingReward || 0) > 0)
+                }
                 className="w-full"
               >
-                {t('claimAllRewards')}
-              </Button> */}
+                {isClaiming ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    {t('claiming')}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span>{t('batchClaim')}</span>
+                    {selectedStakedNFTs.length > 0 && (
+                      <span className="text-sm">
+                        ({formatNumber(selectedStakedNFTs.reduce((sum, nft) => sum + (nft.pendingReward || 0), 0))} XAA)
+                      </span>
+                    )}
+                  </div>
+                )}
+              </Button>
             </div>
 
             {/* <DialogFooter>

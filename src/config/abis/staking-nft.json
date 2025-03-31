@@ -265,6 +265,24 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "tokenIds",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "stakeIndexes",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "batchWithdrawReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "canUpgradeAddress",
         "outputs": [
@@ -485,6 +503,32 @@
             }
         ],
         "name": "rescueToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_erc1155",
+                "type": "address"
+            }
+        ],
+        "name": "setERC1155",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_erc20",
+                "type": "address"
+            }
+        ],
+        "name": "setERC20",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

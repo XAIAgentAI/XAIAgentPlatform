@@ -141,7 +141,7 @@ export const useStakingNFTContract = () => {
         });
 
         toast(createToastMessage({
-          title: t('stakingInProgress'),
+          title: t('approving'),
           description: "",
           txHash: approveHash,
         }));
@@ -169,7 +169,7 @@ export const useStakingNFTContract = () => {
 
       toast(createToastMessage({
         title: t('stakingInProgress'),
-        description: t('stakingInProgress'),
+        description: "",
         txHash: hash,
       }));
 
@@ -182,8 +182,8 @@ export const useStakingNFTContract = () => {
       }));
 
       return true;
-    } catch {
-      console.error('Stake NFTs error');
+    } catch (e) {
+      console.error('Stake NFTs error',e);
       toast(createToastMessage({
         title: t('error'),
         description: t('stakingFailed'),
@@ -291,6 +291,65 @@ export const useStakingNFTContract = () => {
     }
   }, [walletClient, address, stakeContractAddress, toast, t]);
 
+  // 批量领取奖励
+  const batchClaimRewards = useCallback(async (tokenIds: number[], stakeIndexes: number[]) => {
+    try {
+      const preCheckPassed = await performPreChecks();
+      if (!preCheckPassed) return false;
+
+      const viemWalletClient = createWalletClient({
+        chain: currentChain,
+        transport: custom(walletClient!.transport),
+      });
+
+      // 调用合约的 batchWithdrawReward 方法
+      const hash = await viemWalletClient.writeContract({
+        address: stakeContractAddress,
+        abi: stakingNFTABI,
+        functionName: 'batchWithdrawReward',
+        args: [tokenIds, stakeIndexes],
+        account: address as `0x${string}`,
+      });
+
+      toast(createToastMessage({
+        title: t('claimingInProgress'),
+        description: t('batchClaimingInProgress'),
+        txHash: hash,
+      }));
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      console.log("receipt", receipt);
+      
+      toast(createToastMessage({
+        title: t('success'),
+        description: t('batchClaimingSuccess'),
+        txHash: hash,
+      }));
+      // if (Number(receipt.status) === 1) {
+      //   toast(createToastMessage({
+      //     title: t('success'),
+      //     description: t('batchClaimingSuccess'),
+      //     txHash: hash,
+      //   }));
+      //   return true;
+      // } else {
+      //   toast(createToastMessage({
+      //     title: t('error'),
+      //     description: t('batchClaimingFailed'),
+      //     txHash: hash,
+      //   }));
+      //   return false;
+      // }
+    } catch {
+      console.error('Batch claim rewards error');
+      toast(createToastMessage({
+        title: t('error'),
+        description: t('batchClaimingFailed'),
+      }));
+      return false;
+    }
+  }, [walletClient, address, stakeContractAddress, toast, t]);
+
 const getClaimableRewards = async () => {
   const viemWalletClient = createWalletClient({
     chain: currentChain,
@@ -358,7 +417,7 @@ toast(createToastMessage({
     return metadata;
   }
 
-  const getStakeList = async () => {
+  const getStakeList =useCallback( async () => {
     if (!address) return [];
 
     try {
@@ -371,6 +430,8 @@ toast(createToastMessage({
         functionName: 'userIndexes',
         args: [address as `0x${string}`],
       }) as number[];
+
+      console.log('indexes:', indexes);
 
       // 2. 获取每个索引对应的质押信息
       const stakesPromises = indexes.map(async (index) => {
@@ -432,7 +493,8 @@ toast(createToastMessage({
           pendingReward: Number(pendingReward) / 1e18,
           stakeStartTime: stakedAt,
           stakeEndTime: new Date(stakedAt.getTime() + duration * 1000),
-          price: nftConfig.price
+          price: nftConfig.price,
+          stakeIndex: index
         };
       });
 
@@ -449,7 +511,7 @@ toast(createToastMessage({
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [address, stakeContractAddress]);
 
 const getNFTBalance = async () => {
   const balance = await publicClient.readContract({
@@ -465,6 +527,7 @@ const getNFTBalance = async () => {
     stakeNFTs,
     unstakeNFTs,
     claimRewards,
+    batchClaimRewards,
     getNFTMetadata,
     getClaimableRewards,
     getStakeList,
