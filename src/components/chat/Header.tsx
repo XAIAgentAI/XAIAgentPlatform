@@ -54,7 +54,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
         <p className="text-lg font-semibold text-center">{agent}</p>
         <p className="text-md text-center">{agentDescriptions[selectedAgent]?.metrics}</p>
         <p className="text-sm text-neutral-700 text-center">
-          Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.com">app.xaiagent.com</a>
+          Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.io">app.xaiagent.io</a>
         </p>
         <div className="mt-6 flex flex-col items-center justify-center space-y-2">
           <p className="text-center min-w-[72vw] max-w-[72vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
