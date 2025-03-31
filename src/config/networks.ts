@@ -17,7 +17,7 @@ export const mainnetConfig = {
   chainId: 19880818,
   name: "DeepBrainChain Mainnet",
   symbol: "DBC",
-  rpcUrl: process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://rpc.dbcwallet.io',
+  rpcUrl: process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://rpc2.dbcwallet.io',
   blockExplorerUrl: process.env.NEXT_PUBLIC_MAINNET_EXPLORER_URL || "https://dbcscan.io",
 } as const;
 

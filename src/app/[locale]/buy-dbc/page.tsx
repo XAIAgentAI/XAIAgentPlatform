@@ -106,12 +106,12 @@ export default function BuyDbcPage() {
                 <div className="flex items-center">
                   <p className="text-muted-foreground pr-4 min-w-[120px]">{t('step3.chainRPC')}</p>
                   <a 
-                    href="https://rpc.dbcwallet.io" 
+                    href="https://rpc2.dbcwallet.io" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="font-medium text-primary hover:underline"
                   >
-                    https://rpc.dbcwallet.io
+                    https://rpc2.dbcwallet.io
                   </a>
                 </div>
                 <div className="flex items-center">

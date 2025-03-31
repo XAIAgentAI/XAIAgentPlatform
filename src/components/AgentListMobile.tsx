@@ -89,7 +89,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
                   <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                    {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+                    {address ? (totalDailyRewards !== undefined ? totalDailyRewards.toLocaleString() : '--') : '--'}
                   </span>
                   <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
                 </div>

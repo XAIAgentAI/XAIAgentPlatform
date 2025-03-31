@@ -111,7 +111,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">
                 <span className="text-sm text-muted-foreground">{tNft('totalDailyReward')}</span>
                 <span className="text-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                  {address ? (totalDailyRewards ? totalDailyRewards.toLocaleString() : '--') : '--'}
+                  {address ? (totalDailyRewards == undefined ? '--' : totalDailyRewards.toLocaleString()) : '--'}
                 </span>
                 <span className="text-sm text-muted-foreground">{tNft('rewardUnit')}</span>
               </div>
