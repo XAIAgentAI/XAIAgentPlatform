@@ -66,8 +66,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
     return null;
   }
 
-  const chatEntry = "1";
-
   return (
     <Card className="p-6 bg-card">
       <h2 className="text-lg font-semibold mb-4">{t('agent.conversationStarter')}</h2>
@@ -76,6 +74,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
           <div
             key={index}
             className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
+            onClick={(suggestion)=>{window.open(`/${locale}/chat?prompt=${suggestion}`,'_blank')}}
           >
             {suggestion}
           </div>
@@ -85,20 +84,8 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
         <CustomButton
           className="flex items-center gap-2 px-8"
           onClick={() => {
-            if (chatEntry && chatEntry.trim() !== "None") {
-              window.open(`/${locale}/chat/${chatEntry}`, "_blank");
-            } else {
-              toast({
-                description: t('chatComingSoon'),
-              })
-            }
-            if (chatEntry && chatEntry.trim() !== "None") {
-            window.open(`/zh/chat/${chatEntry}`, "_blank");
-            } else {
-            toast({
-              description: t('agent.chatComingSoon'),
-            })
-          }}}
+              window.open(`/${locale}/chat`, "_blank");
+          }}
         >
           <Image
             src="/images/chat.svg"

@@ -71,7 +71,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           convid: sentence.convid,
           agent: sentence.agent || ''
         }));
-        console.log(data)
+        //console.log(data)
   
         setMessages(newMessages);
       } catch (error) {

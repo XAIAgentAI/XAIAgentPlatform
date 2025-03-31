@@ -2,8 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { ArrowUpIcon, ArrowDownIcon, XMarkIcon } from '@heroicons/react/24/solid'; // 使用HeroIcons库中的向上箭头图标和退出图标
-import Image from 'next/image';
 import HeaderComponent from '@/components/chat/Header';
 import MessagesComponent from '@/components/chat/Messages';
 import InputComponent from '@/components/chat/Input';
@@ -11,6 +9,7 @@ import SideBar from '@/components/chat/SideBar';
 import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import AgentSelector from '@/components/chat/AgentSelector'; 
+import { useSearchParams } from 'next/navigation';
 
 interface Message {
   id: string;
@@ -43,7 +42,7 @@ interface AgentDescription {
 }
 
 export default function ChatPage() {
-  const params = useParams<ChatParams>();
+  const prompt = useSearchParams().get('prompt');
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -228,6 +227,7 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />
       <InputComponent 
+        prompt={prompt}
         conversations={conversations}
         setIsNew={setIsNew}
         input={input} 

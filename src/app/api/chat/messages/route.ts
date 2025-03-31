@@ -95,15 +95,13 @@ async function updateUserChat(user: string, chat: Conversation) {
   }
 }
 
-//初始化并执行插入操作
-//(async () => {
-// try {
-//   await ensureChatTable();
-//  await insertUserRecord("Sword", "666666", conversationData); 
-//} catch (error) {
-//   console.error('Failed to initialize and insert data:', error);
-// }
-//})();
+(async () => {
+ try {
+   await ensureChatTable();
+  } catch (error) {
+   console.error('Failed to initialize and insert data:', error);
+  }
+})();
 
 // 获取消息历史
 export async function GET(
