@@ -43,26 +43,25 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const { open } = useAppKit();
   const { toast } = useToast();
 
+  const fetchStakedInfo = async () => {
+    if (!address) return;
+    console.log("mobile-fetchStakedInfo - address", address);
+
+    const stakedList = await getStakeList();
+    const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
+      const count = item.count || 0;
+      return total + (item.dailyReward * count);
+    }, 0);
+
+    console.log('stakedList', stakedList, totalDaily);
+    setTotalDailyRewards(totalDaily);
+  };
+
   useEffect(() => {
-
-    const fetchStakedInfo = async () => {
-      if (!address) return;
-      console.log("mobile-fetchStakedInfo - address", address);
-
-      const stakedList = await getStakeList();
-      const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
-        const count = item.count || 0;
-        return total + (item.dailyReward * count);
-      }, 0);
-
-      console.log('stakedList', stakedList, totalDaily);
-      setTotalDailyRewards(totalDaily);
-    };
-
     if (address) {
       fetchStakedInfo();
     }
-  }, [address,  getStakeList]);
+  }, [address, getStakeList]);
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
@@ -196,6 +195,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
       {stakeDialogOpen && <StakeNFTsDialog
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
+        onSuccess={fetchStakedInfo}
       />}
       {loading ? (
         <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">

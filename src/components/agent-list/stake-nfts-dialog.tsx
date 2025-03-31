@@ -194,7 +194,6 @@ export const StakeNFTsDialog = ({
         }));
 
       setStakeStep('approving');
-      // 假设 stakeNFTs 函数内部会处理授权和质押
       const success = await stakeNFTs(tokenIdsWithAmounts);
       setStakeStep('staking');
 
@@ -239,7 +238,6 @@ export const StakeNFTsDialog = ({
     setIsClaiming(true);
 
     try {
-      // 只处理有待领取奖励的 NFT
       const claimableNFTs = selectedStakedNFTs.filter(nft => (nft.pendingReward || 0) > 0);
       const tokenIds: number[] = [];
       const stakeIndexes: number[] = [];
@@ -251,8 +249,6 @@ export const StakeNFTsDialog = ({
         }
       });
 
-
-
       const success = await batchClaimRewards(tokenIds, stakeIndexes);
 
       if (success) {
@@ -260,6 +256,7 @@ export const StakeNFTsDialog = ({
         setRefreshTrigger(prev => prev + 1);
         // 重置选中状态
         setSelectedStakedNFTs([]);
+        onSuccess?.();
       }
     } catch (error) {
       console.error('Batch claim error:', error);
@@ -415,6 +412,7 @@ export const StakeNFTsDialog = ({
         mx-auto 
         rounded-xl 
         overflow-hidden
+        h-[90vh]
         max-h-[80vh]
         w-[95%] 
         max-w-[95%] 
@@ -534,7 +532,7 @@ export const StakeNFTsDialog = ({
 
           <TabsContent value="staked" className="space-y-4">
             <div className="w-full" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-              {(initialLoading || isClaiming) ? (
+              {((address && initialLoading  ) || isClaiming) ? (
                 <div className="flex items-center justify-center h-[300px]">
                   <div className="flex flex-col items-center gap-2">
                     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -561,11 +559,11 @@ export const StakeNFTsDialog = ({
             </div>
 
             <div className="bg-muted/20 p-4 rounded-lg space-y-2">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-end items-center gap-1">
                 <span>{t('totalDailyReward')}:</span>
                 <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/{tCommon('perDay')} </span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-end items-center gap-1">
                 <span>{t('selectedNFTCount')}:</span>
                 <span>{selectedStakedNFTs.length} {t('itemCount')}</span>
               </div>

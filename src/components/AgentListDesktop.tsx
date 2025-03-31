@@ -86,17 +86,17 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     setStakeDialogOpen(true);
   }
 
-  useEffect(() => {
-    const fetchStakedInfo = async () => {
-      if (!address) return;
-      const stakedList = await getStakeList();
-      const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
-        const count = item.count || 0;
-        return total + (item.dailyReward * count);
-      }, 0);
-      setTotalDailyRewards(totalDaily);
-    };
+  const fetchStakedInfo = async () => {
+    if (!address) return;
+    const stakedList = await getStakeList();
+    const totalDaily = stakedList.reduce((total: number, item: { dailyReward: number, count: number }) => {
+      const count = item.count || 0;
+      return total + (item.dailyReward * count);
+    }, 0);
+    setTotalDailyRewards(totalDaily);
+  };
 
+  useEffect(() => {
     fetchStakedInfo();
   }, [address, getStakeList]);
 
@@ -142,6 +142,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       {stakeDialogOpen && <StakeNFTsDialog
         open={stakeDialogOpen}
         onOpenChange={setStakeDialogOpen}
+        onSuccess={fetchStakedInfo}
       />}
 
       <div className="overflow-x-auto hide-scrollbar">
