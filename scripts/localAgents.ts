@@ -580,7 +580,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     symbol: "SIC",
 
     tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
-    iaoContractAddress: "",
+    iaoContractAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
     tokenAddressTestnet: "0x2fD253cE28deF759FC1063ccFb24a1cC389757eC",
     iaoContractAddressTestnet: "0x14207289db490cc15c2d74411e25e23f5fdaadda",
    
