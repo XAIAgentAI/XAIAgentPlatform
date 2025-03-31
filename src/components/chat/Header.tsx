@@ -48,8 +48,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
     <div className="flex catcher flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
       <div className="h-[78vh]">
-        <div className="w-24 h-24 mx-auto">
-          <Image src={`${src[agent]}`} width={24} height={24} alt="logo" className="mx-auto w-[10vh] h-[10vh] rounded-full relative top-2 md:top-4"></Image>
+        <div className="w-24 h-24 mx-auto mb-4">
+          <Image src={`${src[agent]}`} width={24} height={24} alt="logo" className="mx-auto w-[10vh] h-[10vh] rounded-full relative top-2 md:top-4" style={{width:"96px",height:"96px"}}></Image>
         </div>
         <p className="text-lg font-semibold text-center">{agent}</p>
         <p className="text-md text-center">{agentDescriptions[selectedAgent]?.metrics}</p>

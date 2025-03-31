@@ -180,7 +180,7 @@ export default function ChatPage() {
   }, []); // 空数组作为依赖项，确保只在组件初始化时执行一次
 
   return (
-    <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2">
+    <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2 bg-background">
       <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
