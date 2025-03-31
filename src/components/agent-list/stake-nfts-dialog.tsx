@@ -103,7 +103,7 @@ export const StakeNFTsDialog = ({
   const [nftBalances, setNftBalances] = useState<{ [key: number]: number }>({});
   const [selectedStakedNFTs, setSelectedStakedNFTs] = useState<NFTItem[]>([]);
   const [isClaiming, setIsClaiming] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
 
   // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
@@ -113,35 +113,42 @@ export const StakeNFTsDialog = ({
     return total + (item.dailyReward * count);
   }, 0);
 
+  // 统一获取列表的方法
+  const fetchStakeData = async () => {
+    if (!address || !dialogOpen || isClaiming) return;
+
+    try {
+      const list = await getStakeList();
+      setStakedList(list);
+      // 同时更新 NFT 余额
+      const res = await getNFTBalance();
+      const [tokenIds, amounts] = res as [bigint[], bigint[]];
+      const balances: { [key: number]: number } = {};
+      tokenIds.forEach((id, index) => {
+        balances[Number(id)] = Number(amounts[index]);
+      });
+      setNftBalances(balances);
+    } catch (error) {
+      console.error('Failed to fetch stake data:', error);
+    } finally {
+      setInitialLoading(false);
+    }
+  };
+
+  // 监听 refreshTrigger 来获取数据
+  useEffect(() => {
+    console.log("refreshTrigger", refreshTrigger, isClaiming);
+
+    if (dialogOpen && address && !isClaiming) {
+      fetchStakeData();
+    }
+  }, [address, dialogOpen, refreshTrigger, isClaiming]);
+
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
-    const fetchStakedList = async () => {
-      if (!address || !dialogOpen) return;
-      
-      try {
-        const list = await getStakeList();
-        setStakedList(list);
-      } catch (error) {
-        console.error('Failed to fetch staked list:', error);
-      } finally {
-        setInitialLoading(false);
-      }
-    };
-
-    if (dialogOpen) {
-      setInitialLoading(true);
-      fetchStakedList();
-    }
-
-    if (dialogOpen && address) {
-      intervalId = setInterval(async () => {
-        try {
-          const list = await getStakeList();
-          setStakedList(list);
-        } catch (error) {
-          console.error('Failed to fetch staked list:', error);
-        }
+    if (dialogOpen && address ) {
+      intervalId = setInterval(() => {
+        setRefreshTrigger(prev => prev + 1);
       }, 6000);
     }
 
@@ -150,23 +157,7 @@ export const StakeNFTsDialog = ({
         clearInterval(intervalId);
       }
     };
-  }, [address, dialogOpen, getStakeList]);
-
-  useEffect(() => {
-    const fetchNFTBalances = async () => {
-      if (address) {
-        const res = await getNFTBalance();
-        const [tokenIds, amounts] = res as [bigint[], bigint[]];
-        const balances: { [key: number]: number } = {};
-        tokenIds.forEach((id, index) => {
-          balances[Number(id)] = Number(amounts[index]);
-        });
-        setNftBalances(balances);
-      }
-    };
-
-    fetchNFTBalances();
-  }, [address]);
+  }, [dialogOpen, address, isClaiming]);
 
   // 计算总每日奖励
   const totalDailyReward = selectedNFTs
@@ -208,19 +199,8 @@ export const StakeNFTsDialog = ({
       setStakeStep('staking');
 
       if (success) {
-        // 刷新质押列表
-        await getStakeList().then(list => {
-          setStakedList(list);
-        });
-        // 刷新 NFT 余额
-        await getNFTBalance().then(res => {
-          const [tokenIds, amounts] = res as [bigint[], bigint[]];
-          const balances: { [key: number]: number } = {};
-          tokenIds.forEach((id, index) => {
-            balances[Number(id)] = Number(amounts[index]);
-          });
-          setNftBalances(balances);
-        });
+        // 触发刷新
+        setRefreshTrigger(prev => prev + 1);
         // 重置状态并关闭对话框
         onOpenChange(false);
         setSelectedNFTs([]);
@@ -263,7 +243,7 @@ export const StakeNFTsDialog = ({
       const claimableNFTs = selectedStakedNFTs.filter(nft => (nft.pendingReward || 0) > 0);
       const tokenIds: number[] = [];
       const stakeIndexes: number[] = [];
-      
+
       claimableNFTs.forEach(nft => {
         if (nft.stakeIndex !== undefined) {
           tokenIds.push(nft.id);
@@ -271,11 +251,13 @@ export const StakeNFTsDialog = ({
         }
       });
 
+
+
       const success = await batchClaimRewards(tokenIds, stakeIndexes);
 
       if (success) {
-        // 立即刷新列表
-        setRefreshKey(prev => prev + 1);
+        // 触发刷新
+        setRefreshTrigger(prev => prev + 1);
         // 重置选中状态
         setSelectedStakedNFTs([]);
       }
@@ -452,7 +434,7 @@ export const StakeNFTsDialog = ({
             </DialogDescription> */}
           </div>
           {!address && (
-            <Button 
+            <Button
               onClick={() => open()}
               className="bg-primary hover:bg-primary/90 text-white"
             >
@@ -590,8 +572,8 @@ export const StakeNFTsDialog = ({
               <Button
                 onClick={handleBatchClaim}
                 disabled={
-                  selectedStakedNFTs.length === 0 || 
-                  isClaiming || 
+                  selectedStakedNFTs.length === 0 ||
+                  isClaiming ||
                   !selectedStakedNFTs.some(nft => (nft.pendingReward || 0) > 0)
                 }
                 className="w-full"

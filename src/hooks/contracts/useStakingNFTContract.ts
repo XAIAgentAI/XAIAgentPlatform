@@ -258,6 +258,7 @@ export const useStakingNFTContract = () => {
         transport: custom(walletClient!.transport),
       });
 
+
       // 调用合约的 claimRewards 方法
       const hash = await viemWalletClient.writeContract({
         address: stakeContractAddress,
@@ -301,6 +302,7 @@ export const useStakingNFTContract = () => {
         chain: currentChain,
         transport: custom(walletClient!.transport),
       });
+
 
       // 调用合约的 batchWithdrawReward 方法
       const hash = await viemWalletClient.writeContract({
