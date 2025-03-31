@@ -240,7 +240,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               <CustomBadge>
                                 {agent.type}
                               </CustomBadge>
-                              <div className="flex flex-wrap gap-2">
+                              <div className="flex  gap-2">
                                 {socialLinks.twitter.length > 0 && (
                                   <SocialLinks links={socialLinks.twitter.join(", ")} />
                                 )}

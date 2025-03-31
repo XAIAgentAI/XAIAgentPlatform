@@ -206,19 +206,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間60億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
 
 7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAのノードNFT保有者にエアドロップされます。`,
-      ko: `1. $STID 총 공급량: 1000억
-
-2. 토큰의 10%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $STID를 받게 됩니다.
-
-3. 72시간 IAO 종료 후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 철회되지 않으며, 유동성 LP 증명서는 블랙홀 주소로 보내집니다. $XAA의 5%는 소각됩니다.
-
-4. IAO 종료 후, $STID와 $XAA의 10%는 즉시 DBCSwap에서 유동성 풀을 구축하여 $STID의 자유로운 거래를 가능하게 합니다.
-
-5. 팀은 $STID의 30%를 소유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 잠금 해제됩니다.
-
-6. $STID의 48%는 채굴을 통해 생성되며, 4년마다 반감됩니다. 첫 4년 동안 매년 60억 $STID가 채굴됩니다. 채굴된 $STID의 40%는 즉시 받고, 60%는 120일 동안 선형적으로 잠금 해제됩니다.
-
-7. $STID의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, $STID의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다.`
+      ko: "1. 총 공급량: 1000억 XAA\n2. 토큰의 20%는 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자 비율에 따라 $XAA를 받게 됩니다.\n3. 14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 영구적으로 할당됩니다.\n4. IAO 종료 후, $XAA와 $DBC 거래쌍이 DBCSwap에 즉시 설립되어 $XAA의 자유로운 거래가 가능해집니다."
     })
   },
   {
@@ -274,7 +262,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     chatEntry: "None"
   },
   {
-    id: 4,
+    id: 10,
     name: "PicSpan",
     iaoTokenAmount: 5000000000,
 
@@ -586,7 +574,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     chatEntry: "None"
   },
   {
-    id: 10,
+    id: 4,
     name: "SuperImage",
     avatar: "/logo/SuperImage.png",
     symbol: "SIC",
@@ -648,37 +636,29 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     socialLinks: "https://x.com/SuperImageAI, https://t.me/SuperImageAI, https://t.me/SuperImageKorea, https://t.me/SuperImageJapan",
     chatEntry: "https://app.superimage.ai",
     iaoTokenAmount: 1000000000,
-//     projectDescription: `1. $SIC总供应量：1000亿。
-// 2. 20亿枚的$SIC将通过IAO销售,仅接受$XAA,
-// 投资者将根据其$XAA投资比例获得$SIC。
-// 3.如果持有Starter NFT，投资100万$XAA,等同于投资103万$XAA，对应收益会增加3%。Pro NFT节点对应增加5%，Master NFT节点对应增加10%。
-// 4. 在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
-// 4. IAO 结束后，10亿枚$SIC和$XAA将立即在DBCSwap上建立流动性池，实现$SIC的自由交易`
-//   },
-
 projectDescription: JSON.stringify({
-  'zh': `1. $SIC总供应量：1000亿。
+      'zh': `1. $SIC 8年内总供应量：1000亿，8年后每年挖矿产出50亿
 2. 20亿枚的$SIC将通过IAO销售,仅接受$XAA,
 投资者将根据其$XAA投资比例获得$SIC。
-3.如果持有Starter NFT，投资100万$XAA,等同于投资103万$XAA，对应收益会增加3%。Pro NFT节点对应增加5%，Master NFT节点对应增加10%。
+3.持有不同等级的XAA NFT可提升投资额度：Starter NFT使100万$XAA等效103万（+3%），Pro NFT提升至5%，Master NFT最高加成10%（等效110万）。最终分配的$SIC代币数量由IAO池总量和所有参与者的加权投资额度（NFT类型/等级决定加成比例）共同动态计算得出，并非直接按个人加成比例线性分配。
 4. 在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。 
-4. IAO 结束后，10亿枚$SIC和$XAA将立即在DBCSwap上建立流动性池，实现$SIC的自由交易`,
-  'en': `1. $SIC total supply: 100 billion.
+5. IAO 结束后，10亿枚$SIC和$XAA将立即在DBCSwap上建立流动性池，实现$SIC的自由交易`,
+      'en': `1. $SIC total supply in 8 years: 100 billion, with 5 billion annual mining output after 8 years
 2. 2 billion $SIC will be sold through IAO, only accepting $XAA. Investors will receive $SIC based on their $XAA investment ratio.
-3. If holding a Starter NFT, investing 1 million $XAA is equivalent to investing 1.03 million $XAA, corresponding to a 3% increase in returns. Pro NFT nodes correspond to a 5% increase, and Master NFT nodes correspond to a 10% increase.
+3. Different levels of XAA NFT can increase investment allocation: Starter NFT makes 1 million $XAA equivalent to 1.03 million (+3%), Pro NFT increases to 5%, Master NFT maximum bonus 10% (equivalent to 1.1 million). The final distribution of $SIC tokens is dynamically calculated based on the total IAO pool and all participants' weighted investment amounts (NFT type/level determines bonus ratio), not directly distributed according to individual bonus ratios.
 4. After the 72-hour IAO ends, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, and the liquidity LP certificate will be sent to the black hole address. 5% of $XAA will be destroyed.
 5. After IAO, 1 billion $SIC and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of $SIC.`,
-  'ja': `1. $SIC総供給量：1000億。
+      'ja': `1. $SIC 8年間の総供給量：1000億、8年後は年間50億の採掘産出
 2. 20億枚の$SICがIAOを通じて販売され、$XAAのみを受け付けます。投資家は$XAAの投資比率に応じて$SICを受け取ります。
-3. Starter NFTを保有している場合、100万$XAAの投資は103万$XAAの投資と同等となり、収益が3%増加します。Pro NFTノードは5%増加、Master NFTノードは10%増加します。
+3. 異なるレベルのXAA NFTで投資枠を増加：Starter NFTは100万$XAAを103万相当（+3%）に、Pro NFTは5%増加、Master NFTは最大10%ボーナス（110万相当）。最終的な$SICトークンの配分は、IAOプール総額と参加者全員の重み付け投資額（NFTタイプ/レベルによるボーナス率）に基づいて動的に計算され、個人のボーナス率に応じた直線的な配分ではありません。
 4. 72時間のIAO終了後、95%の$XAAがオンチェーン流動性プールに割り当てられ、永久に取り消されることはなく、流動性LP証明書がブラックホールアドレスに送信されます。5%の$XAAは破壊されます。
 5. IAO終了後、10億枚の$SICと$XAAは直ちにDBCSwapで流動性プールを確立し、$SICの自由取引を可能にします。`,
-  'ko': `1. $SIC 총 공급량: 1000억.
+      'ko': `1. $SIC 8년 내 총 공급량: 1000억, 8년 후 매년 채굴 산출량 50억
 2. 20억 개의 $SIC가 IAO를 통해 판매될 것이며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $SIC를 받게 됩니다.
-3. Starter NFT를 보유한 경우, 100만 $XAA 투자는 103만 $XAA 투자와 동등하며, 수익이 3% 증가합니다. Pro NFT 노드는 5% 증가, Master NFT 노드는 10% 증가합니다.
+3. 다양한 등급의 XAA NFT로 투자 한도 증가: Starter NFT는 100만 $XAA를 103만 상당(+3%)으로, Pro NFT는 5% 증가, Master NFT는 최대 10% 보너스(110만 상당). 최종 $SIC 토큰 분배는 IAO 풀 총액과 모든 참가자의 가중 투자액(NFT 유형/등급에 따른 보너스 비율)을 기반으로 동적으로 계산되며, 개인 보너스 비율에 따른 선형 분배가 아닙니다.
 4. 72시간의 IAO 종료 후, 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않으며, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
 5. IAO 종료 후, 10억 개의 $SIC와 $XAA는 즉시 DBCSwap에 유동성 풀을 구축하여 $SIC의 자유로운 거래를 가능하게 합니다.`
-})
+    })
   },
 
   {
@@ -878,11 +858,11 @@ AI Agent 驱动的智能游戏体验：
 3. After 7 days of IAO, 95% of $XAA will be allocated to the on-chain liquidity pool, never revoked, and the liquidity LP certificate will be sent to the black hole address. 5% of $XAA will be destroyed. 
 4. After IAO, 10 million $DLC and $XAA will be immediately listed on DBCSwap, enabling free trading of $DLC.`,
       'ja': `1. $DLC総供給量：1000億。
-2. 5000万枚の$DLCはIAOで販売され、$XAAのみを受け入れます。投資家は、$XAAの投資比率に応じて$DLCを受け取ります。
+2. 5000万枚の$SICがIAOで販売され、$XAAのみを受け入れます。投資家は、$XAAの投資比率に応じて$SICを受け取ります。
 3. IAO終了後、7日間で95%の$XAAがオンチェーン流動性プールに割り当てられ、流動性LP証券がブラックホールアドレスに送信されます。5%の$XAAは破壊されます。
-4. IAO終了後、1000万枚の$DLCと$XAAはすぐにDBCSwapで流動性プールを作成し、$DLCの自由取引を可能にします。`,
+4. IAO終了後、1000万枚の$SICと$XAAはすぐにDBCSwapで流動性プールを作成し、$SICの自由取引を可能にします。`,
       'ko': `1. $DLC 총 공급량: 1000억.
-2. 5000만 개의 $DLC가 IAO를 통해 판매될 것입니다. 단, $XAA만 받습니다.
+2. 5000만 개의 $SIC가 IAO를 통해 판매될 것입니다. 단, $XAA만 받습니다.
 3. IAO 종료 후 7일 동안 95%의 $XAA가 온체인 유동성 풀에 할당되어 영구적으로 취소되지 않고, 유동성 LP 증명서가 블랙홀 주소로 전송됩니다. 5%의 $XAA는 소각됩니다.
 4. IAO 종료 후 1000만 개의 $DLC와 $XAA는 즉시 DBCSwap에 상장되어 $DLC의 자유 거래를 가능하게 합니다.`,
     })

@@ -483,6 +483,7 @@ export const StakeNFTsDialog = ({
                 onSelectionChange={handleSelectionChange}
                 emptyText={t('noStakeableNFT')}
                 // height="400px"
+                height="200px"
                 scroll={{ x: 650, y: true }}
                 fixedLeftColumn={true}
                 tableClassName="min-w-[650px]"
@@ -490,11 +491,11 @@ export const StakeNFTsDialog = ({
             </div>
 
             <div className="bg-muted/20 p-4 rounded-lg h-16">
-              <div className="flex justify-between mb-2">
+              <div className="flex justify-end mb-2 gap-2">
                 <span>{t('selected')}:</span>
                 <span>{formatNumber(selectedNFTs.reduce((total, nft) => total + (nftAmounts[nft.id] || 0), 0))} {t('itemCount')}</span>
               </div>
-              <div className="flex justify-between font-medium">
+              <div className="flex justify-end font-medium gap-2">
                 <span>{t('totalDailyReward')}:</span>
                 <span className="text-primary">{formatNumber(totalDailyReward)} XAA</span>
               </div>

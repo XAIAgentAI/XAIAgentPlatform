@@ -64,48 +64,48 @@ export function SocialLinks({ links, className = "" }: SocialLinksProps) {
   const getRegionInfo = (url: string): RegionInfo | null => {
     const flagClass = "w-full h-full object-cover"
 
-    if (url.includes("DeepLinkJapan")) {
+    if (url.includes("Japan")) {
       return {
         name: t('japan'),
         flag: <JP className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkGlobal")) {
+    if (url.includes("kGlobal")) {
       return {
         name: t('global')
       }
     }
-    if (url.includes("DeepLinkKorea")) {
+    if (url.includes("Korea")) {
       return {
         name: t('korea'),
         flag: <KR className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkChina")) {
+    if (url.includes("China")) {
       return {
         name: t('china'),
         flag: <CN className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkUS")) {
+    if (url.includes("US")) {
       return {
         name: t('us'),
         flag: <US className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkVietnam")) {
+    if (url.includes("Vietnam")) {
       return {
         name: t('vietnam'),
         flag: <VN className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkThailand")) {
+    if (url.includes("Thailand")) {
       return {
         name: t('thailand'),
         flag: <TH className={flagClass} />
       }
     }
-    if (url.includes("DeepLinkIndonesia")) {
+    if (url.includes("Indonesia")) {
       return {
         name: t('indonesia'),
         flag: <ID className={flagClass} />
