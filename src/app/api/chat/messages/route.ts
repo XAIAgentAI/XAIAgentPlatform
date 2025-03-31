@@ -187,7 +187,7 @@ export async function POST(
     chat["1"].push(userMessage);
     
     //固定Model
-    const selectedModel = "DeepSeek-V3";
+    const selectedModel = "Llama3.3-70B";
     console.log(selectedModel);
 
     const requestBody = {
