@@ -381,7 +381,8 @@
     "canClaim": "Claimable",
     "noPendingReward": "No Pending Reward",
     "noClaimableRewards": "No Claimable Rewards",
-    "pleaseSelectNFTsWithPendingRewards": "Please select NFTs with pending rewards"
+    "pleaseSelectNFTsWithPendingRewards": "Please select NFTs with pending rewards",
+    "connectWalletToViewStakeDetail": "Connect wallet to view NFT stake details"
   },
   "regions": {
     "japan": "Japan",

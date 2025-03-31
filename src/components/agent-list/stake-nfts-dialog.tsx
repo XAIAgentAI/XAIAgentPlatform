@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToast } from '@/components/ui/use-toast';
 import { useAccount } from 'wagmi';
 import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
+import { useAppKit } from '@reown/appkit/react';
 import {
   Dialog,
   DialogContent,
@@ -77,12 +78,14 @@ const formatCountdown = (endTime?: Date) => {
 };
 
 export const StakeNFTsDialog = ({
-  open,
+  open: dialogOpen,
   onOpenChange,
   onSuccess,
 }: StakeNFTsDialogProps) => {
   const t = useTranslations('nft');
+  const tCommon = useTranslations('common');
   const { address } = useAccount();
+  const { open } = useAppKit();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("stake");
   const [isStaking, setIsStaking] = useState(false);
@@ -100,6 +103,8 @@ export const StakeNFTsDialog = ({
   const [nftBalances, setNftBalances] = useState<{ [key: number]: number }>({});
   const [selectedStakedNFTs, setSelectedStakedNFTs] = useState<NFTItem[]>([]);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
   const totalStakedDailyReward = stakedList.reduce((total, item) => {
@@ -109,15 +114,43 @@ export const StakeNFTsDialog = ({
   }, 0);
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
     const fetchStakedList = async () => {
-      const list = await getStakeList();
-      setStakedList(list);
+      if (!address || !dialogOpen) return;
+      
+      try {
+        const list = await getStakeList();
+        setStakedList(list);
+      } catch (error) {
+        console.error('Failed to fetch staked list:', error);
+      } finally {
+        setInitialLoading(false);
+      }
     };
 
-    if (address) {
+    if (dialogOpen) {
+      setInitialLoading(true);
       fetchStakedList();
     }
-  }, [address]);
+
+    if (dialogOpen && address) {
+      intervalId = setInterval(async () => {
+        try {
+          const list = await getStakeList();
+          setStakedList(list);
+        } catch (error) {
+          console.error('Failed to fetch staked list:', error);
+        }
+      }, 6000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [address, dialogOpen, getStakeList]);
 
   useEffect(() => {
     const fetchNFTBalances = async () => {
@@ -241,10 +274,8 @@ export const StakeNFTsDialog = ({
       const success = await batchClaimRewards(tokenIds, stakeIndexes);
 
       if (success) {
-        // 刷新质押列表
-        await getStakeList().then(list => {
-          setStakedList(list);
-        });
+        // 立即刷新列表
+        setRefreshKey(prev => prev + 1);
         // 重置选中状态
         setSelectedStakedNFTs([]);
       }
@@ -318,7 +349,7 @@ export const StakeNFTsDialog = ({
       id: "dailyReward",
       header: t('dailyRewardXAA'),
       width: "150px",
-      cell: (row) => <span>{formatNumber(row.dailyReward)} XAA/天</span>,
+      cell: (row) => <span>{formatNumber(row.dailyReward)} XAA/{tCommon('perDay')}</span>,
     },
     {
       id: "iaoExtraPercentage",
@@ -397,7 +428,7 @@ export const StakeNFTsDialog = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={dialogOpen} onOpenChange={onOpenChange}>
       <DialogContent className="
         mx-auto 
         rounded-xl 
@@ -413,11 +444,21 @@ export const StakeNFTsDialog = ({
         xl:max-w-[1140px]
         2xl:w-[1320px] 
         2xl:max-w-[1320px]">
-        <DialogHeader>
-          <DialogTitle>{t('stakeNFTRewardDetail')}</DialogTitle>
-          <DialogDescription>
-            {t('viewStakeDetailAndReward')}
-          </DialogDescription>
+        <DialogHeader className="flex flex-row items-center justify-between">
+          <div>
+            <DialogTitle>{!address ? t('connectWalletToViewStakeDetail') : t('stakeNFTRewardDetail')}</DialogTitle>
+            {/* <DialogDescription>
+              {t('viewStakeDetailAndReward')}
+            </DialogDescription> */}
+          </div>
+          {!address && (
+            <Button 
+              onClick={() => open()}
+              className="bg-primary hover:bg-primary/90 text-white"
+            >
+              {tCommon('connect')}
+            </Button>
+          )}
         </DialogHeader>
 
         <div className="hidden md:flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 px-4 py-1 rounded-lg border border-orange-500/20 mb-0">
@@ -511,11 +552,13 @@ export const StakeNFTsDialog = ({
 
           <TabsContent value="staked" className="space-y-4">
             <div className="w-full" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-              {isLoading ? (
-                <div className="flex items-center justify-center h-[400px]">
+              {(initialLoading || isClaiming) ? (
+                <div className="flex items-center justify-center h-[300px]">
                   <div className="flex flex-col items-center gap-2">
                     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-sm text-muted-foreground">{t('loadingStakedNFTs')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isClaiming ? t('claiming') : t('loadingStakedNFTs')}
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -538,7 +581,7 @@ export const StakeNFTsDialog = ({
             <div className="bg-muted/20 p-4 rounded-lg space-y-2">
               <div className="flex justify-between items-center">
                 <span>{t('totalDailyReward')}:</span>
-                <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/天</span>
+                <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/{tCommon('perDay')} </span>
               </div>
               <div className="flex justify-between items-center">
                 <span>{t('selectedNFTCount')}:</span>

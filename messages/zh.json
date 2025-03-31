@@ -326,7 +326,6 @@
     "totalClaimableRewards": "可领取奖励",
     "claimAllRewards": "领取所有奖励",
     "stakeNFTRewardDetail": "NFT 质押奖励详情",
-    "viewStakeDetailAndReward": "查看质押详情和奖励",
     "stake": "质押",
     "staked": "已质押",
     "selected": "已选择",
@@ -383,7 +382,10 @@
     "canClaim": "可领取",
     "noPendingReward": "暂无待领取",
     "noClaimableRewards": "无可领取奖励",
-    "pleaseSelectNFTsWithPendingRewards": "请选择有待领取奖励的 NFT"
+    "pleaseSelectNFTsWithPendingRewards": "请选择有待领取奖励的 NFT",
+    
+    "viewStakeDetailAndReward": "查看质押详情和奖励",
+    "connectWalletToViewStakeDetail": "连接钱包后查看NFT质押详情"
   },
   "regions": {
     "japan": "日本",

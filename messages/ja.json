@@ -324,7 +324,6 @@
     "totalClaimableRewards": "請求可能な報酬",
     "claimAllRewards": "全報酬を請求",
     "stakeNFTRewardDetail": "NFTステーキング報酬の詳細",
-    "viewStakeDetailAndReward": "ステーキングの詳細と報酬を表示",
     "stake": "ステーキング",
     "staked": "ステーキング済み",
     "selected": "選択済み",
@@ -381,7 +380,9 @@
     "canClaim": "受け取り可能",
     "noPendingReward": "受け取り可能な報酬なし",
     "noClaimableRewards": "受け取り可能な報酬がありません",
-    "pleaseSelectNFTsWithPendingRewards": "受け取り可能な報酬があるNFTを選択してください"
+    "pleaseSelectNFTsWithPendingRewards": "受け取り可能な報酬があるNFTを選択してください",
+    "viewStakeDetailAndReward": "NFT ステーキング 報酬の詳細",
+    "connectWalletToViewStakeDetail": "ウォレットを接続してNFT ステーキング 詳細を表示"
   },
   "regions": {
     "japan": "日本",

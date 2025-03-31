@@ -72,13 +72,13 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   }
 
   const handleStakeClick = () => {
-    if (!address) {
-      // toast({
-      //   description: tMessages('connectWallet'),
-      // });
-      open({ view: 'Connect' });
-      return;
-    }
+    // if (!address) {
+    //   // toast({
+    //   //   description: tMessages('connectWallet'),
+    //   // });
+    //   open({ view: 'Connect' });
+    //   return;
+    // }
     setStakeDialogOpen(true);
   }
 

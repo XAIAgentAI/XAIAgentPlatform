@@ -340,8 +340,8 @@ export const useStakingNFTContract = () => {
       //   }));
       //   return false;
       // }
-    } catch {
-      console.error('Batch claim rewards error');
+    } catch(e) {
+      console.error('Batch claim rewards error',e);
       toast(createToastMessage({
         title: t('error'),
         description: t('batchClaimingFailed'),
