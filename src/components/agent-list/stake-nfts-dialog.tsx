@@ -56,21 +56,21 @@ const formatNumber = (num: number) => {
 // 添加倒计时格式化函数
 const formatCountdown = (endTime?: Date) => {
   if (!endTime) return '-';
-  
+
   const now = new Date();
   const diff = endTime.getTime() - now.getTime();
-  
+
   if (diff <= 0) return '已到期';
-  
+
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  
+
   const parts = [];
   if (days > 0) parts.push(`${days}天`);
   if (hours > 0) parts.push(`${hours}时`);
   if (minutes > 0) parts.push(`${minutes}分`);
-  
+
   return parts.join(' ');
 };
 
@@ -84,6 +84,7 @@ export const StakeNFTsDialog = ({
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("stake");
   const [isStaking, setIsStaking] = useState(false);
+  const [stakeStep, setStakeStep] = useState<'idle' | 'approving' | 'staking'>('idle');
   const [selectedNFTs, setSelectedNFTs] = useState<NFTItem[]>([]);
   const [nftAmounts, setNftAmounts] = useState<{ [key: number]: number }>({});
   const {
@@ -94,7 +95,7 @@ export const StakeNFTsDialog = ({
   } = useStakingNFTContract()
   const [stakedList, setStakedList] = useState<NFTItem[]>([]);
   const [nftBalances, setNftBalances] = useState<{ [key: number]: number }>({});
-  
+
   // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
   const totalStakedDailyReward = stakedList.reduce((total, item) => {
     // 确保使用实际质押的数量
@@ -108,7 +109,7 @@ export const StakeNFTsDialog = ({
       console.log('stakedList', list);
       setStakedList(list);
     };
-    
+
     if (address) {
       fetchStakedList();
     }
@@ -128,7 +129,7 @@ export const StakeNFTsDialog = ({
     };
 
     fetchNFTBalances();
-  }, [address, getNFTBalance]);
+  }, [address]);
 
   // 计算总每日奖励
   const totalDailyReward = selectedNFTs
@@ -164,7 +165,10 @@ export const StakeNFTsDialog = ({
           amount: nftAmounts[nft.id] || 0
         }));
 
+      setStakeStep('approving');
+      // 假设 stakeNFTs 函数内部会处理授权和质押
       const success = await stakeNFTs(tokenIdsWithAmounts);
+      setStakeStep('staking');
 
       if (success) {
         // 刷新质押列表
@@ -190,6 +194,7 @@ export const StakeNFTsDialog = ({
       console.error('Stake error:', error);
     } finally {
       setIsStaking(false);
+      setStakeStep('idle');
     }
   };
 
@@ -203,7 +208,7 @@ export const StakeNFTsDialog = ({
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-lg overflow-hidden ${row.id === 1 ? "bg-blue-100" :
-                row.id === 2 ? "bg-purple-100" : "bg-red-100"
+              row.id === 2 ? "bg-purple-100" : "bg-red-100"
               }`}>
               <img src={row.image} alt={row.name} className="w-full h-full object-cover" />
             </div>
@@ -211,33 +216,25 @@ export const StakeNFTsDialog = ({
               <span className="font-medium">{row.name}</span>
               {selectedNFTs.some(nft => nft.id === row.id) && (
                 <Input
-                  type="number"
-                  min="0"
-                  max={nftBalances[row.id] || 0}
+                  type="text"
                   value={nftAmounts[row.id] || 0}
                   onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // 允许清空输入框
-                    if (inputValue === '') {
+                    const value = e.target.value;
+                    // 只允许输入数字
+                    if (!/^\d*$/.test(value)) {
+                      return;
+                    }
+                    const numValue = parseInt(value) || 0;
+                    if (numValue > (nftBalances[row.id] || 0)) {
                       setNftAmounts(prev => ({
                         ...prev,
-                        [row.id]: 0
+                        [row.id]: nftBalances[row.id] || 0
                       }));
                       return;
                     }
-
-                    const parsedValue = parseInt(inputValue);
-                    // 检查是否为有效数字
-                    if (isNaN(parsedValue)) {
-                      return;
-                    }
-
-                    // 限制数值范围在0到余额之间
-                    const maxAmount = nftBalances[row.id] || 0;
-                    const value = Math.min(Math.max(0, parsedValue), maxAmount);
                     setNftAmounts(prev => ({
                       ...prev,
-                      [row.id]: value
+                      [row.id]: numValue
                     }));
                   }}
                   className="w-20 h-7 text-sm mt-1"
@@ -402,7 +399,7 @@ export const StakeNFTsDialog = ({
             <div className="bg-muted/20 p-4 rounded-lg h-16">
               <div className="flex justify-between mb-2">
                 <span>{t('selected')}:</span>
-                <span>{formatNumber(selectedNFTs.length)} {t('itemCount')}</span>
+                <span>{formatNumber(selectedNFTs.reduce((total, nft) => total + (nftAmounts[nft.id] || 0), 0))} {t('itemCount')}</span>
               </div>
               <div className="flex justify-between font-medium">
                 <span>{t('totalDailyReward')}:</span>
@@ -419,8 +416,23 @@ export const StakeNFTsDialog = ({
                 {t('cancel')}
               </Button> */}
               <Button onClick={handleStake}
-                disabled={!address || selectedNFTs.length === 0 || !selectedNFTs.some(nft => (nftAmounts[nft.id] || 0) > 0) || isStaking}>
-                {isStaking ? t('confirming') : t('confirmStake')}
+                disabled={!address || selectedNFTs.length === 0 || !selectedNFTs.some(nft => (nftAmounts[nft.id] || 0) > 0) || isStaking}
+                className="relative">
+                <div className="flex items-center gap-2">
+                  {stakeStep === 'approving' && (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {t('approving')}
+                    </>
+                  )}
+                  {stakeStep === 'staking' && (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {t('staking')}
+                    </>
+                  )}
+                  {stakeStep === 'idle' && t('confirmStake')}
+                </div>
               </Button>
             </DialogFooter>
           </TabsContent>

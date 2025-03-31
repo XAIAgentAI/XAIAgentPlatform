@@ -15,6 +15,8 @@ import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { useAccount } from 'wagmi';
 import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
+import { useAppKit } from '@reown/appkit/react'
+import { useToast } from '@/components/ui/use-toast'
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -34,6 +36,7 @@ const parseSocialLinks = (socialLinks?: string) => {
 const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
+  const tMessages = useTranslations('messages');
   const [sortField, setSortField] = useState<SortField>("marketCap")
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
@@ -42,6 +45,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address } = useAccount();
   const { getStakeList } = useStakingNFTContract();
+  const { open } = useAppKit();
+  const { toast } = useToast();
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -70,6 +75,17 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
+  const handleStakeClick = () => {
+    if (!address) {
+      // toast({
+      //   description: tMessages('connectWallet'),
+      // });
+      open({ view: 'Connect' });
+      return;
+    }
+    setStakeDialogOpen(true);
+  }
+
   useEffect(() => {
     const fetchStakedInfo = async () => {
       if (!address) return;
@@ -82,7 +98,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     };
 
     fetchStakedInfo();
-  }, [address, getStakeList]);
+  }, [address]);
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
@@ -117,7 +133,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               </div>
             ) : null
           }
-          <GradientBorderButton className="bg-card whitespace-nowrap" onClick={() => setStakeDialogOpen(true)}>
+          <GradientBorderButton className="bg-card whitespace-nowrap" onClick={handleStakeClick}>
             {tNft('batchStake')}
           </GradientBorderButton>
         </div>

@@ -21,6 +21,7 @@
       "minutes": "m",
       "seconds": "s"
     },
+    "perDay": "day",
     "noData": "No Data",
     "status": "Status",
     "view": "View"

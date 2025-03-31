@@ -14,6 +14,8 @@ import { formatPriceChange } from '@/lib/utils';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { useAccount } from 'wagmi';
 import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
+import { useAppKit } from '@reown/appkit/react'
+import { useToast } from '@/components/ui/use-toast'
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -31,12 +33,15 @@ const parseSocialLinks = (socialLinks?: string) => {
 const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
+  const tMessages = useTranslations('messages');
   const router = useRouter()
   const locale = useLocale();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address } = useAccount();
   const { getStakeList } = useStakingNFTContract();
+  const { open } = useAppKit();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchStakedInfo = async () => {
@@ -50,13 +55,24 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
     };
 
     fetchStakedInfo();
-  }, [address, getStakeList]);
+  }, [address]);
 
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
 
   const handleRowClick = (id: number) => {
     router.push(`/${locale}/agent-detail/${id}`)
+  }
+
+  const handleStakeClick = () => {
+    if (!address) {
+      // toast({
+      //   description: tMessages('connectWallet'),
+      // });
+      open({ view: 'Connect' });
+      return;
+    }
+    setStakeDialogOpen(true);
   }
 
   return (
@@ -96,7 +112,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
               ) : <div />
             }
             <GradientBorderButton
-              onClick={() => setStakeDialogOpen(true)}
+              onClick={handleStakeClick}
               className="text-xs whitespace-nowrap"
             >
               {tNft('batchStake')}

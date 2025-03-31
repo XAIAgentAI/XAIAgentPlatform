@@ -21,6 +21,7 @@
       "minutes": "分",
       "seconds": "秒"
     },
+    "perDay": "日",
     "noData": "データなし",
     "status": "ステータス",
     "view": "表示"
