@@ -43,7 +43,7 @@ export const localAgents: LocalAgent[] = [
   {
     id: 1,
     name: "XAIAgent",
-    tokenAddress: "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+    tokenAddress: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
     iaoContractAddress: "0x5AeF02893F05D5422eD0c3bD1D7502Ec6bd6195e",
     tokenAddressTestnet: "0x8dAb697D931B342e80354A4BED2d8d5d5Ee9003E",
     iaoContractAddressTestnet: "0x82B7e10Ed1453FBf60c98aFbDeD94159A5E13973",
@@ -193,18 +193,12 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 6.48%的$STID挖矿产生，每4年减半一次，首个4年，每年挖矿产生60亿枚$STID，挖矿产生的$STID，40%立刻获得，60%分120天线性解锁
 
 7.1%的$STID空投给$XAA和$DBC前10000名持有者，1%$STID空投给XAA的节点NFT持有者`,
-      ja: `1. $STID 総供給量：1000億
-
+      ja: `1. $STID 総供給量：1000億。
 2. トークンの10%はIAOを通じて販売され、$XAAのみ受け付けます。投資家は$XAA投資比率に応じて$STIDを受け取ります。
-
 3. 72時間のIAO終了後、$XAAの95%はオンチェーン流動性プールに割り当てられ、撤回されることはなく、流動性LP証明書はブラックホールアドレスに送られます。$XAAの5%は焼却されます。
-
 4. IAO終了後、$STIDと$XAAの10%はすぐにDBCSwapで流動性プールを確立し、$STIDの自由取引を可能にします。
-
 5. チームは$STIDの30%を所有し、IAO終了後に解除が始まり、2000日間にわたって線形解除されます。
-
 6. $STIDの48%はマイニングによって生成され、4年ごとに半減します。最初の4年間は、年間60億$STIDがマイニングされます。マイニングされた$STIDの40%はすぐに受け取り、60%は120日間にわたって線形解除されます。
-
 7. $STIDの1%は$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、$STIDの1%はXAAのノードNFT保有者にエアドロップされます。`,
       ko: "1. 총 공급량: 1000억 XAA\n2. 토큰의 20%는 IAO를 통해 판매되며, $DBC만 받습니다. 투자자는 $DBC 투자 비율에 따라 $XAA를 받게 됩니다.\n3. 14일간의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 영구적으로 할당됩니다.\n4. IAO 종료 후, $XAA와 $DBC 거래쌍이 DBCSwap에 즉시 설립되어 $XAA의 자유로운 거래가 가능해집니다."
     })
@@ -579,7 +573,8 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     avatar: "/logo/SuperImage.png",
     symbol: "SIC",
 
-    tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    // tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    tokenAddress: "0x511F015c477317fBD8427179B8C8d80bd4624277",
     iaoContractAddress: "0x238d01d57a964ea07fe9f33a1a4853247a3ffada",
     tokenAddressTestnet: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
     iaoContractAddressTestnet: "0x238d01d57a964ea07fe9f33a1a4853247a3ffada",
