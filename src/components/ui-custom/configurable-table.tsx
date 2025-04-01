@@ -102,7 +102,7 @@ export const ColumnRenderers = {
           "rounded-md mr-3", 
           avatarClass,
           options?.className,
-          options?.size || "w-8 h-8"
+          options?.size || "w-10 h-10"
         )}>
           <img 
             src={String(row[field] ?? '')} 
@@ -129,7 +129,7 @@ export const ColumnRenderers = {
 
       return (
         <div className="flex items-center">
-          <Avatar className={cn("w-8 h-8 rounded-md mr-3", avatarClass)}>
+          <Avatar className={cn("w-10 h-10 rounded-md mr-3", avatarClass)}>
             <img 
               src={String(row[imageField] ?? '')} 
               alt={String(row[nameField] ?? '')} 
@@ -366,7 +366,7 @@ export const ConfigurableTable = <T extends object>({
               {selectable && (
                 <TableHead 
                   className={cn(
-                    "w-[50px]", 
+                    "w-[30px]", 
                     shouldFixColumn && "sticky left-0 z-20 bg-card"
                   )}
                 >
@@ -384,22 +384,22 @@ export const ConfigurableTable = <T extends object>({
                   key={column.id}
                   className={cn(
                     {
-                      "text-left": column.align === 'left' || !column.align,
-                      "text-center": column.align === 'center',
-                      "text-right": column.align === 'right',
+                      "text-left whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'left' || !column.align,
+                      "text-center whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'center',
+                      "text-right whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'right',
                       "cursor-pointer": column.sortable,
                       "sticky left-0 z-20 bg-card": shouldFixColumn && colIndex === 0 && !selectable,
-                      [`sticky left-[50px] z-20 bg-card`]: shouldFixColumn && colIndex === 0 && selectable,
+                      [`sticky left-[30px] z-20 bg-card`]: shouldFixColumn && colIndex === 0 && selectable,
                     },
                     column.headerClassName,
                     column.width && `w-[${column.width}]`
                   )}
                   onClick={column.sortable ? () => handleSort(column.id) : undefined}
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center whitespace-nowrap overflow-hidden text-ellipsis">
                     {column.header}
                     {column.sortable && sortColumn === column.id && (
-                      <span className="ml-1">
+                      <span className="ml-1 flex-shrink-0">
                         {sortDirection === 'asc' ? '↑' : '↓'}
                       </span>
                     )}
@@ -478,16 +478,19 @@ export const ConfigurableTable = <T extends object>({
                         key={`${key}-${column.id}`}
                         className={cn(
                           {
-                            "text-left": column.align === 'left' || !column.align,
-                            "text-center": column.align === 'center',
-                            "text-right": column.align === 'right',
-                            "sticky left-0 z-10 bg-card": shouldFixColumn && colIndex === 0 && !selectable,
-                            [`sticky left-[50px] z-10 bg-card`]: shouldFixColumn && colIndex === 0 && selectable,
+                            "text-left whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'left' || !column.align,
+                            "text-center whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'center',
+                            "text-right whitespace-nowrap overflow-hidden text-ellipsis": column.align === 'right',
+                            "sticky left-0 z-10 bg-card before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-card before:-z-10": shouldFixColumn && colIndex === 0 && !selectable,
+                            [`sticky left-[30px] z-10 bg-card before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-card before:-z-10`]: shouldFixColumn && colIndex === 0 && selectable,
                           },
                           column.cellClassName
+                          
                         )}
                       >
-                        {column.cell(row, index)}
+                        <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                          {column.cell(row, index)}
+                        </div>
                       </TableCell>
                     ))}
                   </TableRow>

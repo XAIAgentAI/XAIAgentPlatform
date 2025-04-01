@@ -381,8 +381,9 @@
     "noPendingReward": "受け取り可能な報酬なし",
     "noClaimableRewards": "受け取り可能な報酬がありません",
     "pleaseSelectNFTsWithPendingRewards": "受け取り可能な報酬があるNFTを選択してください",
-    "viewStakeDetailAndReward": "NFT ステーキング 報酬の詳細",
-    "connectWalletToViewStakeDetail": "ウォレットを接続してNFT ステーキング 詳細を表示"
+    "viewStakeDetailAndReward": "ステーキングの詳細と報酬を表示",
+    "connectWalletToViewStakeDetail": "ウォレットを接続してNFTステーキングの詳細を表示",
+    "expired": "期限切れ"
   },
   "regions": {
     "japan": "日本",

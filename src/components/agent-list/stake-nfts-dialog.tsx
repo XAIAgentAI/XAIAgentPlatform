@@ -56,27 +56,6 @@ const formatNumber = (num: number) => {
   return num.toLocaleString('en-US');
 };
 
-// 添加倒计时格式化函数
-const formatCountdown = (endTime?: Date) => {
-  if (!endTime) return '-';
-
-  const now = new Date();
-  const diff = endTime.getTime() - now.getTime();
-
-  if (diff <= 0) return '已到期';
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-  const parts = [];
-  if (days > 0) parts.push(`${days}天`);
-  if (hours > 0) parts.push(`${hours}时`);
-  if (minutes > 0) parts.push(`${minutes}分`);
-
-  return parts.join(' ');
-};
-
 export const StakeNFTsDialog = ({
   open: dialogOpen,
   onOpenChange,
@@ -105,6 +84,27 @@ export const StakeNFTsDialog = ({
   const [isClaiming, setIsClaiming] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
+
+  // 移动 formatCountdown 函数到组件内部
+  const formatCountdown = (endTime?: Date) => {
+    if (!endTime) return '-';
+
+    const now = new Date();
+    const diff = endTime.getTime() - now.getTime();
+
+    if (diff <= 0) return t('expired');
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    const parts = [];
+    if (days > 0) parts.push(`${days}${tCommon('timeUnits.days')}`);
+    if (hours > 0) parts.push(`${hours}${tCommon('timeUnits.hours')}`);
+    if (minutes > 0) parts.push(`${minutes}${tCommon('timeUnits.minutes')}`);
+
+    return parts.join(' ');
+  };
 
   // 计算已质押NFT的每日总奖励，考虑每个NFT的数量
   const totalStakedDailyReward = stakedList.reduce((total, item) => {
@@ -260,6 +260,7 @@ export const StakeNFTsDialog = ({
       }
     } catch (error) {
       console.error('Batch claim error:', error);
+      setIsClaiming(false);
     } finally {
       setIsClaiming(false);
     }
@@ -358,7 +359,7 @@ export const StakeNFTsDialog = ({
       id: "count",
       header: t('count'),
       width: "100px",
-      cell: (row) => <span>{formatNumber(row.count)}个</span>,
+      cell: (row) => <span>{formatNumber(row.count)} {t('itemCount')}</span>,
     },
     {
       id: "totalReward",
@@ -370,7 +371,7 @@ export const StakeNFTsDialog = ({
       id: "dailyReward",
       header: t('dailyRewardXAA'),
       width: "150px",
-      cell: (row) => <span>{formatNumber(row.dailyReward * row.count)} XAA/天</span>,
+      cell: (row) => <span>{formatNumber(row.dailyReward * row.count)} XAA/{tCommon('perDay')}</span>,
     },
     {
       id: "receivedReward",
@@ -404,6 +405,15 @@ export const StakeNFTsDialog = ({
   // 处理选择变化
   const handleSelectionChange = (selected: NFTItem[]) => {
     setSelectedNFTs(selected);
+    
+    // 为新选中的 NFT 设置最大可质押数量
+    const newAmounts = { ...nftAmounts };
+    selected.forEach(nft => {
+      if (!nftAmounts[nft.id]) {
+        newAmounts[nft.id] = nftBalances[nft.id] || 0;
+      }
+    });
+    setNftAmounts(newAmounts);
   };
 
   return (
@@ -412,19 +422,20 @@ export const StakeNFTsDialog = ({
         mx-auto 
         rounded-xl 
         overflow-hidden
-        h-[90vh]
-        max-h-[80vh]
+        h-[95vh]
+        max-h-[95vh]
         w-[95%] 
         max-w-[95%] 
+        md:h-[90vh]
         md:w-[720px] 
-        md:max-w-[720px]
+        lg:h-[85vh]
         lg:w-[960px] 
-        lg:max-w-[960px]
         xl:w-[1140px] 
-        xl:max-w-[1140px]
         2xl:w-[1320px] 
-        2xl:max-w-[1320px]">
-        <DialogHeader className="flex flex-row items-center justify-between">
+        flex
+        flex-col
+      ">
+        <DialogHeader className="flex-none flex flex-row items-center justify-between">
           <div>
             <DialogTitle>{!address ? t('connectWalletToViewStakeDetail') : t('stakeNFTRewardDetail')}</DialogTitle>
             {/* <DialogDescription>
@@ -441,9 +452,9 @@ export const StakeNFTsDialog = ({
           )}
         </DialogHeader>
 
-        <div className="hidden md:flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 px-4 py-1 rounded-lg border border-orange-500/20 mb-0">
+        <div className="flex-none flex items-center justify-between bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-orange-500/10 px-4 py-1 rounded-lg border border-orange-500/20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+            <div className="hidden md:flex w-10 h-10 rounded-lg bg-orange-500/10 items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path>
               </svg>
@@ -462,8 +473,8 @@ export const StakeNFTsDialog = ({
           </Button>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full overflow-hidden">
-          <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 grid grid-cols-2 w-full mb-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
+          <TabsList className="flex-none bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 grid grid-cols-2 w-full mb-4">
             <TabsTrigger
               value="stake"
               className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
@@ -474,137 +485,123 @@ export const StakeNFTsDialog = ({
             >{t('staked')}</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="stake" className="space-y-4">
-            <div className="w-full" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-              <ConfigurableTable<NFTItem>
-                columns={unstakeNFTColumns}
-                data={nftItems as NFTItem[]}
-                selectable={true}
-                onSelectionChange={handleSelectionChange}
-                emptyText={t('noStakeableNFT')}
-                // height="400px"
-                height="200px"
-                scroll={{ x: 650, y: true }}
-                fixedLeftColumn={true}
-                tableClassName="min-w-[650px]"
-              />
-            </div>
-
-            <div className="bg-muted/20 p-4 rounded-lg h-16">
-              <div className="flex justify-end mb-2 gap-2">
-                <span>{t('selected')}:</span>
-                <span>{formatNumber(selectedNFTs.reduce((total, nft) => total + (nftAmounts[nft.id] || 0), 0))} {t('itemCount')}</span>
+          <div className="flex-1 min-h-0">
+            <TabsContent value="stake" className="h-full flex flex-col gap-4 data-[state=active]:flex data-[state=inactive]:hidden">
+              <div className="flex-1 min-h-0 overflow-auto">
+                <ConfigurableTable<NFTItem>
+                  columns={unstakeNFTColumns}
+                  data={nftItems as NFTItem[]}
+                  selectable={true}
+                  onSelectionChange={handleSelectionChange}
+                  emptyText={t('noStakeableNFT')}
+                  scroll={{ x: 650, y: true }}
+                  fixedLeftColumn={true}
+                  tableClassName="min-w-[650px]"
+                />
               </div>
-              <div className="flex justify-end font-medium gap-2">
-                <span>{t('totalDailyReward')}:</span>
-                <span className="text-primary">{formatNumber(totalDailyReward)} XAA</span>
-              </div>
-            </div>
 
-            <DialogFooter>
-              {/* <Button
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-                className="w-full sm:w-auto"
-              >
-                {t('cancel')}
-              </Button> */}
-              <Button onClick={handleStake}
-                disabled={!address || selectedNFTs.length === 0 || !selectedNFTs.some(nft => (nftAmounts[nft.id] || 0) > 0) || isStaking}
-                className="relative">
-                <div className="flex items-center gap-2">
-                  {stakeStep === 'approving' && (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      {t('approving')}
-                    </>
-                  )}
-                  {stakeStep === 'staking' && (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      {t('staking')}
-                    </>
-                  )}
-                  {stakeStep === 'idle' && t('confirmStake')}
-                </div>
-              </Button>
-            </DialogFooter>
-          </TabsContent>
-
-          <TabsContent value="staked" className="space-y-4">
-            <div className="w-full" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-              {((address && initialLoading  ) || isClaiming) ? (
-                <div className="flex items-center justify-center h-[300px]">
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-sm text-muted-foreground">
-                      {isClaiming ? t('claiming') : t('loadingStakedNFTs')}
-                    </p>
+              <div className="flex-none px-6">
+                <div className="bg-muted/20  rounded-lg">
+                  <div className="flex justify-end mb-2 gap-2">
+                    <span>{t('selected')}:</span>
+                    <span>{formatNumber(selectedNFTs.reduce((total, nft) => total + (nftAmounts[nft.id] || 0), 0))} {t('itemCount')}</span>
+                  </div>
+                  <div className="flex justify-end font-medium gap-2">
+                    <span>{t('totalDailyReward')}:</span>
+                    <span className="text-primary">{formatNumber(totalDailyReward)} XAA</span>
                   </div>
                 </div>
-              ) : (
-                <ConfigurableTable<NFTItem>
-                  columns={stakedNFTColumns}
-                  data={stakedList}
-                  emptyText={t('noStakedNFT')}
-                  className="overflow-hidden"
-                  height="300px"
-                  scroll={{ x: 900, y: true }}
-                  fixedLeftColumn={true}
-                  tableClassName="min-w-[900px]"
-                  rowKey={(row: NFTItem) => `${row.id}-${row.stakeStartTime?.getTime() || Date.now()}`}
-                  selectable={true}
-                  onSelectionChange={setSelectedStakedNFTs}
-                />
-              )}
-            </div>
+              </div>
 
-            <div className="bg-muted/20 p-4 rounded-lg space-y-2">
-              <div className="flex justify-end items-center gap-1">
-                <span>{t('totalDailyReward')}:</span>
-                <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/{tCommon('perDay')} </span>
-              </div>
-              <div className="flex justify-end items-center gap-1">
-                <span>{t('selectedNFTCount')}:</span>
-                <span>{selectedStakedNFTs.length} {t('itemCount')}</span>
-              </div>
-              <Button
-                onClick={handleBatchClaim}
-                disabled={
-                  selectedStakedNFTs.length === 0 ||
-                  isClaiming ||
-                  !selectedStakedNFTs.some(nft => (nft.pendingReward || 0) > 0)
-                }
-                className="w-full"
-              >
-                {isClaiming ? (
+              <DialogFooter className="flex-none px-6">
+                <Button onClick={handleStake}
+                  disabled={!address || selectedNFTs.length === 0 || !selectedNFTs.some(nft => (nftAmounts[nft.id] || 0) > 0) || isStaking}
+                  className="w-full relative">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    {t('claiming')}
+                    {stakeStep === 'approving' && (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        {t('approving')}
+                      </>
+                    )}
+                    {stakeStep === 'staking' && (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        {t('staking')}
+                      </>
+                    )}
+                    {stakeStep === 'idle' && t('confirmStake')}
+                  </div>
+                </Button>
+              </DialogFooter>
+            </TabsContent>
+
+            <TabsContent value="staked" className="h-full flex flex-col gap-4 data-[state=active]:flex data-[state=inactive]:hidden">
+              <div className="flex-1 min-h-0 overflow-auto">
+                {((address && initialLoading) || isClaiming) ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                      <p className="text-sm text-muted-foreground">
+                        {isClaiming ? t('claiming') : t('loadingStakedNFTs')}
+                      </p>
+                    </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    <span>{t('batchClaim')}</span>
-                    {selectedStakedNFTs.length > 0 && (
-                      <span className="text-sm">
-                        ({formatNumber(selectedStakedNFTs.reduce((sum, nft) => sum + (nft.pendingReward || 0), 0))} XAA)
-                      </span>
-                    )}
-                  </div>
+                  <ConfigurableTable<NFTItem>
+                    columns={stakedNFTColumns}
+                    data={stakedList}
+                    emptyText={t('noStakedNFT')}
+                    className="overflow-hidden"
+                    scroll={{ x: 900, y: true }}
+                    fixedLeftColumn={true}
+                    tableClassName="min-w-[900px]"
+                    rowKey={(row: NFTItem) => `${row.id}-${row.stakeStartTime?.getTime() || Date.now()}`}
+                    selectable={true}
+                    onSelectionChange={setSelectedStakedNFTs}
+                  />
                 )}
-              </Button>
-            </div>
+              </div>
 
-            {/* <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-                className="w-full sm:w-auto"
-              >
-                {t('close')}
-              </Button>
-            </DialogFooter> */}
-          </TabsContent>
+              <div className="flex-none px-6">
+                <div className="bg-muted/20 rounded-lg space-y-2">
+                  <div className="flex justify-end items-center gap-1">
+                    <span>{t('totalDailyReward')}:</span>
+                    <span className="text-lg font-semibold">{formatNumber(totalStakedDailyReward)} XAA/{tCommon('perDay')} </span>
+                  </div>
+                  <div className="flex justify-end items-center gap-1">
+                    <span>{t('selectedNFTCount')}:</span>
+                    <span>{selectedStakedNFTs.length} {t('itemCount')}</span>
+                  </div>
+                  <Button
+                    onClick={handleBatchClaim}
+                    disabled={
+                      selectedStakedNFTs.length === 0 ||
+                      isClaiming ||
+                      !selectedStakedNFTs.some(nft => (nft.pendingReward || 0) > 0)
+                    }
+                    className="w-full"
+                  >
+                    {isClaiming ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        {t('claiming')}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span>{t('batchClaim')}</span>
+                        {selectedStakedNFTs.length > 0 && (
+                          <span className="text-sm">
+                            ({formatNumber(selectedStakedNFTs.reduce((sum, nft) => sum + (nft.pendingReward || 0), 0))} XAA)
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </div>
         </Tabs>
       </DialogContent>
     </Dialog >

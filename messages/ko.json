@@ -325,7 +325,7 @@
     "totalClaimableRewards": "청구 가능한 보상",
     "claimAllRewards": "모든 보상 청구",
     "stakeNFTRewardDetail": "NFT 스테이킹 보상 상세",
-    "viewStakeDetailAndReward": "NFT 스테이킹 상세 및 보상 보기",
+    "viewStakeDetailAndReward": "스테이킹 상세 정보 및 보상 보기",
     "stake": "스테이킹",
     "staked": "스테이킹됨",
     "selected": "선택됨",
@@ -383,7 +383,8 @@
     "noPendingReward": "수령 가능한 보상 없음",
     "noClaimableRewards": "수령 가능한 보상이 없습니다",
     "pleaseSelectNFTsWithPendingRewards": "수령 가능한 보상이 있는 NFT를 선택해주세요",
-    "connectWalletToViewStakeDetail": "지갑을 연결하고 NFT 스테이킹 상세 보기"
+    "connectWalletToViewStakeDetail": "NFT 스테이킹 상세 정보를 보려면 지갑을 연결하세요",
+    "expired": "만료됨"
   },
   "regions": {
     "japan": "일본",

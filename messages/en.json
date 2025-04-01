@@ -324,7 +324,7 @@
     "totalClaimableRewards": "Total Claimable Rewards",
     "claimAllRewards": "Claim All Rewards",
     "stakeNFTRewardDetail": "NFT Stake Reward Details",
-    "viewStakeDetailAndReward": "View stake details and rewards",
+    "viewStakeDetailAndReward": "View Staking Details and Rewards",
     "stake": "Stake",
     "staked": "Staked",
     "selected": "Selected",
@@ -382,7 +382,8 @@
     "noPendingReward": "No Pending Reward",
     "noClaimableRewards": "No Claimable Rewards",
     "pleaseSelectNFTsWithPendingRewards": "Please select NFTs with pending rewards",
-    "connectWalletToViewStakeDetail": "Connect wallet to view NFT stake details"
+    "connectWalletToViewStakeDetail": "Connect Wallet to View NFT Staking Details",
+    "expired": "Expired"
   },
   "regions": {
     "japan": "Japan",

@@ -385,7 +385,8 @@
     "pleaseSelectNFTsWithPendingRewards": "请选择有待领取奖励的 NFT",
     
     "viewStakeDetailAndReward": "查看质押详情和奖励",
-    "connectWalletToViewStakeDetail": "连接钱包后查看NFT质押详情"
+    "connectWalletToViewStakeDetail": "连接钱包后查看NFT质押详情",
+    "expired": "已到期"
   },
   "regions": {
     "japan": "日本",
