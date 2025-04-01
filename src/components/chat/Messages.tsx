@@ -126,7 +126,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       return `${(messageDate.getMonth() + 1).toString().padStart(2, '0')}-${messageDate.getDate().toString().padStart(2, '0')} ${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
                     }
                   })() 
-                  : new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-')}
+                  : `${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`}
               </p>
 
             </div>

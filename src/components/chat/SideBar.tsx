@@ -176,11 +176,21 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             <>
               <hr className="my-[2px] border-white" />
               <div className="text-sm mt-[-4px] mb-4 text-white">{t("7daysago")}</div>
-              {uniqueConversations.map((msg:any) => (
-                <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
-                  {msg.content.substring(0,12)+"..."}
+              {uniqueConversations.length > 0 ? (
+                <>
+                  {uniqueConversations.map((msg: any) => (
+                    <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
+                      {msg.content.substring(0, 12) + "..."}
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="flex justify-start items-center h-[10px] gap-2 ml-1">
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball"></div>
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
                 </div>
-              ))}
+              )}
             </>
           )}
         </div>
