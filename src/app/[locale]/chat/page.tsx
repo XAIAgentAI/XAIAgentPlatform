@@ -15,7 +15,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: string;
+  time: string;
   convid: string;
   agent: string;
 }
@@ -26,6 +26,7 @@ interface Sentence {
   assistant?: string;
   convid: string;
   agent: string;
+  time?: string;
 }
 
 // 定义路由参数的类型
@@ -109,7 +110,7 @@ export default function ChatPage() {
       id: `${Date.now()}-${userName}`, // 使用当前时间和用户名确保唯一性
       role: 'user',
       content: input,
-      timestamp: new Date().toISOString(),
+      time: new Date().toISOString(),
       convid: convid,
       agent: agent
     };
@@ -131,7 +132,7 @@ export default function ChatPage() {
         id: `${data.convid}-${Date.now()}`, // 使用convid和当前时间戳确保唯一性
         role: 'assistant',
         content: data.assistant || '',
-        timestamp: new Date().toISOString(),
+        time: data.time || "",
         convid: data.convid,
         agent: data.agent
       };

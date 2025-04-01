@@ -15,7 +15,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: string;
+  time: string;
   convid: string;
   agent: string;
 }
@@ -75,7 +75,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                        id: Date.now().toString(),
                        role: 'user',
                        content: example,
-                       timestamp: new Date().toISOString(),
+                       time: new Date().toISOString(),
                        convid: convid,
                        agent: agent
                      };
@@ -99,7 +99,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
                          id: `${data.convid}-${Date.now()}`,
                          role: 'assistant',
                          content: data.assistant,
-                         timestamp: new Date().toISOString(),
+                         time: new Date().toISOString(),
                          convid: convid,
                          agent: agent
                        }] }));

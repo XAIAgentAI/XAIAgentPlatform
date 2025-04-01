@@ -7,7 +7,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: string;
+  time: string;
   convid: string;
   agent: string;
 }
@@ -60,8 +60,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   }
   
   const isValidDate = (dateString: string): boolean => {
-    return !isNaN(Date.parse(dateString));
-  };
+    const datePattern = /^\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
+    return datePattern.test(dateString);
+  };  
 
   return (
     <div className="z-1 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ maxHeight:"75vh" }}>
@@ -107,7 +108,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 <p className="text-sm text-justify">{message.content}</p>
               )}
               <p className={`text-xs mt-1 text-white/70`}>
-                {isValidDate(message.timestamp) ? new Date(message.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString()}
+                {isValidDate(message.time) ? message.time : new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-')}
               </p>
             </div>
           </div>

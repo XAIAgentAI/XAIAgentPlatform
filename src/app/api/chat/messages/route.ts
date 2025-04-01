@@ -8,6 +8,7 @@ interface Sentence {
   assistant?: string;
   convid: string;
   agent?: string;
+  time?: string; // 新增time字段
 }
 
 interface Conversation {
@@ -19,13 +20,14 @@ const chatDeployed = process.env.LLM_URL || "";
 
 const pool = new Pool({ connectionString });
 
-//初始化数据
+const initTime = new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-').replace(/,/g, '');
+//初始化数据时增加时间字段
 const conversationData: Conversation = {
   "1": [
-      {convid: "1", user: "What is your name?"},
-      {convid: "1", assistant: "Hello, I am your AI assistant, I am Fitten Code.", agent:"Xaiagent"},
-      {convid: "2", user: "Yes, what services do you offer?"},
-      {convid: "2", assistant: "I can help you with coding, answering questions, and more.", agent:"Xaiagent"}
+      {convid: "1", user: "What is your name?", time: initTime},
+      {convid: "1", assistant: "Hello, I am your AI assistant, I am Fitten Code.", agent: "Xaiagent", time: initTime},
+      {convid: "2", user: "Yes, what services do you offer?", time: initTime},
+      {convid: "2", assistant: "I can help you with coding, answering questions, and more.", agent: "Xaiagent", time: initTime}
   ]
 };
 
@@ -48,7 +50,7 @@ async function ensureChatTable() {
 }
 
 // 向chat表中插入一条新记录
-async function insertUserRecord(user: string, password:string, chat: any) {
+async function insertUserRecord(user: string, password: string, chat: any) {
   const insertUserQuery = `
     INSERT INTO chat (name, password, chat)
     VALUES ($1, $2, $3)
@@ -96,10 +98,10 @@ async function updateUserChat(user: string, chat: Conversation) {
 }
 
 (async () => {
- try {
-   await ensureChatTable();
+  try {
+    await ensureChatTable();
   } catch (error) {
-   console.error('Failed to initialize and insert data:', error);
+    console.error('Failed to initialize and insert data:', error);
   }
 })();
 
@@ -149,7 +151,7 @@ export async function POST(
     }
 
     // 插入新用户的记录
-    await insertUserRecord(user, "******", {"0":[]});
+    await insertUserRecord(user, "******", {"0": []});
     return NextResponse.json({ success: true, message: user });
   } else {
     // 使用请求中提供的用户名
@@ -177,9 +179,11 @@ export async function POST(
       maxConvid = Math.max(...chat["1"].map((sentence: any) => parseInt(sentence.convid)));
     }
 
+    const currentTime = new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-').replace(/,/g, '');
     const userMessage: Sentence = {
       user: message,
-      convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString()
+      convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString(),
+      time: currentTime // 插入当前时间
     };
 
     chat["1"].push(userMessage);
@@ -227,7 +231,8 @@ export async function POST(
     const aiResponse: Sentence = {
       assistant: aiResponseData.content,
       convid: userMessage.convid,
-      agent: agent
+      agent: agent,
+      time: currentTime // 插入当前时间
     };
 
     chat["1"].push(aiResponse);

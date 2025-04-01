@@ -22,13 +22,14 @@ interface Sentence {
   user?: string;
   assistant?: string;
   agent?: string;
+  time?: string;
 }
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: string; // 假设后端返回timestamp字段
+  time: string; // 假设后端返回timestamp字段
   convid: string;
   agent?: string;
 }
@@ -67,7 +68,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           id: uuidv4(),
           role: sentence.user ? 'user' : 'assistant',
           content: sentence.user || sentence.assistant || '',
-          timestamp: new Date().toISOString(), // 如果后端没有返回timestamp，则在此处生成
+          time: sentence.time || new Date().toISOString(), // 如果后端没有返回timestamp，则在此处生成
           convid: sentence.convid,
           agent: sentence.agent || ''
         }));
