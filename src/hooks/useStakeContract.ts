@@ -45,12 +45,8 @@ const ensureAddressFormat = (address: string | undefined): `0x${string}` => {
 };
 
 export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress: `0x${string}`, symbol: string = 'XAA') => {
-  console.log("tokenAddress", tokenAddress);
-  console.log("iaoContractAddress", iaoContractAddress);
-  console.log("symbol", symbol);
   // 验证合约地址
   if (!iaoContractAddress || iaoContractAddress === '0x' || iaoContractAddress.length !== 42) {
-    console.error('Invalid IAO contract address:', iaoContractAddress);
     return {
       poolInfo: {
         totalDeposited: '',
@@ -284,8 +280,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         pollingInterval: 1_000,
       });
     } catch (error) {
-      console.log('RPC confirmation failed, checking explorer...');
-
       let confirmed = false;
       let attempts = 0;
       const maxAttempts = 30;
@@ -293,7 +287,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       while (!confirmed && attempts < maxAttempts) {
         confirmed = await getTransactionStatusFromExplorer(hash);
         if (confirmed) {
-          console.log('Transaction confirmed via explorer');
           receipt = await publicClient.getTransactionReceipt({ hash });
           break;
         }
@@ -394,7 +387,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
     const amountWei = parseEther(amount);
 
-    // 1. 检查已授权额度
     const xaaABI = [
       {
         name: 'allowance',
@@ -420,7 +412,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
     const XAA_TOKEN_Address = CONTRACTS.XAA_TOKEN;
 
-    // 检查当前授权额度
     const currentAllowance = await publicClient.readContract({
       address: XAA_TOKEN_Address,
       abi: xaaABI,
@@ -428,14 +419,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       args: [formattedAddress, iaoContractAddress]
     });
 
-    // 只有当授权额度不足时才进行 approve
     if (currentAllowance < amountWei) {
-      console.log("currentAllowance", currentAllowance);
-      console.log("amountWei", amountWei);
-
-      // 授权一个相对合理的金额（比如当前金额的5倍），避免频繁授权
-      // 1000 XAA = 1000 * 10^18
-      const reasonableAmount = amountWei ;
+      const reasonableAmount = amountWei;
       const approveHash = await walletClient.writeContract({
         address: XAA_TOKEN_Address,
         abi: xaaABI,
@@ -622,16 +607,13 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     try {
       setIsUserStakeInfoLoading(true);
 
-      // 确保地址格式正确
       const formattedAddress = ensureAddressFormat(address);
-      console.log('Getting stake info for address:', formattedAddress);
 
       const publicClient = createPublicClient({
         chain: currentChain,
         transport: custom(walletClient.transport),
       });
 
-      // Get total staked amount
       const contractABI = getContractABI(symbol);
       const totalDeposited = await publicClient.readContract({
         address: iaoContractAddress,
@@ -639,7 +621,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         functionName: totalDepositedFunctionName,
       });
 
-      // Get user staked amount
       const userDeposited = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
@@ -647,7 +628,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress],
       });
 
-      // Get if user has claimed
       const hasClaimed = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
@@ -655,7 +635,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress],
       });
 
-      // Get total rewards
       const totalReward = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
@@ -665,15 +644,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       let claimableXAA = '0';
       let claimedAmount = '0';
 
-      console.log('totalDeposited', totalDeposited.toString());
-      console.log('userDeposited', userDeposited.toString());
-      console.log('totalReward', totalReward.toString());
-      console.log('hasClaimed', hasClaimed.toString());
-      console.log('claimableXAA', claimableXAA.toString());
-      console.log('claimedAmount', claimedAmount.toString());
-
       if (totalDeposited !== BigInt(0)) {
-        // Calculate user's XAA amount: (user investment / total investment) * total rewards
         const calculatedAmount = (userDeposited * totalReward) / totalDeposited;
         const formattedAmount = ethers.formatEther(calculatedAmount);
 
@@ -693,7 +664,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         claimedAmount,
       };
     } catch (error) {
-      console.error('Failed to get user stake info:', error);
       return {
         userDeposited: '0',
         claimableXAA: '0',

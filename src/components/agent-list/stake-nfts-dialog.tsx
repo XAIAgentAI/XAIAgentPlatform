@@ -422,8 +422,8 @@ export const StakeNFTsDialog = ({
         mx-auto 
         rounded-xl 
         overflow-hidden
-        h-[95vh]
-        max-h-[95vh]
+        h-[90vh]
+        max-h-[90vh]
         w-[95%] 
         max-w-[95%] 
         md:h-[90vh]

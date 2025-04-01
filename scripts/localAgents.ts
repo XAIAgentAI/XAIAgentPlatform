@@ -26,7 +26,7 @@ export interface LocalAgent {
   useCasesKO?: string[];
   useCasesZH?: string[];
   socialLinks?: string;
-  chatEntry?: string;
+  chatEntry?: string | null;
   statusJA?: string;
   statusKO?: string;
   statusZH?: string;
@@ -165,7 +165,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "这个AI可以保持我的相貌一致吗？比如不同风格下都能保持我的特征"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     projectDescription: JSON.stringify({
       en: `1. $STID Total Supply: 100 billion
 
@@ -259,7 +259,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "我能把自己换成电影角色的脸吗？你可以推荐几个适合的角色吗？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 10,
@@ -311,7 +311,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "扩展后的图片可以更自然地融合吗？如果有不协调的地方，你能优化吗？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 5,
@@ -363,7 +363,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "能给我生成一个带有动态视觉效果的Logo，并且适合社交媒体头像使用吗？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 6,
@@ -415,7 +415,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "把第二张照片制作成和第一张一样的表情包"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 7,
@@ -467,7 +467,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "能不能做一个卡通风格的二维码，背景是像素艺术风格，并且能让它看起来有点可爱？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 8,
@@ -519,7 +519,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "这张旧照片有很多划痕和噪点，能在上色的同时帮我修复，让细节更丰富吗？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 9,
@@ -571,7 +571,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "我有一张老电影的静帧截图，能不能提升分辨率并减少噪点，让它更接近4K画质？"
     ],
     socialLinks: "",
-    chatEntry: "None"
+    chatEntry: null
   },
   {
     id: 4,
@@ -580,9 +580,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     symbol: "SIC",
 
     tokenAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
-    iaoContractAddress: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
-    tokenAddressTestnet: "0x2fD253cE28deF759FC1063ccFb24a1cC389757eC",
-    iaoContractAddressTestnet: "0x14207289db490cc15c2d74411e25e23f5fdaadda",
+    iaoContractAddress: "0x238d01d57a964ea07fe9f33a1a4853247a3ffada",
+    tokenAddressTestnet: "0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45",
+    iaoContractAddressTestnet: "0x238d01d57a964ea07fe9f33a1a4853247a3ffada",
    
 
     type: "Infrastructure",
@@ -847,7 +847,7 @@ AI Agent 驱动的智能游戏体验：
     //   youtube：https://www.youtube.com/@deeplinkglobal
     //   日文电报： https://t.me/DeepLinkJapan
     socialLinks: "https://x.com/DeepLinkGlobal, https://x.com/DeepLinkJapan, https://t.me/deeplinkglobal, https://www.youtube.com/@deeplinkglobal, https://t.me/DeepLinkJapan",
-    chatEntry: "None",
+    chatEntry: null,
     projectDescription: JSON.stringify({
       'zh': `1. $DLC总供应量：1000亿。
 2. 5000万枚的$DLC将通过IAO销售,仅接受$XAA,投资者将根据其$XAA投资比例获得$DLC。
@@ -933,7 +933,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "记住以下内容：xxxxx"
     ],
     socialLinks: "https://x.com/XPersonity",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -985,7 +985,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "知名人士发行的正规代币即时通知"
     ],
     socialLinks: "https://x.com/ASIXTAI",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1037,7 +1037,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "显示AI的交易历史"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1089,7 +1089,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "设置空投活动"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1141,7 +1141,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "接收每日匹配推荐"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1193,7 +1193,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "生成项目X的综合报告"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1245,7 +1245,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "实时翻译会议"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
   {
@@ -1297,7 +1297,7 @@ Whether you're looking to uncover some laughs, match up friends, or build your p
       "获取个性化风格推荐"
     ],
     socialLinks: "",
-    chatEntry: "None",
+    chatEntry: null,
     iaoTokenAmount: 5000000000
   },
 ];
