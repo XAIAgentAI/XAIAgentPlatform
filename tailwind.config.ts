@@ -73,10 +73,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "scaleBall": {
+          '0%, 100%': { transform: 'scale(0.8)', opacity: '0.6' },
+          '50%': { transform: 'scale(1.2)', opacity: '1' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-ball": "scaleBall 1.5s infinite ease-in-out"
       },
     },
   },

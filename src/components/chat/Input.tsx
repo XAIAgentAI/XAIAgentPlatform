@@ -1,37 +1,70 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface InputComponentProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
+  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
+  userName: string | null;
   handleSubmit: (e: React.FormEvent) => any;
+  conversations: any;
+  setIsNew: any;
+  prompt: any;
 }
 
-const InputComponent: React.FC<InputComponentProps> = ({ input, setInput, isLoading, handleSubmit }) => {
+const InputComponent: React.FC<InputComponentProps> = ({ prompt, setIsNew, conversations, userName, setUserStatus, input, setInput, isLoading, handleSubmit }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!isInitialized && prompt) {
+      setInput(prompt);
+      setIsInitialized(true);
+    }
+  }, [prompt, setInput, isInitialized]);
+
   // 确定发送按钮是否可点击
-  const isSubmitEnabled = !isLoading && input.trim() !== '';
+  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
+
+  const handleSendClick = (e: React.FormEvent) => {
+    if (!userName) {
+      setUserStatus(false);
+      const timer = setTimeout(() => {
+        setUserStatus(true);
+      }, 1000);
+      e.preventDefault(); // 阻止表单提交
+      return;
+    }
+    if(conversations["1"]?.length > 0){
+      setIsNew("yes");
+    }
+    handleSubmit(e);
+  };
+
+  const locale = useLocale();
+  const t = useTranslations("chat");
 
   return (
-    <div className="fixed bottom-6 w-[97vw] ml-auto">
-      <div className="max-w-3xl px-4 py-4 w-full rounded-2xl md:w-[calc(700px)] md:ml-auto md:mr-[calc(1.4vw+10px)] lg:w-[calc(620px+12vw)] lg:ml-auto lg:mr-[calc(3.6vw-32px)] xl:w-[calc(62vw-30px)] xl:ml-auto xl:mr-[calc(7.4vw-0.8%)] 2xl:ml-auto 2xl:mr-[calc(7.6vw-0.8%)]">
+    <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex:10000}}>
+      <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
         <form onSubmit={handleSubmit} className="w-full relative">
           <div className="w-full relative">
             <input
               type="text"
-              value={input}
+              value={input || ''}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Send a message"
-              className="w-full font-light rounded-full bg-zinc-800 px-4 py-2 text-primary placeholder-text-tertiary focus:outline-none border-none focus:text-slate-200 focus:caret-slate-200 pr-10"
-              disabled={isLoading}
+              placeholder={t("inputHolder")}
+              className="w-full rounded-full bg-stone-200 dark:bg-zinc-800 px-[18px] py-[10px] pb-[10.5px] placeholder-stone-400 dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10"
+              disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}
             <button
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleSendClick}
               disabled={!isSubmitEnabled}
-              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-white bg-opacity-10 ${
-                isSubmitEnabled ? 'bg-opacity-30' : ''
+              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-[hsl(0,0%,81%)] ${
+                isSubmitEnabled ? 'bg-opacity-70' : 'bg-opacity-30'
               }`}
             >
               <img
@@ -42,7 +75,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ input, setInput, isLoad
             </button>
           </div>
         </form>
-        <div className="mt-2 text-center text-neutral-700 text-xs">AI agent might make mistakes. Please check important information.</div>
+        <div className="mt-2 text-center text-stone-500 dark:text-neutral-700 text-xs">{t("inputInfo")}</div>
       </div>
     </div>
   );

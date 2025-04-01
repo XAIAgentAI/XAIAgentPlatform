@@ -15,10 +15,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
 
   console.log("agent", agent);
 
-
-
-
-
   if (!agent) {
     return null;
   }
@@ -70,7 +66,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
     return null;
   }
 
-
   return (
     <Card className="p-6 bg-card">
       <h2 className="text-lg font-semibold mb-4">{t('agent.conversationStarter')}</h2>
@@ -79,6 +74,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
           <div
             key={index}
             className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
+            onClick={(suggestion)=>{window.open(`/${locale}/chat?prompt=${suggestion}`,'_blank')}}
           >
             {suggestion}
           </div>
