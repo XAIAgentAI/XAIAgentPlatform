@@ -60,7 +60,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   }
   
   const isValidDate = (dateString: string): boolean => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
+    const datePattern = /^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/;
     return datePattern.test(dateString);
   };  
 
@@ -108,8 +108,27 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 <p className="text-sm text-justify">{message.content}</p>
               )}
               <p className={`text-xs mt-1 text-white/70`}>
-                {isValidDate(message.time) ? message.time : new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-')}
+                {isValidDate(message.time) ? 
+                  (() => {
+                    const parts = message.time.split('-');
+                    const year = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10);
+                    const day = parseInt(parts[2], 10);
+                    const hour = parseInt(parts[3], 10);
+                    const minute = parseInt(parts[4], 10);
+                    const second = parseInt(parts[5], 10);
+                    const messageDate = new Date(year, month - 1, day, hour, minute, second);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (messageDate.toDateString() === today.toDateString()) {
+                      return `${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
+                    } else {
+                      return `${(messageDate.getMonth() + 1).toString().padStart(2, '0')}-${messageDate.getDate().toString().padStart(2, '0')} ${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
+                    }
+                  })() 
+                  : new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-')}
               </p>
+
             </div>
           </div>
         ))}
