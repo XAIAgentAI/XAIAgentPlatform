@@ -695,6 +695,33 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         }
       }
 
+      console.log('originDeposit', originDeposit);
+      console.log('depositIncrByNFT', depositIncrByNFT);
+      console.log('userReward', userReward);
+      
+      // 添加详细的调试日志
+      const formattedUserReward = Number(ethers.formatEther(userReward));
+      console.log('userReward formatted:', formattedUserReward);
+      
+      // 添加安全的计算逻辑
+      let rewardForOrigin = 0;
+      let rewardForNFT = 0;
+      
+      // 如果总质押量为0，则奖励也为0
+      if (formattedUserReward > 0) {
+        if (depositIncrByNFT > 0) {
+          // 如果有NFT增加量，按比例分配奖励
+          const ratio = originDeposit / depositIncrByNFT;
+          rewardForOrigin = ratio * formattedUserReward;
+          rewardForNFT = (1 - ratio) * formattedUserReward;
+        } else if (originDeposit > 0) {
+          // 如果只有原始质押，没有NFT增加量，所有奖励都归属于原始质押
+          rewardForOrigin = formattedUserReward;
+          rewardForNFT = 0;
+        }
+        // 如果都是0，保持默认的0值
+      }
+
       return {
         userDeposited: Number(ethers.formatEther(userDeposited)).toFixed(4),  // 实际质押量
         claimableXAA: Number(ethers.formatEther(BigInt(claimableXAA))).toFixed(4),  // 可领取奖励
@@ -702,10 +729,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         claimedAmount: Number(ethers.formatEther(BigInt(claimedAmount))).toFixed(4),  // 已领取数量
         originDeposit: originDeposit.toFixed(4),    // 原始质押量
         depositIncrByNFT: depositIncrByNFT.toFixed(4), // NFT增加量
-
-        rewardForOrigin: originDeposit /depositIncrByNFT * Number(ethers.formatEther(userReward)),
-        rewardForNFT: (1- originDeposit /depositIncrByNFT) * Number(ethers.formatEther(userReward)),
-
+        rewardForOrigin,  // 原始质押的奖励
+        rewardForNFT,    // NFT增加的奖励
         incrByNFTTier: Number(incrInfo[2]).toString()             // NFT等级
       };
     } catch (error) {
