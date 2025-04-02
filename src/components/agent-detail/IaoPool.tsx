@@ -227,7 +227,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const fetchUserStakeInfo = async () => {
     if (!isAuthenticated) return;
     const info = await getUserStakeInfo();
-    console.log("fetchUserStakeInfo", info);
     setUserStakeInfo(info);
   };
 
