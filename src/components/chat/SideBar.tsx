@@ -154,7 +154,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             placeholder="Search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-[94%] h-[32px] placeholder:text-[#cdcdcd] text-neutral-700 pl-8 focus:outline-none rounded-sm focus:ring-2 focus:ring-stone-300 focus:border-stone-300 transition duration-300"
+            className="w-[94%] h-[32px] placeholder:text-[#cdcdcd] text-neutral-700 pl-8 focus:outline-none rounded-sm focus:ring-1 focus:ring-stone-300 focus:border-stone-300 transition duration-300"
           />
         </div>
           <motion.button
@@ -165,30 +165,29 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             <Menu></Menu>
           </motion.button>
         </div>
-        <div className="flex flex-col flex-1 space-y-2 overflow-y-auto my-4">
+        <div className="flex flex-col flex-1 space-y-2 overflow-y-auto my-4 hide-scrollbar">
           {query.length > 0 ? (
             searchResults.map((msg) => (
-              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
-                {msg.content.substring(0, 12)+"..."}
+              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-stone-500 dark:text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
+                {msg.content.substring(0, 12)}
               </div>
             ))
           ) : (
             <>
-              <hr className="my-[2px] border-white" />
-              <div className="text-sm mt-[-4px] mb-4 text-white">{t("7daysago")}</div>
+              <div className="text-sm mt-[-2px] mb-[-1] text-stone-400 dark:text-white">{t("7daysago")}</div>
               {uniqueConversations.length > 0 ? (
                 <>
                   {uniqueConversations.map((msg: any) => (
-                    <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
+                    <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="ml-[-1] pl-2 py-1 w-full text-stone-500 dark:text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
                       {msg.content.substring(0, 12) + "..."}
                     </div>
                   ))}
                 </>
               ) : (
                 <div className="flex justify-start items-center h-[10px] gap-2 ml-1">
-                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball"></div>
-                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
-                  <div className="w-2 h-2 rounded-full bg-white animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
+                  <div className="w-2 h-2 rounded-full bg-stone-300 animate-pulse-ball"></div>
+                  <div className="w-2 h-2 rounded-full bg-stone-300 animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
+                  <div className="w-2 h-2 rounded-full bg-stone-300 animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
                 </div>
               )}
             </>
