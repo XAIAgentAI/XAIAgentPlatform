@@ -43,6 +43,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   const [searchResults, setSearchResults] = useState<Message[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const [goAnimate, setGoAnimate] = useState(false);
   
   const locale = useLocale();
   const t = useTranslations("chat");
@@ -73,13 +74,14 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           agent: sentence.agent || ''
         }));
         //console.log(data)
-  
+
         setMessages(newMessages);
+        setGoAnimate(true); // 在设置消息之后设置动画
       } catch (error) {
         console.log("Your internet is not available");
       }
     }
-  };  
+  };
 
   useEffect(() => {
     if (query.length > 0) {
@@ -175,7 +177,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           ) : (
             <>
               <div className="text-sm mt-[-2px] mb-[-1] text-stone-400 dark:text-white">{t("7daysago")}</div>
-              {uniqueConversations.length > 0 ? (
+              {goAnimate? (
                 <>
                   {uniqueConversations.map((msg: any) => (
                     <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="ml-[-1] pl-2 py-1 w-full text-stone-500 dark:text-white rounded-md hover:bg-stone-300 dark:hover:bg-zinc-900">
