@@ -206,7 +206,10 @@
     "nftBoostTip": "NFT等级 {tier}",
     "baseClaimableAmount": "基础可领取量",
     "nftBoostClaimableAmount": "NFT加成可领取量",
-    "claiming": "正在领取..."
+    "claiming": "正在领取...",
+    "level": "等级",
+    "actualStakedAmount": "NFT加成后的实际{symbol}数量",
+    "nftBoostAmount": "NFT加成的{symbol}数量"
   },
 
   "tokenInfo": {

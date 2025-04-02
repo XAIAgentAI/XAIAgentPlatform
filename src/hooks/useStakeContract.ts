@@ -29,6 +29,7 @@ type UserStakeInfo = {
   incrByNFTTier: string;        // NFT等级
   rewardForOrigin: string;      // 原始质押的奖励
   rewardForNFT: string;         // NFT增加的奖励
+  actualDepositedWithNFT: string; // NFT加成后的实际支付数量
 };
 
 // 检查是否是测试网环境
@@ -59,7 +60,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         endTime: 0,
         userDeposited: '',
         hasClaimed: false,
-        totalReward: ''
+        totalReward: '',
+        actualDepositedWithNFT: ''
       },
       isLoading: false,
       isPoolInfoLoading: false,
@@ -76,7 +78,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         depositIncrByNFT: '0',
         incrByNFTTier: '0',
         rewardForOrigin: '0',
-        rewardForNFT: '0'
+        rewardForNFT: '0',
+        actualDepositedWithNFT: '0'
       }),
     };
   }
@@ -179,7 +182,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     endTime: 0,
     userDeposited: '',
     hasClaimed: false,
-    totalReward: ''
+    totalReward: '',
+    actualDepositedWithNFT: ''
   });
 
   // Fetch pool info
@@ -202,7 +206,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const contractABI = getContractABI(symbol);
 
       // 分开调用每个函数以便更好地处理错误
-      let startTime, endTime, totalDeposited;
+      let startTime, endTime, totalDeposited, totalDepositedWithNFT;
 
       try {
         startTime = await publicClient.readContract({
@@ -237,6 +241,17 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalDeposited = null;
       }
 
+      try {
+        totalDepositedWithNFT = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'totalDepositedTokenInIncrByNFT',
+        });
+      } catch (error) {
+        console.error('Failed to fetch totalDepositedTokenInIncrByNFT:', error);
+        totalDepositedWithNFT = null;
+      }
+
       // 获取 totalReward
       let totalReward;
       try {
@@ -250,13 +265,14 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalReward = null;
       }
 
-      const newPoolInfo: any = {
+      const newPoolInfo = {
         totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
         startTime: startTime ? Number(startTime) : 0,
         endTime: endTime ? Number(endTime) : 0,
         userDeposited: '',
         hasClaimed: false,
-        totalReward: totalReward ? ethers.formatEther(totalReward?.toString()) : ''
+        totalReward: totalReward ? ethers.formatEther(totalReward?.toString()) : '',
+        actualDepositedWithNFT: totalDepositedWithNFT ? ethers.formatEther(totalDepositedWithNFT?.toString()) : ''
       };
 
       setPoolInfo(newPoolInfo);
@@ -268,7 +284,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         endTime: 0,
         userDeposited: '',
         hasClaimed: false,
-        totalReward: ''
+        totalReward: '',
+        actualDepositedWithNFT: ''
       });
     } finally {
       setIsPoolInfoLoading(false);
@@ -616,7 +633,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       depositIncrByNFT: '0',
       incrByNFTTier: '0',
       rewardForOrigin: '0',
-      rewardForNFT: '0'
+      rewardForNFT: '0',
+      actualDepositedWithNFT: '0'
     };
 
     try {
@@ -731,7 +749,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         depositIncrByNFT: depositIncrByNFT.toFixed(4), // NFT增加量
         rewardForOrigin,  // 原始质押的奖励
         rewardForNFT,    // NFT增加的奖励
-        incrByNFTTier: Number(incrInfo[2]).toString()             // NFT等级
+        incrByNFTTier: Number(incrInfo[2]).toString(),             // NFT等级
+        actualDepositedWithNFT: (Number(originDeposit) + Number(depositIncrByNFT)).toFixed(4) // NFT加成后的实际支付数量
       };
     } catch (error) {
       return {
@@ -743,7 +762,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         depositIncrByNFT: '0',
         incrByNFTTier: '0',
         rewardForOrigin: '0',
-        rewardForNFT: '0'
+        rewardForNFT: '0',
+        actualDepositedWithNFT: '0'
       };
     } finally {
       setIsUserStakeInfoLoading(false);

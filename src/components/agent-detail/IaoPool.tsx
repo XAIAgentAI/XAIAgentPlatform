@@ -16,6 +16,7 @@ import { currentChain, dbcTestnet } from '@/config/wagmi';
 import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, http, formatEther } from 'viem';
 import { useNetwork } from "@/hooks/useNetwork";
+import { NFT_CONFIGS } from "../agent-list/constants/nft-config";
 
 const showIAOReal = "true"
 
@@ -29,6 +30,7 @@ type UserStakeInfo = {
   incrByNFTTier: string;        // NFT等级
   rewardForOrigin: string;      // 原始质押的奖励
   rewardForNFT: string;         // NFT增加的奖励
+  actualDepositedWithNFT: string; // NFT加成后的实际支付数量
 };
 
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
@@ -48,7 +50,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     depositIncrByNFT: "0",
     incrByNFTTier: "0",
     rewardForOrigin: "0",
-    rewardForNFT: "0"
+    rewardForNFT: "0",
+    actualDepositedWithNFT: "0"
   });
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
@@ -274,7 +277,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       {isIAOEnded ? (
         // Pool data after IAO ends
         <>
-          <h2 className="text-xl font-bold mb-6">IAO has ended, completed data:</h2>
+          <h2 className="text-xl font-bold mb-6">{t('iaoCompletedData')}</h2>
 
           <div className="space-y-4">
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
@@ -291,7 +294,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 {t('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
-                {Number(poolInfo?.totalDeposited)?.toLocaleString()}
+                {isPoolInfoLoading ? "--" : Number(poolInfo?.actualDepositedWithNFT)?.toLocaleString()}
               </span>
             </div>
           </div>
@@ -398,43 +401,82 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
                   {/* 募资结束后，投资数量统计个人信息 */}
                   {!!userStakeInfo.userDeposited && (
-                    <div className="space-y-2 mt-4">
+                    <div className="space-y-3 mt-4">
                       {/* 用户投资统计 */}
-                      <p className="text-sm text-muted-foreground">
-                        {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-                        <span className="text-[#F47521] ml-1">
-                          {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
-                        </span>
-                      </p>
-
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                          <span className="text-[#F47521] ml-1">
+                            {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                          </span>
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {t('nftBoostAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                          <span className="text-[#F47521] ml-1">
+                            {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.depositIncrByNFT).toLocaleString()}
+                          </span>
+                        </p>
+                      </div>
 
                       {/* 可领取/已领取奖励 */}
                       {userStakeInfo.hasClaimed ? (
                         <div className="space-y-1">
                           <p className="text-sm text-muted-foreground">
-                            {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                            {t('claimedAmount', { symbol: agent.symbol })}: 
+                            <span className="text-[#F47521] ml-1">
+                              {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}
+                            </span>
                           </p>
-                          <div className="pl-4">
+                          <div className="pl-4 space-y-1">
                             <p className="text-sm text-muted-foreground">
-                              {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimedAmount) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                              {t('baseClaimableAmount')}: 
+                              <span className="text-[#F47521] ml-1">
+                                {isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}
+                              </span>
                             </p>
-                            <p className="text-sm text-muted-foreground">
-                              {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
-                            </p>
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm text-muted-foreground">
+                                {t('nftBoostClaimableAmount')}: 
+                                <span className="text-[#F47521] ml-1">
+                                  {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}
+                                </span>
+                                {!isUserStakeInfoLoading && userStakeInfo.incrByNFTTier !== "0" && (
+                                  <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-medium ml-2">
+                                    {NFT_CONFIGS.find(config => config.id === Number(userStakeInfo.incrByNFTTier))?.name || 'Node'}
+                                  </span>
+                                )}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       ) : (
                         <div className="space-y-1">
                           <p className="text-sm text-muted-foreground">
-                            {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                            {t('claimableAmount', { symbol: agent.symbol })}: 
+                            <span className="text-[#F47521] ml-1">
+                              {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}
+                            </span>
                           </p>
-                          <div className="pl-4">
+                          <div className="pl-4 space-y-1">
                             <p className="text-sm text-muted-foreground">
-                              {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimableXAA) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                              {t('baseClaimableAmount')}: 
+                              <span className="text-[#F47521] ml-1">
+                                {isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}
+                              </span>
                             </p>
-                            <p className="text-sm text-muted-foreground">
-                              {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
-                            </p>
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm text-muted-foreground">
+                                {t('nftBoostClaimableAmount')}: 
+                                <span className="text-[#F47521] ml-1">
+                                  {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}
+                                </span>
+                                {!isUserStakeInfoLoading && userStakeInfo.incrByNFTTier !== "0" && (
+                                  <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-medium ml-2">
+                                    {NFT_CONFIGS.find(config => config.id === Number(userStakeInfo.incrByNFTTier))?.name || 'Node'}
+                                  </span>
+                                )}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       )}
@@ -466,7 +508,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
               {
                 poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
-                  {isPoolInfoLoading || !poolInfo?.totalDeposited == null ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
+                  {isPoolInfoLoading ? "--" : Number(poolInfo.actualDepositedWithNFT).toLocaleString()}
                 </span>
                 ) :
                   <span className="font-semibold text-[#F47521] break-all">
@@ -585,42 +627,82 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
           {/* 募资结束后，投资数量统计个人信息 */}
           {!!userStakeInfo.userDeposited && (
-            <div className="space-y-2 mt-4">
+            <div className="space-y-3 mt-4">
               {/* 用户投资统计 */}
-              <p className="text-sm text-muted-foreground">
-                {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-                <span className="text-[#F47521] ml-1">
-                  {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
-                </span>
-              </p>
+              <div>
+                <p className="text-sm text-muted-foreground">
+                  {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                  <span className="text-[#F47521] ml-1">
+                    {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t('nftBoostAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+                  <span className="text-[#F47521] ml-1">
+                    {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.depositIncrByNFT).toLocaleString()}
+                  </span>
+                </p>
+              </div>
 
               {/* 可领取/已领取奖励 */}
               {userStakeInfo.hasClaimed ? (
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
+                    {t('claimedAmount', { symbol: agent.symbol })}: 
+                    <span className="text-[#F47521] ml-1">
+                      {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}
+                    </span>
                   </p>
-                  <div className="pl-4">
+                  <div className="pl-4 space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}</span>
+                      {t('baseClaimableAmount')}: 
+                      <span className="text-[#F47521] ml-1">
+                        {isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}
+                      </span>
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}</span>
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-muted-foreground">
+                        {t('nftBoostClaimableAmount')}: 
+                        <span className="text-[#F47521] ml-1">
+                          {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}
+                        </span>
+                        {!isUserStakeInfoLoading && userStakeInfo.incrByNFTTier !== "0" && (
+                          <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-medium ml-2">
+                            {NFT_CONFIGS.find(config => config.id === Number(userStakeInfo.incrByNFTTier))?.name || 'Node'}
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
+                    {t('claimableAmount', { symbol: agent.symbol })}: 
+                    <span className="text-[#F47521] ml-1">
+                      {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}
+                    </span>
                   </p>
-                  <div className="pl-4">
+                  <div className="pl-4 space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}</span>
+                      {t('baseClaimableAmount')}: 
+                      <span className="text-[#F47521] ml-1">
+                        {isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.rewardForOrigin)).toLocaleString()}
+                      </span>
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}</span>
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-muted-foreground">
+                        {t('nftBoostClaimableAmount')}: 
+                        <span className="text-[#F47521] ml-1">
+                          {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.rewardForNFT).toLocaleString()}
+                        </span>
+                        {!isUserStakeInfoLoading && userStakeInfo.incrByNFTTier !== "0" && (
+                          <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full text-xs font-medium ml-2">
+                            {NFT_CONFIGS.find(config => config.id === Number(userStakeInfo.incrByNFTTier))?.name || 'Node'}
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
