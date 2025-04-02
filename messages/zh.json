@@ -301,6 +301,11 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
+    "Xaiagent": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体",
+    "StyleID": "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格",
+    "LogoLift": "Logo生成，通过文字对话可以生成各种样式的Logo",
+    "PicSpan": "扩展图片，可以按照想要的比例进行任意的图片扩展",
+    "selectagent": "选择一个智能体",
     "inputHolder": "发送消息",
     "inputInfo": "AI智能体可能会出错。请检查重要信息。",
     "Data": {
