@@ -58,7 +58,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
         </p>
         <div className="mt-6 flex flex-col items-center justify-center space-y-2">
           <p className="text-center min-w-[72vw] max-w-[72vw]">{agentDescriptions[selectedAgent]?.prompt}</p>
-          <div className="flex compress flex-wrap justify-center gap-4 max-h-[240px] overflow-y-hidden">
+          <div className="flex compress flex-wrap justify-center gap-4 max-h-[240px] overflow-y-hidden hide-scrollbar">
             {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
               <div key={index} 
                    className="bg-stone-200 hover:bg-stone-300 dark:hover:bg-zinc-700 rounded-xl dark:bg-zinc-800 px-2 py-6 text-stone-700 dark:text-neutral-300 font-light text-sm text-center flex items-center justify-center w-[210px] md:w-[140px] lg:w-[180px] min-h-[5rem]"

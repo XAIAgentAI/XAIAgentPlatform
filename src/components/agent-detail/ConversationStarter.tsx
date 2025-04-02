@@ -74,7 +74,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
           <div
             key={index}
             className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
-            onClick={(suggestion)=>{window.open(`/${locale}/chat?prompt=${suggestion}`,'_blank')}}
+            onClick={()=>{window.open(`/${locale}/chat?prompt=${suggestion}`,'_blank')}}
           >
             {suggestion}
           </div>
