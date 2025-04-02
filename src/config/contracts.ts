@@ -1275,6 +1275,25 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "getOriginReward",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "getRemainingTime",
         "outputs": [
@@ -1772,7 +1791,26 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
                 "type": "uint256"
             }
         ],
-        "name": "Deposit",
+        "name": "DepositTokenIn",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "DepositTokenInIncrByNFT",
         "type": "event"
     },
     {
@@ -1866,6 +1904,25 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "admins",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "claimDepositedToken",
         "outputs": [],
@@ -1919,6 +1976,54 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "getIncrInfo",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "orginDeposit",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "depositIncrByNFT",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "incrByNFTTier",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "getOriginReward",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "getRemainingTime",
         "outputs": [
@@ -1932,7 +2037,13 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
         "name": "getReward",
         "outputs": [
             {
@@ -1994,6 +2105,11 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
                 "internalType": "uint256",
                 "name": "_totalReward",
                 "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_xaaNFTHolder",
+                "type": "address"
             }
         ],
         "name": "initialize",
@@ -2064,11 +2180,73 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
         "inputs": [
             {
                 "internalType": "address",
+                "name": "_admin",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "_isAdmin",
+                "type": "bool"
+            }
+        ],
+        "name": "setAdmin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "_rewardToken",
                 "type": "address"
             }
         ],
         "name": "setRewardToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_startTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_endTime",
+                "type": "uint256"
+            }
+        ],
+        "name": "setTimeFor",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_tokenIn",
+                "type": "address"
+            }
+        ],
+        "name": "setTokenIn",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_xaaNFTHolder",
+                "type": "address"
+            }
+        ],
+        "name": "setXaaNFTHolder",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -2095,13 +2273,6 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
     },
     {
         "inputs": [],
-        "name": "test",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
         "name": "tokenIn",
         "outputs": [
             {
@@ -2116,6 +2287,19 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
     {
         "inputs": [],
         "name": "totalDepositedTokenIn",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalDepositedTokenInIncrByNFT",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -2184,6 +2368,38 @@ export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "userDepositsIncrByNFT",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "xaaNFTHolder",
+        "outputs": [
+            {
+                "internalType": "contract IXAANFTHolder",
+                "name": "",
+                "type": "address"
             }
         ],
         "stateMutability": "view",

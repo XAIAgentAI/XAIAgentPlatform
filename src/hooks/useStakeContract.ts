@@ -695,6 +695,14 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress]
       });
 
+      // 获取原始奖励
+      const originReward = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'getOriginReward',
+        args: [formattedAddress]
+      });
+
       // 6. 计算可领取奖励
       let claimableXAA = '0';
       let claimedAmount = '0';
@@ -721,24 +729,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const formattedUserReward = Number(ethers.formatEther(userReward));
       console.log('userReward formatted:', formattedUserReward);
       
-      // 添加安全的计算逻辑
-      let rewardForOrigin = '0';
-      let rewardForNFT = '0';
-      
-      // 如果总质押量为0，则奖励也为0
-      if (formattedUserReward > 0) {
-        if (depositIncrByNFT > 0) {
-          // 如果有NFT增加量，按比例分配奖励
-          const ratio = originDeposit / depositIncrByNFT;
-          rewardForOrigin = (ratio * formattedUserReward).toFixed(4);
-          rewardForNFT = ((1 - ratio) * formattedUserReward).toFixed(4);
-        } else if (originDeposit > 0) {
-          // 如果只有原始质押，没有NFT增加量，所有奖励都归属于原始质押
-          rewardForOrigin = formattedUserReward.toFixed(4);
-          rewardForNFT = '0';
-        }
-        // 如果都是0，保持默认的0值
-      }
+      // 使用合约返回的原始奖励
+      const rewardForOrigin = Number(ethers.formatEther(originReward)).toFixed(4);
+      // NFT奖励 = 总奖励 - 原始奖励
+      const rewardForNFT = (formattedUserReward - Number(rewardForOrigin)).toFixed(4);
 
       return {
         userDeposited: Number(ethers.formatEther(userDeposited)).toFixed(4),  // 实际质押量
@@ -753,6 +747,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         actualDepositedWithNFT: (Number(originDeposit) + Number(depositIncrByNFT)).toFixed(4) // NFT加成后的实际支付数量
       };
     } catch (error) {
+      console.error('getUserStakeInfo failed:', error);
       return {
         userDeposited: '0',
         claimableXAA: '0',
