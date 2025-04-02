@@ -279,7 +279,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 {t('iaoReleasedAmount', { symbol: agent.symbol })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
-                {Number(agent.iaoTokenAmount)?.toLocaleString()}
+                {Number(poolInfo.totalReward)?.toLocaleString()}
               </span>
             </div>
 
