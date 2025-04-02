@@ -27,6 +27,8 @@ type UserStakeInfo = {
   originDeposit: string;         // 原始质押量
   depositIncrByNFT: string;      // NFT带来的增加量
   incrByNFTTier: string;        // NFT等级
+  rewardForOrigin: number;      // 原始质押的奖励
+  rewardForNFT: number;         // NFT增加的奖励
 };
 
 // 检查是否是测试网环境
@@ -72,7 +74,9 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         claimedAmount: '0',
         originDeposit: '0',
         depositIncrByNFT: '0',
-        incrByNFTTier: '0'
+        incrByNFTTier: '0',
+        rewardForOrigin: 0,
+        rewardForNFT: 0
       }),
     };
   }
@@ -610,7 +614,9 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       claimedAmount: '0',
       originDeposit: '0',
       depositIncrByNFT: '0',
-      incrByNFTTier: '0'
+      incrByNFTTier: '0',
+      rewardForOrigin: 0,
+      rewardForNFT: 0
     };
 
     try {
@@ -671,18 +677,15 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress]
       });
 
-
-
       // 6. 计算可领取奖励
       let claimableXAA = '0';
       let claimedAmount = '0';
 
-      if (totalDeposited !== BigInt(0)) {
-        // // 使用 NFT 增加后的总量计算奖励
-        // const totalEffectiveDeposit = incrInfo[0] + incrInfo[1];
-        // const calculatedAmount = (totalEffectiveDeposit * totalReward) / totalDeposited;
-        // const formattedAmount = ethers.formatEther(calculatedAmount);
+      // 使用 NFT 增加后的总量计算奖励
+      const originDeposit = Number(ethers.formatEther(incrInfo[0]))   // 原始质押量
+      const depositIncrByNFT = Number(ethers.formatEther(incrInfo[1]))// NFT增加量
 
+      if (totalDeposited !== BigInt(0)) {
         if (hasClaimed) {
           claimedAmount = userReward.toString();
           claimableXAA = '0';
@@ -697,8 +700,12 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         claimableXAA: Number(ethers.formatEther(BigInt(claimableXAA))).toFixed(4),  // 可领取奖励
         hasClaimed,                                        // 是否已领取
         claimedAmount: Number(ethers.formatEther(BigInt(claimedAmount))).toFixed(4),  // 已领取数量
-        originDeposit: Number(ethers.formatEther(incrInfo[0])).toFixed(4),    // 原始质押量
-        depositIncrByNFT: Number(ethers.formatEther(incrInfo[1])).toFixed(4), // NFT增加量
+        originDeposit: originDeposit.toFixed(4),    // 原始质押量
+        depositIncrByNFT: depositIncrByNFT.toFixed(4), // NFT增加量
+
+        rewardForOrigin: originDeposit /depositIncrByNFT * Number(ethers.formatEther(userReward)),
+        rewardForNFT: (1- originDeposit /depositIncrByNFT) * Number(ethers.formatEther(userReward)),
+
         incrByNFTTier: Number(incrInfo[2]).toString()             // NFT等级
       };
     } catch (error) {
@@ -709,7 +716,9 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         claimedAmount: '0',
         originDeposit: '0',
         depositIncrByNFT: '0',
-        incrByNFTTier: '0'
+        incrByNFTTier: '0',
+        rewardForOrigin: 0,
+        rewardForNFT: 0
       };
     } finally {
       setIsUserStakeInfoLoading(false);
