@@ -19,19 +19,32 @@ import { useNetwork } from "@/hooks/useNetwork";
 
 const showIAOReal = "true"
 
+type UserStakeInfo = {
+  userDeposited: string;          // 用户实际质押量
+  claimableXAA: string;          // 可领取的奖励数量
+  hasClaimed: boolean;           // 是否已领取
+  claimedAmount: string;         // 已领取数量
+  originDeposit: string;         // 原始质押量
+  depositIncrByNFT: string;      // NFT带来的增加量
+  incrByNFTTier: string;        // NFT等级
+};
+
 export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
-  // 检查必要的合约地址是否存在
+  // Check if required contract addresses exist
   const iaoContractAddress = agent?.iaoContractAddress || '';
   const tokenAddress = agent?.tokenAddress || '';
 
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
   const [xaaBalance, setXaaBalance] = useState<string>("0");
-  const [userStakeInfo, setUserStakeInfo] = useState({
+  const [userStakeInfo, setUserStakeInfo] = useState<UserStakeInfo>({
     userDeposited: "0",
     claimableXAA: "0",
     hasClaimed: false,
-    claimedAmount: "0"
+    claimedAmount: "0",
+    originDeposit: "0",
+    depositIncrByNFT: "0",
+    incrByNFTTier: "0"
   });
   const { address, isConnected } = useAppKitAccount();
   const { isAuthenticated } = useAuth();
@@ -50,7 +63,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const { switchChain } = useSwitchChain();
   const { ensureCorrectNetwork } = useNetwork();
 
-  // 获取用户余额
+  // Get user balance
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
       setMaxAmount("0");
@@ -64,13 +77,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         transport: http(),
       });
 
-      // 获取DBC余额
+      // Get DBC balance
       const dbcBalance = await publicClient.getBalance({
         address: address as `0x${string}`
       });
       setMaxAmount(formatEther(dbcBalance));
 
-      // 获取XAA余额
+      // Get XAA balance
       const ERC20_ABI = [
         {
           "constant": true,
@@ -102,20 +115,20 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         });
         setXaaBalance(formatEther(xaaBalance));
       } catch (error) {
-        console.error('获取XAA余额失败:', error);
+        console.error('Failed to get XAA balance:', error);
         setXaaBalance("0");
       }
     } catch (error) {
-      console.error('获取余额失败:', error);
+      console.error('Failed to get balance:', error);
       setMaxAmount("0");
       setXaaBalance("0");
     }
   }, [address, isConnected]);
 
-  // 在组件加载和地址变化时获取余额
+  // Load balance on component mount and address change
   useEffect(() => {
     fetchUserBalance();
-    // 设置定时器，每30秒更新一次余额
+    // Set timer to update balance every 30 seconds
     const timer = setInterval(() => {
       fetchUserBalance();
     }, 30000);
@@ -125,10 +138,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // 当前最大可用金额
+    // Current maximum available amount
     const currentMaxAmount = agent.symbol === 'XAA' ? maxAmount : xaaBalance;
 
-    // 只允许数字和一个小数点，且小数位不超过18位
+    // Only allow numbers and one decimal point, with max 18 decimal places
     if (value === '' || (
       /^\d*\.?\d*$/.test(value) &&
       Number(value) >= 0 &&
@@ -138,7 +151,10 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         setDbcAmount(currentMaxAmount);
         toast({
           title: t('error'),
-          description: t('insufficientBalance', { amount: currentMaxAmount }),
+          description: t('insufficientBalance', {
+            amount: currentMaxAmount,
+            symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA'
+          }),
         });
       } else {
         setDbcAmount(value);
@@ -147,7 +163,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   };
 
   const handleSetMaxAmount = () => {
-    // 如果symbol是XAA，使用DBC的最大值；否则使用XAA的最大值
+    // If symbol is XAA, use DBC max amount; otherwise use XAA max amount
     if (agent.symbol === 'XAA') {
       setDbcAmount(maxAmount);
     } else {
@@ -164,11 +180,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       return;
     }
 
-    // 检查并尝试切换网络
+    // Check and try to switch network
     const isCorrectNetwork = await ensureCorrectNetwork();
     if (!isCorrectNetwork) return;
 
-    // 1. 验证输入值是否为有效数字
+    // 1. Validate input value
     if (!dbcAmount || isNaN(Number(dbcAmount)) || Number(dbcAmount) <= 0) {
       toast({
         title: t('error'),
@@ -177,12 +193,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       return;
     }
 
-    // 2. 格式化数字，去除多余小数位
-    const formattedAmount = Number(dbcAmount).toFixed(18); // DBC最多18位小数
+    // 2. Format number, remove extra decimal places
+    const formattedAmount = Number(dbcAmount).toFixed(18); // DBC max 18 decimal places
 
     try {
       const result = await stake(formattedAmount, agent.symbol, agent.tokenAddress);
-      // 如果用户拒绝签名，stake 函数会抛出错误，不会执行到这里
+      // If user rejects signature, stake function will throw error and won't execute here
       if (result && result.hash) {
         toast({
           variant: "default",
@@ -204,31 +220,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const isDepositPeriod = true;
   const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
 
-  // useEffect(() => {
-  //   const fetchPoolData = async () => {
-  //     try {
-  //       await new Promise(resolve => setTimeout(resolve, 1000)); // 模拟数据加载
-  //     } catch (error) {
-  //       console.error('Failed to fetch pool data:', error);
-  //     }
-  //   };
-
-  //   fetchPoolData();
-  // }, []);
-
   const fetchUserStakeInfo = async () => {
     if (!isAuthenticated) return;
     const info = await getUserStakeInfo();
     console.log("fetchUserStakeInfo", info);
-
-
-
     setUserStakeInfo(info);
   };
 
-  // 获取用户质押信息
+  // Get user stake info
   useEffect(() => {
-
     fetchUserStakeInfo();
   }, [isAuthenticated, getUserStakeInfo,]);
 
@@ -269,9 +269,9 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
 
       {isIAOEnded ? (
-        // 募资结束后，显示的池子数据
+        // Pool data after IAO ends
         <>
-          <h2 className="text-xl font-bold mb-6">IAO已结束，完成的数据:</h2>
+          <h2 className="text-xl font-bold mb-6">IAO has ended, completed data:</h2>
 
           <div className="space-y-4">
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
@@ -321,15 +321,19 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           {
             userStakeInfo.hasClaimed && poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 7 * 24 * 60 * 60 * 1000 ? (<>
             </>) :
-              // ({/* 募资结束后，Claim按钮 */ }
+              // ({/* Claim button after IAO ends */ }
               (isIAOEnded && isConnected) ? (
                 <>
                   <Button
                     className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
                     onClick={async () => {
                       try {
+
+
                         const result: any = await claimRewards();
                         if (result?.success) {
+                          // Refresh user stake info after successful claim
+                          await fetchUserStakeInfo();
                           toast({
                             title: t('claimSuccess'),
                             description: (
@@ -386,29 +390,51 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                     }}
                     disabled={isStakeLoading || userStakeInfo.hasClaimed || Number(userStakeInfo.userDeposited) <= 0}
                   >
-                    {userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
+                    {isStakeLoading ? t('claiming') : userStakeInfo.hasClaimed ? t('claimed') : t('claim')}
                   </Button>
 
                   {/* 募资结束后，投资数量统计个人信息 */}
                   {!!userStakeInfo.userDeposited && (
                     <div className="space-y-2 mt-4">
+                      {/* 用户投资统计 */}
                       <p className="text-sm text-muted-foreground">
                         {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                         <span className="text-[#F47521] ml-1">
                           {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
                         </span>
                       </p>
-                      <p className="text-sm text-muted-foreground">
-                        {userStakeInfo.hasClaimed ? (
-                          <>
+
+
+                      {/* 可领取/已领取奖励 */}
+                      {userStakeInfo.hasClaimed ? (
+                        <div className="space-y-1">
+                          <p className="text-sm text-muted-foreground">
                             {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
-                          </>
-                        ) : (
-                          <>
+                          </p>
+                          <div className="pl-4">
+                            <p className="text-sm text-muted-foreground">
+                              {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimedAmount) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <p className="text-sm text-muted-foreground">
                             {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
-                          </>
-                        )}
-                      </p>
+                          </p>
+                          <div className="pl-4">
+                            <p className="text-sm text-muted-foreground">
+                              {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimableXAA) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </>
@@ -418,7 +444,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         </>
       )
         :
-        // 募资结束前，显示的池子数据
+        // Pool data before IAO ends
 
         <>
           {/* 募资进行中，显示的池子数据 */}
@@ -458,13 +484,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 isPoolInfoLoading ? (
                   <span className="font-semibold text-[#F47521] break-all">--</span>
                 ) : Date.now() < poolInfo.startTime * 1000 ? (
-                  // 显示距离开始的倒计时
+                  // Show countdown to start
                   <Countdown
                     remainingTime={Math.max(0, poolInfo.startTime * 1000 - Date.now())}
                     className="font-semibold text-[#F47521] break-all"
                   />
                 ) : poolInfo?.endTime ? (
-                  // 显示距离结束的倒计时
+                  // Show countdown to end
                   <Countdown
                     remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
                     className="font-semibold text-[#F47521] break-all"
@@ -557,23 +583,44 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           {/* 募资结束后，投资数量统计个人信息 */}
           {!!userStakeInfo.userDeposited && (
             <div className="space-y-2 mt-4">
+              {/* 用户投资统计 */}
               <p className="text-sm text-muted-foreground">
                 {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                 <span className="text-[#F47521] ml-1">
                   {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
                 </span>
               </p>
-              <p className="text-sm text-muted-foreground">
-                {userStakeInfo.hasClaimed ? (
-                  <>
+
+              {/* 可领取/已领取奖励 */}
+              {userStakeInfo.hasClaimed ? (
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">
                     {t('claimedAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimedAmount).toLocaleString()}</span>
-                  </>
-                ) : (
-                  <>
+                  </p>
+                  <div className="pl-4">
+                    <p className="text-sm text-muted-foreground">
+                      {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimedAmount) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">
                     {t('claimableAmount', { symbol: agent.symbol })}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.claimableXAA).toLocaleString()}</span>
-                  </>
-                )}
-              </p>
+                  </p>
+                  <div className="pl-4">
+                    <p className="text-sm text-muted-foreground">
+                      {t('baseClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : (Number(userStakeInfo.claimableXAA) - Number(userStakeInfo.incrByNFTTier)).toLocaleString()}</span>
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('nftBoostClaimableAmount')}: <span className="text-[#F47521] ml-1">{isUserStakeInfoLoading ? "--" : Number(userStakeInfo.incrByNFTTier).toLocaleString()}</span>
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

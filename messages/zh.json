@@ -171,7 +171,7 @@
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",
     "poolDynamicTip": "随着IAO池子中的{investSymbol}数量增加，对应获得{symbol}数量在减少",
     "maxButton": "最大",
-    "insufficientBalance": "余额不足，最大可用金额: {amount} DBC",
+    "insufficientBalance": "余额不足，最大可用金额: {amount} {symbol}",
     "stakedAmount": "已支付的 {symbol} 数量",
     "stakeSuccessful": "购买成功！",
     "stakeFailed": "购买失败，请重试",
@@ -199,7 +199,14 @@
     "iaoParticipatedAmount": "参与 IAO 的 {symbol} 数量",
     "currentLpPoolData": "当前LP池数据",
     "lpPoolTokenAmount": "LP 池中的 {symbol} 数量",
-    "lpPoolBaseAmount": "LP 池中的 {symbol} 数量"
+    "lpPoolBaseAmount": "LP 池中的 {symbol} 数量",
+    "originDeposit": "原始质押量",
+    "depositIncrByNFT": "NFT加成量",
+    "incrByNFTTier": "NFT等级",
+    "nftBoostTip": "NFT等级 {tier}",
+    "baseClaimableAmount": "基础可领取量",
+    "nftBoostClaimableAmount": "NFT加成可领取量",
+    "claiming": "正在领取..."
   },
 
   "tokenInfo": {

@@ -20,10 +20,13 @@ type ToastMessage = {
 };
 
 type UserStakeInfo = {
-  userDeposited: string;
-  claimableXAA: string;
-  hasClaimed: boolean;
-  claimedAmount: string;
+  userDeposited: string;          // 用户实际质押量
+  claimableXAA: string;          // 可领取的奖励数量
+  hasClaimed: boolean;           // 是否已领取
+  claimedAmount: string;         // 已领取数量
+  originDeposit: string;         // 原始质押量
+  depositIncrByNFT: string;      // NFT带来的增加量
+  incrByNFTTier: string;        // NFT等级
 };
 
 // 检查是否是测试网环境
@@ -66,7 +69,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         userDeposited: '0',
         claimableXAA: '0',
         hasClaimed: false,
-        claimedAmount: '0'
+        claimedAmount: '0',
+        originDeposit: '0',
+        depositIncrByNFT: '0',
+        incrByNFTTier: '0'
       }),
     };
   }
@@ -601,7 +607,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       userDeposited: '0',
       claimableXAA: '0',
       hasClaimed: false,
-      claimedAmount: '0'
+      claimedAmount: '0',
+      originDeposit: '0',
+      depositIncrByNFT: '0',
+      incrByNFTTier: '0'
     };
 
     try {
@@ -615,12 +624,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       });
 
       const contractABI = getContractABI(symbol);
-      const totalDeposited = await publicClient.readContract({
-        address: iaoContractAddress,
-        abi: contractABI,
-        functionName: totalDepositedFunctionName,
-      });
-
+      
+      // 1. 获取用户实际质押量
       const userDeposited = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
@@ -628,6 +633,22 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress],
       });
 
+      // 2. 获取总质押量
+      const totalDeposited = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: totalDepositedFunctionName,
+      });
+
+      // 3. 获取用户的NFT增加信息
+      const incrInfo = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'getIncrInfo',
+        args: [formattedAddress]
+      });
+
+      // 4. 获取用户是否已领取
       const hasClaimed = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
@@ -635,40 +656,60 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         args: [formattedAddress],
       });
 
+      // 5. 获取总奖励
       const totalReward = await publicClient.readContract({
         address: iaoContractAddress,
         abi: contractABI,
         functionName: getTotalRewardNumberFunctionName()
       });
+      
+      // 用户应该获取的总奖励。getReward
+      const userReward = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'getReward',
+        args: [formattedAddress]
+      });
 
+
+
+      // 6. 计算可领取奖励
       let claimableXAA = '0';
       let claimedAmount = '0';
 
       if (totalDeposited !== BigInt(0)) {
-        const calculatedAmount = (userDeposited * totalReward) / totalDeposited;
-        const formattedAmount = ethers.formatEther(calculatedAmount);
+        // // 使用 NFT 增加后的总量计算奖励
+        // const totalEffectiveDeposit = incrInfo[0] + incrInfo[1];
+        // const calculatedAmount = (totalEffectiveDeposit * totalReward) / totalDeposited;
+        // const formattedAmount = ethers.formatEther(calculatedAmount);
 
         if (hasClaimed) {
-          claimedAmount = formattedAmount;
+          claimedAmount = userReward.toString();
           claimableXAA = '0';
         } else {
-          claimableXAA = formattedAmount;
+          claimableXAA = userReward.toString();
           claimedAmount = '0';
         }
       }
 
       return {
-        userDeposited: ethers.formatEther(userDeposited),
-        claimableXAA,
-        hasClaimed,
-        claimedAmount,
+        userDeposited: Number(ethers.formatEther(userDeposited)).toFixed(4),  // 实际质押量
+        claimableXAA: Number(ethers.formatEther(BigInt(claimableXAA))).toFixed(4),  // 可领取奖励
+        hasClaimed,                                        // 是否已领取
+        claimedAmount: Number(ethers.formatEther(BigInt(claimedAmount))).toFixed(4),  // 已领取数量
+        originDeposit: Number(ethers.formatEther(incrInfo[0])).toFixed(4),    // 原始质押量
+        depositIncrByNFT: Number(ethers.formatEther(incrInfo[1])).toFixed(4), // NFT增加量
+        incrByNFTTier: Number(incrInfo[2]).toString()             // NFT等级
       };
     } catch (error) {
       return {
         userDeposited: '0',
         claimableXAA: '0',
         hasClaimed: false,
-        claimedAmount: '0'
+        claimedAmount: '0',
+        originDeposit: '0',
+        depositIncrByNFT: '0',
+        incrByNFTTier: '0'
       };
     } finally {
       setIsUserStakeInfoLoading(false);

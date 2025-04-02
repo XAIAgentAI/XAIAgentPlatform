@@ -170,7 +170,7 @@
     "importTokenAddress": "Please import the Token address in MetaMask to view:",
     "poolDynamicTip": "As the amount of {investSymbol} in the IAO pool increases, the corresponding amount of {symbol} decreases",
     "maxButton": "Max",
-    "insufficientBalance": "Insufficient balance, maximum available amount: {amount} DBC",
+    "insufficientBalance": "Insufficient balance, maximum available amount: {amount} {symbol}",
     "stakedAmount": "Paid {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
     "stakeFailed": "Purchase failed, please try again",
@@ -198,7 +198,14 @@
     "iaoParticipatedAmount": "IAO Participated {symbol} Amount",
     "currentLpPoolData": "Current LP Pool Data",
     "lpPoolTokenAmount": "LP Pool {symbol} Amount",
-    "lpPoolBaseAmount": "LP Pool {symbol} Amount"
+    "lpPoolBaseAmount": "LP Pool {symbol} Amount",
+    "originDeposit": "Original Stake Amount",
+    "depositIncrByNFT": "NFT Boost Amount",
+    "incrByNFTTier": "NFT Tier",
+    "nftBoostTip": "NFT Tier {tier}",
+    "baseClaimableAmount": "Base Claimable Amount",
+    "nftBoostClaimableAmount": "NFT Boost Claimable Amount",
+    "claiming": "Claiming..."
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
