@@ -63,8 +63,8 @@ const InputComponent: React.FC<InputComponentProps> = ({ prompt, setIsNew, conve
               type="submit"
               onClick={handleSendClick}
               disabled={!isSubmitEnabled}
-              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full bg-[hsl(0,0%,81%)] ${
-                isSubmitEnabled ? 'bg-opacity-70' : 'bg-opacity-30'
+              className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full ${
+                isSubmitEnabled ? 'bg-black' : 'bg-[hsl(0,0%,51%)]'
               }`}
             >
               <img
