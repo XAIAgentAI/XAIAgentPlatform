@@ -85,7 +85,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[22px] flex flex-col space-y-6 overflow-y-auto max-h-[76vh]">
+      <div className="relative z-1 top-[22px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh]">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -128,13 +128,13 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   })() 
                   : `${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`}
               </p>
-
             </div>
           </div>
         ))}
         {isLoading && (
-          <div className={`flex justify-center`}>
-            <p className="text-sm text-gray-500">Thinking...</p>
+          <div className="flex flex-row">
+            <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
+            <div className='text-foreground ml-2 text-md font-semibold animate-chatthink'>{agent || "Xaiagent"}</div>
           </div>
         )}
         <div ref={messagesEndRef} />

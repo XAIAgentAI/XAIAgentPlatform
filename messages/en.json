@@ -358,6 +358,44 @@
         ]
       }
      },
+     "data": {
+        "Xaiagent": {
+          "description":"XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
+          "prompts":[
+            "Help me create an AI Agent",
+            "What functions do you have?",
+            "What types of AI Agents can you create?",
+            "Can you tell me how to use xx as an Agent?"
+          ]
+        },
+        "StyleID": {
+          "description":"Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
+          "prompts":[
+            "I want to generate a vintage style photo. Can you help me design the style and background",
+            "Can I adjust my expression and posture in this photo?",
+            "If I want to generate a set of photos, such as Japanese, fresh, and sci-fi styles, how do I do it?",
+            "Can this AI keep my appearance consistent? For example, I can maintain my characteristics in different styles"
+          ]
+        },
+        "LogoLift": {
+          "description":"Logo generation, various styles of logos can be generated through text dialogue",
+          "prompts":[
+            "I want a logo with a strong sense of technology, mainly in blue and purple colors, with a futuristic feel. Can you help me design one?",
+            "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain projects",
+            "I hope the logo can embody the concepts of decentralization and artificial intelligence. Can we try several different design styles?",
+            "Can you generate a logo with dynamic visual effects that is suitable for social media avatars?"
+          ]
+        },
+        "PicSpan": {
+          "description":"Expand the image to any desired scale",
+          "prompts":[
+            "Can you help me expand the left and bottom of this image while maintaining its original style?",
+            "Can you expand this image to a 16:9 widescreen ratio while keeping the subject centered?",
+            "Can we make the extended parts more creative, such as adding some details related to the original image?",
+            "Can the expanded image blend more naturally? If there are any inconsistencies, can you optimize them?"
+          ]
+        }
+     },
      "explore":"Explore AI Agent",
       "trade":"Trade AI Agent",
       "signup":"Signup",
