@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import AgentSelector from './AgentSelector'; 
 import Image from 'next/image';
@@ -34,15 +34,28 @@ interface HeaderComponentProps {
   conversations: { [id: string]: Message[] };
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setIsNew: React.Dispatch<React.SetStateAction<string>>;
+  agentMarket: any;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserName, setIsNew, convid, setUserStatus, userName, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+  const [index,setIndex] = useState(0);
   const src: {[key:string]:string} = {
     "Xaiagent":"/logo/XAIAgent.png",
     "StyleID":"/logo/StyleID.png",
     "LogoLift":"/logo/LogoLift.png",
     "PicSpan":"/logo/PicSpan.png"
-  }
+  };
+  useEffect(()=>{
+    if(agent === "Xaiagent"){
+      setIndex(0);
+    } else if (agent === "StyleID"){
+      setIndex(1);
+    } else if (agent === "LogoLift"){
+      setIndex(4);
+    } else {
+      setIndex(3);    
+    }
+  },[agent])
   return (
     <div className="flex catcher flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -51,7 +64,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
           <Image src={`${src[agent]}`} width={24} height={24} alt="logo" className="mx-auto w-[10vh] h-[10vh] rounded-full relative top-2 md:top-4" style={{width:"96px",height:"96px"}}></Image>
         </div>
         <p className="text-lg font-semibold text-center">{agent}</p>
-        <p className="text-md text-center">DATA +48.33% | Market Cap: $225M</p>
+        <p className="text-md text-center">Data {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}{agentMarket[index]?.priceChange24h || "0.00"}% | Market Cap: {agentMarket[index]?.marketCap || "$0"}</p>
         <p className="text-sm text-neutral-700 text-center">
           Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.io">app.xaiagent.io</a>
         </p>

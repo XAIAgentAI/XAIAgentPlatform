@@ -720,7 +720,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           console.log("baseTokenAmount", baseTokenAmount, "baseTokenUsdPriceFormatted", baseTokenUsdPriceFormatted, "lp", lp);
           6095240865
 
-          debugger
           priceMap[token.symbol] = {
             tokenAddress: token.address,
             usdPrice,

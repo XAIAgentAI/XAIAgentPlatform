@@ -48,6 +48,7 @@ interface AgentDescription {
 export default function ChatPage() {
   const prompt = useSearchParams().get('prompt');
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
+  const [agentMarket,setAgentMarket] = useState<LocalAgent[]>([])
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [convid, setConvid] = useState<string>("");
@@ -60,6 +61,38 @@ export default function ChatPage() {
   
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  // 获取代理列表
+  const fetchAgentsData = async () => {
+    try {
+      // 并行获取 agents 和 tokens 数据
+      const [response, tokens] = await Promise.all([
+        agentAPI.getAllAgents({ pageSize: 30 }),
+        fetchDBCTokens()
+      ]);
+
+      if (response.code === 200 && response.data?.items) {
+        // 转换数据
+        let agents = response.data.items.map(transformToLocalAgent);
+
+        // 更新价格信息
+        agents = await updateAgentsWithPrices(agents);
+
+        // 更新代币持有者信息
+        if (tokens.length > 0) {
+          agents = updateAgentsWithTokens(agents, tokens);
+        }
+
+        setAgentMarket(agents);
+      }
+    } catch (error) {
+      console.error('Failed to fetch agents:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAgentsData();
+  }, []);
     
   const agentDescriptions: { [key: string]: AgentDescription } = {
     'Xaiagent': {
@@ -183,6 +216,7 @@ export default function ChatPage() {
       <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
+          agentMarket={agentMarket}
           agent={agent}
           userName={userName}
           setUserName={setUserName}
