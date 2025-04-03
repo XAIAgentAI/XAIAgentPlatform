@@ -95,7 +95,7 @@
     "eslint-plugin-react": "^7.37.3",
     "pino-pretty": "^13.0.0",
     "postcss": "^8.4.49",
-    "prisma": "^6.4.1",
+    "prisma": "^6.2.1",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",

@@ -43,7 +43,8 @@ interface AgentDescription {
 }
 
 export default function ChatPage() {
-  const prompt = useSearchParams().get('prompt');
+  const searchParams = useSearchParams();
+  const prompt = searchParams?.get('prompt') || '';
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
