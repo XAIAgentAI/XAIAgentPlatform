@@ -10,7 +10,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import AgentSelector from '@/components/chat/AgentSelector'; 
 import { useSearchParams } from 'next/navigation';
-
+import { fetchDBCTokens } from "@/hooks/useDBCScan"
+import { LocalAgent } from "@/types/agent"
+import { agentAPI } from "@/services/api"
+import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
 
 interface Message {
   id: string;

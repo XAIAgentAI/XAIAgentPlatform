@@ -33,7 +33,7 @@ interface HeaderComponentProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   conversations: { [id: string]: Message[] };
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsNew: React.Dispatch<React.SetStateAction<string>>
+  setIsNew: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew, convid, setUserStatus, userName, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {

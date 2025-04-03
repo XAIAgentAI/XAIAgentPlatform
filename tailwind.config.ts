@@ -77,21 +77,18 @@ module.exports = {
           '0%, 100%': { transform: 'scale(0.8)', opacity: '0.6' },
           '50%': { transform: 'scale(1.2)', opacity: '1' },
         },
-        "fade": {
-          "0%, 16.67%, 33.33%, 50%, 66.67%, 83.33%": {
-            opacity: 0
-          },
-          "8.33%, 25%, 41.67%, 58.33%, 75%, 91.67%": {
-            opacity: 1
-          }
+        "fade-left-to-right": {
+          "0%": { opacity: 0.4 },
+          "50%": { opacity: 0.88 },
+          "100%": { opacity: 0.4 }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-ball": "scaleBall 1.5s infinite ease-in-out",
-        "chatthink":"fade 2s steps(1) infinite"
-      },
+        "chatthink": "fade-left-to-right 2s linear infinite"
+      },      
     },
   },
   plugins: [require("tailwindcss-animate")],

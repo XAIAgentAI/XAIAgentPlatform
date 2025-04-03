@@ -134,7 +134,13 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
         {isLoading && (
           <div className="flex flex-row">
             <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
-            <div className='text-foreground ml-2 text-md font-semibold animate-chatthink'>{agent || "Xaiagent"}</div>
+            <div className='text-foreground ml-2 text-md font-semibold'>
+              {agent.split('').map((char, index) => (
+                <span key={index} className={`inline-block animate-chatthink`}>
+                  {char}
+                </span>
+              ))}
+            </div>
           </div>
         )}
         <div ref={messagesEndRef} />
