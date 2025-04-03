@@ -294,7 +294,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 {t('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
-                {isPoolInfoLoading ? "--" : Number(poolInfo?.actualDepositedWithNFT)?.toLocaleString()}
+                {isPoolInfoLoading ? "--" : Number(poolInfo?.totalDeposited)?.toLocaleString()}
               </span>
             </div>
           </div>
@@ -410,12 +410,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                             {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
                           </span>
                         </p>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        {/* <p className="text-sm text-muted-foreground mt-1">
                           {t('nftBoostAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                           <span className="text-[#F47521] ml-1">
                             {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.depositIncrByNFT).toLocaleString()}
                           </span>
-                        </p>
+                        </p> */}
                       </div>
 
                       {/* 可领取/已领取奖励 */}
@@ -508,7 +508,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
               {
                 poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
-                  {isPoolInfoLoading ? "--" : Number(poolInfo.actualDepositedWithNFT).toLocaleString()}
+                  {isPoolInfoLoading ? "--" : Number(poolInfo.totalDeposited).toLocaleString()}
                 </span>
                 ) :
                   <span className="font-semibold text-[#F47521] break-all">
@@ -636,12 +636,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                     {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.userDeposited).toLocaleString()}
                   </span>
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">
+                {/* <p className="text-sm text-muted-foreground mt-1">
                   {t('nftBoostAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                   <span className="text-[#F47521] ml-1">
                     {isUserStakeInfoLoading ? "--" : Number(userStakeInfo.depositIncrByNFT).toLocaleString()}
                   </span>
-                </p>
+                </p> */}
               </div>
 
               {/* 可领取/已领取奖励 */}
