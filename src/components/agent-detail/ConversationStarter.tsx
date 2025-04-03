@@ -83,7 +83,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
       <div className="flex justify-center mt-6">
         <CustomButton
           className="flex items-center gap-2 px-8"
-          onClick={() => {
+          onClick={(e) => {
               window.open(`/${locale}/chat`, "_blank");
           }}
         >

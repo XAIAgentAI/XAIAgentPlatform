@@ -38,7 +38,6 @@ type ChatParams = {
 
 // 定义agentDescriptions的类型
 interface AgentDescription {
-  metrics: string;
   prompt: string;
   examples: string[];
 }
@@ -51,7 +50,6 @@ export default function ChatPage() {
   const [convid, setConvid] = useState<string>("");
   const [isNew, setIsNew] = useState<string>("yes");
   const [agent, setAgent] = useState<string>("Xaiagent");
-  const [selectedAgent, setSelectedAgent] = useState('DeepSeek V3');
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
@@ -61,44 +59,40 @@ export default function ChatPage() {
   const t = useTranslations("chat");
     
   const agentDescriptions: { [key: string]: AgentDescription } = {
-    'Scholar GPT': {
-      metrics: t("Data.Scholar GPT.metrics"),
-      prompt: t("Data.Scholar GPT.prompt"),
+    'Xaiagent': {
+      prompt: t("data.Xaiagent.description"),
       examples: [
-        t("Data.Scholar GPT.examples.0"),
-        t("Data.Scholar GPT.examples.1"),
-        t("Data.Scholar GPT.examples.2"),
-        t("Data.Scholar GPT.examples.3")
+        t("data.Xaiagent.prompts.0"),
+        t("data.Xaiagent.prompts.1"),
+        t("data.Xaiagent.prompts.2"),
+        t("data.Xaiagent.prompts.3")
       ]
     },
-    'DeepSeek V3': {
-      metrics: t("Data.DeepSeek V3.metrics"),
-      prompt: t("Data.DeepSeek V3.prompt"),
+    'StyleID': {
+      prompt: t("data.StyleID.description"),
       examples: [
-        t("Data.DeepSeek V3.examples.0"),
-        t("Data.DeepSeek V3.examples.1"),
-        t("Data.DeepSeek V3.examples.2"),
-        t("Data.DeepSeek V3.examples.3")
+        t("data.StyleID.prompts.0"),
+        t("data.StyleID.prompts.1"),
+        t("data.StyleID.prompts.2"),
+        t("data.StyleID.prompts.3")
       ]
     },
-    'DeepSeek R1': {
-      metrics: t("Data.DeepSeek R1.metrics"),
-      prompt: t("Data.DeepSeek R1.prompt"),
+    'LogoLift': {
+      prompt: t("data.LogoLift.description"),
       examples: [
-        t("Data.DeepSeek R1.examples.0"),
-        t("Data.DeepSeek R1.examples.1"),
-        t("Data.DeepSeek R1.examples.2"),
-        t("Data.DeepSeek R1.examples.3")
+        t("data.LogoLift.prompts.0"),
+        t("data.LogoLift.prompts.1"),
+        t("data.LogoLift.prompts.2"),
+        t("data.LogoLift.prompts.3")
       ]
     },
-    'Chatgpt o4': {
-      metrics: t("Data.Chatgpt o4.metrics"),
-      prompt: t("Data.Chatgpt o4.prompt"),
+    'PicSpan': {
+      prompt: t("data.PicSpan.description"),
       examples: [
-        t("Data.Chatgpt o4.examples.0"),
-        t("Data.Chatgpt o4.examples.1"),
-        t("Data.Chatgpt o4.examples.2"),
-        t("Data.Chatgpt o4.examples.3")
+        t("data.PicSpan.prompts.0"),
+        t("data.PicSpan.prompts.1"),
+        t("data.PicSpan.prompts.2"),
+        t("data.PicSpan.prompts.3")
       ]
     }
   };
@@ -190,7 +184,7 @@ export default function ChatPage() {
           userName={userName}
           setUserName={setUserName}
           setIsLoading={setIsLoading}
-          selectedAgent={selectedAgent} 
+          selectedAgent={agent} 
           handleAgentSelect={handleAgentSelect} // 修改这里，应该是handleAgentSelect
           isAgentListOpen={isAgentListOpen} 
           setIsAgentListOpen={setIsAgentListOpen} 

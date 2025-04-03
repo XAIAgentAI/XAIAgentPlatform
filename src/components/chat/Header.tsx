@@ -6,7 +6,6 @@ import AgentSelector from './AgentSelector';
 import Image from 'next/image';
 
 interface AgentDescription {
-  metrics: string;
   prompt: string;
   examples: string[];
 }
@@ -52,7 +51,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ setUserName, setIsNew
           <Image src={`${src[agent]}`} width={24} height={24} alt="logo" className="mx-auto w-[10vh] h-[10vh] rounded-full relative top-2 md:top-4" style={{width:"96px",height:"96px"}}></Image>
         </div>
         <p className="text-lg font-semibold text-center">{agent}</p>
-        <p className="text-md text-center">{agentDescriptions[selectedAgent]?.metrics}</p>
+        <p className="text-md text-center">DATA +48.33% | Market Cap: $225M</p>
         <p className="text-sm text-neutral-700 text-center">
           Created by: <a className="underline text-sm text-neutral-700" href="https://app.xaiagent.io">app.xaiagent.io</a>
         </p>

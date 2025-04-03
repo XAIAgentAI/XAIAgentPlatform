@@ -28,7 +28,7 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect, agent 
     if (!isVisible) return null;
 
     return (
-        <div className="fixed left-8 lg:left-[calc(22vw+4px)] xl:left-[calc(26vw+9px)] top-[117px] w-[300px] h-auto flex flex-col items-center justify-center bg-white dark:bg-[#3e3e3e] rounded-lg shadow-lg" ref={modalRef}>
+        <div className="fixed left-4 md:left-8 lg:left-[calc(22vw+4px)] xl:left-[calc(26vw+9px)] top-[117px] w-[300px] h-auto flex flex-col items-center justify-center bg-white dark:bg-[#3e3e3e] rounded-lg shadow-lg" ref={modalRef} style={{zIndex:"100010"}}>
             <h3 className="text-foreground p-4 text-left">{t("selectagent")}</h3>
             <div className="flex flex-col items-center justify-center space-y-2">
                 {['Xaiagent','StyleID','LogoLift','PicSpan'].map((eachagent, index) => (

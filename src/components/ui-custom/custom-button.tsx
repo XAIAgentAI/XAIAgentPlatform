@@ -19,14 +19,7 @@ export const CustomButton = ({
   const { toast } = useToast()
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isChat) {
-      e.preventDefault();
-      toast({
-        description: "Chat feature coming soon! Stay tuned for updates.",
-      })
-    } else if (onClick) {
-      onClick(e);
-    }
+    onClick?.(e)
   }
 
   return (
