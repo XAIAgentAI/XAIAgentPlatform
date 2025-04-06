@@ -209,7 +209,11 @@
     "claiming": "正在领取...",
     "level": "等级",
     "actualStakedAmount": "NFT加成后的实际{symbol}数量",
-    "nftBoostAmount": "NFT加成的{symbol}数量"
+    "nftBoostAmount": "NFT加成的{symbol}数量",
+    "lpSicAmount": "LP 池中的 SIC 数量",
+    "lpXaaAmount": "LP 池中的 XAA 数量",
+    "paidXaaAmount": "已支付的 XAA 数量",
+    "claimableSicAmount": "可领取的 SIC 数量"
   },
 
   "tokenInfo": {

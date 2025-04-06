@@ -205,7 +205,11 @@
     "incrByNFTTier": "NFT 티어",
     "nftBoostTip": "NFT 티어 {tier}",
     "baseClaimableAmount": "기본 청구 가능 금액",
-    "nftBoostClaimableAmount": "NFT 부스트 청구 가능 금액"
+    "nftBoostClaimableAmount": "NFT 부스트 청구 가능 금액",
+    "lpSicAmount": "LP 풀의 SIC 수량",
+    "lpXaaAmount": "LP 풀의 XAA 수량",
+    "paidXaaAmount": "지불된 XAA 수량",
+    "claimableSicAmount": "청구 가능한 SIC 수량"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",

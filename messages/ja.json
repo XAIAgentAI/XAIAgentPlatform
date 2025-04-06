@@ -205,7 +205,11 @@
     "incrByNFTTier": "NFTティア",
     "nftBoostTip": "NFTティア {tier}",
     "baseClaimableAmount": "基本請求可能額",
-    "nftBoostClaimableAmount": "NFTブースト請求可能額"
+    "nftBoostClaimableAmount": "NFTブースト請求可能額",
+    "lpSicAmount": "LPプールのSIC数量",
+    "lpXaaAmount": "LPプールのXAA数量",
+    "paidXaaAmount": "支払済みのXAA数量",
+    "claimableSicAmount": "請求可能なSIC数量"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",

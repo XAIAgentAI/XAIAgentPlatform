@@ -205,7 +205,11 @@
     "nftBoostTip": "NFT Tier {tier}",
     "baseClaimableAmount": "Base Claimable Amount",
     "nftBoostClaimableAmount": "NFT Boost Claimable Amount",
-    "claiming": "Claiming..."
+    "claiming": "Claiming...",
+    "lpSicAmount": "LP Pool SIC Amount",
+    "lpXaaAmount": "LP Pool XAA Amount",
+    "paidXaaAmount": "Paid XAA Amount",
+    "claimableSicAmount": "Claimable SIC Amount"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",

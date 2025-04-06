@@ -731,8 +731,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       
       // 使用合约返回的原始奖励
       const rewardForOrigin = Number(ethers.formatEther(originReward)).toFixed(4);
-      // NFT奖励 = 总奖励 - 原始奖励
-      const rewardForNFT = (formattedUserReward - Number(rewardForOrigin)).toFixed(4);
+      // NFT奖励 = 总奖励 - 原始奖励，如果为负数则为0
+      const rewardForNFT = Math.max(0, formattedUserReward - Number(rewardForOrigin)).toFixed(4);
 
       return {
         userDeposited: Number(ethers.formatEther(userDeposited)).toFixed(4),  // 实际质押量
