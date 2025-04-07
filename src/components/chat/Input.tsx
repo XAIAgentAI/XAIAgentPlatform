@@ -55,7 +55,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ prompt, setIsNew, conve
               value={input || ''}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("inputHolder")}
-              className="w-full rounded-full bg-stone-200 dark:bg-zinc-800 px-[18px] py-[10px] pb-[10.5px] placeholder-stone-400 dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10"
+              className="w-full rounded-full bg-[#EDEDED] dark:bg-[rgba(22,22,22,0.7)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] py-[10px] pb-[10.5px] dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10"
               disabled={isLoading} // 禁用输入框仅当isLoading为true
             />
             {/* 发送按钮 */}
@@ -64,7 +64,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ prompt, setIsNew, conve
               onClick={handleSendClick}
               disabled={!isSubmitEnabled}
               className={`absolute top-1/2 right-[4px] transform -translate-y-1/2 w-8 h-8 rounded-full ${
-                isSubmitEnabled ? 'bg-[#1c1c1c]' : 'bg-[hsl(9,3%,51%)]'
+                isSubmitEnabled ? 'bg-[rgba(22,22,22,0.1)] dark:bg-[rgba(22,22,22,0.6)]' : 'bg-[rgba(150,140,140,0.1)] dark:bg-[rgba(22,22,22,0.1)]'
               }`}
             >
               <img
