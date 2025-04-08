@@ -260,6 +260,7 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />
       <InputComponent 
+        setagent={setAgent}
         prompt={prompt}
         conversations={conversations}
         setIsNew={setIsNew}
