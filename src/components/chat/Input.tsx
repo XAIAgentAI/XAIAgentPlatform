@@ -108,7 +108,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="self-end absolute mb-[9.6px] left-2 w-8 h-8 rounded-full flex items-center justify-center bg-[#EDEDED] dark:bg-[rgba(22,22,22,0.7)] hover:bg-[#E0E0E0] dark:hover:bg-[rgba(22,22,22,0.6)] transition-colors"
+              className="self-end absolute mb-[8.8px] left-2 w-8 h-8 rounded-full flex items-center justify-center bg-[#EDEDED] dark:bg-[rgba(22,22,22,0.7)] hover:bg-[#E0E0E0] dark:hover:bg-[rgba(22,22,22,0.6)] transition-colors"
               aria-label="上传图片"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -136,7 +136,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
               />
               {/* 图片预览和API按钮 - 移动到输入框底部 */}
               {selectedImage ? (
-                <div className="w-[80%] mb-1 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-2 rounded-lg">
+                <div className="w-[80%] mb-1 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-2 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
                       {selectedImage.name}
