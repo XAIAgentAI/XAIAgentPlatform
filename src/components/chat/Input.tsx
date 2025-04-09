@@ -20,6 +20,9 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // 初始化prompt
   useEffect(() => {
@@ -46,6 +49,21 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
     }
   }, [input]);
 
+  // 点击模态框外部关闭
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setShowImageModal(false);
+      }
+    }
+    if (showImageModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showImageModal]);
+
   const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
 
   const handleSendClick = (e: React.FormEvent) => {
@@ -69,12 +87,14 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
     }
   };
 
-  // 调用新API接口
-  const handleTryNewApi = async () => {
-    if (!selectedImage) return;
+  // 调用STID API接口
+  const handleTryNewApi = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!selectedImage || !input) return;
     
     const formData = new FormData();
     formData.append('face_image', selectedImage);
+    formData.append('prompt', input);
     
     try {
       const response = await fetch('/api/stid', {
@@ -83,8 +103,10 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
       });
       
       if (response.ok) {
-        const data = await response.json();
-        console.log('API响应:', data);
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        setGeneratedImage(imageUrl);
+        setShowImageModal(true);
       } else {
         console.error('API错误:', response.statusText);
       }
@@ -145,6 +167,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
                   <button
                     onClick={handleTryNewApi}
                     className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors whitespace-nowrap"
+                    disabled={isLoading || !input.trim()}
                   >
                     尝试STID
                   </button>
@@ -175,6 +198,37 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
           {t("inputInfo")}
         </div>
       </div>
+
+      {/* 自定义图片展示模态框 */}
+      {showImageModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10001]">
+          <div 
+            ref={modalRef}
+            className="bg-white dark:bg-[#1e1e1e] rounded-lg shadow-xl w-[90vw] max-w-2xl max-h-[90vh] flex flex-col"
+          >
+            <div className="flex justify-between items-center border-b dark:border-gray-700 p-4">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Image received</h3>
+              <button
+                onClick={() => setShowImageModal(false)}
+                className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-4 overflow-auto flex-grow flex items-center justify-center">
+              {generatedImage && (
+                <img 
+                  src={generatedImage} 
+                  alt="Generated from STID" 
+                  className="max-w-full max-h-[70vh] object-contain"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

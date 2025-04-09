@@ -7,13 +7,15 @@ export async function POST(request: NextRequest) {
 
     // 验证是否包含人脸图片且是否为File类型
     const faceImage = formData.get('face_image');
+
     if (!faceImage || !(faceImage instanceof File) || faceImage.size === 0) {
       return NextResponse.json(
         { error: '未提供有效的人脸图片' },
         { status: 400 }
       );
     }
-
+ 
+    console.log(formData);
     // 调用图像生成API
     const apiResponse = await fetch('http://122.99.183.50:8000/generate-image/', {
       method: 'POST',

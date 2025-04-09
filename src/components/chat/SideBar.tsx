@@ -181,7 +181,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             placeholder="Search history"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-[94%] lg:w-full h-9 placeholder:text-[rgba(22,22,22,0.5)] dark:placeholder:text-stone-200 text-neutral-700 dark:text-gray-200 pl-10 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/30 focus:ring-1 focus:ring-[#222222] transition duration-300"
+            className="w-[94%] lg:w-full h-9 placeholder:text-[rgba(22,22,22,0.3)] dark:placeholder:text-stone-200 text-neutral-700 dark:text-gray-200 pl-10 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/30 focus:ring-1 focus:ring-[#222222] transition duration-300"
           />
         </div>
           <motion.button
@@ -201,7 +201,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             ))
           ) : (
             <>
-              <div className="text-sm text-[rgba(22,22,22,0.5)] dark:text-white">{t("7daysago")}</div>
+              <div className="text-sm text-[rgba(22,22,22,0.3)] dark:text-white">{t("7daysago")}</div>
               {goAnimate? (
                 <>
                   {uniqueConversations.map((msg: any) => (
