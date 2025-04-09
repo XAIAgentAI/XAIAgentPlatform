@@ -44,7 +44,8 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   const [messages, setMessages] = useState<Message[]>([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const [goAnimate, setGoAnimate] = useState(false);
-  
+  const [stroke, setStroke] = useState("black");
+
   const locale = useLocale();
   const t = useTranslations("chat");
 
@@ -93,6 +94,27 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       setSearchResults([]);
     }
   }, [query, messages]);
+
+  useEffect(() => {
+    // 检测当前主题
+    const isDark = document.documentElement.classList.contains('dark');
+    setStroke(isDark ? 'white' : 'black');
+    
+    // 监听主题变化（如果你使用类名切换主题）
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const isNowDark = document.documentElement.classList.contains('dark');
+          setStroke(isNowDark ? 'white' : 'black');
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  }, []);
 
   const moreHandler = () => {
     setSmallHidden("transition-discrete duration-300 block flex z-20 w-[245px]");
@@ -149,10 +171,10 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       </motion.button>
       <div ref={sidebarRef} className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-[#E9E9E9] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`} style={{zIndex:12000}}>
         <div className="flex justify-between">
-        <div className="self-start w-full relative -top-[10px]">
+        <div className="self-start w-full relative -top-[20px]">
         <svg style={{zIndex:66666}} className="translate-y-[30.4px] translate-x-3 relative text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" stroke="white" stroke-width="1"/>
-          <path d="M15 15L21 21" stroke="white" stroke-width="1" stroke-linecap="round"/>
+          <path d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" stroke={stroke} stroke-width="1"/>
+          <path d="M15 15L21 21" stroke={stroke} stroke-width="1" stroke-linecap="round"/>
         </svg>   
           <input
             type="text"
@@ -170,7 +192,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             <Menu></Menu>
           </motion.button>
         </div>
-        <div className="flex flex-col flex-1 space-y-2 overflow-y-auto my-4 hide-scrollbar">
+        <div className="flex flex-col flex-1 space-y-1 overflow-y-auto my-4 hide-scrollbar -mt-2">
           {query.length > 0 ? (
             searchResults.map((msg) => (
               <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-[#222222] dark:text-white rounded-md hover:bg-[#EDEDED] dark:hover:bg-zinc-800">
@@ -179,7 +201,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             ))
           ) : (
             <>
-              <div className="text-sm mt-[-2px] mb-[-2] text-[rgba(22,22,22,0.4)] dark:text-white">{t("7daysago")}</div>
+              <div className="text-sm text-[rgba(22,22,22,0.5)] dark:text-white">{t("7daysago")}</div>
               {goAnimate? (
                 <>
                   {uniqueConversations.map((msg: any) => (
