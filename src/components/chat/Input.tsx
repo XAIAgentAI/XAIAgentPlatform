@@ -117,10 +117,10 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
           const imageUrl = URL.createObjectURL(blob);
           setGeneratedImage(imageUrl);
         } else {
-          setImageError('There is no face detected in your input or your image is over 10MB');
+          setImageError('There is no face detected in your input or your prompt is unclear');
         }
       } else {
-        setImageError('There is no face detected in your input or your image is over 10MB');
+        setImageError('There is no face detected in your input or your prompt is unclear');
       }
     } catch (error) {
       console.error('发送图片失败:', error);
@@ -264,7 +264,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
             </div>
             <div className="p-4 overflow-auto flex-grow flex items-center justify-center">
               {isImageLoading ? (
-                <div className="flex flex-col items-center justify-center h-full">
+                <div className="flex flex-col items-center justify-center h-full -mt-2 mb-16">
                   <svg className="animate-spin h-12 w-12 text-orange-500" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
@@ -272,7 +272,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
                   <p className="mt-4 text-gray-600 dark:text-gray-300">Processing your image...</p>
                 </div>
               ) : imageError ? (
-                <div className="flex items-center justify-center h-full text-center p-8">
+                <div className="flex items-center justify-center h-full text-center p-8 -mt-2 mb-8">
                   <p className="text-gray-600 dark:text-gray-300 text-lg">{imageError}</p>
                 </div>
               ) : generatedImage ? (
