@@ -74,7 +74,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
     if (!selectedImage) return;
     
     const formData = new FormData();
-    formData.append('image', selectedImage);
+    formData.append('face_image', selectedImage);
     
     try {
       const response = await fetch('/api/stid', {

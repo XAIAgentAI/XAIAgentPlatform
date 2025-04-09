@@ -186,7 +186,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         </div>
           <motion.button
            whileTap={{ scale: 0.95 }}
-           className="relative lg:hidden"
+           className="relative lg:hidden -top-[7.6px]"
            onClick={lessHandler}
           >
             <Menu></Menu>

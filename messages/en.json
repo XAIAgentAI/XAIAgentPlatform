@@ -358,7 +358,7 @@
           ]
         },
         "StyleID": {
-          "description":"Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles. Capable of achieving unlimited style photography and fixed template photography with both controllability and ID retention capabilities",
+          "description":"Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles.",
           "prompts":[
             "I want to generate a vintage style photo. Can you help me design the style and background",
             "Can I adjust my expression and posture in this photo?",
