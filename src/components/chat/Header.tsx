@@ -133,7 +133,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserN
             </p>
             
           {/* Horizontal scrolling container */}
-          <div className="w-full max-w-[72vw] relative mx-auto flex justify-center">
+          <div className="w-full max-w-[73vw] lg:max-w-[70vw] xl:max-w-[68vw] relative mx-auto flex justify-center">
             {/* Gradient fade indicators */}
             <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
             <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />

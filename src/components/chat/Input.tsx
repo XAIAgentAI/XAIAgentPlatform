@@ -94,11 +94,11 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
   // 调用STID API接口
   const handleTryNewApi = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!selectedImage || !input) return;
-    
+    if (!selectedImage) return;
+     
     const formData = new FormData();
     formData.append('face_image', selectedImage);
-    formData.append('prompt', input);
+    formData.append('prompt', input ? input : "Generate a picture in this style");
     
     try {
       setIsImageLoading(true);
@@ -285,7 +285,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
                   <div className="mt-4 flex space-x-4">
                     <button
                       onClick={handleCopyImage}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
                       title="Copy image"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -294,7 +294,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
                     </button>
                     <button
                       onClick={handleDownloadImage}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
                       title="Download image"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
