@@ -265,6 +265,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalReward = null;
       }
 
+
+
       const newPoolInfo = {
         totalDeposited: totalDeposited ? ethers.formatEther(totalDeposited?.toString()) : '',
         startTime: startTime ? Number(startTime) : 0,
@@ -648,6 +650,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       });
 
       const contractABI = getContractABI(symbol);
+
       
       // 1. 获取用户实际质押量
       const userDeposited = await publicClient.readContract({
@@ -665,12 +668,8 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       });
 
       // 3. 获取用户的NFT增加信息
-      const incrInfo = await publicClient.readContract({
-        address: iaoContractAddress,
-        abi: contractABI,
-        functionName: 'getIncrInfo',
-        args: [formattedAddress]
-      });
+
+ 
 
       // 4. 获取用户是否已领取
       const hasClaimed = await publicClient.readContract({
@@ -688,20 +687,38 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       });
       
       // 用户应该获取的总奖励。getReward
-      const userReward = await publicClient.readContract({
-        address: iaoContractAddress,
-        abi: contractABI,
-        functionName: 'getReward',
-        args: [formattedAddress]
-      });
+      let userReward =  BigInt(0);
+      let originReward =  BigInt(0);
+      let incrInfo :any = [0, 0, 0];
 
-      // 获取原始奖励
-      const originReward = await publicClient.readContract({
-        address: iaoContractAddress,
-        abi: contractABI,
-        functionName: 'getOriginReward',
-        args: [formattedAddress]
-      });
+      try {
+         userReward = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'getReward',
+          args: [formattedAddress]
+        });
+
+              // 获取原始奖励
+       originReward = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'getOriginReward',
+          args: [formattedAddress]
+        });
+
+        incrInfo = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'getIncrInfo',
+          args: [formattedAddress]
+        });
+      } catch (error) {
+        console.error('方法定义缺失:', error);
+      }
+
+
+
 
       // 6. 计算可领取奖励
       let claimableXAA = '0';

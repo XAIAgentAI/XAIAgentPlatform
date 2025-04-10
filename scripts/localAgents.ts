@@ -599,7 +599,7 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     descriptionZH: "SuperImage 是一个去中心化的图像生成 AI。SuperImage 拥有多个潜在的文本到图像扩散模型，可以根据任何文本输入生成照片级真实的图像，培养自主创作令人惊叹图像的自由，使数十亿人能够在几秒钟内创作出令人惊艳的艺术作品。SuperImage 是 AI 智能体的基础设施，为 AI 智能体提供 API 接口。官方网站：www.superimage.ai",
     createdAt: "12 months ago",
     creatorAddress: "0x2D5D...E574b4",
-    totalSupply: 1000000000,
+    totalSupply: 100000000000,
     useCases: [
       "Draw a picture of a girl with festive holiday costume",
       "Red and white striped Christmas hat and clothes",

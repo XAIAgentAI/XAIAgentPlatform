@@ -248,31 +248,80 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       <div className="flex justify-end mb-4">
         <Button
           variant="outline"
-          className="flex items-center gap-2"
+          className="relative flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce"
           onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
           aria-label={t('goToDbcswap', { symbol: agent.symbol })}
         >
-          {t('goToDbcswap', { symbol: agent.symbol })}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="ml-1"
-          >
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
+          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 animate-wave"/>
+          <span className="relative z-10 font-medium">
+            {t('goToDbcswap', { symbol: agent.symbol })}
+          </span>
+          <div className="relative z-10 flex items-center animate-arrow-move">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="ml-1"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            <div className="absolute left-0 w-5 h-5 bg-white/30 rounded-full blur-sm -z-10 animate-ping"/>
+          </div>
         </Button>
       </div>
 
-
+      <style jsx global>{`
+        @keyframes wave {
+          0%, 100% {
+            transform: translateX(-100%);
+          }
+          50% {
+            transform: translateX(100%);
+          }
+        }
+        
+        @keyframes subtle-bounce {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+          }
+          50% {
+            transform: translateY(-4px) scale(1.02);
+          }
+        }
+        
+        @keyframes arrow-move {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(5px);
+          }
+        }
+        
+        .animate-wave {
+          animation: wave 2s ease-in-out infinite;
+        }
+        
+        .animate-subtle-bounce {
+          animation: subtle-bounce 1.5s ease-in-out infinite;
+        }
+        
+        .animate-arrow-move {
+          animation: arrow-move 1.2s ease-in-out infinite;
+        }
+        
+        .animate-ping {
+          animation: ping 1.2s ease-in-out infinite;
+        }
+      `}</style>
 
       {isIAOEnded ? (
         // Pool data after IAO ends
@@ -328,14 +377,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             userStakeInfo.hasClaimed && poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 7 * 24 * 60 * 60 * 1000 ? (<>
             </>) :
               // ({/* Claim button after IAO ends */ }
-              (isIAOEnded && isConnected) ? (
+              (isConnected) ? (
                 <>
                   <Button
                     className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
                     onClick={async () => {
                       try {
-
-
                         const result: any = await claimRewards();
                         if (result?.success) {
                           // Refresh user stake info after successful claim
@@ -417,7 +464,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                           </span>
                         </p> */}
                       </div>
-
                       {/* 可领取/已领取奖励 */}
                       {userStakeInfo.hasClaimed ? (
                         <div className="space-y-1">
@@ -490,7 +536,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       )
         :
         // Pool data before IAO ends
-
         <>
           {/* 募资进行中，显示的池子数据 */}
           <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
