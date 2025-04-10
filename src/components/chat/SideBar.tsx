@@ -309,7 +309,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                 <div 
                   key={msg.id} 
                   onClick={() => handleConversationClick(msg.convid)} 
-                  className="group relative flex items-center justify-between px-3 py-2 w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
+                  className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                 >
                   <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis">
                     {msg.content.substring(0, 30)}
@@ -332,7 +332,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                       <div 
                         key={msg.convid} 
                         onClick={() => handleConversationClick(msg.convid)} 
-                        className="group relative flex items-center justify-between px-3 py-2 w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
+                        className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                       >
                         <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis">
                           {msg.content.substring(0, 30)}
