@@ -695,12 +695,12 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
          userReward = await publicClient.readContract({
           address: iaoContractAddress,
           abi: contractABI,
-          functionName: 'getReward',
-          args: [formattedAddress]
+          functionName: symbol === 'XAA' ? 'TOTAL_REWARD' : 'getReward',
+          args: symbol === 'XAA' ? undefined : [formattedAddress]
         });
 
-              // 获取原始奖励
-       originReward = await publicClient.readContract({
+        // 获取原始奖励
+       originReward = symbol === 'XAA' ? userReward : await publicClient.readContract({
           address: iaoContractAddress,
           abi: contractABI,
           functionName: 'getOriginReward',
