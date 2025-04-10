@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import { Menu } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid'; // 引入uuid库
+import { Menu, Copy, MoreHorizontal } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface SideBarProps {
   userName: string | null;
@@ -29,7 +29,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  time: string; // 假设后端返回timestamp字段
+  time: string;
   convid: string;
   agent?: string;
 }
@@ -39,12 +39,12 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   const [bgCopy, setBgCopy] = useState<string>('bg-stone-700');
   const [query, setQuery] = useState('');
   const [smallHidden, setSmallHidden] = useState('hidden');
-  const [moreground, setMoreground] = useState('bg-stone-200');
   const [searchResults, setSearchResults] = useState<Message[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const [goAnimate, setGoAnimate] = useState(false);
   const [stroke, setStroke] = useState("black");
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const locale = useLocale();
   const t = useTranslations("chat");
@@ -70,14 +70,13 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           id: uuidv4(),
           role: sentence.user ? 'user' : 'assistant',
           content: sentence.user || sentence.assistant || '',
-          time: sentence.time || new Date().toISOString(), // 如果后端没有返回timestamp，则在此处生成
+          time: sentence.time || new Date().toISOString(),
           convid: sentence.convid,
           agent: sentence.agent || ''
         }));
-        //console.log(data)
 
         setMessages(newMessages);
-        setGoAnimate(true); // 在设置消息之后设置动画
+        setGoAnimate(true);
       } catch (error) {
         console.log("Your internet is not available");
       }
@@ -96,11 +95,9 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   }, [query, messages]);
 
   useEffect(() => {
-    // 检测当前主题
     const isDark = document.documentElement.classList.contains('dark');
     setStroke(isDark ? 'white' : 'black');
     
-    // 监听主题变化（如果你使用类名切换主题）
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
@@ -118,33 +115,29 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
 
   const moreHandler = () => {
     setSmallHidden("transition-discrete duration-300 block flex z-20 w-[245px]");
-    setMoreground("bg-stone-500");
   }
 
   const lessHandler = () => {
     setSmallHidden("hidden");
-    setMoreground("bg-stone-300");
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if(smallHidden !== "hidden" && sidebarRef.current && !sidebarRef.current.contains(event.target as Node)){
+      if (smallHidden !== "hidden" && sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         setSmallHidden("hidden");
       }
+      setActiveDropdown(null);
     };
 
-    // 如果侧边栏不是隐藏状态，则添加事件监听器
     if (smallHidden !== "hidden") {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    // 清理事件监听器，防止内存泄漏
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  },[smallHidden])
+  }, [smallHidden]);
 
-  // 修改消息点击处理函数
   const handleConversationClick = (convid: string) => {
     setIsNew("no");
     setConvid(convid);
@@ -152,69 +145,228 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
     setConversations({
       ["1"]: conversationMessages
     });
-    console.log(conversations);
   }
 
-  // 对messages进行分组---选择特定agent;每个convid只取第一条消息
-  let specificMessages = messages.filter(msg => msg.agent === agent);
-  let uniqueConversations = Array.from(new Set(specificMessages.map(msg => msg.convid)))
-  .map(convid => specificMessages.find(msg => msg.convid === convid));
+  const toggleDropdown = (convid: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveDropdown(activeDropdown === convid ? null : convid);
+  }
+
+  const copyConversationUrl = (convid: string) => {
+    const url = `${window.location.origin}${window.location.pathname}?convid=${convid}`;
+    navigator.clipboard.writeText(url);
+    setActiveDropdown(null);
+  }
+
+  const groupMessagesByTime = (messages: Message[]) => {
+    const now = new Date();
+    const today = new Date(now);
+    today.setHours(0, 0, 0, 0);
+    
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const lastWeek = new Date(today);
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    
+    const last30Days = new Date(today);
+    last30Days.setDate(last30Days.getDate() - 30);
+    
+    const last3Months = new Date(today);
+    last3Months.setMonth(last3Months.getMonth() - 3);
+    
+    const last6Months = new Date(today);
+    last6Months.setMonth(last6Months.getMonth() - 6);
+    
+    const lastYear = new Date(today);
+    lastYear.setFullYear(lastYear.getFullYear() - 1);
+    
+    const groups: Record<string, Message[]> = {
+      'Today': [],
+      'Yesterday': [],
+      'This Week': [],
+      'Last 30 Days': [],
+      'Last 3 Months': [],
+      'Last 6 Months': [],
+      'Last Year': [],
+      'Older': []
+    };
+    
+    messages.forEach(msg => {
+      if (!msg.time) return;
+      
+      const parts = msg.time.split('-');
+      if (parts.length < 6) return;
+      
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const hour = parseInt(parts[3], 10);
+      const minute = parseInt(parts[4], 10);
+      const second = parseInt(parts[5], 10);
+      
+      const msgDate = new Date(year, month, day, hour, minute, second);
+      
+      if (msgDate >= today) {
+        groups['Today'].push(msg);
+      } else if (msgDate >= yesterday) {
+        groups['Yesterday'].push(msg);
+      } else if (msgDate >= lastWeek) {
+        groups['This Week'].push(msg);
+      } else if (msgDate >= last30Days) {
+        groups['Last 30 Days'].push(msg);
+      } else if (msgDate >= last3Months) {
+        groups['Last 3 Months'].push(msg);
+      } else if (msgDate >= last6Months) {
+        groups['Last 6 Months'].push(msg);
+      } else if (msgDate >= lastYear) {
+        groups['Last Year'].push(msg);
+      } else {
+        groups['Older'].push(msg);
+      }
+    });
+    
+    // Remove empty groups
+    Object.keys(groups).forEach(key => {
+      if (groups[key].length === 0) {
+        delete groups[key];
+      }
+    });
+    
+    return groups;
+  };
+
+  const specificMessages = messages.filter(msg => msg.agent === agent);
+  const groupedMessages = groupMessagesByTime(specificMessages);
+  const uniqueConversations = Array.from(new Set(specificMessages.map(msg => msg.convid)))
+    .map(convid => specificMessages.find(msg => msg.convid === convid));
 
   return (
     <>
-      <motion.button
-        whileTap={{ scale: 0.95 }}
+      <button
         className="fixed top-[116px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
-        <Menu></Menu>
-      </motion.button>
-      <div ref={sidebarRef} className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-[#E9E9E9] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`} style={{zIndex:12000}}>
-        <div className="flex justify-between">
-        <div className="self-start w-full relative -top-[20px]">
-        <svg style={{zIndex:66666}} className="translate-y-[30.4px] translate-x-3 relative text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" stroke={stroke} stroke-width="1"/>
-          <path d="M15 15L21 21" stroke={stroke} stroke-width="1" stroke-linecap="round"/>
-        </svg>   
-          <input
-            type="text"
-            placeholder="Search history"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-[94%] lg:w-full h-9 placeholder:text-[rgba(22,22,22,0.3)] placeholder:font-light dark:placeholder:text-stone-200 text-neutral-700 dark:text-gray-200 pl-10 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/30 focus:ring-1 focus:ring-[#222222] transition duration-300"
-          />
-        </div>
-          <motion.button
-           whileTap={{ scale: 0.95 }}
-           className="relative lg:hidden -top-[7.6px]"
-           onClick={lessHandler}
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 12H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 6H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 18H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      
+      <div 
+        ref={sidebarRef} 
+        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-[#f0f0f0] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`} 
+        style={{zIndex:12000}}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <div className="self-start w-full relative">
+            <svg 
+              className="absolute left-3 top-1/2 transform -translate-y-1/2" 
+              style={{zIndex:100000}}
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" 
+                stroke={stroke} 
+                strokeWidth="1.5"
+              />
+              <path 
+                d="M15 15L21 21" 
+                stroke={stroke} 
+                strokeWidth="1.5" 
+                strokeLinecap="round"
+              />
+            </svg>   
+            <input
+              type="text"
+              placeholder="Search conversations"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-lg bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
+            />
+          </div>
+          <button
+            className="ml-2 lg:hidden"
+            onClick={lessHandler}
           >
-            <Menu></Menu>
-          </motion.button>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M6 6L18 18" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
-        <div className="flex flex-col flex-1 space-y-1 overflow-y-auto my-4 hide-scrollbar -mt-2">
+        
+        <div className="flex flex-col flex-1 space-y-4 overflow-y-auto my-2 hide-scrollbar">
           {query.length > 0 ? (
-            searchResults.map((msg) => (
-              <div key={msg.id} onClick={() => handleConversationClick(msg.convid)} className="pl-1 py-1 w-full text-[#222222] dark:text-white rounded-md hover:bg-[#EDEDED] dark:hover:bg-zinc-800">
-                {msg.content.substring(0, 12)}
-              </div>
-            ))
+            <div className="space-y-2">
+              {searchResults.map((msg) => (
+                <div 
+                  key={msg.id} 
+                  onClick={() => handleConversationClick(msg.convid)} 
+                  className="group relative flex items-center justify-between px-3 py-2 w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
+                >
+                  <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis">
+                    {msg.content.substring(0, 30)}
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <MoreHorizontal className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" size={18} />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             <>
-              <div className="text-sm text-[rgba(22,22,22,0.3)] dark:text-white">{t("7daysago")}</div>
-              {goAnimate? (
-                <>
-                  {uniqueConversations.map((msg: any) => (
-                    <div key={msg.convid} onClick={() => handleConversationClick(msg.convid)} className="ml-[-1] pl-2 py-1 w-full text-[#222222] dark:text-white rounded-md hover:bg-[#EDEDED] dark:hover:bg-zinc-800">
-                      {msg.content.substring(0, 12) + "..."}
+              {goAnimate ? (
+                Object.entries(groupedMessages).map(([timePeriod, messages]) => (
+                  <div key={timePeriod} className="space-y-2">
+                    <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      {timePeriod}
                     </div>
-                  ))}
-                </>
+                    {messages.map((msg) => (
+                      <div 
+                        key={msg.convid} 
+                        onClick={() => handleConversationClick(msg.convid)} 
+                        className="group relative flex items-center justify-between px-3 py-2 w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
+                      >
+                        <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis">
+                          {msg.content.substring(0, 30)}
+                        </div>
+                        <div className="relative">
+                          <button 
+                            onClick={(e) => toggleDropdown(msg.convid, e)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                          >
+                            <MoreHorizontal size={18} />
+                          </button>
+                          {activeDropdown === msg.convid && (
+                            <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-zinc-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-zinc-700">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  copyConversationUrl(msg.convid);
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                              >
+                                <Copy className="mr-2" size={14} />
+                                Copy Link
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))
               ) : (
-                <div className="flex justify-start items-center h-[10px] gap-2 ml-1">
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] animate-pulse-ball"></div>
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
+                <div className="flex justify-center items-center h-20 gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball"></div>
+                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
+                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
                 </div>
               )}
             </>
