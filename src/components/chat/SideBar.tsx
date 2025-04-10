@@ -287,7 +287,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
               placeholder="Search conversations"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-lg bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
+              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
             />
           </div>
           <button
@@ -295,15 +295,16 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             onClick={lessHandler}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 6L18 18" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 7H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 17H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
         </div>
         
         <div className="flex flex-col flex-1 space-y-4 overflow-y-auto my-2 hide-scrollbar">
           {query.length > 0 ? (
-            <div className="space-y-2">
+            <div className="space-y-1">
               {searchResults.map((msg) => (
                 <div 
                   key={msg.id} 
@@ -313,7 +314,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                   <div className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis">
                     {msg.content.substring(0, 30)}
                   </div>
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity mt-1">
                     <MoreHorizontal className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" size={18} />
                   </div>
                 </div>
@@ -323,7 +324,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             <>
               {goAnimate ? (
                 Object.entries(groupedMessages).map(([timePeriod, messages]) => (
-                  <div key={timePeriod} className="space-y-2">
+                  <div key={timePeriod} className="space-y-1">
                     <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       {timePeriod}
                     </div>
@@ -339,7 +340,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                         <div className="relative">
                           <button 
                             onClick={(e) => toggleDropdown(msg.convid, e)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                            className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 mt-1"
                           >
                             <MoreHorizontal size={18} />
                           </button>
@@ -363,7 +364,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                   </div>
                 ))
               ) : (
-                <div className="flex justify-center items-center h-20 gap-2">
+                <div className="flex justify-center items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball"></div>
                   <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
                   <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
