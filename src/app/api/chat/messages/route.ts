@@ -133,7 +133,7 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ) {
-  const { message, thing, isNew, user: requestUser, convid, agent } = await request.json();
+  const { prompt, message, thing, isNew, user: requestUser, convid, agent } = await request.json();
   // 在POST函数的else块开头添加以下逻辑
   if (thing === 'image') {
     // 图片消息处理逻辑
@@ -165,7 +165,7 @@ export async function POST(
     
     // 用户图片消息
     const userImageMessage: Sentence = {
-      user: message, // 这里message是图片URL
+      user: prompt, // 这里message应该是prompt
       convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString(),
       time: currentTime,
       agent: agent

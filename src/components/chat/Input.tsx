@@ -141,6 +141,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
         // STID模式处理
         if (agent === "StyleID" && selectedImage) {
           console.log('[STID] STID mode detected with selected image');
+          const originalInput = input;
+          setInput("");
           
           // 1. 先添加用户文本消息到对话
           const userTextMessage: Message = {
@@ -187,6 +189,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+              prompt: originalInput,
               message: generatedImageUrl, // 使用生成的图片URL作为消息内容
               user: userName,
               thing: "image", // 重要：设置为image类型
@@ -266,7 +269,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
               />
               {/* 图片预览 */}
               {selectedImage ? (
-                <div className="w-[70vw] max-w-[550px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
+                <div className="w-[70vw] max-w-[520px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
                       {selectedImage.name}
