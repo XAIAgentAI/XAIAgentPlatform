@@ -87,7 +87,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
   const handleIntervalChange = (interval: TimeInterval) => {
     setSelectedInterval(interval);
-    refetch({ interval });
+    refetch({ interval: interval });
   };
 
   // 根据当前语言获取对应的描述

@@ -11,6 +11,7 @@ export interface SwapChartData {
   isLoading: boolean;
   error: string | null;
   loadMore: () => Promise<void>;
+  refetch: (params?: { interval?: TimeInterval; resetData?: boolean }) => Promise<void>;
 }
 
 interface UseSwapKLineDataParams {
@@ -28,7 +29,10 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
     priceChange: 0,
     isLoading: true,
     error: null,
-    loadMore: async () => {}
+    loadMore: async () => {},
+    refetch: async (params) => {
+      await fetchKLineData(params);
+    }
   });
 
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
@@ -293,7 +297,9 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
 
   return {
     ...data,
-    refetch: () => fetchKLineData({ resetData: true }),
+    refetch: async (params?: { interval?: TimeInterval; resetData?: boolean }) => {
+      await fetchKLineData(params);
+    },
     loadMore
   };
 }; 
