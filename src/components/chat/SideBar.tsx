@@ -67,7 +67,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         const data: Sentence[] = await response.json();
 
         const newMessages: Message[] = data.map((sentence: Sentence) => ({
-          id: uuidv4(),
+          id: uuidv4(), // This ensures each message has a unique ID
           role: sentence.user ? 'user' : 'assistant',
           content: sentence.user || sentence.assistant || '',
           time: sentence.time || new Date().toISOString(),
@@ -192,7 +192,21 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       'Older': []
     };
     
+    // Create a map to store the most recent message for each conversation
+    const conversationMap = new Map<string, Message>();
+    
     messages.forEach(msg => {
+      if (!msg.time) return;
+      
+      // Only keep the most recent message for each conversation
+      if (!conversationMap.has(msg.convid) || 
+          new Date(msg.time) > new Date(conversationMap.get(msg.convid)!.time)) {
+        conversationMap.set(msg.convid, msg);
+      }
+    });
+    
+    // Now group the unique conversations by time
+    Array.from(conversationMap.values()).forEach(msg => {
       if (!msg.time) return;
       
       const parts = msg.time.split('-');
@@ -238,8 +252,6 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
 
   const specificMessages = messages.filter(msg => msg.agent === agent);
   const groupedMessages = groupMessagesByTime(specificMessages);
-  const uniqueConversations = Array.from(new Set(specificMessages.map(msg => msg.convid)))
-    .map(convid => specificMessages.find(msg => msg.convid === convid));
 
   return (
     <>
@@ -307,7 +319,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             <div className="space-y-1">
               {searchResults.map((msg) => (
                 <div 
-                  key={msg.id} 
+                  key={`search-${msg.id}`} // Use message id for search results
                   onClick={() => handleConversationClick(msg.convid)} 
                   className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                 >
@@ -330,7 +342,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                     </div>
                     {messages.map((msg) => (
                       <div 
-                        key={msg.convid} 
+                        key={`conversation-${msg.convid}-${msg.id}`} // Combine convid and id for uniqueness
                         onClick={() => handleConversationClick(msg.convid)} 
                         className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                       >
