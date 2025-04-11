@@ -19,6 +19,7 @@ interface CryptoChartProps {
   onIntervalChange?: (interval: TimeInterval) => void;
   onRetry?: () => void;
   dbcPriceUsd: number;
+  onLoadMore?: () => Promise<void>;
 }
 
 const TIME_INTERVALS: { label: string; value: TimeInterval }[] = [
@@ -62,7 +63,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   error = null,
   onIntervalChange,
   onRetry,
-  dbcPriceUsd
+  dbcPriceUsd,
+  onLoadMore
 }) => {
   const t = useTranslations('cryptoChart');
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -313,6 +315,19 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
     };
   }, [isDarkMode, selectedInterval]);
 
+  // 添加处理图表滚动的函数
+  const handleChartScroll = useCallback(() => {
+    if (!chart.current || !onLoadMore) return;
+
+    const timeScale = chart.current.timeScale();
+    const visibleRange = timeScale.getVisibleLogicalRange();
+    
+    if (visibleRange && visibleRange.from <= 1) {
+      // 当用户滚动到最左边时，加载更多数据
+      onLoadMore().catch(console.error);
+    }
+  }, [onLoadMore]);
+
   // 创建和更新图表
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -326,6 +341,9 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         width: chartContainerRef.current.clientWidth,
         height: 500,
       });
+
+      // 添加图表滚动事件监听
+      chart.current.timeScale().subscribeVisibleLogicalRangeChange(handleChartScroll);
 
       // 添加K线数据系列
       candlestickSeries.current = chart.current.addCandlestickSeries({
@@ -487,6 +505,9 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
     // 清理函数
     return () => {
+      if (chart.current) {
+        chart.current.timeScale().unsubscribeVisibleLogicalRangeChange(handleChartScroll);
+      }
       if (resizeObserver.current) {
         resizeObserver.current.disconnect();
       }
@@ -495,7 +516,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         chart.current = null;
       }
     };
-  }, [klineData, isDarkMode, chartOptions, t, selectedInterval]);
+  }, [klineData, isDarkMode, chartOptions, t, selectedInterval, handleChartScroll]);
 
   // 处理暗色模式变化
   useEffect(() => {

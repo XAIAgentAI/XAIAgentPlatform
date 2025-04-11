@@ -67,7 +67,8 @@ export function AgentInfo({ agent }: AgentInfoProps) {
     priceChange,
     isLoading: klineLoading,
     error: klineError,
-    refetch
+    refetch,
+    loadMore
   } = useSwapKLineData({
     interval: selectedInterval,
     targetToken: agent?.tokenAddress || '',
@@ -267,7 +268,9 @@ export function AgentInfo({ agent }: AgentInfoProps) {
           isLoading={klineLoading}
           error={klineError}
           onIntervalChange={handleIntervalChange}
+          onRetry={refetch}
           dbcPriceUsd={dbcPriceUsd}
+          onLoadMore={loadMore}
         />
       </div>
 

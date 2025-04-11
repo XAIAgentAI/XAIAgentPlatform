@@ -7,6 +7,7 @@ export interface KLineData {
   low: number;
   close: number;
   volume: number;
+  isLoading?: boolean; // 添加加载状态标记
 }
 
 export type TimeInterval = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d' | '1w';
@@ -27,7 +28,7 @@ export class TokenPriceManager {
   private pollingInterval: NodeJS.Timeout | null = null;
   private subscribers = new Set<PriceUpdateCallback>();
   private data: KLineData[] = [];
-  private maxDataPoints = 10000;
+  private maxDataPoints = 1000; // 减小默认加载的数据点数量
   private lastFetchedTime: number = 0;
   private interval: TimeInterval;
   private currentPrice = 0;
@@ -37,6 +38,9 @@ export class TokenPriceManager {
   private retryCount = 0;
   private readonly MAX_RETRIES = 3;
   private readonly RETRY_DELAY = 2000; // 2秒
+  private isLoadingMore = false;
+  private hasMoreData = true;
+  private earliestTimestamp: number | null = null;
 
   constructor(interval: TimeInterval = '1h') {
     this.interval = interval;
@@ -180,14 +184,19 @@ export class TokenPriceManager {
       );
       const newData: KLineData[] = await response.json();
 
+      if (newData.length > 0) {
+        // 更新最早的时间戳
+        this.earliestTimestamp = Math.min(...newData.map(d => d.time));
+        this.hasMoreData = true;
+      }
+
       // 过滤掉重复的数据点
       const existingTimes = new Set(this.data.map(d => d.time));
       const uniqueNewData = newData.filter(d => !existingTimes.has(d.time));
 
       // 添加新数据
       this.data = [...this.data, ...uniqueNewData]
-        .sort((a, b) => a.time - b.time)
-        .slice(-this.maxDataPoints);
+        .sort((a, b) => a.time - b.time);
 
       // 更新当前价格和价格变化
       const latestKline = this.data[this.data.length - 1];
@@ -256,6 +265,76 @@ export class TokenPriceManager {
       this.priceChange = ((currentPrice - price24hAgo) / price24hAgo) * 100;
     } else {
       this.priceChange = 0;
+    }
+  }
+
+  async loadMoreHistoricalData() {
+    if (this.isLoadingMore || !this.hasMoreData || !this.earliestTimestamp) return;
+
+    try {
+      this.isLoadingMore = true;
+      // 计算要获取的时间范围
+      const endTime = this.earliestTimestamp;
+      let startTime: number;
+      
+      // 根据不同的时间间隔，决定往前获取多少数据
+      switch (this.interval) {
+        case '30m':
+          startTime = endTime - 30 * 24 * 60 * 60; // 往前30天
+          break;
+        case '1h':
+          startTime = endTime - 60 * 24 * 60 * 60; // 往前60天
+          break;
+        case '4h':
+          startTime = endTime - 90 * 24 * 60 * 60; // 往前90天
+          break;
+        case '1d':
+          startTime = endTime - 180 * 24 * 60 * 60; // 往前180天
+          break;
+        case '1w':
+          startTime = endTime - 365 * 24 * 60 * 60; // 往前365天
+          break;
+        default:
+          startTime = endTime - 30 * 24 * 60 * 60;
+      }
+
+      const response = await fetch(
+        `/api/kline/1?from=${startTime}&to=${endTime}&interval=${this.interval}`,
+        { cache: 'no-store' }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const historicalData: KLineData[] = await response.json();
+
+      if (!Array.isArray(historicalData)) {
+        throw new Error('Invalid data format received');
+      }
+
+      if (historicalData.length === 0) {
+        this.hasMoreData = false;
+        return;
+      }
+
+      // 更新最早的时间戳
+      this.earliestTimestamp = Math.min(...historicalData.map(d => d.time));
+
+      // 合并数据，确保没有重复
+      const existingTimes = new Set(this.data.map(d => d.time));
+      const uniqueNewData = historicalData.filter(d => !existingTimes.has(d.time));
+
+      // 合并并排序数据
+      this.data = [...uniqueNewData, ...this.data].sort((a, b) => a.time - b.time);
+
+      // 通知订阅者
+      this.notifySubscribers();
+    } catch (err) {
+      console.error('Error loading more historical data:', err);
+      throw err;
+    } finally {
+      this.isLoadingMore = false;
     }
   }
 }

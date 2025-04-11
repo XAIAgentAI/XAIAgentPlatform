@@ -3,17 +3,17 @@ import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
 
-
-
-const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "https://dbcswap.io/subgraph/name/ianlapham/uniswap-v3-test" : 'https://dbcswap.io/subgraph/name/ianlapham/dbcswap-v3-mainnet';
+export const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "https://dbcswap.io/subgraph/name/ianlapham/uniswap-v3-test" : 'https://dbcswap.io/subgraph/name/ianlapham/dbcswap-v3-mainnet';
 export const DBC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "" : "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
 export const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83f6b17914a4e88436251589194ca5ac0f452";
 
 
-interface FetchSwapDataParams {
+export interface FetchSwapDataParams {
   interval: TimeInterval;
   targetToken: string;
   baseToken: string;
+  from?: number;  // 添加可选的时间范围参数
+  to?: number;    // 添加可选的时间范围参数
 }
 
 interface SwapQueryVariables {
@@ -26,17 +26,17 @@ const getTimeRange = (interval: TimeInterval): number => {
   const now = Math.floor(Date.now() / 1000);
   switch (interval) {
     case '30m':
-      return now - 30 * 60 * 96; // 30分钟间隔，获取最近48小时的数据 (96个数据点)
+      return now - 7 * 24 * 60 * 60; // 7天
     case '1h':
-      return now - 60 * 60 * 72; // 1小时间隔，获取最近72小时的数据 (72个数据点)
+      return now - 14 * 24 * 60 * 60; // 14天
     case '4h':
-      return now - 4 * 60 * 60 * 30; // 4小时间隔，获取最近5天的数据 (30个数据点)
+      return now - 30 * 24 * 60 * 60; // 30天
     case '1d':
-      return now - 24 * 60 * 60 * 30; // 1天间隔，获取最近30天的数据 (30个数据点)
+      return now - 90 * 24 * 60 * 60; // 90天
     case '1w':
-      return now - 7 * 24 * 60 * 60 * 52; // 1周间隔，获取最近52周的数据
+      return now - 180 * 24 * 60 * 60; // 180天
     default:
-      return now - 60 * 60 * 72; // 默认1小时
+      return now - 7 * 24 * 60 * 60; // 默认7天
   }
 };
 
@@ -82,73 +82,164 @@ const buildSwapQuery = (targetToken: string, baseToken: string, fromTimestamp: n
   }
 `;
 
-export const fetchSwapData = async ({ interval, targetToken, baseToken }: FetchSwapDataParams): Promise<SwapData[]> => {
+export const fetchSwapData = async ({
+  interval,
+  targetToken,
+  baseToken,
+  from,
+  to
+}: FetchSwapDataParams): Promise<SwapData[]> => {
   try {
-    const fromTimestamp = getTimeRange(interval);
-    const query = buildSwapQuery(targetToken, baseToken, fromTimestamp);
-    const variables: SwapQueryVariables = {
-      targetToken: targetToken.toLowerCase(),
-      baseToken: baseToken.toLowerCase(),
-      fromTimestamp: fromTimestamp.toString()
-    };
+    // 计算查询的时间范围
+    const toTimestamp = to || Math.floor(Date.now() / 1000);
+    let fromTimestamp = from;
+    
+    if (!fromTimestamp) {
+      // 如果没有指定起始时间，获取最早的交易记录
+      const firstSwapQuery = `
+        query GetFirstSwap($targetToken: String!, $baseToken: String!) {
+          swaps(
+            first: 1,
+            orderBy: timestamp,
+            orderDirection: asc,
+            where: {
+              and: [
+                {
+                  or: [
+                    { token0: $targetToken },
+                    { token1: $targetToken }
+                  ]
+                },
+                {
+                  or: [
+                    { token0: $baseToken },
+                    { token1: $baseToken }
+                  ]
+                }
+              ]
+            }
+          ) {
+            timestamp
+          }
+        }
+      `;
 
-    const response = await fetch(SUBGRAPH_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables
-      }),
-    });
-
-    if (!response.ok) {
-      console.error('API响应错误:', {
-        status: response.status,
-        statusText: response.statusText
-      });
-      throw new Error('Network response was not ok');
-    }
-
-    const data: SwapResponse = await response.json();
-
-    // 检查是否有错误
-    if (data.errors) {
-      console.error('子图查询错误:', data.errors);
-      throw new Error(data.errors[0].message);
-    }
-
-    // 如果没有数据，尝试扩大时间范围
-    if (!data.data?.swaps || data.data.swaps.length === 0) {
-      // 扩大时间范围到30天
-      const extendedFromTimestamp = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
-      const extendedQuery = buildSwapQuery(targetToken, baseToken, extendedFromTimestamp);
-      const extendedVariables: SwapQueryVariables = {
-        targetToken: targetToken.toLowerCase(),
-        baseToken: baseToken.toLowerCase(),
-        fromTimestamp: extendedFromTimestamp.toString()
-      };
-
-      const extendedResponse = await fetch(SUBGRAPH_URL, {
+      const firstSwapResponse = await fetch(SUBGRAPH_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: extendedQuery,
-          variables: extendedVariables
+          query: firstSwapQuery,
+          variables: {
+            targetToken: targetToken.toLowerCase(),
+            baseToken: baseToken.toLowerCase(),
+          }
         }),
       });
 
-      const extendedData: SwapResponse = await extendedResponse.json();
+      const firstSwapData = await firstSwapResponse.json();
+      fromTimestamp = firstSwapData.data.swaps[0]?.timestamp 
+        ? parseInt(firstSwapData.data.swaps[0].timestamp)
+        : Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60; // 如果没有数据，默认30天
+    }
 
-      if (extendedData.data?.swaps) {
-        return extendedData.data.swaps;
+    // 分页获取所有数据
+    let allSwaps: SwapData[] = [];
+    let hasMore = true;
+    let lastTimestamp = toTimestamp;
+    const BATCH_SIZE = 1000;
+
+    while (hasMore) {
+      const query = `
+        query GetSwaps($targetToken: String!, $baseToken: String!, $lastTimestamp: String!, $fromTimestamp: String!) {
+          swaps(
+            first: ${BATCH_SIZE},
+            orderBy: timestamp,
+            orderDirection: desc,
+            where: {
+              and: [
+                {
+                  or: [
+                    { token0: $targetToken },
+                    { token1: $targetToken }
+                  ]
+                },
+                {
+                  or: [
+                    { token0: $baseToken },
+                    { token1: $baseToken }
+                  ]
+                },
+                { timestamp_lt: $lastTimestamp },
+                { timestamp_gte: $fromTimestamp }
+              ]
+            }
+          ) {
+            id
+            amount0
+            amount1
+            token0 {
+              id
+              name
+              volume
+            }
+            token1 {
+              id
+              name
+              volume
+            }
+            timestamp
+          }
+        }
+      `;
+
+      const response = await fetch(SUBGRAPH_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query,
+          variables: {
+            targetToken: targetToken.toLowerCase(),
+            baseToken: baseToken.toLowerCase(),
+            lastTimestamp: lastTimestamp.toString(),
+            fromTimestamp: fromTimestamp.toString()
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      
+      if (data.errors) {
+        console.error('子图查询错误:', data.errors);
+        throw new Error(data.errors[0].message);
+      }
+
+      const swaps = data.data.swaps;
+      
+      if (!swaps || swaps.length === 0) {
+        hasMore = false;
+      } else {
+        allSwaps = [...allSwaps, ...swaps];
+        
+        // 更新最后一个时间戳用于下一次查询
+        const lastSwap = swaps[swaps.length - 1];
+        lastTimestamp = parseInt(lastSwap.timestamp);
+        
+        // 如果获取的数据少于批次大小，或者已经达到起始时间，就停止查询
+        if (swaps.length < BATCH_SIZE || lastTimestamp <= fromTimestamp) {
+          hasMore = false;
+        }
       }
     }
 
-    return data.data.swaps || [];
+    return allSwaps;
   } catch (error) {
     console.error('获取交易数据失败:', error);
     throw error;

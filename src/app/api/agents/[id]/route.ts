@@ -31,10 +31,6 @@ export async function GET(
       throw new ApiError(404, 'Agent不存在');
     }
 
-    console.log("process.env.NEXT_PUBLIC_IS_TEST_ENV", process.env.NEXT_PUBLIC_IS_TEST_ENV, process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true');
-    
-    console.log("tokenAddress", process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress);
-    console.log("iaoContractAddress", process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress);
     return createSuccessResponse({
       ...agent,
       capabilities: JSON.parse(agent.capabilities),
