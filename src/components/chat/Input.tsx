@@ -7,26 +7,38 @@ interface InputComponentProps {
   setInput: React.Dispatch<React.SetStateAction<string>>;
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userName: string | null;
-  handleSubmit: (e: React.FormEvent) => any;
+  handleSubmit: (e: React.FormEvent) => Promise<void>; // 确保返回 Promise
   conversations: any;
   setIsNew: any;
   prompt: any;
+  agent: string;
   setagent: any;
 }
 
-const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIsNew, conversations, userName, setUserStatus, input, setInput, isLoading, handleSubmit }) => {
+const InputComponent: React.FC<InputComponentProps> = ({
+  agent,
+  setagent,
+  prompt,
+  setIsNew,
+  conversations,
+  userName,
+  setUserStatus,
+  input,
+  setInput,
+  isLoading,
+  setIsLoading,
+  handleSubmit,
+}) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [isImageLoading, setIsImageLoading] = useState(false);
-  const [imageError, setImageError] = useState<string | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const locale = useLocale();
+  const t = useTranslations("chat");
 
-  // 初始化prompt
+  // 初始化 prompt
   useEffect(() => {
     if (!isInitialized && prompt) {
       setInput(prompt);
@@ -40,9 +52,8 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${Math.min(
         textareaRef.current.scrollHeight,
-        5 * 24 // 最大5行高度
+        5 * 24
       )}px`;
-      // Enable scrolling when content exceeds 5 lines
       if (textareaRef.current.scrollHeight > 5 * 24) {
         textareaRef.current.style.overflowY = 'auto';
       } else {
@@ -51,122 +62,97 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
     }
   }, [input]);
 
-  // 点击模态框外部关闭
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        if (!isImageLoading) {
-          setShowImageModal(false);
-        }
-      }
-    }
-    if (showImageModal) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showImageModal, isImageLoading]);
-
   const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
 
-  const handleSendClick = (e: React.FormEvent) => {
-    if (!userName) {
-      setUserStatus(false);
-      setTimeout(() => setUserStatus(true), 1000);
-      e.preventDefault();
-      return;
-    }
-    if(conversations["1"]?.length > 0){
-      setIsNew("yes");
-    }
-    handleSubmit(e);
-  };
-
-  // 处理图片上传
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setagent("StyleID");
-    if (e.target.files && e.target.files[0]) {
-      setSelectedImage(e.target.files[0]);
-    }
-  };
-
-  // 调用STID API接口
-  const handleTryNewApi = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!selectedImage) return;
-     
-    const formData = new FormData();
-    formData.append('face_image', selectedImage);
-    formData.append('prompt', input ? input : "Generate a picture in this style");
-    
-    try {
-      setIsImageLoading(true);
-      setImageError(null);
-      setShowImageModal(true);
+    // ✅ 上传图片到后端 API（STID 模式专用）
+    const uploadImageToBackend = async (file: File): Promise<string> => {
+      console.log('[STID] Starting image upload to backend...');
+      console.log('[STID] File info:', { name: file.name, size: file.size, type: file.type });
       
-      const response = await fetch('/api/stid', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('image')) {
-          const blob = await response.blob();
-          const imageUrl = URL.createObjectURL(blob);
-          setGeneratedImage(imageUrl);
-        } else {
-          setImageError('There is no face detected in your input or your prompt is unclear');
+      const formData = new FormData();
+      formData.append('image', file);
+  
+      try {
+        console.log('[STID] Sending request to /api/image...');
+        const response = await fetch('/api/image', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        if (!response.ok) {
+          console.error('[STID] Image upload failed with status:', response.status);
+          throw new Error('上传图片失败');
         }
-      } else {
-        setImageError('There is no face detected in your input or your prompt is unclear');
+  
+        const data = await response.json();
+        console.log('[STID] Image upload successful. Received URL:', data.imageUrl);
+        return data.imageUrl; // 返回 OSS URL
+      } catch (error) {
+        console.error('[STID] Error during image upload:', error);
+        throw error;
       }
-    } catch (error) {
-      console.error('发送图片失败:', error);
-      setImageError('There was an error processing your image');
-    } finally {
-      setIsImageLoading(false);
-      setSelectedImage(null);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
-  };
-
-  const handleCopyImage = async () => {
-    if (!generatedImage) return;
-    
-    try {
-      const response = await fetch(generatedImage);
-      const blob = await response.blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob
-        })
-      ]);
-      // You could add a toast notification here for success
-    } catch (err) {
-      console.error('Failed to copy image: ', err);
-    }
-  };
-
-  const handleDownloadImage = () => {
-    if (!generatedImage) return;
-    
-    const link = document.createElement('a');
-    link.href = generatedImage;
-    link.download = 'stid-generated-image.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const locale = useLocale();
-  const t = useTranslations("chat");
+    };
+  
+    // ✅ 处理图片上传（用户选择文件时触发）
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+        console.log('[Image] User selected file:', e.target.files[0]);
+        setSelectedImage(e.target.files[0]);
+      } else {
+        console.log('[Image] No file selected or selection cancelled');
+      }
+    };
+  
+    // ✅ 修改后的发送逻辑（STID 模式 & 普通模式）
+    const handleSendClick = async (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log('[Submit] Form submission started');
+  
+      if (!userName) {
+        console.log('[Auth] User not logged in, showing auth modal');
+        setUserStatus(false);
+        setTimeout(() => setUserStatus(true), 1000);
+        return;
+      }
+  
+      if (conversations["1"]?.length > 0) {
+        console.log('[Chat] Existing conversation detected, marking as new');
+        setIsNew("yes");
+      }
+  
+      setIsLoading(true); // 开始加载
+      console.log('[Loading] Set loading state to true');
+  
+      try {
+        // STID 模式：先上传图片，再提交对话
+        if (agent === "StyleID" && selectedImage) {
+          console.log('[STID] STID mode detected with selected image');
+          const imageUrl = await uploadImageToBackend(selectedImage);
+          console.log('[STID] Setting input with image URL:', imageUrl);
+          setInput(imageUrl); // 设置输入为图片 URL
+          console.log('[STID] Submitting conversation with image...');
+          await handleSubmit(e); // 提交对话（可能包含 imageUrl）
+          setSelectedImage(null); // 清空已选图片
+          console.log('[STID] Cleared selected image');
+          if (fileInputRef.current) fileInputRef.current.value = ''; // 清空文件输入
+        } 
+        // 普通模式：直接提交文本
+        else {
+          console.log('[Submit] Normal mode - submitting text input:', input);
+          await handleSubmit(e);
+        }
+      } catch (error) {
+        console.error('[Error] Submission failed:', error);
+      } finally {
+        console.log('[Loading] Set loading state to false');
+        setIsLoading(false); // 结束加载
+      }
+    };
 
   return (
-    <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex: showImageModal ? 150000:10000}}>
+    <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex: 10000}}>
       <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
-        <form onSubmit={handleSubmit} className="w-full relative">
+        <form onSubmit={handleSendClick} className="w-full relative">
           <div className="w-full relative flex items-center bg-[#EDEDED] dark:bg-[rgb(21,21,21)] rounded-2xl">
             {/* 图片上传按钮 */}
             <button
@@ -188,7 +174,7 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
             </button>
             
             <div className="flex flex-col w-full">
-              {/* 自适应高度的文本输入框 */}
+              {/* 文本输入框 */}
               <textarea
                 ref={textareaRef}
                 value={input || ''}
@@ -198,26 +184,19 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
                 disabled={isLoading}
                 rows={1}
               />
-              {/* 图片预览和API按钮 - 移动到输入框底部 */}
+              {/* 图片预览 */}
               {selectedImage ? (
-                <div className="w-[80%] mb-1 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-2 rounded-sm" style={{zIndex:1000}}>
+                <div className="w-[180px] md:w-[80%] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
                       {selectedImage.name}
                     </span>
                   </div>
-                  <button
-                    onClick={handleTryNewApi}
-                    className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors whitespace-nowrap"
-                    disabled={isLoading || !input.trim()}
-                  >
-                    尝试STID
-                  </button>
                 </div>
               ):(<div className="h-[28px]"></div>)}
             </div>
             
-            {/* 发送按钮 - 优化后的样式 */}
+            {/* 发送按钮 */}
             <button
               type="submit"
               onClick={handleSendClick}
@@ -240,74 +219,6 @@ const InputComponent: React.FC<InputComponentProps> = ({ setagent, prompt, setIs
           {t("inputInfo")}
         </div>
       </div>
-
-      {/* 自定义图片展示模态框 */}
-      {showImageModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style={{zIndex:1000100}}>
-          <div 
-            ref={modalRef}
-            style={{zIndex:1000100}}
-            className="bg-white relative dark:bg-[#1e1e1e] rounded-lg shadow-xl w-[90vw] max-w-2xl min-h-[80vh] max-h-[90vh] flex flex-col"
-          >
-            <div className="flex justify-between items-center border-b dark:border-gray-700 p-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Image received</h3>
-              {!isImageLoading && (
-                <button
-                  onClick={() => setShowImageModal(false)}
-                  className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-            <div className="p-4 overflow-auto flex-grow flex items-center justify-center">
-              {isImageLoading ? (
-                <div className="flex flex-col items-center justify-center h-full -mt-2 mb-16">
-                  <svg className="animate-spin h-12 w-12 text-orange-500" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  <p className="mt-4 text-gray-600 dark:text-gray-300">Processing your image...</p>
-                </div>
-              ) : imageError ? (
-                <div className="flex items-center justify-center h-full text-center p-8 -mt-2 mb-8">
-                  <p className="text-gray-600 dark:text-gray-300 text-lg">{imageError}</p>
-                </div>
-              ) : generatedImage ? (
-                <div className="relative w-full h-full flex flex-col items-center">
-                  <img 
-                    src={generatedImage} 
-                    alt="Generated from STID" 
-                    className="max-w-full max-h-[70vh] object-contain"
-                  />
-                  <div className="mt-4 flex space-x-4">
-                    <button
-                      onClick={handleCopyImage}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                      title="Copy image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={handleDownloadImage}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                      title="Download image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

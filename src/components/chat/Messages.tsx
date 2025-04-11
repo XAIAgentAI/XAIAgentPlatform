@@ -28,7 +28,6 @@ interface MessagesComponentProps {
 
 async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
   setIsNew("yes");
-  // 更新本地的 conversations 状态，清空指定 agentId 的部分消息
   setConversations((prev: Conversations): Conversations => {
     const newConversations = { ...prev };
     newConversations["1"] = [];
@@ -50,10 +49,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
     setMessages(conversations["1"] || []);
   }, [conversations["1"]]);  
 
-  // 自动滚动到最新消息
   useEffect(() => {
     scrollToBottom();
-  }, [messages]); // 监听 messages 的变化
+  }, [messages]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -62,7 +60,39 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   const isValidDate = (dateString: string): boolean => {
     const datePattern = /^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/;
     return datePattern.test(dateString);
-  };  
+  };
+
+  // 检查是否是图片URL
+  const isImageUrl = (content: string): boolean => {
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(content) || 
+           content.startsWith('https://') || 
+           content.startsWith('http://');
+  };
+
+  // 复制图片到剪贴板
+  const handleCopyImage = async (imageUrl: string) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob
+        })
+      ]);
+    } catch (err) {
+      console.error('Failed to copy image: ', err);
+    }
+  };
+
+  // 下载图片
+  const handleDownloadImage = (imageUrl: string) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'chat-image.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="z-1 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ maxHeight:"75vh" }}>
@@ -102,7 +132,35 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   : 'text-foreground'
               }`}
             >
-              {message.role === 'assistant' ? (
+              {isImageUrl(message.content) ? (
+                <div className="relative">
+                  <img 
+                    src={message.content} 
+                    alt="Chat image" 
+                    className="max-w-full max-h-[300px] object-contain rounded-lg"
+                  />
+                  <div className="flex justify-center space-x-4 mt-2">
+                    <button
+                      onClick={() => handleCopyImage(message.content)}
+                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                      title="Copy image"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleDownloadImage(message.content)}
+                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                      title="Download image"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ) : message.role === 'assistant' ? (
                 <ReactMarkdown>{message.content}</ReactMarkdown>
               ) : (
                 <p className="text-sm text-justify">{message.content}</p>
