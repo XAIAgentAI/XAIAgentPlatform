@@ -10,18 +10,33 @@ interface InputComponentProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userName: string | null;
   handleSubmit: (e: React.FormEvent) => Promise<void>; // 确保返回 Promise
-  conversations: any;
+  conversations: { [id: string]: Message[] };
   setIsNew: any;
   prompt: any;
   agent: string;
+  isNew: any;
+  setConversations: any;
+  convid: any;
   setagent: any;
+}
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  time: string;
+  convid: string;
+  agent: string;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
   agent,
+  isNew,
   setagent,
+  setConversations,
   prompt,
   setIsNew,
+  convid,
   conversations,
   userName,
   setUserStatus,
@@ -103,41 +118,105 @@ const InputComponent: React.FC<InputComponentProps> = ({
       }
     };
   
-    // ✅ 修改后的发送逻辑（STID 模式 & 普通模式）
     const handleSendClick = async (e: React.FormEvent) => {
       e.preventDefault();
       console.log('[Submit] Form submission started');
-  
+    
       if (!userName) {
         console.log('[Auth] User not logged in, showing auth modal');
         setUserStatus(false);
         setTimeout(() => setUserStatus(true), 1000);
         return;
       }
-  
+    
       if (conversations["1"]?.length > 0) {
         console.log('[Chat] Existing conversation detected, marking as new');
         setIsNew("yes");
       }
-  
-      setIsLoading(true); // 开始加载
+    
+      setIsLoading(true);
       console.log('[Loading] Set loading state to true');
-  
+    
       try {
-        // STID 模式：先上传图片，再提交对话
+        // STID模式处理
         if (agent === "StyleID" && selectedImage) {
           console.log('[STID] STID mode detected with selected image');
-          const imageUrl = await uploadImageToBackend(selectedImage);
-          console.log('[STID] Setting input with image URL:', imageUrl);
-          setInput(imageUrl); // 设置输入为图片 URL
-          console.log('[STID] Submitting conversation with image...');
-          await handleSubmit(e); // 提交对话（可能包含 imageUrl）
-          setSelectedImage(null); // 清空已选图片
-          console.log('[STID] Cleared selected image');
-          if (fileInputRef.current) fileInputRef.current.value = ''; // 清空文件输入
-        } 
-        // 普通模式：直接提交文本
-        else {
+          
+          // 1. 先添加用户文本消息到对话
+          const userTextMessage: Message = {
+            id: `${Date.now()}-${userName}`,
+            role: 'user',
+            content: input,
+            time: new Date().toISOString(),
+            convid: convid,
+            agent: agent
+          };
+          setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), userTextMessage] }));
+          
+          // 2. 上传原始图片到后端获取URL
+          const originalImageUrl = await uploadImageToBackend(selectedImage);
+          console.log('[STID] Original image URL:', originalImageUrl);
+          
+          // 3. 调用STID API生成新图片
+          const stidFormData = new FormData();
+          stidFormData.append('face_image', selectedImage);
+          stidFormData.append('prompt', input);
+          
+          console.log('[STID] Calling STID API...');
+          const stidResponse = await fetch('/api/stid', {
+            method: 'POST',
+            body: stidFormData,
+          });
+          
+          if (!stidResponse.ok) {
+            throw new Error('STID生成失败');
+          }
+          
+          // 4. 将生成的图片Blob转换为File对象
+          const generatedImageBlob = await stidResponse.blob();
+          const generatedImageFile = new File([generatedImageBlob], 'generated-image.jpg', {
+            type: 'image/jpeg',
+          });
+          
+          // 5. 上传生成的图片到后端获取URL
+          const generatedImageUrl = await uploadImageToBackend(generatedImageFile);
+          console.log('[STID] Generated image URL:', generatedImageUrl);
+          
+          // 6. 发送图片消息到聊天API
+          const imageResponse = await fetch('/api/chat/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: generatedImageUrl, // 使用生成的图片URL作为消息内容
+              user: userName,
+              thing: "image", // 重要：设置为image类型
+              isNew: isNew,
+              convid: convid,
+              model: "DeepSeek V3",
+              agent: agent
+            }),
+          });
+          
+          const imageData = await imageResponse.json();
+          console.log('[STID] Image message response:', imageData);
+          
+          // 7. 添加AI消息到对话
+          const aiMessage: Message = {
+            id: `${imageData.convid}-${Date.now()}`,
+            role: 'assistant',
+            content: generatedImageUrl,
+            time: imageData.time || new Date().toISOString(),
+            convid: imageData.convid,
+            agent: imageData.agent
+          };
+          setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
+          
+          // 8. 清理状态
+          setSelectedImage(null);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+          setInput('');
+        } else {
+          // 普通文本模式保持不变
           console.log('[Submit] Normal mode - submitting text input:', input);
           await handleSubmit(e);
         }
@@ -145,7 +224,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
         console.error('[Error] Submission failed:', error);
       } finally {
         console.log('[Loading] Set loading state to false');
-        setIsLoading(false); // 结束加载
+        setIsLoading(false);
+        setIsNew("no");
       }
     };
 
@@ -186,7 +266,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
               />
               {/* 图片预览 */}
               {selectedImage ? (
-                <div className="w-[180px] md:w-[80%] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
+                <div className="w-[70vw] max-w-[550px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
                       {selectedImage.name}

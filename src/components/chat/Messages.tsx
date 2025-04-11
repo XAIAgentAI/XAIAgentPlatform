@@ -65,8 +65,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   // 检查是否是图片URL
   const isImageUrl = (content: string): boolean => {
     return /\.(jpg|jpeg|png|gif|webp)$/i.test(content) || 
-           content.startsWith('https://') || 
-           content.startsWith('http://');
+           content?.startsWith('https://') || 
+           content?.startsWith('http://');
   };
 
   // 复制图片到剪贴板
@@ -139,7 +139,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                     alt="Chat image" 
                     className="max-w-full max-h-[300px] object-contain rounded-lg"
                   />
-                  <div className="flex justify-center space-x-4 mt-2">
+                  <div className="flex justify-center w-[300px] space-x-4 mt-2">
                     <button
                       onClick={() => handleCopyImage(message.content)}
                       className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"

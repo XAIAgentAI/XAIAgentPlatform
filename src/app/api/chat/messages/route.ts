@@ -134,8 +134,58 @@ export async function POST(
   request: NextRequest,
 ) {
   const { message, thing, isNew, user: requestUser, convid, agent } = await request.json();
+  // 在POST函数的else块开头添加以下逻辑
+  if (thing === 'image') {
+    // 图片消息处理逻辑
+    const user = requestUser;
+    if (!user) {
+      return NextResponse.json({ error: 'User not found in request.' });
+    }
 
-  if (thing === 'signup') {
+    // 获取用户记录
+    const userChat = await getUserRecord(user);
+    if (!userChat) {
+      return NextResponse.json({ error: 'User not found.' });
+    }
+
+    let chat = userChat.chat;
+    if (typeof chat === 'string') {
+      chat = JSON.parse(chat);
+    }
+    if (!chat["1"]) {
+      chat["1"] = [];
+    }
+
+    let maxConvid = 0;
+    if (chat["1"].length > 0) {
+      maxConvid = Math.max(...chat["1"].map((sentence: any) => parseInt(sentence.convid)));
+    }
+
+    const currentTime = new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-').replace(/,/g, '');
+    
+    // 用户图片消息
+    const userImageMessage: Sentence = {
+      user: message, // 这里message是图片URL
+      convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString(),
+      time: currentTime,
+      agent: agent
+    };
+
+    chat["1"].push(userImageMessage);
+    
+    // AI回复消息（直接使用图片URL）
+    const aiResponse: Sentence = {
+      assistant: message, // 使用相同的图片URL
+      convid: userImageMessage.convid,
+      agent: agent,
+      time: currentTime
+    };
+
+    chat["1"].push(aiResponse);
+    await updateUserChat(user, chat);
+    
+    return NextResponse.json(aiResponse);
+  } else if (thing === 'signup') {
     // 生成初始用户名
     let timestamp = Math.floor(Date.now() / 1000);
     let randomNumbers = Math.floor(1000 + Math.random() * 90000).toString();
@@ -189,7 +239,7 @@ export async function POST(
     chat["1"].push(userMessage);
     
     //固定Model
-    const selectedModel = "Llama3.3-70B";
+    const selectedModel = "QwQ-32B";
     console.log(selectedModel);
 
     const requestBody = {
