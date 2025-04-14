@@ -81,9 +81,20 @@ module.exports = {
           "0%": { opacity: 0.4 },
           "50%": { opacity: 0.88 },
           "100%": { opacity: 0.4 }
+        },
+        "smoothShine": {
+          '0%': { 
+            transform: 'translateX(-100%)', 
+            opacity: '0.3' 
+          },
+          '100%': { 
+            transform: 'translateX(100%)', 
+            opacity: '0.3' 
+          },
         }
       },
       animation: {
+        'smooth-shine': 'smoothShine 3.2s ease-in-out infinite',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-ball": "scaleBall 1.5s infinite ease-in-out",

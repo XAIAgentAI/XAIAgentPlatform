@@ -190,14 +190,19 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </div>
         ))}
         {isLoading && (
-          <div className="flex flex-row">
-            <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
-            <div className='text-foreground ml-2 text-md font-semibold'>
-              {agent.split('').map((char, index) => (
-                <span key={index} className={`inline-block animate-chatthink`}>
-                  {char}
-                </span>
-              ))}
+          <div className="flex flex-col justify-start">
+            <div className="flex flex-row">
+              <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
+              <div className='text-foreground ml-2 text-md font-semibold'>
+                {agent.split('').map((char, index) => (
+                  <span key={index} className={`inline-block animate-chatthink`}>
+                    {char}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="relative h-[20vh] min-w-[260px] w-[60vw] lg:w-[50vw] rounded-lg ml-4 mt-4 bg-[rgba(22,22,22,0.01)] dark:bg-[rgba(22,22,22,0.3)] overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(22,22,22,0.15)] dark:via-[rgba(22,22,22,0.2)] to-transparent animate-smooth-shine"></div>
             </div>
           </div>
         )}
