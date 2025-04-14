@@ -239,7 +239,7 @@ export async function POST(
     chat["1"].push(userMessage);
     
     //固定Model
-    const selectedModel = "QwQ-32B";
+    const selectedModel = "Llama-4-Scout-Instruct";
     console.log(selectedModel);
 
     const requestBody = {

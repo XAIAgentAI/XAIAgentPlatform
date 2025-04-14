@@ -216,6 +216,7 @@ export default function ChatPage() {
       <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
+          setInput={setInput}
           agentMarket={agentMarket}
           agent={agent}
           userName={userName}

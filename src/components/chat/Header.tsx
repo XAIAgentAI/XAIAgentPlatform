@@ -24,6 +24,7 @@ interface HeaderComponentProps {
   convid: string;
   userName: string | null;
   setUserName: any;
+  setInput: any;
   selectedAgent: string;
   handleAgentSelect: (agent: string) => void;
   isAgentListOpen: boolean;
@@ -37,14 +38,45 @@ interface HeaderComponentProps {
   agentMarket: any;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserName, setIsNew, convid, setUserStatus, userName, agent, setIsLoading, selectedAgent, handleAgentSelect, isAgentListOpen, setIsAgentListOpen, agentDescriptions, setConversations, conversations }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ 
+  setInput, 
+  agentMarket, 
+  setUserName, 
+  setIsNew, 
+  convid, 
+  setUserStatus, 
+  userName, 
+  agent, 
+  setIsLoading, 
+  selectedAgent, 
+  handleAgentSelect, 
+  isAgentListOpen, 
+  setIsAgentListOpen, 
+  agentDescriptions, 
+  setConversations, 
+  conversations 
+}) => {
   const [index, setIndex] = useState(0);
+  const [isStyleOpen, setIsStyleOpen] = useState(false);
+  
   const src: {[key:string]:string} = {
     "Xaiagent":"/logo/XAIAgent.png",
     "StyleID":"/logo/StyleID.png",
     "LogoLift":"/logo/LogoLift.png",
     "PicSpan":"/logo/PicSpan.png"
   };
+
+  // Stable Diffusion style presets
+  const stylePresets = [
+    { name: "Cinematic", prompt: "cinematic lighting, dramatic atmosphere, film grain, 35mm lens" },
+    { name: "Anime", prompt: "anime style, vibrant colors, sharp details, studio ghibli inspired" },
+    { name: "Cyberpunk", prompt: "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style" },
+    { name: "Fantasy", prompt: "ethereal lighting, magical atmosphere, highly detailed, digital painting" },
+    { name: "Watercolor", prompt: "soft watercolor texture, gentle brush strokes, pastel colors" },
+    { name: "Low Poly", prompt: "low poly geometric shapes, vibrant colors, minimalist 3d style" },
+    { name: "Portrait", prompt: "professional portrait photography, shallow depth of field, 85mm lens" },
+    { name: "Oil Painting", prompt: "oil on canvas, textured brush strokes, classical art style" }
+  ];
 
   useEffect(() => {
     if(agent === "Xaiagent") {
@@ -105,6 +137,11 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserN
     }
   };
 
+  const handleStyleSelect = (stylePrompt: string) => {
+    setInput(stylePrompt);
+    setIsStyleOpen(false);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -132,29 +169,84 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserN
               {agentDescriptions[selectedAgent]?.prompt}
             </p>
             
-          {/* Horizontal scrolling container */}
-          <div className="w-full max-w-[73vw] lg:max-w-[70vw] xl:max-w-[68vw] relative mx-auto flex justify-center">
-            {/* Gradient fade indicators */}
-            <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-              
-            <div className="overflow-x-auto pb-4 scroll-container">
-              <div className="flex space-x-4 w-full px-2">
-                {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
-                  <div
-                    key={index}
-                    className="bg-card-inner hover:bg-card-inner-hover dark:bg-[rgba(22,22,22,0.8)] dark:hover:bg-[rgba(22,22,22,0.96)] 
-                      rounded-xl px-4 py-6 text-stone-700 dark:text-neutral-300 font-light text-sm flex-shrink-0 
-                      w-[250px] min-w-[200px] max-w-[280px] flex items-center justify-center transition-all duration-200 
-                      hover:scale-[1.02] cursor-pointer shadow-sm"
-                    onClick={() => handleExampleClick(example)}
-                  >
-                    <p>{example}</p>
-                  </div>
-                ))}
+            {/* Horizontal scrolling container for examples */}
+            <div className="w-full max-w-[73vw] lg:max-w-[70vw] xl:max-w-[68vw] relative mx-auto flex justify-center">
+              {/* Gradient fade indicators */}
+              <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+                
+              <div className="overflow-x-auto pb-4 scroll-container">
+                <div className="flex space-x-4 w-full px-2">
+                  {agentDescriptions[selectedAgent]?.examples?.map((example, index) => (
+                    <div
+                      key={index}
+                      className="bg-card-inner hover:bg-card-inner-hover dark:bg-[rgba(22,22,22,0.8)] dark:hover:bg-[rgba(22,22,22,0.96)] 
+                        rounded-xl px-4 py-6 text-stone-700 dark:text-neutral-300 font-light text-sm flex-shrink-0 
+                        w-[250px] min-w-[200px] max-w-[280px] flex items-center justify-center transition-all duration-200 
+                        hover:scale-[1.02] cursor-pointer shadow-sm"
+                      onClick={() => handleExampleClick(example)}
+                    >
+                      <p>{example}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+
+            {/* Style selector - only shown for StyleID agent */}
+            {agent === "StyleID" && (
+              <div className="relative w-full max-w-[72vw] bottom-4">
+                <div 
+                  className={`flex items-center justify-center space-x-2 ${
+                    isStyleOpen ? 'w-full' : 'w-fit'
+                  } mx-auto transition-all duration-300 ease-in-out`}
+                >
+                  <button
+                    onClick={() => setIsStyleOpen(!isStyleOpen)}
+                    className={`flex items-center space-x-2 rounded-full ${
+                      isStyleOpen 
+                        ? 'px-4 py-2 bg-card-inner-hover dark:bg-[rgba(30,30,30,0.9)] shadow-md' 
+                        : 'px-4 py-2 bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)]'
+                    } transition-all duration-200`}
+                  >
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 text-neutral-600 dark:text-neutral-300"
+                    >
+                      <path 
+                        d="M13 2L3 14H12L11 22L21 10H12L13 2Z" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
+                      Styles
+                    </span>
+                  </button>
+                  
+                  {isStyleOpen && (
+                    <div className="flex space-x-2 overflow-x-auto scroll-container pl-2">
+                      {stylePresets.map((style, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleStyleSelect(style.prompt)}
+                          className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
+                        >
+                          {style.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -168,11 +260,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ agentMarket, setUserN
         
         .scroll-container::-webkit-scrollbar {
           display: none; /* Chrome, Safari and Opera */
-        }
-        
-        /* 保留原有的渐变指示器样式 */
-        .scroll-container {
-          /* 其他样式保持不变 */
         }
       `}</style>
     </div>
