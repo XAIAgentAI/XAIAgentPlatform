@@ -165,11 +165,12 @@ export function AgentInfo({ agent }: AgentInfoProps) {
           <div className="min-w-0 flex-1">
             <div className="flex justify-start items-center flex-wrap">
               <h1 className="text-xl font-semibold">{agent?.name}</h1>
-              <div className="flex items-baseline  text-muted-foreground h- ml-1">
-                $
-                <span className="text-sm font-medium">
+              <div className="flex items-baseline text-xl font-medium ml-3">
+                <span className="text-primary">$</span>
+                <span className="text-primary">
                   {formatPrice(currentPrice * Number(dbcPriceUsd || 0) * (agent?.symbol === "XAA" ? 1 : baseTokenXaaRate), 8).value}
                 </span>
+                <span className="text-muted-foreground ml-1">USDT</span>
               </div>
             </div>
 

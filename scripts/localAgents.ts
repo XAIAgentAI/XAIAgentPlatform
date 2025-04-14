@@ -357,7 +357,57 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
       "能给我生成一个带有动态视觉效果的Logo，并且适合社交媒体头像使用吗？"
     ],
     socialLinks: "",
-    chatEntry: null
+    chatEntry: null,
+    projectDescription: JSON.stringify({
+      'zh': `Logo生成，通过文字对话可以生成各种样式的Logo。
+
+具有多样化设计风格，包括但不限于：
+- 简约现代风
+- 传统经典风
+- 极简主义
+- 手绘风格
+- 3D立体风格
+
+功能特点：
+- 根据用户输入的行业或业务类型，智能推荐相应的Logo设计风格和元素
+- 内置AI灵感引擎，可以根据用户输入的关键词，提供一些设计灵感和建议`,
+      'en': `Logo generation, various styles of logos can be generated through text dialogue.
+
+Diverse design styles include but are not limited to:
+- Minimalist modern style
+- Traditional classic style
+- Minimalism
+- Hand-drawn style
+- 3D style
+
+Features:
+- Intelligently recommends appropriate logo design styles and elements based on user's industry or business type
+- Built-in AI inspiration engine that provides design inspiration and suggestions based on user's keywords`,
+      'ja': `ロゴ生成、テキスト対話を通じて様々なスタイルのロゴを生成できます。
+
+多様なデザインスタイルには以下が含まれます：
+- ミニマリストモダンスタイル
+- 伝統的クラシックスタイル
+- ミニマリズム
+- 手描きスタイル
+- 3Dスタイル
+
+機能：
+- ユーザーの業界やビジネスタイプに基づいて適切なロゴデザインスタイルと要素をインテリジェントに推奨
+- ユーザーのキーワードに基づいてデザインのインスピレーションと提案を提供するAIインスピレーションエンジン`,
+      'ko': `로고 생성, 텍스트 대화를 통해 다양한 스타일의 로고를 생성할 수 있습니다.
+
+다양한 디자인 스타일에는 다음이 포함됩니다:
+- 미니멀리스트 모던 스타일
+- 전통적인 클래식 스타일
+- 미니멀리즘
+- 손으로 그린 스타일
+- 3D 스타일
+
+기능:
+- 사용자의 산업 또는 비즈니스 유형에 따라 적절한 로고 디자인 스타일과 요소를 지능적으로 추천
+- 사용자의 키워드를 기반으로 디자인 영감과 제안을 제공하는 AI 영감 엔진`
+    })
   },
   {
     id: 6,
