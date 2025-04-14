@@ -299,7 +299,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
               placeholder="Search conversations"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
+              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-[hsl(0,0%,15%)] dark:border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
             />
           </div>
           <button
