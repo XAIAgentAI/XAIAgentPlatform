@@ -102,7 +102,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
             type="button"
-            className="fixed right-[10px] top-[113px] flex items-center justify-center px-2 py-1 bg-[rgb(236,236,236)] dark:bg-zinc-800 text-zinc-700 rounded-full"
+            className="fixed right-[10px] top-[84px] flex items-center justify-center px-2 py-1 bg-[rgb(236,236,236)] dark:bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
                 if(!isLoading){
@@ -117,7 +117,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[22px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh]">
+      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh]">
         {messages.map((message) => (
           <div
             key={message.id}

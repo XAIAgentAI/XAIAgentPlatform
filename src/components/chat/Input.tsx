@@ -180,7 +180,36 @@ const InputComponent: React.FC<InputComponentProps> = ({
           });
           
           if (!stidResponse.ok) {
-            throw new Error('STID生成失败');
+            //图片无脸处理
+              const errorResponse = await fetch('/api/chat/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  prompt: originalInput,
+                  message: "There is no face or the prompt is too unclear.",
+                  user: userName,
+                  thing: "image", 
+                  isNew: isNew,
+                  convid: convid,
+                  model: "DeepSeek V3",
+                  agent: agent
+                }),
+              });
+              const errorData = await errorResponse.json();
+              const aiMessage: Message = {
+                id: `${errorData.convid}-${Date.now()}`,
+                role: 'assistant',
+                content: errorData.assistant || "",
+                time: errorData.time || new Date().toISOString(),
+                convid: errorData.convid,
+                agent: errorData.agent
+              };
+              setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
+              console.log('[Loading] Set loading state to false');
+              setIsLoading(false);
+              setIsLoadingImage(false);
+              setIsNew("no");
+              return;
           }
           
           // 4. 将生成的图片Blob转换为File对象

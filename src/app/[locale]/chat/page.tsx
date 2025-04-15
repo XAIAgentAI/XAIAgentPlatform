@@ -237,12 +237,29 @@ export default function ChatPage() {
       )}
       {/* Agent Selection */}
       <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] lg:ml-[20vw] xl:ml-[20vw] z-100">
-        <GradientBorderButton
-          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[24vw] xl:left-[calc(24vw+66px)] top-[72px]"
+        <button
+          className="flex items-center text-foreground text-lg fixed left-[64px] md:left-[74px] lg:left-[25vw] xl:left-[calc(24vw+56px)] top-[84px] hover:opacity-80 transition-opacity"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {agent}
-        </GradientBorderButton>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`transition-transform ${isAgentListOpen ? 'rotate-180' : ''}`}
+          >
+            {/* 简洁箭头 */}
+            <path
+              d="M7 10L12 15L17 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         {isAgentListOpen && (
           <AgentSelector handleAgentSelect={handleAgentSelect} agent={agent}/>
         )}

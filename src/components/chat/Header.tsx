@@ -155,10 +155,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
     setIsStyleOpen(false);
   };
 
-  
-
   return (
-    <div className="flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
+    <div className="flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-12 md:justify-start">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
         <div className="h-[78vh]">
           <div className="w-24 h-24 mx-auto mb-4">

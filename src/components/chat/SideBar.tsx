@@ -256,7 +256,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   return (
     <>
       <button
-        className="fixed top-[116px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[86px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -268,7 +268,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       
       <div 
         ref={sidebarRef} 
-        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[250px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] dark:border-none`} 
+        className={`fixed z-20 top-[84px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[250px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-75px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] dark:border-none`} 
         style={{zIndex:12000}}
       >
         <div className="flex justify-between items-center">
