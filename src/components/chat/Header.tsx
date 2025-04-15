@@ -58,6 +58,19 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
 }) => {
   const [index, setIndex] = useState(0);
   const [isStyleOpen, setIsStyleOpen] = useState(false);
+  const [symbol, setSymbol] = useState("XAA");
+
+  useEffect(()=>{
+    if(agent === "Xaiagent"){
+      setSymbol("XAA");
+    } else if (agent === "StyleID"){
+      setSymbol("STID");
+    } else if (agent === "LogoLift"){
+      setSymbol("Logo");
+    } else {
+      setSymbol("PIS");
+    }
+  },[agent])
   
   const src: {[key:string]:string} = {
     "Xaiagent":"/logo/XAIAgent.png",
@@ -142,6 +155,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
     setIsStyleOpen(false);
   };
 
+  
+
   return (
     <div className="flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-4 md:justify-start md:mt-12">
       <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -157,7 +172,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           </div>
           <p className="text-lg font-semibold text-center">{agent}</p>
           <p className="text-md text-center">
-            Data {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}{agentMarket[index]?.priceChange24h || "0.00"}% | 
+            {symbol} {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}{agentMarket[index]?.priceChange24h || "0.00"}% | 
             Market Cap: {agentMarket[index]?.marketCap || "$0"}
           </p>
           <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center">

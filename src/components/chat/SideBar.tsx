@@ -268,7 +268,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       
       <div 
         ref={sidebarRef} 
-        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[240px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] `} 
+        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[250px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] dark:border-none`} 
         style={{zIndex:12000}}
       >
         <div className="flex justify-between items-center mb-4">
@@ -377,9 +377,9 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                 ))
               ) : (
                 <div className="flex justify-center items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball"></div>
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.2s" }}></div>
-                  <div className="w-2 h-2 rounded-full bg-[#dedede] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.4s" }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{zIndex:1200000}}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.2s",zIndex:1200000 }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.4s",zIndex:1200000 }}></div>
                 </div>
               )}
             </>
