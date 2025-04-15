@@ -171,10 +171,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           <p className="text-lg font-semibold text-center">{agent}</p>
           <p className="text-md text-center">
             {symbol} {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}{agentMarket[index]?.priceChange24h || "0.00"}% | 
-            Market Cap: {agentMarket[index]?.marketCap || "$0"}
+            FDV: {agentMarket[index]?.marketCap || "$0"}
           </p>
           <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center">
-            Created by: <a className="underline" href="https://app.xaiagent.io">app.xaiagent.io</a>
+            Token Price: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
           </p>
           
           <div className="mt-6 flex flex-col items-center justify-center space-y-4">

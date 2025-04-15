@@ -33,6 +33,10 @@ interface Sentence {
   time?: string;
 }
 
+interface Conversations {
+  [id: string]: Message[];
+}
+
 // 定义路由参数的类型
 type ChatParams = {
   locale: string;
@@ -180,7 +184,15 @@ export default function ChatPage() {
   };
 
   const handleAgentSelect = (agent: string) => {
+    setIsNew("yes");
+    setIsLoading(false);
+    setIsLoadingImage(false);
     setAgent(agent);
+    setConversations((prev: Conversations): Conversations => {
+      const newConversations = { ...prev };
+      newConversations["1"] = [];
+      return newConversations;
+    });
     setTimeout(()=>{setIsAgentListOpen(false)},200);
   };
 

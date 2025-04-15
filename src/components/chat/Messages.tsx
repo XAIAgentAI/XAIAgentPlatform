@@ -202,6 +202,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               <Skeleton className="text-foreground ml-2 text-md font-semibold">
                 {agent}
               </Skeleton>
+              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+                正在思考...
+              </Skeleton>
               </div>
               <Skeleton className="ml-4 mt-2 w-[170px] h-[320px] rounded-md bg-gray-200 dark:bg-neutral-800"/>
             </div>
@@ -213,6 +216,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               </Skeleton>
               <Skeleton className="text-foreground ml-2 text-md font-semibold">
                 {agent}
+              </Skeleton>
+              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+                正在思考...
               </Skeleton>
             </div>
             <div className="flex flex-col space-y-2 ml-4 mt-2">
