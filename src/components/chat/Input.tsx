@@ -12,6 +12,7 @@ interface InputComponentProps {
   handleSubmit: (e: React.FormEvent) => Promise<void>; // 确保返回 Promise
   conversations: { [id: string]: Message[] };
   setIsNew: any;
+  setIsLoadingImage: any;
   prompt: any;
   agent: string;
   isNew: any;
@@ -39,6 +40,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   convid,
   conversations,
   userName,
+  setIsLoadingImage,
   setUserStatus,
   input,
   setInput,
@@ -146,6 +148,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
       try {
         // STID模式处理
         if (agent === "StyleID" && selectedImage) {
+          setIsLoadingImage(true);
           console.log('[STID] STID mode detected with selected image');
           const originalInput = input;
           setInput("");
@@ -234,6 +237,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
       } finally {
         console.log('[Loading] Set loading state to false');
         setIsLoading(false);
+        setIsLoadingImage(false);
         setIsNew("no");
       }
     };
@@ -311,7 +315,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
               disabled={!isSubmitEnabled}
               className={`self-end absolute right-[4px] w-8 h-8 mb-[10px] rounded-full flex items-center justify-center ${
                 isSubmitEnabled 
-                  ? 'bg-[#1A73E8] hover:bg-[#0d5bbc] text-white' 
+                  ? 'bg-[#ff6b00] hover:bg-[#ff8533] text-white' 
                   : 'bg-[#E0E0E0] dark:bg-[rgba(22,22,22,0.1)] text-gray-400 dark:text-gray-500'
               } transition-colors`}
               aria-label="发送消息"

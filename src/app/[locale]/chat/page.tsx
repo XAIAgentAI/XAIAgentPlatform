@@ -51,6 +51,7 @@ export default function ChatPage() {
   const [agentMarket,setAgentMarket] = useState<LocalAgent[]>([])
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [convid, setConvid] = useState<string>("");
   const [isNew, setIsNew] = useState<string>("yes");
   const [agent, setAgent] = useState<string>("Xaiagent");
@@ -257,6 +258,7 @@ export default function ChatPage() {
         conversations={conversations}
         setConversations={setConversations}
         isLoading={isLoading} 
+        isLoadingImage={isLoadingImage}
         messagesEndRef={messagesEndRef} 
         setIsNew={setIsNew}
       />
@@ -266,6 +268,7 @@ export default function ChatPage() {
         isNew={isNew}
         agent={agent}
         setIsLoading={setIsLoading}
+        setIsLoadingImage={setIsLoadingImage}
         setagent={setAgent}
         prompt={prompt}
         conversations={conversations}

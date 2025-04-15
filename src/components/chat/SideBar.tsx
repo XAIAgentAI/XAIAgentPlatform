@@ -271,7 +271,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[250px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] dark:border-none`} 
         style={{zIndex:12000}}
       >
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center">
           <div className="self-start w-full relative">
             <svg 
               className="absolute left-3 top-1/2 transform -translate-y-1/2" 
@@ -313,7 +313,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
             </svg>
           </button>
         </div>
-        
+        {goAnimate && <div className="w-full h-2"></div>}
         <div className="flex flex-col flex-1 space-y-4 overflow-y-auto my-2 hide-scrollbar">
           {query.length > 0 ? (
             <div className="space-y-1">
@@ -377,9 +377,9 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                 ))
               ) : (
                 <div className="flex justify-center items-center gap-2">
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{zIndex:1200000}}></div>
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.2s",zIndex:1200000 }}></div>
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball" style={{ animationDelay: "0.4s",zIndex:1200000 }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{zIndex:1200000}}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.2s",zIndex:1200000 }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.4s",zIndex:1200000 }}></div>
                 </div>
               )}
             </>

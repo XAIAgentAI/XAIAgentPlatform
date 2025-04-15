@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {
@@ -24,6 +25,7 @@ interface MessagesComponentProps {
   messagesEndRef: RefObject<HTMLDivElement | null>;
   setIsNew: React.Dispatch<SetStateAction<string>>;
   agent: string;
+  isLoadingImage: any;
 }
 
 async function deleteMessages(setIsNew:Dispatch<SetStateAction<string>>, userName: string | null, setConversations: Dispatch<SetStateAction<Conversations>>): Promise<void> {
@@ -42,7 +44,7 @@ const src: {[key:string]:string} = {
   "PicSpan":"/logo/PicSpan.png"
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, setConversations, messagesEndRef }) => {
+const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
 
   useEffect(() => {
@@ -161,7 +163,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   </div>
                 </div>
               ) : message.role === 'assistant' ? (
-                <ReactMarkdown>{message.content}</ReactMarkdown>
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
               ) : (
                 <p className="text-sm text-justify">{message.content}</p>
               )}
@@ -190,20 +192,43 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </div>
         ))}
         {isLoading && (
-          <div className="flex flex-col justify-start">
+          <div>
+          {isLoadingImage ? (
+            <div className="flex flex-col justify-start">
+              <div className="flex flex-row">
+              <Skeleton>
+                <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
+              </Skeleton>
+              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+                {agent}
+              </Skeleton>
+              </div>
+              <Skeleton className="ml-4 mt-2 w-[170px] h-[320px] rounded-md bg-gray-200 dark:bg-neutral-800"/>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-start">
             <div className="flex flex-row">
-              <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
-              <div className='text-foreground ml-2 text-md font-semibold'>
-                {agent.split('').map((char, index) => (
-                  <span key={index} className={`inline-block animate-chatthink`}>
-                    {char}
-                  </span>
-                ))}
+              <Skeleton>
+                <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
+              </Skeleton>
+              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+                {agent}
+              </Skeleton>
+            </div>
+            <div className="flex flex-col space-y-2 ml-4 mt-2">
+              <Skeleton className="w-[52vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
+              <div className="flex flex-row space-x-[1vw]">
+                <Skeleton className="w-[28vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
+                <Skeleton className="w-[23vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
+              </div>
+              <div className="flex flex-row space-x-[1vw]">
+                <Skeleton className="w-[19.5vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
+                <Skeleton className="w-[13vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
+                <Skeleton className="w-[17.5vw] h-[14px] rounded-full bg-gray-200 dark:bg-neutral-800"/>
               </div>
             </div>
-            <div className="relative h-[20vh] min-w-[260px] w-[60vw] lg:w-[50vw] rounded-lg ml-4 mt-4 bg-[rgba(22,22,22,0.01)] dark:bg-[rgba(22,22,22,0.42)] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(22,22,22,0.15)] dark:via-black to-transparent animate-smooth-shine"></div>
             </div>
+          )}  
           </div>
         )}
         <div ref={messagesEndRef} />
