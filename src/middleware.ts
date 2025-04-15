@@ -6,6 +6,34 @@ import {routing} from './i18n/routing';
 
 const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
+// 允许的域名列表
+const ALLOWED_DOMAINS = [
+  '*.xaiagent.io',
+  'localhost',
+];
+
+// 检查域名是否允许
+function isAllowedDomain(origin: string | null): boolean {
+  if (!origin) return true; // 允许没有origin的请求
+  
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname;
+    
+    // 检查是否是允许的域名
+    return ALLOWED_DOMAINS.some(domain => {
+      if (domain.startsWith('*.')) {
+        const baseDomain = domain.slice(2);
+        return hostname.endsWith(baseDomain);
+      }
+      return hostname === domain || hostname.endsWith(domain);
+    });
+  } catch (error) {
+    console.error('URL parsing error:', error);
+    return false;
+  }
+}
+
 // 需要身份验证的路由
 const authRoutes = [
   '/api/auth/disconnect',
@@ -60,8 +88,50 @@ function getPreferredLanguage(acceptLanguage: string): string {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
-  // 如果是 API 路由，跳过语言处理
+  // 如果是 API 路由，处理 CORS 和认证
   if (path.startsWith('/api/')) {
+    // 获取请求的 origin
+    const origin = request.headers.get('origin');
+    console.log('Request origin:', origin);
+    
+    // 设置基本的 CORS 头
+    const headers = new Headers({
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'GET,DELETE,PATCH,POST,PUT,OPTIONS',
+      'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
+    });
+
+    // 设置 Access-Control-Allow-Origin
+    headers.set('Access-Control-Allow-Origin', origin || '*');
+
+    // 处理 OPTIONS 请求
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, { status: 200, headers });
+    }
+
+    // 检查域名是否允许
+    if (!isAllowedDomain(origin)) {
+      console.log('Domain not allowed:', origin);
+      return new NextResponse(
+        JSON.stringify({ code: 403, message: '域名不被允许', origin }),
+        {
+          status: 403,
+          headers: {
+            'Content-Type': 'application/json',
+            ...Object.fromEntries(headers.entries()),
+          },
+        }
+      );
+    }
+
+    // 创建响应
+    const response = NextResponse.next();
+    
+    // 复制所有CORS头到响应中
+    headers.forEach((value, key) => {
+      response.headers.set(key, value);
+    });
+
     // 如果需要身份验证，进行验证
     if (needsAuth(path)) {
       // 获取 token
@@ -103,7 +173,7 @@ export async function middleware(request: NextRequest) {
         );
       }
     }
-    return NextResponse.next();
+    return response;
   }
 
   // 检查是否是直接访问的非 locale 路径
