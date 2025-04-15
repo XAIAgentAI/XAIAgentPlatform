@@ -100,7 +100,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
         <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
           <button
             type="button"
-            className="fixed right-[10px] top-[113px] flex items-center justify-center px-2 py-1 bg-stone-300 dark:bg-zinc-800 text-zinc-700 rounded-full"
+            className="fixed right-[10px] top-[113px] flex items-center justify-center px-2 py-1 bg-[rgb(236,236,236)] dark:bg-zinc-800 text-zinc-700 rounded-full"
             onClick={async () => {
               try {
                 if(!isLoading){
@@ -111,7 +111,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               }
             }}
           >
-            <XMarkIcon className="w-4 h-4 text-white" />
+            <XMarkIcon className="w-4 h-4 text-[rgb(30,30,30)] dark:text-white" />
           </button>
         </div>
       )}
@@ -128,7 +128,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                 message.role === 'user'
-                  ? 'bg-stone-300 dark:bg-zinc-800 text-white'
+                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white'
                   : 'text-foreground'
               }`}
             >
@@ -165,7 +165,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               ) : (
                 <p className="text-sm text-justify">{message.content}</p>
               )}
-              <p className={`text-xs mt-1 text-white/70`}>
+              <p className={`text-xs mt-1 text-[rgb(30,30,30)] dark:text-white`}>
                 {isValidDate(message.time) ? 
                   (() => {
                     const parts = message.time.split('-');
@@ -201,8 +201,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 ))}
               </div>
             </div>
-            <div className="relative h-[20vh] min-w-[260px] w-[60vw] lg:w-[50vw] rounded-lg ml-4 mt-4 bg-[rgba(22,22,22,0.01)] dark:bg-[rgba(22,22,22,0.3)] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(22,22,22,0.15)] dark:via-[rgba(22,22,22,0.2)] to-transparent animate-smooth-shine"></div>
+            <div className="relative h-[20vh] min-w-[260px] w-[60vw] lg:w-[50vw] rounded-lg ml-4 mt-4 bg-[rgba(22,22,22,0.01)] dark:bg-[rgba(22,22,22,0.42)] overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(22,22,22,0.15)] dark:via-black to-transparent animate-smooth-shine"></div>
             </div>
           </div>
         )}

@@ -229,6 +229,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
                     <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
                       Styles
                     </span>
+                    <p className="text-neutral-600 dark:text-neutral-300">8</p>
                   </button>
                   
                   {isStyleOpen && (

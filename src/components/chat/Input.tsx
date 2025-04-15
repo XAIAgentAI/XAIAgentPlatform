@@ -117,6 +117,12 @@ const InputComponent: React.FC<InputComponentProps> = ({
         console.log('[Image] No file selected or selection cancelled');
       }
     };
+
+    // 取消已选择的图片
+    const handleCancelImage = () => {
+      setSelectedImage(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
   
     const handleSendClick = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -267,18 +273,37 @@ const InputComponent: React.FC<InputComponentProps> = ({
                 disabled={isLoading}
                 rows={1}
               />
+
               {/* 图片预览 */}
               {selectedImage ? (
-                <div className="w-[70vw] max-w-[520px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] p-2 rounded-sm" style={{zIndex:1000}}>
+                <div className="w-[70vw] max-w-[520px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] px-2 py-1 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
                       {selectedImage.name}
                     </span>
                   </div>
+                  <button 
+                    onClick={handleCancelImage}
+                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-[rgba(22,22,22,0.1)] transition-colors"
+                    aria-label="取消图片"
+                  >
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" 
+                      viewBox="0 0 20 20" 
+                      fill="currentColor"
+                    >
+                      <path 
+                        fillRule="evenodd" 
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                        clipRule="evenodd" 
+                      />
+                    </svg>
+                  </button>
                 </div>
               ):(<div className="h-[28px]"></div>)}
             </div>
-            
+
             {/* 发送按钮 */}
             <button
               type="submit"
