@@ -235,9 +235,9 @@ export default function ChatPage() {
         />
       )}
       {/* Agent Selection */}
-      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] z-100">
+      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] lg:ml-[20vw] xl:ml-[20vw] z-100">
         <GradientBorderButton
-          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[22.5vw] xl:left-[calc(22vw+66px)] top-[72px]"
+          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[24vw] xl:left-[calc(24vw+66px)] top-[72px]"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {agent}

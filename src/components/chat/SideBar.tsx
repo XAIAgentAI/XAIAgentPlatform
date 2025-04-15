@@ -268,7 +268,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       
       <div 
         ref={sidebarRef} 
-        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col lg:w-[20vw] bg-[rgb(236,236,236)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md`} 
+        className={`fixed z-20 top-[114px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[240px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-105px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] `} 
         style={{zIndex:12000}}
       >
         <div className="flex justify-between items-center mb-4">
