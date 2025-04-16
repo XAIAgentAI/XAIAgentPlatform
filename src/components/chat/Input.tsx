@@ -193,7 +193,10 @@ const InputComponent: React.FC<InputComponentProps> = ({
           setIsLoadingImage(true);
           console.log('[STID] STID mode detected with selected image');
           const originalInput = input;
-          setInput("");
+          // 0. 清理状态
+          setSelectedImage(null);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+          setInput('');
           
           // 1. 先添加用户文本消息到对话
           const userTextMessage: Message = {
@@ -293,11 +296,6 @@ const InputComponent: React.FC<InputComponentProps> = ({
             agent: imageData.agent
           };
           setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
-          
-          // 8. 清理状态
-          setSelectedImage(null);
-          if (fileInputRef.current) fileInputRef.current.value = '';
-          setInput('');
         } else {
           // 普通文本模式保持不变
           console.log('[Submit] Normal mode - submitting text input:', input);

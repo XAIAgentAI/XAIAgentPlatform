@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
+import React, { FC, useEffect, useState, useRef, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
@@ -47,6 +47,8 @@ const src: {[key:string]:string} = {
 
 const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const expandedImageRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("chat");
 
   useEffect(() => {
@@ -66,14 +68,26 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
     return datePattern.test(dateString);
   };
 
-  // 检查是否是图片URL
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (expandedImageRef.current && !expandedImageRef.current.contains(event.target)) {
+        // Close the expanded image by setting expandedImage to null or whatever your state management is
+        setExpandedImage(null);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const isImageUrl = (content: string): boolean => {
     return /\.(jpg|jpeg|png|gif|webp)$/i.test(content) || 
            content?.startsWith('https://') || 
            content?.startsWith('http://');
   };
 
-  // 复制图片到剪贴板
   const handleCopyImage = async (imageUrl: string) => {
     try {
       const response = await fetch(imageUrl);
@@ -88,7 +102,6 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
     }
   };
 
-  // 下载图片
   const handleDownloadImage = (imageUrl: string) => {
     const link = document.createElement('a');
     link.href = imageUrl;
@@ -146,67 +159,86 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
               <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
             </div>
-            <div
-              className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                message.role === 'user'
-                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white'
-                  : 'text-foreground'
-              }`}
-            >
-              {isImageUrl(message.content) ? (
-                <div className="relative">
-                  <img 
-                    src={message.content} 
-                    alt="Chat image" 
-                    className="max-w-full max-h-[300px] object-contain rounded-lg"
-                  />
-                  <div className="flex justify-start space-x-4 mt-2">
-                    <button
-                      onClick={() => handleCopyImage(message.content)}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                      title="Copy image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => handleDownloadImage(message.content)}
-                      className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                      title="Download image"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                    </button>
+            <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} ${expandedImage === message.content ? 'items-start' : ''}`}>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  message.role === 'user'
+                    ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white'
+                    : 'text-foreground'
+                }`}
+              >
+                {isImageUrl(message.content) ? (
+                  <div className="relative">
+                    <img 
+                      src={message.content} 
+                      alt="Chat image" 
+                      className="max-w-full max-h-[300px] object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => setExpandedImage(expandedImage === message.content ? null : message.content)}
+                    />
+                    <div className="flex justify-start space-x-4 mt-2">
+                      <button
+                        onClick={() => handleCopyImage(message.content)}
+                        className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        title="Copy image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDownloadImage(message.content)}
+                        className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        title="Download image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                ) : message.role === 'assistant' ? (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                ) : (
+                  <p className="text-sm text-justify">{message.content}</p>
+                )}
+                <p className={`text-xs mt-1 text-[rgb(30,30,30)] dark:text-white`}>
+                  {isValidDate(message.time) ? 
+                    (() => {
+                      const parts = message.time.split('-');
+                      const year = parseInt(parts[0], 10);
+                      const month = parseInt(parts[1], 10);
+                      const day = parseInt(parts[2], 10);
+                      const hour = parseInt(parts[3], 10);
+                      const minute = parseInt(parts[4], 10);
+                      const second = parseInt(parts[5], 10);
+                      const messageDate = new Date(year, month - 1, day, hour, minute, second);
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      if (messageDate.toDateString() === today.toDateString()) {
+                        return `${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
+                      } else {
+                        return `${(messageDate.getMonth() + 1).toString().padStart(2, '0')}-${messageDate.getDate().toString().padStart(2, '0')} ${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
+                      }
+                    })() 
+                    : `${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`}
+                </p>
+              </div>
+              {expandedImage === message.content && (
+                <div 
+                  ref={expandedImageRef}
+                  className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" 
+                  style={{zIndex:500000000}}
+                  onClick={() => setExpandedImage(null)}
+                >
+                  <div className="w-[60vw] h-[80vh] rounded-lg overflow-scroll">
+                    <img 
+                      src={message.content} 
+                      alt="Expanded chat image" 
+                      className="rounded-lg w-full h-full object-contain"
+                    />
                   </div>
                 </div>
-              ) : message.role === 'assistant' ? (
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
-              ) : (
-                <p className="text-sm text-justify">{message.content}</p>
               )}
-              <p className={`text-xs mt-1 text-[rgb(30,30,30)] dark:text-white`}>
-                {isValidDate(message.time) ? 
-                  (() => {
-                    const parts = message.time.split('-');
-                    const year = parseInt(parts[0], 10);
-                    const month = parseInt(parts[1], 10);
-                    const day = parseInt(parts[2], 10);
-                    const hour = parseInt(parts[3], 10);
-                    const minute = parseInt(parts[4], 10);
-                    const second = parseInt(parts[5], 10);
-                    const messageDate = new Date(year, month - 1, day, hour, minute, second);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    if (messageDate.toDateString() === today.toDateString()) {
-                      return `${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
-                    } else {
-                      return `${(messageDate.getMonth() + 1).toString().padStart(2, '0')}-${messageDate.getDate().toString().padStart(2, '0')} ${messageDate.getHours()}:${messageDate.getMinutes().toString().padStart(2, '0')}`;
-                    }
-                  })() 
-                  : `${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`}
-              </p>
             </div>
           </div>
         ))}
