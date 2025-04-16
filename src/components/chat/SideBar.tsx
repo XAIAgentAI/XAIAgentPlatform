@@ -318,7 +318,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
           <button 
             type="button"
             onClick={()=>{deleteMessages(setIsNew,setConversations)}}
-            className="flex items-center justify-center px-2 py-1 hover:bg-[rgb(230,230,230)] dark:hover:bg-[rgb(28,28,28)] rounded-full"
+            className="flex items-center justify-center px-1 py-1 hover:bg-[rgb(230,230,230)] dark:hover:bg-[rgb(28,28,28)] rounded-full"
           >
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
