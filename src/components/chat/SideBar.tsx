@@ -7,6 +7,10 @@ import { motion } from 'framer-motion';
 import { Menu, Copy, MoreHorizontal } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
+interface Conversations {
+  [id: string]: Message[];
+}
+
 interface SideBarProps {
   userName: string | null;
   setUserName: any;
@@ -48,6 +52,15 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
 
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  async function deleteMessages(setIsNew:any, setConversations:any): Promise<void> {
+    setIsNew("yes");
+    setConversations((prev: Conversations): Conversations => {
+      const newConversations = { ...prev };
+      newConversations["1"] = [];
+      return newConversations;
+    });
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,7 +115,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
           const isNowDark = document.documentElement.classList.contains('dark');
-          setStroke(isNowDark ? 'white' : 'black');
+          setStroke(isNowDark ? 'white' : 'rgba(22,22,22,0.8)');
         }
       });
     });
@@ -259,7 +272,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         className="fixed top-[86px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
         onClick={moreHandler}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 12H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M3 6H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M3 18H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -299,17 +312,43 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
               placeholder="Search conversations"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-[hsl(0,0%,15%)] dark:border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
+              className="w-[90%] h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-[hsl(0,0%,15%)] dark:border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
             />
           </div>
+          <button 
+            type="button"
+            onClick={()=>{deleteMessages(setIsNew,setConversations)}}
+            className="flex items-center justify-center px-2 py-1 hover:bg-[rgb(230,230,230)] dark:hover:bg-[rgb(28,28,28)] rounded-full"
+          >
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 20 20"
+                className="size-6 fill-foreground"
+              >
+                <path 
+                  d="M5.2 13.8L6.3 11a3.8 3.8 0 0 1 1-1.3L14.1 3a1.8 1.8 0 1 1 2.5 2.5l-6.8 6.8c-.3.3-.7.6-1.1.8l-3 1.1a.4.4 0 0 1-.5-.5z"
+                  strokeWidth="0.2"
+                  stroke={stroke}
+                  strokeLinejoin="miter"
+                  strokeMiterlimit="4"
+                  vectorEffect="non-scaling-stroke"
+                />
+                <path 
+                  stroke={stroke}
+                  d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"
+                  strokeWidth="0.2"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+          </button>
           <button
             className="ml-2 lg:hidden"
             onClick={lessHandler}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 12H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 17H19" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="relative mb-[2px]">
+              <path d="M4 7H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 13H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 19H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
         </div>
