@@ -29,6 +29,17 @@ interface Message {
   convid: string;
   agent: string;
 }
+// Stable Diffusion style presets
+const stylePresets = [
+  { name: "Cinematic", prompt: "cinematic lighting, dramatic atmosphere, film grain, 35mm lens" },
+  { name: "Anime", prompt: "anime style, vibrant colors, sharp details, studio ghibli inspired" },
+  { name: "Cyberpunk", prompt: "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style" },
+  { name: "Fantasy", prompt: "ethereal lighting, magical atmosphere, highly detailed, digital painting" },
+  { name: "Watercolor", prompt: "soft watercolor texture, gentle brush strokes, pastel colors" },
+  { name: "Low Poly", prompt: "low poly geometric shapes, vibrant colors, minimalist 3d style" },
+  { name: "Portrait", prompt: "professional portrait photography, shallow depth of field, 85mm lens" },
+  { name: "Oil Painting", prompt: "oil on canvas, textured brush strokes, classical art style" }
+];
 
 const InputComponent: React.FC<InputComponentProps> = ({
   agent,
@@ -50,6 +61,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isStyleOpen, setIsStyleOpen] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const locale = useLocale();
@@ -78,6 +90,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
       }
     }
   }, [input]);
+
+  const handleStyleSelect = (stylePrompt: string) => {
+    setInput(stylePrompt);
+    setIsStyleOpen(false);
+  };
 
   const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
 
@@ -296,6 +313,62 @@ const InputComponent: React.FC<InputComponentProps> = ({
             </button>
             
             <div className="flex flex-col w-full">
+            {/* Style selector - only shown for StyleID agent */}
+            {agent === "StyleID" && (
+              <div className="relative w-[94%] mx-auto mt-2">
+                <div 
+                  className={`flex items-center justify-center space-x-2 ${
+                    isStyleOpen ? 'w-full' : 'w-fit'
+                  } mx-auto transition-all duration-300 ease-in-out`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsStyleOpen(!isStyleOpen)}
+                    className={`flex items-center space-x-2 rounded-full ${
+                      isStyleOpen 
+                        ? 'px-4 py-2 bg-card-inner-hover dark:bg-[rgba(30,30,30,0.9)] shadow-md' 
+                        : 'px-4 py-2 bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)]'
+                    } transition-all duration-200`}
+                  >
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 text-neutral-600 dark:text-neutral-300"
+                    >
+                      <path 
+                        d="M13 2L3 14H12L11 22L21 10H12L13 2Z" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
+                      Styles
+                    </span>
+                    <p className="text-neutral-600 dark:text-neutral-300">8</p>
+                  </button>
+                  
+                  {isStyleOpen && (
+                    <div className="flex space-x-2 overflow-x-auto scroll-container pl-2">
+                      {stylePresets.map((style, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleStyleSelect(style.prompt)}
+                          className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
+                        >
+                          {style.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
               {/* 文本输入框 */}
               <textarea
                 ref={textareaRef}
