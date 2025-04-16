@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { useLocale, useTranslations } from 'next-intl';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
 
@@ -46,6 +47,7 @@ const src: {[key:string]:string} = {
 
 const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
+  const t = useTranslations("chat");
 
   useEffect(() => {
     setMessages(conversations["1"] || []);
@@ -220,7 +222,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 {agent}
               </Skeleton>
               <Skeleton className="text-foreground ml-2 text-md font-semibold">
-                正在思考...
+                {t("thinking")}
               </Skeleton>
               </div>
               <Skeleton className="ml-4 mt-2 w-[170px] h-[320px] rounded-md bg-gray-200 dark:bg-neutral-800"/>
@@ -235,7 +237,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 {agent}
               </Skeleton>
               <Skeleton className="text-foreground ml-2 text-md font-semibold">
-                正在思考...
+                {t("thinking")}
               </Skeleton>
             </div>
             <div className="flex flex-col space-y-2 ml-4 mt-2">

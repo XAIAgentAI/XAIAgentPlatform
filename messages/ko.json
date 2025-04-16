@@ -411,6 +411,7 @@
     "password":"비밀번호", 
     "confirm":"확인",
     "today":"오늘",
-    "7daysago":"금주"
+    "7daysago":"금주",
+    "thinking":"생각 중..."
   }
 }

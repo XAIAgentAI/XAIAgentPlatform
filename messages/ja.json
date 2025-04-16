@@ -393,7 +393,8 @@
     "password":"パスワード", 
     "confirm":"確認",
     "today":"今日",
-    "7daysago":"今週"
+    "7daysago":"今週",
+    "thinking":"考えている..."
   },
   "cryptoChart": {
     "timeIntervals": {

@@ -393,7 +393,8 @@
       "password":"Password",
       "confirm":"Confirm",
       "today":"Today",
-      "7daysago":"This week"
+      "7daysago":"This week",
+      "thinking":"Thinking..."
     },
   "cryptoChart": {
     "timeIntervals": {

@@ -396,7 +396,8 @@
     "password":"密码", 
     "confirm":"确认",
     "today":"今天",
-    "7daysago":"本周"
+    "7daysago":"本周",
+    "thinking":"正在思考..."
   },
   "cryptoChart": {
     "timeIntervals": {
