@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import { Menu, Copy, MoreHorizontal } from 'lucide-react';
+import { Copy, MoreHorizontal } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Conversations {
@@ -47,13 +47,14 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   const [messages, setMessages] = useState<Message[]>([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const [goAnimate, setGoAnimate] = useState(false);
-  const [stroke, setStroke] = useState("black");
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showSearch, setShowSearch] = useState(false);
 
   const locale = useLocale();
   const t = useTranslations("chat");
 
-  async function deleteMessages(setIsNew:any, setConversations:any): Promise<void> {
+  async function deleteMessages(setIsNew: any, setConversations: any): Promise<void> {
     setIsNew("yes");
     setConversations((prev: Conversations): Conversations => {
       const newConversations = { ...prev };
@@ -80,7 +81,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         const data: Sentence[] = await response.json();
 
         const newMessages: Message[] = data.map((sentence: Sentence) => ({
-          id: uuidv4(), // This ensures each message has a unique ID
+          id: uuidv4(),
           role: sentence.user ? 'user' : 'assistant',
           content: sentence.user || sentence.assistant || '',
           time: sentence.time || new Date().toISOString(),
@@ -109,13 +110,13 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark');
-    setStroke(isDark ? 'white' : 'black');
+    setIsDarkMode(isDark);
     
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
           const isNowDark = document.documentElement.classList.contains('dark');
-          setStroke(isNowDark ? 'white' : 'rgba(22,22,22,0.8)');
+          setIsDarkMode(isNowDark);
         }
       });
     });
@@ -124,6 +125,8 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       attributes: true,
       attributeFilter: ['class'],
     });
+
+    return () => observer.disconnect();
   }, []);
 
   const moreHandler = () => {
@@ -205,20 +208,17 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       'Older': []
     };
     
-    // Create a map to store the most recent message for each conversation
     const conversationMap = new Map<string, Message>();
     
     messages.forEach(msg => {
       if (!msg.time) return;
       
-      // Only keep the most recent message for each conversation
       if (!conversationMap.has(msg.convid) || 
           new Date(msg.time) > new Date(conversationMap.get(msg.convid)!.time)) {
         conversationMap.set(msg.convid, msg);
       }
     });
     
-    // Now group the unique conversations by time
     Array.from(conversationMap.values()).forEach(msg => {
       if (!msg.time) return;
       
@@ -253,7 +253,6 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
       }
     });
     
-    // Remove empty groups
     Object.keys(groups).forEach(key => {
       if (groups[key].length === 0) {
         delete groups[key];
@@ -269,14 +268,15 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
   return (
     <>
       <button
-        className="fixed top-[86px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)] lg:hidden"
+        className="fixed top-[93px] left-[calc(1.9vw+16px)] md:left-[calc(2.6vw+10px)]"
         onClick={moreHandler}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 12H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 6H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 18H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <Image
+          src={isDarkMode ? "/images/chat/two.png" : "/images/chat/darktwo.png"}
+          alt="Menu"
+          width={24}
+          height={24}
+        />
       </button>
       
       <div 
@@ -284,81 +284,76 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
         className={`fixed z-20 top-[84px] lg:top-[70px] xl:left-[1.6vw] 2xl:top-[70px] ${smallHidden} lg:flex flex-col min-w-[250px] lg:w-[20vw] bg-[rgb(248,248,248)] dark:bg-[rgb(22,22,22)] p-4 text-white h-[calc(98vh-75px)] lg:h-[calc(97vh-88px)] rounded-md border-[1px] dark:border-none`} 
         style={{zIndex:12000}}
       >
-        <div className="flex justify-between items-center">
-          <div className="self-start w-full relative">
-            <svg 
-              className="absolute left-3 top-1/2 transform -translate-y-1/2" 
-              style={{zIndex:100000}}
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="flex justify-between items-center gap-2">
+            <button
+              className="ml-1"
+              onClick={lessHandler}
             >
-              <path 
-                d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z" 
-                stroke={stroke} 
-                strokeWidth="1.5"
+              <Image
+                src={isDarkMode ? "/images/chat/two.png" : "/images/chat/darktwo.png"}
+                alt="Close"
+                width={20}
+                height={20}
               />
-              <path 
-                d="M15 15L21 21" 
-                stroke={stroke} 
-                strokeWidth="1.5" 
-                strokeLinecap="round"
+            </button>
+
+          <motion.div 
+            className="flex-1 relative"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ 
+              width: showSearch ? '100%' : 0,
+              opacity: showSearch ? 1 : 0,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            {showSearch && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Search history"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-full h-8 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-[12px] pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-[hsl(0,0%,15%)] dark:border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300 text-sm"
+                />
+              </>
+            )}
+          </motion.div>
+
+          <div className="flex items-center gap-1">
+            <button 
+              onClick={() => setShowSearch(!showSearch)}
+              className="p-1 rounded-full"
+            >
+              <Image
+                src={isDarkMode ? "/images/chat/search.png" : "/images/chat/darksearch.png"}
+                alt="Search"
+                width={18}
+                height={18}
               />
-            </svg>   
-            <input
-              type="text"
-              placeholder="Search conversations"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-[90%] h-10 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-light text-neutral-700 dark:text-gray-200 pl-10 pr-4 focus:outline-none rounded-full bg-gray-100/70 dark:bg-black/40 backdrop-blur-sm border border-[hsl(0,0%,15%)] dark:border-gray-300/50 focus:border-none focus:ring-1 focus:ring-[#ff8533] transition ease-in-out duration-300"
-            />
+            </button>
+
+            <button 
+              type="button"
+              onClick={() => deleteMessages(setIsNew, setConversations)}
+              className="p-1 rounded-full"
+            >
+              <Image
+                src={isDarkMode ? "/images/chat/write.png" : "/images/chat/darkwrite.png"}
+                alt="New Chat"
+                width={20}
+                height={20}
+              />
+            </button>
           </div>
-          <button 
-            type="button"
-            onClick={()=>{deleteMessages(setIsNew,setConversations)}}
-            className="flex items-center justify-center px-1 py-1 hover:bg-[rgb(230,230,230)] dark:hover:bg-[rgb(28,28,28)] rounded-full"
-          >
-            <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 20 20"
-                className="size-6 fill-foreground"
-              >
-                <path 
-                  d="M5.2 13.8L6.3 11a3.8 3.8 0 0 1 1-1.3L14.1 3a1.8 1.8 0 1 1 2.5 2.5l-6.8 6.8c-.3.3-.7.6-1.1.8l-3 1.1a.4.4 0 0 1-.5-.5z"
-                  strokeWidth="0.2"
-                  stroke={stroke}
-                  strokeLinejoin="miter"
-                  strokeMiterlimit="4"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <path 
-                  stroke={stroke}
-                  d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"
-                  strokeWidth="0.2"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-          </button>
-          <button
-            className="ml-2 lg:hidden"
-            onClick={lessHandler}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="relative mb-[2px]">
-              <path d="M4 7H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M4 13H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M4 19H19" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
         </div>
+
         {goAnimate && <div className="w-full h-2"></div>}
         <div className="flex flex-col flex-1 space-y-4 overflow-y-auto my-2 hide-scrollbar">
           {query.length > 0 ? (
             <div className="space-y-1">
               {searchResults.map((msg) => (
                 <div 
-                  key={`search-${msg.id}`} // Use message id for search results
+                  key={`search-${msg.id}`}
                   onClick={() => handleConversationClick(msg.convid)} 
                   className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                 >
@@ -381,7 +376,7 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                     </div>
                     {messages.map((msg) => (
                       <div 
-                        key={`conversation-${msg.convid}-${msg.id}`} // Combine convid and id for uniqueness
+                        key={`conversation-${msg.convid}-${msg.id}`}
                         onClick={() => handleConversationClick(msg.convid)} 
                         className="group relative flex items-center justify-between px-3 py-[5px] w-full text-[#222222] dark:text-gray-200 rounded-md hover:bg-[#eaeaea] dark:hover:bg-zinc-800 transition-colors duration-200"
                       >
