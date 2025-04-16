@@ -411,9 +411,9 @@ const SideBar = ({ agent, conversations, setIsNew, setConvid, setConversations, 
                 ))
               ) : (
                 <div className="flex justify-center items-center gap-2">
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{zIndex:1200000}}></div>
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.2s",zIndex:1200000 }}></div>
-                  <div className="relative w-2 h-2 rounded-full bg-[#ffffff] dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.4s",zIndex:1200000 }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-gray-300 dark:bg-zinc-600 animate-pulse-ball mt-1" style={{zIndex:1200000}}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-gray-300 dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.2s",zIndex:1200000 }}></div>
+                  <div className="relative w-2 h-2 rounded-full bg-gray-300 dark:bg-zinc-600 animate-pulse-ball mt-1" style={{ animationDelay: "0.4s",zIndex:1200000 }}></div>
                 </div>
               )}
             </>

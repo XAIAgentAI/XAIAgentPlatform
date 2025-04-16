@@ -222,7 +222,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 {agent}
               </Skeleton>
               <Skeleton className="text-foreground ml-2 text-md font-semibold">
-                {t("thinking")}
+                {t("isImageThinking")}
               </Skeleton>
               </div>
               <Skeleton className="ml-4 mt-2 w-[170px] h-[320px] rounded-md bg-gray-200 dark:bg-neutral-800"/>

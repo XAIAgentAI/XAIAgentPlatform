@@ -394,7 +394,16 @@
       "confirm":"Confirm",
       "today":"Today",
       "7daysago":"This week",
-      "thinking":"Thinking..."
+      "thinking":"Thinking...",
+      "Cinematic":{ "name": "Cinematic", "prompt": "cinematic lighting, dramatic atmosphere, film grain, 35mm lens" },
+      "Anime":{"name": "Anime", "prompt": "anime style, vibrant colors, sharp details, studio ghibli inspired"},
+      "Cyberpunk":{ "name": "Cyberpunk", "prompt": "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style" },
+      "Fantasy":{ "name": "Fantasy", "prompt": "ethereal lighting, magical atmosphere, highly detailed, digital painting" },
+      "Watercolor":{ "name": "Watercolor", "prompt": "soft watercolor texture, gentle brush strokes, pastel colors" },
+      "Low Poly":{ "name": "Low Poly", "prompt": "low poly geometric shapes, vibrant colors, minimalist 3d style" },
+      "Portrait":{ "name": "Portrait", "prompt": "professional portrait photography, shallow depth of field, 85mm lens" },
+      "Oil Paiting":{ "name": "Oil Painting", "prompt": "oil on canvas, textured brush strokes, classical art style" },
+      "isImageThinking":"Generating Image..."
     },
   "cryptoChart": {
     "timeIntervals": {

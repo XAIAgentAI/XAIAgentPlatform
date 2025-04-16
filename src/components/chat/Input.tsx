@@ -29,17 +29,6 @@ interface Message {
   convid: string;
   agent: string;
 }
-// Stable Diffusion style presets
-const stylePresets = [
-  { name: "Cinematic", prompt: "cinematic lighting, dramatic atmosphere, film grain, 35mm lens" },
-  { name: "Anime", prompt: "anime style, vibrant colors, sharp details, studio ghibli inspired" },
-  { name: "Cyberpunk", prompt: "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style" },
-  { name: "Fantasy", prompt: "ethereal lighting, magical atmosphere, highly detailed, digital painting" },
-  { name: "Watercolor", prompt: "soft watercolor texture, gentle brush strokes, pastel colors" },
-  { name: "Low Poly", prompt: "low poly geometric shapes, vibrant colors, minimalist 3d style" },
-  { name: "Portrait", prompt: "professional portrait photography, shallow depth of field, 85mm lens" },
-  { name: "Oil Painting", prompt: "oil on canvas, textured brush strokes, classical art style" }
-];
 
 const InputComponent: React.FC<InputComponentProps> = ({
   agent,
@@ -66,6 +55,42 @@ const InputComponent: React.FC<InputComponentProps> = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  // Stable Diffusion style presets
+  const stylePresets = [
+    { 
+      name: t("Cinematic.name"), 
+      prompt: t("Cinematic.prompt") 
+    },
+    { 
+      name: t("Anime.name"), 
+      prompt: t("Anime.prompt") 
+    },
+    { 
+      name: t("Cyberpunk.name"), 
+      prompt: t("Cyberpunk.prompt") 
+    },
+    { 
+      name: t("Fantasy.name"), 
+      prompt: t("Fantasy.prompt") 
+    },
+    { 
+      name: t("Watercolor.name"), 
+      prompt: t("Watercolor.prompt") 
+    },
+    { 
+      name: t("Low Poly.name"), 
+      prompt: t("Low Poly.prompt") 
+    },
+    { 
+      name: t("Portrait.name"), 
+      prompt: t("Portrait.prompt") 
+    },
+    { 
+      name: t("Oil Painting.name"), 
+      prompt: t("Oil Painting.prompt") 
+    }
+  ];
 
   // 初始化 prompt
   useEffect(() => {

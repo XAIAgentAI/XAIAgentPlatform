@@ -397,7 +397,16 @@
     "confirm":"确认",
     "today":"今天",
     "7daysago":"本周",
-    "thinking":"正在思考..."
+    "thinking":"正在思考...",
+    "Cinematic": { "name": "电影感", "prompt": "电影级灯光, 戏剧性氛围, 胶片颗粒感, 35mm镜头" },
+    "Anime": { "name": "动漫", "prompt": "动漫风格, 鲜艳色彩, 锐利细节, 吉卜力工作室风格" },
+    "Cyberpunk": { "name": "赛博朋克", "prompt": "霓虹灯, 未来都市景观, 雨夜反光, 赛博朋克2077风格" },
+    "Fantasy": { "name": "奇幻", "prompt": "空灵光线, 魔幻氛围, 高度细节, 数字绘画" },
+    "Watercolor": { "name": "水彩", "prompt": "柔和水彩质感, 轻柔笔触, 淡雅色彩" },
+    "Low Poly": { "name": "低多边形", "prompt": "低多边形几何形状, 鲜艳色彩, 极简3D风格" },
+    "Portrait": { "name": "肖像", "prompt": "专业人像摄影, 浅景深, 85mm镜头" },
+    "Oil Painting": { "name": "油画", "prompt": "布面油画, 质感笔触, 古典艺术风格" },
+    "isImageThinking":"图片生成中..."
   },
   "cryptoChart": {
     "timeIntervals": {

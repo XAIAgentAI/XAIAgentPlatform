@@ -412,6 +412,15 @@
     "confirm":"확인",
     "today":"오늘",
     "7daysago":"금주",
-    "thinking":"생각 중..."
+    "thinking":"생각 중...",
+    "Cinematic": { "name": "시네마틱", "prompt": "영화적 조명, 극적인 분위기, 필름 그레인, 35mm 렌즈" },
+    "Anime": { "name": "애니메이션", "prompt": "애니메이션 스타일, 생생한 색상, 선명한 디테일, 스튜디오 지브리 스타일" },
+    "Cyberpunk": { "name": "사이버펑크", "prompt": "네온 사인, 미래 도시 풍경, 빗물 반사, 사이버펑크 2077 스타일" },
+    "Fantasy": { "name": "판타지", "prompt": "신비로운 조명, 마법 같은 분위기, 고도로 디테일한, 디지털 페인팅" },
+    "Watercolor": { "name": "수채화", "prompt": "부드러운 수채화 질감, 섬세한 붓터치, 파스텔 톤" },
+    "Low Poly": { "name": "로우 폴리", "prompt": "로우 폴리곤 기하학적 형태, 생생한 색상, 미니멀리스트 3D 스타일" },
+    "Portrait": { "name": "초상화", "prompt": "프로페셔널 초상 사진, 얕은 심도, 85mm 렌즈" },
+    "Oil Painting": { "name": "유화", "prompt": "�유 캔버스, 질감 있는 붓터치, 클래식 아트 스타일" },
+    "isImageThinking":"그림 생성 중..."
   }
 }
