@@ -402,7 +402,7 @@
       "Watercolor":{ "name": "Watercolor", "prompt": "soft watercolor texture, gentle brush strokes, pastel colors" },
       "LowPoly":{ "name": "Low Poly", "prompt": "low poly geometric shapes, vibrant colors, minimalist 3d style" },
       "Portrait":{ "name": "Portrait", "prompt": "professional portrait photography, shallow depth of field, 85mm lens" },
-      "OilPaiting":{ "name": "Oil Painting", "prompt": "oil on canvas, textured brush strokes, classical art style" },
+      "OilPainting":{ "name": "Oil Painting", "prompt": "oil on canvas, textured brush strokes, classical art style" },
       "isImageThinking":"Generating Image...",
       "alreadyuseagent":"Agent model has been called"
     },
