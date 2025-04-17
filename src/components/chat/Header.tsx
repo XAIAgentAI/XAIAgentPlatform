@@ -138,10 +138,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 mt-12 md:justify-start">
-      <div className="w-[80vw] mx-auto lg:ml-[20vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
+    <div className="fixed top-28 md:top-24 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
+      <div className="w-[80vw] mx-auto lg:ml-[10vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
         <div className="h-[78vh]">
-          <div className="w-24 h-24 mx-auto mb-4">
+          <div className="w-24 h-24 mx-auto mb-1">
             <Image 
               src={`${src[agent]}`} 
               width={96}

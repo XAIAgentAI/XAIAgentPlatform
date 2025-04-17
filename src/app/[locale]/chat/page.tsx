@@ -281,7 +281,7 @@ export default function ChatPage() {
           <p className="text-center h-[24px]">Waiting for connection...</p>
         </div>
       )}
-      <MessagesComponent 
+      {conversations["1"]?.length && <MessagesComponent 
         agent={agent}
         userName={userName}
         conversations={conversations}
@@ -290,7 +290,7 @@ export default function ChatPage() {
         isLoadingImage={isLoadingImage}
         messagesEndRef={messagesEndRef} 
         setIsNew={setIsNew}
-      />
+      />}
       <InputComponent 
         convid={convid}
         setConversations={setConversations}

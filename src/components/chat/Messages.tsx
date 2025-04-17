@@ -153,9 +153,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   };
 
   return (
-    <div className="z-1 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 py-6" style={{ maxHeight:"72vh" }}>
+    <div className="fixed top-28 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight:"72vh" }}>
       {messages.length > 0 && (
-        <div className="flex justify-end items-center p-4 bg-background w-full lg:w-[71vw]">
+        <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
             type="button"
             className="fixed right-[10px] top-[83px] flex items-center justify-center px-2 py-1 hover:bg-[rgb(230,230,230)] dark:hover:bg-[rgba(22,22,22,0.8)] rounded-full"
@@ -197,8 +197,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start flex-col'}`}
           > 
             <div className="flex flex-row relative -top-[6px]">
-              <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
-              <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
+              <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full mt-2"}`} style={{width:"28px",height:"28px"}}/>
+              <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-[500]'}`}>{message.agent || "Xaiagent"}</div>
               <p className={`${message.role === "user" ? 'hidden' : 'ml-2 mt-[5px] text-md'} text-xs mt-1 text-[rgb(30,30,30)] dark:text-white opacity-80`}>
                   {isValidDate(message.time) ? 
                     (() => {
@@ -222,7 +222,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 </p>
             </div>
             {message.role === 'assistant' && (
-              <div className="flex items-center ml-[52px] mt-[-4px] mb-[4px]">
+              <div className="flex items-center ml-[52px] mt-[-12px] mb-[4px]">
                 <span className="text-xs text-muted-foreground">{t("alreadyuseagent")}</span>
                 <button 
                   onClick={() => toggleCollapseMessage(message.id)}
@@ -247,7 +247,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             <div
               className={`rounded-2xl px-4 py-2 ${
                 message.role === 'user'
-                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white inline-block max-w-full'
+                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white inline-block ml-auto max-w-[77vw] md:max-w-[75vw] lg:max-w-[60vw]'
                   : 'text-foreground max-w-[80%] ml-[38px]'
               }`}
             >
@@ -373,10 +373,10 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               <Skeleton>
                 <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
               </Skeleton>
-              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+              <Skeleton className="text-foreground ml-2 text-md font-[500]">
                 {agent}
               </Skeleton>
-              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+              <Skeleton className="text-foreground ml-2 text-md font-[500]">
                 {t("isImageThinking")}
               </Skeleton>
               </div>
@@ -388,10 +388,10 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               <Skeleton>
                 <Image alt={agent} src={`${src[agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={"ml-4 rounded-full"} style={{width:"28px",height:"28px"}}/>
               </Skeleton>
-              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+              <Skeleton className="text-foreground ml-2 text-md font-[500]">
                 {agent}
               </Skeleton>
-              <Skeleton className="text-foreground ml-2 text-md font-semibold">
+              <Skeleton className="text-foreground ml-2 text-md font-[500]">
                 {t("thinking")}
               </Skeleton>
             </div>

@@ -451,10 +451,6 @@ const InputComponent: React.FC<InputComponentProps> = ({
             </button>
           </div>
         </form>
-        
-        <div className="mt-2 text-center text-stone-500 dark:text-neutral-700 text-xs">
-          {t("inputInfo")}
-        </div>
       </div>
     </div>
   );
