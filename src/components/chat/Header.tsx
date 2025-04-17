@@ -151,10 +151,15 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
             />
           </div>
           <p className="text-lg font-semibold text-center">{agent}</p>
-          <p className="text-md text-center">
-            {symbol} {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}{agentMarket[index]?.priceChange24h || "0.00"}% | 
-            FDV: {agentMarket[index]?.marketCap || "$0"}
-          </p>
+          <div className="text-md text-center flex flex-row items-center justify-center gap-1">
+            <p>{symbol}</p>
+            <p className={agentMarket[index]?.priceChange24h < 0 ? "text-green-500" : agentMarket[index]?.priceChange24h > 0 ? "text-red-500" : ""}>
+              {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}
+              {agentMarket[index]?.priceChange24h || "0.00"}%
+            </p>
+            <p>|</p>
+            <p>FDV: {agentMarket[index]?.marketCap || "$0"}</p>
+          </div>
           <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center">
             Token Price: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
           </p>

@@ -341,7 +341,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
               <div className="relative w-[94%] mx-auto mt-2">
                 <div 
                   className={`flex items-center justify-center space-x-2 ${
-                    isStyleOpen ? 'w-full' : 'w-fit'
+                    isStyleOpen ? 'w-full hide-scrollbar' : 'w-fit'
                   } mx-auto transition-all duration-300 ease-in-out`}
                 >
                   <button
@@ -377,7 +377,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                   </button>
                   
                   {isStyleOpen && (
-                    <div className="flex space-x-2 overflow-x-auto scroll-container pl-2">
+                    <div className="flex space-x-2 overflow-x-auto hide-scrollbar pl-2">
                       {stylePresets.map((style, index) => (
                         <button
                           key={index}

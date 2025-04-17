@@ -159,14 +159,14 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
               <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
             </div>
-            <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} ${expandedImage === message.content ? 'items-start' : ''}`}>
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                  message.role === 'user'
-                    ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white'
-                    : 'text-foreground'
-                }`}
-              >
+            <div className={`flex ${message.role === 'user' ? 'justify-start' : 'justify-start'} ${expandedImage === message.content ? 'items-start' : ''}`}>
+            <div
+              className={`rounded-2xl px-4 py-2 ${
+                message.role === 'user'
+                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white inline-block max-w-full'
+                  : 'text-foreground max-w-[80%]'
+              }`}
+            >
                 {isImageUrl(message.content) ? (
                   <div className="relative">
                     <img 
@@ -230,11 +230,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   style={{zIndex:500000000}}
                   onClick={() => setExpandedImage(null)}
                 >
-                  <div className="w-[60vw] h-[80vh] rounded-lg overflow-scroll">
+                  <div className="w-[300px] h-[480px] m-auto rounded-lg hide-scrollbar">
                     <img 
                       src={message.content} 
                       alt="Expanded chat image" 
-                      className="rounded-lg w-full h-full object-contain"
+                      className="rounded-lg object-contain my-auto"
                     />
                   </div>
                 </div>

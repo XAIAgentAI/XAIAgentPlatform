@@ -134,7 +134,6 @@ export async function POST(
   request: NextRequest,
 ) {
   const { prompt, message, thing, isNew, user: requestUser, convid, agent } = await request.json();
-  // 在POST函数的else块开头添加以下逻辑
   if (thing === 'image') {
     // 图片消息处理逻辑
     const user = requestUser;
@@ -229,7 +228,16 @@ export async function POST(
       maxConvid = Math.max(...chat["1"].map((sentence: any) => parseInt(sentence.convid)));
     }
 
-    const currentTime = new Date().toLocaleString().replace(/[/ ]/g, '-').replace(/:/g, '-').replace(/,/g, '');
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const currentTime = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
+
     const userMessage: Sentence = {
       user: message,
       convid: isNew === "yes" ? (maxConvid + 1).toString() : convid.toString(),
