@@ -48,6 +48,9 @@ const src: {[key:string]:string} = {
 const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [collapsedMessages, setCollapsedMessages] = useState<Record<string, boolean>>({});
+  const [likedMessages, setLikedMessages] = useState<Record<string, boolean>>({});
+  const [dislikedMessages, setDislikedMessages] = useState<Record<string, boolean>>({});
   const expandedImageRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("chat");
 
@@ -71,7 +74,6 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (expandedImageRef.current && !expandedImageRef.current.contains(event.target)) {
-        // Close the expanded image by setting expandedImage to null or whatever your state management is
         setExpandedImage(null);
       }
     };
@@ -109,6 +111,45 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleCopyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const toggleCollapseMessage = (messageId: string) => {
+    setCollapsedMessages(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
+  };
+
+  const handleLike = (messageId: string) => {
+    setLikedMessages(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
+    // If disliked, remove dislike
+    if (dislikedMessages[messageId]) {
+      setDislikedMessages(prev => ({
+        ...prev,
+        [messageId]: false
+      }));
+    }
+  };
+
+  const handleDislike = (messageId: string) => {
+    setDislikedMessages(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
+    // If liked, remove like
+    if (likedMessages[messageId]) {
+      setLikedMessages(prev => ({
+        ...prev,
+        [messageId]: false
+      }));
+    }
   };
 
   return (
@@ -155,53 +196,10 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             key={message.id}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start flex-col'}`}
           > 
-            <div className="flex flex-row">
+            <div className="flex flex-row relative -top-[6px]">
               <Image alt={agent} src={`${src[message.agent]||"/logo/XAIAgent.png"}`} width={24} height={24} className={`${message.role === "user" ? "hidden":"ml-4 rounded-full"}`} style={{width:"28px",height:"28px"}}/>
               <div className={`${message.role === "user" ? 'hidden' : 'text-foreground ml-2 text-md font-semibold'}`}>{message.agent || "Xaiagent"}</div>
-            </div>
-            <div className={`flex ${message.role === 'user' ? 'justify-start' : 'justify-start'} ${expandedImage === message.content ? 'items-start' : ''}`}>
-            <div
-              className={`rounded-2xl px-4 py-2 ${
-                message.role === 'user'
-                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white inline-block max-w-full'
-                  : 'text-foreground max-w-[80%]'
-              }`}
-            >
-                {isImageUrl(message.content) ? (
-                  <div className="relative">
-                    <img 
-                      src={message.content} 
-                      alt="Chat image" 
-                      className="max-w-full max-h-[300px] object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() => setExpandedImage(expandedImage === message.content ? null : message.content)}
-                    />
-                    <div className="flex justify-start space-x-4 mt-2">
-                      <button
-                        onClick={() => handleCopyImage(message.content)}
-                        className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                        title="Copy image"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDownloadImage(message.content)}
-                        className="p-2 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
-                        title="Download image"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                ) : message.role === 'assistant' ? (
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                ) : (
-                  <p className="text-sm text-justify">{message.content}</p>
-                )}
-                <p className={`text-xs mt-1 text-[rgb(30,30,30)] dark:text-white`}>
+              <p className={`${message.role === "user" ? 'hidden' : 'ml-2 mt-[5px] text-md'} text-xs mt-1 text-[rgb(30,30,30)] dark:text-white opacity-80`}>
                   {isValidDate(message.time) ? 
                     (() => {
                       const parts = message.time.split('-');
@@ -222,19 +220,152 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                     })() 
                     : `${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`}
                 </p>
+            </div>
+            {message.role === 'assistant' && (
+              <div className="flex items-center ml-[52px] mt-[-4px] mb-[4px]">
+                <span className="text-xs text-muted-foreground">已调用Agent模型</span>
+                <button 
+                  onClick={() => toggleCollapseMessage(message.id)}
+                  className="ml-[2px] text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20" 
+                    className="w-3 h-3"
+                    fill="currentColor"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d={collapsedMessages[message.id] ? "M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z" : "M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"}
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+            <div className={`flex ${message.role === 'user' ? 'justify-start' : 'justify-start'} ${expandedImage === message.content ? 'items-start' : ''}`}>
+            <div
+              className={`rounded-2xl px-4 py-2 ${
+                message.role === 'user'
+                  ? 'bg-[rgb(236,236,236)] dark:bg-zinc-800 text-[rgb(30,30,30)] dark:text-white inline-block max-w-full'
+                  : 'text-foreground max-w-[80%] ml-[38px]'
+              }`}
+            >
+                {isImageUrl(message.content) ? (
+                  <div className={`relative ${collapsedMessages[message.id] ? 'hidden' : ''}`}>
+                    <img 
+                      src={message.content} 
+                      alt="Chat image" 
+                      className="max-w-full max-h-[300px] object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => setExpandedImage(expandedImage === message.content ? null : message.content)}
+                    />
+                  </div>
+                ) : message.role === 'assistant' ? (
+                  <div className={collapsedMessages[message.id] ? 'hidden' : ''}>
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-sm text-justify">{message.content}</p>
+                  </div>
+                )}
+                
+                {/* Action buttons - now below the timestamp */}
+                <div className="flex justify-start gap-2 mt-2">
+                  {isImageUrl(message.content) ? (
+                    <>
+                      <button
+                        onClick={() => handleCopyImage(message.content)}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        title="Copy image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDownloadImage(message.content)}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        title="Download image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleLike(message.id)}
+                        className={`p-1 rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        title="Like"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={likedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDislike(message.id)}
+                        className={`p-1 rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        title="Dislike"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={dislikedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m0 0v9m0-9h2.765a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.264 15H13m0 0l-3 3m3-3l3 3" />
+                        </svg>
+                      </button>
+                    </>
+                  ) : message.role === 'assistant' ? (
+                    <>
+                      <button
+                        onClick={() => handleCopyText(message.content)}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        title="Copy"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleLike(message.id)}
+                        className={`p-1 rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        title="Like"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={likedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDislike(message.id)}
+                        className={`p-1 rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        title="Dislike"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={dislikedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m0 0v9m0-9h2.765a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.264 15H13m0 0l-3 3m3-3l3 3" />
+                        </svg>
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => handleCopyText(message.content)}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                      title="Copy"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
               {expandedImage === message.content && (
                 <div 
                   ref={expandedImageRef}
-                  className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" 
+                  className="fixed left-[calc(50vw-150px)] top-[calc(45vh-150px)] flex items-center justify-center" 
                   style={{zIndex:500000000}}
                   onClick={() => setExpandedImage(null)}
                 >
-                  <div className="w-[300px] h-[480px] m-auto rounded-lg hide-scrollbar">
+                  <div className="w-[300px] h-[300px] rounded-lg hide-scrollbar">
                     <img 
                       src={message.content} 
                       alt="Expanded chat image" 
-                      className="rounded-lg object-contain my-auto"
+                      className="rounded-lg object-contain"
                     />
                   </div>
                 </div>
