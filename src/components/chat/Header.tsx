@@ -153,7 +153,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           <p className="text-lg font-semibold text-center">{agent}</p>
           <div className="text-md text-center flex flex-row items-center justify-center gap-1">
             <p>{symbol}</p>
-            <p className={agentMarket[index]?.priceChange24h < 0 ? "text-green-500" : agentMarket[index]?.priceChange24h > 0 ? "text-red-500" : ""}>
+            <p className={agentMarket[index]?.priceChange24h < 0 ? "text-red-500" : agentMarket[index]?.priceChange24h > 0 ? "text-green-500" : ""}>
               {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}
               {agentMarket[index]?.priceChange24h || "0.00"}%
             </p>
