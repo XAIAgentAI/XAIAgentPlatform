@@ -79,16 +79,16 @@ const InputComponent: React.FC<InputComponentProps> = ({
       prompt: t("Watercolor.prompt") 
     },
     { 
-      name: t("Low Poly.name"), 
-      prompt: t("Low Poly.prompt") 
+      name: t("LowPoly.name"), 
+      prompt: t("LowPoly.prompt") 
     },
     { 
       name: t("Portrait.name"), 
       prompt: t("Portrait.prompt") 
     },
     { 
-      name: t("Oil Painting.name"), 
-      prompt: t("Oil Painting.prompt") 
+      name: t("OilPainting.name"), 
+      prompt: t("OilPainting.prompt") 
     }
   ];
 

@@ -400,10 +400,11 @@
     "Cyberpunk": { "name": "サイバーパンク", "prompt": "ネオンライト, 未来的な都市景観, 雨の反射, サイバーパンク2077風" },
     "Fantasy": { "name": "ファンタジー", "prompt": "幻想的な光, 魔法のような雰囲気, 高ディテール, デジタルペインティング" },
     "Watercolor": { "name": "水彩画", "prompt": "柔らかい水彩テクスチャ, 優しい筆跡, パステルカラー" },
-    "Low Poly": { "name": "ローポリ", "prompt": "ローポリゴンの幾何学形状, 鮮やかな色彩, ミニマリスト3Dスタイル" },
+    "LowPoly": { "name": "ローポリ", "prompt": "ローポリゴンの幾何学形状, 鮮やかな色彩, ミニマリスト3Dスタイル" },
     "Portrait": { "name": "ポートレート", "prompt": "プロフェッショナルポートレート写真, 浅い被写界深度, 85mmレンズ" },
-    "Oil Painting": { "name": "油絵", "prompt": "キャンバス油彩, テクスチャーブラシストローク, クラシックアートスタイル" },
-    "isImageThinking":"画像生成中..."
+    "OilPainting": { "name": "油絵", "prompt": "キャンバス油彩, テクスチャーブラシストローク, クラシックアートスタイル" },
+    "isImageThinking":"画像生成中...",
+    "alreadyuseagent":"呼び出されたエージェントモデル"
     },
   "cryptoChart": {
     "timeIntervals": {

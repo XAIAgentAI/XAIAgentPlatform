@@ -223,7 +223,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
             </div>
             {message.role === 'assistant' && (
               <div className="flex items-center ml-[52px] mt-[-4px] mb-[4px]">
-                <span className="text-xs text-muted-foreground">已调用Agent模型</span>
+                <span className="text-xs text-muted-foreground">{t("alreadyuseagent")}</span>
                 <button 
                   onClick={() => toggleCollapseMessage(message.id)}
                   className="ml-[2px] text-muted-foreground hover:text-foreground transition-colors"
