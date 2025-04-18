@@ -104,10 +104,17 @@ const InputComponent: React.FC<InputComponentProps> = ({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(
+      if(!input){
+        textareaRef.current.style.height = `${Math.min(
         textareaRef.current.scrollHeight,
-        5 * 24
+        32
       )}px`;
+      } else {
+        textareaRef.current.style.height = `${Math.min(
+          textareaRef.current.scrollHeight,
+          120
+        )}px`;
+      }
       if (textareaRef.current.scrollHeight > 5 * 24) {
         textareaRef.current.style.overflowY = 'auto';
       } else {
@@ -313,7 +320,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
 
   return (
     <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex: 10}}>
-      <div className="max-w-3xl px-4 py-4 w-full lg:w-[80%] mx-auto rounded-2xl">
+      <div className="max-w-3xl px-4 py-[12px] w-full lg:w-[80%] mx-auto rounded-2xl">
         <form onSubmit={handleSendClick} className="w-full relative">
           <div className="w-full relative flex items-center bg-[#EDEDED] dark:bg-[rgb(21,21,21)] rounded-2xl">
             {/* 图片上传按钮 */}
@@ -398,7 +405,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                 value={input || ''}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t("inputHolder")}
-                className="w-full bg-[#EDEDED] rounded-2xl dark:bg-[rgb(21,21,21)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] py-[10px] pb-[10.5px] dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10 resize-none overflow-hidden min-h-[44px] max-h-[120px] pl-10 hide-scrollbar"
+                className={`placeholder:relative placeholder:top-[2px] w-full bg-[#EDEDED] rounded-2xl dark:bg-[rgb(21,21,21)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] ${agent === "StyleID" ? "pt-[3px] pb-[3px]" : "py-[10px]"} dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10 resize-none overflow-hidden min-h-[32px] max-h-[120px] pl-10 hide-scrollbar`}
                 disabled={isLoading}
                 rows={1}
               />

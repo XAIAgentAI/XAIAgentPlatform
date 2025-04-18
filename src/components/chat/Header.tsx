@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
+import { useTranslations } from 'next-intl';
 import AgentSelector from './AgentSelector'; 
 import Image from 'next/image';
 
@@ -58,6 +59,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
 }) => {
   const [index, setIndex] = useState(0);
   const [symbol, setSymbol] = useState("XAA");
+  const t = useTranslations("agentList");
 
   useEffect(()=>{
     if(agent === "Xaiagent"){
@@ -138,7 +140,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   };
 
   return (
-    <div className="fixed top-28 md:top-24 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
+    <div className="fixed top-28 lg:top-32 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
       <div className="w-[80vw] mx-auto lg:ml-[10vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
         <div className="h-[78vh]">
           <div className="w-24 h-24 mx-auto mb-1">
@@ -158,10 +160,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
               {agentMarket[index]?.priceChange24h || "0.00"}%
             </p>
             <p>|</p>
-            <p>FDV: {agentMarket[index]?.marketCap || "$0"}</p>
+            <p>{t("marketCap")}: {agentMarket[index]?.marketCap || "$0"}</p>
           </div>
           <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center">
-            Token Price: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
+            {t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
           </p>
           
           <div className="mt-6 flex flex-col items-center justify-center space-y-4">

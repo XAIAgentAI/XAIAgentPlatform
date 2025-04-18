@@ -226,7 +226,7 @@ export default function ChatPage() {
 
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2 bg-background">
-      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
+      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName} setIsLoading={setIsLoading}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
           setInput={setInput}
@@ -281,7 +281,7 @@ export default function ChatPage() {
           <p className="text-center h-[24px]">Waiting for connection...</p>
         </div>
       )}
-      {conversations["1"]?.length && <MessagesComponent 
+      {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
         userName={userName}
         conversations={conversations}
@@ -290,7 +290,7 @@ export default function ChatPage() {
         isLoadingImage={isLoadingImage}
         messagesEndRef={messagesEndRef} 
         setIsNew={setIsNew}
-      />}
+      />)}
       <InputComponent 
         convid={convid}
         setConversations={setConversations}
