@@ -49,6 +49,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const [collapsedMessages, setCollapsedMessages] = useState<Record<string, boolean>>({});
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [likedMessages, setLikedMessages] = useState<Record<string, boolean>>({});
   const [dislikedMessages, setDislikedMessages] = useState<Record<string, boolean>>({});
   const expandedImageRef = useRef<HTMLDivElement>(null);
@@ -113,9 +114,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
     document.body.removeChild(link);
   };
 
-  const handleCopyText = (text: string) => {
+  const handleCopyText = (text: string, messageId: string) => {
     navigator.clipboard.writeText(text);
-  };
+    setCopiedMessageId(messageId);
+    setTimeout(() => setCopiedMessageId(null), 2000); // Reset after 2 seconds
+  };  
 
   const toggleCollapseMessage = (messageId: string) => {
     setCollapsedMessages(prev => ({
@@ -275,13 +278,20 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   {isImageUrl(message.content) ? (
                     <>
                       <button
-                        onClick={() => handleCopyImage(message.content)}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        onClick={() => {
+                          handleCopyImage(message.content);
+                          setCopiedMessageId(message.id);
+                          setTimeout(() => setCopiedMessageId(null), 2000);
+                        }}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors relative group"
                         title="Copy image"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                         </svg>
+                        <div className={`absolute -top-[28px] left-1/2 transform -translate-x-1/2 bg-background text-foreground text-xs rounded py-1 px-2 whitespace-nowrap transition-opacity duration-300 ${copiedMessageId === message.id ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                          Copied!
+                        </div>
                       </button>
                       <button
                         onClick={() => handleDownloadImage(message.content)}
@@ -314,14 +324,18 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   ) : message.role === 'assistant' ? (
                     <>
                       <button
-                        onClick={() => handleCopyText(message.content)}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        onClick={() => handleCopyText(message.content, message.id)}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors relative group"
                         title="Copy"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                         </svg>
+                        <div className={`absolute -top-[28px] left-1/2 transform -translate-x-1/2 bg-background text-foreground text-xs rounded py-1 px-2 whitespace-nowrap transition-opacity duration-300 ${copiedMessageId === message.id ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                          Copied!
+                        </div>
                       </button>
+
                       <button
                         onClick={() => handleLike(message.id)}
                         className={`p-1 rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
