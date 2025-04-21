@@ -157,7 +157,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   };
 
   return (
-    <div className="fixed top-28 flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight:"68vh" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight:"65vh" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
@@ -284,7 +284,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                           setCopiedMessageId(message.id);
                           setTimeout(() => setCopiedMessageId(null), 2000);
                         }}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors relative group"
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors relative group mt-[2px]"
                         title="Copy image"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -296,7 +296,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       </button>
                       <button
                         onClick={() => handleDownloadImage(message.content)}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors"
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                         title="Download image"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -305,7 +305,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       </button>
                       <button
                         onClick={() => handleLike(message.id)}
-                        className={`p-1 rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        className={`p-1 mt-[2px] rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
                         title="Like"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={likedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
@@ -314,7 +314,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       </button>
                       <button
                         onClick={() => handleDislike(message.id)}
-                        className={`p-1 rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
+                        className={`p-1 mt-[2px] rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
                         title="Dislike"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={dislikedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">

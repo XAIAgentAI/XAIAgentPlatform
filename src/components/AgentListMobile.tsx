@@ -196,6 +196,27 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                       </CustomBadge>
                     </div>
                   </div>
+                  <div className="space-y-1">
+                    <span className="text-muted-color text-xs block">{t('chat')}</span>
+                    <div className="text-secondary-color text-sm font-medium" onClick={()=>{window.location.href=`/${locale}/chat`}}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="relative cursor-pointer transition-transform duration-200 hover:rotate-6"
+                    >
+                      <path d="M19 14a2 2 0 0 1-2 2H7l-3 3v-9a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2z"/>
+                      <path d="M8 10h1m2 0h1m2 0h1" stroke-width="1.2"/>
+                      <path d="M8 13h4m2 0h2" stroke-width="1.2"/>
+                    </svg>
+                    </div>
+                  </div>
                   {(socialLinks.twitter.length > 0 || socialLinks.telegram.length > 0 || socialLinks.medium.length > 0 || socialLinks.youtube.length > 0) && (
                     <div className="space-y-1 col-span-2">
                       <span className="text-muted-color text-xs block">Social</span>

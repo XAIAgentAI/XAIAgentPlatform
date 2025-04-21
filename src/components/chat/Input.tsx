@@ -59,36 +59,64 @@ const InputComponent: React.FC<InputComponentProps> = ({
   // Stable Diffusion style presets
   const stylePresets = [
     { 
-      name: t("Cinematic.name"), 
-      prompt: t("Cinematic.prompt") 
+        name: t("Cinematic.name"), 
+        prompt: t("Cinematic.prompt") 
     },
     { 
-      name: t("Anime.name"), 
-      prompt: t("Anime.prompt") 
+        name: t("Anime.name"), 
+        prompt: t("Anime.prompt") 
     },
     { 
-      name: t("Cyberpunk.name"), 
-      prompt: t("Cyberpunk.prompt") 
+        name: t("Cyberpunk.name"), 
+        prompt: t("Cyberpunk.prompt") 
     },
     { 
-      name: t("Fantasy.name"), 
-      prompt: t("Fantasy.prompt") 
+        name: t("Watercolor.name"), 
+        prompt: t("Watercolor.prompt") 
     },
     { 
-      name: t("Watercolor.name"), 
-      prompt: t("Watercolor.prompt") 
+        name: t("LowPoly.name"), 
+        prompt: t("LowPoly.prompt") 
     },
     { 
-      name: t("LowPoly.name"), 
-      prompt: t("LowPoly.prompt") 
+        name: t("Portrait.name"), 
+        prompt: t("Portrait.prompt") 
     },
     { 
-      name: t("Portrait.name"), 
-      prompt: t("Portrait.prompt") 
+        name: t("OilPainting.name"), 
+        prompt: t("OilPainting.prompt") 
     },
     { 
-      name: t("OilPainting.name"), 
-      prompt: t("OilPainting.prompt") 
+        name: t("Minimalist.name"), 
+        prompt: t("Minimalist.prompt") 
+    },
+    { 
+        name: t("PixelArt.name"), 
+        prompt: t("PixelArt.prompt") 
+    },
+    { 
+        name: t("Sketch.name"), 
+        prompt: t("Sketch.prompt") 
+    },
+    { 
+        name: t("ChalkDrawing.name"), 
+        prompt: t("ChalkDrawing.prompt") 
+    },
+    { 
+        name: t("Claymation.name"), 
+        prompt: t("Claymation.prompt") 
+    },
+    { 
+        name: t("ComicBook.name"), 
+        prompt: t("ComicBook.prompt") 
+    },
+    { 
+        name: t("Vaporwave.name"), 
+        prompt: t("Vaporwave.prompt") 
+    },
+    { 
+        name: t("Ukiyoe.name"), 
+        prompt: t("Ukiyoe.prompt") 
     }
   ];
 
@@ -380,7 +408,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                     <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
                       Styles
                     </span>
-                    <p className="text-neutral-600 dark:text-neutral-300">8</p>
+                    <p className="text-neutral-600 dark:text-neutral-300">15</p>
                   </button>
                   
                   {isStyleOpen && (

@@ -58,7 +58,7 @@ export default function ChatPage() {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [convid, setConvid] = useState<string>("");
   const [isNew, setIsNew] = useState<string>("yes");
-  const [agent, setAgent] = useState<string>("Xaiagent");
+  const [agent, setAgent] = useState<string>("StyleID");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);

@@ -28,16 +28,16 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect, agent 
     if (!isVisible) return null;
 
     return (
-        <div className="fixed left-4 md:left-8 lg:left-[calc(24vw+4px)] xl:left-[calc(27vw+9px)] top-[117px] w-[300px] h-auto flex flex-col items-center justify-center bg-white dark:bg-[linear-gradient(145deg,_#1a1a1a_0%,_#0d0d0d_100%)] rounded-lg shadow-lg dark:shadow-xl dark:shadow-black/50" ref={modalRef} style={{zIndex:"100010"}}>
+        <div className="fixed left-4 md:left-8 lg:left-[calc(24vw+4px)] xl:left-[calc(27vw+9px)] top-[117px] w-[300px] h-auto flex flex-col items-center justify-center bg-white dark:bg-[linear-gradient(145deg,_#1a1a1a_0%,_#0d0d0d_100%)] shadow-lg dark:shadow-xl dark:shadow-black/50" ref={modalRef} style={{zIndex:"100010"}}>
             <h3 className="text-foreground dark:text-[#f0f0f0] p-[10px] text-left font-medium">{t("selectagent")}</h3>
-            <div className="flex flex-col items-center justify-center space-y-2 w-full pb-2">
-                {['Xaiagent','StyleID'].map((eachagent, index) => (
+            <div className="flex flex-col items-center justify-center space-y-2 w-full pb-1">
+                {['StyleID'].map((eachagent, index) => (
                     <button
                         key={eachagent}
                         type="button"
-                        className={`relative flex flex-col w-full pl-4 py-2 text-foreground dark:text-[#e0e0e0] hover:w-[97%] hover:mx-auto duration-200 
+                        className={`relative flex flex-col w-[97%] pl-4 py-2 text-foreground dark:text-[#e0e0e0] hover:w-[97%] hover:mx-auto duration-200 
                                   hover:dark:bg-[linear-gradient(90deg,_rgba(45,45,45,0.5)_0%,_rgba(30,30,30,0.3)_100%)]
-                                  ${eachagent === agent ? 'dark:bg-[rgba(60,60,60,0.4)]' : ''}`}
+                                  ${eachagent === agent ? 'bg-[rgb(250,250,250)] dark:bg-[rgba(60,60,60,0.4)]' : ''}`}
                         onClick={() => handleAgentSelect(eachagent)}
                     >
                         <p className="w-full text-left font-medium">{eachagent}</p>

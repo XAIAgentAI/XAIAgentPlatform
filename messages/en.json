@@ -118,7 +118,8 @@
     "loading": "Loading...",
     "24hChange": "24h Change",
     "social": "Social",
-    "lp": "LP"
+    "lp": "LP",
+    "chat": "Chat"
   },
   "agentDetail": {
     "overview": "Overview",
@@ -395,14 +396,66 @@
       "today":"Today",
       "7daysago":"This week",
       "thinking":"Thinking...",
-      "Cinematic":{ "name": "Cinematic", "prompt": "cinematic lighting, dramatic atmosphere, film grain, 35mm lens" },
-      "Anime":{"name": "Anime", "prompt": "anime style, vibrant colors, sharp details, studio ghibli inspired"},
-      "Cyberpunk":{ "name": "Cyberpunk", "prompt": "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style" },
-      "Fantasy":{ "name": "Fantasy", "prompt": "ethereal lighting, magical atmosphere, highly detailed, digital painting" },
-      "Watercolor":{ "name": "Watercolor", "prompt": "soft watercolor texture, gentle brush strokes, pastel colors" },
-      "LowPoly":{ "name": "Low Poly", "prompt": "low poly geometric shapes, vibrant colors, minimalist 3d style" },
-      "Portrait":{ "name": "Portrait", "prompt": "professional portrait photography, shallow depth of field, 85mm lens" },
-      "OilPainting":{ "name": "Oil Painting", "prompt": "oil on canvas, textured brush strokes, classical art style" },
+        "Cinematic": {
+          "name": "Cinematic",
+          "prompt": "cinematic lighting, dramatic atmosphere, film grain, 35mm lens"
+        },
+        "Anime": {
+          "name": "Anime",
+          "prompt": "anime style, vibrant colors, sharp details, studio ghibli inspired"
+        },
+        "Cyberpunk": {
+          "name": "Cyberpunk",
+          "prompt": "neon lights, futuristic cityscape, rain reflections, cyberpunk 2077 style"
+        },
+        "Watercolor": {
+          "name": "Watercolor",
+          "prompt": "soft watercolor texture, gentle brush strokes, pastel colors"
+        },
+        "LowPoly": {
+          "name": "Low Poly",
+          "prompt": "low poly geometric shapes, vibrant colors, minimalist 3d style"
+        },
+        "Portrait": {
+          "name": "Portrait",
+          "prompt": "professional portrait photography, shallow depth of field, 85mm lens"
+        },
+        "OilPainting": {
+          "name": "Oil Painting",
+          "prompt": "oil on canvas, textured brush strokes, classical art style"
+        },
+        "Minimalist": {
+          "name": "Minimalist",
+          "prompt": "clean lines, simple shapes, monochromatic colors, modern design"
+        },
+        "PixelArt": {
+          "name": "Pixel Art",
+          "prompt": "8-bit style, retro gaming aesthetic, blocky pixels, vibrant palette"
+        },
+        "Sketch": {
+          "name": "Sketch",
+          "prompt": "hand-drawn pencil sketch, rough outlines, shading with hatching"
+        },
+        "ChalkDrawing": {
+          "name": "Chalk Drawing",
+          "prompt": "chalkboard texture, soft pastel colors, hand-drawn educational style"
+        },
+        "Claymation": {
+          "name": "Claymation",
+          "prompt": "stop-motion clay texture, soft lighting, tactile material feel"
+        },
+        "ComicBook": {
+          "name": "Comic Book",
+          "prompt": "bold outlines, halftone patterns, vibrant primary colors, pop art style"
+        },
+        "Vaporwave": {
+          "name": "Vaporwave",
+          "prompt": "retro 80s aesthetic, pastel neon colors, glitch art effects"
+        },
+        "Ukiyoe": {
+          "name": "Ukiyo-e",
+          "prompt": "japanese woodblock print, flat colors, traditional asian art style"
+        },
       "isImageThinking":"Generating Image...",
       "alreadyuseagent":"AI model has been called"
     },
