@@ -359,54 +359,78 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     socialLinks: "",
     chatEntry: null,
     projectDescription: JSON.stringify({
-      'zh': `Logo生成，通过文字对话可以生成各种样式的Logo。
+      'zh': `
+1. $LOGO前8年总供应量：1000亿，以后每年挖矿产生60亿
 
-具有多样化设计风格，包括但不限于：
-- 简约现代风
-- 传统经典风
-- 极简主义
-- 手绘风格
-- 3D立体风格
+2. 15%的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得$LOGO
 
-功能特点：
-- 根据用户输入的行业或业务类型，智能推荐相应的Logo设计风格和元素
-- 内置AI灵感引擎，可以根据用户输入的关键词，提供一些设计灵感和建议`,
-      'en': `Logo generation, various styles of logos can be generated through text dialogue.
+3. 在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁
 
-Diverse design styles include but are not limited to:
-- Minimalist modern style
-- Traditional classic style
-- Minimalism
-- Hand-drawn style
-- 3D style
+4. IAO结束后，3%的$LOGO和$XAA将立即在DBCSwap上建立流动性池，实现$LOGO的自由交易
 
-Features:
-- Intelligently recommends appropriate logo design styles and elements based on user's industry or business type
-- Built-in AI inspiration engine that provides design inspiration and suggestions based on user's keywords`,
-      'ja': `ロゴ生成、テキスト対話を通じて様々なスタイルのロゴを生成できます。
+5. 团队拥有30%的$LOGO，IAO结束后开始解锁，分2000天线性解锁
 
-多様なデザインスタイルには以下が含まれます：
-- ミニマリストモダンスタイル
-- 伝統的クラシックスタイル
-- ミニマリズム
-- 手描きスタイル
-- 3Dスタイル
+6. 2%的$LOGO用来进行Token Sale，IAO结束后开始解锁，分400天线性解锁
 
-機能：
-- ユーザーの業界やビジネスタイプに基づいて適切なロゴデザインスタイルと要素をインテリジェントに推奨
-- ユーザーのキーワードに基づいてデザインのインスピレーションと提案を提供するAIインスピレーションエンジン`,
-      'ko': `로고 생성, 텍스트 대화를 통해 다양한 스타일의 로고를 생성할 수 있습니다.
+7. $LOGO挖矿每年产生60亿，挖矿产生的$LOGO，10%立刻获得，90%分180天线性解锁
 
-다양한 디자인 스타일에는 다음이 포함됩니다:
-- 미니멀리스트 모던 스타일
-- 전통적인 클래식 스타일
-- 미니멀리즘
-- 손으로 그린 스타일
-- 3D 스타일
+8. 需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点
 
-기능:
-- 사용자의 산업 또는 비즈니스 유형에 따라 적절한 로고 디자인 스타일과 요소를 지능적으로 추천
-- 사용자의 키워드를 기반으로 디자인 영감과 제안을 제공하는 AI 영감 엔진`
+9. 1%的$LOGO空投给$XAA和$DBC前10000名持有者，1%$LOGO空投给XAA的节点NFT持有者`,
+      'en': `
+1. $LOGO total supply for first 8 years: 100 billion, with 6 billion mined annually thereafter
+
+2. 15% of tokens will be sold through IAO, accepting only $XAA. Investors will receive $LOGO proportional to their $XAA investment
+
+3. After the 72-hour IAO ends, 95% of $XAA will be allocated to on-chain liquidity pools, never to be revoked, with liquidity LP certificates sent to a black hole address. 5% of $XAA will be burned
+
+4. After IAO ends, 3% of $LOGO and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of $LOGO
+
+5. The team owns 30% of $LOGO, which begins unlocking after the IAO ends, with linear unlocking over 2000 days
+
+6. 2% of $LOGO is allocated for Token Sale, unlocking begins after IAO ends, with linear unlocking over 400 days
+
+7. $LOGO mining generates 6 billion annually, of which 10% is received immediately, and 90% is linearly unlocked over 180 days
+
+8. XAA mining nodes are required for mining participation, each machine must stake minimum 1 XAA mining node, maximum 10 XAA mining nodes
+
+9. 1% of $LOGO will be airdropped to the first 10,000 holders of $XAA and $DBC, and 1% of $LOGO will be airdropped to XAA node NFT holders`,
+      'ja': `
+1. $LOGOの最初の8年間の総供給量：1000億、その後毎年60億のマイニング生成
+
+2. トークンの15%がIAOを通じて販売され、$XAAのみを受け入れます。投資家は$XAA投資比率に応じて$LOGOを受け取ります
+
+3. 72時間のIAO終了後、$XAAの95%がオンチェーン流動性プールに割り当てられ、撤回不可能となり、流動性LP証明書がブラックホールアドレスに送られます。$XAAの5%が焼却されます
+
+4. IAO終了後、$LOGOと$XAAの3%がすぐにDBCSwapで流動性プールを確立し、$LOGOの自由取引を可能にします
+
+5. チームは$LOGOの30%を所有し、IAO終了後にアンロックが開始され、2000日間で線形アンロックされます
+
+6. $LOGOの2%がトークンセールに使用され、IAO終了後にアンロックが開始され、400日間で線形アンロックされます
+
+7. $LOGOマイニングは年間60億を生成し、マイニングで生成された$LOGOの10%を即時取得し、90%は180日間で線形アンロックされます
+
+8. マイニングに参加するにはXAAマイニングノードの保有が必要で、各マシンは最低1個のXAAマイニングノードを質入れし、最大10個のXAAマイニングノードを質入れできます
+
+9. $LOGOの1%が$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、1%がXAAノードNFT保有者にエアドロップされます`,
+      'ko': `
+1. $LOGO 첫 8년 총 공급량: 1000억, 이후 매년 채굴로 60억 생성
+
+2. 토큰의 15%가 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 $LOGO를 받게 됩니다
+
+3. 72시간의 IAO 종료 후, $XAA의 95%가 온체인 유동성 풀에 할당되어 철회 불가능하며, 유동성 LP 증명서는 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다
+
+4. IAO 종료 후, $LOGO와 $XAA의 3%가 즉시 DBCSwap에서 유동성 풀을 구성하여 $LOGO의 자유로운 거래가 가능해집니다
+
+5. 팀은 $LOGO의 30%를 보유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 해제됩니다
+
+6. $LOGO의 2%는 토큰 세일에 사용되며, IAO 종료 후 잠금 해제가 시작되어 400일 동안 선형적으로 해제됩니다
+
+7. $LOGO 채굴은 매년 60억을 생성하며, 채굴된 $LOGO의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 해제됩니다
+
+8. 채굴 참여를 위해서는 XAA 채굴 노드 보유가 필요하며, 각 기계는 최소 1개의 XAA 채굴 노드를 스테이킹해야 하고, 최대 10개의 XAA 채굴 노드를 스테이킹할 수 있습니다
+
+9. $LOGO의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다`
     })
   },
   {
