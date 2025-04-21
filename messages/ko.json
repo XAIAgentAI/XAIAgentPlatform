@@ -422,6 +422,6 @@
     "Portrait": { "name": "초상화", "prompt": "프로페셔널 초상 사진, 얕은 심도, 85mm 렌즈" },
     "OilPainting": { "name": "유화", "prompt": "�유 캔버스, 질감 있는 붓터치, 클래식 아트 스타일" },
     "isImageThinking":"그림 생성 중...",
-    "alreadyuseagent":"호출된 Agent 모델"
+    "alreadyuseagent":"호출된 AI 모델"
   }
 }

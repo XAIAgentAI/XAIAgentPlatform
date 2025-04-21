@@ -93,22 +93,23 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
 
   const handleCopyImage = async (imageUrl: string) => {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob
-        })
-      ]);
+      // Changed to copy just the URL text instead of the image
+      await navigator.clipboard.writeText(imageUrl);
     } catch (err) {
-      console.error('Failed to copy image: ', err);
+      console.error('Failed to copy image URL: ', err);
     }
   };
 
   const handleDownloadImage = (imageUrl: string) => {
+    // Improved download function that works on both mobile and desktop
     const link = document.createElement('a');
     link.href = imageUrl;
-    link.download = 'chat-image.png';
+    
+    // Extract filename from URL or use a default one
+    const filename = imageUrl.split('/').pop() || 'chat-image.png';
+    link.download = filename;
+    
+    // Required for Firefox
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -363,15 +364,16 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               {expandedImage === message.content && (
                 <div 
                   ref={expandedImageRef}
-                  className="fixed left-[calc(50vw-150px)] top-[calc(45vh-150px)] flex items-center justify-center" 
-                  style={{zIndex:500000000}}
+                  className="fixed left-[calc(50vw-170px)] top-[calc(45vh-170px)] md:left-[calc(50vw-200px)] md:top-[calc(45vh-200px)] flex items-center justify-center" 
+                  style={{zIndex:5000}}
                   onClick={() => setExpandedImage(null)}
                 >
-                  <div className="w-[300px] h-[300px] rounded-lg hide-scrollbar">
+                  <div className="w-[340px] h-[340px] md:w-[400px] md:h-[400px] rounded-lg hide-scrollbar">
                     <img 
                       src={message.content} 
                       alt="Expanded chat image" 
                       className="rounded-lg object-contain"
+                      style={{zIndex:5000}}
                     />
                   </div>
                 </div>

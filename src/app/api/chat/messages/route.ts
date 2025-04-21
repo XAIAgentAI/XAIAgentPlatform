@@ -155,6 +155,26 @@ export async function POST(
       chat["1"] = [];
     }
 
+    // Clean up NaN convid values first
+    let hasNaN = false;
+    let maxValidConvid = 0;
+    for (const sentence of chat["1"]) {
+      const currentConvid = parseInt(sentence.convid);
+      if (isNaN(currentConvid)) {
+        hasNaN = true;
+        sentence.convid = maxValidConvid.toString();
+      } else {
+        if (currentConvid > maxValidConvid) {
+          maxValidConvid = currentConvid;
+        }
+      }
+    }
+
+    // If there were NaN values, update the chat first
+    if (hasNaN) {
+      await updateUserChat(user, chat);
+    }
+
     let maxConvid = 0;
     if (chat["1"].length > 0) {
       maxConvid = Math.max(...chat["1"].map((sentence: any) => parseInt(sentence.convid)));
@@ -221,6 +241,26 @@ export async function POST(
     }
     if (!chat["1"]) {
       chat["1"] = [];
+    }
+
+    // Clean up NaN convid values first
+    let hasNaN = false;
+    let maxValidConvid = 0;
+    for (const sentence of chat["1"]) {
+      const currentConvid = parseInt(sentence.convid);
+      if (isNaN(currentConvid)) {
+        hasNaN = true;
+        sentence.convid = maxValidConvid.toString();
+      } else {
+        if (currentConvid > maxValidConvid) {
+          maxValidConvid = currentConvid;
+        }
+      }
+    }
+
+    // If there were NaN values, update the chat first
+    if (hasNaN) {
+      await updateUserChat(user, chat);
     }
 
     let maxConvid = 0;

@@ -407,7 +407,7 @@
     "Portrait": { "name": "肖像", "prompt": "专业人像摄影, 浅景深, 85mm镜头" },
     "OilPainting": { "name": "油画", "prompt": "布面油画, 质感笔触, 古典艺术风格" },
     "isImageThinking":"图片生成中...",
-    "alreadyuseagent":"已调用Agent模型"
+    "alreadyuseagent":"已调用AI模型"
   },
   "cryptoChart": {
     "timeIntervals": {

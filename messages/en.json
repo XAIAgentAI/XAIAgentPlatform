@@ -404,7 +404,7 @@
       "Portrait":{ "name": "Portrait", "prompt": "professional portrait photography, shallow depth of field, 85mm lens" },
       "OilPainting":{ "name": "Oil Painting", "prompt": "oil on canvas, textured brush strokes, classical art style" },
       "isImageThinking":"Generating Image...",
-      "alreadyuseagent":"Agent model has been called"
+      "alreadyuseagent":"AI model has been called"
     },
   "cryptoChart": {
     "timeIntervals": {

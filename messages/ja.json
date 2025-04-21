@@ -404,7 +404,7 @@
     "Portrait": { "name": "ポートレート", "prompt": "プロフェッショナルポートレート写真, 浅い被写界深度, 85mmレンズ" },
     "OilPainting": { "name": "油絵", "prompt": "キャンバス油彩, テクスチャーブラシストローク, クラシックアートスタイル" },
     "isImageThinking":"画像生成中...",
-    "alreadyuseagent":"呼び出されたエージェントモデル"
+    "alreadyuseagent":"AIモデルが呼び出されました"
     },
   "cryptoChart": {
     "timeIntervals": {
