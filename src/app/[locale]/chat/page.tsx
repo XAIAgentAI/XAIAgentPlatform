@@ -276,11 +276,6 @@ export default function ChatPage() {
           <AgentSelector handleAgentSelect={handleAgentSelect} agent={agent}/>
         )}
       </div>
-      {!userStatus && (
-        <div className="border-2 px-4 border-solid bg-[rgba(22,22,22,0.2)] fixed w-[260px] md:w-auto top-[100px] left-[50vw] dark:bg-zinc-100 rounded-lg p-4 text-center text-stone-900 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-          <p className="text-center h-[24px]">Waiting for connection...</p>
-        </div>
-      )}
       {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
         userName={userName}
