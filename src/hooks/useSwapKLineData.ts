@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchSwapData, convertToKLineData, SUBGRAPH_URL } from '@/services/swapService';
+import { fetchSwapData, convertToKLineData, SUBGRAPH_URL, getBatchTokenPrices } from '@/services/swapService';
 import { KLineData as SwapKLineData, SwapData } from '@/types/swap';
 import { KLineData as ChartKLineData, TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, find24hAgoPrice } from '@/lib/utils';
@@ -15,6 +15,7 @@ export interface SwapChartData {
 }
 
 interface UseSwapKLineDataParams {
+  symbol: string;
   interval: TimeInterval;
   targetToken: string;
   baseToken: string;
@@ -22,7 +23,7 @@ interface UseSwapKLineDataParams {
 
 const POLLING_INTERVAL = 10000; // 10秒轮询一次
 
-export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKLineDataParams) => {
+export const useSwapKLineData = ({ symbol, interval, targetToken, baseToken }: UseSwapKLineDataParams) => {
   const [data, setData] = useState<SwapChartData>({
     klineData: [],
     currentPrice: 0,
@@ -153,6 +154,18 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
         to: now
       });
 
+      const tokenSwapDatas = await getBatchTokenPrices([{
+        symbol: symbol,
+        address: targetToken
+      }]);
+      console.log("tokenSwapDatas", tokenSwapDatas, symbol);
+      const tokenSwapInfo = tokenSwapDatas[symbol];
+      console.log("tokenSwapInfo", tokenSwapInfo);
+      const priceChange = tokenSwapInfo.priceChange24h || 0;
+
+
+      // const currentPrice = tokenSwapDatas[targetToken].usdPrice || 0;
+
       const rawKlineData = convertToKLineData(swapData, newInterval || interval, targetToken, baseToken);
 
       // 转换为图表所需的KLineData格式
@@ -178,10 +191,9 @@ export const useSwapKLineData = ({ interval, targetToken, baseToken }: UseSwapKL
           });
 
           const mergedData = Array.from(dataMap.values()).sort((a, b) => a.time - b.time);
-          const currentPrice = newChartKlineData[newChartKlineData.length - 1].close;
-          const oneDayAgo = now - 24 * 60 * 60;
-          const price24hAgo = mergedData.find(item => item.time >= oneDayAgo)?.close || currentPrice;
-          const priceChange = calculatePriceChange(currentPrice, price24hAgo);
+          const currentPrice = 6.22174;
+          // const price24hAgo = priceChange;
+          // const priceChange = calculatePriceChange(currentPrice, price24hAgo);
 
           return {
             ...prev,

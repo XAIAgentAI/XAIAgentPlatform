@@ -67,14 +67,16 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
   }
 
   return (
-    <Card className="p-6 bg-card">
+    <Card className="p-6 bg-card" style={{
+      marginTop: 16
+    }}>
       <h2 className="text-lg font-semibold mb-4">{t('agent.conversationStarter')}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 opacity-50">
         {suggestions.map((suggestion: string, index: number) => (
           <div
             key={index}
             className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
-            onClick={()=>{window.open(`/${locale}/chat?prompt=${suggestion}`,'_blank')}}
+            onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
           >
             {suggestion}
           </div>

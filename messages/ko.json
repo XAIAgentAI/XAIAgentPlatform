@@ -12,8 +12,9 @@
     "sellAgent": "판매",
     "stake": "구매",
     "unstake": "판매",
-    "dbcBalance": "DBC 잔액",
-    "xaaBalance": "XAA 잔액",
+    "dbcBalance": "DBC",
+    "xaaBalance": "XAA",
+    "sicBalance": "SIC",
     "timeUnits": {
       "days": "일",
       "hours": "시간",

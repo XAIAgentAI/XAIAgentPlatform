@@ -12,8 +12,9 @@
     "sellAgent": "出售",
     "stake": "购买",
     "unstake": "出售",
-    "dbcBalance": "DBC余额",
-    "xaaBalance": "XAA余额",
+    "dbcBalance": "DBC",
+    "xaaBalance": "XAA",
+    "sicBalance": "SIC",
     "timeUnits": {
       "days": "天",
       "hours": "时",

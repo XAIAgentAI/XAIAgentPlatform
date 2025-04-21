@@ -12,8 +12,9 @@
     "sellAgent": "Sell",
     "stake": "Buy",
     "unstake": "Sell",
-    "dbcBalance": "DBC Balance",
-    "xaaBalance": "XAA Balance",
+    "dbcBalance": "DBC",
+    "xaaBalance": "XAA",
+    "sicBalance": "SIC",
     "social": "Social",
     "timeUnits": {
       "days": "d",
