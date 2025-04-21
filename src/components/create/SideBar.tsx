@@ -75,7 +75,7 @@ const SideBar = ({ agent, setIsLoading, conversations, setIsNew, setConvid, setC
   const fetchMessages = async () => {
     if (true && userName) {
       try {
-        const response = await fetch(`/api/chat/messages?user=${userName}`, {
+        const response = await fetch(`/api/create?user=${userName}`, {
           headers: { 'Content-Type': 'application/json' },
           method: 'GET',
         });

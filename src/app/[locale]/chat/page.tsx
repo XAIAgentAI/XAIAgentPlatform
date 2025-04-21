@@ -10,7 +10,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import AgentSelector from '@/components/chat/AgentSelector'; 
 import { useSearchParams } from 'next/navigation';
-
+import { fetchDBCTokens } from "@/hooks/useDBCScan"
+import { LocalAgent } from "@/types/agent"
+import { agentAPI } from "@/services/api"
+import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
 
 interface Message {
   id: string;
@@ -30,6 +33,10 @@ interface Sentence {
   time?: string;
 }
 
+interface Conversations {
+  [id: string]: Message[];
+}
+
 // 定义路由参数的类型
 type ChatParams = {
   locale: string;
@@ -46,11 +53,13 @@ export default function ChatPage() {
   const searchParams = useSearchParams();
   const prompt = searchParams?.get('prompt') || '';
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
+  const [agentMarket,setAgentMarket] = useState<LocalAgent[]>([])
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [convid, setConvid] = useState<string>("");
   const [isNew, setIsNew] = useState<string>("yes");
-  const [agent, setAgent] = useState<string>("Xaiagent");
+  const [agent, setAgent] = useState<string>("StyleID");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
@@ -58,6 +67,38 @@ export default function ChatPage() {
   
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  // 获取代理列表
+  const fetchAgentsData = async () => {
+    try {
+      // 并行获取 agents 和 tokens 数据
+      const [response, tokens] = await Promise.all([
+        agentAPI.getAllAgents({ pageSize: 30 }),
+        fetchDBCTokens()
+      ]);
+
+      if (response.code === 200 && response.data?.items) {
+        // 转换数据
+        let agents = response.data.items.map(transformToLocalAgent);
+
+        // 更新价格信息
+        agents = await updateAgentsWithPrices(agents);
+
+        // 更新代币持有者信息
+        if (tokens.length > 0) {
+          agents = updateAgentsWithTokens(agents, tokens);
+        }
+
+        setAgentMarket(agents);
+      }
+    } catch (error) {
+      console.error('Failed to fetch agents:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAgentsData();
+  }, []);
     
   const agentDescriptions: { [key: string]: AgentDescription } = {
     'Xaiagent': {
@@ -144,7 +185,15 @@ export default function ChatPage() {
   };
 
   const handleAgentSelect = (agent: string) => {
+    setIsNew("yes");
+    setIsLoading(false);
+    setIsLoadingImage(false);
     setAgent(agent);
+    setConversations((prev: Conversations): Conversations => {
+      const newConversations = { ...prev };
+      newConversations["1"] = [];
+      return newConversations;
+    });
     setTimeout(()=>{setIsAgentListOpen(false)},200);
   };
 
@@ -178,9 +227,11 @@ export default function ChatPage() {
 
   return (
     <div className="2xs-[77vh] flex flex-col md:h-[80vh] px-2 bg-background">
-      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName}/>
+      <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName} setIsLoading={setIsLoading}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
+          setInput={setInput}
+          agentMarket={agentMarket}
           agent={agent}
           userName={userName}
           setUserName={setUserName}
@@ -198,13 +249,30 @@ export default function ChatPage() {
         />
       )}
       {/* Agent Selection */}
-      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] z-100">
-        <GradientBorderButton
-          containerClassName="max-w-[100px] flex font-light items-center justify-between text-foreground text-lg fixed left-[4vw] md:left-[2.6vw] lg:left-[22.5vw] xl:left-[calc(22vw+66px)] top-[72px]"
+      <div className="relative w-full max-w-sm md:w-[80vw] md:ml-[18vw] lg:ml-[20vw] xl:ml-[20vw] z-100">
+        <button
+          className="flex items-center text-foreground text-lg fixed left-[64px] md:left-[74px] lg:left-[25vw] xl:left-[calc(24vw+56px)] top-[84px] hover:opacity-80 transition-opacity"
           onClick={() => setIsAgentListOpen(!isAgentListOpen)}
         >
           {agent}
-        </GradientBorderButton>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={`transition-transform ${isAgentListOpen ? 'rotate-180' : ''}`}
+          >
+            {/* 简洁箭头 */}
+            <path
+              d="M7 10L12 15L17 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         {isAgentListOpen && (
           <AgentSelector handleAgentSelect={handleAgentSelect} agent={agent}/>
         )}
@@ -214,16 +282,24 @@ export default function ChatPage() {
           <p className="text-center h-[24px]">Waiting for connection...</p>
         </div>
       )}
-      <MessagesComponent 
+      {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
         userName={userName}
         conversations={conversations}
         setConversations={setConversations}
         isLoading={isLoading} 
+        isLoadingImage={isLoadingImage}
         messagesEndRef={messagesEndRef} 
         setIsNew={setIsNew}
-      />
+      />)}
       <InputComponent 
+        convid={convid}
+        setConversations={setConversations}
+        isNew={isNew}
+        agent={agent}
+        setIsLoading={setIsLoading}
+        setIsLoadingImage={setIsLoadingImage}
+        setagent={setAgent}
         prompt={prompt}
         conversations={conversations}
         setIsNew={setIsNew}
