@@ -191,7 +191,7 @@ export const useSwapKLineData = ({ symbol, interval, targetToken, baseToken }: U
           });
 
           const mergedData = Array.from(dataMap.values()).sort((a, b) => a.time - b.time);
-          const currentPrice = 6.22174;
+          const currentPrice = newChartKlineData[newChartKlineData.length - 1].close;
           // const price24hAgo = priceChange;
           // const priceChange = calculatePriceChange(currentPrice, price24hAgo);
 
