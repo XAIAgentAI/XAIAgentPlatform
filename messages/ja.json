@@ -457,7 +457,8 @@
         "prompt": "日本の木版画、平面的な色彩、伝統的なアジア芸術スタイル"
       },
     "isImageThinking":"画像生成中...",
-    "alreadyuseagent":"AIモデルが呼び出されました"
+    "alreadyuseagent":"AIモデルが呼び出されました",
+    "noface":"顔やヒントがなくてよくわからない。"
     },
   "cryptoChart": {
     "timeIntervals": {

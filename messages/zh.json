@@ -460,7 +460,8 @@
         "prompt": "日本木刻版画，平涂色彩，传统亚洲艺术风格"
       },
     "isImageThinking":"图片生成中...",
-    "alreadyuseagent":"已调用AI模型"
+    "alreadyuseagent":"已调用AI模型",
+    "noface":"没有脸或提示太不清楚。"
   },
   "cryptoChart": {
     "timeIntervals": {

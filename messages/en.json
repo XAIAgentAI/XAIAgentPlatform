@@ -188,7 +188,6 @@
     "approveFailed": "Authorization failed, please try again",
     "copy": "Copy",
     "copied": "Copied",
-
     "lpPoolData": "Liquidity Pool Data",
     "iaoCompletedData": "IAO has ended, completed data",
     "iaoReleasedAmount": "IAO Released {symbol} Amount",
@@ -457,7 +456,8 @@
           "prompt": "japanese woodblock print, flat colors, traditional asian art style"
         },
       "isImageThinking":"Generating Image...",
-      "alreadyuseagent":"AI model has been called"
+      "alreadyuseagent":"AI model has been called",
+      "noface":"There is no face or the prompt is too unclear."
     },
   "cryptoChart": {
     "timeIntervals": {

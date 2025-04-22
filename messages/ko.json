@@ -475,6 +475,7 @@
         "prompt": "일본 목판화, 평면 색상, 전통 아시아 예술 스타일"
       },
     "isImageThinking":"그림 생성 중...",
-    "alreadyuseagent":"호출된 AI 모델"
+    "alreadyuseagent":"호출된 AI 모델",
+    "noface":"얼굴이 없거나 힌트가 너무 모릅니다."
   }
 }

@@ -266,7 +266,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   prompt: originalInput,
-                  message: "There is no face or the prompt is too unclear.",
+                  message: t("noface"),
                   user: userName,
                   thing: "image", 
                   isNew: isNew,
