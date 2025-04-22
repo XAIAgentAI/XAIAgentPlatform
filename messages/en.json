@@ -193,7 +193,6 @@
     "approveFailed": "Authorization failed, please try again",
     "copy": "Copy",
     "copied": "Copied",
-
     "lpPoolData": "Liquidity Pool Data",
     "iaoCompletedData": "IAO has ended, completed data",
     "iaoReleasedAmount": "IAO Released {symbol} Amount",
@@ -473,7 +472,8 @@
           "prompt": "japanese woodblock print, flat colors, traditional asian art style"
         },
       "isImageThinking":"Generating Image...",
-      "alreadyuseagent":"AI model has been called"
+      "alreadyuseagent":"AI model has been called",
+      "noface":"There is no face or the prompt is too unclear."
     },
   "cryptoChart": {
     "timeIntervals": {
@@ -568,6 +568,69 @@
     "vietnam": "Vietnam",
     "thailand": "Thailand",
     "indonesia": "Indonesia"
+  },
+  "create": {
+      "title": "Creation Guide",
+      "requirements": {
+        "title": "Token Creation Requirements",
+        "supply": "$XXX Token Supply: Total supply of 100 billion in the first 8 years, with 6 billion mined annually thereafter",
+        "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA. Holding XAA NFT increases investment quota",
+        "iaoAllocation": {
+          "title": "IAO Allocation:",
+          "pool": "95% $XAA allocated to liquidity pool (permanently locked)",
+          "burn": "5% $XAA sent to black hole address"
+        },
+        "liquidity": "Liquidity Pool: After IAO ends, 3% $XXX and $XAA automatically establish liquidity on DBCSwap",
+        "team": "Team Allocation: 32% $XXX, linearly unlocked over 2000 days",
+        "mining": {
+          "title": "Mining Mechanism:",
+          "output": "Annual output of 6 billion $XXX",
+          "unlock": "10% immediately available, 90% unlocked over 180 days",
+          "requirement": "Requires holding XAA node (10 XAA nodes staked per machine)"
+        },
+        "airdrop": {
+          "title": "Airdrop Allocation:",
+          "holders": "1% to top 10,000 $XAA and $DBC holders",
+          "nft": "1% to XAA node NFT holders"
+        }
+      },
+      "process": {
+        "title": "Creation Process",
+        "title2": "Creation Address",
+        "href": "Visit",
+        "hrefc":"page to create your agent",
+        "steps": {
+          "name": "Please name your AI token/project",
+          "description": "Please describe the functionality of your AI token/project",
+          "examples": "Describe what kind of conversations your AI project can have with users (please provide some example dialogues)"
+        }
+      },
+      "iao": {
+        "title": "IAO Settings",
+        "time": {
+          "title": "IAO Time Settings",
+          "duration": "Set IAO duration (72-720 hours)",
+          "start": "IAO will start 24 hours after setup"
+        },
+        "mining": {
+          "title": "Mining Requirements",
+          "gpu": "Set minimum GPU memory requirement",
+          "container": "Set AI container download link"
+        }
+      },
+      "examples": {
+        "title": "Example Dialogues",
+        "user": "User:",
+        "ai": "AI:",
+        "example1": {
+          "user": "Help me analyze the performance bottleneck in this code",
+          "ai": "After analysis, your code has O(n²) complexity in the loop processing part. It is recommended to optimize using hash tables..."
+        },
+        "example2": {
+          "user": "Explain the Transformer architecture",
+          "ai": "Transformer is a neural network architecture based on self-attention mechanism, mainly composed of encoder and decoder..."
+        }
+      }
   }
 }
 
