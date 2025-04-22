@@ -158,7 +158,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", position: 'relative', zIndex: 1 }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
