@@ -15,7 +15,7 @@ interface Conversation {
   [id: string]: Array<Sentence>;
 }
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.CHAT_URL;
 const chatDeployed = process.env.LLM_URL || "";
 
 const pool = new Pool({ connectionString });
