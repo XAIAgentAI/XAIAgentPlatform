@@ -19,7 +19,6 @@ interface LocalizedAgent extends LocalAgent {
   descriptionZH?: string;
 }
 
-
 const tabs = [
   { value: "prototype", label: "agents.prototype" },
   { value: "writing", label: "agents.writing" },
