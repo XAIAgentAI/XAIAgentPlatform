@@ -479,5 +479,68 @@
     "retry": "重试",
     "noData": "暂无数据",
     "waitForIoComplete": "IAO 结束并开始交易后将显示价格走势"
-  }
+  },
+    "create": {
+      "title": "创建指南",
+      "requirements": {
+        "title": "代币创建要求",
+        "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
+        "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
+        "iaoAllocation": {
+          "title": "IAO分配:",
+          "pool": "95% $XAA分配给流动性池(永久锁定)",
+          "burn": "5% $XAA打入黑洞地址"
+        },
+        "liquidity": "流动性池: IAO结束后，3% $XXX和$XAA自动在DBCSwap建立流动性",
+        "team": "团队分配: 32% $XXX，分2000天线性解锁",
+        "mining": {
+          "title": "挖矿机制:",
+          "output": "每年60亿$XXX产出",
+          "unlock": "10%立即获得，90%分180天解锁",
+          "requirement": "需持有XAA节点(每个机器质押10个XAA节点)"
+        },
+        "airdrop": {
+          "title": "空投分配:",
+          "holders": "1%给$XAA和$DBC前10,000名持有者",
+          "nft": "1%给XAA节点NFT持有者"
+        }
+      },
+      "process": {
+        "title": "创建流程",
+        "title2": "创建地址", 
+        "href": "前往",
+        "hrefc": "页面创建你的agent",
+        "steps": {
+          "name": "请给你的AI币/项目进行命名",
+          "description": "请描述你的AI币/项目功能",
+          "examples": "描述你的AI项目可以和用户进行什么内容的对话(请举出几个对话案例)"
+        }
+      },
+      "iao": {
+        "title": "IAO设置",
+        "time": {
+          "title": "IAO时间设置",
+          "duration": "设置IAO持续时间(72-720小时)",
+          "start": "IAO将在设置后24小时启动"
+        },
+        "mining": {
+          "title": "挖矿要求",
+          "gpu": "设置GPU显存最低要求",
+          "container": "设置AI容器下载链接"
+        }
+      },
+      "examples": {
+        "title": "示例对话",
+        "user": "用户:",
+        "ai": "AI:",
+        "example1": {
+          "user": "帮我分析这段代码的性能瓶颈",
+          "ai": "经过分析，您的代码在循环处理部分存在O(n²)复杂度，建议使用哈希表优化..."
+        },
+        "example2": {
+          "user": "解释一下Transformer架构",
+          "ai": "Transformer是一种基于自注意力机制的神经网络架构，主要由编码器和解码器组成..."
+        }
+      }
+    }
 } 

@@ -477,5 +477,68 @@
     "isImageThinking":"그림 생성 중...",
     "alreadyuseagent":"호출된 AI 모델",
     "noface":"얼굴이 없거나 힌트가 너무 모릅니다."
-  }
+  },
+    "create": {
+      "title": "생성 가이드",
+      "requirements": {
+        "title": "토큰 생성 요구사항",
+        "supply": "$XXX 토큰 공급: 처음 8년간 총 공급량 1000억, 이후 매년 60억 채굴",
+        "iao": "IAO 판매: 15% 토큰을 IAO로 판매, $XAA만 허용, XAA NFT 보유 시 투자 한도 증가",
+        "iaoAllocation": {
+          "title": "IAO 할당:",
+          "pool": "95% $XAA를 유동성 풀에 할당(영구 잠금)",
+          "burn": "5% $XAA를 블랙홀 주소로 전송"
+        },
+        "liquidity": "유동성 풀: IAO 종료 후, 3% $XXX와 $XAA가 DBCSwap에서 자동으로 유동성 확보",
+        "team": "팀 할당: 32% $XXX, 2000일 동안 선형 해제",
+        "mining": {
+          "title": "채굴 메커니즘:",
+          "output": "연간 60억 $XXX 생산",
+          "unlock": "10% 즉시 획득, 90%는 180일 동안 해제",
+          "requirement": "XAA 노드 보유 필요(각 기계당 10 XAA 노드 스테이킹)"
+        },
+        "airdrop": {
+          "title": "에어드랍 할당:",
+          "holders": "1%를 $XAA와 $DBC 상위 10,000명 보유자에게",
+          "nft": "1%를 XAA 노드 NFT 보유자에게"
+        }
+      },
+      "process": {
+        "title": "생성 프로세스",
+        "title2": "생성 주소",
+        "href": "이동",
+        "hrefc": "에이전트 만들기",
+        "steps": {
+          "name": "AI 토큰/프로젝트에 이름을 지정하세요",
+          "description": "AI 토큰/프로젝트의 기능을 설명하세요",
+          "examples": "AI 프로젝트가 사용자와 어떤 내용으로 대화할 수 있는지 설명하세요(몇 가지 대화 사례를 제시해 주세요)"
+        }
+      },
+      "iao": {
+        "title": "IAO 설정",
+        "time": {
+          "title": "IAO 시간 설정",
+          "duration": "IAO 지속 시간 설정(72-720시간)",
+          "start": "IAO는 설정 후 24시간 후에 시작됩니다"
+        },
+        "mining": {
+          "title": "채굴 요구사항",
+          "gpu": "GPU 메모리 최소 요구사항 설정",
+          "container": "AI 컨테이너 다운로드 링크 설정"
+        }
+      },
+      "examples": {
+        "title": "예시 대화",
+        "user": "사용자:",
+        "ai": "AI:",
+        "example1": {
+          "user": "이 코드의 성능 병목 현상을 분석해 주세요",
+          "ai": "분석 결과, 루프 처리 부분에 O(n²) 복잡도가 존재합니다. 해시 테이블을 사용한 최적화를 권장합니다..."
+        },
+        "example2": {
+          "user": "Transformer 아키텍처에 대해 설명해 주세요",
+          "ai": "Transformer는 자기 주의 메커니즘을 기반으로 한 신경망 아키텍처로, 주로 인코더와 디코더로 구성됩니다..."
+        }
+      }
+    }
 }
