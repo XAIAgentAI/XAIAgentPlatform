@@ -24,7 +24,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
     if (!agent) return [];
     let useCases: string[] | string | undefined;
 
-
     switch (locale) {
       case 'ja':
         useCases = agent.useCasesJA || agent.useCases;

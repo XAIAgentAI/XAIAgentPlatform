@@ -141,28 +141,28 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     totalSupply: 100000000000,
     marketCapTokenNumber: 100000000000,
     useCases: [
-      "I want to generate a vintage style photo. Can you help me design the style and background",
-      "Can I adjust my expression and posture in this photo?",
-      "If I want to generate a set of photos, such as Japanese, fresh, and sci-fi styles, how do I do it?",
-      "Can this AI keep my appearance consistent? For example, I can maintain my characteristics in different styles"
+      "Create a cyberpunk-style image for me with neon lights and futuristic vibes.",
+      "Can you transform my photo into an ink-wash painting style, like traditional Chinese art?",
+      "I'd like a Japanese-style 'light and fresh' photo with natural lighting.",
+      "Generate a retro film-style photo with a grainy, nostalgic look."
     ],
     useCasesJA: [
-      "レトロ調の写真を生成したいのですが、スタイルや背景をデザインしてもらえますか？",
-      "似たようなセレブの衣装を探す",
-      "ファッションウィークのトレンドを追跡",
-      "パーソナライズされたスタイル推薦を取得"
+      "サイバーパンク風の写真を生成してください。ネオンライトと未来的な雰囲気で。",
+      "私の写真を水墨画風に変換できますか？伝統的な中国画のようなスタイルで。",
+      "和風の「淡くて爽やか」な写真が欲しいです。自然光で撮影したような感じで。",
+      "レトロなフィルム風の写真を生成してください。ノスタルジックな粒状感を加えて。"
     ],
     useCasesKO: [
-      "빈티지 스타일의 화보를 만들고 싶은데 스타일과 배경을 디자인해 주시겠어요?",
-      "비슷한 셀럽 의상 찾기",
-      "패션위크 트렌드 추적",
-      "개인화된 스타일 추천 받기"
+      "사이버펑크 스타일의 사진을 생성해 주세요. 네온 조명과 미래적인 느낌으로.",
+      "제 사진을 수묵화 스타일로 바꿔 주실 수 있나요? 전통 중국화 같은 느낌으로.",
+      "일본식 '라이트 앤 프레시' 스타일의 사진을 원해요. 자연광 느낌으로.",
+      "레트로 필름 스타일의 사진을 생성해 주세요. 노스탤직한 그레인 느낌을 추가해 주세요."
     ],
     useCasesZH: [
-      "我想生成一张复古风格的写真，能帮我设计一下风格和背景吗",
-      "我能在这张写真里调整我的表情和姿势吗?",
-      "如果我想生成一组写真，比如日系、小清新和科幻风格，怎么操作?",
-      "这个AI可以保持我的相貌一致吗？比如不同风格下都能保持我的特征"
+      "请帮我生成一张赛博朋克风格的照片，带霓虹灯和未来科技感。",
+      "能不能把我的照片转换成水墨画风格，像传统中国画那样？",
+      "我想要一张日系小清新风格的照片，背景最好是自然光。",
+      "生成一张复古胶片风格的照片，带点怀旧颗粒感。"
     ],
     socialLinks: "",
     chatEntry: null,
