@@ -312,6 +312,12 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     name: "LogoLift",
     iaoTokenAmount: 5000000000,
 
+    tokenAddress: "0x31EbB59722c168656da178cb11752b248DB4f55E",
+    iaoContractAddress: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
+    tokenAddressTestnet: "0x31EbB59722c168656da178cb11752b248DB4f55E",
+    iaoContractAddressTestnet: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
+
+
     avatar: "http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png",
     symbol: "LOGO",
     type: "Infrastructure",
