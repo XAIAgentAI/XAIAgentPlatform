@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, useRef, RefObject, Dispatch, SetStateAction } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import ReactDOM from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
@@ -157,7 +158,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight:"65vh" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", position: 'relative', zIndex: 1 }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
@@ -362,22 +363,23 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 </div>
               </div>
               {expandedImage === message.content && (
+                ReactDOM.createPortal(
                 <div 
                   ref={expandedImageRef}
-                  className="fixed left-[calc(50vw-170px)] top-[calc(130px)] md:left-[calc(50vw-200px)] md:top-[calc(130px)] flex items-center justify-center" 
-                  style={{zIndex:5000000000}}
+                  style={{position:"fixed",zIndex:700}}
+                  className="fixed inset-0 flex items-center justify-center"
                   onClick={() => setExpandedImage(null)}
                 >
-                  <div className="max-w-[340px] max-h-[340px] md:max-w-[400px] md:max-h-[400px] rounded-lg hide-scrollbar">
+                  <div className="max-w-[90vw] max-h-[90vh] relative" style={{zIndex:50}}>
                     <img 
                       src={message.content} 
                       alt="Expanded chat image" 
-                      className="rounded-lg object-contain"
-                      style={{zIndex:5000}}
+                      style={{zIndex:50}}
+                      className="rounded-lg object-contain max-h-[80vh] relative"
                     />
                   </div>
-                </div>
-              )}
+                </div>,document.body
+              ))}
             </div>
           </div>
         ))}

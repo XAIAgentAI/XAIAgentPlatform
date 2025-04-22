@@ -50,6 +50,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [isStyleOpen, setIsStyleOpen] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -155,6 +156,18 @@ const InputComponent: React.FC<InputComponentProps> = ({
     setInput(stylePrompt);
     setIsStyleOpen(false);
   };
+
+  const handleScrollLeft = () => {
+    if(scrollRef.current){
+      scrollRef.current.scrollLeft-=100;
+    }
+  }
+
+  const handleScrollRight = () => {
+    if(scrollRef.current){
+      scrollRef.current.scrollLeft+=100;
+    }
+  }
 
   const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
 
@@ -412,16 +425,50 @@ const InputComponent: React.FC<InputComponentProps> = ({
                   </button>
                   
                   {isStyleOpen && (
-                    <div className="flex space-x-2 overflow-x-auto hide-scrollbar pl-2">
+                    <div className="flex flex-row space-x-1 overflow-hidden">
+                    <button
+                      onClick={handleScrollLeft}
+                      type="button"
+                      className="px-2 py-1.5 text-xs rounded-full bg-transparent hover:bg-[rgba(220,220,220,0.9)] dark:hover:bg-[rgba(30,30,30,0.9)] transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
+                    >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="rgba(155, 155, 155, 0.5)"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1.708.708L5.707 7.5H11.5a.5.5 0 0 1.5.5z"
+                          />
+                        </svg>
+                    </button>
+                    <div className="flex space-x-2 overflow-x-auto hide-scrollbar" ref={scrollRef}>
                       {stylePresets.map((style, index) => (
                         <button
                           key={index}
+                          type="button"
                           onClick={() => handleStyleSelect(style.prompt)}
                           className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
                         >
                           {style.name}
                         </button>
                       ))}
+                    </div>
+                    <button
+                        onClick={handleScrollRight}
+                        type="button"
+                        className="px-2 py-1.5 text-xs rounded-full bg-transparent hover:bg-[rgba(220,220,220,0.9)] dark:hover:bg-[rgba(30,30,30,0.9)] transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="rgba(155, 155, 155, 0.5)"
+                          className="w-4 h-4"
+                        >
+                          <path d="M4 8a.5.5 0 0 1.5-.5h5.793L8.146 5.854a.5.5 0 1 1.708-.708l3 3a.5.5 0 0 1 0.708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                          <path d="M4 8a.5.5 0 0 0.5.5h5.793l-1.647 1.646a.5.5 0 0 0.708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z" />
+                        </svg>
+                      </button>
                     </div>
                   )}
                 </div>

@@ -19,7 +19,6 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
     return null;
   }
 
-
   // 根据当前语言获取对应的用例
   const getLocalizedUseCases = () => {
     if (!agent) return [];
@@ -86,13 +85,7 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
         <CustomButton
           className="flex items-center gap-2 px-8"
           onClick={() => {
-            if (agent?.chatEntry && agent?.chatEntry.trim() !== "None") {
-              window.open(`${agent.chatEntry}`, "_blank");
-            } else {
-              toast({
-                description: t('agent.chatComingSoon'),
-              })
-            }
+            window.open(`/${locale}/chat`)
           }}
         >
           <Image
