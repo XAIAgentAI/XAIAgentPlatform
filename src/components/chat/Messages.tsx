@@ -364,11 +364,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
               {expandedImage === message.content && (
                 <div 
                   ref={expandedImageRef}
-                  className="fixed left-[calc(50vw-170px)] top-[calc(45vh-170px)] md:left-[calc(50vw-200px)] md:top-[calc(45vh-200px)] flex items-center justify-center" 
-                  style={{zIndex:5000}}
+                  className="fixed left-[calc(50vw-170px)] top-[calc(130px)] md:left-[calc(50vw-200px)] md:top-[calc(130px)] flex items-center justify-center" 
+                  style={{zIndex:5000000000}}
                   onClick={() => setExpandedImage(null)}
                 >
-                  <div className="w-[340px] h-[340px] md:w-[400px] md:h-[400px] rounded-lg hide-scrollbar">
+                  <div className="max-w-[340px] max-h-[340px] md:max-w-[400px] md:max-h-[400px] rounded-lg hide-scrollbar">
                     <img 
                       src={message.content} 
                       alt="Expanded chat image" 
