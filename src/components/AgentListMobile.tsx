@@ -81,6 +81,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
     setStakeDialogOpen(true);
   }
 
+  const handleChatClick = (agent:String) => {
+    
+  }
+
   return (
     <div className="w-full flex-1 flex flex-col">
       <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-card border-b border-[#E5E5E5] dark:border-white/10">
@@ -289,27 +293,33 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                       </CustomBadge>
                     </div>
                   </div>
-                  {agent.symbol==="STID" && <div className="space-y-1">
-                    <span className="text-muted-color text-xs block">{t('chat')}</span>
-                    <div className="text-secondary-color text-sm font-medium" onClick={()=>{window.location.href=`/${locale}/chat`}}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="relative cursor-pointer transition-transform duration-200 hover:rotate-6"
-                      >
-                        <path d="M19 14a2 2 0 0 1-2 2H7l-3 3v-9a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2z"/>
-                        <path d="M8 10h1m2 0h1m2 0h1" stroke-width="1.2"/>
-                        <path d="M8 13h4m2 0h2" stroke-width="1.2"/>
-                      </svg>
-                    </div>
-                  </div>}
+                  {(agent.symbol === "STID" || agent.symbol === "SIC") && (
+                    <div className="flex flex-col items-start">
+                        <span className="text-muted-color text-xs block">{t("chat")}</span>
+                        <button 
+                          onClick={() => {
+                            if (agent.symbol === "STID") {
+                              window.open(`/${locale}/chat`, '_blank');
+                            } else if (agent.symbol === "SIC") {
+                              window.open('https://app.superimage.ai', '_blank');
+                            }
+                          }}
+                          className="text-secondary-color hover:text-primary-color transition-colors duration-200"
+                          aria-label="Open chat"
+                        >
+                          <div 
+                            className={`
+                              bg-primary
+                              mt-[5px]
+                              h-[20px] px-[10px] border-none text-white rounded-[100px]
+                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
+                            `}
+                          >
+                            <span className="pb-[1px]">chat</span>
+                          </div>
+                        </button>
+                      </div>
+                  )}
                   {(socialLinks.twitter.length > 0 || socialLinks.telegram.length > 0 || socialLinks.medium.length > 0 || socialLinks.youtube.length > 0) && (
                     <div className="space-y-1 col-span-2">
                       <span className="text-muted-color text-xs block">Social</span>

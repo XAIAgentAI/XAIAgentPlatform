@@ -375,11 +375,11 @@
         },
         "StyleID": {
           "description":"Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles.",
-          "prompts":[
-            "I want to generate a vintage style photo. Can you help me design the style and background",
-            "Can I adjust my expression and posture in this photo?",
-            "If I want to generate a set of photos, such as Japanese, fresh, and sci-fi styles, how do I do it?",
-            "Can this AI keep my appearance consistent? For example, I can maintain my characteristics in different styles"
+          "prompts": [
+            "Create a cyberpunk-style image for me with neon lights and futuristic vibes.",
+            "Can you transform my photo into an ink-wash painting style, like traditional Chinese art?",
+            "I'd like a Japanese-style 'light and fresh' photo with natural lighting.",
+            "Generate a retro film-style photo with a grainy, nostalgic look."
           ]
         },
         "LogoLift": {

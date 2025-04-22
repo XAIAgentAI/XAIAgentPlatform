@@ -202,6 +202,11 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                     {t('status')}
                   </div>
                 </TableHead>
+                <TableHead className="w-[150px]">
+                  <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px]">
+                    {t('chat')}
+                  </div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             {loading ? (
@@ -249,26 +254,6 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                                 )}
                                 {socialLinks.medium.length > 0 && (
                                   <SocialLinks links={socialLinks.medium.join(", ")} />
-                                )}
-                                {agent.symbol==="STID" && (
-                                  <div className="ml-1 text-secondary-color text-sm font-medium" onClick={()=>{window.location.href=`/${locale}/chat`}}>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="20"
-                                      height="20"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      className="relative cursor-pointer transition-transform duration-200 hover:rotate-6"
-                                    >
-                                      <path d="M19 14a2 2 0 0 1-2 2H7l-3 3v-9a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2z"/>
-                                      <path d="M8 10h1m2 0h1m2 0h1" stroke-width="1.2"/>
-                                      <path d="M8 13h4m2 0h2" stroke-width="1.2"/>
-                                    </svg>
-                                  </div>
                                 )}
                               </div>
                             </div>
@@ -335,6 +320,32 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                             {agent.status}
                           </CustomBadge>
                         </div>
+                      </TableCell>
+                      <TableCell>
+                      {(agent.symbol === "STID" || agent.symbol === "SIC") && (
+                        <button 
+                          onClick={() => {
+                            if (agent.symbol === "STID") {
+                              window.open(`/${locale}/chat`, '_blank');
+                            } else if (agent.symbol === "SIC") {
+                              window.open('https://app.superimage.ai', '_blank');
+                            }
+                          }}
+                          className="text-secondary-color hover:text-primary-color transition-colors duration-200"
+                          aria-label="Open chat"
+                        >
+                          <div 
+                            className={`
+                              bg-primary
+                              mb-[1px]
+                              h-[20px] px-[10px] border-none text-white rounded-[100px]
+                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
+                            `}
+                          >
+                            <span className="pb-[1px]">chat</span>
+                          </div>
+                        </button>
+                      )}
                       </TableCell>
                     </TableRow>
                   );
