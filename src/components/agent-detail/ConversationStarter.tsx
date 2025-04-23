@@ -84,8 +84,14 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
         <CustomButton
           className="flex items-center gap-2 px-8"
           onClick={() => {
-            window.open(`/${locale}/chat`)
-          }}
+            if (agent.symbol === "STID") {
+              window.open(`/${locale}/chat`, '_blank');
+            } else if (agent.symbol === "SIC") {
+              window.open('https://app.superimage.ai', '_blank');
+            } else if (agent.symbol === "DLC") {
+              window.open('https://www.deeplink.cloud/software', '_blank');
+            }
+          }} 
         >
           <Image
             src="/images/chat.svg"
