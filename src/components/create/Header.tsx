@@ -69,7 +69,7 @@ const Header: React.FC = () => {
               <h3 className="font-medium">2. {t("process.title2")}</h3>
                 <div className="flex items-start">
                   <span className="text-muted-foreground pr-1">{t("process.href")}</span>
-                  <a className="text-primary pr-1 cursor-pointer" href={`/${locale}/chat`}>chat</a>
+                  <a className="text-primary pr-1 cursor-pointer underline" href={`/${locale}/chat`} target="_blank">chat</a>
                   <span className="text-muted-foreground pr-1 min-w-[60px]">{t("process.hrefc")}</span>
                 </div>
             </div>

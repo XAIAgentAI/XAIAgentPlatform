@@ -52,9 +52,9 @@ const Navbar = () => {
     },
     {
       id: "creating",
-      href: "#",
+      href: "/create",
       label: t('navigation.creating'),
-      comingSoon: true
+      comingSoon: false
     }
   ];
 
