@@ -312,9 +312,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     name: "LogoLift",
     iaoTokenAmount: 5000000000,
 
-    tokenAddress: "0x31EbB59722c168656da178cb11752b248DB4f55E",
-    iaoContractAddress: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
-    tokenAddressTestnet: "0x31EbB59722c168656da178cb11752b248DB4f55E",
+    tokenAddress: "0xD78F268291f3fe244CB965C768EDb515b529eD02",
+    iaoContractAddress: "0xB12fF9666A963b4434dAAC08334db2FDcC27ad08",
+    tokenAddressTestnet: "0x10873C57F5715620ccB59916e844853CD6810e65",
     iaoContractAddressTestnet: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
 
 
@@ -327,10 +327,10 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
+    status: "IAO coming soon",
+    statusJA: "IAO 開始まで",
+    statusKO: "IAO 준비중",
+    statusZH: "IAO 即将开始",
     description: "Logo generation through text dialogue.\n\nOffering diverse design styles including:\n- Modern Minimalist\n- Traditional Classic\n- Minimalism\n- Hand-drawn\n- 3D styles\n\nFeatures an AI inspiration engine that intelligently recommends design styles and elements based on industry type.\n\nProvides creative suggestions based on user input.",
     descriptionZH: "Logo生成，通过文字对话可以生成各种样式的Logo。\n\n具有多样化设计风格，包括但不限于：\n- 简约现代风\n- 传统经典风\n- 极简主义\n- 手绘风格\n- 3D立体风格\n\n根据用户输入的行业或业务类型，智能推荐相应的Logo设计风格和元素。\n\n内置AI灵感引擎，可以根据用户输入的关键词，提供一些设计灵感和建议。",
     descriptionKO: "텍스트 대화를 통한 로고 생성.\n\n다양한 디자인 스타일 제공:\n- 현대적 미니멀\n- 전통적 클래식\n- 미니멀리즘\n- 손그림\n- 3D 스타일\n\n사용자의 산업 또는 비즈니스 유형에 따라 적절한 로고 디자인 스타일과 요소를 지능적으로 추천.\n\n내장된 AI 영감 엔진이 사용자 입력 키워드를 기반으로 디자인 영감과 제안을 제공합니다.",
