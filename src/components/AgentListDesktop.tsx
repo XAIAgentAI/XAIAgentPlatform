@@ -322,7 +322,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                         </div>
                       </TableCell>
                       <TableCell>
-                      {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC") && (
+                      {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                         <button 
                           onClick={() => {
                             if (agent.symbol === "STID") {
@@ -331,6 +331,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               window.open('https://app.superimage.ai', '_blank');
                             } else if (agent.symbol === "DLC") {
                               window.open('https://www.deeplink.cloud/software', '_blank');
+                            } else if (agent.symbol === "DGC") {
+                              window.open('www.degpt.ai ', '_blank');
                             }
                           }}
                           className="text-secondary-color hover:text-primary-color transition-colors duration-200"
@@ -344,7 +346,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
                             `}
                           >
-                            <span className="pb-[1px]">{agent.symbol==="DLC"?"game":"chat"}</span>
+                            <span className="pb-[1px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
                           </div>
                         </button>
                       )}

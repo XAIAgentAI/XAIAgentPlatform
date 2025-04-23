@@ -293,7 +293,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                       </CustomBadge>
                     </div>
                   </div>
-                  {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC") && (
+                  {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                     <div className="flex flex-col items-start">
                         <span className="text-muted-color text-xs block">{t("chat")}</span>
                         <button 
@@ -304,6 +304,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                               window.open('https://app.superimage.ai', '_blank');
                             } else if (agent.symbol === "DLC") {
                               window.open('https://www.deeplink.cloud/software', '_blank');
+                            } else if (agent.symbol === "DGC") {
+                              window.open('www.degpt.ai ', '_blank');
                             }
                           }}
                           className="text-secondary-color hover:text-primary-color transition-colors duration-200"
@@ -317,7 +319,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
                             `}
                           >
-                            <span className="pb-[1px]">{agent.symbol==="DLC"?"game":"chat"}</span>
+                            <span className="pb-[1px]">{agent.symbol==="DLC" ? "Game" : "Chat"}</span>
                           </div>
                         </button>
                       </div>
