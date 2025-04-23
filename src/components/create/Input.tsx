@@ -133,17 +133,10 @@ const InputComponent: React.FC<InputComponentProps> = ({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      if(!input){
-        textareaRef.current.style.height = `${Math.min(
+      textareaRef.current.style.height = `${Math.min(
         textareaRef.current.scrollHeight,
-        32
+        120
       )}px`;
-      } else {
-        textareaRef.current.style.height = `${Math.min(
-          textareaRef.current.scrollHeight,
-          120
-        )}px`;
-      }
       if (textareaRef.current.scrollHeight > 5 * 24) {
         textareaRef.current.style.overflowY = 'auto';
       } else {
@@ -169,9 +162,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }
 
-  // STID必须有图片
-  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '' && 
-  (agent !== "StyleID" || (agent === "StyleID" && selectedImage !== null));
+  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
 
     // ✅ 上传图片到后端 API（STID 模式专用）
     const uploadImageToBackend = async (file: File): Promise<string> => {
@@ -535,13 +526,6 @@ const InputComponent: React.FC<InputComponentProps> = ({
             </button>
           </div>
         </form>
-        {agent === "StyleID" && (
-        <div className="w-full text-center mt-1 mb-2">
-          <p className="text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80">
-            StyleID 需要一张包含人脸的照片
-          </p>
-        </div>
-        )}
       </div>
     </div>
   );

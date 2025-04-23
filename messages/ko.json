@@ -411,12 +411,13 @@
     "indonesia": "인도네시아"
   },
   "chat": {
+    "need":"StyleID는 얼굴이 담긴 사진이 필요해요.",
     "Xaiagent": "XAIAgent는 AI Agent의 생성, 활용, 배포 및 거래를 하나로 통합한 블록체인 기반 탈중앙화 AI Agent 플랫폼입니다",
     "StyleID": "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다",
     "LogoLift": "로고 생성, 문자 대화를 통해 다양한 스타일의 로고 생성",
     "PicSpan": "원하는 비율로 원하는 그림을 확장할 수 있는 확장",
     "selectagent": "프록시 선택",
-    "inputHolder": "메시지 보내기",
+    "inputHolder": "사진 한 장 올리겠습니다",
     "inputInfo": "AI 에이전트에서 오류가 발생할 수 있습니다.중요 정보를 확인하십시오.",
     "Data": {
       "Scholar GPT": {

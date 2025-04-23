@@ -139,6 +139,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
     }
   };
 
+  const handleHeaderClick = (input:String) => {
+    setInput(input);
+  }
+
   return (
     <div className="fixed top-28 lg:top-32 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
       <div className="w-[80vw] mx-auto lg:ml-[10vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -186,7 +190,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
                         rounded-xl px-4 py-6 text-stone-700 dark:text-neutral-300 font-light text-sm flex-shrink-0 
                         w-[250px] min-w-[200px] max-w-[280px] flex items-center justify-center transition-all duration-200 
                         hover:scale-[1.02] cursor-pointer shadow-sm"
-                      onClick={() => handleExampleClick(example)}
+                      onClick={() => handleHeaderClick(example)}
                     >
                       <p>{example}</p>
                     </div>

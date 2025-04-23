@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import New from '@/components/create/New';
 import MessagesComponent from '@/components/chat/Messages';
-import InputComponent from '@/components/chat/Input';
+import InputComponent from '@/components/create/Input';
 import SideBar from '@/components/chat/SideBar';
 import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";

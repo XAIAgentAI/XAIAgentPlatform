@@ -314,12 +314,13 @@
     }
   },
   "chat": {
+    "need":"StyleID requires a photo containing a face",
     "Xaiagent": "XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
     "StyleID": "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles",
     "LogoLift": "Logo generation, various styles of logos can be generated through text dialogue",
     "PicSpan": "Expand the image to any desired scale",
     "selectagent": "Select an agent",
-    "inputHolder": "Send a message",
+    "inputHolder": "Upload a photo",
     "inputInfo": "AI agent might make mistakes. Please check important information.",
     "Data": {
       "Scholar GPT": {
