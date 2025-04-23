@@ -295,7 +295,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                     <div className="flex flex-col items-start">
-                        <span className="text-muted-color text-xs block">{t("chat")}</span>
+                        <span className="text-muted-color text-xs block h-[16px]"></span>
                         <button 
                           onClick={() => {
                             if (agent.symbol === "STID") {
