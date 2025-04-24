@@ -314,13 +314,14 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                           <div 
                             className={`
                               animate-combined-ani
-                              bg-primary
                               mt-[5px]
-                              h-[22px] px-[12px] border-none text-white rounded-[100px]
-                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
+                              bg-primary
+                              px-[12px]
+                              h-[22px] border-none text-white rounded-[100px]
+                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center align-center
                             `}
                           >
-                            <span className="pb-[1px]">{agent.symbol==="DLC" ? "Game" : "Chat"}</span>
+                            <span>{agent.symbol==="DLC" ? "Game" : "Chat"}</span>                         
                           </div>
                         </button>
                       </div>

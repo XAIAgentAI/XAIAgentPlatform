@@ -189,7 +189,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh]">
+      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh] pb-[17px] lg:pb-0">
         {messages.map((message) => (
           <div
             key={message.id}

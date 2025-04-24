@@ -92,25 +92,47 @@ module.exports = {
             opacity: '0.3' 
           },
         },
-        "combined": {
-          "0%, 100%": {
-            transform: "scale(1)",
-            opacity: "1"
+       "combined": {
+          '0%': {
+              transform: 'scale(1)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 0%, rgba(255, 107, 0, 1))'
           },
-          "25%": {
-            transform: "scale(1.09)"
+          '12.5%': {
+              transform: 'scale(1.02)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 10%, rgba(255, 107, 0, 1))'
           },
-          "50%": {
-            transform: "scale(1)",
-            opacity: "0.9"
+          '25%': {
+              transform: 'scale(1.04)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 20%, rgba(255, 107, 0, 1))'
           },
-          "75%": {
-            transform: "scale(1.06)"
+          '37.5%': {
+              transform: 'scale(1.08)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 30%, rgba(255, 107, 0, 1))'
+          },
+          '50%': {
+              transform: 'scale(1.12)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 50%, rgba(255, 107, 0, 1))'
+          },
+          '62.5%': {
+              transform: 'scale(1.08)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 70%, rgba(255, 107, 0, 1))'
+          },
+          '75%': {
+              transform: 'scale(1.04)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 80%, rgba(255, 107, 0, 1))'
+          },
+          '87.5%': {
+              transform: 'scale(1.02)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 90%, rgba(255, 107, 0, 1))'
+          },
+          '100%': {
+              transform: 'scale(1)',
+              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 100%, rgba(255, 107, 0, 1))'
           }
-        }
+      }
       },
       animation: {
-        "combined-ani": "combined 2s ease-in-out infinite",
+        "combined-ani": "combined 0.5s ease-in-out infinite",
         'smooth-shine': 'smoothShine 3.2s ease-in-out infinite',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
