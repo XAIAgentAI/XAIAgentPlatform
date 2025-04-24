@@ -339,6 +339,23 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                         <path strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                       </svg>
                     </button>
+
+                    {/* WhatsApp Share - Unified style */}
+                    <button
+                      onClick={() => {
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                        const shareUrl = isMobile 
+                          ? `whatsapp://send?text=${encodeURIComponent('Check out this image: ' + message.content)}`
+                          : `https://web.whatsapp.com/send?text=${encodeURIComponent('Check out this image: ' + message.content)}`;
+                        window.open(shareUrl, '_blank');
+                      }}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                      title="Share on WhatsApp"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 20a8 8 0 100-16 8 8 0 000 16zm0 0a8 8 0 100-16 8 8 0 000 16zm-3.5-4.5l.53-.53a5.996 5.996 0 012.97-1.53V12h1.5v1.44a5.996 5.996 0 012.97 1.53l.53.53H8.5z" />
+                      </svg>
+                    </button>
                   </>
                   ) : message.role === 'assistant' ? (
                     <>
