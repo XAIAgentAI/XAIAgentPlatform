@@ -92,25 +92,19 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
            content?.startsWith('http://');
   };
 
-  const handleCopyImage = async (imageUrl: string) => {
-    try {
-      // Changed to copy just the URL text instead of the image
-      await navigator.clipboard.writeText(imageUrl);
-    } catch (err) {
-      console.error('Failed to copy image URL: ', err);
-    }
-  };
-
   const handleDownloadImage = (imageUrl: string) => {
-    // Improved download function that works on both mobile and desktop
+    // Ensure URL uses HTTPS
+    let secureUrl = imageUrl;
+    if (imageUrl.startsWith('http://')) {
+      secureUrl = imageUrl.replace('http://', 'https://');
+    } else if (imageUrl.startsWith('//')) {
+      secureUrl = `https:${imageUrl}`;
+    }
+  
     const link = document.createElement('a');
-    link.href = imageUrl;
-    
-    // Extract filename from URL or use a default one
-    const filename = imageUrl.split('/').pop() || 'chat-image.png';
+    link.href = secureUrl;
+    const filename = secureUrl.split('/').pop() || 'chat-image.png';
     link.download = filename;
-    
-    // Required for Firefox
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -260,9 +254,22 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                   <div className={`relative ${collapsedMessages[message.id] ? 'hidden' : ''}`}>
                     <img 
                       src={message.content} 
-                      alt="Chat image" 
-                      className="max-w-full max-h-[300px] object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                      alt="Expanded chat image" 
+                      style={{zIndex:50}}
                       onClick={() => setExpandedImage(expandedImage === message.content ? null : message.content)}
+                      className="rounded-lg object-contain max-h-[80vh] relative"
+                      onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                        const img = e.currentTarget;
+                        if (img.naturalWidth && img.naturalHeight) {
+                          const aspectRatio = img.naturalWidth / img.naturalHeight;
+                          if( img.naturalWidth > 300 || img.naturalHeight > 500){
+                            img.style.width="280px"
+                          }
+                          if (aspectRatio > 1.6) {
+                            img.style.width = `${img.naturalHeight * 1.6}px`;
+                          }
+                        }
+                      }}
                     />
                   </div>
                 ) : message.role === 'assistant' ? (
