@@ -297,7 +297,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                     <div className="flex flex-col items-start">
                         <span className="text-muted-color text-xs block h-[15px]"></span>
                         <button 
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             if (agent.symbol === "STID") {
                               window.open(`/${locale}/chat`, '_blank');
                             } else if (agent.symbol === "SIC") {

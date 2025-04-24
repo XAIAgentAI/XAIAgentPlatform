@@ -52,6 +52,7 @@ interface AgentDescription {
 export default function ChatPage() {
   const searchParams = useSearchParams();
   const prompt = searchParams?.get('prompt') || '';
+  const selectedStyle = "StyleID";
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
   const [agentMarket,setAgentMarket] = useState<LocalAgent[]>([])
   const [input, setInput] = useState('');
@@ -233,6 +234,7 @@ export default function ChatPage() {
       )}
       {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
+        selectedStyle={selectedStyle}
         userName={userName}
         conversations={conversations}
         setConversations={setConversations}

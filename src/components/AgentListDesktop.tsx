@@ -324,7 +324,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       <TableCell>
                       {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                         <button 
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             if (agent.symbol === "STID") {
                               window.open(`/${locale}/chat`, '_blank');
                             } else if (agent.symbol === "SIC") {

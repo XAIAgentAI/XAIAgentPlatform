@@ -315,6 +315,9 @@
     "closeSearch": "検索を閉じる"
   },
   "chat": {
+    "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
+    "base":"カスタムスタイル",
+    "sharetail": "！StyleIDを試してあなたのスタイルをチェック 👇\n今すぐ試す 👉 https://app.xaiagent.io/en/chat \nコミュニティに参加 👉 https://t.me/XAIAgentAI \n私のAI生成画像👇\n",
     "need":"StyleIDには人の顔を含む写真が必要です",
     "Xaiagent": "XAIAgentは、AIエージェントの作成、使用、デプロイメント、取引を統合した分散型AIエージェントプラットフォームです",
     "StyleID": "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）",

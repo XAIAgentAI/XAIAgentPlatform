@@ -320,6 +320,9 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
+    "shareHeader": "这是AI眼中的我 —— 我选择了",
+    "base":"自定义风格",
+    "sharetail": "！试试StyleID，看看你的效果 👇\n立即尝试 👉 https://app.xaiagent.io/en/chat \n加入社区 👉 https://t.me/XAIAgentAI \n我的生成图片👇\n",
     "need":"StyleID需要一张带有人脸的照片",
     "Xaiagent": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体",
     "StyleID": "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格",

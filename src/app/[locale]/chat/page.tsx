@@ -58,6 +58,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [convid, setConvid] = useState<string>("");
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [isNew, setIsNew] = useState<string>("yes");
   const [agent, setAgent] = useState<string>("StyleID");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
@@ -279,6 +280,7 @@ export default function ChatPage() {
       </div>
       {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
+        selectedStyle={selectedStyle}
         userName={userName}
         conversations={conversations}
         setConversations={setConversations}
@@ -288,6 +290,7 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />)}
       <InputComponent 
+        setSelectedStyle={setSelectedStyle}
         convid={convid}
         setConversations={setConversations}
         isNew={isNew}

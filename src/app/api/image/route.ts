@@ -27,6 +27,7 @@ export async function POST(request: Request) {
       accessKeyId: process.env.OSS_ACCESS_KEY_ID || '',
       accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET || '',
       bucket: process.env.OSS_BUCKET,
+      secure: true
     });
 
     // 转换为 Buffer

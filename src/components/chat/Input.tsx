@@ -6,6 +6,7 @@ interface InputComponentProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedStyle: React.Dispatch<React.SetStateAction<string | null>>
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userName: string | null;
@@ -41,6 +42,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   conversations,
   userName,
   setIsLoadingImage,
+  setSelectedStyle,
   setUserStatus,
   input,
   setInput,
@@ -152,8 +154,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }, [input]);
 
-  const handleStyleSelect = (stylePrompt: string) => {
+  const handleStyleSelect = (stylePrompt: string, styleName: string) => {
     setInput(stylePrompt);
+    setSelectedStyle(styleName);
     setIsStyleOpen(false);
   };
 
@@ -449,7 +452,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                         <button
                           key={index}
                           type="button"
-                          onClick={() => handleStyleSelect(style.prompt)}
+                          onClick={() => handleStyleSelect(style.prompt,style.name)}
                           className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
                         >
                           {style.name}

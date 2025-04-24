@@ -24,6 +24,7 @@ interface MessagesComponentProps {
   conversations: Conversations;
   isLoading: boolean;
   setConversations: Dispatch<SetStateAction<Conversations>>;
+  selectedStyle: string | null;
   messagesEndRef: RefObject<HTMLDivElement | null>;
   setIsNew: React.Dispatch<SetStateAction<string>>;
   agent: string;
@@ -46,7 +47,7 @@ const src: {[key:string]:string} = {
   "PicSpan":"/logo/PicSpan.png"
 }
 
-const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
+const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, setIsNew, userName, isLoading, conversations, isLoadingImage, setConversations, messagesEndRef }) => {
   const [messages, setMessages] = useState<Message[]>(conversations["1"] || []);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const [collapsedMessages, setCollapsedMessages] = useState<Record<string, boolean>>({});
@@ -95,11 +96,6 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
   const handleDownloadImage = (imageUrl: string) => {
     // Ensure URL uses HTTPS
     let secureUrl = imageUrl;
-    if (imageUrl.startsWith('http://')) {
-      secureUrl = imageUrl.replace('http://', 'https://');
-    } else if (imageUrl.startsWith('//')) {
-      secureUrl = `https:${imageUrl}`;
-    }
   
     const link = document.createElement('a');
     link.href = secureUrl;
@@ -189,7 +185,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh] pb-[17px] lg:pb-0">
+      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh] pb-[54px] lg:pb-0">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -297,9 +293,13 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       </svg>
                     </button>
                     
-                    {/* Twitter (X) Share - Unified style */}
+                    {/* Twitter (X) Share with Image Preview */}
                     <button
-                      onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(message.content)}&text=${encodeURIComponent('Check out this image!')}`, '_blank')}
+                      onClick={() => {
+                        const url = message.content+"\n\n#StyleIDChallenge #AIArt #XAIAGENT"; 
+                        const text = encodeURIComponent(t("shareHeader")+`${selectedStyle || t("base")}`+t("sharetail")+url);
+                        window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+                      }}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on X"
                     >
@@ -307,7 +307,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                       </svg>
                     </button>
-                    
+                                        
                     {/* Instagram Share - Unified style */}
                     <button
                       onClick={() => {
@@ -352,9 +352,10 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on WhatsApp"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 20a8 8 0 100-16 8 8 0 000 16zm0 0a8 8 0 100-16 8 8 0 000 16zm-3.5-4.5l.53-.53a5.996 5.996 0 012.97-1.53V12h1.5v1.44a5.996 5.996 0 012.97 1.53l.53.53H8.5z" />
-                      </svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 20a8 8 0 100-16 8 8 0 000 16zm0 0a8 8 0 100-16 8 8 0 000 16z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.5 14.5l2-2a3 3 0 013 0l2 2" />
+                    </svg>
                     </button>
                   </>
                   ) : message.role === 'assistant' ? (
