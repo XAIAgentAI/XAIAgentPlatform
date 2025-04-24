@@ -347,7 +347,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
                             `}
                           >
-                            <span className="pb-[1px] mb-[2px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
+                            <span className="pb-[1px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
                           </div>
                         </button>
                       )}

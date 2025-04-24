@@ -98,14 +98,14 @@ module.exports = {
             opacity: "1"
           },
           "25%": {
-            transform: "scale(1.06)"
+            transform: "scale(1.09)"
           },
           "50%": {
             transform: "scale(1)",
             opacity: "0.9"
           },
           "75%": {
-            transform: "scale(1.04)"
+            transform: "scale(1.06)"
           }
         }
       },
