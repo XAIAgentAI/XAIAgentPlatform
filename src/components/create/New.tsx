@@ -37,9 +37,9 @@ const New: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-[120px] md:top-[160px] left-0 right-0 w-screen flex justify-center">
-      <div className="w-[80vw] md:w-[67vw] mx-auto md:ml-[26vw]">
-        <div className="bg-card-inner dark:bg-[rgba(22,22,22,0.8)] rounded-xl p-6">
+    <div className="fixed max-h-[70vh] top-[120px] lg:top-[180px] right-0 w-screen flex justify-center overflow-y-auto">
+      <div className="w-[80vw] lg:w-[66vw] mx-auto lg:mr-[6.6vw] overflow:scroll">
+        <div className="bg-[rgb(248,248,248)] dark:bg-[rgba(22,22,22,0.8)] rounded-xl p-6 border border-gray-200 dark:border-none">
           <h1 className="text-2xl font-bold mb-6">创建AI代币项目</h1>
           
           <div className="space-y-4">
@@ -49,7 +49,7 @@ const New: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-input dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg"
+                className="w-full bg-white dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg focus:outline-none border border-gray-200 dark:border-none"
                 placeholder="例如: XAIAgent"
               />
             </div>
@@ -60,7 +60,7 @@ const New: React.FC = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full bg-input dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg h-24"
+                className="w-full bg-white dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg h-24 focus:outline-none border border-gray-200 dark:border-none"
                 placeholder="描述你的AI项目功能"
               />
             </div>
@@ -72,7 +72,7 @@ const New: React.FC = () => {
                   name="tokenSupply"
                   value={formData.tokenSupply}
                   onChange={handleChange}
-                  className="w-full bg-input dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg"
+                  className="w-full bg-white dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg focus:outline-none border border-gray-200 dark:border-none"
                 />
               </div>
               
@@ -82,7 +82,7 @@ const New: React.FC = () => {
                   name="iaoPercentage"
                   value={formData.iaoPercentage}
                   onChange={handleChange}
-                  className="w-full bg-input dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg"
+                  className="w-full bg-white dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg focus:outline-none border border-gray-200 dark:border-none"
                 />
               </div>
               
@@ -92,18 +92,18 @@ const New: React.FC = () => {
                   name="miningRate"
                   value={formData.miningRate}
                   onChange={handleChange}
-                  className="w-full bg-input dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg"
+                  className="w-full bg-white dark:bg-[rgba(33,33,33,0.6)] p-3 rounded-lg focus:outline-none border border-gray-200 dark:border-none"
                 />
               </div>
             </div>
             
-            <GradientBorderButton 
+            <button
               onClick={handleCreate}
               disabled={creating || !formData.name}
-              className="mt-6 w-full"
+              className="mt-6 w-full opacity-[.60] hover:opacity-[.90] bg-primary text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {creating ? '创建中...' : '立即创建'}
-            </GradientBorderButton>
+            </button>
           </div>
         </div>
       </div>

@@ -573,7 +573,7 @@
   "create": {
       "title": "Creation Guide",
       "requirements": {
-        "title": "Token Creation Requirements",
+        "title": "Token Economic Model Creation",
         "supply": "$XXX Token Supply: Total supply of 100 billion in the first 8 years, with 6 billion mined annually thereafter",
         "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA. Holding XAA NFT increases investment quota",
         "iaoAllocation": {
@@ -624,12 +624,12 @@
         "user": "User:",
         "ai": "AI:",
         "example1": {
-          "user": "Help me analyze the performance bottleneck in this code",
-          "ai": "After analysis, your code has O(n²) complexity in the loop processing part. It is recommended to optimize using hash tables..."
+          "user": "Help me create an AI token",
+          "ai": "Okay, please enter your AI token name"
         },
         "example2": {
-          "user": "Explain the Transformer architecture",
-          "ai": "Transformer is a neural network architecture based on self-attention mechanism, mainly composed of encoder and decoder..."
+          "user": "Generate an image from user-input text",
+          "ai": "This requirement has been added to your AI model"
         }
       }
   }

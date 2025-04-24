@@ -5,9 +5,11 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 import { agentAPI } from '@/services/api'
+import { fetchDBCTokens } from "@/hooks/useDBCScan"
 import { LocalAgent } from '@/types/agent'
 import { useRouter } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
+import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
 import { format } from 'date-fns'
 
 interface LocalizedAgent extends LocalAgent {
@@ -40,26 +42,48 @@ export default function AgentsPage() {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const data = await agentAPI.getAllAgents();
-        // 转换为本地化的 Agent 类型
-        const localizedAgents = data.data.items.map(agent => ({
-          ...agent,
-          // 这里可以根据需要添加本地化字段
-          statusJA: agent.status,
-          statusKO: agent.status,
-          statusZH: agent.status,
-          descriptionJA: agent.description,
-          descriptionKO: agent.description,
-          descriptionZH: agent.description,
-        }));
-        setAgents(localizedAgents);
+        setLoading(true);
+        const [response, tokens] = await Promise.all([
+          agentAPI.getAllAgents({ pageSize: 30 }),
+          fetchDBCTokens()
+        ]);
+  
+        if (response.code === 200 && response.data?.items) {
+          // 先转换基础字段，再添加多语言和价格相关字段
+          let agents: LocalizedAgent[] = response.data.items.map(agent => {
+            const baseAgent = transformToLocalAgent(agent);
+            return {
+              ...baseAgent,
+              // 多语言字段
+              statusJA: agent.status,
+              statusKO: agent.status,
+              statusZH: agent.status,
+              descriptionJA: agent.description,
+              descriptionKO: agent.description,
+              descriptionZH: agent.description,
+              // 确保 marketCap 存在
+              marketCap: agent.marketCap || "0",
+              iaoTokenAmount: baseAgent.iaoTokenAmount || 0
+            };
+          });
+  
+          // 更新价格信息（确保这个函数不会覆盖已有字段）
+          agents = await updateAgentsWithPrices(agents);
+  
+          // 更新代币持有者信息
+          if (tokens.length > 0) {
+            agents = updateAgentsWithTokens(agents, tokens);
+          }
+  
+          setAgents(agents);
+        }
       } catch (error) {
         console.error('Failed to fetch agents:', error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchAgents();
   }, []);
 

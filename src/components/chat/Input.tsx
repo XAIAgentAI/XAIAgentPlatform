@@ -538,7 +538,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
         {agent === "StyleID" && (
         <div className="w-full text-center mt-1 mb-2">
           <p className="text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80">
-            StyleID 需要一张包含人脸的照片
+            {t("need")}
           </p>
         </div>
         )}

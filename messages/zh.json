@@ -320,6 +320,7 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
+    "need":"StyleID需要一张带有人脸的照片",
     "Xaiagent": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体",
     "StyleID": "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格",
     "LogoLift": "Logo生成，通过文字对话可以生成各种样式的Logo",
@@ -579,7 +580,7 @@
     "create": {
       "title": "创建指南",
       "requirements": {
-        "title": "代币创建要求",
+        "title": "代币创建经济模型",
         "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
         "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
         "iaoAllocation": {
@@ -630,12 +631,12 @@
         "user": "用户:",
         "ai": "AI:",
         "example1": {
-          "user": "帮我分析这段代码的性能瓶颈",
-          "ai": "经过分析，您的代码在循环处理部分存在O(n²)复杂度，建议使用哈希表优化..."
+          "user": "帮我创建一个AI代币",
+          "ai": "好的，请输入您的AI代币名称"
         },
         "example2": {
-          "user": "解释一下Transformer架构",
-          "ai": "Transformer是一种基于自注意力机制的神经网络架构，主要由编码器和解码器组成..."
+          "user": "用户输入文字，生成一张图片",
+          "ai": "该需求已加入您的AI模型"
         }
       }
     }

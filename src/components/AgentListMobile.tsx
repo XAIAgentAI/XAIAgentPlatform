@@ -295,7 +295,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   </div>
                   {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                     <div className="flex flex-col items-start">
-                        <span className="text-muted-color text-xs block h-[16px]"></span>
+                        <span className="text-muted-color text-xs block h-[15px]"></span>
                         <button 
                           onClick={() => {
                             if (agent.symbol === "STID") {
@@ -305,7 +305,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                             } else if (agent.symbol === "DLC") {
                               window.open('https://www.deeplink.cloud/software', '_blank');
                             } else if (agent.symbol === "DGC") {
-                              window.open('www.degpt.ai ', '_blank');
+                              window.open('https://degpt.ai ', '_blank');
                             }
                           }}
                           className="text-secondary-color hover:text-primary-color transition-colors duration-200"
@@ -313,9 +313,10 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                         >
                           <div 
                             className={`
+                              animate-combined-ani
                               bg-primary
                               mt-[5px]
-                              h-[20px] px-[10px] border-none text-white rounded-[100px]
+                              h-[22px] px-[12px] border-none text-white rounded-[100px]
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
                             `}
                           >
