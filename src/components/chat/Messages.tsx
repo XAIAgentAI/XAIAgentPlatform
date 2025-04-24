@@ -279,50 +279,60 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                 <div className="flex justify-start gap-2">
                   {isImageUrl(message.content) ? (
                     <>
-                      <button
-                        onClick={() => {
-                          handleCopyImage(message.content);
-                          setCopiedMessageId(message.id);
-                          setTimeout(() => setCopiedMessageId(null), 2000);
-                        }}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors relative group mt-[2px]"
-                        title="Copy image"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                        <div className={`absolute -top-[28px] left-1/2 transform -translate-x-1/2 bg-background text-foreground text-xs rounded py-1 px-2 whitespace-nowrap transition-opacity duration-300 ${copiedMessageId === message.id ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                          Copied!
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => handleDownloadImage(message.content)}
-                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
-                        title="Download image"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleLike(message.id)}
-                        className={`p-1 mt-[2px] rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
-                        title="Like"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={likedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDislike(message.id)}
-                        className={`p-1 mt-[2px] rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
-                        title="Dislike"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={dislikedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
-                        </svg>
-                      </button>
-                    </>
+                    {/* Download button - fixed mixed content issue */}
+                    <button
+                      onClick={() => handleDownloadImage(message.content.startsWith('//') ? `https:${message.content}` : message.content)}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                      title="Download image"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </button>
+                    
+                    {/* Twitter (X) Share - Unified style */}
+                    <button
+                      onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(message.content)}&text=${encodeURIComponent('Check out this image!')}`, '_blank')}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                      title="Share on X"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                      </svg>
+                    </button>
+                    
+                    {/* Instagram Share - Unified style */}
+                    <button
+                      onClick={() => {
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                        if (isMobile) {
+                          window.open(`instagram://library?AssetPath=${encodeURIComponent(message.content)}`);
+                        } else {
+                          window.open('https://www.instagram.com/', '_blank');
+                        }
+                      }}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                      title="Share on Instagram"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative -top-[1px] -left-[1px]" fill="none" viewBox="0 0 21 21" stroke="currentColor" strokeWidth={1.5} width="5" height="5">
+                        <rect x="5" y="5" width="14" height="14" rx="4" strokeLinecap="round" strokeLinejoin="round"/>
+                        <circle cx="12" cy="12" r="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <circle cx="17.5" cy="7.5" r="1.5" fill="currentColor"/>
+                        <rect x="10.5" y="17" width="3" height="1" rx="0.5" fill="currentColor"/>
+                      </svg>
+                    </button>
+                    
+                    {/* Facebook Share - Unified style */}
+                    <button
+                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(message.content)}`, '_blank', 'width=600,height=400')}
+                      className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                      title="Share on Facebook"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                      </svg>
+                    </button>
+                  </>
                   ) : message.role === 'assistant' ? (
                     <>
                       <button
@@ -336,25 +346,6 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ agent, setIsNew, userNa
                         <div className={`absolute -top-[28px] left-1/2 transform -translate-x-1/2 bg-background text-foreground text-xs rounded py-1 px-2 whitespace-nowrap transition-opacity duration-300 ${copiedMessageId === message.id ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                           Copied!
                         </div>
-                      </button>
-
-                      <button
-                        onClick={() => handleLike(message.id)}
-                        className={`p-1 rounded-full transition-colors ${likedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
-                        title="Like"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={likedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDislike(message.id)}
-                        className={`p-1 rounded-full transition-colors ${dislikedMessages[message.id] ? 'text-red-500' : 'bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700'}`}
-                        title="Dislike"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={dislikedMessages[message.id] ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
-                        </svg>
                       </button>
                     </>
                   ) : (
