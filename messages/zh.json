@@ -320,7 +320,7 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
-    "share":"AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n#XAIAGENT",
+    "share":"AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "这是AI眼中的我 —— 我选择了",
     "base":"自定义风格",
     "sharetail": "！试试StyleID，看看你的效果 👇\n立即尝试 👉 https://app.xaiagent.io/styleid \n加入社区 👉 https://t.me/XAIAgentAI \n我的生成图片👇\n",

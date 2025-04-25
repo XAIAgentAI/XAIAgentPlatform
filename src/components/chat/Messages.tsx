@@ -72,86 +72,19 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   function shareToInstagram(message: {content: string}) {
     // 检查是否在移动设备上
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    // 尝试用 App 深层链接（仅限移动设备）
-    if (isMobile) {
-        const appUrl = `instagram://sharesheet?text=${encodeURIComponent(`${t("share")}`)}`;
-        window.location.href = appUrl;
-        
-        // 设置超时检测是否跳转成功
-        setTimeout(() => {
-            // 如果仍在当前页面，则打开网页版
-            if (!document.hidden) {
-                const webUrl = `https://www.instagram.com/direct/inbox/`;
-                window.open(webUrl, '_blank');
-            }
-        }, 500);
-    } else {
-        // 桌面端直接打开网页版
-        const webUrl = `https://www.instagram.com/direct/inbox/`;
-        window.open(webUrl, '_blank');
-    }
+    // 桌面端直接打开网页版
+    const webUrl = `https://www.instagram.com/direct/inbox/`;
+    window.open(webUrl, '_blank');
   }
-
-  const shareToTwitter = async (imageUrl: string) => {
-    try {
-      // 1. 下载图片到前端
-      const response = await fetch(imageUrl.startsWith('//') ? `https:${imageUrl}` : imageUrl);
-      const blob = await response.blob();
-      
-      // 2. 创建临时对象URL
-      const blobUrl = URL.createObjectURL(blob);
-      
-      // 3. 使用固定分享文本
-      const shareText = `AI画了一张"我"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n#XAIAGENT`;
-      
-      // 4. 创建隐藏的表单进行分享
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://api.x.com/2/tweets';
-      form.target = '_blank';
-      form.style.display = 'none';
-      
-      // 5. 添加文本参数
-      const textInput = document.createElement('input');
-      textInput.type = 'hidden';
-      textInput.name = 'text';
-      textInput.value = shareText;
-      form.appendChild(textInput);
-      
-      // 6. 添加媒体文件
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.name = 'media';
-      
-      // 转换Blob为File对象
-      const file = new File([blob], 'ai-artwork.jpg', { type: 'image/jpeg' });
-      
-      // 特殊技巧：通过DataTransfer设置文件
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      fileInput.files = dataTransfer.files;
-      form.appendChild(fileInput);
-      
-      // 7. 触发提交
-      document.body.appendChild(form);
-      form.submit();
-      
-      // 8. 清理
-      setTimeout(() => {
-        URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(form);
-      }, 1000);
-      
-    } catch (error) {
-      console.error('分享失败:', error);
-      // 降级方案：使用固定文本和原始URL分享
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        `${t("share")}`
-      )}`, '_blank');
-    }
-  };
   
+  const shareToTwitter = (imageUrl: string) => {
+    const shareText = `${t("share")}`;
+    const encodedText = encodeURIComponent(shareText);
+    const encodedImageUrl = encodeURIComponent(imageUrl);
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+    window.open(tweetUrl, '_blank');
+  }; 
+
   const isValidDate = (dateString: string): boolean => {
     const datePattern = /^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/;
     return datePattern.test(dateString);
@@ -438,6 +371,32 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14 8.5h.01v.01H14V8.5z" />
                      </svg>
                     </button>
+                    <>
+                      {/* WeChat Share - Unified style 
+                      <button
+                        onClick={() => {
+                          alert('WeChat sharing requires additional configuration. Please scan this page with WeChat to share.');
+                        }}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                        title="Share on WeChat"
+                      >
+                        <svg className="text-foreground stroke-foreground fill-foreground" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5037" width="15" height="15"><path d="M498.816 345.056c26.336 0 43.936-17.632 43.936-43.904 0-26.56-17.568-43.744-43.936-43.744s-52.832 17.184-52.832 43.744C446.016 327.424 472.48 345.056 498.816 345.056zM253.088 257.408c-26.336 0-52.96 17.184-52.96 43.744 0 26.272 26.624 43.904 52.96 43.904 26.24 0 43.808-17.632 43.808-43.904C296.864 274.592 279.328 257.408 253.088 257.408zM1024 626.112c0-138.88-128.832-257.216-286.976-269.536 0.224-1.728 0.32-3.52-0.064-5.312-31.712-147.84-190.688-259.296-369.824-259.296C164.704 91.968 0 233.12 0 406.624c0 93.088 47.52 176.96 137.568 243.104l-31.392 94.368c-2.016 6.144-0.192 12.896 4.704 17.152 2.976 2.56 6.72 3.904 10.496 3.904 2.432 0 4.896-0.576 7.168-1.696L246.4 704.48l14.528 2.944c36.288 7.456 67.616 13.92 106.208 13.92 11.36 0 22.88-0.512 34.176-1.472 4.576-0.384 8.448-2.688 11.072-6.016 42.496 106.336 159.616 183.104 297.44 183.104 35.296 0 71.04-8.512 103.104-16.544l90.848 49.664c2.4 1.312 5.056 1.984 7.68 1.984 3.584 0 7.168-1.216 10.048-3.552 5.056-4.096 7.136-10.848 5.248-17.024l-23.2-77.152C981.344 772.864 1024 699.328 1024 626.112zM398.592 687.968c-10.4 0.896-20.96 1.344-31.424 1.344-35.328 0-65.216-6.112-99.776-13.248L247.296 672c-3.456-0.736-7.104-0.256-10.272 1.376l-88.288 44.192 22.944-68.928c2.24-6.752-0.224-14.112-6.016-18.176C76.96 568.64 32 493.312 32 406.624c0-155.84 150.336-282.656 335.136-282.656 163.36 0 308 99.392 337.856 231.584-171.296 2.24-309.888 122.656-309.888 270.56 0 21.504 3.264 42.336 8.768 62.432C402.208 688.128 400.448 687.808 398.592 687.968zM875.456 815.552c-5.344 4.032-7.616 10.976-5.696 17.376l15.136 50.336-62.112-33.984c-2.368-1.312-5.024-1.984-7.68-1.984-1.312 0-2.624 0.16-3.904 0.512-33.312 8.416-67.776 17.088-101.344 17.088-155.904 0-282.72-107.136-282.72-238.816 0-131.68 126.816-238.784 282.72-238.784 152.928 0 282.144 109.344 282.144 238.784C992 691.744 950.624 759.04 875.456 815.552zM612.992 511.968c-17.568 0-35.136 17.696-35.136 35.232 0 17.664 17.568 35.104 35.136 35.104 26.4 0 43.84-17.44 43.84-35.104C656.832 529.632 639.392 511.968 612.992 511.968zM806.016 511.968c-17.312 0-34.88 17.696-34.88 35.232 0 17.664 17.568 35.104 34.88 35.104 26.304 0 44.064-17.44 44.064-35.104C850.08 529.632 832.352 511.968 806.016 511.968z" p-id="5038"></path></svg>
+                      </button>
+                      */}
+                      {/* Line Share - Unified style 
+                      <button
+                        onClick={() => {
+                          window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(t("share"))}`, '_blank');
+                        }}
+                        className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
+                        title="Share on Line"
+                      >
+                        <svg className="text-foreground stroke-foreground fill-foreground" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8964" width="16" height="16">
+                            <path stroke-width="0.5" d="M938.666667 456.106667c0 76.245333-29.312 145.066667-90.581334 212.224-89.6 102.997333-289.621333 228.821333-335.530666 247.978666-45.824 19.242667-38.869333-12.245333-37.290667-22.912l5.845333-36.266666c1.450667-11.178667 2.901333-27.733333-1.365333-38.4-4.778667-11.818667-23.722667-18.090667-37.589333-20.992C237.141333 770.517333 85.333333 627.2 85.333333 456.106667c0-190.933333 191.445333-346.368 426.666667-346.368 235.178667 0 426.666667 155.434667 426.666667 346.368z m-153.6 154.666666c47.488-52.053333 68.266667-100.736 68.266666-154.666666 0-139.434667-149.76-261.034667-341.333333-261.034667s-341.333333 121.6-341.333333 261.034667c0 123.946667 116.394667 234.965333 282.709333 257.024l6.272 1.109333c45.994667 9.642667 80.384 26.197333 99.370667 72.874667l1.536 4.096c77.056-50.176 178.090667-127.146667 224.469333-180.437334z m-11.178667-170.666666a22.442667 22.442667 0 0 1 0 44.8h-62.421333v40.021333h62.378666a22.4 22.4 0 1 1 0 44.757333H689.066667a22.442667 22.442667 0 0 1-22.272-22.357333V377.685333c0-12.245333 10.026667-22.4 22.4-22.4h84.821333a22.4 22.4 0 0 1-0.128 44.8h-62.378667v40.021334h62.378667z m-137.088 107.221333a22.357333 22.357333 0 0 1-22.442667 22.272 21.973333 21.973333 0 0 1-18.133333-8.874667l-86.869333-117.930666v104.533333a22.4 22.4 0 0 1-44.672 0V377.685333a22.272 22.272 0 0 1 22.186666-22.314666c6.912 0 13.312 3.669333 17.578667 9.002666l87.552 118.4V377.685333c0-12.245333 10.026667-22.4 22.4-22.4 12.245333 0 22.4 10.154667 22.4 22.4v169.642667z m-204.117333 0a22.485333 22.485333 0 0 1-22.442667 22.357333 22.442667 22.442667 0 0 1-22.314667-22.357333V377.685333c0-12.245333 10.069333-22.4 22.4-22.4 12.330667 0 22.357333 10.154667 22.357334 22.4v169.642667z m-87.68 22.357333H260.138667a22.528 22.528 0 0 1-22.4-22.357333V377.685333a22.485333 22.485333 0 0 1 44.8 0v147.2h62.464a22.4 22.4 0 0 1 0 44.8z" p-id="8965"></path>
+                        </svg>
+                      </button>
+                      */}
+                    </>
                   </>
                   ) : message.role === 'assistant' ? (
                     <>

@@ -30,12 +30,19 @@ export async function POST(request: Request) {
       secure: true
     });
 
+    // 设置HTTP头，确保图片直接显示而非下载
+    const headers = {
+      'Content-Disposition': 'inline', // 关键设置：直接显示
+      'Content-Type': file.type,       // 确保正确的MIME类型
+      'Cache-Control': 'public, max-age=31536000' // 可选：缓存设置
+    };
+
     // 转换为 Buffer
     const buffer = Buffer.from(await file.arrayBuffer());
 
     // 上传到 OSS（路径：chat/时间戳_随机ID.扩展名）
     const fileName = `chat/${Date.now()}_${Math.random().toString(36).slice(2, 9)}.${file.name.split('.').pop()}`;
-    const result = await client.put(fileName, buffer);
+    const result = await client.put(fileName, buffer, { headers });
     console.log("Success:",result.url)
     // 返回图片 URL
     return NextResponse.json({ imageUrl: result.url });
