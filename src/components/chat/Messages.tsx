@@ -68,6 +68,30 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }
+  
+  function shareToInstagram(message: {content: string}) {
+    // 检查是否在移动设备上
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // 尝试用 App 深层链接（仅限移动设备）
+    if (isMobile) {
+        const appUrl = `instagram://sharesheet?text=${encodeURIComponent(`${t("share")}`)}`;
+        window.location.href = appUrl;
+        
+        // 设置超时检测是否跳转成功
+        setTimeout(() => {
+            // 如果仍在当前页面，则打开网页版
+            if (!document.hidden) {
+                const webUrl = `https://www.instagram.com/direct/inbox/`;
+                window.open(webUrl, '_blank');
+            }
+        }, 500);
+    } else {
+        // 桌面端直接打开网页版
+        const webUrl = `https://www.instagram.com/direct/inbox/`;
+        window.open(webUrl, '_blank');
+    }
+  }
 
   const shareToTwitter = async (imageUrl: string) => {
     try {
@@ -78,8 +102,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
       // 2. 创建临时对象URL
       const blobUrl = URL.createObjectURL(blob);
       
-      // 3. 构造分享文本
-      const shareText = `This is how AI sees me — I picked the ${selectedStyle || 'Custom'} Style! ✨\nTry it now 👉 https://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT`;
+      // 3. 使用固定分享文本
+      const shareText = `AI画了一张"我"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n#XAIAGENT`;
       
       // 4. 创建隐藏的表单进行分享
       const form = document.createElement('form');
@@ -121,9 +145,9 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
       
     } catch (error) {
       console.error('分享失败:', error);
-      // 降级方案：使用原始URL分享
+      // 降级方案：使用固定文本和原始URL分享
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        `Check out my AI artwork: ${imageUrl}\n\n#StyleIDChallenge #AIArt`
+        `${t("share")}`
       )}`, '_blank');
     }
   };
@@ -366,12 +390,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                     {/* Instagram Share - Unified style */}
                     <button
                       onClick={() => {
-                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                        if (isMobile) {
-                          window.open(`instagram://library?AssetPath=${encodeURIComponent(message.content)}`);
-                        } else {
-                          window.open('https://www.instagram.com/', '_blank');
-                        }
+                        shareToInstagram(message);
                       }}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on Instagram"
@@ -386,7 +405,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                     
                     {/* Facebook Share - Unified style */}
                     <button
-                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(message.content)}`, '_blank', 'width=600,height=400')}
+                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${t("share")}`)}`, '_blank', 'width=600,height=400')}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on Facebook"
                     >
@@ -400,8 +419,8 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                       onClick={() => {
                         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         const shareUrl = isMobile 
-                          ? `whatsapp://send?text=${encodeURIComponent('Check out this image: ' + message.content)}`
-                          : `https://web.whatsapp.com/send?text=${encodeURIComponent('Check out this image: ' + message.content)}`;
+                          ? `whatsapp://send?text=${encodeURIComponent(`${t("share")}`)}`
+                          : `https://web.whatsapp.com/send?text=${encodeURIComponent(`${t("share")}`)}`;
                         window.open(shareUrl, '_blank');
                       }}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
