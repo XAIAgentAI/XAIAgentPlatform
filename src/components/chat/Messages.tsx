@@ -68,6 +68,65 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }
+
+  const shareToTwitter = async (imageUrl: string) => {
+    try {
+      // 1. 下载图片到前端
+      const response = await fetch(imageUrl.startsWith('//') ? `https:${imageUrl}` : imageUrl);
+      const blob = await response.blob();
+      
+      // 2. 创建临时对象URL
+      const blobUrl = URL.createObjectURL(blob);
+      
+      // 3. 构造分享文本
+      const shareText = `This is how AI sees me — I picked the ${selectedStyle || 'Custom'} Style! ✨\nTry it now 👉 https://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT`;
+      
+      // 4. 创建隐藏的表单进行分享
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://api.x.com/2/tweets';
+      form.target = '_blank';
+      form.style.display = 'none';
+      
+      // 5. 添加文本参数
+      const textInput = document.createElement('input');
+      textInput.type = 'hidden';
+      textInput.name = 'text';
+      textInput.value = shareText;
+      form.appendChild(textInput);
+      
+      // 6. 添加媒体文件
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.name = 'media';
+      
+      // 转换Blob为File对象
+      const file = new File([blob], 'ai-artwork.jpg', { type: 'image/jpeg' });
+      
+      // 特殊技巧：通过DataTransfer设置文件
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInput.files = dataTransfer.files;
+      form.appendChild(fileInput);
+      
+      // 7. 触发提交
+      document.body.appendChild(form);
+      form.submit();
+      
+      // 8. 清理
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(form);
+      }, 1000);
+      
+    } catch (error) {
+      console.error('分享失败:', error);
+      // 降级方案：使用原始URL分享
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        `Check out my AI artwork: ${imageUrl}\n\n#StyleIDChallenge #AIArt`
+      )}`, '_blank');
+    }
+  };
   
   const isValidDate = (dateString: string): boolean => {
     const datePattern = /^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/;
@@ -295,15 +354,11 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                     
                     {/* Twitter (X) Share with Image Preview */}
                     <button
-                      onClick={() => {
-                        const url = message.content+"\n\n#StyleIDChallenge #AIArt #XAIAGENT"; 
-                        const text = encodeURIComponent(t("shareHeader")+`${selectedStyle || t("base")}`+t("sharetail")+url);
-                        window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-                      }}
+                      onClick={() => shareToTwitter(message.content)}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on X"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                       </svg>
                     </button>
@@ -353,9 +408,16 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                       title="Share on WhatsApp"
                     >
                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 20a8 8 0 100-16 8 8 0 000 16zm0 0a8 8 0 100-16 8 8 0 000 16z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.5 14.5l2-2a3 3 0 013 0l2 2" />
-                    </svg>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        d="M8 11.5v0a1.5 1.5 0 000 3h7a1.5 1.5 0 000-3v0" 
+                        transform="rotate(45, 12, 13)"
+                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 8.5h.01v.01H10V8.5z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 8.5h.01v.01H14V8.5z" />
+                     </svg>
                     </button>
                   </>
                   ) : message.role === 'assistant' ? (

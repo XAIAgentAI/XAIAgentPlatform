@@ -316,7 +316,7 @@
   "chat": {
     "shareHeader":"This is how AI sees me — I picked the ",
     "base":"Custom Style",
-    "sharetail":"! Try StyleID and see yours 👇  \nTry it now 👉 https://app.xaiagent.io/en/chat \nJoin the community 👉 https://t.me/XAIAgentAI \nMy AI-generated image👇\n",
+    "sharetail":"! Try StyleID and see yours 👇  \nTry it now 👉 https://app.xaiagent.io/styleid \nJoin the community 👉 https://t.me/XAIAgentAI \nMy AI-generated image👇\n",
     "need":"StyleID requires a photo containing a face",
     "Xaiagent": "XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
     "StyleID": "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles",
