@@ -315,6 +315,7 @@
     "closeSearch": "検索を閉じる"
   },
   "chat": {
+    "wechatcopied":"共有情報がコピーされました",
     "share":"AIが「私」を描いたんだけど、似てると思う？\n自分がどう見えるか試したい？ここでチェック：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
     "base":"カスタムスタイル",

@@ -344,7 +344,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               animate-combined-ani
                               bg-primary
                               mb-[1px]
-                              h-[20px] px-[10px] border-none text-white rounded-[100px]
+                              h-[34px] px-[17px] border-none text-white rounded-[100px]
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
                             `}
                           >

@@ -95,39 +95,39 @@ module.exports = {
        "combined": {
           '0%': {
               transform: 'scale(1)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 0%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 0%, rgba(255, 107, 0, 1))'
           },
           '12.5%': {
               transform: 'scale(1.02)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 10%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 10%, rgba(255, 107, 0, 1))'
           },
           '25%': {
               transform: 'scale(1.04)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 20%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 20%, rgba(255, 107, 0, 1))'
           },
           '37.5%': {
               transform: 'scale(1.08)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 30%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 30%, rgba(255, 107, 0, 1))'
           },
           '50%': {
               transform: 'scale(1.12)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 50%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 50%, rgba(255, 107, 0, 1))'
           },
           '62.5%': {
               transform: 'scale(1.08)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 70%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 70%, rgba(255, 107, 0, 1))'
           },
           '75%': {
               transform: 'scale(1.04)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 80%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 80%, rgba(255, 107, 0, 1))'
           },
           '87.5%': {
               transform: 'scale(1.02)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 90%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 90%, rgba(255, 107, 0, 1))'
           },
           '100%': {
               transform: 'scale(1)',
-              background: 'linear-gradient(to right, rgba(255, 133, 51, 0.8) 100%, rgba(255, 107, 0, 1))'
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 100%, rgba(255, 107, 0, 1))'
           }
       }
       },

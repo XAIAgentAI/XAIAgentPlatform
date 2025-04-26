@@ -411,6 +411,7 @@
     "indonesia": "인도네시아"
   },
   "chat": {
+    "wechatcopied":"공유 정보가 복사됨",
     "share":"AI가 \"나\"를 그렸는데, 나랑 비슷해 보여?\n내 모습이 어떻게 될지 궁금하다면 여기서 확인해 봐:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "AI가 본 나의 모습 — 내가 선택한",
     "base":"커스텀 스타일",

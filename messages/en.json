@@ -314,6 +314,7 @@
     }
   },
   "chat": {
+    "wechatcopied":"The sharing information has been copied",
     "share":"AI drew a \"me\"—do you think it looks like me?\nWant to see what you'd look like? Try it here:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader":"This is how AI sees me — I picked the ",
     "base":"Custom Style",

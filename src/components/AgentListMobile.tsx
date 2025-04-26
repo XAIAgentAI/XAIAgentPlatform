@@ -315,10 +315,9 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                           <div 
                             className={`
                               animate-combined-ani
-                              mt-[5px]
                               bg-primary
-                              px-[12px]
-                              h-[22px] border-none text-white rounded-[100px]
+                              px-[18px]
+                              h-[35px] border-none text-white rounded-[100px]
                               text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center align-center
                             `}
                           >

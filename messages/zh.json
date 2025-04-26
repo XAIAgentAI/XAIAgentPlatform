@@ -320,6 +320,7 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
+    "wechatcopied":"分享信息已复制",
     "share":"AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "这是AI眼中的我 —— 我选择了",
     "base":"自定义风格",

@@ -1,8 +1,29 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
+import { Pool } from "@neondatabase/serverless";
+
+const connectionString = process.env.CHAT_URL;
+const pool = new Pool({ connectionString });
+
+// 直接尝试更新计数器，失败就拉倒
+async function incrementChatCount() {
+  try {
+    await pool.query(`
+      INSERT INTO "Count" (project, count)
+      VALUES ('chat', 1)
+      ON CONFLICT (project) 
+      DO UPDATE SET count = "Count".count + 1
+    `);
+  } catch (error) {
+    console.log('计数失败，但不影响主流程');
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // Increment count in the background without waiting for it
+    incrementChatCount().catch(() => {});
+
     const formData = await request.formData();
 
     // 验证是否包含人脸图片且是否为File类型
