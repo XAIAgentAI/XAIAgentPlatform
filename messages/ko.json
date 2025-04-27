@@ -411,13 +411,14 @@
     "indonesia": "인도네시아"
   },
   "chat": {
+    "tips":"가격",
     "bottom": {
-        "price": "이번 이미지 생성은 무료입니다",
-        "rule1": "이미지 생성 1회당 0.1달러 상당의 STID",
-        "rule2": "100달러 이상 상당의 STID를 보유 시 이미지 생성 무료",
-        "rule3": "첫 10만 회 이미지 생성 무료",
-        "auser": "누적 사용자:",
-        "apic": "누적 이미지 생성 횟수:"
+      "price": "이번 이미지 생성 무료",
+      "rule1": "0.1달러 STID/회",
+      "rule2": "$100 STID 보유 시 영구 무료",
+      "rule3": "첫 10만 회 무료",
+      "auser": "총 사용자 수:",
+      "apic": "총 생성 횟수:"
     },
     "wechatcopied":"공유 정보가 복사됨",
     "share":"AI가 \"나\"를 그렸는데, 나랑 비슷해 보여?\n내 모습이 어떻게 될지 궁금하다면 여기서 확인해 봐:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",

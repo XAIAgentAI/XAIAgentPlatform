@@ -53,22 +53,20 @@ const InputComponent: React.FC<InputComponentProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [count,setCount] = useState<string>("12000");
-  const [userNumber,setUserNumber] = useState<string>("600")
   const [isStyleOpen, setIsStyleOpen] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [count,setCount] = useState<string>("-");
+  const [userNumber,setUserNumber] = useState<string>("-");
   const locale = useLocale();
   const t = useTranslations("chat");
-
   const fetchUserCount = async () => {
-      const response = await fetch("/api/chat/data");
-      const {count,userNumber} = await response.json();
-      setCount(count);
-      setUserNumber(userNumber);
+    const response = await fetch("/api/chat/data");
+    const {count,userNumber} = await response.json();
+    setCount(count);
+    setUserNumber(userNumber);
   }
-
+  
   useEffect(()=>{fetchUserCount()},[]);
 
   // Stable Diffusion style presets
@@ -551,68 +549,13 @@ const InputComponent: React.FC<InputComponentProps> = ({
           </div>
         </form>
         {agent === "StyleID" && (
-        <div className="w-[280px] mx-auto mt-1 mb-2 overflow-hidden">
-          <div 
-            className="transition-all duration-300 ease-in-out"
-            style={{ height: isExpanded ? 'auto' : '20px' }} // Reduced height
-          >
-            {/* First Line (always visible) */}
-            <div 
-              className="flex items-center justify-around cursor-pointer py-0.5 relative" // Added py-0.5 for tighter spacing
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              <p className={`text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 ${locale==="zh"?"relative left-[3.7px]":""}`}>
-                Tips: {t("need")}
-              </p>
-              <svg
-                className={`w-3 h-3 transition-transform duration-300 text-[#666666] dark:text-[#999999] relative opacity-80 ${isExpanded ? 'rotate-180' : ''}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+          <div className="w-full mx-auto mt-1 overflow-hidden">
+            <div className="flex flex-row items-center justify-around text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 space-x-1">
+              <div className="text-center">{t("need")}</div>
+              <div className="text-center hidden">{t("bottom.auser")} {userNumber} | {t("bottom.apic")} {count}</div>
             </div>
-
-            {/* Second Line (shown when expanded) */}
-            {isExpanded && (
-              <div className="w-full flex flex-row justify-around">
-                <div className={`mt-0.5 text-xs text-[#666666] dark:text-[#999999] opacity-80 space-y-0.5 relative ${(locale==="zh")?"left-[2px]":""} ${(locale==="ja")?"left-[3.4px]":""} ${(locale==="ko")?"left-[9.4px]":""}`}> {/* Reduced spacing */}
-                  <p className={`font-medium relative left-[2px] ${(locale==="ko"||locale==="ja")?"left-[3px]":"left-[2.4px]"}`}>Price: {t("bottom.price")}</p>
-                  <ol className="list-decimal pl-4 space-y-0.5"> {/* Reduced spacing */}
-                    <li>{t("bottom.rule1")}</li>
-                    <li>{t("bottom.rule2")}</li>
-                    <li>{t("bottom.rule3")}</li>
-                  </ol>
-                </div>
-                <p className="h-0 w-0"></p>
-              </div>
-            )}
-
-            {/* Third Line (shown when expanded) */}
-            {isExpanded && (
-              <div className="w-full flex flex-row justify-around">
-                <div className={`mt-0.5 flex items-center text-xs text-[#666666] dark:text-[#999999] opacity-80 relative ${(locale==="ko")?"left-[4.8px]":""}`}> {/* Reduced spacing */}
-                  <svg 
-                    className="w-3 h-3 mr-1 text-[#666666] dark:text-[#999999] opacity-80" 
-                    fill="currentColor" 
-                    viewBox="0 0 20 20"
-                  >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" 
-                      clipRule="evenodd" 
-                    />
-                  </svg>
-                  <span>{t("bottom.auser")} {userNumber||600}</span>
-                  <span className="ml-2">{t("bottom.apic")} {count||12000}</span>
-                </div>
-                <p className="w-0 h-0"></p>
-              </div>
-            )}
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

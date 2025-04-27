@@ -314,13 +314,14 @@
     }
   },
   "chat": {
+    "tips":"Price",
     "bottom": {
       "price": "This image generation is free",
-      "rule1": "0.1 USD equivalent STID per image generation",
-      "rule2": "Image generation is free when holding 100 USD equivalent STID or more",
-      "rule3": "First 100,000 image generations are free",
+      "rule1": "$0.1 STID per generation",
+      "rule2": "Hold $100 STID for free forever",
+      "rule3": "First 100K generations free",
       "auser": "Total users:",
-      "apic": "Total image generations:"
+      "apic": "Total generations:"
     },
     "wechatcopied":"The sharing information has been copied",
     "share":"AI drew a \"me\"—do you think it looks like me?\nWant to see what you'd look like? Try it here:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
