@@ -78,6 +78,8 @@ export default function ChatPage() {
     setUserNumber(userNumber);
   }
 
+  useEffect(()=>{fetchUserCount()},[])
+
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {
