@@ -39,7 +39,7 @@ const New: React.FC = () => {
   return (
     <div className="fixed max-h-[70vh] top-[120px] lg:top-[180px] right-0 w-screen flex justify-center overflow-y-auto">
       <div className="w-[80vw] lg:w-[66vw] mx-auto lg:mr-[6.6vw] overflow:scroll">
-        <div className="bg-[rgb(248,248,248)] dark:bg-[rgba(22,22,22,0.8)] rounded-xl p-6 border border-gray-200 dark:border-none">
+        <div className="bg-white dark:bg-[rgba(22,22,22,0.8)] rounded-xl p-6 border border-gray-200 dark:border-none">
           <h1 className="text-2xl font-bold mb-6">创建AI代币项目</h1>
           
           <div className="space-y-4">

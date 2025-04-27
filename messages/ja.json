@@ -315,6 +315,14 @@
     "closeSearch": "検索を閉じる"
   },
   "chat": {
+    "bottom": {
+      "price": "今回の画像生成は無料です",
+      "rule1": "画像生成1回あたり0.1米ドル相当のSTID",
+      "rule2": "100米ドル相当以上のSTIDを保有している場合、画像生成は無料",
+      "rule3": "最初の10万回の画像生成は無料",
+      "auser": "累計ユーザー数:",
+      "apic": "累計画像生成回数:"
+    },
     "wechatcopied":"共有情報がコピーされました",
     "share":"AIが「私」を描いたんだけど、似てると思う？\n自分がどう見えるか試したい？ここでチェック：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
