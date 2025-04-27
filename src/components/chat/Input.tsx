@@ -551,7 +551,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
           </div>
         </form>
         {agent === "StyleID" && (
-        <div className="w-[250px] mx-auto mt-1 mb-2 overflow-hidden">
+        <div className="w-[280px] mx-auto mt-1 mb-2 overflow-hidden">
           <div 
             className="transition-all duration-300 ease-in-out"
             style={{ height: isExpanded ? 'auto' : '20px' }} // Reduced height

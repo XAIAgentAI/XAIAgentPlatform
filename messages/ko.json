@@ -411,6 +411,14 @@
     "indonesia": "인도네시아"
   },
   "chat": {
+    "bottom": {
+        "price": "이번 이미지 생성은 무료입니다",
+        "rule1": "이미지 생성 1회당 0.1달러 상당의 STID",
+        "rule2": "100달러 이상 상당의 STID를 보유 시 이미지 생성 무료",
+        "rule3": "첫 10만 회 이미지 생성 무료",
+        "auser": "누적 사용자:",
+        "apic": "누적 이미지 생성 횟수:"
+    },
     "wechatcopied":"공유 정보가 복사됨",
     "share":"AI가 \"나\"를 그렸는데, 나랑 비슷해 보여?\n내 모습이 어떻게 될지 궁금하다면 여기서 확인해 봐:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "AI가 본 나의 모습 — 내가 선택한",
@@ -626,14 +634,6 @@
           "gpu": "GPU 메모리 최소 요구사항 설정",
           "container": "AI 컨테이너 다운로드 링크 설정"
         }
-      },
-      "bottom": {
-        "price": "이번 이미지 생성은 무료입니다",
-        "rule1": "이미지 생성 1회당 0.1달러 상당의 STID",
-        "rule2": "100달러 이상 상당의 STID를 보유 시 이미지 생성 무료",
-        "rule3": "첫 10만 회 이미지 생성 무료",
-        "auser": "누적 사용자:",
-        "apic": "누적 이미지 생성 횟수:"
       },
       "examples": {
         "title": "예시 대화",
