@@ -16,6 +16,8 @@ interface InputComponentProps {
   setIsLoadingImage: any;
   prompt: any;
   agent: string;
+  count: any;
+  userNumber: any;
   isNew: any;
   setConversations: any;
   convid: any;
@@ -35,6 +37,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   agent,
   isNew,
   setagent,
+  count,
+  userNumber,
   setConversations,
   prompt,
   setIsNew,
@@ -56,18 +60,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   const [isStyleOpen, setIsStyleOpen] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [count,setCount] = useState<string>("-");
-  const [userNumber,setUserNumber] = useState<string>("-");
   const locale = useLocale();
   const t = useTranslations("chat");
-  const fetchUserCount = async () => {
-    const response = await fetch("/api/chat/data");
-    const {count,userNumber} = await response.json();
-    setCount(count);
-    setUserNumber(userNumber);
-  }
-  
-  useEffect(()=>{fetchUserCount()},[]);
 
   // Stable Diffusion style presets
   const stylePresets = [

@@ -61,6 +61,8 @@ export default function ChatPage() {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [isNew, setIsNew] = useState<string>("yes");
   const [agent, setAgent] = useState<string>("StyleID");
+  const [count,setCount] = useState<string>("-");
+  const [userNumber,setUserNumber] = useState<string>("-");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
@@ -68,6 +70,13 @@ export default function ChatPage() {
   
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  const fetchUserCount = async () => {
+    const response = await fetch("/api/chat/data");
+    const {count,userNumber} = await response.json();
+    setCount(count);
+    setUserNumber(userNumber);
+  }
 
   // 获取代理列表
   const fetchAgentsData = async () => {
@@ -231,6 +240,8 @@ export default function ChatPage() {
       <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName} setIsLoading={setIsLoading}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
+          count={count}
+          userNumber={userNumber}
           setInput={setInput}
           agentMarket={agentMarket}
           agent={agent}
@@ -290,6 +301,8 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />)}
       <InputComponent 
+        count={count}
+        userNumber={userNumber}
         setSelectedStyle={setSelectedStyle}
         convid={convid}
         setConversations={setConversations}
