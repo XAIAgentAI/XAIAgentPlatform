@@ -53,8 +53,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [count,setCount] = useState<string>("...");
-  const [userNumber,setUserNumber] = useState<string>("...")
+  const [count,setCount] = useState<string>("12000");
+  const [userNumber,setUserNumber] = useState<string>("600")
   const [isStyleOpen, setIsStyleOpen] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -558,14 +558,14 @@ const InputComponent: React.FC<InputComponentProps> = ({
           >
             {/* First Line (always visible) */}
             <div 
-              className="flex items-center justify-around cursor-pointer py-0.5 relative left-[4px]" // Added py-0.5 for tighter spacing
+              className="flex items-center justify-around cursor-pointer py-0.5 relative" // Added py-0.5 for tighter spacing
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              <p className="text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80">
+              <p className={`text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 ${locale==="zh"?"relative left-[3.7px]":""}`}>
                 Tips: {t("need")}
               </p>
               <svg
-                className={`w-3 h-3 transition-transform duration-300 text-[#666666] dark:text-[#999999] opacity-80 ${isExpanded ? 'rotate-180' : ''}`}
+                className={`w-3 h-3 transition-transform duration-300 text-[#666666] dark:text-[#999999] relative opacity-80 ${isExpanded ? 'rotate-180' : ''}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -577,8 +577,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
             {/* Second Line (shown when expanded) */}
             {isExpanded && (
               <div className="w-full flex flex-row justify-around">
-                <div className="mt-0.5 text-xs text-[#666666] dark:text-[#999999] opacity-80 space-y-0.5 relative left-[2px]"> {/* Reduced spacing */}
-                  <p className="font-medium relative left-[2px]">Price: {t("bottom.price")}</p>
+                <div className={`mt-0.5 text-xs text-[#666666] dark:text-[#999999] opacity-80 space-y-0.5 relative ${(locale==="zh")?"left-[2px]":""} ${(locale==="ja")?"left-[3.4px]":""} ${(locale==="ko")?"left-[9.4px]":""}`}> {/* Reduced spacing */}
+                  <p className={`font-medium relative left-[2px] ${(locale==="ko"||locale==="ja")?"left-[3px]":"left-[2.4px]"}`}>Price: {t("bottom.price")}</p>
                   <ol className="list-decimal pl-4 space-y-0.5"> {/* Reduced spacing */}
                     <li>{t("bottom.rule1")}</li>
                     <li>{t("bottom.rule2")}</li>
@@ -592,7 +592,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
             {/* Third Line (shown when expanded) */}
             {isExpanded && (
               <div className="w-full flex flex-row justify-around">
-                <div className="mt-0.5 flex items-center text-xs text-[#666666] dark:text-[#999999] opacity-80 relative"> {/* Reduced spacing */}
+                <div className={`mt-0.5 flex items-center text-xs text-[#666666] dark:text-[#999999] opacity-80 relative ${(locale==="ko")?"left-[4.8px]":""}`}> {/* Reduced spacing */}
                   <svg 
                     className="w-3 h-3 mr-1 text-[#666666] dark:text-[#999999] opacity-80" 
                     fill="currentColor" 
@@ -604,8 +604,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
                       clipRule="evenodd" 
                     />
                   </svg>
-                  <span>{t("bottom.auser")} {count}</span>
-                  <span className="ml-2">{t("bottom.apic")} {userNumber}</span>
+                  <span>{t("bottom.auser")} {userNumber||600}</span>
+                  <span className="ml-2">{t("bottom.apic")} {count||12000}</span>
                 </div>
                 <p className="w-0 h-0"></p>
               </div>
