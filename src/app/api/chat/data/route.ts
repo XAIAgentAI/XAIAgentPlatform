@@ -4,32 +4,44 @@ import { Pool } from "@neondatabase/serverless";
 const connectionString = process.env.CHAT_URL;
 const pool = new Pool({ connectionString });
 
+// 定义缓存时间（秒）
+const MAX_CACHE_AGE = 15;
+
 async function getData() {
+    const client = await pool.connect();
     try {
-        // 查询 Count 表中 project 为 'chat' 的记录
-        const countResult = await pool.query(`SELECT "count" FROM "Count" WHERE project = 'chat'`);
-        let count = "0";
-        if (countResult.rows.length > 0) {
-            // 假设 count 字段存在于结果中
-            count = String(countResult.rows[0].count);
-        }
-
-        // 查询 chat 表的总行数
-        const userNumberResult = await pool.query(`SELECT COUNT(*) FROM "chat"`);
-        const userNumber = String(userNumberResult.rows[0].count);
-
-        return { count, userNumber };
-    } catch (err) {
-        console.log("error: ", err);
-        return null;
+        // 使用Promise.all并行查询提高效率
+        const [countResult, userNumberResult] = await Promise.all([
+            client.query(`SELECT "count" FROM "Count" WHERE project = 'chat'`),
+            client.query(`SELECT COUNT(*) FROM "chat"`)
+        ]);
+        
+        return {
+            count: countResult.rows[0]?.count?.toString() || "0",
+            userNumber: userNumberResult.rows[0]?.count?.toString() || "0",
+            timestamp: Date.now()  // 添加时间戳用于调试
+        };
+    } finally {
+        client.release();
     }
 }
 
 export async function GET(request: NextRequest) {
     const data = await getData();
-    if (data) {
-        return NextResponse.json(data);
-    } else {
-        return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
+    
+    if (!data) {
+        return NextResponse.json(
+            { error: "Failed to fetch data" },
+            { status: 500 }
+        );
     }
-}    
+
+    return NextResponse.json(data, {
+        headers: {
+            // 精确控制缓存时间为15秒
+            'Cache-Control': `public, max-age=${MAX_CACHE_AGE}, s-maxage=${MAX_CACHE_AGE}`,
+            // 添加Vary头避免代理服务器缓存问题
+            'Vary': 'Accept-Encoding'
+        }
+    });
+}
