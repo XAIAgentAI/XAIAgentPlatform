@@ -207,7 +207,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", overflowAnchor: "none", position: "sticky" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", overflowAnchor: "none" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
