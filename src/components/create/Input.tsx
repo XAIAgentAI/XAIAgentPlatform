@@ -1,140 +1,31 @@
 'use client'
-import React, { useEffect, useState, useRef } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface InputComponentProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  userName: string | null;
-  handleSubmit: (e: React.FormEvent) => Promise<void>; // 确保返回 Promise
-  conversations: { [id: string]: Message[] };
-  setIsNew: any;
-  setIsLoadingImage: any;
-  prompt: any;
-  agent: string;
-  isNew: any;
-  setConversations: any;
-  convid: any;
-  setagent: any;
-}
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  time: string;
-  convid: string;
-  agent: string;
+  handleSubmit: (e: React.FormEvent, imageFile?: File) => Promise<void>;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
-  agent,
-  isNew,
-  setagent,
-  setConversations,
-  prompt,
-  setIsNew,
-  convid,
-  conversations,
-  userName,
-  setIsLoadingImage,
-  setUserStatus,
   input,
   setInput,
   isLoading,
-  setIsLoading,
   handleSubmit,
 }) => {
-  const [isInitialized, setIsInitialized] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isStyleOpen, setIsStyleOpen] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const locale = useLocale();
-  const t = useTranslations("chat");
+  const t = useTranslations("create");
 
-  // Stable Diffusion style presets
-  const stylePresets = [
-    { 
-        name: t("Cinematic.name"), 
-        prompt: t("Cinematic.prompt") 
-    },
-    { 
-        name: t("Anime.name"), 
-        prompt: t("Anime.prompt") 
-    },
-    { 
-        name: t("Cyberpunk.name"), 
-        prompt: t("Cyberpunk.prompt") 
-    },
-    { 
-        name: t("Watercolor.name"), 
-        prompt: t("Watercolor.prompt") 
-    },
-    { 
-        name: t("LowPoly.name"), 
-        prompt: t("LowPoly.prompt") 
-    },
-    { 
-        name: t("Portrait.name"), 
-        prompt: t("Portrait.prompt") 
-    },
-    { 
-        name: t("OilPainting.name"), 
-        prompt: t("OilPainting.prompt") 
-    },
-    { 
-        name: t("Minimalist.name"), 
-        prompt: t("Minimalist.prompt") 
-    },
-    { 
-        name: t("PixelArt.name"), 
-        prompt: t("PixelArt.prompt") 
-    },
-    { 
-        name: t("Sketch.name"), 
-        prompt: t("Sketch.prompt") 
-    },
-    { 
-        name: t("ChalkDrawing.name"), 
-        prompt: t("ChalkDrawing.prompt") 
-    },
-    { 
-        name: t("Claymation.name"), 
-        prompt: t("Claymation.prompt") 
-    },
-    { 
-        name: t("ComicBook.name"), 
-        prompt: t("ComicBook.prompt") 
-    },
-    { 
-        name: t("Vaporwave.name"), 
-        prompt: t("Vaporwave.prompt") 
-    },
-    { 
-        name: t("Ukiyoe.name"), 
-        prompt: t("Ukiyoe.prompt") 
-    }
-  ];
-
-  // 初始化 prompt
-  useEffect(() => {
-    if (!isInitialized && prompt) {
-      setInput(prompt);
-      setIsInitialized(true);
-    }
-  }, [prompt, setInput, isInitialized]);
-
-  // 自动调整输入框高度
+  // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${Math.min(
-        textareaRef.current.scrollHeight,
+        textareaRef.current.scrollHeight * 2,
         120
       )}px`;
       if (textareaRef.current.scrollHeight > 5 * 24) {
@@ -145,86 +36,37 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }, [input]);
 
-  const handleStyleSelect = (stylePrompt: string) => {
-    setInput(stylePrompt);
-    setIsStyleOpen(false);
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
+    }
   };
 
-  const handleScrollLeft = () => {
-    if(scrollRef.current){
-      scrollRef.current.scrollLeft-=100;
-    }
-  }
+  const handleCancelImage = () => {
+    setSelectedImage(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
-  const handleScrollRight = () => {
-    if(scrollRef.current){
-      scrollRef.current.scrollLeft+=100;
-    }
-  }
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await handleSubmit(e, selectedImage || undefined);
+    setSelectedImage(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
-  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
-
-    // ✅ 上传图片到后端 API（STID 模式专用）
-    const uploadImageToBackend = async (file: File): Promise<string> => {
-      console.log('[STID] Starting image upload to backend...');
-      console.log('[STID] File info:', { name: file.name, size: file.size, type: file.type });
-      
-      const formData = new FormData();
-      formData.append('image', file);
-  
-      try {
-        console.log('[STID] Sending request to /api/image...');
-        const response = await fetch('/api/image', {
-          method: 'POST',
-          body: formData,
-        });
-  
-        if (!response.ok) {
-          console.error('[STID] Image upload failed with status:', response.status);
-          throw new Error('上传图片失败');
-        }
-  
-        const data = await response.json();
-        console.log('[STID] Image upload successful. Received URL:', data.imageUrl);
-        return data.imageUrl; // 返回 OSS URL
-      } catch (error) {
-        console.error('[STID] Error during image upload:', error);
-        throw error;
-      }
-    };
-  
-    // ✅ 处理图片上传（用户选择文件时触发）
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files[0]) {
-        console.log('[Image] User selected file:', e.target.files[0]);
-        setSelectedImage(e.target.files[0]);
-      } else {
-        console.log('[Image] No file selected or selection cancelled');
-      }
-    };
-
-    // 取消已选择的图片
-    const handleCancelImage = () => {
-      setSelectedImage(null);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    };
-  
-    const handleSendClick = async (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('[Submit] Form submission started'); 
-    };
+  const isSubmitEnabled = !isLoading && (input.trim() !== '' || selectedImage);
 
   return (
-    <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex: 10}}>
-      <div className="max-w-3xl px-4 py-[12px] w-full lg:w-[80%] mx-auto rounded-2xl">
-        <form onSubmit={handleSendClick} className="w-full relative">
+    <div className="fixed bottom-[23px] w-[97vw] mx-auto bg-background bg-opacity-0" style={{zIndex: 10}}>
+      <div className="max-w-3xl px-4 py-[12px] w-full md:w-[80%] lg:w-[70%] mx-auto rounded-2xl">
+        <form onSubmit={handleFormSubmit} className="w-full relative">
           <div className="w-full relative flex items-center bg-[#EDEDED] dark:bg-[rgb(21,21,21)] rounded-2xl">
-            {/* 图片上传按钮 */}
+            {/* Image upload button */}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               className="self-end absolute mb-[8.8px] left-2 w-8 h-8 rounded-full flex items-center justify-center bg-[#EDEDED] dark:bg-[rgba(22,22,22,0.7)] hover:bg-[#E0E0E0] dark:hover:bg-[rgba(22,22,22,0.6)] transition-colors"
-              aria-label="上传图片"
+              aria-label={t("uploadImage")}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -239,109 +81,19 @@ const InputComponent: React.FC<InputComponentProps> = ({
             </button>
             
             <div className="flex flex-col w-full">
-            {/* Style selector - only shown for StyleID agent */}
-            {agent === "StyleID" && (
-              <div className="relative w-[94%] mx-auto mt-2">
-                <div 
-                  className={`flex items-center justify-center space-x-2 ${
-                    isStyleOpen ? 'w-full hide-scrollbar' : 'w-fit'
-                  } mx-auto transition-all duration-300 ease-in-out`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setIsStyleOpen(!isStyleOpen)}
-                    className={`flex items-center space-x-2 rounded-full ${
-                      isStyleOpen 
-                        ? 'px-4 py-2 bg-card-inner-hover dark:bg-[rgba(30,30,30,0.9)] shadow-md' 
-                        : 'px-4 py-2 bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)]'
-                    } transition-all duration-200`}
-                  >
-                    <svg 
-                      width="16" 
-                      height="16" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="flex-shrink-0 text-neutral-600 dark:text-neutral-300"
-                    >
-                      <path 
-                        d="M13 2L3 14H12L11 22L21 10H12L13 2Z" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
-                      Styles
-                    </span>
-                    <p className="text-neutral-600 dark:text-neutral-300">15</p>
-                  </button>
-                  
-                  {isStyleOpen && (
-                    <div className="flex flex-row space-x-1 overflow-hidden">
-                    <button
-                      onClick={handleScrollLeft}
-                      type="button"
-                      className="px-2 py-1.5 text-xs rounded-full bg-transparent hover:bg-[rgba(220,220,220,0.9)] dark:hover:bg-[rgba(30,30,30,0.9)] transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
-                    >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
-                          fill="rgba(155, 155, 155, 0.5)"
-                          className="w-4 h-4"
-                        >
-                          <path
-                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1.708.708L5.707 7.5H11.5a.5.5 0 0 1.5.5z"
-                          />
-                        </svg>
-                    </button>
-                    <div className="flex space-x-2 overflow-x-auto hide-scrollbar" ref={scrollRef}>
-                      {stylePresets.map((style, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleStyleSelect(style.prompt)}
-                          className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
-                        >
-                          {style.name}
-                        </button>
-                      ))}
-                    </div>
-                    <button
-                        onClick={handleScrollRight}
-                        type="button"
-                        className="px-2 py-1.5 text-xs rounded-full bg-transparent hover:bg-[rgba(220,220,220,0.9)] dark:hover:bg-[rgba(30,30,30,0.9)] transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 16 16"
-                          fill="rgba(155, 155, 155, 0.5)"
-                          className="w-4 h-4"
-                        >
-                          <path d="M4 8a.5.5 0 0 1.5-.5h5.793L8.146 5.854a.5.5 0 1 1.708-.708l3 3a.5.5 0 0 1 0.708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
-                          <path d="M4 8a.5.5 0 0 0.5.5h5.793l-1.647 1.646a.5.5 0 0 0.708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z" />
-                        </svg>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-              {/* 文本输入框 */}
+              {/* Text input */}
               <textarea
                 ref={textareaRef}
-                value={input || ''}
+                value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={t("inputHolder")}
-                className={`placeholder:relative placeholder:top-[2px] w-full bg-[#EDEDED] rounded-2xl dark:bg-[rgb(21,21,21)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] ${agent === "StyleID" ? "pt-[3px] pb-[3px]" : "py-[10px]"} dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10 resize-none overflow-hidden min-h-[32px] max-h-[120px] pl-10 hide-scrollbar`}
+                placeholder={t("agentDescriptionPlaceholder")}
+                className="placeholder:relative placeholder:top-[2px] w-full bg-[#EDEDED] rounded-2xl dark:bg-[rgb(21,21,21)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] py-[10px] dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10 resize-none overflow-hidden min-h-[32px] max-h-[120px] pl-10 hide-scrollbar"
                 disabled={isLoading}
                 rows={1}
               />
 
-              {/* 图片预览 */}
-              {selectedImage ? (
+              {/* Image preview */}
+              {selectedImage && (
                 <div className="w-[66vw] md:w-[70vw] lg:w-[72vw] max-w-[520px] mb-2 mx-auto mt-2 flex items-center justify-between bg-white/50 dark:bg-[rgba(45,45,45,0.6)] px-2 py-1 rounded-sm" style={{zIndex:1000}}>
                   <div className="flex items-center truncate max-w-[70%]">
                     <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
@@ -351,7 +103,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                   <button 
                     onClick={handleCancelImage}
                     className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-[rgba(22,22,22,0.1)] transition-colors"
-                    aria-label="取消图片"
+                    aria-label={t("cancelImage")}
                   >
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
@@ -367,24 +119,30 @@ const InputComponent: React.FC<InputComponentProps> = ({
                     </svg>
                   </button>
                 </div>
-              ):(<div className="h-[28px]"></div>)}
+              )}
             </div>
 
-            {/* 发送按钮 */}
+            {/* Submit button */}
             <button
               type="submit"
-              onClick={handleSendClick}
               disabled={!isSubmitEnabled}
               className={`self-end absolute right-[4px] w-8 h-8 mb-[10px] rounded-full flex items-center justify-center ${
                 isSubmitEnabled 
                   ? 'bg-[#ff6b00] hover:bg-[#ff8533] text-white' 
                   : 'bg-[#E0E0E0] dark:bg-[rgba(22,22,22,0.1)] text-gray-400 dark:text-gray-500'
               } transition-colors`}
-              aria-label="发送消息"
+              aria-label={t("createAgent")}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+              {isLoading ? (
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              )}
             </button>
           </div>
         </form>

@@ -543,11 +543,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
           </div>
         </form>
         {agent === "StyleID" && (
-          <div className="w-full mx-auto mt-1 overflow-hidden">
-            <div className="flex flex-row items-center justify-around text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 space-x-1">
+          <div className="w-full mx-auto mt-1 overflow-hidden flex flex-col space-y-1">
+            <div className="flex flex-row items-center justify-around text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 space-x-1 lg:hidden">
               <div className="text-center">{t("need")}</div>
-              <div className="text-center hidden">{t("bottom.auser")} {userNumber} | {t("bottom.apic")} {count}</div>
             </div>
+            <div className="opacity-75 text-center max-w-[80%] mx-auto text-xs text-[#666666] dark:text-[#999999] font-medium hidden lg:block">{t("need")} | {t("bottom.auser")} {userNumber} | {t("bottom.apic")} {count}</div>
           </div>
         )}
       </div>
