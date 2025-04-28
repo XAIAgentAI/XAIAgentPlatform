@@ -207,7 +207,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", overflowAnchor: "none" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 max-lg:max-h-[calc(100vh-270px)] lg:max-h-[calc(100vh-310px)]" style={{ overflowAnchor: "none" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
@@ -244,7 +244,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh] pb-[54px] lg:pb-0">
+      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[75vh] pb-[54px] lg:pb-0">
         {messages.map((message) => (
           <div
             key={message.id}
