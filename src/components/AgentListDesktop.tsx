@@ -344,11 +344,12 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               animate-combined-ani
                               bg-primary
                               mb-[1px]
-                              h-[34px] px-[17px] border-none text-white rounded-[100px]
-                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
+                              h-[34px] px-[17px] border-none text-white rounded-[10px]
+                              text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
                             `}
                           >
-                            <span className="pb-[1px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
+                            <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2 mb-[0.6px]"></img>
+                            <span className="text-md mt-[0.6px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
                           </div>
                         </button>
                       )}

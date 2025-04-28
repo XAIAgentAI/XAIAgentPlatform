@@ -317,11 +317,12 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                               animate-combined-ani
                               bg-primary
                               px-[18px]
-                              h-[35px] border-none text-white rounded-[100px]
-                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center align-center
-                            `}
+                              h-[35px] border-none text-white rounded-[10px]
+                              text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
+                              `}
                           >
-                            <span>{agent.symbol==="DLC" ? "Game" : "Chat"}</span>                         
+                            <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2"></img>
+                            <span className="mt-[2px]">{agent.symbol==="DLC" ? "Game" : "Chat"}</span>                         
                           </div>
                         </button>
                       </div>
