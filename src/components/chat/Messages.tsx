@@ -97,26 +97,16 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
     }
   }
 
-  function shareToWeChat(message:string) {
-    const shareText = encodeURIComponent(t("share"));
+  function shareToWeChat(message: string) {
+    // 直接尝试 weixin://dl/moments（朋友圈协议）
+    window.location.href = 'weixin://dl/moments';
     
-    // 尝试微信深度链接（仅iOS/Android微信已安装时可能有效）
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const wechatUrl = isiOS 
-      ? `weixin://dl/chat?text=${shareText}`
-      : `intent://send?text=${shareText}#Intent;package=com.tencent.mm;scheme=weixin;end`;
-  
-    window.location.href = wechatUrl;
-    
-    // 2秒后仍未跳转则提示手动操作
+    // 1000ms 后检查是否跳转成功，若未成功则复制文本
     setTimeout(() => {
-      if (!document.hidden) {
-        navigator.clipboard.writeText(t("share"));
-        // Show notification
-        setCopiedMessageId('wechat-share');
-        setTimeout(() => setCopiedMessageId(null), 2000);
+      if (!document.hidden) { // 如果页面仍然可见，说明跳转失败
+        navigator.clipboard.writeText(message);
       }
-    }, 1200);
+    }, 1000);
   }
   
   const shareToTwitter = (imageUrl: string) => {
@@ -207,7 +197,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 max-lg:max-h-[calc(100vh-270px)] lg:max-h-[calc(100vh-310px)]" style={{ overflowAnchor: "none" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 max-lg:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-310px)]" style={{ overflowAnchor: "none" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
