@@ -646,5 +646,25 @@
           "ai": "该需求已加入您的AI模型"
         }
       }
+    },
+    "createAgent": {
+        "createAIProject": "创建AI代币项目",
+        "projectName": "项目名称",
+        "projectNamePlaceholder": "例如: XAIAgent",
+        "projectDescription": "项目描述",
+        "projectDescriptionPlaceholder": "描述你的AI项目功能",
+        "tokenSupply": "代币总量",
+        "iaoPercentage": "IAO比例",
+        "miningRate": "挖矿产出",
+        "agentImage": "Agent图片",
+        "dialogModel": "对话模型",
+        "dialogExample": "对话示例",
+        "userQuestion": "用户提问",
+        "agentResponse": "Agent回复",
+        "createSuccess": "创建成功!",
+        "projectCreated": "AI代币项目已成功创建,您的Agent ID为{agentId}",
+        "viewProject": "查看项目",
+        "creating": "创建中...",
+        "createNow": "立即创建"
     }
 } 

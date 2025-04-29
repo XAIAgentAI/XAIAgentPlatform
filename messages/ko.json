@@ -649,5 +649,25 @@
           "ai": "이 요구사항은 AI 모델에 추가되었습니다"
         }
       }
+    },
+    "createAgent": {
+        "createAIProject": "AI 토큰 프로젝트 생성",
+        "projectName": "프로젝트 이름",
+        "projectNamePlaceholder": "예: XAIAgent",
+        "projectDescription": "프로젝트 설명",
+        "projectDescriptionPlaceholder": "귀하의 AI 프로젝트 기능을 설명하십시오",
+        "tokenSupply": "토큰 공급량",
+        "iaoPercentage": "IAO 비율",
+        "miningRate": "마이닝 비율",
+        "agentImage": "에이전트 이미지",
+        "dialogModel": "대화 모델",
+        "dialogExample": "대화 예시",
+        "userQuestion": "사용자 질문",
+        "agentResponse": "에이전트 응답",
+        "createSuccess": "생성 성공!",
+        "projectCreated": "AI 토큰 프로젝트가 성공적으로 생성되었습니다. 귀하의 에이전트 ID는 {agentId}입니다",
+        "viewProject": "프로젝트 보기",
+        "creating": "생성 중...",
+        "createNow": "바로 생성"
     }
 }
