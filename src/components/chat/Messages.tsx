@@ -104,8 +104,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
       setCopiedMessageId("wechat-share");
       setTimeout(()=>{
         setCopiedMessageId(null);
-        window.location.href = 'weixin://dl/moments';
-      },1200)
+      },1500)
     }
   }
   

@@ -30,5 +30,45 @@ export async function GET( request: NextRequest ){
 }
 
 export async function POST( request : NextRequest ){
-    const {name,creatorId,description} = await request.json();
+    const formData = await request.json();
+    if(!formData.name) {
+        return NextResponse.json({success: false, message:"Name is required"},{ status: 400 })
+    }
+
+    const queryString = `
+        INSERT INTO "Agents" (
+          name,
+          description,
+          status,
+          "iaoTokenAmount",
+          category,
+          avatar,
+          "creatorId",
+          "createdAt",
+          "updatedAt",
+          type
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        RETURNING id
+    `;
+
+    const values = [
+        formData.name,
+        formData.description || "An AI Agent",
+        "TBA",
+        formData.tokenSupply,
+        "AI Agent",
+        formData.imageUrl || "",
+        "041269d6-dfa6-4197-98c0-0a66c01cc66e",
+        new Date(),
+        new Date(),
+        "AI Agent"
+    ]
+     
+    try {
+      const response = await pool.query(queryString,values);
+      return NextResponse.json({ success:true, agentId: response.rows[0].id})
+    } catch(error){
+        console.error("Error Creating Agent:", error);
+        return NextResponse.json({success:"false", message: "Internal server error"},{ status: 500 })
+    }
 }

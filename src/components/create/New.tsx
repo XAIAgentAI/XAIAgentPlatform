@@ -12,7 +12,7 @@ const New: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    tokenSupply: '1000亿',
+    tokenSupply: '100000000000',
     iaoPercentage: '15%',
     miningRate: '60亿/年'
   });
@@ -20,7 +20,6 @@ const New: React.FC = () => {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const handleCreate = async () => {
-    setCreating(true);
     try {
       const response = await fetch('/api/create', {
         method: 'POST',
@@ -35,9 +34,6 @@ const New: React.FC = () => {
       if (data.success) {
         setAgentId(data.agentId);
         setSuccess(true);
-        setTimeout(() => {
-          router.push(`/agent/${data.agentId}`);
-        }, 1500);
       }
     } finally {
       setSuccess(true);
@@ -88,7 +84,7 @@ const New: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <h2 className="text-2xl font-bold mb-2 text-center">创建成功!</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">AI代币项目已成功创建</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">AI代币项目已成功创建,您的Agent ID为{agentId||""}</p>
             <GradientBorderButton onClick={() => router.push(`/${locale}`)}>
               查看项目
             </GradientBorderButton>
