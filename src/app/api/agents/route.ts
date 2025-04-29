@@ -53,7 +53,7 @@ export async function GET(request: Request) {
         },
       },
       orderBy: {
-        id: 'asc',
+        createdAt: 'desc',
       },
     });
 
@@ -86,7 +86,7 @@ export async function GET(request: Request) {
         iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress,
         iaoTokenAmount: item.iaoTokenAmount ? Number(item.iaoTokenAmount) : null,
       }))
-      .sort((a, b) => Number(a.id) - Number(b.id));
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return createSuccessResponse({
       items: formattedItems,

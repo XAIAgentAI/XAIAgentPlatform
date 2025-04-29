@@ -53,10 +53,9 @@ export const agentAPI = {
   },
 
   // 获取单个 agent
-  getAgentById: async (id: number): Promise<LocalAgent> => {
+  getAgentById: async (id: string): Promise<LocalAgent> => {
     const { data } = await api.get(`/agents/${id}`);
     console.log("response1", data);
-
 
     // 获取池子数据
     const poolsResponse = await getBatchTokenPrices([{
@@ -65,7 +64,6 @@ export const agentAPI = {
     }]);
 
     const poolData = poolsResponse[data.data.symbol];
-
 
     const res = {
       data: {
@@ -77,15 +75,11 @@ export const agentAPI = {
 
     console.log("poolResponse", poolData, "res", res);
 
-
-
-
     return {
       ...data,
       data: {
         ...data.data,
         ...poolData,
-        
       }
     }
   },

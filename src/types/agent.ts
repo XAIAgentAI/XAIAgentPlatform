@@ -15,7 +15,7 @@ export const STATUS_VARIANT_MAP: Record<AgentStatus, BadgeVariant> = {
 }
 
 export interface LocalAgent {
-  id: number;
+  id: string;
   name: string;
   description: string;
   descriptionJA?: string;
@@ -62,7 +62,7 @@ export interface AgentPrice {
 }
 
 export interface Agent {
-  id: number;
+  id: string;
   name: string;
   avatar?: string;
   symbol: string;
