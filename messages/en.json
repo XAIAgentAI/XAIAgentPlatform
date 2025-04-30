@@ -648,6 +648,7 @@
       }
     },
     "createAgent":{
+      "creationProcessMessage":"Your AI agent is being created. This may take a few moments...",
       "createAIProject": "Create AI Token Project",
       "projectName": "Project Name",
       "projectNamePlaceholder": "e.g., XAIAgent",
@@ -656,13 +657,14 @@
       "tokenSupply": "Token Supply",
       "iaoPercentage": "IAO Percentage",
       "miningRate": "Mining Rate",
+      "mining":"6 billion/year",
       "agentImage": "Agent Image",
       "dialogModel": "Dialog Model",
       "dialogExample": "Dialog Example",
       "userQuestion": "User Question",
       "agentResponse": "Agent Response",
       "createSuccess": "Creation Successful!",
-      "projectCreated": "The AI token project has been successfully created. Your Agent ID is ",
+      "created": "The AI token project has been successfully created. Your Agent ID is ",
       "viewProject": "View Project",
       "creating": "Creating...",
       "createNow": "Create Now"

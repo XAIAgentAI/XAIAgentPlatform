@@ -648,6 +648,7 @@
       }
     },
     "createAgent": {
+        "creationProcessMessage":"AIエージェントを作成中です。しばらくお待ちください...",
         "createAIProject": "AIトークンプロジェクトを作成",
         "projectName": "プロジェクト名",
         "projectNamePlaceholder": "例: XAIAgent",
@@ -656,13 +657,14 @@
         "tokenSupply": "トークン供給量",
         "iaoPercentage": "IAO割合",
         "miningRate": "マイニングレート",
+        "mining":"60億/年",
         "agentImage": "エージェントの画像",
         "dialogModel": "ダイアログモデル",
         "dialogExample": "ダイアログの例",
         "userQuestion": "ユーザーの質問",
         "agentResponse": "エージェントの返答",
         "createSuccess": "作成成功!",
-        "projectCreated": "AIトークンプロジェクトが正常に作成されました。あなたのエージェントIDは{agentId}です",
+        "created": "AIトークンプロジェクトが正常に作成されました。あなたのエージェントIDは ",
         "viewProject": "プロジェクトを表示",
         "creating": "作成中...",
         "createNow": "今すぐ作成"

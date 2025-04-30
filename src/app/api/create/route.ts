@@ -46,8 +46,9 @@ export async function POST( request : NextRequest ){
           "creatorId",
           "createdAt",
           "updatedAt",
-          type
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+          type,
+          chat
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         RETURNING id
     `;
 
@@ -61,7 +62,8 @@ export async function POST( request : NextRequest ){
         "041269d6-dfa6-4197-98c0-0a66c01cc66e",
         new Date(),
         new Date(),
-        "AI Agent"
+        "AI Agent",
+        {userFirst:formData.userFirst,agentFirst:formData.agentFirst,userSecond:formData.userSecond,agentSecond:formData.agentSecond,userThird:formData.userThird,agentThird:formData.agentThird}
     ]
      
     try {

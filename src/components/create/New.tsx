@@ -14,8 +14,8 @@ const New: React.FC = () => {
         name: '',
         description: '',
         tokenSupply: '100000000000',
-        iaoPercentage: '15%',
-        miningRate: '60亿/年',
+        iaoPercentage: '15',
+        miningRate: `${t("mining")}`,
         userFirst: '',
         agentFirst: '',
         userSecond: '',
@@ -27,6 +27,7 @@ const New: React.FC = () => {
     const [uploadingImage, setUploadingImage] = useState(false);
 
     const handleCreate = async () => {
+        setCreating(true);
         try {
             const response = await fetch('/api/create', {
                 method: 'POST',
@@ -43,7 +44,6 @@ const New: React.FC = () => {
                 setSuccess(true);
             }
         } finally {
-            setSuccess(true);
             setCreating(false);
         }
     };
@@ -82,16 +82,60 @@ const New: React.FC = () => {
         setImageUrl(null);
     };
 
+    const CreationAnimation = () => (
+        <div className="flex flex-col items-center justify-center space-y-4">
+            <svg width="120" height="120" viewBox="0 0 120 120" className="animate-pulse">
+                {/* Outer circle */}
+                <circle cx="60" cy="60" r="50" stroke="#E5E7EB" strokeWidth="8" fill="none" />
+                
+                {/* Animated progress circle */}
+                <circle cx="60" cy="60" r="50" stroke="#3B82F6" strokeWidth="8" fill="none"
+                    strokeLinecap="round" strokeDasharray="314" strokeDashoffset="314"
+                    className="origin-center -rotate-90 transition-all duration-1000">
+                    <animate attributeName="stroke-dashoffset" values="314;0" dur="2s" repeatCount="indefinite" />
+                </circle>
+                
+                {/* Inner animated elements */}
+                <g className="origin-center animate-spin" style={{ animationDuration: '4s' }}>
+                    <path d="M40,60 A20,20 0 0,1 80,60" stroke="#10B981" strokeWidth="4" fill="none" />
+                    <path d="M80,60 A20,20 0 0,1 40,60" stroke="#F59E0B" strokeWidth="4" fill="none" />
+                </g>
+                
+                {/* Center dot */}
+                <circle cx="60" cy="60" r="6" fill="#3B82F6" />
+                
+                {/* Floating particles */}
+                <circle cx="30" cy="40" r="3" fill="#10B981">
+                    <animate attributeName="cy" values="40;45;40" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="90" cy="80" r="3" fill="#F59E0B">
+                    <animate attributeName="cx" values="90;85;90" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="70" cy="30" r="2" fill="#3B82F6">
+                    <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite" />
+                </circle>
+            </svg>
+            <p className="text-lg font-medium text-gray-600 dark:text-gray-300">{formData.name}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-md">
+                {t("creationProcessMessage")}
+            </p>
+        </div>
+    );
+
     return (
-        <div className="fixed inset-0 max-h-[80vh] top-[120px] lg:top-[180px] flex justify-center items-start overflow-y-auto">
-            <div className="w-[80vw] lg:w-[66vw] max-w-4xl">
-                {success ? (
+        <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
+            <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
+                {creating ? (
+                    <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
+                        <CreationAnimation />
+                    </div>
+                ) : success ? (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
                         <svg className="w-24 h-24 text-green-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         <h2 className="text-2xl font-bold mb-2 text-center">{t("createSuccess")}</h2>
-                        <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{t("projectCreated")}{agentId||""}</p>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{t("created")} {agentId||""}</p>
                         <GradientBorderButton onClick={() => router.push(`/${locale}`)}>
                             {t("viewProject")}
                         </GradientBorderButton>
@@ -130,7 +174,8 @@ const New: React.FC = () => {
                                         name="tokenSupply"
                                         value={formData.tokenSupply}
                                         onChange={handleChange}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        disabled
                                     />
                                 </div>
 
@@ -140,7 +185,8 @@ const New: React.FC = () => {
                                         name="iaoPercentage"
                                         value={formData.iaoPercentage}
                                         onChange={handleChange}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        disabled
                                     />
                                 </div>
 
