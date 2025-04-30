@@ -320,12 +320,20 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
+    "tips":"价格",
+    "bottom":{"price":"本次生图免费","rule1":"每次消耗 0.1 美元 STID","rule2":"持有 $100 STID 永久免费","rule3":"前10万次生图免费","auser":"累计用户:","apic":"累计生图次数:"},
+    "wechatcopied":"分享信息已复制",
+    "share":"AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "shareHeader": "这是AI眼中的我 —— 我选择了",
+    "base":"自定义风格",
+    "sharetail": "！试试StyleID，看看你的效果 👇\n立即尝试 👉 https://app.xaiagent.io/styleid \n加入社区 👉 https://t.me/XAIAgentAI \n我的生成图片👇\n",
+    "need":"StyleID需要一张带有人脸的照片",
     "Xaiagent": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体",
     "StyleID": "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格",
     "LogoLift": "Logo生成，通过文字对话可以生成各种样式的Logo",
     "PicSpan": "扩展图片，可以按照想要的比例进行任意的图片扩展",
     "selectagent": "选择一个智能体",
-    "inputHolder": "发送消息",
+    "inputHolder": "上传一张照片",
     "inputInfo": "AI智能体可能会出错。请检查重要信息。",
     "Data": {
       "Scholar GPT": {
@@ -380,7 +388,7 @@
           ]
         },
         "StyleID": {
-          "description": "生成任务照片，用户只需提供一张照片即可快速获得支持多种风格的独特个人照片。",
+          "description": "生成人物照片，用户只需提供一张照片即可快速获得支持多种风格的独特个人照片。",
           "prompts": [
             "请帮我生成一张赛博朋克风格的照片，带霓虹灯和未来科技感。",
             "能不能把我的照片转换成水墨画风格，像传统中国画那样？",
@@ -579,7 +587,7 @@
     "create": {
       "title": "创建指南",
       "requirements": {
-        "title": "代币创建要求",
+        "title": "代币创建经济模型",
         "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
         "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
         "iaoAllocation": {
@@ -630,13 +638,37 @@
         "user": "用户:",
         "ai": "AI:",
         "example1": {
-          "user": "帮我分析这段代码的性能瓶颈",
-          "ai": "经过分析，您的代码在循环处理部分存在O(n²)复杂度，建议使用哈希表优化..."
+          "user": "帮我创建一个AI代币",
+          "ai": "好的，请输入您的AI代币名称"
         },
         "example2": {
-          "user": "解释一下Transformer架构",
-          "ai": "Transformer是一种基于自注意力机制的神经网络架构，主要由编码器和解码器组成..."
+          "user": "用户输入文字，生成一张图片",
+          "ai": "该需求已加入您的AI模型"
         }
       }
+    },
+    "createAgent": {
+        "agentDetails":"代理详情",
+        "useCases":"用例",
+        "creationProcessMessage": "正在创建您的AI代理，这可能需要一些时间...",
+        "createAIProject": "创建AI代币项目",
+        "projectName": "项目名称",
+        "projectNamePlaceholder": "例如: XAIAgent",
+        "projectDescription": "项目描述",
+        "projectDescriptionPlaceholder": "描述你的AI项目功能",
+        "tokenSupply": "代币总量",
+        "iaoPercentage": "IAO比例",
+        "mining": "60亿/年",
+        "miningRate": "挖矿产出",
+        "agentImage": "Agent图片",
+        "dialogModel": "对话模型",
+        "dialogExample": "对话示例",
+        "userQuestion": "用户提问",
+        "agentResponse": "Agent回复",
+        "createSuccess": "创建成功!",
+        "created": "AI代币项目已成功创建,您的Agent ID为 ",
+        "viewProject": "查看项目",
+        "creating": "创建中...",
+        "createNow": "立即创建"
     }
 } 

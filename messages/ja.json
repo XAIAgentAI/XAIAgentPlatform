@@ -315,12 +315,27 @@
     "closeSearch": "検索を閉じる"
   },
   "chat": {
+    "tips":"価格",
+    "bottom": {
+      "price": "今回の画像生成は無料",
+      "rule1": "0.1ドル STID/回",
+      "rule2": "$100 STID保有で永久無料",
+      "rule3": "初回10万回無料",
+      "auser": "総ユーザー数:",
+      "apic": "総生成回数:"
+    },
+    "wechatcopied":"共有情報がコピーされました",
+    "share":"AIが「私」を描いたんだけど、似てると思う？\n自分がどう見えるか試したい？ここでチェック：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
+    "base":"カスタムスタイル",
+    "sharetail": "！StyleIDを試してあなたのスタイルをチェック 👇\n今すぐ試す 👉 https://app.xaiagent.io/styleid \nコミュニティに参加 👉 https://t.me/XAIAgentAI \n私のAI生成画像👇\n",
+    "need":"StyleIDには人の顔を含む写真が必要です",
     "Xaiagent": "XAIAgentは、AIエージェントの作成、使用、デプロイメント、取引を統合した分散型AIエージェントプラットフォームです",
     "StyleID": "タスク写真を生成し、ユーザーは1枚の写真を提供するだけで、自分だけの個人写真のサポートを迅速に得ることができます）",
     "LogoLift": "Logo生成、文字対話による様々なスタイルのLogo生成",
     "PicSpan": "拡張ピクチャ、任意のピクチャ拡張を希望する割合で行うことができます",
     "selectagent": "エージェントの選択",
-    "inputHolder": "メッセージを送信",
+    "inputHolder": "画像をアップロード",
     "inputInfo": "AIエージェントはエラーになる可能性があります。重要な情報をチェックしてください。",
     "Data": {
       "Scholar GPT": {
@@ -570,7 +585,7 @@
     "indonesia": "インドネシア"
   },
   "create": {
-    "title": "作成ガイド",
+    "title": "トークン経済モデル作成",
     "requirements": {
         "title": "トークン作成要件",
         "supply": "$XXX トークン供給: 最初の8年間で総供給量1000億、その後毎年60億をマイニング",
@@ -619,17 +634,41 @@
         }
       },
       "examples": {
-        "title": "会話例",
+        "title": "サンプル対話",
         "user": "ユーザー:",
         "ai": "AI:",
         "example1": {
-          "user": "このコードのパフォーマンスボトルネックを分析してください",
-          "ai": "分析の結果、ループ処理部分にO(n²)の複雑さがあります。ハッシュテーブルを使用した最適化が推奨されます..."
+          "user": "AIトークンを作成してください",
+          "ai": "はい、AIトークンの名前を入力してください"
         },
         "example2": {
-          "user": "Transformerアーキテクチャについて説明してください",
-          "ai": "Transformerは自己注意メカニズムに基づくニューラルネットワークアーキテクチャで、主にエンコーダーとデコーダーで構成されています..."
+          "user": "ユーザーが入力したテキストから画像を生成する",
+          "ai": "この要件はAIモデルに追加されました"
         }
+      }
+    },
+    "createAgent": {
+        "agentDetails":"エージェントの詳細",
+        "useCases":"ユースケース",
+        "creationProcessMessage":"AIエージェントを作成中です。しばらくお待ちください...",
+        "createAIProject": "AIトークンプロジェクトを作成",
+        "projectName": "プロジェクト名",
+        "projectNamePlaceholder": "例: XAIAgent",
+        "projectDescription": "プロジェクトの説明",
+        "projectDescriptionPlaceholder": "あなたのAIプロジェクトの機能を説明してください",
+        "tokenSupply": "トークン供給量",
+        "iaoPercentage": "IAO割合",
+        "miningRate": "マイニングレート",
+        "mining":"60億/年",
+        "agentImage": "エージェントの画像",
+        "dialogModel": "ダイアログモデル",
+        "dialogExample": "ダイアログの例",
+        "userQuestion": "ユーザーの質問",
+        "agentResponse": "エージェントの返答",
+        "createSuccess": "作成成功!",
+        "created": "AIトークンプロジェクトが正常に作成されました。あなたのエージェントIDは ",
+        "viewProject": "プロジェクトを表示",
+        "creating": "作成中...",
+        "createNow": "今すぐ作成"
     }
-  }
 }

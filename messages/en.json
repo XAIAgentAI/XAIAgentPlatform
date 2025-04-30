@@ -51,7 +51,7 @@
     "addressCopied": "Contract address copied to clipboard",
     "chatComingSoon": "Chat feature coming soon! Stay tuned for updates.",
     "conversationStarter": "Conversation Starter",
-    "chat": "Chatting",
+    "chat": "Chat",
     "createdBy": "Created by",
     "information": "Information",
     "holders": "Holders",
@@ -314,12 +314,27 @@
     }
   },
   "chat": {
+    "tips":"Price",
+    "bottom": {
+      "price": "This image generation is free",
+      "rule1": "$0.1 STID per generation",
+      "rule2": "Hold $100 STID for free forever",
+      "rule3": "First 100K generations free",
+      "auser": "Total users:",
+      "apic": "Total generations:"
+    },
+    "wechatcopied":"The sharing information has been copied",
+    "share":"AI drew a \"me\"—do you think it looks like me?\nWant to see what you'd look like? Try it here:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "shareHeader":"This is how AI sees me — I picked the ",
+    "base":"Custom Style",
+    "sharetail":"! Try StyleID and see yours 👇  \nTry it now 👉 https://app.xaiagent.io/styleid \nJoin the community 👉 https://t.me/XAIAgentAI \nMy AI-generated image👇\n",
+    "need":"StyleID requires a photo containing a face",
     "Xaiagent": "XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
     "StyleID": "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles",
     "LogoLift": "Logo generation, various styles of logos can be generated through text dialogue",
     "PicSpan": "Expand the image to any desired scale",
     "selectagent": "Select an agent",
-    "inputHolder": "Send a message",
+    "inputHolder": "Upload a photo",
     "inputInfo": "AI agent might make mistakes. Please check important information.",
     "Data": {
       "Scholar GPT": {
@@ -572,7 +587,7 @@
   "create": {
       "title": "Creation Guide",
       "requirements": {
-        "title": "Token Creation Requirements",
+        "title": "Token Economic Model Creation",
         "supply": "$XXX Token Supply: Total supply of 100 billion in the first 8 years, with 6 billion mined annually thereafter",
         "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA. Holding XAA NFT increases investment quota",
         "iaoAllocation": {
@@ -623,14 +638,38 @@
         "user": "User:",
         "ai": "AI:",
         "example1": {
-          "user": "Help me analyze the performance bottleneck in this code",
-          "ai": "After analysis, your code has O(n²) complexity in the loop processing part. It is recommended to optimize using hash tables..."
+          "user": "Help me create an AI token",
+          "ai": "Okay, please enter your AI token name"
         },
         "example2": {
-          "user": "Explain the Transformer architecture",
-          "ai": "Transformer is a neural network architecture based on self-attention mechanism, mainly composed of encoder and decoder..."
+          "user": "Generate an image from user-input text",
+          "ai": "This requirement has been added to your AI model"
         }
       }
-  }
+    },
+    "createAgent":{
+      "agentDetails":"Agent Details",
+      "useCases":"Use Cases",
+      "creationProcessMessage":"Your AI agent is being created. This may take a few moments...",
+      "createAIProject": "Create AI Token Project",
+      "projectName": "Project Name",
+      "projectNamePlaceholder": "e.g., XAIAgent",
+      "projectDescription": "Project Description",
+      "projectDescriptionPlaceholder": "Describe the functionality of your AI project",
+      "tokenSupply": "Token Supply",
+      "iaoPercentage": "IAO Percentage",
+      "miningRate": "Mining Rate",
+      "mining":"6 billion/year",
+      "agentImage": "Agent Image",
+      "dialogModel": "Dialog Model",
+      "dialogExample": "Dialog Example",
+      "userQuestion": "User Question",
+      "agentResponse": "Agent Response",
+      "createSuccess": "Creation Successful!",
+      "created": "The AI token project has been successfully created. Your Agent ID is ",
+      "viewProject": "View Project",
+      "creating": "Creating...",
+      "createNow": "Create Now"
+    }
 }
 

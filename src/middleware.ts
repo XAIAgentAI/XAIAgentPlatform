@@ -88,6 +88,11 @@ function getPreferredLanguage(acceptLanguage: string): string {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
+  // styleid重定向
+  if (path === '/styleid') {
+    return NextResponse.rewrite(new URL('/en/chat', request.url));
+  }
+
   // 如果是 API 路由，处理 CORS 和认证
   if (path.startsWith('/api/')) {
     // 获取请求的 origin
@@ -199,5 +204,6 @@ export const config = {
     '/(en|ja|ko|zh)/:path*',
     // API 路由
     '/api/:path*',
+    '/styleid'
   ],
 }; 

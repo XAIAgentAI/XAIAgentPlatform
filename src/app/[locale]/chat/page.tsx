@@ -58,8 +58,11 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [convid, setConvid] = useState<string>("");
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [isNew, setIsNew] = useState<string>("yes");
   const [agent, setAgent] = useState<string>("StyleID");
+  const [count,setCount] = useState<string>("-");
+  const [userNumber,setUserNumber] = useState<string>("-");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const [userStatus, setUserStatus] = useState<boolean>(true);
@@ -67,6 +70,21 @@ export default function ChatPage() {
   
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  const fetchUserCount = async () => {
+    const response = await fetch("/api/chat/data", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ timestamp: Date.now() }) // 添加时间戳确保每次请求唯一
+    });
+    const { count, userNumber } = await response.json();
+    setCount(count);
+    setUserNumber(userNumber);
+  }
+
+  useEffect(() => { fetchUserCount() }, []);
 
   // 获取代理列表
   const fetchAgentsData = async () => {
@@ -230,6 +248,8 @@ export default function ChatPage() {
       <SideBar agent={agent} conversations={conversations} setIsNew={setIsNew} setConvid={setConvid} setConversations={setConversations} userName={userName} setUserName={setUserName} setIsLoading={setIsLoading}/>
       {!conversations["1"]?.length && (
         <HeaderComponent 
+          count={count}
+          userNumber={userNumber}
           setInput={setInput}
           agentMarket={agentMarket}
           agent={agent}
@@ -279,6 +299,7 @@ export default function ChatPage() {
       </div>
       {conversations["1"]?.length > 0 && (<MessagesComponent 
         agent={agent}
+        selectedStyle={selectedStyle}
         userName={userName}
         conversations={conversations}
         setConversations={setConversations}
@@ -288,6 +309,9 @@ export default function ChatPage() {
         setIsNew={setIsNew}
       />)}
       <InputComponent 
+        count={count}
+        userNumber={userNumber}
+        setSelectedStyle={setSelectedStyle}
         convid={convid}
         setConversations={setConversations}
         isNew={isNew}

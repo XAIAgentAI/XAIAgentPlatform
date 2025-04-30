@@ -312,9 +312,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     name: "LogoLift",
     iaoTokenAmount: 5000000000,
 
-    tokenAddress: "0x31EbB59722c168656da178cb11752b248DB4f55E",
-    iaoContractAddress: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
-    tokenAddressTestnet: "0x31EbB59722c168656da178cb11752b248DB4f55E",
+    tokenAddress: "0xD78F268291f3fe244CB965C768EDb515b529eD02",
+    iaoContractAddress: "0xB12fF9666A963b4434dAAC08334db2FDcC27ad08",
+    tokenAddressTestnet: "0x10873C57F5715620ccB59916e844853CD6810e65",
     iaoContractAddressTestnet: "0x7B6895b7Eb45e1bCC4Eda22ad65Ca9CeAE8bc1A9",
 
 
@@ -327,17 +327,17 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
     tvl: "$0",
     holdersCount: 0,
     volume24h: "$0",
-    status: "TBA",
-    statusJA: "近日公開",
-    statusKO: "출시 예정",
-    statusZH: "即将公布",
+    status: "Tradable",
+    statusJA: "トランザクション可能",
+    statusKO: "거래 가능",
+    statusZH: "可交易",
     description: "Logo generation through text dialogue.\n\nOffering diverse design styles including:\n- Modern Minimalist\n- Traditional Classic\n- Minimalism\n- Hand-drawn\n- 3D styles\n\nFeatures an AI inspiration engine that intelligently recommends design styles and elements based on industry type.\n\nProvides creative suggestions based on user input.",
     descriptionZH: "Logo生成，通过文字对话可以生成各种样式的Logo。\n\n具有多样化设计风格，包括但不限于：\n- 简约现代风\n- 传统经典风\n- 极简主义\n- 手绘风格\n- 3D立体风格\n\n根据用户输入的行业或业务类型，智能推荐相应的Logo设计风格和元素。\n\n内置AI灵感引擎，可以根据用户输入的关键词，提供一些设计灵感和建议。",
     descriptionKO: "텍스트 대화를 통한 로고 생성.\n\n다양한 디자인 스타일 제공:\n- 현대적 미니멀\n- 전통적 클래식\n- 미니멀리즘\n- 손그림\n- 3D 스타일\n\n사용자의 산업 또는 비즈니스 유형에 따라 적절한 로고 디자인 스타일과 요소를 지능적으로 추천.\n\n내장된 AI 영감 엔진이 사용자 입력 키워드를 기반으로 디자인 영감과 제안을 제공합니다.",
     descriptionJA: "テキスト対話によるロゴ生成。\n\n多様なデザインスタイルを提供：\n- モダンミニマル\n- 伝統的クラシック\n- ミニマリズム\n- 手書き\n- 3Dスタイル\n\nユーザーの業界やビジネスタイプに基づいて、適切なロゴデザインスタイルと要素をインテリジェントに推奨。\n\n内蔵AIインスピレーションエンジンが、ユーザー入力のキーワードに基づいてデザインのインスピレーションと提案を提供します。",
     createdAt: "1 month ago",
     creatorAddress: "0x12N5N...O574lo",
-    totalSupply: 5000000000,
+    totalSupply: 100000000000,
     useCases: [
       "I want a logo with a strong sense of technology, mainly in blue and purple colors, with a futuristic feel. Can you help me design one?",
       "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain projects",
@@ -378,9 +378,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 6. 2%的$LOGO用来进行Token Sale，IAO结束后开始解锁，分400天线性解锁
 
-7. $LOGO挖矿每年产生60亿，挖矿产生的$LOGO，10%立刻获得，90%分180天线性解锁
+7. $LOGO GPU挖矿每年产生60亿，GPU挖矿产生的$LOGO，10%立刻获得，90%分180天线性解锁
 
-8. 需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点
+8. 需要持有XAA GPU挖矿节点才能参与挖矿，每个GPU机器需要质押最少1个XAA GPU挖矿节点，最多质押10个XAA GPU挖矿节点
 
 9. 1%的$LOGO空投给$XAA和$DBC前10000名持有者，1%$LOGO空投给XAA的节点NFT持有者`,
       'en': `
@@ -396,9 +396,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 6. 2% of $LOGO is allocated for Token Sale, unlocking begins after IAO ends, with linear unlocking over 400 days
 
-7. $LOGO mining generates 6 billion annually, of which 10% is received immediately, and 90% is linearly unlocked over 180 days
+7. $LOGO GPU mining generates 6 billion annually, of which 10% is received immediately, and 90% is linearly unlocked over 180 days
 
-8. XAA mining nodes are required for mining participation, each machine must stake minimum 1 XAA mining node, maximum 10 XAA mining nodes
+8. XAA GPU mining nodes are required for mining participation, each GPU machine must stake minimum 1 XAA GPU mining node, maximum 10 XAA GPU mining nodes
 
 9. 1% of $LOGO will be airdropped to the first 10,000 holders of $XAA and $DBC, and 1% of $LOGO will be airdropped to XAA node NFT holders`,
       'ja': `
@@ -414,9 +414,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 6. $LOGOの2%がトークンセールに使用され、IAO終了後にアンロックが開始され、400日間で線形アンロックされます
 
-7. $LOGOマイニングは年間60億を生成し、マイニングで生成された$LOGOの10%を即時取得し、90%は180日間で線形アンロックされます
+7. $LOGO GPUマイニングは年間60億を生成し、GPUマイニングで生成された$LOGOの10%を即時取得し、90%は180日間で線形アンロックされます
 
-8. マイニングに参加するにはXAAマイニングノードの保有が必要で、各マシンは最低1個のXAAマイニングノードを質入れし、最大10個のXAAマイニングノードを質入れできます
+8. マイニングに参加するにはXAA GPUマイニングノードの保有が必要で、各GPUマシンは最低1個のXAA GPUマイニングノードを質入れし、最大10個のXAA GPUマイニングノードを質入れできます
 
 9. $LOGOの1%が$XAAと$DBCの最初の10,000人の保有者にエアドロップされ、1%がXAAノードNFT保有者にエアドロップされます`,
       'ko': `
@@ -432,9 +432,9 @@ Its multi-token economic model fosters sustainable ecosystem growth, making XAIA
 
 6. $LOGO의 2%는 토큰 세일에 사용되며, IAO 종료 후 잠금 해제가 시작되어 400일 동안 선형적으로 해제됩니다
 
-7. $LOGO 채굴은 매년 60억을 생성하며, 채굴된 $LOGO의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 해제됩니다
+7. $LOGO GPU 채굴은 매년 60억을 생성하며, GPU 채굴된 $LOGO의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 해제됩니다
 
-8. 채굴 참여를 위해서는 XAA 채굴 노드 보유가 필요하며, 각 기계는 최소 1개의 XAA 채굴 노드를 스테이킹해야 하고, 최대 10개의 XAA 채굴 노드를 스테이킹할 수 있습니다
+8. 채굴 참여를 위해서는 XAA GPU 채굴 노드 보유가 필요하며, 각 GPU 기계는 최소 1개의 XAA GPU 채굴 노드를 스테이킹해야 하고, 최대 10개의 XAA GPU 채굴 노드를 스테이킹할 수 있습니다
 
 9. $LOGO의 1%는 $XAA와 $DBC의 첫 10,000명 보유자에게 에어드롭되며, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다`
     })

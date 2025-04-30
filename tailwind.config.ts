@@ -91,9 +91,48 @@ module.exports = {
             transform: 'translateX(100%)', 
             opacity: '0.3' 
           },
-        }
+        },
+       "combined": {
+          '0%': {
+              transform: 'scale(1)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 0%, rgba(255, 107, 0, 1))'
+          },
+          '12.5%': {
+              transform: 'scale(1.02)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 10%, rgba(255, 107, 0, 1))'
+          },
+          '25%': {
+              transform: 'scale(1.04)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 20%, rgba(255, 107, 0, 1))'
+          },
+          '37.5%': {
+              transform: 'scale(1.08)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 30%, rgba(255, 107, 0, 1))'
+          },
+          '50%': {
+              transform: 'scale(1.12)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 50%, rgba(255, 107, 0, 1))'
+          },
+          '62.5%': {
+              transform: 'scale(1.08)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 70%, rgba(255, 107, 0, 1))'
+          },
+          '75%': {
+              transform: 'scale(1.04)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 80%, rgba(255, 107, 0, 1))'
+          },
+          '87.5%': {
+              transform: 'scale(1.02)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 90%, rgba(255, 107, 0, 1))'
+          },
+          '100%': {
+              transform: 'scale(1)',
+              background: 'linear-gradient(to right, hsl(25, 100%, 60%) 100%, rgba(255, 107, 0, 1))'
+          }
+      }
       },
       animation: {
+        "combined-ani": "combined 0.5s ease-in-out infinite",
         'smooth-shine': 'smoothShine 3.2s ease-in-out infinite',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
@@ -102,5 +141,10 @@ module.exports = {
       },      
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addVariant }:{ addVariant: (name:string,definition:string) => void}) {
+          addVariant('max-lg', '@media (max-width: 1023px)')
+    }
+  ],
 }

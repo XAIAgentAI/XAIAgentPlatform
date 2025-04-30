@@ -6,6 +6,7 @@ interface InputComponentProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedStyle: React.Dispatch<React.SetStateAction<string | null>>
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userName: string | null;
@@ -15,6 +16,8 @@ interface InputComponentProps {
   setIsLoadingImage: any;
   prompt: any;
   agent: string;
+  count: any;
+  userNumber: any;
   isNew: any;
   setConversations: any;
   convid: any;
@@ -34,6 +37,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   agent,
   isNew,
   setagent,
+  count,
+  userNumber,
   setConversations,
   prompt,
   setIsNew,
@@ -41,6 +46,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   conversations,
   userName,
   setIsLoadingImage,
+  setSelectedStyle,
   setUserStatus,
   input,
   setInput,
@@ -152,8 +158,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }, [input]);
 
-  const handleStyleSelect = (stylePrompt: string) => {
+  const handleStyleSelect = (stylePrompt: string, styleName: string) => {
     setInput(stylePrompt);
+    setSelectedStyle(styleName);
     setIsStyleOpen(false);
   };
 
@@ -169,7 +176,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
     }
   }
 
-  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '';
+  // STID必须有图片
+  const isSubmitEnabled = !isLoading && input !== null && input.trim() !== '' && 
+  (agent !== "StyleID" || (agent === "StyleID" && selectedImage !== null));
 
     // ✅ 上传图片到后端 API（STID 模式专用）
     const uploadImageToBackend = async (file: File): Promise<string> => {
@@ -447,7 +456,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                         <button
                           key={index}
                           type="button"
-                          onClick={() => handleStyleSelect(style.prompt)}
+                          onClick={() => handleStyleSelect(style.prompt,style.name)}
                           className="px-3 py-1.5 text-xs rounded-full bg-card-inner dark:bg-[rgba(22,22,22,0.8)] hover:bg-card-inner-hover dark:hover:bg-[rgba(30,30,30,0.9)] whitespace-nowrap transition-colors duration-150 text-neutral-600 dark:text-neutral-300"
                         >
                           {style.name}
@@ -533,6 +542,14 @@ const InputComponent: React.FC<InputComponentProps> = ({
             </button>
           </div>
         </form>
+        {agent === "StyleID" && (
+          <div className="w-full mx-auto mt-1 overflow-hidden flex flex-col space-y-1">
+            <div className="flex flex-row items-center justify-around text-xs text-[#666666] dark:text-[#999999] font-medium tracking-tight opacity-80 space-x-1 lg:hidden">
+              <div className="text-center">{t("need")}</div>
+            </div>
+            <div className="opacity-75 text-center max-w-[80%] mx-auto text-xs text-[#666666] dark:text-[#999999] font-medium hidden lg:block">{t("need")} | {t("bottom.auser")} {userNumber} | {t("bottom.apic")} {count}</div>
+          </div>
+        )}
       </div>
     </div>
   );

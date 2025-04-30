@@ -23,6 +23,8 @@ interface Message {
 interface HeaderComponentProps {
   agent: string,
   convid: string;
+  userNumber: any;
+  count: any;
   userName: string | null;
   setUserName: any;
   setInput: any;
@@ -42,6 +44,8 @@ interface HeaderComponentProps {
 const HeaderComponent: React.FC<HeaderComponentProps> = ({ 
   setInput, 
   agentMarket, 
+  userNumber,
+  count,
   setUserName, 
   setIsNew, 
   convid, 
@@ -58,8 +62,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   conversations 
 }) => {
   const [index, setIndex] = useState(0);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [symbol, setSymbol] = useState("XAA");
   const t = useTranslations("agentList");
+  const tl = useTranslations("chat");
 
   useEffect(()=>{
     if(agent === "Xaiagent"){
@@ -139,6 +145,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
     }
   };
 
+  const handleHeaderClick = (input:String) => {
+    setInput(input);
+  }
+
   return (
     <div className="fixed top-28 lg:top-32 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
       <div className="w-[80vw] mx-auto lg:ml-[10vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -152,7 +162,64 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
               className="mx-auto rounded-full"
             />
           </div>
-          <p className="text-lg font-semibold text-center">{agent}</p>
+          <div className="flex flex-row justify-center">
+          <p className="text-lg font-semibold text-end relative left-[30px] lg:left-0">{agent}</p>
+          <div className="relative inline-block lg:hidden">
+            {/* Button */}
+            <button
+              onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+              className="px-3 ml-4 relative left-[23px] py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-md shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 active:bg-green-700"
+            >
+              {tl("tips")}
+            </button>
+
+            {/* Tooltip */}
+            {isTooltipVisible && (
+              <>
+                {/* Overlay to close tooltip when clicking outside */}
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setIsTooltipVisible(false)}
+                />
+                
+                {/* Tooltip content */}
+                <div className="absolute z-50 mt-2 w-64 p-4 bg-white dark:bg-[rgb(22,22,22)] rounded-lg shadow-xl border border-gray-200 dark:border-neutral-700 transform -translate-x-1/2 left-1/2">
+                  {/* Close button */}
+                  <button
+                    onClick={() => setIsTooltipVisible(false)}
+                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    aria-label="Close"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+
+                  {/* Content */}
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex flex-col items-center">
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                        {tl("bottom.rule1")}
+                      </p>
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                        {tl("bottom.rule2")}
+                      </p>
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                        {tl("bottom.rule3")}
+                      </p>
+                    </div>
+
+                    <div className="border-t border-gray-200 dark:border-[rgba(22,22,22,0.3)] my-2"></div>
+
+                    <div className="text-center text-xs text-neutral-600 dark:text-neutral-400">
+                      {tl("bottom.auser")} {userNumber} | {tl("bottom.apic")} {count}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          </div>
           <div className="text-md text-center flex flex-row items-center justify-center gap-1">
             <p>{symbol}</p>
             <p className={agentMarket[index]?.priceChange24h < 0 ? "text-red-500" : agentMarket[index]?.priceChange24h > 0 ? "text-green-500" : ""}>
@@ -161,11 +228,23 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
             </p>
             <p>|</p>
             <p>{t("marketCap")}: {agentMarket[index]?.marketCap || "$0"}</p>
+            <p className="hidden lg:block">|</p>
+            <p className="hidden lg:block">
+              {t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
+            </p>
           </div>
-          <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center">
-            {t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
-          </p>
-          
+          <div className="flex flex-row justify-center lg:hidden text-sm"><p>{t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}</p></div>
+          <div className="lg:flex w-full flex-row justify-center hidden"> 
+            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
+              {tl("bottom.rule1")} |
+            </p>
+            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
+              {tl("bottom.rule2")} |
+            </p>
+            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
+              {tl("bottom.rule3")}
+            </p>
+          </div>    
           <div className="mt-6 flex flex-col items-center justify-center space-y-4">
             <p className="text-center w-full max-w-[72vw]">
               {agentDescriptions[selectedAgent]?.prompt}
@@ -186,7 +265,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
                         rounded-xl px-4 py-6 text-stone-700 dark:text-neutral-300 font-light text-sm flex-shrink-0 
                         w-[250px] min-w-[200px] max-w-[280px] flex items-center justify-center transition-all duration-200 
                         hover:scale-[1.02] cursor-pointer shadow-sm"
-                      onClick={() => handleExampleClick(example)}
+                      onClick={() => handleHeaderClick(example)}
                     >
                       <p>{example}</p>
                     </div>

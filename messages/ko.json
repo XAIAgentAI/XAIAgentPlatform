@@ -411,12 +411,27 @@
     "indonesia": "인도네시아"
   },
   "chat": {
+    "tips":"가격",
+    "bottom": {
+      "price": "이번 이미지 생성 무료",
+      "rule1": "0.1달러 STID/회",
+      "rule2": "$100 STID 보유 시 영구 무료",
+      "rule3": "첫 10만 회 무료",
+      "auser": "총 사용자 수:",
+      "apic": "총 생성 횟수:"
+    },
+    "wechatcopied":"공유 정보가 복사됨",
+    "share":"AI가 \"나\"를 그렸는데, 나랑 비슷해 보여?\n내 모습이 어떻게 될지 궁금하다면 여기서 확인해 봐:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "shareHeader": "AI가 본 나의 모습 — 내가 선택한",
+    "base":"커스텀 스타일",
+    "sharetail": "! StyleID를 시도해보고 당신의 결과 확인하기 👇\n지금 시도하기 👉 https://app.xaiagent.io/styleid \n커뮤니티 가입 👉 https://t.me/XAIAgentAI \n내 AI 생성 이미지👇\n",
+    "need":"StyleID는 얼굴이 담긴 사진이 필요해요.",
     "Xaiagent": "XAIAgent는 AI Agent의 생성, 활용, 배포 및 거래를 하나로 통합한 블록체인 기반 탈중앙화 AI Agent 플랫폼입니다",
     "StyleID": "작업 사진을 생성하여 한 장의 사진만 제공하면 다양한 스타일을 지원하는 나만의 개인 사진을 빠르게 얻을 수 있습니다",
     "LogoLift": "로고 생성, 문자 대화를 통해 다양한 스타일의 로고 생성",
     "PicSpan": "원하는 비율로 원하는 그림을 확장할 수 있는 확장",
     "selectagent": "프록시 선택",
-    "inputHolder": "메시지 보내기",
+    "inputHolder": "사진 한 장 올리겠습니다",
     "inputInfo": "AI 에이전트에서 오류가 발생할 수 있습니다.중요 정보를 확인하십시오.",
     "Data": {
       "Scholar GPT": {
@@ -573,7 +588,7 @@
     "noface":"얼굴이 없거나 힌트가 너무 모릅니다."
   },
     "create": {
-      "title": "생성 가이드",
+      "title": "토큰 경제 모델 생성",
       "requirements": {
         "title": "토큰 생성 요구사항",
         "supply": "$XXX 토큰 공급: 처음 8년간 총 공급량 1000억, 이후 매년 60억 채굴",
@@ -626,13 +641,37 @@
         "user": "사용자:",
         "ai": "AI:",
         "example1": {
-          "user": "이 코드의 성능 병목 현상을 분석해 주세요",
-          "ai": "분석 결과, 루프 처리 부분에 O(n²) 복잡도가 존재합니다. 해시 테이블을 사용한 최적화를 권장합니다..."
+          "user": "AI 토큰을 생성해 주세요",
+          "ai": "네, AI 토큰 이름을 입력해 주세요"
         },
         "example2": {
-          "user": "Transformer 아키텍처에 대해 설명해 주세요",
-          "ai": "Transformer는 자기 주의 메커니즘을 기반으로 한 신경망 아키텍처로, 주로 인코더와 디코더로 구성됩니다..."
+          "user": "사용자가 입력한 텍스트로 이미지 생성",
+          "ai": "이 요구사항은 AI 모델에 추가되었습니다"
         }
       }
+    },
+    "createAgent": {
+        "agentDetails":"에이전트 세부 정보",
+        "useCases":"사용 사례",
+        "creationProcessMessage":"I 에이전트를 생성 중입니다. 잠시 기다려 주세요...",
+        "createAIProject": "AI 토큰 프로젝트 생성",
+        "projectName": "프로젝트 이름",
+        "projectNamePlaceholder": "예: XAIAgent",
+        "projectDescription": "프로젝트 설명",
+        "projectDescriptionPlaceholder": "귀하의 AI 프로젝트 기능을 설명하십시오",
+        "tokenSupply": "토큰 공급량",
+        "iaoPercentage": "IAO 비율",
+        "miningRate": "마이닝 비율",
+        "mining":"60억 / 년",
+        "agentImage": "에이전트 이미지",
+        "dialogModel": "대화 모델",
+        "dialogExample": "대화 예시",
+        "userQuestion": "사용자 질문",
+        "agentResponse": "에이전트 응답",
+        "createSuccess": "생성 성공!",
+        "created": "AI 토큰 프로젝트가 성공적으로 생성되었습니다. 귀하의 에이전트 ID는 ",
+        "viewProject": "프로젝트 보기",
+        "creating": "생성 중...",
+        "createNow": "바로 생성"
     }
 }

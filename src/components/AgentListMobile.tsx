@@ -293,15 +293,20 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                       </CustomBadge>
                     </div>
                   </div>
-                  {(agent.symbol === "STID" || agent.symbol === "SIC") && (
+                  {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                     <div className="flex flex-col items-start">
-                        <span className="text-muted-color text-xs block">{t("chat")}</span>
+                        <span className="text-muted-color text-xs block h-[15px]"></span>
                         <button 
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             if (agent.symbol === "STID") {
                               window.open(`/${locale}/chat`, '_blank');
                             } else if (agent.symbol === "SIC") {
                               window.open('https://app.superimage.ai', '_blank');
+                            } else if (agent.symbol === "DLC") {
+                              window.open('https://www.deeplink.cloud/software', '_blank');
+                            } else if (agent.symbol === "DGC") {
+                              window.open('https://degpt.ai ', '_blank');
                             }
                           }}
                           className="text-secondary-color hover:text-primary-color transition-colors duration-200"
@@ -309,13 +314,15 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                         >
                           <div 
                             className={`
+                              animate-combined-ani
                               bg-primary
-                              mt-[5px]
-                              h-[20px] px-[10px] border-none text-white rounded-[100px]
-                              text-center text-[10px] font-normal font-['Sora'] whitespace-nowrap flex flex-col justify-center
-                            `}
+                              px-[18px]
+                              h-[35px] border-none text-white rounded-[10px]
+                              text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
+                              `}
                           >
-                            <span className="pb-[1px]">chat</span>
+                            <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2"></img>
+                            <span className="mt-[2px]">{agent.symbol==="DLC" ? "Game" : "Chat"}</span>                         
                           </div>
                         </button>
                       </div>
