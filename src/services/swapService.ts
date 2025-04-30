@@ -429,6 +429,22 @@ interface TokenPriceInfo {
   baseTokenAmountLp?: number; // 基础代币LP数量
 }
 
+interface PoolData {
+  id: string;
+  totalValueLockedToken0: string;
+  totalValueLockedToken1: string;
+  totalValueLockedUSD: string;
+  liquidity: string;
+  token0: {
+    id: string;
+    decimals: string;
+  };
+  token1: {
+    id: string;
+    decimals: string;
+  };
+}
+
 // 批量获取代币价格
 export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbol: string]: TokenPriceInfo }> => {
   console.log("getBatchTokenPrices-tokens", tokens);
@@ -444,7 +460,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
       return `
         ${token.symbol}Pool: pools(
-          first: 1,
           where: {
             and: [
               {
@@ -714,7 +729,7 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       const swapData24hAgo = data.data[`${token.symbol}24hAgo`];
       const swapData24hWithin = data.data[`${token.symbol}24hWithin`];
 
-      if (swapData && swapData[0] && poolData && poolData[0]) {
+      if (swapData && swapData[0] && poolData && poolData.length > 0) {
         const swap = swapData[0];
         const pool = poolData[0];
         try {
@@ -790,21 +805,23 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
           console.log("token", token, "currentPrice", currentPrice, "usdPrice", usdPrice, "dbcPriceUsd", dbcPriceUsd);
 
           // 计算 LP 数量 - 使用对标代币的 volumeToken 而不是 totalValueLocked
-          const baseTokenAmount = !targetTokenIsToken0 ?
-            parseFloat(pool.totalValueLockedToken0 || '0') :
-            parseFloat(pool.totalValueLockedToken1 || '0');
+          const baseTokenAmount = poolData.reduce((total: number, pool: PoolData) => {
+            const amount = !targetTokenIsToken0 ?
+              parseFloat(pool.totalValueLockedToken0 || '0') :
+              parseFloat(pool.totalValueLockedToken1 || '0');
+            return total + amount;
+          }, 0);
 
-          const targetTokenAmount = !targetTokenIsToken0 ?
-            parseFloat(pool.totalValueLockedToken1 || '0') :
-            parseFloat(pool.totalValueLockedToken0 || '0');
-
-          // 1STID = 0.13 XAA = 0.13XAA * 0.02048 = 0.0026624 DBC = 0.0026624 DBC * 0.001981 = 0.00000527344 USDT
-
+          const targetTokenAmount = poolData.reduce((total: number, pool: PoolData) => {
+            const amount = !targetTokenIsToken0 ?
+              parseFloat(pool.totalValueLockedToken1 || '0') :
+              parseFloat(pool.totalValueLockedToken0 || '0');
+            return total + amount;
+          }, 0);
 
           // XAA对应的是DBC，其他代币对应的是XAA
           const baseTokenUsdPrice = token.symbol === "XAA" ? dbcPriceUsd :
             xaaUsdPrice
-
 
           const baseTokenUsdPriceFormatted = Number(baseTokenUsdPrice.toFixed(8));
           const lp = Number((baseTokenAmount * baseTokenUsdPriceFormatted).toFixed(2)); // 乘以 DBC 单价
