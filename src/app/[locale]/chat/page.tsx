@@ -72,13 +72,19 @@ export default function ChatPage() {
   const t = useTranslations("chat");
 
   const fetchUserCount = async () => {
-    const response = await fetch("/api/chat/data");
-    const {count,userNumber} = await response.json();
+    const response = await fetch("/api/chat/data", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ timestamp: Date.now() }) // 添加时间戳确保每次请求唯一
+    });
+    const { count, userNumber } = await response.json();
     setCount(count);
     setUserNumber(userNumber);
   }
 
-  useEffect(()=>{fetchUserCount()},[])
+  useEffect(() => { fetchUserCount() }, []);
 
   // 获取代理列表
   const fetchAgentsData = async () => {

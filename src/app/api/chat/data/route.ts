@@ -4,9 +4,6 @@ import { Pool } from "@neondatabase/serverless";
 const connectionString = process.env.CHAT_URL;
 const pool = new Pool({ connectionString });
 
-// 定义缓存时间（秒）
-const MAX_CACHE_AGE = 15;
-
 async function getData() {
     const client = await pool.connect();
     try {
@@ -26,7 +23,7 @@ async function getData() {
     }
 }
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const data = await getData();
     
     if (!data) {
@@ -38,10 +35,12 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(data, {
         headers: {
-            // 精确控制缓存时间为15秒
-            'Cache-Control': `public, max-age=${MAX_CACHE_AGE}, s-maxage=${MAX_CACHE_AGE}`,
+            // 明确设置不缓存
+            'Cache-Control': 'no-store, max-age=0',
+            'Pragma': 'no-cache',
+            'Expires': '0',
             // 添加Vary头避免代理服务器缓存问题
-            'Vary': 'Accept-Encoding'
+            'Vary': '*'
         }
     });
 }

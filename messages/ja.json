@@ -646,5 +646,27 @@
           "ai": "この要件はAIモデルに追加されました"
         }
       }
-  }
+    },
+    "createAgent": {
+        "creationProcessMessage":"AIエージェントを作成中です。しばらくお待ちください...",
+        "createAIProject": "AIトークンプロジェクトを作成",
+        "projectName": "プロジェクト名",
+        "projectNamePlaceholder": "例: XAIAgent",
+        "projectDescription": "プロジェクトの説明",
+        "projectDescriptionPlaceholder": "あなたのAIプロジェクトの機能を説明してください",
+        "tokenSupply": "トークン供給量",
+        "iaoPercentage": "IAO割合",
+        "miningRate": "マイニングレート",
+        "mining":"60億/年",
+        "agentImage": "エージェントの画像",
+        "dialogModel": "ダイアログモデル",
+        "dialogExample": "ダイアログの例",
+        "userQuestion": "ユーザーの質問",
+        "agentResponse": "エージェントの返答",
+        "createSuccess": "作成成功!",
+        "created": "AIトークンプロジェクトが正常に作成されました。あなたのエージェントIDは ",
+        "viewProject": "プロジェクトを表示",
+        "creating": "作成中...",
+        "createNow": "今すぐ作成"
+    }
 }

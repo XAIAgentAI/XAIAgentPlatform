@@ -141,5 +141,10 @@ module.exports = {
       },      
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addVariant }:{ addVariant: (name:string,definition:string) => void}) {
+          addVariant('max-lg', '@media (max-width: 1023px)')
+    }
+  ],
 }

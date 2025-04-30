@@ -97,26 +97,15 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
     }
   }
 
-  function shareToWeChat(message:string) {
-    const shareText = encodeURIComponent(t("share"));
-    
-    // 尝试微信深度链接（仅iOS/Android微信已安装时可能有效）
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const wechatUrl = isiOS 
-      ? `weixin://dl/chat?text=${shareText}`
-      : `intent://send?text=${shareText}#Intent;package=com.tencent.mm;scheme=weixin;end`;
-  
-    window.location.href = wechatUrl;
-    
-    // 2秒后仍未跳转则提示手动操作
-    setTimeout(() => {
-      if (!document.hidden) {
-        navigator.clipboard.writeText(t("share"));
-        // Show notification
-        setCopiedMessageId('wechat-share');
-        setTimeout(() => setCopiedMessageId(null), 2000);
-      }
-    }, 1200);
+  function shareToWeChat(message: string) {
+    // 直接尝试 weixin://dl/moments（朋友圈协议）
+    if (!document.hidden) { 
+      navigator.clipboard.writeText(message);
+      setCopiedMessageId("wechat-share");
+      setTimeout(()=>{
+        setCopiedMessageId(null);
+      },1500)
+    }
   }
   
   const shareToTwitter = (imageUrl: string) => {
@@ -207,7 +196,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   };
 
   return (
-    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2" style={{ maxHeight: "65vh", overflowAnchor: "none", position: "sticky" }}>
+    <div className="fixed top-[120px] flex flex-col flex-grow bg-background w-full lg:w-[78vw] lg:ml-[22vw] xl:w-[71vw] xl:ml-[28vw] px-2 max-lg:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-310px)]" style={{ overflowAnchor: "none" }}>
       {messages.length > 0 && (
         <div className="flex justify-end items-center bg-background w-full lg:w-[71vw]">
           <button
@@ -244,7 +233,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
           </button>
         </div>
       )}
-      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[76vh] pb-[54px] lg:pb-0">
+      <div className="relative z-1 top-[8px] flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[75vh] pb-[54px] lg:pb-0">
         {messages.map((message) => (
           <div
             key={message.id}
