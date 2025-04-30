@@ -37,8 +37,6 @@ export async function POST(request: Request) {
       description,
       category,
       capabilities,
-      tokenAddress,
-      iaoContractAddress,
       tokenAmount,
       startTimestamp,
       durationHours,
@@ -69,8 +67,6 @@ export async function POST(request: Request) {
       useCasesZH,
       socialLinks,
       chatEntry,
-      tokenAddressTestnet,
-      iaoContractAddressTestnet,
       projectDescription,
       iaoTokenAmount,
     } = body;
@@ -141,8 +137,8 @@ export async function POST(request: Request) {
         capabilities: JSON.stringify(capabilities),
         status: status || 'pending', // 初始状态为 pending
         creatorId: user.id,
-        tokenAddress: tokenAddress || null,
-        iaoContractAddress: iaoContractAddress || null,
+        tokenAddress: null, // 初始为 null，等待部署后更新
+        iaoContractAddress: null, // 初始为 null，等待部署后更新
         iaoTokenAmount: tokenAmount ? new Decimal(tokenAmount) : null,
         symbol: symbol,
         avatar: avatar || null,
@@ -168,8 +164,8 @@ export async function POST(request: Request) {
         useCasesZH: useCasesZH ? JSON.stringify(useCasesZH) : null,
         socialLinks: socialLinks || null,
         chatEntry: chatEntry || null,
-        tokenAddressTestnet: tokenAddressTestnet || null,
-        iaoContractAddressTestnet: iaoContractAddressTestnet || null,
+        tokenAddressTestnet: null,
+        iaoContractAddressTestnet: null,
         projectDescription: projectDescription || null,
       },
     });
@@ -185,8 +181,6 @@ export async function POST(request: Request) {
 
     // 异步处理任务
     processTask(agent.id, {
-      tokenAddress,
-      iaoContractAddress,
       tokenAmount,
       startTimestamp,
       durationHours,
@@ -211,8 +205,6 @@ export async function POST(request: Request) {
 async function processTask(
   agentId: string,
   taskData: {
-    tokenAddress?: string;
-    iaoContractAddress?: string;
     tokenAmount?: string;
     startTimestamp?: number;
     durationHours?: number;
@@ -220,18 +212,115 @@ async function processTask(
     rewardToken?: string;
   }
 ) {
+  const MAX_RETRIES = 2;
+  const RETRY_DELAY = 5000; // 5秒
+
+  // 重试函数
+  async function retry<T>(fn: () => Promise<T>, retries = MAX_RETRIES): Promise<T> {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retries === 0) throw error;
+      console.log(`请求失败，${retries}次重试机会剩余...`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+      return retry(fn, retries - 1);
+    }
+  }
+
   try {
-    // 这里可以添加实际的任务处理逻辑
-    // 例如调用外部 API、部署合约等
+    // 获取 Agent 信息
+    const agent = await prisma.agent.findUnique({
+      where: { id: agentId },
+      include: {
+        creator: {
+          select: {
+            address: true
+          }
+        }
+      }
+    });
 
-    // 模拟任务处理
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    if (!agent) {
+      throw new Error('Agent not found');
+    }
 
-    // 更新 Agent 状态
+    // 部署 Token
+    const tokenResult = await retry(async () => {
+      const tokenResponse = await fetch("http://3.0.25.131:8070/deploy/token", {
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Basic YWRtaW46MTIz"
+        },
+        body: JSON.stringify({
+          owner: agent.creator.address,
+          token_amount_can_mint_per_year: taskData.tokenAmount || '1000000000000000000',
+          token_init_supply: taskData.tokenAmount || '1000000000000000000',
+          token_name: agent.name.replace(/\s+/g, ''),
+          token_supply_fixed_years: 8,
+          token_symbol: agent.symbol
+        })
+      });
+
+      const result = await tokenResponse.json();
+      console.log('Token deployment response:', result);
+      
+      if (result.code === 400 && result.message === 'Pending') {
+        // Token 部署请求已接受，继续处理
+        console.log('Token deployment request accepted, continuing...');
+        return result;
+      } else if (result.code !== 200 || !result.data?.proxy_address) {
+        throw new Error(`Token deployment failed: ${result.message || 'Unknown error'}`);
+      }
+      
+      return result;
+    });
+
+    // 部署 IAO
+    const iaoResult = await retry(async () => {
+      const iaoResponse = await fetch("http://3.0.25.131:8070/deploy/IAO", {
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Basic YWRtaW46MTIz"
+        },
+        body: JSON.stringify({
+          duration_hours: taskData.durationHours || 72,
+          owner: agent.creator.address,
+          reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
+          reward_token: tokenResult.data?.proxy_address || taskData.rewardToken,
+          start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600
+        })
+      });
+
+      const result = await iaoResponse.json();
+      console.log('IAO deployment response:', result);
+      
+      if (result.code === 400 && result.message === 'Pending') {
+        // IAO 部署请求已接受，继续处理
+        console.log('IAO deployment request accepted, continuing...');
+        return result;
+      } else if (result.code !== 200 || !result.data?.proxy_address) {
+        throw new Error(`IAO deployment failed: ${result.message || 'Unknown error'}`);
+      }
+      
+      return result;
+    });
+
+    // 检查合约地址是否有效
+    if (!tokenResult.data?.proxy_address || !iaoResult.data?.proxy_address) {
+      throw new Error('Contract addresses are missing after deployment');
+    }
+
+    // 更新 Agent 状态和合约地址
     await prisma.agent.update({
       where: { id: agentId },
       data: {
-        status: 'active',
+        status: 'ACTIVE',
+        tokenAddress: tokenResult.data.proxy_address,
+        iaoContractAddress: iaoResult.data.proxy_address,
       },
     });
 
@@ -246,6 +335,14 @@ async function processTask(
   } catch (error) {
     // 处理错误
     console.error('任务处理失败:', error);
+    console.error('错误详情:', {
+      agentId,
+      taskData,
+      error: error instanceof Error ? {
+        message: error.message,
+        stack: error.stack
+      } : error
+    });
 
     // 更新 Agent 状态为失败
     await prisma.agent.update({
@@ -261,6 +358,7 @@ async function processTask(
         action: 'process',
         result: 'failed',
         agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
       },
     });
   }

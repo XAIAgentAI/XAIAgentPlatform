@@ -71,7 +71,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     )
   }
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = (id: string) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
@@ -245,6 +245,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               <CustomBadge>
                                 {agent.type}
                               </CustomBadge>
+                              {
+                                agent.status === 'PENDING' && (
+                                  <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
+                                    {agent.status}
+                                  </CustomBadge>
+                                )
+                              }
                               <div className="flex  gap-2">
                                 {socialLinks.twitter.length > 0 && (
                                   <SocialLinks links={socialLinks.twitter.join(", ")} />

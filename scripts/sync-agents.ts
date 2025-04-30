@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import type { LocalAgent } from './localAgents';
+import { localAgents } from './localAgents';
 
 const prisma = new PrismaClient();
 
@@ -18,28 +19,36 @@ function isLocalAgent(value: unknown): value is LocalAgent {
 
 async function main() {
   try {
-    // 获取所有 agents
-    const agents = await prisma.agent.findMany();
-    console.log(`找到 ${agents.length} 个 agents`);
+    // 创建默认用户
+    const defaultUser = await prisma.user.upsert({
+      where: { address: '0x0000000000000000000000000000000000000000' },
+      update: {},
+      create: {
+        address: '0x0000000000000000000000000000000000000000',
+        nickname: 'System',
+      },
+    });
+
+    console.log(`开始同步 ${localAgents.length} 个本地 agents`);
 
     // 更新每个 agent
-    for (const agent of agents) {
+    for (const agent of localAgents) {
       await prisma.agent.upsert({
-        where: { id: agent.id },
+        where: { id: agent.id.toString() },
         update: {
           name: agent.name,
           description: agent.description || '',
-          longDescription: agent.longDescription || '',
-          category: agent.type,
+          longDescription: agent.detailDescription || '',
+          category: agent.type || 'default',
           avatar: agent.avatar || '',
           status: agent.status,
-          capabilities: agent.capabilities,
-          rating: agent.rating || 0,
-          usageCount: agent.usageCount || 0,
+          capabilities: JSON.stringify([]),
+          rating: 0,
+          usageCount: 0,
           marketCap: agent.marketCap,
           change24h: agent.change24h,
           volume24h: agent.volume24h,
-          creatorId: agent.creatorId,
+          creatorId: defaultUser.id,
           type: agent.type,
           tvl: agent.tvl || '',
           holdersCount: agent.holdersCount || 0,
@@ -67,20 +76,20 @@ async function main() {
           iaoTokenAmount: agent.iaoTokenAmount || 0,
         },
         create: {
-          id: agent.id,
+          id: agent.id.toString(),
           name: agent.name,
           description: agent.description || '',
-          longDescription: agent.longDescription || '',
-          category: agent.type,
+          longDescription: agent.detailDescription || '',
+          category: agent.type || 'default',
           avatar: agent.avatar || '',
           status: agent.status,
-          capabilities: agent.capabilities,
-          rating: agent.rating || 0,
-          usageCount: agent.usageCount || 0,
+          capabilities: JSON.stringify([]),
+          rating: 0,
+          usageCount: 0,
           marketCap: agent.marketCap,
           change24h: agent.change24h,
           volume24h: agent.volume24h,
-          creatorId: agent.creatorId,
+          creatorId: defaultUser.id,
           type: agent.type,
           tvl: agent.tvl || '',
           holdersCount: agent.holdersCount || 0,

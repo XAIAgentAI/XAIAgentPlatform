@@ -66,7 +66,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = (id: string) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 

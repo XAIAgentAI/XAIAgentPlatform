@@ -103,6 +103,7 @@ model History {
   id        String   @id @default(uuid())
   action    String
   result    String
+  error     String?  // 添加可选的错误信息字段
   agent     Agent    @relation(fields: [agentId], references: [id])
   agentId   String
   timestamp DateTime @default(now())
