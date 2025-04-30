@@ -651,6 +651,8 @@
       }
     },
     "createAgent": {
+        "agentDetails":"에이전트 세부 정보",
+        "useCases":"사용 사례",
         "creationProcessMessage":"I 에이전트를 생성 중입니다. 잠시 기다려 주세요...",
         "createAIProject": "AI 토큰 프로젝트 생성",
         "projectName": "프로젝트 이름",
