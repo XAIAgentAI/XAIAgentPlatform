@@ -39,25 +39,45 @@ const New: React.FC = () => {
     const handleCreate = async () => {
         setCreating(true);
         try {
-            const response = await fetch('/api/create', {
+            // First call translate API to get useCases
+            const translateResponse = await fetch('/api/chat/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    description: formData.description
+                })
+            });
+    
+            if (!translateResponse.ok) {
+                throw new Error('Failed to generate use cases');
+            }
+    
+            const useCases = await translateResponse.json();
+    
+            // Then call create API with all data including useCases
+            const createResponse = await fetch('/api/agents/new', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
-                    imageUrl
+                    imageUrl,
+                    useCases
                 })
             });
-
-            const result = await response.json();
+    
+            const result = await createResponse.json();
             if (result.success) {
                 setData(result.data);
                 setSuccess(true);
             }
+        } catch (error) {
+            console.error('Creation failed:', error);
+            // You might want to add error handling UI here
         } finally {
             setCreating(false);
         }
     };
-
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
