@@ -215,6 +215,73 @@ export async function POST(request: NextRequest) {
     const client = await pool.connect();
     try {
       const response = await client.query(queryString, values);
+      const ApiData = {
+        // 基本信息
+        id: response.rows[0].id,
+        name: formData.name,
+        description: description,
+        imageUrl: formData.imageUrl || '',
+        tokenSupply: formData.tokenSupply || 5000000000,
+        chat: formData.chat || null,
+        
+        // 翻译结果
+        descriptionJA: translationResults.ja || `${description} (Japanese)`,
+        descriptionKO: translationResults.ko || `${description} (Korean)`,
+        descriptionZH: translationResults.zh || `${description} (Chinese)`,
+        
+        // 用例信息
+        useCases: useCaseResults.english,
+        useCasesJA: useCaseResults.ja,
+        useCasesKO: useCaseResults.ko,
+        useCasesZH: useCaseResults.zh,
+        
+        // 状态信息
+        status: 'TBA',
+        statusJA: '近日公開',
+        statusKO: '출시 예정',
+        statusZH: '即将公布',
+        
+        // 金融数据
+        marketCap: '$0',
+        change24h: '0',
+        lifetime: '',
+        tvl: '$0',
+        holdersCount: 0,
+        volume24h: '$0',
+        
+        // 元信息
+        createdAt: new Date().toISOString(),
+        creatorAddress: '',
+        totalSupply: 5000000000,
+        socialLinks: '',
+        iaoTokenAmount: formData.tokenSupply || 5000000000,
+        updatedAt: new Date().toISOString(),
+        
+        // 其他可能需要的字段
+        tokenAddress: '',
+        symbol: formData.name,
+        type: 'AI Agent'
+      };
+      // 在这里调用nonce接口
+      try {
+        const secondApiResponse = await fetch(`http://localhost:3000/api/create/nonce`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(ApiData)
+        });
+
+        if (!secondApiResponse.ok) {
+          throw new Error(`nonce接口调用失败: ${secondApiResponse.status}`);
+        }
+
+        const secondApiData = await secondApiResponse.json();
+        console.log('nonce接口调用成功:', secondApiData);
+      } catch (secondApiError) {
+        console.error('调用nonce接口失败:', secondApiError);
+        throw secondApiError; // 将错误向上抛出，让外层catch捕获
+      }
       
       // 重构useCaseResults为前端友好的格式
       const formattedUseCases = {
@@ -237,7 +304,7 @@ export async function POST(request: NextRequest) {
       client.release();
     }
   } catch (error) {
-    console.error("数据库错误:", error);
+    console.error("数据库或接口调用错误:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

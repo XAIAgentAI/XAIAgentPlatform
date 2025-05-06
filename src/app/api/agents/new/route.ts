@@ -358,7 +358,7 @@ async function processTask(
         action: 'process',
         result: 'failed',
         agentId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        //error: error instanceof Error ? error.message : 'Unknown error'
       },
     });
   }
