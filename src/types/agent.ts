@@ -1,7 +1,7 @@
 import { type BadgeVariant } from "@/components/ui-custom/custom-badge"
 
 export enum AgentStatus {
-  TRADABLE = 'TRADABLE',
+  TRADABLE = 'Tradable',
   IAO_ONGOING = 'IAO_ONGOING',
   IAO_COMING_SOON = 'IAO_COMING_SOON',
   TBA = 'TBA',
