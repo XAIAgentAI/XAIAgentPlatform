@@ -1,5 +1,5 @@
 import { LocalAgent } from "@/types/agent"
-import { DBCToken } from "@/hooks/useDBCScan"
+import { DBCToken } from "@/services/dbcScan"
 import { getBatchTokenPrices } from "./swapService"
 
 // 格式化数字

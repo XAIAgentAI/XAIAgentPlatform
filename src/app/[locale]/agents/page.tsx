@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar } from '@/components/ui/avatar'
 import Image from 'next/image'
 import { agentAPI } from '@/services/api'
-import { fetchDBCTokens } from "@/hooks/useDBCScan"
+import { fetchDBCTokens } from "@/services/dbcScan"
 import { LocalAgent } from '@/types/agent'
 import { useRouter } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'

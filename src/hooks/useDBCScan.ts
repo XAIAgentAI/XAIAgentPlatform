@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { fetchDBCTokens, DBCToken } from '@/services/dbcScan';
-
 export const useDBCScan = () => {
   const [tokens, setTokens] = useState<DBCToken[]>([]);
   const [loading, setLoading] = useState(false);
