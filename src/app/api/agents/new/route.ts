@@ -135,7 +135,7 @@ export async function POST(request: Request) {
         description,
         category,
         capabilities: JSON.stringify(capabilities),
-        status: status || 'pending', // 初始状态为 pending
+        status: status || 'CREATING', // 初始状态为 CREATING
         creatorId: user.id,
         tokenAddress: null, // 初始为 null，等待部署后更新
         iaoContractAddress: null, // 初始为 null，等待部署后更新
@@ -174,7 +174,7 @@ export async function POST(request: Request) {
     await prisma.history.create({
       data: {
         action: 'create',
-        result: 'pending',
+        result: 'CREATING',
         agentId: agent.id,
       },
     });
@@ -193,7 +193,7 @@ export async function POST(request: Request) {
       message: '任务已创建',
       data: {
         agentId: agent.id,
-        status: 'pending',
+        status: 'CREATING',
       },
     });
   } catch (error) {
@@ -266,7 +266,7 @@ async function processTask(
       const result = await tokenResponse.json();
       console.log('Token deployment response:', result);
       
-      if (result.code === 400 && result.message === 'Pending') {
+      if (result.code === 400 && result.message === 'CREATING') {
         // Token 部署请求已接受，继续处理
         console.log('Token deployment request accepted, continuing...');
         return result;
@@ -298,7 +298,7 @@ async function processTask(
       const result = await iaoResponse.json();
       console.log('IAO deployment response:', result);
       
-      if (result.code === 400 && result.message === 'Pending') {
+      if (result.code === 400 && result.message === 'CREATING') {
         // IAO 部署请求已接受，继续处理
         console.log('IAO deployment request accepted, continuing...');
         return result;
@@ -318,7 +318,7 @@ async function processTask(
     await prisma.agent.update({
       where: { id: agentId },
       data: {
-        status: 'ACTIVE',
+        status: 'TBA',
         tokenAddress: tokenResult.data.proxy_address,
         iaoContractAddress: iaoResult.data.proxy_address,
       },

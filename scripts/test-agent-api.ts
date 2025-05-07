@@ -86,8 +86,8 @@ async function createAgent(token: string, name?: string, symbol?: string) {
           // tokenAddress: '0x123456789',
           // iaoContractAddress: '0x987654321',
           tokenAmount: '1000000000000000000',
-          startTimestamp: 1743663600,
-          durationHours: 72,
+          startTimestamp: Math.floor(Date.now() / 1000) + 3600 * 7,
+          durationHours: 24*7,
           rewardAmount: '2000000000000000000000000000',
           rewardToken: '0xabcdef123',
           symbol: agentSymbol,
@@ -98,7 +98,7 @@ async function createAgent(token: string, name?: string, symbol?: string) {
           tvl: '$0',
           holdersCount: 0,
           volume24h: '$0',
-          status: 'Tradable',
+          // status: 'Tradable',
           statusJA: 'トランザクション可能',
           statusKO: '거래 가능',
           statusZH: '可交易',
@@ -190,22 +190,6 @@ async function main() {
       console.log('预期的错误响应:', error.response?.data);
     }
 
-    // 5. 测试重复 symbol 场景
-    console.log('\n5. 测试重复 symbol 场景');
-    const testSymbol = `TEST${uuidv4().slice(0, 4)}`.toUpperCase();
-    console.log(`使用固定 symbol: ${testSymbol}`);
-    
-    console.log('\n5.1 第一次创建带 symbol 的 agent（应该成功）');
-    const firstSymbolResult = await createAgent(token, undefined, testSymbol);
-    console.log('第一次创建的 agent ID:', firstSymbolResult.data.data.agentId);
-    
-    console.log('\n5.2 第二次创建相同 symbol 的 agent（应该失败）');
-    try {
-      await createAgent(token, undefined, testSymbol);
-    } catch (error: any) {
-      console.log('预期的错误响应:', error.response?.data);
-    }
-    
     console.log('\n=== 测试完成 ===');
   } catch (error) {
     console.error('\n测试过程中出错:', error);

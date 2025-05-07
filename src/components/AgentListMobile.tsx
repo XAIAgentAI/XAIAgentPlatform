@@ -209,6 +209,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         <div className="flex-1 divide-y divide-[#E5E5E5] dark:divide-white/10">
           {sortedAgents.map((agent) => {
             const socialLinks = parseSocialLinks(agent.socialLinks);
+            
             return (
               <div
                 key={agent.id}

@@ -5,7 +5,7 @@ export enum AgentStatus {
   IAO_ONGOING = 'IAO_ONGOING',
   IAO_COMING_SOON = 'IAO_COMING_SOON',
   TBA = 'TBA',
-  PENDING = 'PENDING',
+  CREATING = 'CREATING',
   ACTIVE = 'ACTIVE',
   FAILED = 'FAILED',
 }
@@ -15,7 +15,7 @@ export const STATUS_VARIANT_MAP: Record<AgentStatus, BadgeVariant> = {
   [AgentStatus.IAO_ONGOING]: 'lightSuccess', // 浅绿色
   [AgentStatus.IAO_COMING_SOON]: 'warning',   // 橙色
   [AgentStatus.TBA]: 'coffee',               // 咖啡色
-  [AgentStatus.PENDING]: 'default',          // 默认
+  [AgentStatus.CREATING]: 'lightSuccess',          // 浅绿色
   [AgentStatus.ACTIVE]: 'success',          // 深绿色
   [AgentStatus.FAILED]: 'error',            // 红色
 }
