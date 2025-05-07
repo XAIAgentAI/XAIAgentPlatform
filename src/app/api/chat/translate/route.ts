@@ -59,12 +59,11 @@ AI代理描述: ${description}`;
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    model: "Llama-4-Scout-Instruct",
+                    model: "Qwen3-235B-A22B-FP8",
                     messages: [{ role: "user", content: prompt }],
                     project: "DecentralGPT",
                     stream: false
                 }),
-                timeout: 10000 // Adding a timeout is recommended if your fetch implementation supports it
             });
 
             if (response.ok) {

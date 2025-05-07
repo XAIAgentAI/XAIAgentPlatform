@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1秒
 

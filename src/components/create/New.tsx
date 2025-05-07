@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
+import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
     const router = useRouter();
     const locale = useLocale();
     const t = useTranslations("createAgent");
     const [creating, setCreating] = useState(false);
+    const [creationProgress, setCreationProgress] = useState(0);
+    const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
     const [success, setSuccess] = useState(false);
     const [data, setData] = useState<{
         id: string;
@@ -36,10 +40,53 @@ const New: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
+    // Effect for smooth progress animation
+    useEffect(() => {
+        if (!creating) return;
+
+        const interval = setInterval(() => {
+            setDisplayProgress(prev => {
+                if (prev >= creationProgress) {
+                    clearInterval(interval);
+                    return prev;
+                }
+                return prev + 1;
+            });
+        }, 30); // Adjust speed of progress animation here
+
+        return () => clearInterval(interval);
+    }, [creating, creationProgress]);
+
+    // Effect to handle success state when progress reaches 100%
+    useEffect(() => {
+        if (displayProgress === 100 && creationProgress === 100) {
+            setTimeout(() => {
+                setSuccess(true);
+            }, 500); // Small delay for smooth transition
+        }
+    }, [displayProgress, creationProgress]);
+
+    const getRealToken = async () => {
+        // 认证流程
+        const nonceData = await authAPI.getNonce();
+        setCreationProgress(20);
+        const authData = await authAPI.generateSignature(nonceData.message);
+        setCreationProgress(40);
+        const token = await authAPI.getToken(authData);
+        setCreationProgress(60);
+        return token;
+    }
+
     const handleCreate = async () => {
         setCreating(true);
+        setCreationProgress(0);
+        setDisplayProgress(0);
         try {
-            // First call translate API to get useCases
+            setData({id:"1",name:formData.name,description:formData.description,useCases:{zh:[],en:[],ko:[],ja:[]}})
+            // First get the authentication token
+            const token = await getRealToken();
+    
+            // Then call translate API to get useCases
             const translateResponse = await fetch('/api/chat/translate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -53,28 +100,108 @@ const New: React.FC = () => {
             }
     
             const useCases = await translateResponse.json();
+            setData(prevData => {
+                if (prevData) {
+                    return {
+                        ...prevData,
+                        id: token,
+                        useCases: {
+                            zh: useCases.zh || prevData.useCases.zh,
+                            ja: useCases.ja || prevData.useCases.ja,
+                            ko: useCases.ko || prevData.useCases.ko,
+                            en: useCases.en || prevData.useCases.en
+                        }
+                    };
+                }
+                return null;
+            });
+            setCreationProgress(80);
+            
+            // Prepare the agent data with all required fields and defaults
+            const agentData = {
+                name: formData.name,
+                description: formData.description,
+                category: 'AI',
+                capabilities: ['chat', 'information'],
+                tokenAmount: '1000000000000000000',
+                startTimestamp: Math.floor(Date.now() / 1000) + 3600 * 7, // 7 hours from now
+                durationHours: 24*7, // 1 week
+                rewardAmount: '2000000000000000000000000000',
+                rewardToken: '0xabcdef123',
+                symbol: formData.name.substring(0, 3).toUpperCase() || 'AGT',
+                avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
+                type: 'AI Agent',
+                marketCap: '$0',
+                change24h: '0',
+                tvl: '$0',
+                holdersCount: 0,
+                volume24h: '$0',
+                statusJA: 'トランザクション可能',
+                statusKO: '거래 가능',
+                statusZH: '可交易',
+                descriptionJA: formData.description || 'AIエージェントの説明',
+                descriptionKO: formData.description || 'AI 에이전트 설명',
+                descriptionZH: formData.description || 'AI智能体描述',
+                detailDescription: formData.description || 'Detailed description of the AI agent',
+                lifetime: '',
+                totalSupply: 100000000000,
+                marketCapTokenNumber: 100000000000,
+                useCases: useCases.en || [
+                    'Help me create an AI Agent',
+                    'What functions do you have?',
+                    'What types of AI Agents can you create?'
+                ],
+                useCasesJA: useCases.ja || [
+                    'AIエージェントの作成を手伝ってください',
+                    'どんな機能がありますか？',
+                    'どのようなタイプのAIエージェントを作成できますか？'
+                ],
+                useCasesKO: useCases.ko || [
+                    'AI 에이전트 만들기를 도와주세요',
+                    '어떤 기능이 있나요?',
+                    '어떤 유형의 AI 에이전트를 만들 수 있나요?'
+                ],
+                useCasesZH: useCases.zh || [
+                    '帮我创建一个 AI 智能体',
+                    '你有哪些功能？',
+                    '你可以创建哪些类型的 AI 智能体？'
+                ],
+                socialLinks: 'https://x.com/test, https://github.com/test, https://t.me/test',
+                chatEntry: null,
+                projectDescription: JSON.stringify({
+                    en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. 14-day IAO period\n4. Trading pairs will be established on DBCSwap`,
+                    zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 14天 IAO 期间\n4. 将在 DBCSwap 上建立交易对`,
+                    ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. 14日間の IAO 期間\n4. DBCSwap に取引ペアを設立`,
+                    ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 14일간의 IAO 기간\n4. DBCSwap에 거래쌍 설립`
+                }),
+                iaoTokenAmount: 20000000000,
+                miningRate: formData.miningRate || '0.1%'
+            };
     
-            // Then call create API with all data including useCases
-            const createResponse = await fetch('/api/agents/new', {
+            // Call create agent API with authentication
+            const createResponse = await fetch(`${API_BASE_URL}/api/agents/new`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    imageUrl,
-                    useCases
-                })
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(agentData)
             });
     
+            if (!createResponse.ok) {
+                throw new Error('Failed to create agent');
+            }
+    
             const result = await createResponse.json();
-            if (result.success) {
-                setData(result.data);
-                setSuccess(true);
+            console.log(result);
+            if (result.code===200) {
+                setCreationProgress(100);
             }
         } catch (error) {
             console.error('Creation failed:', error);
-            // You might want to add error handling UI here
-        } finally {
             setCreating(false);
+            setCreationProgress(0);
+            setDisplayProgress(0);
         }
     };
     
@@ -112,36 +239,41 @@ const New: React.FC = () => {
         setImageUrl(null);
     };
 
-    const CreationAnimation = () => (
-        <div className="flex flex-col items-center justify-center space-y-4">
-            <svg width="120" height="120" viewBox="0 0 120 120" className="animate-pulse">
-                <circle cx="60" cy="60" r="50" stroke="#E5E7EB" strokeWidth="8" fill="none" />
-                <circle cx="60" cy="60" r="50" stroke="#3B82F6" strokeWidth="8" fill="none"
-                    strokeLinecap="round" strokeDasharray="314" strokeDashoffset="314"
-                    className="origin-center -rotate-90 transition-all duration-1000">
-                    <animate attributeName="stroke-dashoffset" values="314;0" dur="2s" repeatCount="indefinite" />
-                </circle>
-                <g className="origin-center animate-spin" style={{ animationDuration: '4s' }}>
-                    <path d="M40,60 A20,20 0 0,1 80,60" stroke="#10B981" strokeWidth="4" fill="none" />
-                    <path d="M80,60 A20,20 0 0,1 40,60" stroke="#F59E0B" strokeWidth="4" fill="none" />
-                </g>
-                <circle cx="60" cy="60" r="6" fill="#3B82F6" />
-                <circle cx="30" cy="40" r="3" fill="#10B981">
-                    <animate attributeName="cy" values="40;45;40" dur="1.5s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="90" cy="80" r="3" fill="#F59E0B">
-                    <animate attributeName="cx" values="90;85;90" dur="1.8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="70" cy="30" r="2" fill="#3B82F6">
-                    <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite" />
-                </circle>
-            </svg>
-            <p className="text-lg font-medium text-gray-600 dark:text-gray-300">{formData.name}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-md">
-                {t("creationProcessMessage")}
-            </p>
-        </div>
-    );
+    const CreationAnimation = () => {
+        const circumference = 2 * Math.PI * 50;
+        const strokeDashoffset = circumference - (displayProgress / 100) * circumference;
+
+        return (
+            <div className="flex flex-col items-center justify-center space-y-4">
+                <svg width="120" height="120" viewBox="0 0 120 120" className="animate-pulse">
+                    <circle cx="60" cy="60" r="50" stroke="#E5E7EB" strokeWidth="8" fill="none" />
+                    <circle cx="60" cy="60" r="50" stroke="#3B82F6" strokeWidth="8" fill="none"
+                        strokeLinecap="round" strokeDasharray={circumference} 
+                        strokeDashoffset={strokeDashoffset}
+                        className="origin-center -rotate-90 transition-all duration-300" />
+                    <g className="origin-center animate-spin" style={{ animationDuration: '4s' }}>
+                        <path d="M40,60 A20,20 0 0,1 80,60" stroke="#10B981" strokeWidth="4" fill="none" />
+                        <path d="M80,60 A20,20 0 0,1 40,60" stroke="#F59E0B" strokeWidth="4" fill="none" />
+                    </g>
+                    <circle cx="60" cy="60" r="6" fill="#3B82F6" />
+                    <circle cx="30" cy="40" r="3" fill="#10B981">
+                        <animate attributeName="cy" values="40;45;40" dur="1.5s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="90" cy="80" r="3" fill="#F59E0B">
+                        <animate attributeName="cx" values="90;85;90" dur="1.8s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="70" cy="30" r="2" fill="#3B82F6">
+                        <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                </svg>
+                <p className="text-lg font-medium text-gray-600 dark:text-gray-300">{formData.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-md">
+                    {t("creationProcessMessage")}
+                </p>
+                <p className="text-sm font-medium text-primary">{displayProgress}%</p>
+            </div>
+        );
+    };
 
     const SuccessDisplay = () => {
         if (!data) return null;
@@ -157,7 +289,7 @@ const New: React.FC = () => {
                     </div>
                     <h2 className="text-2xl font-bold mt-6 text-center">{t("createSuccess")}</h2>
                     <p className="text-gray-600 dark:text-gray-300 mt-2 text-center">
-                        {t("created")} <span className="font-mono text-primary">{data.id}</span>
+                        {t("created")} <span className="font-mono text-primary">{data.id.substring(0,10)}</span>
                     </p>
                 </div>
 
@@ -228,6 +360,17 @@ const New: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                <div className="flex justify-center">
+                    <button
+                        onClick={() => {
+                            window.location.href=`/${locale}`
+                        }}
+                        className="mt-6 opacity-90 hover:opacity-100 bg-primary text-white font-medium py-3 px-6 rounded-lg transition-all"
+                    >
+                        {t("viewProject")}
+                    </button>
+                </div>
             </div>
         );
     };
@@ -235,7 +378,7 @@ const New: React.FC = () => {
     return (
         <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
             <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
-                {creating ? (
+                {creating && !success ? (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
                         <CreationAnimation />
                     </div>
