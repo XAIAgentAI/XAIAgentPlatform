@@ -7,6 +7,52 @@ import { fetchDBCTokens } from '@/services/dbcScan';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
+// 定义排序字段接口
+interface AgentWithSortData {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  avatar: string | null;
+  status: string;
+  capabilities: any;
+  rating: number;
+  usageCount: number;
+  creatorAddress: string;
+  reviewCount: number;
+  createdAt: Date;
+  symbol: string | null;
+  totalSupply: number | null;
+  tvl: string | null;
+  holdersCount: number | null;
+  volume24h: string | null;
+  marketCap: string | null;
+  marketCapTokenNumber: number | null;
+  change24h: string | number | null;
+  type: string | null;
+  socialLinks: string | null;
+  tokenAddress: string | null;
+  iaoContractAddress: string | null;
+  iaoTokenAmount: number | null;
+  price: string | undefined;
+  priceChange24h: number | undefined;
+  lp: number | undefined;
+  _usdPrice: number;
+  _volume24h: number;
+  _tvl: number;
+  _marketCap: number;
+  _lp: number;
+  _priceChange24h: number;
+  [key: string]: any; // 添加索引签名
+}
+
+// 在文件顶部添加一个用于跟踪最后更新时间的变量
+let lastPriceUpdateTime: Record<string, number> = {};
+// 价格数据缓存
+let tokenPriceCache: Record<string, any> = {};
+// 缓存有效期，单位：秒
+const PRICE_CACHE_TTL = process.env.PRICE_CACHE_TTL ? parseInt(process.env.PRICE_CACHE_TTL) : 10; // 默认10秒
+
 // 获取 Agent 列表
 export async function GET(request: Request) {
   try {
@@ -16,6 +62,28 @@ export async function GET(request: Request) {
     const searchKeyword = searchParams.get('searchKeyword') || '';
     const category = searchParams.get('category');
     const status = searchParams.get('status');
+    
+    /**
+     * 排序参数支持以下字段:
+     * - createdAt: 创建时间（默认）
+     * - usdPrice: 代币价格
+     * - marketCap: 市值
+     * - volume24h: 24小时交易量
+     * - tvl: 总锁仓价值
+     * - lp: 流动性池
+     * - priceChange24h: 24小时价格变化
+     * - rating: 评分
+     * - usageCount: 使用次数
+     * 
+     * 复合排序字段:
+     * - hot: 热门排序 (综合市值、交易量和使用次数)
+     * - trending: 热度排序 (基于价格变化和交易量)
+     */
+    const sortBy = searchParams.get('sortBy') || 'createdAt';
+    const sortOrder = searchParams.get('sortOrder') || 'desc';
+    
+    // 是否强制刷新价格数据，忽略缓存
+    const forceRefresh = searchParams.get('forceRefresh') === 'true';
 
     // 构建查询条件
     const where = {
@@ -33,6 +101,21 @@ export async function GET(request: Request) {
         status ? { status } : {},
       ],
     };
+
+    // 构建排序条件
+    let orderBy: any = {};
+    
+    // 处理特殊排序方式
+    const specialSortFields = ['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h', 'hot', 'trending'];
+    
+    // 根据价格等字段排序时使用不同的查询策略
+    if (specialSortFields.includes(sortBy)) {
+      // 默认使用创建时间排序，后续通过程序处理排序
+      orderBy = { createdAt: 'desc' };
+    } else {
+      // 对于标准字段，直接使用数据库排序
+      orderBy = { [sortBy]: sortOrder };
+    }
 
     // 查询总数
     const total = await prisma.agent.count({ where });
@@ -53,10 +136,15 @@ export async function GET(request: Request) {
             reviews: true,
           },
         },
+        // 总是加载最新的价格数据用于缓存比较
+        prices: {
+          orderBy: {
+            timestamp: 'desc',
+          },
+          take: 1,
+        }
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy,
     });
 
     // 组装token信息
@@ -67,18 +155,97 @@ export async function GET(request: Request) {
         symbol: item.symbol || '',
       }));
 
+    // 获取当前时间戳(秒)
+    const now = Math.floor(Date.now() / 1000);
+    
+    // 决定是否需要调用API获取最新价格
+    let needFetchPrices = forceRefresh || tokenInfos.some(info => {
+      const cacheKey = `${info.symbol}-${info.address}`;
+      const lastUpdate = tokenPriceCache[cacheKey]?.timestamp || 0;
+      return now - lastUpdate > PRICE_CACHE_TTL;
+    });
+
     // 并行获取价格和持有者数据
     const [tokenPrices, dbcTokens] = await Promise.all([
-      getBatchTokenPrices(tokenInfos),
+      // 条件性地获取价格数据
+      needFetchPrices ? getBatchTokenPrices(tokenInfos).then(prices => {
+        // 更新缓存
+        Object.entries(prices).forEach(([symbol, data]) => {
+          const tokenInfo = tokenInfos.find(info => info.symbol === symbol);
+          if (tokenInfo) {
+            const cacheKey = `${symbol}-${tokenInfo.address}`;
+            tokenPriceCache[cacheKey] = {
+              ...data,
+              timestamp: now
+            };
+          }
+        });
+        return prices;
+      }) : Promise.resolve({} as Record<string, any>),
       fetchDBCTokens()
     ]);
 
     // 处理返回数据
-    const formattedItems = items
+    let formattedItems: AgentWithSortData[] = items
       .map(item => {
-        const priceInfo = item.symbol ? tokenPrices[item.symbol] : undefined;
         const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress;
         const tokenInfo = dbcTokens.find(token => token.address === tokenAddress);
+        let priceInfo;
+        
+        // 如果有symbol，检查是否需要更新价格
+        if (item.symbol) {
+          const cacheKey = `${item.symbol}-${tokenAddress}`;
+          
+          // 优先使用API获取的最新价格数据（如果有）
+          if (needFetchPrices && tokenPrices[item.symbol]) {
+            priceInfo = tokenPrices[item.symbol];
+            // 更新最后更新时间
+            lastPriceUpdateTime[item.id] = now;
+            
+            // 保存到数据库，但不等待结果，避免影响响应时间
+            if (priceInfo?.usdPrice) {
+              prisma.agentPrice.create({
+                data: {
+                  agentId: item.id,
+                  price: priceInfo.usdPrice,
+                }
+              }).catch(err => console.error(`保存价格数据失败 (${item.id}):`, err));
+              
+              // 同时更新Agent表中的字段
+              prisma.agent.update({
+                where: { id: item.id },
+                data: {
+                  volume24h: priceInfo.volume24h ? `$${priceInfo.volume24h}` : item.volume24h,
+                  tvl: priceInfo.tvl ? `$${priceInfo.tvl}` : item.tvl,
+                  change24h: priceInfo.priceChange24h !== undefined ? `${priceInfo.priceChange24h.toFixed(2)}` : item.change24h,
+                  marketCap: priceInfo.usdPrice && item.totalSupply ? `$${(priceInfo.usdPrice * Number(item.totalSupply)).toFixed(2)}` : item.marketCap
+                }
+              }).catch(err => console.error(`更新Agent价格字段失败 (${item.id}):`, err));
+            }
+          } 
+          // 其次使用缓存数据
+          else if (tokenPriceCache[cacheKey]) {
+            priceInfo = tokenPriceCache[cacheKey];
+          } 
+          // 最后使用数据库中最近的价格数据
+          else {
+            const recentPrice = item.prices?.[0];
+            if (recentPrice) {
+              // 构造与API返回相似的价格信息对象
+              priceInfo = {
+                usdPrice: recentPrice.price,
+                // 尝试从Agent表已有字段解析历史数据
+                tvl: parseFloat(item.tvl?.replace(/[$,]/g, '') || '0'),
+                volume24h: parseFloat(item.volume24h?.replace(/[$,]/g, '') || '0'),
+                priceChange24h: typeof item.change24h === 'string' ? 
+                  parseFloat(item.change24h.replace(/[%,]/g, '')) : 
+                  (typeof item.change24h === 'number' ? item.change24h : 0),
+                lp: 0 // 默认值
+              };
+            }
+          }
+        }
+        
         return {
           id: item.id,
           name: item.name,
@@ -108,15 +275,59 @@ export async function GET(request: Request) {
           price: priceInfo?.usdPrice ? `$${priceInfo.usdPrice}` : undefined,
           priceChange24h: priceInfo?.priceChange24h,
           lp: priceInfo?.lp,
+          // 保存原始数值用于排序
+          _usdPrice: priceInfo?.usdPrice || 0,
+          _volume24h: priceInfo?.volume24h || 0,
+          _tvl: priceInfo?.tvl || 0,
+          _marketCap: priceInfo?.usdPrice && item.totalSupply ? priceInfo.usdPrice * Number(item.totalSupply) : 0,
+          _lp: priceInfo?.lp || 0,
+          _priceChange24h: priceInfo?.priceChange24h || 0,
         };
-      })
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      });
+
+    // 如果需要按价格相关字段排序，在内存中进行排序
+    if (['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h'].includes(sortBy)) {
+      const sortField = `_${sortBy}`;
+      formattedItems = formattedItems.sort((a, b) => {
+        if (sortOrder === 'desc') {
+          return (b[sortField] || 0) - (a[sortField] || 0);
+        } else {
+          return (a[sortField] || 0) - (b[sortField] || 0);
+        }
+      });
+    } 
+    // 支持更复杂的排序组合
+    else if (sortBy === 'hot') {
+      // "热门"排序：结合市值、交易量和使用次数
+      formattedItems = formattedItems.sort((a, b) => {
+        const scoreA = (a._marketCap || 0) * 0.5 + (a._volume24h || 0) * 0.3 + (a.usageCount || 0) * 0.2;
+        const scoreB = (b._marketCap || 0) * 0.5 + (b._volume24h || 0) * 0.3 + (b.usageCount || 0) * 0.2;
+        return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
+      });
+    } 
+    else if (sortBy === 'trending') {
+      // "趋势"排序：主要看价格变化和交易量
+      formattedItems = formattedItems.sort((a, b) => {
+        // 价格变化的绝对值乘以交易量
+        const scoreA = Math.abs(a._priceChange24h || 0) * (a._volume24h || 1);
+        const scoreB = Math.abs(b._priceChange24h || 0) * (b._volume24h || 1);
+        return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
+      });
+    }
+
+    // 清理超时的缓存项
+    Object.keys(tokenPriceCache).forEach(key => {
+      if (now - tokenPriceCache[key].timestamp > PRICE_CACHE_TTL * 2) {
+        delete tokenPriceCache[key];
+      }
+    });
 
     return createSuccessResponse({
       items: formattedItems,
       total,
       page,
       pageSize,
+      priceDataFreshness: needFetchPrices ? 'fresh' : 'cached',
     });
   } catch (error) {
     return handleError(error);

@@ -49,12 +49,20 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const { toast } = useToast();
 
   const handleSort = (field: SortField) => {
+    let newSortDirection = sortDirection;
+    
     if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     } else {
-      setSortField(field)
-      setSortDirection("desc")
+      newSortDirection = "desc";
     }
+    
+    setSortField(field);
+    setSortDirection(newSortDirection);
+
+    console.log('handleSort', field, newSortDirection);
+    
+    router.push(`?sortBy=${field}&sortOrder=${newSortDirection}`);
   }
 
   const sortedAgents = [...agents]
@@ -104,7 +112,15 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">
         <span className="text-muted-color text-xs">{t('sortBy')}</span>
-        <Tabs defaultValue="marketCap" className="w-auto">
+        <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+          if (value === "marketCap") {
+            setSortField("marketCap");
+            router.push(`?sortBy=marketCap&sortOrder=desc`);
+          } else if (value === "latest") {
+            setSortField(null);
+            router.push(`?sortBy=createdAt&sortOrder=desc`);
+          }
+        }}>
           <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
             <TabsTrigger
               value="marketCap"

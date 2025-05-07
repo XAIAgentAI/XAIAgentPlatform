@@ -91,7 +91,14 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         <div className="flex flex-col p-4 gap-4">
           <div className="flex items-center justify-between w-full">
             <span className="text-muted-color text-xs">{t('sortBy')}</span>
-            <Tabs defaultValue="marketCap" className="w-auto">
+            <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+              console.log('Mobile sortBy change:', value);
+              if (value === "marketCap") {
+                router.push(`?sortBy=marketCap&sortOrder=desc`);
+              } else if (value === "latest") {
+                router.push(`?sortBy=createdAt&sortOrder=desc`);
+              }
+            }}>
               <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
                 <TabsTrigger
                   value="marketCap"

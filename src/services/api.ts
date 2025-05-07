@@ -24,6 +24,9 @@ interface GetAgentsParams {
   searchKeyword?: string;
   category?: string;
   status?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+  forceRefresh?: boolean;
 }
 
 interface GetAgentsData {
@@ -36,7 +39,16 @@ interface GetAgentsData {
 export const agentAPI = {
   // 获取所有 agents
   getAllAgents: async (params: GetAgentsParams = {}): Promise<ApiResponse<GetAgentsData>> => {
-    const { page = 1, pageSize = 20, searchKeyword, category, status } = params;
+    const { 
+      page = 1, 
+      pageSize = 20, 
+      searchKeyword, 
+      category, 
+      status,
+      sortBy,
+      sortOrder = 'desc',
+      forceRefresh
+    } = params;
 
     console.log('getAllAgents params', params);
 
@@ -46,11 +58,22 @@ export const agentAPI = {
       ...(searchKeyword && { searchKeyword }),
       ...(category && { category }),
       ...(status && { status }),
+      ...(sortBy && { sortBy }),
+      ...(sortOrder && { sortOrder }),
+      ...(forceRefresh && { forceRefresh: 'true' }),
     });
 
     const response = await api.get(`/agents?${queryParams}`);
     return response.data;
   },
+  
+//   // 通过ID获取单个agent
+//   getAgentById: async (id: string): Promise<ApiResponse<LocalAgent>> => {
+//     const response = await api.get(`/agents/${id}`);
+//     return response.data;
+//   },
+// };
+
 
   // 获取单个 agent
   getAgentById: async (id: string): Promise<LocalAgent> => {
@@ -90,5 +113,3 @@ export const agentAPI = {
     return response.data;
   },
 };
-
-export default api; 
