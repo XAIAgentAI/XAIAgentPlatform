@@ -312,13 +312,15 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
-                            ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                              maximumFractionDigits: 0
-                            })
-                            : '$0'}
+                          {
+                            agent.lp !== undefined && !isNaN(Number(agent.lp))
+                              ? Number(agent.lp).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 0
+                                })
+                              : '$0'
+                          }
                         </div>
                       </TableCell>
                       <TableCell>

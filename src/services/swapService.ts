@@ -1,4 +1,4 @@
-import { fetchDBCPrice } from '@/hooks/useDBCPrice';
+import { fetchDBCPrice } from '@/services/dbcPrice';
 import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
@@ -717,7 +717,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
 
     // 计算XAA的USD价格
     const xaaUsdPrice = xaaDbcRate * dbcPriceUsd;
-    console.log("XAA USD Price:", xaaUsdPrice);
 
     const priceMap: { [symbol: string]: TokenPriceInfo } = {};
 
@@ -862,7 +861,6 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
         };
       }
     });
-
 
 
     return priceMap;

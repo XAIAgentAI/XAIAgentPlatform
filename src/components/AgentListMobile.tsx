@@ -277,8 +277,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('lp')}</span>
                     <p className="text-secondary-color text-sm font-medium">
-                      {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
-                        ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                      {agent.lp !== undefined && !isNaN(Number(agent.lp))
+                        ? Number(agent.lp).toLocaleString('en-US', {
                           style: 'currency',
                           currency: 'USD',
                           maximumFractionDigits: 0

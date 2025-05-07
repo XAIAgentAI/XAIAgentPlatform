@@ -1,36 +1,8 @@
 import { useState, useEffect } from 'react';
-import { API_CONFIG } from '@/config/api';
-
-export interface DBCToken {
-  symbol: string;
-  holders: string;
-  address: string;
-  name: string;
-  poolSize: string;
-  totalSupply: string;
-}
-
-interface DBCTokenResponse {
-  items: DBCToken[];
-}
-
-// 封装请求方法
-export const fetchDBCTokens = async (): Promise<DBCToken[]> => {
-  try {
-    const response = await fetch(`${API_CONFIG.DBCSCAN.BASE_URL}${API_CONFIG.DBCSCAN.ENDPOINTS.TOKENS}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch tokens');
-    }
-    const data: DBCTokenResponse = await response.json();
-    return data.items;
-  } catch (err) {
-    console.error('Error fetching DBC tokens:', err);
-    throw err;
-  }
-};
+import { fetchDBCTokens, DBCToken } from '@/services/dbcScan';
 
 export const useDBCScan = () => {
-  const [tokens, setTokens] = useState<any[]>([]);
+  const [tokens, setTokens] = useState<DBCToken[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,9 +12,8 @@ export const useDBCScan = () => {
       setError(null);
       
       try {
-        const response = await fetch(`${API_CONFIG.DBCSCAN.BASE_URL}${API_CONFIG.DBCSCAN.ENDPOINTS.TOKENS}`);
-        const data = await response.json();
-        setTokens(data);
+        const items = await fetchDBCTokens();
+        setTokens(items);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {

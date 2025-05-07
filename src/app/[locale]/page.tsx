@@ -17,24 +17,10 @@ export default function Home() {
     try {
       setLoading(true)
       // 并行获取 agents 和 tokens 数据
-      const [response, tokens] = await Promise.all([
-        agentAPI.getAllAgents({ pageSize: 30 }),
-        fetchDBCTokens()
-      ]);
+      const response = await agentAPI.getAllAgents({ pageSize: 30 });
 
       if (response.code === 200 && response.data?.items) {
-        // 转换数据
-        let agents = response.data.items.map(transformToLocalAgent);
-
-        // 更新价格信息
-        agents = await updateAgentsWithPrices(agents);
-
-        // 更新代币持有者信息
-        if (tokens.length > 0) {
-          agents = updateAgentsWithTokens(agents, tokens);
-        }
-
-        setAgents(agents);
+        setAgents(response.data.items);
       }
     } catch (error) {
       console.error('Failed to fetch agents:', error);

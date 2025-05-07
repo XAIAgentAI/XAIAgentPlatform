@@ -312,12 +312,12 @@ export const find24hAgoPrice = (params: {
       result.timestamp = swapTimestamp;
       result.timeDiff = timeDiff;
 
-      console.log('价格计算结果:', {
-        使用数据类型: result.isWithin24h ? '24小时内最早数据' : '24小时前数据',
-        交易时间: new Date(swapTimestamp * 1000).toISOString(),
-        计算价格: price,
-        时间差: timeDiff
-      });
+      // console.log('价格计算结果:', {
+      //   使用数据类型: result.isWithin24h ? '24小时内最早数据' : '24小时前数据',
+      //   交易时间: new Date(swapTimestamp * 1000).toISOString(),
+      //   计算价格: price,
+      //   时间差: timeDiff
+      // });
     } else {
       console.log('交易金额为0:', { amount0, amount1 });
     }
