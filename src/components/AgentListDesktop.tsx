@@ -228,8 +228,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
             {loading ? (
               <TableBody>
                 <tr>
-                  <td colSpan={7}>
-                    <div className="flex items-center justify-center min-h-[400px]">
+                  <td colSpan={9}>
+                    <div className="flex items-center justify-center min-h-[400px] w-full">
                       <Loading />
                     </div>
                   </td>

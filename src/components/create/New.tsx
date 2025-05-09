@@ -37,6 +37,8 @@ const New: React.FC = () => {
         userThird: '',
         agentThird: ''
     });
+    const [showTimeOptions, setShowTimeOptions] = useState(false);
+    const [iaoStartTime, setIaoStartTime] = useState('7_hours'); // Default option
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -67,6 +69,10 @@ const New: React.FC = () => {
     }, [displayProgress, creationProgress]);
 
     const getRealToken = async () => {
+        // 检查是否有token
+        if(localStorage.getItem("token")){
+            return localStorage.getItem("token");
+        }
         // 认证流程
         const nonceData = await authAPI.getNonce();
         setCreationProgress(20);
@@ -124,7 +130,7 @@ const New: React.FC = () => {
                 category: 'AI',
                 capabilities: ['chat', 'information'],
                 tokenAmount: '1000000000000000000',
-                startTimestamp: Math.floor(Date.now() / 1000) + 3600 * 7, // 7 hours from now
+                startTimestamp: getStartTimestamp(), // 7 hours from now
                 durationHours: 24*7, // 1 week
                 rewardAmount: '2000000000000000000000000000',
                 rewardToken: '0xabcdef123',
@@ -175,7 +181,7 @@ const New: React.FC = () => {
                     ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 14일간의 IAO 기간\n4. DBCSwap에 거래쌍 설립`
                 }),
                 iaoTokenAmount: 20000000000,
-                miningRate: formData.miningRate || '0.1%'
+                miningRate: '0.1%'
             };
     
             // Call create agent API with authentication
@@ -237,6 +243,34 @@ const New: React.FC = () => {
 
     const removeImage = () => {
         setImageUrl(null);
+    };
+
+    const TIME_OPTIONS = [
+        { value: '1_hour', label: '1 hour from now' },
+        { value: '3_hours', label: '3 hours from now' },
+        { value: '7_hours', label: '7 hours from now (default)' },
+        { value: '24_hours', label: '24 hours from now' },
+        { value: '3_days', label: '3 days from now' },
+        { value: '7_days', label: '7 days from now' }
+    ];
+
+    // Add this helper function to calculate timestamp
+    const getStartTimestamp = () => {
+        const now = Math.floor(Date.now() / 1000);
+        switch (iaoStartTime) {
+        case '1_hour': return now + 3600 * 1;
+        case '3_hours': return now + 3600 * 3;
+        case '7_hours': return now + 3600 * 7;
+        case '24_hours': return now + 3600 * 24;
+        case '3_days': return now + 3600 * 24 * 3;
+        case '7_days': return now + 3600 * 24 * 7;
+        default: return now + 3600 * 7; // default to 7 hours
+        }
+    };
+
+    const handleTimeSelect = (value: string) => {
+        setIaoStartTime(value);
+        setShowTimeOptions(false);
     };
 
     const CreationAnimation = () => {
@@ -442,6 +476,41 @@ const New: React.FC = () => {
                                         onChange={handleChange}
                                         className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     />
+                                </div>
+
+                                {/* Add this new section for IAO start time */}
+                                <div className="mt-2 relative">
+                                <label className="block mb-1">IAO Start Time</label>
+                                <div 
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 cursor-pointer"
+                                    onClick={() => setShowTimeOptions(!showTimeOptions)}
+                                >
+                                    {TIME_OPTIONS.find(opt => opt.value === iaoStartTime)?.label || 'Select start time'}
+                                    <svg 
+                                    className={`w-5 h-5 float-right transition-transform ${showTimeOptions ? 'rotate-180' : ''}`} 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                    >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                
+                                {showTimeOptions && (
+                                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#1a1a1a] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+                                    {TIME_OPTIONS.map((option) => (
+                                        <div
+                                        key={option.value}
+                                        className={`p-3 hover:bg-gray-100 dark:hover:bg-primary cursor-pointer ${
+                                            iaoStartTime === option.value ? 'bg-gray-100 dark:bg-primary' : ''
+                                        }`}
+                                        onClick={() => handleTimeSelect(option.value)}
+                                        >
+                                        {option.label}
+                                        </div>
+                                    ))}
+                                    </div>
+                                )}
                                 </div>
                             </div>
 
