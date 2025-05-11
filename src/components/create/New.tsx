@@ -38,7 +38,7 @@ const New: React.FC = () => {
         agentThird: ''
     });
     const [showTimeOptions, setShowTimeOptions] = useState(false);
-    const [iaoStartTime, setIaoStartTime] = useState('7_hours'); // Default option
+    const [iaoStartTime, setIaoStartTime] = useState('3_days'); // Default option
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -248,9 +248,9 @@ const New: React.FC = () => {
     const TIME_OPTIONS = [
         { value: '1_hour', label: '1 hour from now' },
         { value: '3_hours', label: '3 hours from now' },
-        { value: '7_hours', label: '7 hours from now (default)' },
+        { value: '7_hours', label: '7 hours from now' },
         { value: '24_hours', label: '24 hours from now' },
-        { value: '3_days', label: '3 days from now' },
+        { value: '3_days', label: '3 days from now (default)' },
         { value: '7_days', label: '7 days from now' }
     ];
 
