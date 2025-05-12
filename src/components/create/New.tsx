@@ -148,7 +148,7 @@ const New: React.FC = () => {
                 durationHours: 24*7, // 1 week
                 rewardAmount: '2000000000000000000000000000',
                 rewardToken: '0xabcdef123',
-                symbol: formData.name.substring(0, 3).toUpperCase() || 'AGT',
+                symbol: formData.symbol || 'AGT',
                 avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
                 type: 'AI Agent',
                 marketCap: '$0',
