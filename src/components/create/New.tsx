@@ -7,6 +7,8 @@ import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/create
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
     const router = useRouter();
+    const [nameExists, setNameExists] = useState(false);
+    const [symbolExists, setSymbolExists] = useState(false);
     const locale = useLocale();
     const t = useTranslations("createAgent");
     const [creating, setCreating] = useState(false);
@@ -70,6 +72,28 @@ const New: React.FC = () => {
         }
     }, [displayProgress, creationProgress]);
 
+    const checkAgentExistence = async (name: string, symbol: string) => {
+        try {
+          const response = await fetch('/api/agents/repeat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, symbol }),
+          })
+      
+          if (!response.ok) {
+            throw new Error('Failed to check agent existence')
+          }
+      
+          const data = await response.json()
+          return data
+        } catch (error) {
+          console.error('Error checking agent existence:', error)
+          return { exists: false, nameExists: false, symbolExists: false }
+        }
+      }
+
     const getRealToken = async () => {
         // 检查是否有token
         if(localStorage.getItem("token")){
@@ -85,19 +109,42 @@ const New: React.FC = () => {
         return token;
     }
 
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        const validateValue = value.replace(/[^A-Za-z ]/g, '').slice(0,20);
+        setFormData(prev => ({ ...prev, name: validateValue }));
+      };
+      
     const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
-        // Only allow uppercase letters and limit to 5 characters
         const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
-        const validatedValue = uppercaseValue.slice(0, 5); // Max 5 characters
-        
-        setFormData(prev => ({ 
-            ...prev, 
-            symbol: validatedValue 
-        }));
+        const validatedValue = uppercaseValue.slice(0, 5);
+        setFormData(prev => ({ ...prev, symbol: validatedValue }));
     };
 
+    const checkExistence = async (name: string, symbol: string) => {
+        if (!name && !symbol) {
+          setNameExists(false)
+          setSymbolExists(false)
+          return
+        }
+      
+        const { nameExists: nameExist, symbolExists: symbolExist } = await checkAgentExistence(name, symbol)
+        setNameExists(nameExist)
+        setSymbolExists(symbolExist)
+    }
+
     const handleCreate = async () => {
+        // 先检查是否存在
+        const { exists, nameExists: nameExist, symbolExists: symbolExist } = 
+        await checkAgentExistence(formData.name, formData.symbol)
+
+        if (exists) {
+            setNameExists(nameExist)
+            setSymbolExists(symbolExist)
+            return
+        }
+        
         setCreating(true);
         setCreationProgress(0);
         setDisplayProgress(0);
@@ -325,7 +372,6 @@ const New: React.FC = () => {
     
     const SuccessDisplay = () => {
         if (!data) return null;
-        
         return (
             <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
                 <div className="flex flex-col items-center mb-8">
@@ -462,13 +508,16 @@ const New: React.FC = () => {
                                 <input
                                     name="name"
                                     value={formData.name}
-                                    onChange={handleChange}
+                                    onChange={handleNameChange}
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectNamePlaceholder")}
                                 />
+                                {nameExists && (
+                                    <div className="text-red-500 text-sm mt-1">{t("nameExists")}</div>
+                                )}
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-1">
                                 <label className="block mb-1">{t("createSymbol")}</label>
                                 <input
                                     name="symbol"
@@ -480,6 +529,9 @@ const New: React.FC = () => {
                                     maxLength={5}
                                     pattern="[A-Z]{3,5}"
                                 />
+                                {symbolExists && (
+                                    <div className="text-red-500 text-sm mt-1">{t("symbolExists")}</div>
+                                )}
                             </div>
 
                             <div>
@@ -500,7 +552,7 @@ const New: React.FC = () => {
                                         name="tokenSupply"
                                         value={formData.tokenSupply}
                                         onChange={handleChange}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
                                     />
                                 </div>
@@ -511,7 +563,7 @@ const New: React.FC = () => {
                                         name="iaoPercentage"
                                         value={formData.iaoPercentage}
                                         onChange={handleChange}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
                                     />
                                 </div>
@@ -522,43 +574,9 @@ const New: React.FC = () => {
                                         name="miningRate"
                                         value={formData.miningRate}
                                         onChange={handleChange}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        disabled
                                     />
-                                </div>
-
-                                {/* Add this new section for IAO start time */}
-                                <div className="mt-2 relative">
-                                <label className="block mb-1">{t("iaostarttime")}</label>
-                                <div 
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 cursor-pointer"
-                                    onClick={() => setShowTimeOptions(!showTimeOptions)}
-                                >
-                                    {TIME_OPTIONS.find(opt => opt.value === iaoStartTime)?.label || 'Select start time'}
-                                    <svg 
-                                    className={`w-5 h-5 float-right transition-transform ${showTimeOptions ? 'rotate-180' : ''}`} 
-                                    fill="none" 
-                                    stroke="currentColor" 
-                                    viewBox="0 0 24 24"
-                                    >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                                
-                                {showTimeOptions && (
-                                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#1a1a1a] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-                                    {TIME_OPTIONS.map((option) => (
-                                        <div
-                                        key={option.value}
-                                        className={`p-3 hover:bg-gray-100 dark:hover:bg-primary cursor-pointer ${
-                                            iaoStartTime === option.value ? 'bg-gray-100 dark:bg-primary' : ''
-                                        }`}
-                                        onClick={() => handleTimeSelect(option.value)}
-                                        >
-                                        {option.label}
-                                        </div>
-                                    ))}
-                                    </div>
-                                )}
                                 </div>
                             </div>
 
