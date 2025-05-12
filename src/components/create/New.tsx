@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
@@ -7,6 +7,7 @@ import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/create
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
     const router = useRouter();
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const [nameExists, setNameExists] = useState(false);
     const [symbolExists, setSymbolExists] = useState(false);
     const locale = useLocale();
@@ -87,6 +88,9 @@ const New: React.FC = () => {
           }
       
           const data = await response.json()
+          if(data.exists&&nameInputRef.current){
+            nameInputRef.current.scrollIntoView({behavior:"smooth",block:"center"})
+          }
           return data
         } catch (error) {
           console.error('Error checking agent existence:', error)
@@ -122,153 +126,182 @@ const New: React.FC = () => {
         setFormData(prev => ({ ...prev, symbol: validatedValue }));
     };
 
-    const checkExistence = async (name: string, symbol: string) => {
-        if (!name && !symbol) {
-          setNameExists(false)
-          setSymbolExists(false)
-          return
+    type AgentData = {
+        id: string;
+        name: string;
+        symbol: string;
+        description: string;
+        useCases: {
+          zh: string[];
+          ja: string[];
+          ko: string[];
+          en: string[];
+        };
+      };
+      
+      const handleCreate = async () => {
+        // 检查是否已存在
+        const { exists, nameExists: nameExist, symbolExists: symbolExist } = 
+          await checkAgentExistence(formData.name, formData.symbol);
+      
+        if (exists) {
+          setNameExists(nameExist);
+          setSymbolExists(symbolExist);
+          return;
         }
       
-        const { nameExists: nameExist, symbolExists: symbolExist } = await checkAgentExistence(name, symbol)
-        setNameExists(nameExist)
-        setSymbolExists(symbolExist)
-    }
-
-    const handleCreate = async () => {
-        // 先检查是否存在
-        const { exists, nameExists: nameExist, symbolExists: symbolExist } = 
-        await checkAgentExistence(formData.name, formData.symbol)
-
-        if (exists) {
-            setNameExists(nameExist)
-            setSymbolExists(symbolExist)
-            return
-        }
-        
         setCreating(true);
-        setCreationProgress(0);
-        setDisplayProgress(0);
         try {
-            setData({id:"1",name:formData.name,symbol:formData.symbol,description:formData.description,useCases:{zh:[],en:[],ko:[],ja:[]}})
-            // First get the authentication token
-            const token = await getRealToken();
-    
-            // Then call translate API to get useCases
+          // 重置状态
+          setNameExists(false);
+          setSymbolExists(false);
+          setCreationProgress(20);
+          setDisplayProgress(20);
+      
+          // 初始化数据
+          const initialData: AgentData = {
+            id: "1",
+            name: formData.name,
+            symbol: formData.symbol,
+            description: formData.description || "",
+            useCases: { zh: [], en: [], ko: [], ja: [] }
+          };
+          setData(initialData);
+      
+          // 获取token
+          const token = await getRealToken();
+          setCreationProgress(40);
+          setDisplayProgress(40);
+      
+          // 翻译用例
+          let useCases = {
+            en: [
+              "Help me brainstorm creative ideas for my project",
+              "Assist me in analyzing market trends for my business",
+              "Guide me through setting up a new productivity system"
+            ],
+            ja: [
+              "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+              "ビジネスのための市場動向を分析するのを支援してください",
+              "新しい生産性システムの設定を案内してください"
+            ],
+            ko: [
+              "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+              "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+              "새로운 생산성 시스템 설정을 안내해 주세요"
+            ],
+            zh: [
+              "帮我为项目进行创意头脑风暴",
+              "协助我分析业务的市场趋势",
+              "指导我建立新的效率系统"
+            ]
+          };
+      
+          try {
             const translateResponse = await fetch('/api/chat/translate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    description: formData.description
-                })
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                description: formData.description || "An Agent"
+              })
             });
-    
-            if (!translateResponse.ok) {
-                throw new Error('Failed to generate use cases');
-            }
-    
-            const useCases = await translateResponse.json();
-            setData(prevData => {
-                if (prevData) {
-                    return {
-                        ...prevData,
-                        id: token,
-                        useCases: {
-                            zh: useCases.zh || prevData.useCases.zh,
-                            ja: useCases.ja || prevData.useCases.ja,
-                            ko: useCases.ko || prevData.useCases.ko,
-                            en: useCases.en || prevData.useCases.en
-                        }
-                    };
-                }
-                return null;
-            });
-            setCreationProgress(80);
             
-            // Prepare the agent data with all required fields and defaults
-            const agentData = {
-                name: formData.name,
-                description: formData.description,
-                category: 'AI Agent',
-                capabilities: ['chat', 'information'],
-                tokenAmount: '1000000000000000000',
-                startTimestamp: getStartTimestamp(), // 7 hours from now
-                durationHours: 24*7, // 1 week
-                rewardAmount: '2000000000000000000000000000',
-                rewardToken: '0xabcdef123',
-                symbol: formData.symbol || 'AGT',
-                avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
-                type: 'AI Agent',
-                marketCap: '$0',
-                change24h: '0',
-                tvl: '$0',
-                holdersCount: 0,
-                volume24h: '$0',
-                statusJA: 'トランザクション可能',
-                statusKO: '거래 가능',
-                statusZH: '可交易',
-                descriptionJA: formData.description || 'AIエージェントの説明',
-                descriptionKO: formData.description || 'AI 에이전트 설명',
-                descriptionZH: formData.description || 'AI智能体描述',
-                detailDescription: formData.description || 'Detailed description of the AI agent',
-                lifetime: '',
-                totalSupply: 100000000000,
-                marketCapTokenNumber: 100000000000,
-                useCases: useCases.en || [
-                    'Help me create an AI Agent',
-                    'What functions do you have?',
-                    'What types of AI Agents can you create?'
-                ],
-                useCasesJA: useCases.ja || [
-                    'AIエージェントの作成を手伝ってください',
-                    'どんな機能がありますか？',
-                    'どのようなタイプのAIエージェントを作成できますか？'
-                ],
-                useCasesKO: useCases.ko || [
-                    'AI 에이전트 만들기를 도와주세요',
-                    '어떤 기능이 있나요?',
-                    '어떤 유형의 AI 에이전트를 만들 수 있나요?'
-                ],
-                useCasesZH: useCases.zh || [
-                    '帮我创建一个 AI 智能体',
-                    '你有哪些功能？',
-                    '你可以创建哪些类型的 AI 智能体？'
-                ],
-                socialLinks: 'https://x.com/test, https://github.com/test, https://t.me/test',
-                chatEntry: null,
-                projectDescription: JSON.stringify({
-                    en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. 14-day IAO period\n4. Trading pairs will be established on DBCSwap`,
-                    zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 14天 IAO 期间\n4. 将在 DBCSwap 上建立交易对`,
-                    ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. 14日間の IAO 期間\n4. DBCSwap に取引ペアを設立`,
-                    ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 14일간의 IAO 기간\n4. DBCSwap에 거래쌍 설립`
-                }),
-                iaoTokenAmount: 20000000000,
-                miningRate: '0.1%'
-            };
-    
-            // Call create agent API with authentication
-            const createResponse = await fetch(`${API_BASE_URL}/api/agents/new`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(agentData)
-            });
-    
-            if (!createResponse.ok) {
-                throw new Error('Failed to create agent');
+            if (translateResponse.ok) {
+              useCases = await translateResponse.json();
             }
-    
-            const result = await createResponse.json();
-            console.log(result);
-            if (result.code===200) {
-                setCreationProgress(100);
+          } catch (error) {
+            console.log('使用默认用例:', error);
+          }
+      
+          setCreationProgress(60);
+          setDisplayProgress(60);
+      
+          // 更新数据
+          setData(prev => ({
+            ...(prev || initialData),
+            id: token,
+            useCases: {
+              zh: useCases.zh || (prev?.useCases.zh || []),
+              ja: useCases.ja || (prev?.useCases.ja || []),
+              ko: useCases.ko || (prev?.useCases.ko || []),
+              en: useCases.en || (prev?.useCases.en || [])
             }
+          }));
+      
+          setCreationProgress(80);
+          setDisplayProgress(80);
+      
+          // 准备完整数据
+          const agentData = {
+            name: formData.name,
+            description: formData.description || "An Agent",
+            category: 'AI Agent',
+            capabilities: ['chat', 'information'],
+            tokenAmount: '1000000000000000000',
+            startTimestamp: getStartTimestamp(),
+            durationHours: 24*7,
+            rewardAmount: '2000000000000000000000000000',
+            rewardToken: '0xabcdef123',
+            symbol: formData.symbol || 'AGT',
+            avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
+            type: 'AI Agent',
+            marketCap: '$0',
+            change24h: '0',
+            tvl: '$0',
+            holdersCount: 0,
+            volume24h: '$0',
+            statusJA: 'トランザクション可能',
+            statusKO: '거래 가능',
+            statusZH: '可交易',
+            descriptionJA: formData.description || 'AIエージェントの説明',
+            descriptionKO: formData.description || 'AI 에이전트 설명',
+            descriptionZH: formData.description || 'AI智能体描述',
+            detailDescription: formData.description || 'Detailed description of the AI agent',
+            lifetime: '',
+            totalSupply: 100000000000,
+            marketCapTokenNumber: 100000000000,
+            useCases: useCases.en,
+            useCasesJA: useCases.ja,
+            useCasesKO: useCases.ko,
+            useCasesZH: useCases.zh,
+            socialLinks: 'https://x.com/test, https://github.com/test, https://t.me/test',
+            chatEntry: null,
+            projectDescription: JSON.stringify({
+              en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. 14-day IAO period\n4. Trading pairs will be established on DBCSwap`,
+              zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 14天 IAO 期间\n4. 将在 DBCSwap 上建立交易对`,
+              ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. 14日間の IAO 期間\n4. DBCSwap に取引ペアを設立`,
+              ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 14일간의 IAO 기간\n4. DBCSwap에 거래쌍 설립`
+            }),
+            iaoTokenAmount: 20000000000,
+            miningRate: '0.1%'
+          };
+      
+          // 创建请求
+          const createResponse = await fetch(`${API_BASE_URL}/api/agents/new`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(agentData)
+          });
+      
+          if (!createResponse.ok) {
+            throw new Error('创建失败');
+          }
+      
+          const result = await createResponse.json();
+          if (result.code === 200) {
+            setCreationProgress(100);
+            setDisplayProgress(100);
+          }
         } catch (error) {
-            console.error('Creation failed:', error);
-            setCreating(false);
-            setCreationProgress(0);
-            setDisplayProgress(0);
+          console.error('创建失败:', error);
+          setCreating(false);
+          setCreationProgress(0);
+          setDisplayProgress(0);
+        } finally {
+          setCreating(false);
         }
     };
     
@@ -507,6 +540,7 @@ const New: React.FC = () => {
                                 <label className="block mb-1">{t("projectName")}</label>
                                 <input
                                     name="name"
+                                    ref={nameInputRef}
                                     value={formData.name}
                                     onChange={handleNameChange}
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
