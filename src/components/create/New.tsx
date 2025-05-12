@@ -16,6 +16,7 @@ const New: React.FC = () => {
     const [data, setData] = useState<{
         id: string;
         name: string;
+        symbol: string;
         description: string;
         useCases: {
             zh: string[];
@@ -26,6 +27,7 @@ const New: React.FC = () => {
     } | null>(null);
     const [formData, setFormData] = useState({
         name: '',
+        symbol: '',
         description: '',
         tokenSupply: '5000000000',
         iaoPercentage: '15%',
@@ -38,7 +40,7 @@ const New: React.FC = () => {
         agentThird: ''
     });
     const [showTimeOptions, setShowTimeOptions] = useState(false);
-    const [iaoStartTime, setIaoStartTime] = useState('3_days'); // Default option
+    const [iaoStartTime, setIaoStartTime] = useState('7_days'); // Default option
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -83,12 +85,24 @@ const New: React.FC = () => {
         return token;
     }
 
+    const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        // Only allow uppercase letters and limit to 5 characters
+        const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
+        const validatedValue = uppercaseValue.slice(0, 5); // Max 5 characters
+        
+        setFormData(prev => ({ 
+            ...prev, 
+            symbol: validatedValue 
+        }));
+    };
+
     const handleCreate = async () => {
         setCreating(true);
         setCreationProgress(0);
         setDisplayProgress(0);
         try {
-            setData({id:"1",name:formData.name,description:formData.description,useCases:{zh:[],en:[],ko:[],ja:[]}})
+            setData({id:"1",name:formData.name,symbol:formData.symbol,description:formData.description,useCases:{zh:[],en:[],ko:[],ja:[]}})
             // First get the authentication token
             const token = await getRealToken();
     
@@ -127,7 +141,7 @@ const New: React.FC = () => {
             const agentData = {
                 name: formData.name,
                 description: formData.description,
-                category: 'AI',
+                category: 'AI Agent',
                 capabilities: ['chat', 'information'],
                 tokenAmount: '1000000000000000000',
                 startTimestamp: getStartTimestamp(), // 7 hours from now
@@ -246,25 +260,25 @@ const New: React.FC = () => {
     };
 
     const TIME_OPTIONS = [
-        { value: '1_hour', label: '1 hour from now' },
-        { value: '3_hours', label: '3 hours from now' },
-        { value: '7_hours', label: '7 hours from now' },
-        { value: '24_hours', label: '24 hours from now' },
-        { value: '3_days', label: '3 days from now (default)' },
-        { value: '7_days', label: '7 days from now' }
+        { value: '7_hours', label: t("7hour") },
+        { value: '24_hours', label: t("1day") },
+        { value: '3_days', label: t("3day") },
+        { value: '7_days', label: t("7day") },
+        { value: '14_days', label: t("14day")},
+        { value: '1_month', label: t("1month")}
     ];
 
     // Add this helper function to calculate timestamp
     const getStartTimestamp = () => {
         const now = Math.floor(Date.now() / 1000);
         switch (iaoStartTime) {
-        case '1_hour': return now + 3600 * 1;
-        case '3_hours': return now + 3600 * 3;
         case '7_hours': return now + 3600 * 7;
         case '24_hours': return now + 3600 * 24;
         case '3_days': return now + 3600 * 24 * 3;
         case '7_days': return now + 3600 * 24 * 7;
-        default: return now + 3600 * 7; // default to 7 hours
+        case '14_days': return now + 3600 * 24 * 14;
+        case '1_month': return now + 3600 * 24 * 30;
+        default: return now + 3600 * 7 * 24; // default to 7 days
         }
     };
 
@@ -308,7 +322,7 @@ const New: React.FC = () => {
             </div>
         );
     };
-
+    
     const SuccessDisplay = () => {
         if (!data) return null;
         
@@ -326,7 +340,7 @@ const New: React.FC = () => {
                         {t("created")} <span className="font-mono text-primary">{data.id.substring(0,10)}</span>
                     </p>
                 </div>
-
+    
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-semibold mb-4 flex items-center">
@@ -341,12 +355,16 @@ const New: React.FC = () => {
                                 <p className="font-medium">{data.name}</p>
                             </div>
                             <div>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t("createSymbol")}</p>
+                                <p className="font-medium">{data.symbol}</p>
+                            </div>
+                            <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">{t("projectDescription")}</p>
                                 <p className="font-medium">{data.description}</p>
                             </div>
                         </div>
                     </div>
-
+    
                     <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-semibold mb-4 flex items-center">
                             <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -394,6 +412,22 @@ const New: React.FC = () => {
                         </div>
                     </div>
                 </div>
+    
+                <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-8">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    {t('TokenDistribution.title')}
+                </h3>
+                <div className="space-y-3 text-sm">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((point) => (
+                    <p key={point}>
+                        {point}. {t(`TokenDistribution.points.${point}`, { symbol:data.symbol })}
+                    </p>
+                    ))}
+                </div>
+                </div>
 
                 <div className="flex justify-center">
                     <button
@@ -431,6 +465,20 @@ const New: React.FC = () => {
                                     onChange={handleChange}
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectNamePlaceholder")}
+                                />
+                            </div>
+
+                            <div className="space-y-4">
+                                <label className="block mb-1">{t("createSymbol")}</label>
+                                <input
+                                    name="symbol"
+                                    value={formData.symbol}
+                                    onChange={handleSymbolChange}
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                    placeholder={t("symbolRule")}
+                                    minLength={3}
+                                    maxLength={5}
+                                    pattern="[A-Z]{3,5}"
                                 />
                             </div>
 
@@ -480,7 +528,7 @@ const New: React.FC = () => {
 
                                 {/* Add this new section for IAO start time */}
                                 <div className="mt-2 relative">
-                                <label className="block mb-1">IAO Start Time</label>
+                                <label className="block mb-1">{t("iaostarttime")}</label>
                                 <div 
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 cursor-pointer"
                                     onClick={() => setShowTimeOptions(!showTimeOptions)}

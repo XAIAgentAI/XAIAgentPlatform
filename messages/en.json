@@ -648,6 +648,15 @@
       }
     },
     "createAgent":{
+      "createSymbol":"Project Symbol",
+      "symbolRule":"3-5 uppercase English letters",
+      "7hour":"7 hours from now",
+      "1day":"24 hours from now",
+      "3day":"3 days from now",
+      "7day":"7 days from now (default)",
+      "14day":"14 days from now",
+      "1month":"1 month from now",
+      "iaostarttime":"IAO Start Time",
       "agentDetails":"Agent Details",
       "useCases":"Use Cases",
       "creationProcessMessage":"Your AI agent is being created. This may take a few moments...",
@@ -669,7 +678,21 @@
       "created": "The AI token project has been successfully created. Your Agent ID is ",
       "viewProject": "View Project",
       "creating": "Creating...",
-      "createNow": "Create Now"
+      "createNow": "Create Now",
+      "TokenDistribution": {
+        "title": "Token Distribution Details",
+        "points": {
+          "1": "{symbol} total supply in first 8 years: 100 billion, with 6 billion mined annually thereafter",
+          "2": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
+          "3": "After the 72-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
+          "4": "After IAO concludes, 10% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",
+          "5": "The team holds 30% of {symbol}, unlocking begins after IAO concludes, with linear release over 2000 days",
+          "6": "2% of {symbol} will be used for Token Sale, unlocking begins after IAO concludes, with linear release over 400 days",
+          "7": "{symbol} mining produces 6 billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
+          "8": "XAA mining nodes are required to participate in mining. Each machine must stake at least 1 XAA mining node, with a maximum of 10 XAA mining nodes",
+          "9": "1% of {symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of {symbol} airdropped to XAA node NFT holders"
+        }
+      }
     }
 }
 

@@ -648,6 +648,15 @@
       }
     },
     "createAgent": {
+        "createSymbol":"代币名",
+        "symbolRule":"3-5个大写英文字母",
+        "7hour": "7 小时后",
+        "1day": "1 天后",
+        "3day": "3 天后",
+        "7day": "7 天后（默认）",
+        "14day": "14 天后",
+        "1month": "1 个月后",
+        "iaostarttime":"IAO开始时间",
         "agentDetails":"代理详情",
         "useCases":"用例",
         "creationProcessMessage": "正在创建您的AI代理，这可能需要一些时间...",
@@ -669,6 +678,20 @@
         "created": "AI代币项目已成功创建,您的Agent ID为 ",
         "viewProject": "查看项目",
         "creating": "创建中...",
-        "createNow": "立即创建"
+        "createNow": "立即创建",
+        "TokenDistribution": {
+          "title": "代币分配详情",
+          "points": {
+            "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生60亿",
+            "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
+            "3": "在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
+            "4": "IAO 结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
+            "5": "团队拥有30%的{symbol},IAO结束后开始解锁，分2000天线性解锁",
+            "6": "2%的{symbol}用来进行Token Sale,IAO结束后开始解锁，分400天线性解锁",
+            "7": "{symbol}挖矿每年产生60亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
+            "8": "需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点",
+            "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+          }
+        }
     }
 } 
