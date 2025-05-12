@@ -586,6 +586,31 @@
   },
     "create": {
       "title": "创建指南",
+      "time_setting_requirements": {
+        "title":"设置时间要求",
+        "description": "必须在计划启动时间的24小时前完成所有配置。",
+        "example": "若计划周一10:00启动，需在周日10:00前完成设置。"
+      },
+      "runtime_duration_range": {
+        "title":"运行时长范围",
+        "description": "单次运行时长仅限72小时（3天）至720小时（30天）之间。",
+        "note": "超出此范围的设置将无法生效。"
+      },
+      "start_time_restrictions": {
+        "title":"启动时间限制",
+        "description": "完成设置后，至少需等待24小时才能启动，无法提前开始。",
+        "note": "即使提前完成配置，最早启动时间仍为设置时间+24小时。"
+      },
+      "mining_requirements": {
+        "title": "挖掘要求",
+        "ai_model_environment": {
+            "title": "人工智能模型运行环境要求",
+            "point1": "由于人工智能模型由 GPU 提供商部署和运行，需要指定详细的部署程序。",
+            "point2": "必须明确说明最低 GPU 内存要求。",
+            "point3": "必须根据文档创建一个容器，并将人工智能模型放置在容器中，以便 GPU 提供商轻松下载。",
+            "point4": "GPU 提供商被称为矿工，他们因提供 GPU 资源来运行人工智能模型而获得 Token 奖励。年度 Token 奖励总额为 60 亿。"
+        }
+      },
       "requirements": {
         "title": "代币创建经济模型",
         "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
@@ -610,6 +635,7 @@
         }
       },
       "process": {
+        "error": "请先连接钱包",
         "title": "创建流程",
         "title2": "创建地址", 
         "href": "前往",

@@ -586,6 +586,31 @@
   },
   "create": {
       "title": "Creation Guide",
+      "time_setting_requirements": {
+        "title": "Time Setting Requirements",
+        "description": "All configurations must be completed at least 24 hours before the scheduled start time.",
+        "example": "If planning to start at 10:00 Monday, setup must be completed by 10:00 Sunday."
+      },
+      "runtime_duration_range": {
+        "title": "Runtime Duration Range",
+        "description": "Single runtime duration is limited between 72 hours (3 days) and 720 hours (30 days).",
+        "note": "Settings outside this range will not take effect."
+      },
+      "start_time_restrictions": {
+        "title": "Start Time Restrictions",
+        "description": "After completing setup, you must wait at least 24 hours before starting; early launch is not possible.",
+        "note": "Even if setup is completed early, the earliest start time remains setup time + 24 hours."
+      },
+      "mining_requirements": {
+        "title": "Mining Requirements",
+        "ai_model_environment": {
+          "title": "AI Model Runtime Environment Requirements",
+          "point1": "Since AI models are deployed and run by GPU providers, detailed deployment procedures need to be specified.",
+          "point2": "The minimum GPU memory requirements must be clearly stated.",
+          "point3": "A container must be created according to the documentation, and the AI model should be placed in the container for easy download by GPU providers.",
+          "point4": "GPU providers are called miners, and they receive Token rewards for providing GPU resources to run AI models. The total annual Token reward is 6 billion."
+        }
+      },
       "requirements": {
         "title": "Token Economic Model Creation",
         "supply": "$XXX Token Supply: Total supply of 100 billion in the first 8 years, with 6 billion mined annually thereafter",
@@ -610,6 +635,7 @@
         }
       },
       "process": {
+        "error": "Please connect the wallet first",
         "title": "Creation Process",
         "title2": "Creation Address",
         "href": "Visit",
