@@ -120,6 +120,17 @@ model AuthNonce {
   expiresAt DateTime
 }
 
+model Count {
+  project   String   @id @default(uuid())
+  count     Int
+}
+
+model chat {
+  name      String    @id @default(uuid())
+  password  String 
+  chat      Json      @db.JsonB
+}
+
 model AgentPrice {
   id        Int      @id @default(autoincrement())
   agentId   String   // 修改为 String 类型以匹配 Agent 的 id
