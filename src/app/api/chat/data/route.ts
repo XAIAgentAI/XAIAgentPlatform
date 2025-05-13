@@ -13,10 +13,22 @@ async function getData() {
             client.query(`SELECT COUNT(*) FROM "chat"`)
         ]);
         
+        // 如果project为chat的记录不存在，则插入新记录
+        if (countResult.rows.length === 0) {
+            await client.query(
+                `INSERT INTO "Count" (project, "count") VALUES ('chat', 1037)`
+            );
+            return {
+                count: "1037",  // 返回新插入的值
+                userNumber: userNumberResult.rows[0]?.count?.toString() || "0",
+                timestamp: Date.now()
+            };
+        }
+        
         return {
             count: countResult.rows[0]?.count?.toString() || "0",
             userNumber: userNumberResult.rows[0]?.count?.toString() || "0",
-            timestamp: Date.now()  // 添加时间戳用于调试
+            timestamp: Date.now()
         };
     } finally {
         client.release();
