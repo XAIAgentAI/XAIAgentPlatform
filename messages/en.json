@@ -35,7 +35,8 @@
     "trading": "Trading AI Agent",
     "explore": "Explore AI Agent",
     "creating": "Creating AI Agent",
-    "chat": "Chat"
+    "chat": "Chat",
+    "model": "Creating AI Model"
   },
   "agent": {
     "details": "Agent Details",
@@ -674,6 +675,9 @@
       }
     },
     "createAgent":{
+      "socialLink":"Social Link",
+      "container": "Container Link",
+      "socialExists":"The link should start with 'https'",
       "nameExists": "The agent name already exists.",
       "symbolExists": "The agent symbol already exists.",
       "nameAndSymbolExists": "Both the agent name and symbol already exist.",

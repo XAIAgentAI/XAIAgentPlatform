@@ -35,7 +35,8 @@
     "trading": "交易智能体",
     "explore": "探索智能体",
     "creating": "创建智能体",
-    "chat": "聊天"
+    "chat": "聊天",
+    "model": "创建AI模型"
   },
   "agent": {
     "details": "智能体详情",
@@ -674,6 +675,9 @@
       }
     },
     "createAgent": {
+        "socialLink":"社交链接",
+        "socialExists":"链接应以“https”开头",
+        "container": "容器链接",
         "nameExists": "Agent 名称已存在",
         "symbolExists": "Agent symbol 已存在",
         "nameAndSymbolExists": "Agent 名称和 symbol 都已存在",

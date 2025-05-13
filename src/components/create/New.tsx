@@ -9,7 +9,11 @@ const New: React.FC = () => {
     const router = useRouter();
     const nameInputRef = useRef<HTMLInputElement>(null);
     const [nameExists, setNameExists] = useState(false);
+    const containerRef = useRef<HTMLInputElement>(null);
+    const [containerShow, setContainerShow] = useState(false);
+    const socialRef = useRef<HTMLInputElement>(null)
     const [symbolExists, setSymbolExists] = useState(false);
+    const [socialExists, setSocialExists] = useState(false);
     const locale = useLocale();
     const t = useTranslations("createAgent");
     const [creating, setCreating] = useState(false);
@@ -32,7 +36,9 @@ const New: React.FC = () => {
         name: '',
         symbol: '',
         description: '',
-        tokenSupply: '5000000000',
+        containerLink: '',
+        socialLink: '',
+        tokenSupply: '100000000000',
         iaoPercentage: '15%',
         miningRate: `${t("mining")}`,
         userFirst: '',
@@ -140,7 +146,27 @@ const New: React.FC = () => {
       };
       
       const handleCreate = async () => {
-        // 检查是否已存在
+        //检查https满足否
+        const href1 = socialRef.current?.value;
+        const href2 = containerRef.current?.value;
+        if(href1){
+            if(!href1.startsWith('https://')){
+                setSocialExists(true);
+                socialRef.current?.scrollIntoView({behavior:"smooth",block:"center"});
+                return;
+            }
+        }
+        if(href2){
+            if(!href2.startsWith('https://')){
+                setContainerShow(true);
+                containerRef.current?.scrollIntoView({behavior:"smooth",block:"center"});
+                return;
+            }
+        }
+        setSocialExists(false)
+        setContainerShow(false)
+
+        // 检查是否已存在名字
         const { exists, nameExists: nameExist, symbolExists: symbolExist } = 
           await checkAgentExistence(formData.name, formData.symbol);
       
@@ -264,7 +290,7 @@ const New: React.FC = () => {
             useCasesJA: useCases.ja,
             useCasesKO: useCases.ko,
             useCasesZH: useCases.zh,
-            socialLinks: 'https://x.com/test, https://github.com/test, https://t.me/test',
+            socialLinks: formData.socialLink || 'https://x.com/test, https://github.com/test, https://t.me/test',
             chatEntry: null,
             projectDescription: JSON.stringify({
               en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. 14-day IAO period\n4. Trading pairs will be established on DBCSwap`,
@@ -301,7 +327,6 @@ const New: React.FC = () => {
           setCreationProgress(0);
           setDisplayProgress(0);
         } finally {
-          setCreating(false);
         }
     };
     
@@ -535,8 +560,8 @@ const New: React.FC = () => {
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
                         <h1 className="text-2xl font-bold mb-6">{t("createAIProject")}</h1>
 
-                        <div className="space-y-4">
-                            <div>
+                        <div className="space-y-1">
+                            <div className="mb-2">
                                 <label className="block mb-1">{t("projectName")}</label>
                                 <input
                                     name="name"
@@ -551,8 +576,8 @@ const New: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="block mb-1">{t("createSymbol")}</label>
+                            <div className="space-y-1 pb-2">
+                                <label className="block">{t("createSymbol")}</label>
                                 <input
                                     name="symbol"
                                     value={formData.symbol}
@@ -592,17 +617,6 @@ const New: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1">{t("iaoPercentage")}</label>
-                                    <input
-                                        name="iaoPercentage"
-                                        value={formData.iaoPercentage}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                        disabled
-                                    />
-                                </div>
-
-                                <div>
                                     <label className="block mb-1">{t("miningRate")}</label>
                                     <input
                                         name="miningRate"
@@ -612,6 +626,47 @@ const New: React.FC = () => {
                                         disabled
                                     />
                                 </div>
+
+                                <div>
+                                    <label className="block mb-1">{t("iaoPercentage")}</label>
+                                    <input
+                                        name="iaoPercentage"
+                                        value={formData.iaoPercentage}
+                                        onChange={handleChange}
+                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="py-2 flex flex-col space-y-1">
+                                <label className="block">{t("container")}</label>
+                                <input
+                                    name="containerLink"
+                                    ref={containerRef}
+                                    value={formData.containerLink}
+                                    onChange={handleChange}
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                >
+                                </input>
+                                {containerShow && (
+                                    <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
+                                )}
+                            </div>
+
+                            <div className="py-2 flex flex-col space-y-1">
+                                <label className="block">{t("socialLink")}</label>
+                                <input
+                                    name="socialLink"
+                                    ref={socialRef}
+                                    value={formData.socialLink}
+                                    onChange={handleChange}
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                >
+                                </input>
+                                {socialExists && (
+                                    <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
+                                )}
                             </div>
 
                             <div className="mt-4">
@@ -675,7 +730,7 @@ const New: React.FC = () => {
                                         <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                         <div className="relative">
                                             <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
                                                 <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

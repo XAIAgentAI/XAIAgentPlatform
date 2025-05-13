@@ -35,7 +35,8 @@
     "trading": "取引AIエージェント",
     "explore": "AIエージェントを探す",
     "creating": "AIエージェントを作成",
-    "chat": "チャット"
+    "chat": "チャット",
+    "model": "AIモデルの作成"
   },
   "agent": {
     "details": "エージェント詳細",
@@ -674,6 +675,9 @@
       }
     },
     "createAgent": {
+        "socialLink":"ソーシャルリンク",
+        "container": "コンテナリンク",
+        "socialExists":"リンクは「https」で始まる必要があります",
         "nameExists": "エージェント名は既に存在します。",
         "symbolExists": "エージェントシンボルは既に存在します。",
         "nameAndSymbolExists": "エージェント名とシンボルの両方が既に存在します。",

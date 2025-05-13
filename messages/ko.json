@@ -35,7 +35,8 @@
     "trading": "거래 AI 에이전트",
     "explore": "AI 에이전트 탐색",
     "creating": "AI 에이전트 생성",
-    "chat": "채팅"
+    "chat": "채팅",
+    "model": "AI 모델 만들기"
   },
   "agent": {
     "details": "에이전트 상세",
@@ -677,6 +678,9 @@
       }
     },
     "createAgent": {
+        "container": "컨테이너 링크",
+        "socialLink": "소셜 링크",
+        "socialExists": "링크는 'https'로 시작해야 합니다",
         "nameExists": "에이전트 이름이 이미 존재합니다.",
         "symbolExists": "에이전트 심볼이 이미 존재합니다.",
         "nameAndSymbolExists": "에이전트 이름과 심볼이 모두 이미 존재합니다.",
