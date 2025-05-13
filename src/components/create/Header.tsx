@@ -1,20 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '@/hooks/useAuth';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 
 const Header: React.FC = () => {
   const t = useTranslations("create");
   const m = useTranslations("createAgent");
-  const [warn,setWarn] = useState<boolean>(false)
+  const [warn,setWarn] = useState<boolean>(false);
+  const { open } = useAppKit();
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isManualConnecting, setIsManualConnecting] = useState(false);
+  const { address, isConnected, status } = useAppKitAccount();
+  const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const { isAuthenticated, isLoading, error, authenticate } = useAuth()
   const locale = useLocale();
   const CheckWallet = (e:React.MouseEvent) => {
     e.preventDefault();
     if(localStorage.getItem("@appkit/connection_status")==="connected"){
       window.open(`/${locale}/chat/create`);
     } else {
-      setWarn(true);
-      setTimeout(()=>{setWarn(false)},2000);
+      handleWalletClick();
     }
   }
+
+    useEffect(() => {
+      // 只要有地址就认为已连接
+      if (address) {
+        if (connectingTimeout) {
+          clearTimeout(connectingTimeout);
+          setConnectingTimeout(null);
+        }
+        setIsTimeout(false);
+        setIsManualConnecting(false);
+        authenticate();
+      }
+    }, [address, connectingTimeout, authenticate]);
+  
+    const handleWalletClick = () => {
+      // 使用 address 判断是否已连接
+      if (address) {
+        open({ view: 'Account' });
+      } else {
+        // 如果当前状态是connecting，先重置状态
+        if (status === 'connecting') {
+          if (connectingTimeout) {
+            clearTimeout(connectingTimeout);
+            setConnectingTimeout(null);
+          }
+          setIsTimeout(false);
+        }
+        setIsManualConnecting(true);
+        open({ view: 'Connect' });
+      }
+      setIsMenuOpen(false);
+    }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-8 pb-12 px-4 sm:px-6 lg:px-8">

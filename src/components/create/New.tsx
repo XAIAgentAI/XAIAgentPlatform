@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '@/hooks/useAuth';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
+    const { open } = useAppKit();
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isManualConnecting, setIsManualConnecting] = useState(false);
+    const { address, isConnected, status } = useAppKitAccount();
+    const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [isTimeout, setIsTimeout] = useState(false);
+    const { isAuthenticated, isLoading, error, authenticate } = useAuth()
     const router = useRouter();
     const nameInputRef = useRef<HTMLInputElement>(null);
     const [nameExists, setNameExists] = useState(false);
@@ -52,6 +61,33 @@ const New: React.FC = () => {
     const [iaoStartTime, setIaoStartTime] = useState('7_days'); // Default option
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
+
+    const CheckWallet = () => {
+        if(localStorage.getItem("@appkit/connection_status")==="connected"){
+          return true;
+        } else {
+          handleWalletClick();
+        }
+    }
+
+    const handleWalletClick = () => {
+        // 使用 address 判断是否已连接
+        if (address) {
+          open({ view: 'Account' });
+        } else {
+          // 如果当前状态是connecting，先重置状态
+          if (status === 'connecting') {
+            if (connectingTimeout) {
+              clearTimeout(connectingTimeout);
+              setConnectingTimeout(null);
+            }
+            setIsTimeout(false);
+          }
+          setIsManualConnecting(true);
+          open({ view: 'Connect' });
+        }
+        setIsMenuOpen(false);
+    }  
 
     // Effect for smooth progress animation
     useEffect(() => {
@@ -146,6 +182,11 @@ const New: React.FC = () => {
       };
       
       const handleCreate = async () => {
+        //检查是否需要连接钱包
+        if(!CheckWallet()){
+            return;
+        }
+
         //检查https满足否
         const href1 = socialRef.current?.value;
         const href2 = containerRef.current?.value;
@@ -655,18 +696,26 @@ const New: React.FC = () => {
                             </div>
 
                             <div className="py-2 flex flex-col space-y-1">
-                                <label className="block">{t("socialLink")}</label>
-                                <input
-                                    name="socialLink"
-                                    ref={socialRef}
-                                    value={formData.socialLink}
-                                    onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                >
-                                </input>
-                                {socialExists && (
-                                    <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
-                                )}
+                            <label className="block">{t("socialLink")}</label>
+                            <input
+                                name="socialLink"
+                                ref={socialRef}
+                                value={formData.socialLink}
+                                onChange={handleChange}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed placeholder:opacity-50 placeholder:text-transparent"
+                                placeholder="X Telegram"
+                                style={{
+                                backgroundImage: !formData.socialLink ? `
+                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'),
+                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>')
+                                ` : 'none',
+                                backgroundPosition: !formData.socialLink ? '10px center, 35px center' : 'unset',
+                                backgroundRepeat: 'no-repeat'
+                                }}
+                            />
+                            {socialExists && (
+                                <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
+                            )}
                             </div>
 
                             <div className="mt-4">
