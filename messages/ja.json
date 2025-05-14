@@ -692,6 +692,7 @@
         "14day": "14 日後",
         "time": "回",
         "1month": "1 ヶ月後",
+        "generateExamples": "例を生成する",
         "iaostarttime":"IAO 開始時間",
         "agentDetails":"エージェントの詳細",
         "useCases":"ユースケース",

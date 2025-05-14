@@ -701,6 +701,7 @@
       "projectDescription": "Project Description",
       "projectDescriptionPlaceholder": "描述你的AI项目功能，AI会自动调用大模型生成3个对话示例，你可以修改。例如：Superimage是一个文生图模型。用户可以输入提示词，生成图片。",
       "tokenSupply": "Token Supply",
+      "generateExamples": "Generate",
       "iaoPercentage": "IAO Percentage",
       "price": "Price",
       "eg1": "Example 1",

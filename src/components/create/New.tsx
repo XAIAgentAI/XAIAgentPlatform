@@ -29,6 +29,19 @@ const New: React.FC = () => {
     const [creationProgress, setCreationProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
     const [success, setSuccess] = useState(false);
+    // Add new state for generating use cases
+    const [generatingUseCases, setGeneratingUseCases] = useState(false);
+    const [useCases, setUseCases] = useState<{
+        en: string[];
+        ja: string[];
+        ko: string[];
+        zh: string[];
+    }>({
+        en: [],
+        ja: [],
+        ko: [],
+        zh: []
+    });
     const [data, setData] = useState<{
         id: string;
         name: string;
@@ -52,11 +65,8 @@ const New: React.FC = () => {
         iaoPercentage: '15%',
         miningRate: `${t("mining")}`,
         userFirst: '',
-        agentFirst: '',
         userSecond: '',
-        agentSecond: '',
         userThird: '',
-        agentThird: ''
     });
     const [showTimeOptions, setShowTimeOptions] = useState(false);
     const [iaoStartTime, setIaoStartTime] = useState('7_days'); // Default option
@@ -70,6 +80,60 @@ const New: React.FC = () => {
           handleWalletClick();
         }
     }
+    
+    // Function to generate use cases
+    const generateUseCases = async () => {
+        if (!formData.description) {
+            alert(t("provideDescriptionFirst"));
+            return;
+        }
+
+        setGeneratingUseCases(true);
+        try {
+            const response = await fetch('/api/chat/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    description: formData.description || "An Agent"
+                })
+            });
+            
+            if (response.ok) {
+                const translatedCases = await response.json();
+                setUseCases(translatedCases);
+            } else {
+                // Fallback to default cases if API fails
+                setUseCases({
+                    en: [
+                        "Help me brainstorm creative ideas for my project",
+                        "Assist me in analyzing market trends for my business",
+                        "Guide me through setting up a new productivity system"
+                    ],
+                    ja: [
+                        "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+                        "ビジネスのための市場動向を分析するのを支援してください",
+                        "新しい生産性システムの設定を案内してください"
+                    ],
+                    ko: [
+                        "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+                        "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+                        "새로운 생산성 시스템 설정을 안내해 주세요"
+                    ],
+                    zh: [
+                        "帮我为项目进行创意头脑风暴",
+                        "协助我分析业务的市场趋势",
+                        "指导我建立新的效率系统"
+                    ]
+                });
+            }
+        } catch (error) {
+            console.error('Error generating use cases:', error);
+        } finally {
+            setGeneratingUseCases(false);
+        }
+    };
+
+    const currentLangUseCases = useCases[locale as keyof typeof useCases] || useCases.en;
 
     const handleWalletClick = () => {
         // 使用 address 判断是否已连接
@@ -241,48 +305,28 @@ const New: React.FC = () => {
           setCreationProgress(40);
           setDisplayProgress(40);
       
-          // 翻译用例
-          let useCases = {
+          const finalUseCases = currentLangUseCases.length > 0 ? useCases : {
             en: [
-              "Help me brainstorm creative ideas for my project",
-              "Assist me in analyzing market trends for my business",
-              "Guide me through setting up a new productivity system"
+                "Help me brainstorm creative ideas for my project",
+                "Assist me in analyzing market trends for my business",
+                "Guide me through setting up a new productivity system"
             ],
             ja: [
-              "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
-              "ビジネスのための市場動向を分析するのを支援してください",
-              "新しい生産性システムの設定を案内してください"
+                "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+                "ビジネスのための市場動向を分析するのを支援してください",
+                "新しい生産性システムの設定を案内してください"
             ],
             ko: [
-              "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
-              "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
-              "새로운 생산성 시스템 설정을 안내해 주세요"
+                "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+                "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+                "새로운 생산성 시스템 설정을 안내해 주세요"
             ],
             zh: [
-              "帮我为项目进行创意头脑风暴",
-              "协助我分析业务的市场趋势",
-              "指导我建立新的效率系统"
+                "帮我为项目进行创意头脑风暴",
+                "协助我分析业务的市场趋势",
+                "指导我建立新的效率系统"
             ]
-          };
-      
-          try {
-            const translateResponse = await fetch('/api/chat/translate', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                description: formData.description || "An Agent"
-              })
-            });
-            
-            if (translateResponse.ok) {
-              useCases = await translateResponse.json();
-            }
-          } catch (error) {
-            console.log('使用默认用例:', error);
-          }
-      
-          setCreationProgress(60);
-          setDisplayProgress(60);
+        };
       
           // 更新数据
           setData(prev => ({
@@ -296,8 +340,8 @@ const New: React.FC = () => {
             }
           }));
       
-          setCreationProgress(80);
-          setDisplayProgress(80);
+          setCreationProgress(60);
+          setDisplayProgress(60);
       
           // 准备完整数据
           const agentData = {
@@ -328,10 +372,10 @@ const New: React.FC = () => {
             lifetime: '',
             totalSupply: 100000000000,
             marketCapTokenNumber: 100000000000,
-            useCases: useCases.en,
-            useCasesJA: useCases.ja,
-            useCasesKO: useCases.ko,
-            useCasesZH: useCases.zh,
+            useCases: finalUseCases.en,
+            useCasesJA: finalUseCases.ja,
+            useCasesKO: finalUseCases.ko,
+            useCasesZH: finalUseCases.zh,
             socialLinks: formData.socialLink || 'https://x.com/test, https://github.com/test, https://t.me/test',
             chatEntry: null,
             projectDescription: JSON.stringify({
@@ -353,6 +397,9 @@ const New: React.FC = () => {
             },
             body: JSON.stringify(agentData)
           });
+
+          setCreationProgress(80);
+          setDisplayProgress(80);
       
           if (!createResponse.ok) {
             throw new Error('创建失败');
@@ -374,6 +421,30 @@ const New: React.FC = () => {
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleExChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, name, value } = e.target;
+        
+        // Update useCases - set the item at index (parseInt(id)) in the locale array to value
+        setUseCases(prev => {
+            // Make sure the locale array exists or provide a default empty array
+            const currentLocaleArray = prev[locale as keyof typeof prev] || [];
+            
+            // Create a new array with the updated value at the specified index
+            const updatedArray = [...currentLocaleArray];
+            const index = parseInt(id.substring(0,1))-1;
+            updatedArray[index] = value;
+            
+            // Return the new state with the updated array
+            return {
+                ...prev,
+                [locale]: updatedArray
+            };
+        });
+        
+        // Update formData as before
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -794,117 +865,71 @@ const New: React.FC = () => {
 
                             {/* Dialog examples section */}
                             <div className="mt-6">
-                                <h2 className="text-xl font-bold mb-4">{t("dialogExample")}</h2>
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
+                            <button
+                                onClick={generateUseCases}
+                                disabled={generatingUseCases || !formData.description}
+                                className="flex items-center space-x-2 bg-primary bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <span>{t("generateExamples")}</span>
+                            </button>
+                        </div>
 
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            1
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("eg1")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userFirst"
-                                                value={formData.userFirst}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentFirst"
-                                                value={formData.agentFirst}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
+                        {/* Example 1 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    1
                                 </div>
-
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            2
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("eg2")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userSecond"
-                                                value={formData.userSecond}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentSecond"
-                                                value={formData.agentSecond}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            3
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("eg3")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userThird"
-                                                value={formData.userThird}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentThird"
-                                                value={formData.agentThird}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                <h3 className="text-lg font-medium">{t("eg1")}</h3>
                             </div>
+                            <textarea
+                                id="11111"
+                                name="userFirst"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[0] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                        </div>
 
+                        {/* Example 2 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    2
+                                </div>
+                                <h3 className="text-lg font-medium">{t("eg2")}</h3>
+                            </div>
+                            <textarea
+                                id="22222"
+                                name="userSecond"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[1] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                        </div>
+
+                        {/* Example 3 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    3
+                                </div>
+                                <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                            </div>
+                            <textarea
+                                id="33333"
+                                name="userThird"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[2] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                            </div>
+                        </div>
                             <button
                                 onClick={handleCreate}
                                 disabled={creating || !formData.name}
