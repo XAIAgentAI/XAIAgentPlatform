@@ -45,6 +45,7 @@ const New: React.FC = () => {
         name: '',
         symbol: '',
         description: '',
+        price: '',
         containerLink: '',
         socialLink: '',
         tokenSupply: '100000000000',
@@ -164,7 +165,7 @@ const New: React.FC = () => {
     const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
-        const validatedValue = uppercaseValue.slice(0, 5);
+        const validatedValue = uppercaseValue.slice(0, 6);
         setFormData(prev => ({ ...prev, symbol: validatedValue }));
     };
 
@@ -626,8 +627,8 @@ const New: React.FC = () => {
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("symbolRule")}
                                     minLength={3}
-                                    maxLength={5}
-                                    pattern="[A-Z]{3,5}"
+                                    maxLength={6}
+                                    pattern="[A-Z]{3,6}"
                                 />
                                 {symbolExists && (
                                     <div className="text-red-500 text-sm mt-1">{t("symbolExists")}</div>
@@ -640,9 +641,33 @@ const New: React.FC = () => {
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-32 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectDescriptionPlaceholder")}
                                 />
+                            </div>
+
+                            <div className="pb-2">
+                                <label className="block mb-1">{t("price")}</label>
+                                <div className="relative">
+                                    <div className="flex items-center bg-white dark:bg-[#1a1a1a] p-3 rounded-lg border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
+                                        <input
+                                            name="price"
+                                            type="text"
+                                            inputMode="numeric"
+                                            value={formData.price}
+                                            onChange={(e) => {
+                                                // Only allow numbers
+                                                const value = e.target.value.replace(/[^0-9.]/g, '').replace(/^\./g, '').replace(/\.+/g, '.');
+                                                setFormData(prev => ({ ...prev, price: value }));
+                                            }}
+                                            className="flex-1 bg-transparent focus:outline-none min-w-0"
+                                            placeholder="0"
+                                        />
+                                        <div className="ml-2 bg-gray-100 dark:bg-card-inner opacity-75 rounded-full px-3 py-1 text-sm whitespace-nowrap">
+                                            {formData.symbol || "TOKEN"} / {t("time")}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -718,7 +743,7 @@ const New: React.FC = () => {
                             )}
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4 pb-8">
                                 <label className="block mb-1">{t("agentImage")}</label>
                                 <div className="relative w-24 h-24">
                                     <label className={`absolute inset-0 flex items-center justify-center rounded-md border-2 border-dashed border-black dark:border-white border-opacity-20 dark:border-opacity-20 cursor-pointer hover:bg-opacity-5 dark:hover:bg-opacity-5 hover:bg-black dark:hover:bg-white transition-colors ${imageUrl ? 'opacity-0 hover:opacity-100 z-10' : ''}`}>
@@ -741,7 +766,7 @@ const New: React.FC = () => {
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
-                                                    strokeWidth={2}
+                                                    strokeWidth={1}
                                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                                                 />
                                             </svg>
@@ -769,14 +794,14 @@ const New: React.FC = () => {
 
                             {/* Dialog examples section */}
                             <div className="mt-6">
-                                <h2 className="text-xl font-bold mb-4">{t("dialogModel")}</h2>
+                                <h2 className="text-xl font-bold mb-4">{t("dialogExample")}</h2>
 
                                 <div className="relative mb-8">
                                     <div className="flex items-center mb-2">
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
                                             1
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
+                                        <h3 className="text-lg font-medium">{t("eg1")}</h3>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
@@ -812,7 +837,7 @@ const New: React.FC = () => {
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
                                             2
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
+                                        <h3 className="text-lg font-medium">{t("eg2")}</h3>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -848,7 +873,7 @@ const New: React.FC = () => {
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
                                             3
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
+                                        <h3 className="text-lg font-medium">{t("eg3")}</h3>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
