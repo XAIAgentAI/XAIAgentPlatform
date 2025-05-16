@@ -54,7 +54,7 @@ const Navbar = () => {
       id: "creating",
       href: "/create",
       label: t('navigation.creating'),
-      comingSoon: false
+      comingSoon: true
     }
   ];
 
