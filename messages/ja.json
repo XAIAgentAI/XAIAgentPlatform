@@ -648,6 +648,8 @@
       }
     },
     "createAgent": {
+        "agentDetails":"エージェントの詳細",
+        "useCases":"ユースケース",
         "creationProcessMessage":"AIエージェントを作成中です。しばらくお待ちください...",
         "createAIProject": "AIトークンプロジェクトを作成",
         "projectName": "プロジェクト名",

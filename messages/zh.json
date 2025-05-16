@@ -648,6 +648,8 @@
       }
     },
     "createAgent": {
+        "agentDetails":"代理详情",
+        "useCases":"用例",
         "creationProcessMessage": "正在创建您的AI代理，这可能需要一些时间...",
         "createAIProject": "创建AI代币项目",
         "projectName": "项目名称",

@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
  
     console.log(formData);
     // 调用图像生成API
-    const apiResponse = await fetch('http://122.99.183.50:8000/generate-image/', {
+    const apiResponse = await fetch('http://122.99.183.54:8000/generate-image/', {
       method: 'POST',
       body: formData,
       headers: {
