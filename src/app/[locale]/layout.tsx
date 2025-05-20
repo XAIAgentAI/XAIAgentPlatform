@@ -10,6 +10,7 @@ import { Toaster } from '@/components/Toaster';
 import Navbar from '@/components/Navbar';
 import './globals.css';
 import './fonts.css';
+import Script from 'next/script';
 
 // 生成静态参数
 export function generateStaticParams() {
@@ -39,6 +40,18 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Google Analytics */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-K5PXZ5QS9P" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-K5PXZ5QS9P');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ContextProvider cookies={cookies}>
