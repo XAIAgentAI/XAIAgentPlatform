@@ -225,7 +225,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                   const socialLinks = parseSocialLinks(agent.socialLinks);
                   return (
                     <TableRow
-                      key={agent.id}
+                      key={`${agent.id}-${agent.symbol}`}
                       className="cursor-pointer hover:bg-[#F8F8F8] dark:hover:bg-[#222222]"
                       onClick={() => handleRowClick(agent.id)}
                     >

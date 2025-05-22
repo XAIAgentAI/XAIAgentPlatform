@@ -211,7 +211,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
             const socialLinks = parseSocialLinks(agent.socialLinks);
             return (
               <div
-                key={agent.id}
+                key={`${agent.id}-${agent.symbol}`}
                 className="p-4 bg-white dark:bg-card cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
                 onClick={() => handleRowClick(agent.id)}
               >

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { useWalletClient } from 'wagmi';
 import { useAppKitAccount } from '@reown/appkit/react';
-import { createPublicClient, createWalletClient, custom, http, type Hash, parseEther,   } from 'viem';
+import { createPublicClient, createWalletClient, custom, http, type Hash, parseEther, TransactionRequest  } from 'viem';
 import { currentChain } from '@/config/wagmi';
 import { useNetwork } from '@/hooks/useNetwork';
 import { getTransactionUrl } from '@/config/networks';
@@ -35,6 +35,34 @@ interface StakeInfo {
   stakeEndTime: Date;
   receivedReward: number;
 }
+
+// 添加一个获取当前 gas 价格的函数
+const getGasPrice = async () => {
+  try {
+    const feeData = await publicClient.estimateFeesPerGas();
+    return {
+      maxFeePerGas: feeData.maxFeePerGas,
+      maxPriorityFeePerGas: feeData.maxPriorityFeePerGas
+    };
+  } catch (error) {
+    console.error('获取 gas 价格失败:', error);
+    // 失败后使用默认值
+    return {
+      maxFeePerGas: BigInt(1000000000),
+      maxPriorityFeePerGas: BigInt(1000000000)
+    };
+  }
+};
+
+// 修改 getTransactionConfig 为异步函数
+const getTransactionConfig = async () => {
+  const gasData = await getGasPrice();
+  return {
+    type: '0x0' as any,
+    maxFeePerGas: gasData.maxFeePerGas,
+    maxPriorityFeePerGas: gasData.maxPriorityFeePerGas
+  };
+};
 
 export const useStakingNFTContract = () => {
   const t = useTranslations('nft');
@@ -132,12 +160,14 @@ export const useStakingNFTContract = () => {
 
       // 如果未授权,则先进行授权
       if (!isApproved) {
+        const txConfig = await getTransactionConfig();
         const approveHash = await viemWalletClient.writeContract({
           address: nftContractAddress,
           abi: NFTABI,
           functionName: 'setApprovalForAll',
           args: [stakeContractAddress, true],
           account: address as `0x${string}`,
+          ...txConfig,
         });
 
         toast(createToastMessage({
@@ -159,12 +189,14 @@ export const useStakingNFTContract = () => {
       });
 
       // 调用合约的 batchStake 方法
+      const txConfig = await getTransactionConfig();
       const hash = await viemWalletClient.writeContract({
         address: stakeContractAddress,
         abi: stakingNFTABI,
         functionName: 'batchStake',
         args: [tokenIdArray, amountArray],
         account: address as `0x${string}`,
+        ...txConfig,
       });
 
       toast(createToastMessage({
@@ -209,12 +241,14 @@ export const useStakingNFTContract = () => {
       });
 
       // 调用合约的 unstake 方法
+      const txConfig = await getTransactionConfig();
       const hash = await viemWalletClient.writeContract({
         address: stakeContractAddress,
         abi: stakingNFTABI,
         functionName: 'unstake',
         args: [tokenIds],
         account: address as `0x${string}`,
+        ...txConfig,
       });
 
       toast(createToastMessage({
@@ -260,11 +294,13 @@ export const useStakingNFTContract = () => {
 
 
       // 调用合约的 claimRewards 方法
+      const txConfig = await getTransactionConfig();
       const hash = await viemWalletClient.writeContract({
         address: stakeContractAddress,
         abi: stakingNFTABI,
         functionName: 'claimRewards',
         account: address as `0x${string}`,
+        ...txConfig,
       });
 
       toast(createToastMessage({
@@ -305,12 +341,14 @@ export const useStakingNFTContract = () => {
 
 
       // 调用合约的 batchWithdrawReward 方法
+      const txConfig = await getTransactionConfig();
       const hash = await viemWalletClient.writeContract({
         address: stakeContractAddress,
         abi: stakingNFTABI,
         functionName: 'batchWithdrawReward',
         args: [tokenIds, stakeIndexes],
         account: address as `0x${string}`,
+        ...txConfig,
       });
 
       toast(createToastMessage({
@@ -358,12 +396,14 @@ const getClaimableRewards = async () => {
     transport: custom(walletClient!.transport),
   });
   // 调用合约的 stake 方法
+  const txConfig = await getTransactionConfig();
   const hash = await viemWalletClient.writeContract({
     address: stakeContractAddress,
     abi: stakingNFTABI,
     functionName: 'stake',
     args: [1,],
     account: address as `0x${string}`,
+    ...txConfig,
   });
 await publicClient.waitForTransactionReceipt({ hash });
 
