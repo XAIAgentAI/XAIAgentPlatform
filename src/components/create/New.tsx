@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '@/hooks/useAuth';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
@@ -8,6 +10,13 @@ import { DateTimePicker } from '@/components/ui/time-range-picker';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
+    const { open } = useAppKit();
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isManualConnecting, setIsManualConnecting] = useState(false);
+    const { address, isConnected, status } = useAppKitAccount();
+    const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [isTimeout, setIsTimeout] = useState(false);
+    const { isAuthenticated, isLoading, error, authenticate } = useAuth()
     const router = useRouter();
     const nameInputRef = useRef<HTMLInputElement>(null);
     const [nameExists, setNameExists] = useState(false);
@@ -17,7 +26,7 @@ const New: React.FC = () => {
     const [symbolExists, setSymbolExists] = useState(false);
     const [socialExists, setSocialExists] = useState(false);
     const locale = useLocale();
-    const t = useTranslations("createAgent");
+    const t = useTranslations("create.createAgent");
     const [creating, setCreating] = useState(false);
     const [creationProgress, setCreationProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
@@ -52,6 +61,19 @@ const New: React.FC = () => {
         };
     });
     const [sharedTimezone, setSharedTimezone] = useState('Asia/Shanghai');
+    // Add new state for generating use cases
+    const [generatingUseCases, setGeneratingUseCases] = useState(false);
+    const [useCases, setUseCases] = useState<{
+        en: string[];
+        ja: string[];
+        ko: string[];
+        zh: string[];
+    }>({
+        en: [],
+        ja: [],
+        ko: [],
+        zh: []
+    });
     const [data, setData] = useState<{
         id: string;
         name: string;
@@ -68,21 +90,100 @@ const New: React.FC = () => {
         name: '',
         symbol: '',
         description: '',
+        price: '',
         containerLink: '',
         socialLink: '',
         tokenSupply: '100000000000',
         iaoPercentage: '15%',
         miningRate: `${t("mining")}`,
         userFirst: '',
-        agentFirst: '',
         userSecond: '',
-        agentSecond: '',
         userThird: '',
-        agentThird: ''
     });
 
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
+
+    const CheckWallet = () => {
+        if(localStorage.getItem("@appkit/connection_status")==="connected"){
+          return true;
+        } else {
+          handleWalletClick();
+        }
+    }
+    
+    // Function to generate use cases
+    const generateUseCases = async () => {
+        if (!formData.description) {
+            alert(t("provideDescriptionFirst"));
+            return;
+        }
+
+        setGeneratingUseCases(true);
+        try {
+            const response = await fetch('/api/chat/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    description: formData.description || "An Agent"
+                })
+            });
+            
+            if (response.ok) {
+                const translatedCases = await response.json();
+                setUseCases(translatedCases);
+            } else {
+                // Fallback to default cases if API fails
+                setUseCases({
+                    en: [
+                        "Help me brainstorm creative ideas for my project",
+                        "Assist me in analyzing market trends for my business",
+                        "Guide me through setting up a new productivity system"
+                    ],
+                    ja: [
+                        "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+                        "ビジネスのための市場動向を分析するのを支援してください",
+                        "新しい生産性システムの設定を案内してください"
+                    ],
+                    ko: [
+                        "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+                        "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+                        "새로운 생산성 시스템 설정을 안내해 주세요"
+                    ],
+                    zh: [
+                        "帮我为项目进行创意头脑风暴",
+                        "协助我分析业务的市场趋势",
+                        "指导我建立新的效率系统"
+                    ]
+                });
+            }
+        } catch (error) {
+            console.error('Error generating use cases:', error);
+        } finally {
+            setGeneratingUseCases(false);
+        }
+    };
+
+    const currentLangUseCases = useCases[locale as keyof typeof useCases] || useCases.en;
+
+    const handleWalletClick = () => {
+        // 使用 address 判断是否已连接
+        if (address) {
+          open({ view: 'Account' });
+        } else {
+          // 如果当前状态是connecting，先重置状态
+          if (status === 'connecting') {
+            if (connectingTimeout) {
+              clearTimeout(connectingTimeout);
+              setConnectingTimeout(null);
+            }
+            setIsTimeout(false);
+          }
+          setIsManualConnecting(true);
+          open({ view: 'Connect' });
+        }
+        setIsMenuOpen(false);
+    }  
 
     // Effect for smooth progress animation
     useEffect(() => {
@@ -159,7 +260,7 @@ const New: React.FC = () => {
     const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
-        const validatedValue = uppercaseValue.slice(0, 5);
+        const validatedValue = uppercaseValue.slice(0, 6);
         setFormData(prev => ({ ...prev, symbol: validatedValue }));
     };
 
@@ -177,6 +278,11 @@ const New: React.FC = () => {
       };
       
       const handleCreate = async () => {
+        //检查是否需要连接钱包
+        if(!CheckWallet()){
+            return;
+        }
+
         //检查https满足否
         const href1 = socialRef.current?.value;
         const href2 = containerRef.current?.value;
@@ -230,48 +336,28 @@ const New: React.FC = () => {
           setCreationProgress(40);
           setDisplayProgress(40);
       
-          // 翻译用例
-          let useCases = {
+          const finalUseCases = currentLangUseCases.length > 0 ? useCases : {
             en: [
-              "Help me brainstorm creative ideas for my project",
-              "Assist me in analyzing market trends for my business",
-              "Guide me through setting up a new productivity system"
+                "Help me brainstorm creative ideas for my project",
+                "Assist me in analyzing market trends for my business",
+                "Guide me through setting up a new productivity system"
             ],
             ja: [
-              "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
-              "ビジネスのための市場動向を分析するのを支援してください",
-              "新しい生産性システムの設定を案内してください"
+                "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+                "ビジネスのための市場動向を分析するのを支援してください",
+                "新しい生産性システムの設定を案内してください"
             ],
             ko: [
-              "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
-              "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
-              "새로운 생산성 시스템 설정을 안내해 주세요"
+                "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+                "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+                "새로운 생산성 시스템 설정을 안내해 주세요"
             ],
             zh: [
-              "帮我为项目进行创意头脑风暴",
-              "协助我分析业务的市场趋势",
-              "指导我建立新的效率系统"
+                "帮我为项目进行创意头脑风暴",
+                "协助我分析业务的市场趋势",
+                "指导我建立新的效率系统"
             ]
-          };
-      
-          try {
-            const translateResponse = await fetch('/api/chat/translate', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                description: formData.description || "An Agent"
-              })
-            });
-            
-            if (translateResponse.ok) {
-              useCases = await translateResponse.json();
-            }
-          } catch (error) {
-            console.log('使用默认用例:', error);
-          }
-      
-          setCreationProgress(60);
-          setDisplayProgress(60);
+        };
       
           // 更新数据
           setData(prev => ({
@@ -285,8 +371,8 @@ const New: React.FC = () => {
             }
           }));
       
-          setCreationProgress(80);
-          setDisplayProgress(80);
+          setCreationProgress(60);
+          setDisplayProgress(60);
       
           // 准备完整数据
           const agentData = {
@@ -320,10 +406,10 @@ const New: React.FC = () => {
             lifetime: '',
             totalSupply: 100000000000,
             marketCapTokenNumber: 100000000000,
-            useCases: useCases.en,
-            useCasesJA: useCases.ja,
-            useCasesKO: useCases.ko,
-            useCasesZH: useCases.zh,
+            useCases: finalUseCases.en,
+            useCasesJA: finalUseCases.ja,
+            useCasesKO: finalUseCases.ko,
+            useCasesZH: finalUseCases.zh,
             socialLinks: formData.socialLink || 'https://x.com/test, https://github.com/test, https://t.me/test',
             chatEntry: null,
             projectDescription: JSON.stringify({
@@ -345,6 +431,9 @@ const New: React.FC = () => {
             },
             body: JSON.stringify(agentData)
           });
+
+          setCreationProgress(80);
+          setDisplayProgress(80);
       
           if (!createResponse.ok) {
             throw new Error('创建失败');
@@ -366,6 +455,30 @@ const New: React.FC = () => {
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleExChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, name, value } = e.target;
+        
+        // Update useCases - set the item at index (parseInt(id)) in the locale array to value
+        setUseCases(prev => {
+            // Make sure the locale array exists or provide a default empty array
+            const currentLocaleArray = prev[locale as keyof typeof prev] || [];
+            
+            // Create a new array with the updated value at the specified index
+            const updatedArray = [...currentLocaleArray];
+            const index = parseInt(id.substring(0,1))-1;
+            updatedArray[index] = value;
+            
+            // Return the new state with the updated array
+            return {
+                ...prev,
+                [locale]: updatedArray
+            };
+        });
+        
+        // Update formData as before
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -559,7 +672,7 @@ const New: React.FC = () => {
                 <div className="space-y-3 text-sm">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((point) => (
                     <p key={point}>
-                        {point}. {t(`TokenDistribution.points.${point}`, { symbol:data.symbol })}
+                        {point}. {t(`TokenDistribution.points.${point}`, { symbol: data.symbol })}
                     </p>
                     ))}
                 </div>
@@ -617,8 +730,8 @@ const New: React.FC = () => {
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("symbolRule")}
                                     minLength={3}
-                                    maxLength={5}
-                                    pattern="[A-Z]{3,5}"
+                                    maxLength={6}
+                                    pattern="[A-Z]{3,6}"
                                 />
                                 {symbolExists && (
                                     <div className="text-red-500 text-sm mt-1">{t("symbolExists")}</div>
@@ -634,6 +747,30 @@ const New: React.FC = () => {
                                     className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectDescriptionPlaceholder")}
                                 />
+                            </div>
+
+                            <div className="pb-2">
+                                <label className="block mb-1">{t("price")}</label>
+                                <div className="relative">
+                                    <div className="flex items-center bg-white dark:bg-[#1a1a1a] p-2 rounded-lg border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
+                                        <input
+                                            name="price"
+                                            type="text"
+                                            inputMode="numeric"
+                                            value={formData.price}
+                                            onChange={(e) => {
+                                                // Only allow numbers
+                                                const value = e.target.value.replace(/[^0-9.]/g, '').replace(/^\./g, '').replace(/\.+/g, '.');
+                                                setFormData(prev => ({ ...prev, price: value }));
+                                            }}
+                                            className="flex-1 bg-transparent focus:outline-none min-w-0"
+                                            placeholder="0"
+                                        />
+                                        <div className="ml-2 bg-gray-100 dark:bg-card-inner opacity-75 rounded-full px-3 py-1 text-sm whitespace-nowrap">
+                                            {formData.symbol || "TOKEN"} / {t("time")}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -687,21 +824,29 @@ const New: React.FC = () => {
                             </div>
 
                             <div className="py-2 flex flex-col space-y-1">
-                                <label className="block">{t("socialLink")}</label>
-                                <input
-                                    name="socialLink"
-                                    ref={socialRef}
-                                    value={formData.socialLink}
-                                    onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                >
-                                </input>
-                                {socialExists && (
-                                    <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
-                                )}
+                            <label className="block">{t("socialLink")}</label>
+                            <input
+                                name="socialLink"
+                                ref={socialRef}
+                                value={formData.socialLink}
+                                onChange={handleChange}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed placeholder:opacity-50 placeholder:text-transparent"
+                                placeholder="X Telegram"
+                                style={{
+                                backgroundImage: !formData.socialLink ? `
+                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'),
+                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>')
+                                ` : 'none',
+                                backgroundPosition: !formData.socialLink ? '10px center, 35px center' : 'unset',
+                                backgroundRepeat: 'no-repeat'
+                                }}
+                            />
+                            {socialExists && (
+                                <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
+                            )}
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4 pb-8">
                                 <label className="block mb-1">{t("agentImage")}</label>
                                 <div className="relative w-24 h-24">
                                     <label className={`absolute inset-0 flex items-center justify-center rounded-md border-2 border-dashed border-black dark:border-white border-opacity-20 dark:border-opacity-20 cursor-pointer hover:bg-opacity-5 dark:hover:bg-opacity-5 hover:bg-black dark:hover:bg-white transition-colors ${imageUrl ? 'opacity-0 hover:opacity-100 z-10' : ''}`}>
@@ -724,7 +869,7 @@ const New: React.FC = () => {
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
-                                                    strokeWidth={2}
+                                                    strokeWidth={1}
                                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                                                 />
                                             </svg>
@@ -789,168 +934,73 @@ const New: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="mt-4">
-                                <label className="block mb-1">{t("agentImage")}</label>
-                                <div className="relative w-24 h-24">
-                                    <label className={`absolute inset-0 flex items-center justify-center rounded-md border-2 border-dashed border-black dark:border-white border-opacity-20 dark:border-opacity-20 cursor-pointer hover:bg-opacity-5 dark:hover:bg-opacity-5 hover:bg-black dark:hover:bg-white transition-colors ${imageUrl ? 'opacity-0 hover:opacity-100 z-10' : ''}`}>
-                                        <input
-                                            type="file"
-                                            className="hidden"
-                                            accept="image/*"
-                                            onChange={handleImageUpload}
-                                            disabled={uploadingImage}
-                                        />
-                                        {uploadingImage ? (
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
-                                        ) : (
-                                            <svg
-                                                className="w-10 h-10 text-gray-500 dark:text-gray-400"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                />
-                                            </svg>
-                                        )}
-                                    </label>
-                                    {imageUrl && (
-                                        <div className="absolute inset-0 rounded-md overflow-hidden group">
-                                            <img
-                                                src={imageUrl}
-                                                alt="Preview"
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <button
-                                                onClick={removeImage}
-                                                className="absolute top-0 right-0 m-1 p-1 bg-black bg-opacity-50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
                             {/* Dialog examples section */}
                             <div className="mt-6">
-                                <h2 className="text-xl font-bold mb-4">{t("dialogModel")}</h2>
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
+                            <button
+                                onClick={generateUseCases}
+                                disabled={generatingUseCases || !formData.description}
+                                className="flex items-center space-x-2 bg-primary bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <span>{t("generateExamples")}</span>
+                            </button>
+                        </div>
 
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
-                                            1
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userFirst"
-                                                value={formData.userFirst}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentFirst"
-                                                value={formData.agentFirst}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
+                        {/* Example 1 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    1
                                 </div>
-
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
-                                            2
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userSecond"
-                                                value={formData.userSecond}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentSecond"
-                                                value={formData.agentSecond}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="relative mb-8">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
-                                            3
-                                        </div>
-                                        <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="relative">
-                                            <div className="absolute -left-3 top-1/2 transform -translate-y-1/2">
-                                                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                            <textarea
-                                                name="userThird"
-                                                value={formData.userThird}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("userQuestion")}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <textarea
-                                                name="agentThird"
-                                                value={formData.agentThird}
-                                                onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                                placeholder={t("agentResponse")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                <h3 className="text-lg font-medium">{t("eg1")}</h3>
                             </div>
+                            <textarea
+                                id="11111"
+                                name="userFirst"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[0] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                        </div>
 
+                        {/* Example 2 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    2
+                                </div>
+                                <h3 className="text-lg font-medium">{t("eg2")}</h3>
+                            </div>
+                            <textarea
+                                id="22222"
+                                name="userSecond"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[1] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                        </div>
+
+                        {/* Example 3 */}
+                        <div className="relative mb-8">
+                            <div className="flex items-center mb-2">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                    3
+                                </div>
+                                <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                            </div>
+                            <textarea
+                                id="33333"
+                                name="userThird"
+                                onChange={handleExChange}
+                                value={currentLangUseCases[2] || ''}
+                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                placeholder=""
+                            />
+                            </div>
+                        </div>
                             <button
                                 onClick={handleCreate}
                                 disabled={creating || !formData.name}

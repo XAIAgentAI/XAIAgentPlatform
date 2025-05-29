@@ -65,7 +65,7 @@ export function DateTimePicker({
   timezone: externalTimezone,
   onTimezoneChange
 }: DateTimePickerProps) {
-  const t = useTranslations('datePicker');
+  const t = useTranslations('create.datePicker');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date>(value);
   const [internalTimezone, setInternalTimezone] = useState<string>(getUserTimeZone());
