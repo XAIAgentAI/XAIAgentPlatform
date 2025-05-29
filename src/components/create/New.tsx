@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { DateTimePicker } from '@/components/ui/time-range-picker';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 const New: React.FC = () => {
@@ -20,6 +22,36 @@ const New: React.FC = () => {
     const [creationProgress, setCreationProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
     const [success, setSuccess] = useState(false);
+    const [dateRange, setDateRange] = useState<{ 
+        range: { 
+            from: Date; 
+            to: Date | undefined 
+        }; 
+        rangeCompare?: { 
+            from: Date; 
+            to: Date | undefined 
+        } 
+    }>(() => {
+        const now = new Date();
+        const startDate = new Date(now);
+        
+        // 设置为当天的早上6点
+        const hours = 6;
+        startDate.setHours(hours, 0, 0, 0);
+        
+        // 计算结束日期（3天后的早上6点）
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 3);
+        endDate.setHours(hours, 0, 0, 0);
+        
+        return {
+            range: {
+                from: startDate,
+                to: endDate
+            }
+        };
+    });
+    const [sharedTimezone, setSharedTimezone] = useState('Asia/Shanghai');
     const [data, setData] = useState<{
         id: string;
         name: string;
@@ -48,8 +80,7 @@ const New: React.FC = () => {
         userThird: '',
         agentThird: ''
     });
-    const [showTimeOptions, setShowTimeOptions] = useState(false);
-    const [iaoStartTime, setIaoStartTime] = useState('7_days'); // Default option
+
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -264,8 +295,11 @@ const New: React.FC = () => {
             category: 'AI Agent',
             capabilities: ['chat', 'information'],
             tokenAmount: '1000000000000000000',
-            startTimestamp: getStartTimestamp(),
-            durationHours: 24*7,
+            startTimestamp: Math.floor(dateRange.range.from.getTime() / 1000),
+            // endTimestamp: dateRange.range.to 
+            //   ? Math.floor(dateRange.range.to.getTime() / 1000) 
+            //   : Math.floor(dateRange.range.from.getTime() / 1000) + 24 * 60 * 60 * 7,
+            durationHours: dateRange.range.to ? Math.floor((dateRange.range.to.getTime() - dateRange.range.from.getTime()) / (1000 * 60 * 60)) : 24 * 3,
             rewardAmount: '2000000000000000000000000000',
             rewardToken: '0xabcdef123',
             symbol: formData.symbol || 'AGT',
@@ -293,10 +327,10 @@ const New: React.FC = () => {
             socialLinks: formData.socialLink || 'https://x.com/test, https://github.com/test, https://t.me/test',
             chatEntry: null,
             projectDescription: JSON.stringify({
-              en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. 14-day IAO period\n4. Trading pairs will be established on DBCSwap`,
-              zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 14天 IAO 期间\n4. 将在 DBCSwap 上建立交易对`,
-              ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. 14日間の IAO 期間\n4. DBCSwap に取引ペアを設立`,
-              ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 14일간의 IAO 기간\n4. DBCSwap에 거래쌍 설립`
+              en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. Project Duration: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} days\n4. Trading pairs will be established on DBCSwap`,
+              zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 项目持续时间: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 天\n4. 将在 DBCSwap 上建立交易对`,
+              ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. プロジェクト期間: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 日間\n4. DBCSwap に取引ペアを設立`,
+              ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 프로젝트 기간: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 일\n4. DBCSwap에 거래쌍 설립`
             }),
             iaoTokenAmount: 20000000000,
             miningRate: '0.1%'
@@ -364,32 +398,30 @@ const New: React.FC = () => {
         setImageUrl(null);
     };
 
-    const TIME_OPTIONS = [
-        { value: '7_hours', label: t("7hour") },
-        { value: '24_hours', label: t("1day") },
-        { value: '3_days', label: t("3day") },
-        { value: '7_days', label: t("7day") },
-        { value: '14_days', label: t("14day")},
-        { value: '1_month', label: t("1month")}
-    ];
 
-    // Add this helper function to calculate timestamp
-    const getStartTimestamp = () => {
-        const now = Math.floor(Date.now() / 1000);
-        switch (iaoStartTime) {
-        case '7_hours': return now + 3600 * 7;
-        case '24_hours': return now + 3600 * 24;
-        case '3_days': return now + 3600 * 24 * 3;
-        case '7_days': return now + 3600 * 24 * 7;
-        case '14_days': return now + 3600 * 24 * 14;
-        case '1_month': return now + 3600 * 24 * 30;
-        default: return now + 3600 * 7 * 24; // default to 7 days
-        }
-    };
 
-    const handleTimeSelect = (value: string) => {
-        setIaoStartTime(value);
-        setShowTimeOptions(false);
+    // 当时区改变时，保持选择的小时数不变
+    const handleTimezoneChange = (newTimezone: string) => {
+        setSharedTimezone(newTimezone);
+        
+        // 保持原始选择的小时数
+        const fromHours = dateRange.range.from.getHours();
+        const fromMinutes = dateRange.range.from.getMinutes();
+        const newStartDate = new Date(dateRange.range.from);
+        newStartDate.setHours(fromHours, fromMinutes, 0, 0);
+        
+        const toHours = dateRange.range.to ? dateRange.range.to.getHours() : fromHours;
+        const toMinutes = dateRange.range.to ? dateRange.range.to.getMinutes() : fromMinutes;
+        const newEndDate = new Date(dateRange.range.to || newStartDate);
+        newEndDate.setHours(toHours, toMinutes, 0, 0);
+        
+        setDateRange(prev => ({
+            ...prev,
+            range: {
+                from: newStartDate,
+                to: newEndDate
+            }
+        }));
     };
 
     const CreationAnimation = () => {
@@ -568,7 +600,7 @@ const New: React.FC = () => {
                                     ref={nameInputRef}
                                     value={formData.name}
                                     onChange={handleNameChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectNamePlaceholder")}
                                 />
                                 {nameExists && (
@@ -582,7 +614,7 @@ const New: React.FC = () => {
                                     name="symbol"
                                     value={formData.symbol}
                                     onChange={handleSymbolChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("symbolRule")}
                                     minLength={3}
                                     maxLength={5}
@@ -599,7 +631,7 @@ const New: React.FC = () => {
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     placeholder={t("projectDescriptionPlaceholder")}
                                 />
                             </div>
@@ -611,7 +643,7 @@ const New: React.FC = () => {
                                         name="tokenSupply"
                                         value={formData.tokenSupply}
                                         onChange={handleChange}
-                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="w-full bg-card-inner p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
                                     />
                                 </div>
@@ -622,7 +654,7 @@ const New: React.FC = () => {
                                         name="miningRate"
                                         value={formData.miningRate}
                                         onChange={handleChange}
-                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="w-full bg-card-inner p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
                                     />
                                 </div>
@@ -633,7 +665,7 @@ const New: React.FC = () => {
                                         name="iaoPercentage"
                                         value={formData.iaoPercentage}
                                         onChange={handleChange}
-                                        className="w-full bg-card-inner p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="w-full bg-card-inner p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
                                     />
                                 </div>
@@ -646,7 +678,7 @@ const New: React.FC = () => {
                                     ref={containerRef}
                                     value={formData.containerLink}
                                     onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                 >
                                 </input>
                                 {containerShow && (
@@ -661,12 +693,100 @@ const New: React.FC = () => {
                                     ref={socialRef}
                                     value={formData.socialLink}
                                     onChange={handleChange}
-                                    className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
+                                    className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                 >
                                 </input>
                                 {socialExists && (
                                     <div className="text-red-500 text-sm mt-1">{t("socialExists")}</div>
                                 )}
+                            </div>
+
+                            <div className="mt-4">
+                                <label className="block mb-1">{t("agentImage")}</label>
+                                <div className="relative w-24 h-24">
+                                    <label className={`absolute inset-0 flex items-center justify-center rounded-md border-2 border-dashed border-black dark:border-white border-opacity-20 dark:border-opacity-20 cursor-pointer hover:bg-opacity-5 dark:hover:bg-opacity-5 hover:bg-black dark:hover:bg-white transition-colors ${imageUrl ? 'opacity-0 hover:opacity-100 z-10' : ''}`}>
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleImageUpload}
+                                            disabled={uploadingImage}
+                                        />
+                                        {uploadingImage ? (
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+                                        ) : (
+                                            <svg
+                                                className="w-10 h-10 text-gray-500 dark:text-gray-400"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                />
+                                            </svg>
+                                        )}
+                                    </label>
+                                    {imageUrl && (
+                                        <div className="absolute inset-0 rounded-md overflow-hidden group">
+                                            <img
+                                                src={imageUrl}
+                                                alt="Preview"
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <button
+                                                onClick={removeImage}
+                                                className="absolute top-0 right-0 m-1 p-1 bg-black bg-opacity-50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="py-2 flex flex-col space-y-1">
+                                <label className="block">{t("startTime")}</label>
+                                <DateTimePicker
+                                    value={dateRange.range.from}
+                                    onChange={(timestamp: number) => {
+                                        const date = new Date(timestamp);
+                                        setDateRange(prev => ({
+                                            ...prev,
+                                            range: {
+                                                ...prev.range,
+                                                from: date
+                                            }
+                                        }));
+                                    }}
+                                    timezone={sharedTimezone}
+                                    onTimezoneChange={handleTimezoneChange}
+                                />
+                            </div>
+
+                            <div className="py-2 flex flex-col space-y-1">
+                                <label className="block">{t("endTime")}</label>
+                                <DateTimePicker
+                                    value={dateRange.range.to || new Date(dateRange.range.from.getTime() + 3 * 24 * 60 * 60 * 1000)}
+                                    onChange={(timestamp: number) => {
+                                        const date = new Date(timestamp);
+                                        setDateRange(prev => ({
+                                            ...prev,
+                                            range: {
+                                                ...prev.range,
+                                                to: date
+                                            }
+                                        }));
+                                    }}
+                                    timezone={sharedTimezone}
+                                    onTimezoneChange={handleTimezoneChange}
+                                    showTimezone={false}
+                                />
                             </div>
 
                             <div className="mt-4">
@@ -724,7 +844,7 @@ const New: React.FC = () => {
 
                                 <div className="relative mb-8">
                                     <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
                                             1
                                         </div>
                                         <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
@@ -741,7 +861,7 @@ const New: React.FC = () => {
                                                 name="userFirst"
                                                 value={formData.userFirst}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("userQuestion")}
                                             />
                                         </div>
@@ -751,7 +871,7 @@ const New: React.FC = () => {
                                                 name="agentFirst"
                                                 value={formData.agentFirst}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("agentResponse")}
                                             />
                                         </div>
@@ -760,7 +880,7 @@ const New: React.FC = () => {
 
                                 <div className="relative mb-8">
                                     <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
                                             2
                                         </div>
                                         <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
@@ -777,7 +897,7 @@ const New: React.FC = () => {
                                                 name="userSecond"
                                                 value={formData.userSecond}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("userQuestion")}
                                             />
                                         </div>
@@ -787,7 +907,7 @@ const New: React.FC = () => {
                                                 name="agentSecond"
                                                 value={formData.agentSecond}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("agentResponse")}
                                             />
                                         </div>
@@ -796,7 +916,7 @@ const New: React.FC = () => {
 
                                 <div className="relative mb-8">
                                     <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white font-bold mr-2">
                                             3
                                         </div>
                                         <h3 className="text-lg font-medium">{t("dialogExample")}</h3>
@@ -813,7 +933,7 @@ const New: React.FC = () => {
                                                 name="userThird"
                                                 value={formData.userThird}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("userQuestion")}
                                             />
                                         </div>
@@ -823,7 +943,7 @@ const New: React.FC = () => {
                                                 name="agentThird"
                                                 value={formData.agentThird}
                                                 onChange={handleChange}
-                                                className="w-full bg-white dark:bg-[#1a1a1a] p-3 rounded-lg h-24 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                                className="w-full bg-white dark:bg-[#1a1a1a] p-2 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                                 placeholder={t("agentResponse")}
                                             />
                                         </div>

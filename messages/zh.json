@@ -19,7 +19,13 @@
       "days": "天",
       "hours": "时",
       "minutes": "分",
-      "seconds": "秒"
+      "seconds": "秒",
+      "selectDateRange": "选择日期范围",
+      "1day": "1天",
+      "7day": "7天",
+      "14day": "14天",
+      "30day": "30天",
+      "90day": "90天"
     },
     "perDay": "天",
     "social": "社交",
@@ -195,7 +201,6 @@
     "approveFailed": "授权失败，请重试",
     "copy": "复制",
     "copied": "已复制",
-
     "lpPoolData": "流动性池数据",
     "iaoCompletedData": "IAO已结束，完成的数据",
     "iaoReleasedAmount": "IAO 释放的 {symbol} 数量",
@@ -218,7 +223,6 @@
     "paidXaaAmount": "已支付的 XAA 数量",
     "claimableSicAmount": "可领取的 SIC 数量"
   },
-
   "tokenInfo": {
     "totalSupply": "XAA 总供应量：1000亿",
     "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
@@ -321,14 +325,21 @@
     "closeSearch": "关闭搜索"
   },
   "chat": {
-    "tips":"价格",
-    "bottom":{"price":"本次生图免费","rule1":"每次消耗 0.1 美元 STID","rule2":"持有 $100 STID 永久免费","rule3":"前10万次生图免费","auser":"累计用户:","apic":"累计生图次数:"},
-    "wechatcopied":"分享信息已复制",
-    "share":"AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "tips": "价格",
+    "bottom": {
+      "price": "本次生图免费",
+      "rule1": "每次消耗 0.1 美元 STID",
+      "rule2": "持有 $100 STID 永久免费",
+      "rule3": "前10万次生图免费",
+      "auser": "累计用户:",
+      "apic": "累计生图次数:"
+    },
+    "wechatcopied": "分享信息已复制",
+    "share": "AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "shareHeader": "这是AI眼中的我 —— 我选择了",
-    "base":"自定义风格",
+    "base": "自定义风格",
     "sharetail": "！试试StyleID，看看你的效果 👇\n立即尝试 👉 https://app.xaiagent.io/styleid \n加入社区 👉 https://t.me/XAIAgentAI \n我的生成图片👇\n",
-    "need":"StyleID需要一张带有人脸的照片",
+    "need": "StyleID需要一张带有人脸的照片",
     "Xaiagent": "XAIAgent是一个基于区块链的去中心化AI Agent平台，集AI Agent的创建、使用、发射与交易于一体",
     "StyleID": "生成人物写真，用户仅需要提供一张照片即可快速获得独属于自己的个人写真支持多种风格",
     "LogoLift": "Logo生成，通过文字对话可以生成各种样式的Logo",
@@ -379,116 +390,116 @@
       }
     },
     "data": {
-        "Xaiagent": {
-          "description": "XAIAgent是一个基于区块链的去中心化AI代理平台，集成了AI代理的创建、使用、部署和交易",
-          "prompts": [
-            "帮我创建一个AI代理",
-            "你有哪些功能？",
-            "你能创建哪些类型的AI代理？",
-            "你能告诉我如何将xx用作代理吗？"
-          ]
-        },
-        "StyleID": {
-          "description": "生成人物照片，用户只需提供一张照片即可快速获得支持多种风格的独特个人照片。",
-          "prompts": [
-            "请帮我生成一张赛博朋克风格的照片，带霓虹灯和未来科技感。",
-            "能不能把我的照片转换成水墨画风格，像传统中国画那样？",
-            "我想要一张日系小清新风格的照片，背景最好是自然光。",
-            "生成一张复古胶片风格的照片，带点怀旧颗粒感。"
-          ]
-        },
-        "LogoLift": {
-          "description": "标志生成，可以通过文本对话生成各种风格的标志。",
-          "prompts": [
-            "我想要一个科技感强的标志，主要以蓝色和紫色为主，带有未来感。你能帮我设计一个吗？",
-            "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链项目。",
-            "我希望标志能体现去中心化和人工智能的概念。我们可以尝试几种不同的设计风格吗？",
-            "你能生成一个适合社交媒体头像的动态视觉效果标志吗？"
-          ]
-        },
-        "PicSpan": {
-          "description": "将图像扩展到任意所需的比例。",
-          "prompts": [
-            "你能帮我扩展这张图像的左侧和底部，同时保持其原始风格吗？",
-            "你能将这张图像扩展为16:9的宽屏比例，同时保持主体居中吗？",
-            "我们能让扩展的部分更有创意吗？比如添加一些与原图相关的细节。",
-            "扩展后的图像能更自然地融合吗？如果有任何不一致的地方，你能优化它们吗？"
-          ]
-        }
+      "Xaiagent": {
+        "description": "XAIAgent是一个基于区块链的去中心化AI代理平台，集成了AI代理的创建、使用、部署和交易",
+        "prompts": [
+          "帮我创建一个AI代理",
+          "你有哪些功能？",
+          "你能创建哪些类型的AI代理？",
+          "你能告诉我如何将xx用作代理吗？"
+        ]
+      },
+      "StyleID": {
+        "description": "生成人物照片，用户只需提供一张照片即可快速获得支持多种风格的独特个人照片。",
+        "prompts": [
+          "请帮我生成一张赛博朋克风格的照片，带霓虹灯和未来科技感。",
+          "能不能把我的照片转换成水墨画风格，像传统中国画那样？",
+          "我想要一张日系小清新风格的照片，背景最好是自然光。",
+          "生成一张复古胶片风格的照片，带点怀旧颗粒感。"
+        ]
+      },
+      "LogoLift": {
+        "description": "标志生成，可以通过文本对话生成各种风格的标志。",
+        "prompts": [
+          "我想要一个科技感强的标志，主要以蓝色和紫色为主，带有未来感。你能帮我设计一个吗？",
+          "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链项目。",
+          "我希望标志能体现去中心化和人工智能的概念。我们可以尝试几种不同的设计风格吗？",
+          "你能生成一个适合社交媒体头像的动态视觉效果标志吗？"
+        ]
+      },
+      "PicSpan": {
+        "description": "将图像扩展到任意所需的比例。",
+        "prompts": [
+          "你能帮我扩展这张图像的左侧和底部，同时保持其原始风格吗？",
+          "你能将这张图像扩展为16:9的宽屏比例，同时保持主体居中吗？",
+          "我们能让扩展的部分更有创意吗？比如添加一些与原图相关的细节。",
+          "扩展后的图像能更自然地融合吗？如果有任何不一致的地方，你能优化它们吗？"
+        ]
+      }
     },
-    "explore":"探索AI智能体",
-    "trade":"交易AI智能体",
-    "signup":"注册", 
-    "login":"登录", 
-    "username":"用户名", 
-    "password":"密码", 
-    "confirm":"确认",
-    "today":"今天",
-    "7daysago":"本周",
-    "thinking":"正在思考...",
-      "Cinematic": {
-        "name": "电影风",
-        "prompt": "电影级打光，戏剧性氛围，胶片颗粒感，35毫米镜头"
-      },
-      "Anime": {
-        "name": "动漫风",
-        "prompt": "动漫风格，鲜艳的色彩，锐利的细节，受吉卜力工作室启发"
-      },
-      "Cyberpunk": {
-        "name": "赛博朋克风",
-        "prompt": "霓虹灯光，未来主义城市景观，雨水倒影，《赛博朋克2077》风格"
-      },
-      "Watercolor": {
-        "name": "水彩画风格",
-        "prompt": "柔和的水彩纹理，轻柔的笔触，淡彩色调"
-      },
-      "LowPoly": {
-        "name": "低多边形风格",
-        "prompt": "低多边形几何形状，鲜艳的色彩，极简主义3D风格"
-      },
-      "Portrait": {
-        "name": "人像摄影风格",
-        "prompt": "专业人像摄影，浅景深，85毫米镜头"
-      },
-      "OilPainting": {
-        "name": "油画风格",
-        "prompt": "布面油画，有质感的笔触，古典艺术风格"
-      },
-      "Minimalist": {
-        "name": "极简主义风格",
-        "prompt": "简洁的线条，简单的形状，单色色调，现代设计"
-      },
-      "PixelArt": {
-        "name": "像素艺术风格",
-        "prompt": "8位风格，复古游戏美学，块状像素，鲜艳的调色板"
-      },
-      "Sketch": {
-        "name": "素描风格",
-        "prompt": "手绘铅笔素描，粗糙的轮廓，用排线法进行阴影处理"
-      },
-      "ChalkDrawing": {
-        "name": "粉笔画风格",
-        "prompt": "黑板纹理，柔和的淡彩色调，手绘教育风格"
-      },
-      "Claymation": {
-        "name": "定格动画（黏土动画）风格",
-        "prompt": "定格动画的黏土质感，柔和的灯光，可触摸的材料质感"
-      },
-      "ComicBook": {
-        "name": "漫画书风格",
-        "prompt": "粗轮廓线，半色调图案，鲜艳的原色，波普艺术风格"
-      },
-      "Vaporwave": {
-        "name": "蒸汽波风格",
-        "prompt": "复古80年代美学，淡彩色霓虹灯光，故障艺术效果"
-      },
-      "Ukiyoe": {
-        "name": "浮世绘风格",
-        "prompt": "日本木刻版画，平涂色彩，传统亚洲艺术风格"
-      },
-    "isImageThinking":"图片生成中...",
-    "alreadyuseagent":"已调用AI模型",
-    "noface":"没有脸或提示太不清楚。"
+    "explore": "探索AI智能体",
+    "trade": "交易AI智能体",
+    "signup": "注册",
+    "login": "登录",
+    "username": "用户名",
+    "password": "密码",
+    "confirm": "确认",
+    "today": "今天",
+    "7daysago": "本周",
+    "thinking": "正在思考...",
+    "Cinematic": {
+      "name": "电影风",
+      "prompt": "电影级打光，戏剧性氛围，胶片颗粒感，35毫米镜头"
+    },
+    "Anime": {
+      "name": "动漫风",
+      "prompt": "动漫风格，鲜艳的色彩，锐利的细节，受吉卜力工作室启发"
+    },
+    "Cyberpunk": {
+      "name": "赛博朋克风",
+      "prompt": "霓虹灯光，未来主义城市景观，雨水倒影，《赛博朋克2077》风格"
+    },
+    "Watercolor": {
+      "name": "水彩画风格",
+      "prompt": "柔和的水彩纹理，轻柔的笔触，淡彩色调"
+    },
+    "LowPoly": {
+      "name": "低多边形风格",
+      "prompt": "低多边形几何形状，鲜艳的色彩，极简主义3D风格"
+    },
+    "Portrait": {
+      "name": "人像摄影风格",
+      "prompt": "专业人像摄影，浅景深，85毫米镜头"
+    },
+    "OilPainting": {
+      "name": "油画风格",
+      "prompt": "布面油画，有质感的笔触，古典艺术风格"
+    },
+    "Minimalist": {
+      "name": "极简主义风格",
+      "prompt": "简洁的线条，简单的形状，单色色调，现代设计"
+    },
+    "PixelArt": {
+      "name": "像素艺术风格",
+      "prompt": "8位风格，复古游戏美学，块状像素，鲜艳的调色板"
+    },
+    "Sketch": {
+      "name": "素描风格",
+      "prompt": "手绘铅笔素描，粗糙的轮廓，用排线法进行阴影处理"
+    },
+    "ChalkDrawing": {
+      "name": "粉笔画风格",
+      "prompt": "黑板纹理，柔和的淡彩色调，手绘教育风格"
+    },
+    "Claymation": {
+      "name": "定格动画（黏土动画）风格",
+      "prompt": "定格动画的黏土质感，柔和的灯光，可触摸的材料质感"
+    },
+    "ComicBook": {
+      "name": "漫画书风格",
+      "prompt": "粗轮廓线，半色调图案，鲜艳的原色，波普艺术风格"
+    },
+    "Vaporwave": {
+      "name": "蒸汽波风格",
+      "prompt": "复古80年代美学，淡彩色霓虹灯光，故障艺术效果"
+    },
+    "Ukiyoe": {
+      "name": "浮世绘风格",
+      "prompt": "日本木刻版画，平涂色彩，传统亚洲艺术风格"
+    },
+    "isImageThinking": "图片生成中...",
+    "alreadyuseagent": "已调用AI模型",
+    "noface": "没有脸或提示太不清楚。"
   },
   "cryptoChart": {
     "timeIntervals": {
@@ -570,7 +581,6 @@
     "noPendingReward": "暂无待领取",
     "noClaimableRewards": "无可领取奖励",
     "pleaseSelectNFTsWithPendingRewards": "请选择有待领取奖励的 NFT",
-    
     "viewStakeDetailAndReward": "查看质押详情和奖励",
     "connectWalletToViewStakeDetail": "连接钱包后查看NFT质押详情",
     "expired": "已到期"
@@ -585,148 +595,170 @@
     "thailand": "泰国",
     "indonesia": "印尼"
   },
-    "create": {
-      "title": "创建指南",
-      "time_setting_requirements": {
-        "title":"设置时间要求",
-        "description": "必须在计划启动时间的24小时前完成所有配置。",
-        "example": "若计划周一10:00启动，需在周日10:00前完成设置。"
-      },
-      "runtime_duration_range": {
-        "title":"运行时长范围",
-        "description": "单次运行时长仅限72小时（3天）至720小时（30天）之间。",
-        "note": "超出此范围的设置将无法生效。"
-      },
-      "start_time_restrictions": {
-        "title":"启动时间限制",
-        "description": "完成设置后，至少需等待24小时才能启动，无法提前开始。",
-        "note": "即使提前完成配置，最早启动时间仍为设置时间+24小时。"
-      },
-      "mining_requirements": {
-        "title": "挖掘要求",
-        "ai_model_environment": {
-            "title": "人工智能模型运行环境要求",
-            "point1": "由于人工智能模型由 GPU 提供商部署和运行，需要指定详细的部署程序。",
-            "point2": "必须明确说明最低 GPU 内存要求。",
-            "point3": "必须根据文档创建一个容器，并将人工智能模型放置在容器中，以便 GPU 提供商轻松下载。",
-            "point4": "GPU 提供商被称为矿工，他们因提供 GPU 资源来运行人工智能模型而获得 Token 奖励。年度 Token 奖励总额为 60 亿。"
-        }
-      },
-      "requirements": {
-        "title": "代币创建经济模型",
-        "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
-        "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
-        "iaoAllocation": {
-          "title": "IAO分配:",
-          "pool": "95% $XAA分配给流动性池(永久锁定)",
-          "burn": "5% $XAA打入黑洞地址"
-        },
-        "liquidity": "流动性池: IAO结束后，3% $XXX和$XAA自动在DBCSwap建立流动性",
-        "team": "团队分配: 32% $XXX，分2000天线性解锁",
-        "mining": {
-          "title": "挖矿机制:",
-          "output": "每年60亿$XXX产出",
-          "unlock": "10%立即获得，90%分180天解锁",
-          "requirement": "需持有XAA节点(每个机器质押10个XAA节点)"
-        },
-        "airdrop": {
-          "title": "空投分配:",
-          "holders": "1%给$XAA和$DBC前10,000名持有者",
-          "nft": "1%给XAA节点NFT持有者"
-        }
-      },
-      "process": {
-        "error": "请先连接钱包",
-        "title": "创建流程",
-        "title2": "创建地址", 
-        "href": "前往",
-        "hrefc": "页面创建你的agent",
-        "steps": {
-          "name": "请给你的AI币/项目进行命名",
-          "description": "请描述你的AI币/项目功能",
-          "examples": "描述你的AI项目可以和用户进行什么内容的对话(请举出几个对话案例)"
-        }
-      },
-      "iao": {
-        "title": "IAO设置",
-        "time": {
-          "title": "IAO时间设置",
-          "duration": "设置IAO持续时间(72-720小时)",
-          "start": "IAO将在设置后24小时启动"
-        },
-        "mining": {
-          "title": "挖矿要求",
-          "gpu": "设置GPU显存最低要求",
-          "container": "设置AI容器下载链接"
-        }
-      },
-      "examples": {
-        "title": "示例对话",
-        "user": "用户:",
-        "ai": "AI:",
-        "example1": {
-          "user": "帮我创建一个AI代币",
-          "ai": "好的，请输入您的AI代币名称"
-        },
-        "example2": {
-          "user": "用户输入文字，生成一张图片",
-          "ai": "该需求已加入您的AI模型"
-        }
+  "create": {
+    "title": "创建指南",
+    "time_setting_requirements": {
+      "title": "设置时间要求",
+      "description": "必须在计划启动时间的24小时前完成所有配置。",
+      "example": "若计划周一10:00启动，需在周日10:00前完成设置。"
+    },
+    "runtime_duration_range": {
+      "title": "运行时长范围",
+      "description": "单次运行时长仅限72小时（3天）至720小时（30天）之间。",
+      "note": "超出此范围的设置将无法生效。"
+    },
+    "start_time_restrictions": {
+      "title": "启动时间限制",
+      "description": "完成设置后，至少需等待24小时才能启动，无法提前开始。",
+      "note": "即使提前完成配置，最早启动时间仍为设置时间+24小时。"
+    },
+    "mining_requirements": {
+      "title": "挖掘要求",
+      "ai_model_environment": {
+        "title": "人工智能模型运行环境要求",
+        "point1": "由于人工智能模型由 GPU 提供商部署和运行，需要指定详细的部署程序。",
+        "point2": "必须明确说明最低 GPU 内存要求。",
+        "point3": "必须根据文档创建一个容器，并将人工智能模型放置在容器中，以便 GPU 提供商轻松下载。",
+        "point4": "GPU 提供商被称为矿工，他们因提供 GPU 资源来运行人工智能模型而获得 Token 奖励。年度 Token 奖励总额为 60 亿。"
       }
     },
-    "createAgent": {
-        "socialLink":"社交链接",
-        "socialExists":"链接应以“https”开头",
-        "container": "容器链接",
-        "nameExists": "Agent 名称已存在",
-        "symbolExists": "Agent symbol 已存在",
-        "nameAndSymbolExists": "Agent 名称和 symbol 都已存在",
-        "pleaseChooseDifferentName": "请选择不同的名称",
-        "pleaseChooseDifferentSymbol": "请选择不同的 symbol",
-        "createSymbol":"代币名",
-        "symbolRule":"3-5个大写英文字母",
-        "7hour": "7 小时后",
-        "1day": "1 天后",
-        "3day": "3 天后",
-        "7day": "7 天后（默认）",
-        "14day": "14 天后",
-        "1month": "1 个月后",
-        "iaostarttime":"IAO开始时间",
-        "agentDetails":"代理详情",
-        "useCases":"用例",
-        "creationProcessMessage": "正在创建您的AI智能体，这可能需要一些时间...",
-        "createAIProject": "创建AI代币项目",
-        "projectName": "项目名称",
-        "projectNamePlaceholder": "8-20个字母",
-        "projectDescription": "项目描述",
-        "projectDescriptionPlaceholder": "描述你的AI项目功能",
-        "tokenSupply": "代币总量",
-        "iaoPercentage": "IAO比例",
-        "mining": "60亿/年",
-        "miningRate": "挖矿产出",
-        "agentImage": "代币Logo",
-        "dialogModel": "对话模型",
-        "dialogExample": "对话示例",
-        "userQuestion": "用户提问",
-        "agentResponse": "Agent回复",
-        "createSuccess": "创建成功!",
-        "created": "AI代币项目已成功创建,您的Agent ID为 ",
-        "viewProject": "查看项目",
-        "creating": "创建中...",
-        "createNow": "立即创建",
-        "TokenDistribution": {
-          "title": "代币分配详情",
-          "points": {
-            "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生60亿",
-            "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
-            "3": "在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
-            "4": "IAO 结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
-            "5": "团队拥有30%的{symbol},IAO结束后开始解锁，分2000天线性解锁",
-            "6": "2%的{symbol}用来进行Token Sale,IAO结束后开始解锁，分400天线性解锁",
-            "7": "{symbol}挖矿每年产生60亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
-            "8": "需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点",
-            "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
-          }
-        }
+    "requirements": {
+      "title": "代币创建经济模型",
+      "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
+      "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
+      "iaoAllocation": {
+        "title": "IAO分配:",
+        "pool": "95% $XAA分配给流动性池(永久锁定)",
+        "burn": "5% $XAA打入黑洞地址"
+      },
+      "liquidity": "流动性池: IAO结束后，3% $XXX和$XAA自动在DBCSwap建立流动性",
+      "team": "团队分配: 32% $XXX，分2000天线性解锁",
+      "mining": {
+        "title": "挖矿机制:",
+        "output": "每年60亿$XXX产出",
+        "unlock": "10%立即获得，90%分180天解锁",
+        "requirement": "需持有XAA节点(每个机器质押10个XAA节点)"
+      },
+      "airdrop": {
+        "title": "空投分配:",
+        "holders": "1%给$XAA和$DBC前10,000名持有者",
+        "nft": "1%给XAA节点NFT持有者"
+      }
+    },
+    "process": {
+      "error": "请先连接钱包",
+      "title": "创建流程",
+      "title2": "创建地址",
+      "href": "前往",
+      "hrefc": "页面创建你的agent",
+      "steps": {
+        "name": "请给你的AI币/项目进行命名",
+        "description": "请描述你的AI币/项目功能",
+        "examples": "描述你的AI项目可以和用户进行什么内容的对话(请举出几个对话案例)"
+      }
+    },
+    "iao": {
+      "title": "IAO设置",
+      "time": {
+        "title": "IAO时间设置",
+        "duration": "设置IAO持续时间(72-720小时)",
+        "start": "IAO将在设置后24小时启动"
+      },
+      "mining": {
+        "title": "挖矿要求",
+        "gpu": "设置GPU显存最低要求",
+        "container": "设置AI容器下载链接"
+      }
+    },
+    "examples": {
+      "title": "示例对话",
+      "user": "用户:",
+      "ai": "AI:",
+      "example1": {
+        "user": "帮我创建一个AI代币",
+        "ai": "好的，请输入您的AI代币名称"
+      },
+      "example2": {
+        "user": "用户输入文字，生成一张图片",
+        "ai": "该需求已加入您的AI模型"
+      }
     }
-} 
+  },
+  "createAgent": {
+    "socialLink": "社交链接",
+    "socialExists": "链接应以'https'开头",
+    "container": "容器链接",
+    "nameExists": "Agent 名称已存在",
+    "symbolExists": "Agent symbol 已存在",
+    "nameAndSymbolExists": "Agent 名称和 symbol 都已存在",
+    "pleaseChooseDifferentName": "请选择不同的名称",
+    "pleaseChooseDifferentSymbol": "请选择不同的 symbol",
+    "createSymbol": "代币名",
+    "symbolRule": "3-5个大写英文字母",
+    "7hour": "7 小时后",
+    "1day": "1 天后",
+    "3day": "3 天后",
+    "7day": "7 天后（默认）",
+    "14day": "14 天后",
+    "1month": "1 个月后",
+    "iaostarttime": "IAO开始时间",
+    "startTime": "开始时间",
+    "endTime": "结束时间",
+    "agentDetails": "代理详情",
+    "useCases": "用例",
+    "creationProcessMessage": "正在创建您的AI智能体，这可能需要一些时间...",
+    "createAIProject": "创建AI代币项目",
+    "projectName": "项目名称",
+    "projectNamePlaceholder": "8-20个字母",
+    "projectDescription": "项目描述",
+    "projectDescriptionPlaceholder": "描述你的AI项目功能",
+    "tokenSupply": "代币总量",
+    "iaoPercentage": "IAO比例",
+    "mining": "60亿/年",
+    "miningRate": "挖矿产出",
+    "agentImage": "代币Logo",
+    "dialogModel": "对话模型",
+    "dialogExample": "对话示例",
+    "userQuestion": "用户提问",
+    "agentResponse": "Agent回复",
+    "createSuccess": "创建成功!",
+    "created": "AI代币项目已成功创建,您的Agent ID为 ",
+    "viewProject": "查看项目",
+    "creating": "创建中...",
+    "createNow": "立即创建",
+    "TokenDistribution": {
+      "title": "代币分配详情",
+      "points": {
+        "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生60亿",
+        "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
+        "3": "在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
+        "4": "IAO 结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
+        "5": "团队拥有30%的{symbol},IAO结束后开始解锁，分2000天线性解锁",
+        "6": "2%的{symbol}用来进行Token Sale,IAO结束后开始解锁，分400天线性解锁",
+        "7": "{symbol}挖矿每年产生60亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
+        "8": "需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点",
+        "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+      }
+    }
+  },
+  "datePicker": {
+    "selectDateTime": "选择日期和时间",
+    "selectTimezone": "选择时区",
+    "commonTimezones": "常用时区",
+    "time": {
+      "am": "上午",
+      "pm": "下午"
+    },
+    "timezones": {
+      "beijing": "北京/上海",
+      "tokyo": "东京/首尔",
+      "singapore": "新加坡/香港",
+      "newYork": "纽约",
+      "losAngeles": "洛杉矶",
+      "london": "伦敦",
+      "paris": "巴黎/柏林",
+      "sydney": "悉尼",
+      "utc": "协调世界时"
+    }
+  }
+}
