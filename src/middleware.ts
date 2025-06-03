@@ -38,9 +38,15 @@ function isAllowedDomain(origin: string | null): boolean {
 const authRoutes = [
   '/api/auth/disconnect',
   '/api/agents/[id]/history',
+  '/api/agents/new',
   '/api/user/profile',
   '/api/user/settings',
   '/api/user/assets',
+];
+
+// 需要根据方法进行身份验证的路由
+const methodAuthRoutes = [
+  { path: '/api/agents/[id]', methods: ['POST', 'PUT', 'DELETE', 'PATCH'] },
 ];
 
 // 检查路径是否匹配
@@ -61,8 +67,16 @@ function matchPath(path: string, pattern: string): boolean {
 }
 
 // 检查是否需要身份验证
-function needsAuth(path: string): boolean {
-  return authRoutes.some(pattern => matchPath(path, pattern));
+function needsAuth(path: string, method: string): boolean {
+  // 检查是否在 authRoutes 中
+  if (authRoutes.some(pattern => matchPath(path, pattern))) {
+    return true;
+  }
+  
+  // 检查是否在 methodAuthRoutes 中且方法匹配
+  return methodAuthRoutes.some(route => 
+    matchPath(path, route.path) && route.methods.includes(method)
+  );
 }
 
 // 创建国际化中间件
@@ -138,7 +152,7 @@ export async function middleware(request: NextRequest) {
     });
 
     // 如果需要身份验证，进行验证
-    if (needsAuth(path)) {
+    if (needsAuth(path, request.method)) {
       // 获取 token
       const authHeader = request.headers.get('authorization');
       console.log('Authorization header:', authHeader);

@@ -48,6 +48,7 @@ model Agent {
   tvl             String?
   holdersCount    Int?
   socialLinks     String?   // JSON string
+  containerLink   String?   // 容器链接
   totalSupply     Decimal?   // 使用 Decimal 类型存储大数字，支持任意精度
   marketCapTokenNumber Decimal?   // 新增字段，使用 Decimal 类型以支持大数字
   symbol          String?   // 添加 symbol 字段，因为看到代码中也用到了这个

@@ -738,7 +738,12 @@
           "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
         }
       },
-      "price": "价格"
+      "price": "价格",
+      "editAIProject": "编辑 AI 项目",
+      "update": "更新",
+      "fetchError": "获取项目数据失败",
+      "updateFailed": "更新失败",
+      "createFailed": "创建失败"
     },
     "datePicker": {
       "selectDateTime": "选择日期和时间",

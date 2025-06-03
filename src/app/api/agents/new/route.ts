@@ -69,6 +69,7 @@ export async function POST(request: Request) {
       chatEntry,
       projectDescription,
       iaoTokenAmount,
+      containerLink,
     } = body;
 
     // 验证必填字段
@@ -167,8 +168,13 @@ export async function POST(request: Request) {
         tokenAddressTestnet: null,
         iaoContractAddressTestnet: null,
         projectDescription: projectDescription || null,
-      },
+      } as any,
     });
+
+    // 如果提供了 containerLink，单独更新
+    if (containerLink) {
+      await prisma.$executeRaw`UPDATE "Agent" SET "containerLink" = ${containerLink} WHERE id = ${newId}`;
+    }
 
     // 创建任务历史记录
     await prisma.history.create({

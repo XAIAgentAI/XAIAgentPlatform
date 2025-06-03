@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
@@ -7,9 +9,16 @@ import { GradientBorderButton } from "@/components/ui-custom/gradient-border-but
 import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { DateTimePicker } from '@/components/ui/time-range-picker';
+import { toast } from '@/components/ui/use-toast';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
-const New: React.FC = () => {
+
+interface NewProps {
+  mode?: 'create' | 'edit';
+  agentId?: string;
+}
+
+const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     const { open } = useAppKit();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isManualConnecting, setIsManualConnecting] = useState(false);
@@ -211,31 +220,6 @@ const New: React.FC = () => {
         }
     }, [displayProgress, creationProgress]);
 
-    const checkAgentExistence = async (name: string, symbol: string) => {
-        try {
-          const response = await fetch('/api/agents/repeat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, symbol }),
-          })
-      
-          if (!response.ok) {
-            throw new Error('Failed to check agent existence')
-          }
-      
-          const data = await response.json()
-          if(data.exists&&nameInputRef.current){
-            nameInputRef.current.scrollIntoView({behavior:"smooth",block:"center"})
-          }
-          return data
-        } catch (error) {
-          console.error('Error checking agent existence:', error)
-          return { exists: false, nameExists: false, symbolExists: false }
-        }
-      }
-
     const getRealToken = async () => {
         // 检查是否有token
         if(localStorage.getItem("token")){
@@ -302,16 +286,6 @@ const New: React.FC = () => {
         }
         setSocialExists(false)
         setContainerShow(false)
-
-        // 检查是否已存在名字
-        const { exists, nameExists: nameExist, symbolExists: symbolExist } = 
-          await checkAgentExistence(formData.name, formData.symbol);
-      
-        if (exists) {
-          setNameExists(nameExist);
-          setSymbolExists(symbolExist);
-          return;
-        }
       
         setCreating(true);
         try {
@@ -377,6 +351,7 @@ const New: React.FC = () => {
           // 准备完整数据
           const agentData = {
             name: formData.name,
+            containerLink: formData.containerLink,
             description: formData.description || "An Agent",
             category: 'AI Agent',
             capabilities: ['chat', 'information'],
@@ -422,9 +397,15 @@ const New: React.FC = () => {
             miningRate: '0.1%'
           };
       
-          // 创建请求
-          const createResponse = await fetch(`${API_BASE_URL}/api/agents/new`, {
-            method: 'POST',
+          // 根据模式选择不同的 API 端点
+          const endpoint = mode === 'edit' 
+            ? `/api/agents/${agentId}`
+            : '/api/agents/new';
+          
+          const method = mode === 'edit' ? 'PUT' : 'POST';
+          
+          const createResponse = await fetch(`${API_BASE_URL}${endpoint}`, {
+            method,
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
@@ -436,16 +417,23 @@ const New: React.FC = () => {
           setDisplayProgress(80);
       
           if (!createResponse.ok) {
-            throw new Error('创建失败');
+            throw new Error(mode === 'edit' ? t("updateFailed") : t("createFailed"));
           }
       
           const result = await createResponse.json();
           if (result.code === 200) {
             setCreationProgress(100);
             setDisplayProgress(100);
+            
+            // 更新成功后，如果是编辑模式，可以直接跳转回详情页
+            if (mode === 'edit') {
+              setTimeout(() => {
+                router.push(`/${locale}/agents/${agentId}`);
+              }, 2000);
+            }
           }
         } catch (error) {
-          console.error('创建失败:', error);
+          console.error(mode === 'edit' ? '更新失败:' : '创建失败:', error);
           setCreating(false);
           setCreationProgress(0);
           setDisplayProgress(0);
@@ -510,8 +498,6 @@ const New: React.FC = () => {
     const removeImage = () => {
         setImageUrl(null);
     };
-
-
 
     // 当时区改变时，保持选择的小时数不变
     const handleTimezoneChange = (newTimezone: string) => {
@@ -692,6 +678,87 @@ const New: React.FC = () => {
         );
     };
 
+    // 添加获取现有 agent 数据的逻辑
+    useEffect(() => {
+        const fetchAgentData = async () => {
+            if (mode === 'edit' && agentId) {
+                try {
+                    const response = await fetch(`/api/agents/${agentId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch agent data');
+                    }
+                    const result = await response.json();
+                    
+                    if (result.code !== 200 || !result.data) {
+                        throw new Error(result.message || 'Failed to fetch agent data');
+                    }
+                    
+                    const agentData = result.data;
+                    
+                    // 设置表单数据
+                    setFormData({
+                        name: agentData.name || '',
+                        symbol: agentData.symbol || '',
+                        description: agentData.description || '',
+                        price: agentData.iaoTokenAmount ? (Number(agentData.iaoTokenAmount) / 1e18).toString() : '',  // 转换 wei 到标准单位
+                        containerLink: agentData.containerLink || '',  // 使用 API 返回的 containerLink 字段
+                        socialLink: agentData.socialLinks || '',
+                        tokenSupply: agentData.totalSupply?.toString() || '100000000000',
+                        iaoPercentage: '15%',
+                        miningRate: `${t("mining")}`,
+                        userFirst: '',
+                        userSecond: '',
+                        userThird: '',
+                    });
+
+                    // 设置用例数据
+                    try {
+                        setUseCases({
+                            en: agentData.useCases ? JSON.parse(agentData.useCases) : [],
+                            ja: agentData.useCasesJA ? JSON.parse(agentData.useCasesJA) : [],
+                            ko: agentData.useCasesKO ? JSON.parse(agentData.useCasesKO) : [],
+                            zh: agentData.useCasesZH ? JSON.parse(agentData.useCasesZH) : [],
+                        });
+                    } catch (e) {
+                        console.error('Error parsing use cases:', e);
+                        // 如果解析失败，使用空数组
+                        setUseCases({
+                            en: [],
+                            ja: [],
+                            ko: [],
+                            zh: []
+                        });
+                    }
+
+                    // 设置图片
+                    if (agentData.avatar) {
+                        setImageUrl(agentData.avatar);
+                    }
+                    
+                    // 设置开始和结束时间
+                    if (agentData.iaoStartTime) {
+                        const startDate = new Date(agentData.iaoStartTime);
+                        const endDate = agentData.iaoEndTime ? new Date(agentData.iaoEndTime) : new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+                        
+                        setDateRange({
+                            range: {
+                                from: startDate,
+                                to: endDate
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching agent data:', error);
+                    toast({
+                        description: t("fetchError"),
+                    });
+                }
+            }
+        };
+
+        fetchAgentData();
+    }, [mode, agentId, t]);
+
     return (
         <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
             <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
@@ -703,7 +770,9 @@ const New: React.FC = () => {
                     <SuccessDisplay />
                 ) : (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
-                        <h1 className="text-2xl font-bold mb-6">{t("createAIProject")}</h1>
+                        <h1 className="text-2xl font-bold mb-6">
+                            {mode === 'edit' ? t("editAIProject") : t("createAIProject")}
+                        </h1>
 
                         <div className="space-y-1">
                             <div className="mb-2">
@@ -897,41 +966,45 @@ const New: React.FC = () => {
 
                             <div className="py-2 flex flex-col space-y-1">
                                 <label className="block">{t("startTime")}</label>
-                                <DateTimePicker
-                                    value={dateRange.range.from}
-                                    onChange={(timestamp: number) => {
-                                        const date = new Date(timestamp);
-                                        setDateRange(prev => ({
-                                            ...prev,
-                                            range: {
-                                                ...prev.range,
-                                                from: date
-                                            }
-                                        }));
-                                    }}
-                                    timezone={sharedTimezone}
-                                    onTimezoneChange={handleTimezoneChange}
-                                />
+                                <div suppressHydrationWarning>
+                                    <DateTimePicker
+                                        value={dateRange.range.from}
+                                        onChange={(timestamp: number) => {
+                                            const date = new Date(timestamp);
+                                            setDateRange(prev => ({
+                                                ...prev,
+                                                range: {
+                                                    ...prev.range,
+                                                    from: date
+                                                }
+                                            }));
+                                        }}
+                                        timezone={sharedTimezone}
+                                        onTimezoneChange={handleTimezoneChange}
+                                    />
+                                </div>
                             </div>
 
                             <div className="py-2 flex flex-col space-y-1">
                                 <label className="block">{t("endTime")}</label>
-                                <DateTimePicker
-                                    value={dateRange.range.to || new Date(dateRange.range.from.getTime() + 3 * 24 * 60 * 60 * 1000)}
-                                    onChange={(timestamp: number) => {
-                                        const date = new Date(timestamp);
-                                        setDateRange(prev => ({
-                                            ...prev,
-                                            range: {
-                                                ...prev.range,
-                                                to: date
-                                            }
-                                        }));
-                                    }}
-                                    timezone={sharedTimezone}
-                                    onTimezoneChange={handleTimezoneChange}
-                                    showTimezone={false}
-                                />
+                                <div suppressHydrationWarning>
+                                    <DateTimePicker
+                                        value={dateRange.range.to || new Date(dateRange.range.from.getTime() + 3 * 24 * 60 * 60 * 1000)}
+                                        onChange={(timestamp: number) => {
+                                            const date = new Date(timestamp);
+                                            setDateRange(prev => ({
+                                                ...prev,
+                                                range: {
+                                                    ...prev.range,
+                                                    to: date
+                                                }
+                                            }));
+                                        }}
+                                        timezone={sharedTimezone}
+                                        onTimezoneChange={handleTimezoneChange}
+                                        showTimezone={false}
+                                    />
+                                </div>
                             </div>
 
                             {/* Dialog examples section */}
@@ -941,7 +1014,7 @@ const New: React.FC = () => {
                             <button
                                 onClick={generateUseCases}
                                 disabled={generatingUseCases || !formData.description}
-                                className="flex items-center space-x-2 bg-primary bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center space-x-2 bg-primary text-white bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <span>{t("generateExamples")}</span>
                             </button>
@@ -1006,7 +1079,7 @@ const New: React.FC = () => {
                                 disabled={creating || !formData.name}
                                 className="mt-6 w-full opacity-90 hover:opacity-100 bg-primary text-white font-medium py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {creating ? t("creating") : t("createNow")}
+                                {creating ? t("creating") : mode === 'edit' ? t("update") : t("createNow")}
                             </button>
                         </div>
                     </div>

@@ -134,25 +134,10 @@ export function DateTimePicker({
     try {
       const currentTimezone = TIMEZONES.find(tz => tz.value === timezone);
       
-      // 使用当前语言环境格式化，而不是硬编码的zh-CN
-      const locale = document.documentElement.lang || navigator.language || 'en-US';
+      // 使用 date-fns 格式化，确保服务端和客户端一致
+      const formattedDate = format(date, 'yyyy/MM/dd HH:mm:ss');
       
-      // 使用本地时间格式化，不进行时区转换
-      const formattedDate = new Intl.DateTimeFormat(locale, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }).format(date);
-
-      // 替换 AM/PM 为多语言文本
-      const formattedTime = formattedDate
-        .replace(/AM/g, t('time.am'))
-        .replace(/PM/g, t('time.pm'));
-
-      return `${formattedTime} ${currentTimezone?.label || ''}`;
+      return `${formattedDate} ${currentTimezone?.label || ''}`;
     } catch (e) {
       console.error("时间格式化错误:", e);
       return date.toLocaleString();

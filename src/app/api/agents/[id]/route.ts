@@ -41,6 +41,7 @@ export async function GET(
       tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress,
       iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
       projectDescription: (agent as any).projectDescription,
+      containerLink: (agent as any).containerLink,
     });
   } catch (error) {
     return handleError(error);
@@ -80,7 +81,16 @@ export async function PUT(
       avatar,
       capabilities,
       examples,
+      containerLink,
     } = body;
+
+    console.log('Updating agent with data:', { 
+      name, 
+      description, 
+      category, 
+      containerLink,
+      body: JSON.stringify(body, null, 2)
+    });
 
     // 验证必填字段
     if (!name || !description || !category || !capabilities) {
@@ -97,7 +107,7 @@ export async function PUT(
         category,
         avatar,
         capabilities: JSON.stringify(capabilities),
-        // 如果提供了新的示例，则更新示例
+        containerLink,
         examples: examples
           ? {
               deleteMany: {},
@@ -110,7 +120,7 @@ export async function PUT(
               },
             }
           : undefined,
-      },
+      } as any,
       include: {
         creator: {
           select: {
