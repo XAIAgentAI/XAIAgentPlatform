@@ -86,7 +86,7 @@
     "confirm": "確認",
     "cancel": "キャンセル",
     "save": "保存",
-    "edit": "編集",
+    "edit": "Agent情報を編集",
     "delete": "削除",
     "toggleMenu": "メニューの切り替え",
     "toggleTheme": "テーマの切り替え",
@@ -564,7 +564,7 @@
     "claimingInProgress": "報酬請求中...",
     "claimingSuccess": "請求が成功しました",
     "claimingFailed": "請求に失敗しました",
-    "viewOnExplorer": "エクスプローラーで表示",
+    "viewOnExplorer": "DBCScanで表示",
     "batchStake": "NFTをステーキング",
     "nftBalance": "NFT残高",
     "noNFTTip": "NFTをお持ちでないですか？今すぐ購入してステーキング報酬を獲得しましょう",
@@ -745,7 +745,13 @@
           "9": "{symbol}の1％は$XAAと$DBCの上位10,000名の保有者に、1％はXAAノードNFT保有者にエアドロップされます"
         }
       },
-      "price": "価格"
+      "price": "価格",
+      "update": "更新",
+      "fetchError": "プロジェクトデータの取得に失敗しました",
+      "updateFailed": "更新に失敗しました",
+      "createFailed": "作成に失敗しました",
+      "timeNotEditable": "ブロックチェーンエクスプローラーで変更してください",
+      "viewOnExplorerForTime": "ブロックチェーンエクスプローラーで時間を変更"
     },
     "datePicker": {
       "selectDateTime": "日付と時間を選択",

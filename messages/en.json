@@ -86,7 +86,7 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "save": "Save",
-    "edit": "Edit",
+    "edit": "Edit Agent Info",
     "delete": "Delete",
     "toggleMenu": "Toggle Menu",
     "closeMenu": "Close Menu",
@@ -565,7 +565,7 @@
     "claimingInProgress": "Claiming rewards...",
     "claimingSuccess": "Claiming successful",
     "claimingFailed": "Claiming failed",
-    "viewOnExplorer": "View on Explorer",
+    "viewOnExplorer": "View on DBCScan",
     "batchStake": "Stake NFT",
     "nftBalance": "NFT Balance",
     "noNFTTip": "Don't have any NFTs yet? Buy now to start earning rewards",
@@ -745,7 +745,13 @@
           "9": "1% of {symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of {symbol} airdropped to XAA node NFT holders"
         }
       },
-      "price": "Price"
+      "price": "Price",
+      "update": "Update",
+      "fetchError": "Failed to fetch project data",
+      "updateFailed": "Update failed",
+      "createFailed": "Creation failed",
+      "timeNotEditable": "Please modify in blockchain explorer",
+      "viewOnExplorerForTime": "Modify time in blockchain explorer"
     },
     "datePicker": {
       "selectDateTime": "Select Date and Time",

@@ -50,6 +50,7 @@ interface DateTimePickerProps {
   showTimezone?: boolean;
   timezone?: string;
   onTimezoneChange?: (timezone: string) => void;
+  disabled?: boolean;
 }
 
 export function DateTimePicker({ 
@@ -63,7 +64,8 @@ export function DateTimePicker({
   description,
   showTimezone = true,
   timezone: externalTimezone,
-  onTimezoneChange
+  onTimezoneChange,
+  disabled
 }: DateTimePickerProps) {
   const t = useTranslations('create.datePicker');
   const [open, setOpen] = useState(false);
@@ -146,14 +148,16 @@ export function DateTimePicker({
 
   return (
     <div className="space-y-2">
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={disabled ? undefined : setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal text-[16px] bg-white dark:bg-[#1a1a1a] p-2 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10",
-              !date && "text-muted-foreground"
+              !date && "text-muted-foreground",
+              disabled && "opacity-70 cursor-not-allowed"
             )}
+            disabled={disabled}
           >
             {date ? formatDateTime(date) : <span>{t('selectDateTime')}</span>}
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />

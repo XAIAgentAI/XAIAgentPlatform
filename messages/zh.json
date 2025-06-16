@@ -69,7 +69,8 @@
       "chatIcon": "聊天图标",
       "contractLink": "查看合约详情",
       "copyContractAddress": "复制合约地址"
-    }
+    },
+    "edit": "修改Agent信息"
   },
   "wallet": {
     "connect": "连接钱包",
@@ -115,7 +116,9 @@
     "transactionSent": "交易已发送",
     "waitForConfirmation": "等待确认",
     "transactionConfirmationTimeout": "交易确认超时",
-    "stakeSuccessWithAmount": "成功质押 {amount} DBC"
+    "stakeSuccessWithAmount": "成功质押 {amount} DBC",
+    "contractTimeUpdateFailed": "更新合约时间失败",
+    "contractTimeUpdateError": "更新合约时间发生错误"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -564,7 +567,7 @@
     "claimingInProgress": "领取奖励中...",
     "claimingSuccess": "领取成功",
     "claimingFailed": "领取失败",
-    "viewOnExplorer": "在区块浏览器中查看",
+    "viewOnExplorer": "在 DBCScan 上查看",
     "batchStake": "质押NFT",
     "nftBalance": "NFT 余额",
     "noNFTTip": "还没有NFT？立即购买开始质押赚取收益",
@@ -743,7 +746,9 @@
       "update": "更新",
       "fetchError": "获取项目数据失败",
       "updateFailed": "更新失败",
-      "createFailed": "创建失败"
+      "createFailed": "创建失败",
+      "timeNotEditable": "请前往区块链浏览器修改",
+      "viewOnExplorerForTime": "前往浏览器修改时间"
     },
     "datePicker": {
       "selectDateTime": "选择日期和时间",

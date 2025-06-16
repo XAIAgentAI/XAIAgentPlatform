@@ -86,7 +86,7 @@
     "confirm": "확인",
     "cancel": "취소",
     "save": "저장",
-    "edit": "수정",
+    "edit": "Agent 정보 수정",
     "delete": "삭제",
     "closeMenu": "메뉴 닫기",
     "toggleMenu": "메뉴 토글",
@@ -112,6 +112,7 @@
     "switchedToMainnet": "메인넷으로 전환되었습니다. 다시 클릭하여 전송해주세요",
     "switchNetworkFailed": "DBC 테스트넷으로 전환 후 다시 시도해주세요",
     "viewOnDBCScan": "DBCScan에서 보기",
+    "viewOnExplorer": "DBCScan에서 보기",
     "transactionSent": "거래가 전송되었습니다",
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
@@ -595,7 +596,13 @@
     },
     "isImageThinking": "그림 생성 중...",
     "alreadyuseagent": "호출된 AI 모델",
-    "noface": "얼굴이 없거나 힌트가 너무 모릅니다."
+    "noface": "얼굴이 없거나 힌트가 너무 모릅니다.",
+    "update": "업데이트",
+    "fetchError": "프로젝트 데이터를 가져오지 못했습니다",
+    "updateFailed": "업데이트 실패",
+    "createFailed": "생성 실패",
+    "timeNotEditable": "블록체인 탐색기에서 수정하세요",
+    "viewOnExplorerForTime": "블록체인 탐색기에서 시간 수정"
   },
   "create": {
     "title": "토큰 경제 모델 생성",
@@ -747,7 +754,13 @@
           "9": "{symbol}의 1%는 $XAA와 $DBC 상위 10,000명의 보유자에게, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
         }
       },
-      "price": "가격"
+      "price": "가격",
+      "update": "업데이트",
+      "fetchError": "프로젝트 데이터를 가져오지 못했습니다",
+      "updateFailed": "업데이트 실패",
+      "createFailed": "생성 실패",
+      "timeNotEditable": "블록체인 탐색기에서 수정하세요",
+      "viewOnExplorerForTime": "블록체인 탐색기에서 시간 수정"
     },
     "datePicker": {
       "selectDateTime": "날짜 및 시간 선택",

@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
-import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
-import { authAPI, agentAPI, testDuplicateAgentCreation } from '@/services/createAgent';
-import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { authAPI,  } from '@/services/createAgent';
 import { DateTimePicker } from '@/components/ui/time-range-picker';
 import { toast } from '@/components/ui/use-toast';
+import { getExplorerUrl } from '@/config/networks';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL;
 
@@ -112,6 +111,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
+    const [iaoContractAddress, setIaoContractAddress] = useState<string | null>(null);
 
     const CheckWallet = () => {
         if(localStorage.getItem("@appkit/connection_status")==="connected"){
@@ -336,7 +336,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
           // 更新数据
           setData(prev => ({
             ...(prev || initialData),
-            id: token,
+            // id: agentId || '',
             useCases: {
               zh: useCases.zh || (prev?.useCases.zh || []),
               ja: useCases.ja || (prev?.useCases.ja || []),
@@ -357,9 +357,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             capabilities: ['chat', 'information'],
             tokenAmount: '1000000000000000000',
             startTimestamp: Math.floor(dateRange.range.from.getTime() / 1000),
-            // endTimestamp: dateRange.range.to 
-            //   ? Math.floor(dateRange.range.to.getTime() / 1000) 
-            //   : Math.floor(dateRange.range.from.getTime() / 1000) + 24 * 60 * 60 * 7,
             durationHours: dateRange.range.to ? Math.floor((dateRange.range.to.getTime() - dateRange.range.from.getTime()) / (1000 * 60 * 60)) : 24 * 3,
             rewardAmount: '2000000000000000000000000000',
             rewardToken: '0xabcdef123',
@@ -396,6 +393,17 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             iaoTokenAmount: 20000000000,
             miningRate: '0.1%'
           };
+
+          // 如果是编辑模式，添加时间更新信息
+          if (mode === 'edit') {
+            console.log('[时间更新] 添加时间更新信息到请求...');
+            console.log(`[时间更新] 开始时间: ${Math.floor(dateRange.range.from.getTime() / 1000)}`);
+            console.log(`[时间更新] 结束时间: ${Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000)}`);
+            
+            // 使用as any类型断言解决TypeScript错误
+            (agentData as any).updateStartTime = Math.floor(dateRange.range.from.getTime() / 1000);
+            (agentData as any).updateEndTime = Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000);
+          }
       
           // 根据模式选择不同的 API 端点
           const endpoint = mode === 'edit' 
@@ -424,11 +432,27 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
           if (result.code === 200) {
             setCreationProgress(100);
             setDisplayProgress(100);
-            
+
+            debugger
+
+            // 如果是创建模式，更新data状态中的agent ID
+            if (mode === 'create' && result.data?.data?.agentId) {
+                debugger
+              setData(prev => ({
+                ...(prev || {
+                  name: formData.name,
+                  symbol: formData.symbol,
+                  description: formData.description,
+                  useCases: { zh: [], en: [], ko: [], ja: [] }
+                }),
+                id: result.data?.data?.agentId
+              }));
+            }
+
             // 更新成功后，如果是编辑模式，可以直接跳转回详情页
             if (mode === 'edit') {
               setTimeout(() => {
-                router.push(`/${locale}/agents/${agentId}`);
+                router.push(`/${locale}/agent-detail/${agentId}`);
               }, 2000);
             }
           }
@@ -667,7 +691,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 <div className="flex justify-center">
                     <button
                         onClick={() => {
-                            window.location.href=`/${locale}`
+                            console.log(data, 'data')
+                            debugger
+                            router.push(`/${locale}/agent-detail/${data.id}`)
                         }}
                         className="mt-6 opacity-90 hover:opacity-100 bg-primary text-white font-medium py-3 px-6 rounded-lg transition-all"
                     >
@@ -694,6 +720,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     }
                     
                     const agentData = result.data;
+                    
+                    // 保存IAO合约地址
+                    setIaoContractAddress(agentData.iaoContractAddress || null);
                     
                     // 设置表单数据
                     setFormData({
@@ -758,6 +787,18 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
         fetchAgentData();
     }, [mode, agentId, t]);
+
+    // 构建区块链浏览器链接
+    const getBlockExplorerUrl = () => {
+        const baseUrl = getExplorerUrl();
+        const lang = locale || 'en';
+        
+        if (iaoContractAddress && mode === 'edit') {
+            return `${baseUrl}/${lang}/address/${iaoContractAddress}?tab=write_proxy`;
+        }
+        
+        return `${baseUrl}/${lang}`;
+    };
 
     return (
         <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
@@ -904,7 +945,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 style={{
                                 backgroundImage: !formData.socialLink ? `
                                     url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'),
-                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>')
+                                    url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 24 24" fill="gray" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>')
                                 ` : 'none',
                                 backgroundPosition: !formData.socialLink ? '10px center, 35px center' : 'unset',
                                 backgroundRepeat: 'no-repeat'
@@ -981,7 +1022,23 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                         }}
                                         timezone={sharedTimezone}
                                         onTimezoneChange={handleTimezoneChange}
+                                        disabled={mode === 'edit'}
                                     />
+                                    {mode === 'edit' && (
+                                        <div className="mt-1 text-xs text-gray-400 dark:text-gray-500 flex items-center">
+                                            <a 
+                                                href={getBlockExplorerUrl()} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="text-primary hover:underline flex items-center"
+                                            >
+                                                <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10 6H6C4.89543 6 4 6.89543 4 8V18C4 19.1046 4.89543 20 6 20H16C17.1046 20 18 19.1046 18 18V14M14 4H20M20 4V10M20 4L10 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                                {t("viewOnExplorerForTime")}
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -1003,7 +1060,23 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                         timezone={sharedTimezone}
                                         onTimezoneChange={handleTimezoneChange}
                                         showTimezone={false}
+                                        disabled={mode === 'edit'}
                                     />
+                                    {mode === 'edit' && (
+                                        <div className="mt-1 text-xs text-gray-400 dark:text-gray-500 flex items-center">
+                                            <a 
+                                                href={getBlockExplorerUrl()} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="text-primary hover:underline flex items-center"
+                                            >
+                                                <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10 6H6C4.89543 6 4 6.89543 4 8V18C4 19.1046 4.89543 20 6 20H16C17.1046 20 18 19.1046 18 18V14M14 4H20M20 4V10M20 4L10 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                                {t("viewOnExplorerForTime")}
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

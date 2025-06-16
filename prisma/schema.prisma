@@ -68,6 +68,7 @@ model Agent {
   iaoContractAddress String?
   tokenAddressTestnet String?
   iaoContractAddressTestnet String?
+  paymentContractAddress String? // 添加支付合约地址字段
   projectDescription String?   // 添加项目说明字段，存储JSON格式的多语言项目说明
   iaoTokenAmount  Decimal?   // IAO代币数量字段
   iaoStartTime    DateTime?  // IAO开始时间

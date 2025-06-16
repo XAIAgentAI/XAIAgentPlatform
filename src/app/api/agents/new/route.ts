@@ -235,6 +235,7 @@ async function processTask(
 
   try {
     // 获取 Agent 信息
+    console.log(`[Agent创建] 开始处理Agent ${agentId} 的创建任务...`);
     const agent = await prisma.agent.findUnique({
       where: { id: agentId },
       include: {
@@ -247,43 +248,23 @@ async function processTask(
     });
 
     if (!agent) {
+      console.error(`[Agent创建] 错误: 找不到Agent ${agentId}`);
       throw new Error('Agent not found');
     }
 
-    // 部署 Token
-    const tokenResult = await retry(async () => {
-      const tokenResponse = await fetch("http://3.0.25.131:8070/deploy/token", {
-        method: "POST",
-        headers: {
-          "accept": "application/json",
-          "content-type": "application/json",
-          "authorization": "Basic YWRtaW46MTIz"
-        },
-        body: JSON.stringify({
-          owner: agent.creator.address,
-          token_amount_can_mint_per_year: taskData.tokenAmount || '1000000000000000000',
-          token_init_supply: taskData.tokenAmount || '1000000000000000000',
-          token_name: agent.name.replace(/\s+/g, ''),
-          token_supply_fixed_years: 8,
-          token_symbol: agent.symbol
-        })
-      });
+    console.log(`[Agent创建] 找到Agent信息:`);
+    console.log(`[Agent创建] - 名称: ${agent.name}`);
+    console.log(`[Agent创建] - 创建者: ${agent.creator.address}`);
+    console.log(`[Agent创建] - Symbol: ${agent.symbol}`);
 
-      const result = await tokenResponse.json();
-      console.log('Token deployment response:', result);
-      
-      if (result.code === 400 && result.message === 'CREATING') {
-        // Token 部署请求已接受，继续处理
-        console.log('Token deployment request accepted, continuing...');
-        return result;
-      } else if (result.code !== 200 || !result.data?.proxy_address) {
-        throw new Error(`Token deployment failed: ${result.message || 'Unknown error'}`);
-      }
-      
-      return result;
-    });
+    // 只部署 IAO，不部署 Token
+    console.log(`[IAO部署] 开始部署IAO合约...`);
+    console.log(`[IAO部署] 参数信息:`);
+    console.log(`[IAO部署] - 持续时间: ${taskData.durationHours || 72}小时`);
+    console.log(`[IAO部署] - 开始时间: ${taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600}`);
+    console.log(`[IAO部署] - 奖励数量: ${taskData.rewardAmount || '2000000000000000000000000000'}`);
+    console.log(`[IAO部署] - 所有者地址: ${agent.creator.address}`);
 
-    // 部署 IAO
     const iaoResult = await retry(async () => {
       const iaoResponse = await fetch("http://3.0.25.131:8070/deploy/IAO", {
         method: "POST",
@@ -296,7 +277,8 @@ async function processTask(
           duration_hours: taskData.durationHours || 72,
           owner: agent.creator.address,
           reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
-          reward_token: tokenResult.data?.proxy_address || taskData.rewardToken,
+          // 不传递 reward_token 参数，或传递 null
+          reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600
         })
       });
@@ -316,21 +298,28 @@ async function processTask(
     });
 
     // 检查合约地址是否有效
-    if (!tokenResult.data?.proxy_address || !iaoResult.data?.proxy_address) {
-      throw new Error('Contract addresses are missing after deployment');
+    if (!iaoResult.data?.proxy_address) {
+      console.error(`[IAO部署] 错误: 部署后未获取到合约地址`);
+      throw new Error('IAO contract address is missing after deployment');
     }
 
+    console.log(`[IAO部署] 部署成功:`);
+    console.log(`[IAO部署] - IAO合约地址: ${iaoResult.data.proxy_address}`);
+
     // 更新 Agent 状态和合约地址
+    console.log(`[Agent更新] 开始更新Agent状态...`);
     await prisma.agent.update({
       where: { id: agentId },
       data: {
         status: 'TBA',
-        tokenAddress: tokenResult.data.proxy_address,
         iaoContractAddress: iaoResult.data.proxy_address,
+        // tokenAddress保持null，等待后续创建
       },
     });
+    console.log(`[Agent更新] Agent状态已更新为TBA`);
 
     // 更新任务历史记录
+    console.log(`[完成] Agent创建流程完成`);
     await prisma.history.create({
       data: {
         action: 'process',
@@ -340,8 +329,8 @@ async function processTask(
     });
   } catch (error) {
     // 处理错误
-    console.error('任务处理失败:', error);
-    console.error('错误详情:', {
+    console.error('[错误] 任务处理失败:', error);
+    console.error('[错误] 详细信息:', {
       agentId,
       taskData,
       error: error instanceof Error ? {
@@ -351,6 +340,7 @@ async function processTask(
     });
 
     // 更新 Agent 状态为失败
+    console.log(`[错误处理] 更新Agent ${agentId} 状态为failed`);
     await prisma.agent.update({
       where: { id: agentId },
       data: {
