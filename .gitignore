@@ -45,6 +45,7 @@ next-env.d.ts
 
 
 .specstory/*
+.cursor/*
 
 
 提示音.mp3

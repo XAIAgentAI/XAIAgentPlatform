@@ -81,6 +81,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         rewardForNFT: '0',
         actualDepositedWithNFT: '0'
       }),
+      checkIsSuccess: async () => false,
     };
   }
 
@@ -103,6 +104,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
   }
   const claimRewardsFunctionName = symbol === 'XAA' ? 'claimRewards' : 'claimRewards';
 
+  // 创建Toast消息的辅助函数
   const createToastMessage = useCallback((params: ToastMessage): ToastMessage => {
     return {
       title: params.title,
@@ -130,6 +132,74 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         : params.description,
     };
   }, [tMessages]);
+
+  // 添加此方法用于检查IAO是否成功
+  const checkIsSuccess = useCallback(async (): Promise<boolean> => {
+    try {
+      if (!iaoContractAddress) return false;
+
+      const publicClient = createPublicClient({
+        chain: currentChain,
+        transport: http(),
+      });
+
+      const contractABI = getContractABI(symbol);
+
+      console.log(iaoContractAddress, 'iaoContractAddress')
+      console.log(contractABI, 'contractABI')
+
+      // UserAgent IAO合约有isSuccess方法，XAA的没有
+      if (symbol !== 'XAA') {
+        // 首先检查 IAO 是否已经结束
+        const endTime = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'endTime',
+        });
+
+        const isIAOEnded = Date.now() > Number(endTime) * 1000;
+
+        // 如果 IAO 还没有结束，直接返回 false
+        if (!isIAOEnded) {
+          return false;
+        }
+
+        // IAO 已经结束，检查 isSuccess 方法
+        try {
+          const isSuccess = await publicClient.readContract({
+            address: iaoContractAddress,
+            abi: contractABI,
+            functionName: 'isSuccess',
+          });
+          return !!isSuccess;
+        } catch (error) {
+          console.error('Failed to check isSuccess:', error);
+          // 如果合约没有isSuccess方法，IAO已结束就认为成功
+          return false;
+        }
+      } else {
+        // 对于XAA，根据时间判断
+        const endTime = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'endTime',
+        });
+
+        return Date.now() > Number(endTime) * 1000;
+      }
+    } catch (error) {
+      console.error('Failed to check IAO success status:', error);
+      return false;
+    }
+  }, [iaoContractAddress, symbol]);
+
+
+
+
+
+
+
+
 
   // 添加备用的交易确认检查函数
   const checkTransactionConfirmation = async (hash: Hash): Promise<boolean> => {
@@ -782,6 +852,98 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     }
   }, [walletClient, isConnected, address, iaoContractAddress, symbol]);
 
+  // 获取合约所有者
+  const getContractOwner = useCallback(async (): Promise<string> => {
+    if (!walletClient) return '';
+
+    try {
+      const publicClient = createPublicClient({
+        chain: currentChain,
+        transport: custom(walletClient.transport),
+      });
+
+      const contractABI = getContractABI(symbol);
+
+      const owner = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'owner',
+      });
+
+      return owner as string;
+    } catch (error) {
+      console.error('Failed to get contract owner:', error);
+      return '';
+    }
+  }, [walletClient, iaoContractAddress, symbol]);
+
+  // 检查当前用户是否是合约所有者
+  const isContractOwner = useCallback(async (): Promise<boolean> => {
+    if (!address) return false;
+
+    try {
+      const owner = await getContractOwner();
+      return owner.toLowerCase() === address.toLowerCase();
+    } catch (error) {
+      console.error('Failed to check contract owner:', error);
+      return false;
+    }
+  }, [address, getContractOwner]);
+
+  // 更新IAO时间
+  const updateIaoTimes = useCallback(async (startTime: number, endTime: number): Promise<void> => {
+    if (!walletClient || !address) {
+      throw new Error('Wallet not connected');
+    }
+
+    // 检查是否是合约所有者
+    const isOwner = await isContractOwner();
+    if (!isOwner) {
+      throw new Error('Only contract owner can update IAO times');
+    }
+
+    try {
+      setIsLoading(true);
+
+      const formattedAddress = ensureAddressFormat(address);
+
+      const viemWalletClient = createWalletClient({
+        chain: currentChain,
+        transport: custom(walletClient.transport),
+      });
+
+      const publicClient = createPublicClient({
+        chain: currentChain,
+        transport: custom(walletClient.transport),
+      });
+
+      const contractABI = getContractABI(symbol);
+
+      // 使用setTimeFor函数同时更新开始和结束时间
+      const { request } = await publicClient.simulateContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'setTimeFor',
+        args: [BigInt(startTime), BigInt(endTime)],
+        account: formattedAddress,
+      });
+
+      const hash = await viemWalletClient.writeContract(request);
+
+      // 等待交易确认
+      await waitForTransactionConfirmation(hash, publicClient);
+
+      // 刷新池信息
+      await fetchPoolInfo();
+
+    } catch (error) {
+      console.error('Failed to update IAO times:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [walletClient, address, isContractOwner, iaoContractAddress, symbol, fetchPoolInfo]);
+
   return {
     poolInfo,
     isLoading,
@@ -791,5 +953,9 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     claimRewards,
     fetchPoolInfo,
     getUserStakeInfo,
+    checkIsSuccess,
+    getContractOwner,
+    isContractOwner,
+    updateIaoTimes,
   };
 }; 

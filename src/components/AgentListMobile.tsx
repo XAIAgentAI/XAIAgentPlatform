@@ -66,7 +66,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const sortedAgents = [...agents]
   console.log("sortedAgents", sortedAgents);
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = (id: string) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
@@ -91,7 +91,14 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         <div className="flex flex-col p-4 gap-4">
           <div className="flex items-center justify-between w-full">
             <span className="text-muted-color text-xs">{t('sortBy')}</span>
-            <Tabs defaultValue="marketCap" className="w-auto">
+            <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+              console.log('Mobile sortBy change:', value);
+              if (value === "marketCap") {
+                router.push(`?sortBy=marketCap&sortOrder=desc`);
+              } else if (value === "latest") {
+                router.push(`?sortBy=createdAt&sortOrder=desc`);
+              }
+            }}>
               <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
                 <TabsTrigger
                   value="marketCap"
@@ -209,6 +216,7 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
         <div className="flex-1 divide-y divide-[#E5E5E5] dark:divide-white/10">
           {sortedAgents.map((agent) => {
             const socialLinks = parseSocialLinks(agent.socialLinks);
+            
             return (
               <div
                 key={`${agent.id}-${agent.symbol}`}
@@ -276,8 +284,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
                   <div className="space-y-1">
                     <span className="text-muted-color text-xs block">{t('lp')}</span>
                     <p className="text-secondary-color text-sm font-medium">
-                      {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
-                        ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                      {agent.lp !== undefined && !isNaN(Number(agent.lp))
+                        ? Number(agent.lp).toLocaleString('en-US', {
                           style: 'currency',
                           currency: 'USD',
                           maximumFractionDigits: 0

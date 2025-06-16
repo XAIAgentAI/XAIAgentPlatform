@@ -66,6 +66,26 @@ const DEFAULT_TRANSLATIONS = {
       claimed: "Claimed",
       claimSuccessWithAmount: "Successfully claimed {amount} XAA",
       stakeNotStarted: "Purchase not started"
+    },
+    datePicker: {
+      selectDateTime: "Select Date and Time",
+      selectTimezone: "Select Timezone",
+      commonTimezones: "Common Timezones",
+      time: {
+        am: "AM",
+        pm: "PM"
+      },
+      timezones: {
+        beijing: "Beijing/Shanghai",
+        tokyo: "Tokyo/Seoul",
+        singapore: "Singapore/Hong Kong",
+        newYork: "New York",
+        losAngeles: "Los Angeles",
+        london: "London",
+        paris: "Paris/Berlin",
+        sydney: "Sydney",
+        utc: "Coordinated Universal Time"
+      }
     }
   },
   ja: {
@@ -126,6 +146,26 @@ const DEFAULT_TRANSLATIONS = {
       claimed: "請求済み",
       claimSuccessWithAmount: "{amount} XAAの請求に成功しました",
       stakeNotStarted: "購入はまだ開始されていません"
+    },
+    datePicker: {
+      selectDateTime: "日付と時刻を選択",
+      selectTimezone: "タイムゾーンを選択",
+      commonTimezones: "一般的なタイムゾーン",
+      time: {
+        am: "午前",
+        pm: "午後"
+      },
+      timezones: {
+        beijing: "北京/上海",
+        tokyo: "東京/ソウル",
+        singapore: "シンガポール/香港",
+        newYork: "ニューヨーク",
+        losAngeles: "ロサンゼルス",
+        london: "ロンドン",
+        paris: "パリ/ベルリン",
+        sydney: "シドニー",
+        utc: "協定世界時"
+      }
     }
   },
   ko: {
@@ -186,6 +226,26 @@ const DEFAULT_TRANSLATIONS = {
       claimed: "청구됨",
       claimSuccessWithAmount: "{amount} XAA 청구 성공",
       stakeNotStarted: "구매가 시작되지 않았습니다"
+    },
+    datePicker: {
+      selectDateTime: "날짜 및 시간 선택",
+      selectTimezone: "시간대 선택",
+      commonTimezones: "일반 시간대",
+      time: {
+        am: "오전",
+        pm: "오후"
+      },
+      timezones: {
+        beijing: "베이징/상하이",
+        tokyo: "도쿄/서울",
+        singapore: "싱가포르/홍콩",
+        newYork: "뉴욕",
+        losAngeles: "로스앤젤레스",
+        london: "런던",
+        paris: "파리/베를린",
+        sydney: "시드니",
+        utc: "협정 세계시"
+      }
     }
   }
 };
@@ -225,6 +285,12 @@ function ensureStructure(target, source, lang) {
         // 如果是缺失的键，先尝试使用默认翻译
         const defaultTranslation = getDefaultTranslation(key, source[key], lang);
         result[key] = defaultTranslation || `[${lang}] ${source[key]}`; // 如果没有默认翻译，添加语言标记
+      } else if (typeof result[key] === 'string' && result[key].startsWith(`[${lang}]`)) {
+        // 如果有占位符翻译，尝试用默认翻译替换
+        const defaultTranslation = getDefaultTranslation(key, source[key], lang);
+        if (defaultTranslation) {
+          result[key] = defaultTranslation;
+        }
       }
     }
   }
@@ -270,6 +336,54 @@ function findValueInObject(obj, key) {
   return undefined;
 }
 
+// 更新已存在但未翻译的占位符翻译
+function updatePlaceholderTranslations(translations, lang) {
+  const updated = { ...translations };
+  let replacedCount = 0;
+  
+  function traverse(obj, path = []) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const currentPath = [...path, key];
+        
+        if (typeof obj[key] === 'string' && obj[key].startsWith(`[${lang}]`)) {
+          // 尝试获取默认翻译
+          const defaultTranslation = getDefaultTranslation(key, obj[key].replace(`[${lang}] `, ''), lang);
+          if (defaultTranslation) {
+            obj[key] = defaultTranslation;
+            replacedCount++;
+            console.log(`   Replaced placeholder [${currentPath.join('.')}] with default translation`);
+          }
+        } else if (obj[key] instanceof Object && !Array.isArray(obj[key])) {
+          traverse(obj[key], currentPath);
+        }
+      }
+    }
+  }
+  
+  traverse(updated);
+  return { translations: updated, replacedCount };
+}
+
+// 递归计算对象中的键数量
+function countKeys(obj) {
+  let count = 0;
+  
+  function traverse(o) {
+    for (const key in o) {
+      if (o.hasOwnProperty(key)) {
+        count++;
+        if (o[key] instanceof Object && !Array.isArray(o[key])) {
+          traverse(o[key]);
+        }
+      }
+    }
+  }
+  
+  traverse(obj);
+  return count;
+}
+
 async function syncTranslations() {
   try {
     // 读取基准语言文件（中文）
@@ -290,6 +404,10 @@ async function syncTranslations() {
           continue;
         }
       }
+      
+      // 首先更新已存在但未翻译的占位符
+      const { translations: updatedTranslations, replacedCount } = updatePlaceholderTranslations(langTranslations, lang);
+      langTranslations = updatedTranslations;
 
       // 合并翻译，保持现有翻译，添加缺失的键
       const mergedTranslations = ensureStructure(langTranslations, baseTranslations, lang);
@@ -303,12 +421,16 @@ async function syncTranslations() {
       console.log(`✅ Successfully synchronized ${lang}.json`);
       
       // 统计新增的键数量
-      const beforeKeys = Object.keys(langTranslations).length;
-      const afterKeys = Object.keys(mergedTranslations).length;
+      const beforeKeys = countKeys(langTranslations);
+      const afterKeys = countKeys(mergedTranslations);
       const newKeys = afterKeys - beforeKeys;
       
       if (newKeys > 0) {
         console.log(`   Added ${newKeys} new keys to ${lang}.json`);
+      }
+      
+      if (replacedCount > 0) {
+        console.log(`   Replaced ${replacedCount} placeholder translations with defaults`);
       }
     }
 

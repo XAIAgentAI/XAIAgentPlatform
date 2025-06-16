@@ -24,7 +24,7 @@ module.exports = {
       script: "server.js",              
       instances: 1,
       exec_mode: "fork",
-      watch: true,                      
+      watch: false,                      
       ignore_watch: ["node_modules", "logs"], 
       max_memory_restart: "1G",
       node_args: "--max-old-space-size=1024",

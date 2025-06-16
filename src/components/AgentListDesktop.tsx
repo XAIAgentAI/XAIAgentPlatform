@@ -49,12 +49,20 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const { toast } = useToast();
 
   const handleSort = (field: SortField) => {
+    let newSortDirection = sortDirection;
+    
     if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     } else {
-      setSortField(field)
-      setSortDirection("desc")
+      newSortDirection = "desc";
     }
+    
+    setSortField(field);
+    setSortDirection(newSortDirection);
+
+    console.log('handleSort', field, newSortDirection);
+    
+    router.push(`?sortBy=${field}&sortOrder=${newSortDirection}`);
   }
 
   const sortedAgents = [...agents]
@@ -71,7 +79,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     )
   }
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = (id: string) => {
     router.push(`/${locale}/agent-detail/${id}`)
   }
 
@@ -104,7 +112,15 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex items-center gap-4 mb-6">
         <span className="text-muted-color text-xs">{t('sortBy')}</span>
-        <Tabs defaultValue="marketCap" className="w-auto">
+        <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+          if (value === "marketCap") {
+            setSortField("marketCap");
+            router.push(`?sortBy=marketCap&sortOrder=desc`);
+          } else if (value === "latest") {
+            setSortField(null);
+            router.push(`?sortBy=createdAt&sortOrder=desc`);
+          }
+        }}>
           <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
             <TabsTrigger
               value="marketCap"
@@ -212,8 +228,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
             {loading ? (
               <TableBody>
                 <tr>
-                  <td colSpan={7}>
-                    <div className="flex items-center justify-center min-h-[400px]">
+                  <td colSpan={9}>
+                    <div className="flex items-center justify-center min-h-[400px] w-full">
                       <Loading />
                     </div>
                   </td>
@@ -245,6 +261,13 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               <CustomBadge>
                                 {agent.type}
                               </CustomBadge>
+                              {
+                                agent.status === 'PENDING' && (
+                                  <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
+                                    {agent.status}
+                                  </CustomBadge>
+                                )
+                              }
                               <div className="flex  gap-2">
                                 {socialLinks.twitter.length > 0 && (
                                   <SocialLinks links={socialLinks.twitter.join(", ")} />
@@ -305,13 +328,15 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.lp && !isNaN(parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")))
-                            ? parseFloat(agent.lp.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                              maximumFractionDigits: 0
-                            })
-                            : '$0'}
+                          {
+                            agent.lp !== undefined && !isNaN(Number(agent.lp))
+                              ? Number(agent.lp).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 0
+                                })
+                              : '$0'
+                          }
                         </div>
                       </TableCell>
                       <TableCell>

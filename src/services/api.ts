@@ -24,6 +24,9 @@ interface GetAgentsParams {
   searchKeyword?: string;
   category?: string;
   status?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+  forceRefresh?: boolean;
 }
 
 interface GetAgentsData {
@@ -36,7 +39,16 @@ interface GetAgentsData {
 export const agentAPI = {
   // 获取所有 agents
   getAllAgents: async (params: GetAgentsParams = {}): Promise<ApiResponse<GetAgentsData>> => {
-    const { page = 1, pageSize = 20, searchKeyword, category, status } = params;
+    const { 
+      page = 1, 
+      pageSize = 20, 
+      searchKeyword, 
+      category, 
+      status,
+      sortBy,
+      sortOrder = 'desc',
+      forceRefresh
+    } = params;
 
     console.log('getAllAgents params', params);
 
@@ -46,17 +58,27 @@ export const agentAPI = {
       ...(searchKeyword && { searchKeyword }),
       ...(category && { category }),
       ...(status && { status }),
+      ...(sortBy && { sortBy }),
+      ...(sortOrder && { sortOrder }),
+      ...(forceRefresh && { forceRefresh: 'true' }),
     });
 
     const response = await api.get(`/agents?${queryParams}`);
     return response.data;
   },
+  
+//   // 通过ID获取单个agent
+//   getAgentById: async (id: string): Promise<ApiResponse<LocalAgent>> => {
+//     const response = await api.get(`/agents/${id}`);
+//     return response.data;
+//   },
+// };
+
 
   // 获取单个 agent
-  getAgentById: async (id: number): Promise<LocalAgent> => {
+  getAgentById: async (id: string): Promise<LocalAgent> => {
     const { data } = await api.get(`/agents/${id}`);
     console.log("response1", data);
-
 
     // 获取池子数据
     const poolsResponse = await getBatchTokenPrices([{
@@ -65,7 +87,6 @@ export const agentAPI = {
     }]);
 
     const poolData = poolsResponse[data.data.symbol];
-
 
     const res = {
       data: {
@@ -77,15 +98,11 @@ export const agentAPI = {
 
     console.log("poolResponse", poolData, "res", res);
 
-
-
-
     return {
       ...data,
       data: {
         ...data.data,
         ...poolData,
-        
       }
     }
   },
@@ -96,5 +113,3 @@ export const agentAPI = {
     return response.data;
   },
 };
-
-export default api; 

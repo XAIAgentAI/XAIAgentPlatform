@@ -48,6 +48,7 @@ model Agent {
   tvl             String?
   holdersCount    Int?
   socialLinks     String?   // JSON string
+  containerLink   String?   // 容器链接
   totalSupply     Decimal?   // 使用 Decimal 类型存储大数字，支持任意精度
   marketCapTokenNumber Decimal?   // 新增字段，使用 Decimal 类型以支持大数字
   symbol          String?   // 添加 symbol 字段，因为看到代码中也用到了这个
@@ -67,8 +68,11 @@ model Agent {
   iaoContractAddress String?
   tokenAddressTestnet String?
   iaoContractAddressTestnet String?
+  paymentContractAddress String? // 添加支付合约地址字段
   projectDescription String?   // 添加项目说明字段，存储JSON格式的多语言项目说明
   iaoTokenAmount  Decimal?   // IAO代币数量字段
+  iaoStartTime    DateTime?  // IAO开始时间
+  iaoEndTime      DateTime?  // IAO结束时间
 }
 
 model Example {
@@ -103,6 +107,7 @@ model History {
   id        String   @id @default(uuid())
   action    String
   result    String
+  error     String?  // 添加可选的错误信息字段
   agent     Agent    @relation(fields: [agentId], references: [id])
   agentId   String
   timestamp DateTime @default(now())
@@ -115,6 +120,17 @@ model AuthNonce {
   address   String
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model Count {
+  project   String   @id @default(uuid())
+  count     Int
+}
+
+model chat {
+  name      String    @id @default(uuid())
+  password  String 
+  chat      Json      @db.JsonB
 }
 
 model AgentPrice {

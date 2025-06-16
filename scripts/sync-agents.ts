@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import type { LocalAgent } from './localAgents';
+import { localAgents } from './localAgents';
 
 const prisma = new PrismaClient();
 
@@ -9,7 +10,7 @@ function isLocalAgent(value: unknown): value is LocalAgent {
     typeof value === 'object' &&
     value !== null &&
     'id' in value &&
-    typeof (value as any).id === 'number' &&
+    typeof (value as any).id === 'string' &&
     'name' in value &&
     'avatar' in value &&
     'type' in value
@@ -18,52 +19,41 @@ function isLocalAgent(value: unknown): value is LocalAgent {
 
 async function main() {
   try {
-    // 动态导入本地代理数据
-    const { localAgents } = await import('./localAgents');
-    
-    console.log(`找到 ${localAgents.length} 个代理需要同步`);
+    // 创建默认用户
+    const defaultUser = await prisma.user.upsert({
+      where: { address: '0x0000000000000000000000000000000000000000' },
+      update: {},
+      create: {
+        address: '0x0000000000000000000000000000000000000000',
+        nickname: 'System',
+      },
+    });
 
-    // 同步每个代理到数据库
+    console.log(`开始同步 ${localAgents.length} 个本地 agents`);
+
+    // 更新每个 agent
     for (const agent of localAgents) {
-      // 首先确保创建者存在
-      const creatorAddress = agent.creatorAddress || '0x0000000000000000000000000000000000000000';
-      let creator = await prisma.user.findUnique({
-        where: { address: creatorAddress }
-      });
-
-      if (!creator) {
-        creator = await prisma.user.create({
-          data: {
-            address: creatorAddress,
-            nickname: `Creator of ${agent.name}`,
-          }
-        });
-        console.log(`创建了新用户: ${creator.address}`);
-      }
-
-      const capabilities = agent.useCases ? JSON.stringify(agent.useCases) : '';
-      
       await prisma.agent.upsert({
-        where: { id: String(agent.id) },
+        where: { id: agent.id.toString() },
         update: {
           name: agent.name,
           description: agent.description || '',
           longDescription: agent.detailDescription || '',
-          category: agent.type,
-          avatar: agent.avatar,
+          category: agent.type || 'default',
+          avatar: agent.avatar || '',
           status: agent.status,
-          capabilities,
-          rating: 0, // 默认值
-          usageCount: 0, // 默认值
+          capabilities: JSON.stringify([]),
+          rating: 0,
+          usageCount: 0,
           marketCap: agent.marketCap,
           change24h: agent.change24h,
           volume24h: agent.volume24h,
-          creatorId: creator.id,
+          creatorId: defaultUser.id,
           type: agent.type,
-          tvl: agent.tvl,
-          holdersCount: agent.holdersCount,
+          tvl: agent.tvl || '',
+          holdersCount: agent.holdersCount || 0,
           socialLinks: agent.socialLinks || '',
-          symbol: agent.symbol,
+          symbol: agent.symbol || '',
           totalSupply: agent.totalSupply || 0,
           marketCapTokenNumber: agent.marketCapTokenNumber || 0,
           chatEntry: agent.chatEntry || '',
@@ -86,28 +76,29 @@ async function main() {
           iaoTokenAmount: agent.iaoTokenAmount || 0,
         },
         create: {
-          id: String(agent.id),
+          id: agent.id.toString(),
           name: agent.name,
           description: agent.description || '',
           longDescription: agent.detailDescription || '',
-          category: agent.type,
-          avatar: agent.avatar,
+          category: agent.type || 'default',
+          avatar: agent.avatar || '',
           status: agent.status,
-          capabilities,
-          rating: 0, // 默认值
-          usageCount: 0, // 默认值
+          capabilities: JSON.stringify([]),
+          rating: 0,
+          usageCount: 0,
           marketCap: agent.marketCap,
           change24h: agent.change24h,
           volume24h: agent.volume24h,
-          creatorId: creator.id,
+          creatorId: defaultUser.id,
           type: agent.type,
-          tvl: agent.tvl,
-          holdersCount: agent.holdersCount,
+          tvl: agent.tvl || '',
+          holdersCount: agent.holdersCount || 0,
           socialLinks: agent.socialLinks || '',
-          symbol: agent.symbol,
+          symbol: agent.symbol || '',
           totalSupply: agent.totalSupply || 0,
           marketCapTokenNumber: agent.marketCapTokenNumber || 0,
           chatEntry: agent.chatEntry || '',
+          useCases: agent.useCases ? JSON.stringify(agent.useCases) : '',
           useCasesJA: agent.useCasesJA ? JSON.stringify(agent.useCasesJA) : '',
           useCasesKO: agent.useCasesKO ? JSON.stringify(agent.useCasesKO) : '',
           useCasesZH: agent.useCasesZH ? JSON.stringify(agent.useCasesZH) : '',
@@ -126,16 +117,16 @@ async function main() {
           iaoTokenAmount: agent.iaoTokenAmount || 0,
         },
       });
-      console.log(`已同步代理 ${agent.name} (ID: ${agent.id})`);
+      console.log(`已更新 agent: ${agent.name}`);
     }
 
-    console.log('同步完成');
+    console.log('同步完成！');
   } catch (error) {
-    console.error('同步代理时出错:', error);
+    console.error('同步失败:', error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-main(); 
+main().catch(console.error); 

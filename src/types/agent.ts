@@ -1,21 +1,27 @@
 import { type BadgeVariant } from "@/components/ui-custom/custom-badge"
 
 export enum AgentStatus {
-  Tradable = 'Tradable',
-  IAOOngoing = 'IAO ongoing',
-  IAOComingSoon = 'IAO coming soon',
-  TBA = 'TBA'
+  TRADABLE = 'Tradable',
+  IAO_ONGOING = 'IAO_ONGOING',
+  IAO_COMING_SOON = 'IAO_COMING_SOON',
+  TBA = 'TBA',
+  CREATING = 'CREATING',
+  ACTIVE = 'ACTIVE',
+  FAILED = 'FAILED',
 }
 
 export const STATUS_VARIANT_MAP: Record<AgentStatus, BadgeVariant> = {
-  [AgentStatus.Tradable]: 'success',        // 深绿色
-  [AgentStatus.IAOOngoing]: 'lightSuccess', // 浅绿色
-  [AgentStatus.IAOComingSoon]: 'warning',   // 橙色
-  [AgentStatus.TBA]: 'coffee'               // 咖啡色
+  [AgentStatus.TRADABLE]: 'success',        // 深绿色
+  [AgentStatus.IAO_ONGOING]: 'lightSuccess', // 浅绿色
+  [AgentStatus.IAO_COMING_SOON]: 'warning',   // 橙色
+  [AgentStatus.TBA]: 'coffee',               // 咖啡色
+  [AgentStatus.CREATING]: 'lightSuccess',          // 浅绿色
+  [AgentStatus.ACTIVE]: 'success',          // 深绿色
+  [AgentStatus.FAILED]: 'error',            // 红色
 }
 
 export interface LocalAgent {
-  id: number;
+  id: string;
   name: string;
   description: string;
   descriptionJA?: string;
@@ -62,8 +68,16 @@ export interface AgentPrice {
 }
 
 export interface Agent {
-  id: number;
+  id: string;
   name: string;
+  description: string;
+  descriptionJA?: string;
+  descriptionKO?: string;
+  descriptionZH?: string;
+  status: string;
+  statusJA?: string;
+  statusKO?: string;
+  statusZH?: string;
   avatar?: string;
   symbol: string;
   type: string;
@@ -72,7 +86,6 @@ export interface Agent {
   tvl: string;
   holdersCount: number;
   volume24h: string;
-  status: string;
   socialLinks?: string;
   priceChange24h?: string;
   price?: string;

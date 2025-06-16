@@ -18,7 +18,7 @@ export default function CreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState<string | null>(null); 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations("chat");
+  const t = useTranslations("create.createAgent");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +42,6 @@ export default function CreatePage() {
         }),
       });
 
-      // Handle response if needed
       await response.json();
 
     } catch (error) {

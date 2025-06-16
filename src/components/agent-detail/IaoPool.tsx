@@ -17,6 +17,8 @@ import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, http, formatEther } from 'viem';
 import { useNetwork } from "@/hooks/useNetwork";
 import { NFT_CONFIGS } from "../agent-list/constants/nft-config";
+import { PaymentContractModal } from './PaymentContractModal';
+import { UpdateIaoTimeModal } from './UpdateIaoTimeModal';
 
 const showIAOReal = "true"
 
@@ -41,6 +43,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
   const [xaaBalance, setXaaBalance] = useState<string>("0");
+  const [isCreator, setIsCreator] = useState(false);
+  const [isCreatingToken, setIsCreatingToken] = useState(false);
+  const [isIaoSuccessful, setIsIaoSuccessful] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [userStakeInfo, setUserStakeInfo] = useState<UserStakeInfo>({
     userDeposited: "0",
     claimableXAA: "0",
@@ -62,7 +70,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     isUserStakeInfoLoading,
     stake,
     claimRewards,
-    getUserStakeInfo
+    getUserStakeInfo,
+    checkIsSuccess,
+    getContractOwner,
+    isContractOwner,
+    updateIaoTimes
   } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol);
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
@@ -142,6 +154,122 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
     return () => clearInterval(timer);
   }, [fetchUserBalance, address, isConnected]);
+
+  // 检查用户是否是创建者
+  useEffect(() => {
+    const checkIsCreator = async () => {
+      if (!address || !isConnected) {
+        setIsCreator(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/agents/check-creator?agentId=${agent.id}&address=${address}`);
+        const data = await response.json();
+        setIsCreator(data.isCreator);
+      } catch (error) {
+        console.error('Failed to check if user is creator:', error);
+        setIsCreator(false);
+      }
+    };
+
+    checkIsCreator();
+  }, [address, isConnected, agent.id]);
+
+  // 检查IAO是否成功结束
+  useEffect(() => {
+    const checkIaoStatus = async () => {
+      if (!iaoContractAddress) return;
+
+      try {
+        const isSuccess = await checkIsSuccess();
+        setIsIaoSuccessful(isSuccess);
+      } catch (error) {
+        console.error('Failed to check IAO status:', error);
+      }
+    };
+
+    checkIaoStatus();
+    // 定期检查IAO状态
+    const interval = setInterval(checkIaoStatus, 60000); // 每分钟检查一次
+
+    return () => clearInterval(interval);
+  }, [iaoContractAddress, checkIsSuccess]);
+
+  // 检查用户是否是合约所有者
+  useEffect(() => {
+    const checkOwnership = async () => {
+      if (!address || !isConnected || !iaoContractAddress || !isContractOwner) {
+        setIsOwner(false);
+        return;
+      }
+
+      try {
+        const ownerStatus = await isContractOwner();
+        setIsOwner(ownerStatus);
+      } catch (error) {
+        console.error('Failed to check contract ownership:', error);
+        setIsOwner(false);
+      }
+    };
+
+    checkOwnership();
+  }, [address, isConnected, iaoContractAddress, isContractOwner]);
+
+  // 创建Token的函数
+  const handleCreateToken = async () => {
+    if (!isCreator || !isIaoSuccessful) {
+      toast({
+        title: t('error'),
+        description: t('onlyCreatorAfterSuccess'),
+      });
+      return;
+    }
+
+    // 检查网络
+    const isCorrectNetwork = await ensureCorrectNetwork();
+    if (!isCorrectNetwork) return;
+
+    try {
+      setIsCreatingToken(true);
+      
+      // 调用API创建Token并自动设置到IAO合约
+      const response = await fetch('/api/agents/create-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          agentId: agent.id,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.code === 200) {
+        toast({
+          title: t('success'),
+          description: t('tokenCreationSuccess'),
+        });
+        
+        // 刷新页面以显示新创建的Token
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        throw new Error(data.message || t('operationFailed'));
+      }
+    } catch (error: any) {
+      console.error('Create token failed:', error);
+      toast({
+        title: t('error'),
+        description: error.message || t('operationFailed'),
+      });
+    } finally {
+      setIsCreatingToken(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -245,7 +373,32 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   return (
     <Card className="p-6">
 
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between items-center mb-4">
+        {/* 修改IAO时间按钮 - 只有合约所有者可见 */}
+        {isOwner && (
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300"
+            onClick={() => setIsUpdateTimeModalOpen(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            修改IAO时间
+          </Button>
+        )}
+
         <Button
           variant="outline"
           className="relative flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce"
@@ -348,6 +501,50 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             </div>
           </div>
 
+          {/* 创建者专属按钮 - 只有在IAO成功且Token未创建时显示 */}
+          {isCreator && isIaoSuccessful && (
+            <div className="mt-6 p-4 bg-green-50 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">{t('creatorOperations')}</h3>
+              
+              {!agent.tokenAddress ? (
+                <>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {t('createTokenTip')}
+                  </p>
+                  <Button
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    onClick={handleCreateToken}
+                    disabled={isCreatingToken}
+                  >
+                    {isCreatingToken ? (
+                      <div className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        {t('creatingToken')}
+                      </div>
+                    ) : (
+                      t('createToken')
+                    )}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Token已创建成功，地址: {tokenAddress.substring(0, 6)}...{tokenAddress.substring(tokenAddress.length - 4)}
+                  </p>
+                  <Button
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={() => setIsPaymentModalOpen(true)}
+                  >
+                    部署支付合约
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
+
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4">{t('lpPoolData')}</h3>
             <div className="space-y-4">
@@ -370,8 +567,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               </div>
             </div>
           </div>
-
-
 
           {
             userStakeInfo.hasClaimed && poolInfo?.endTime && Date.now() >= poolInfo.endTime * 1000 + 7 * 24 * 60 * 60 * 1000 ? (<>
@@ -768,6 +963,33 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         </>
 
       }
+
+      {/* 支付合约部署模态框 */}
+      <PaymentContractModal
+        isOpen={isPaymentModalOpen}
+        onOpenChange={setIsPaymentModalOpen}
+        agentId={agent.id}
+        tokenAddress={tokenAddress}
+        ownerAddress={address || ''}
+        onSuccess={() => {
+          // 刷新页面或更新状态
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }}
+      />
+
+      {/* 修改IAO时间模态框 */}
+      {updateIaoTimes && (
+        <UpdateIaoTimeModal
+          isOpen={isUpdateTimeModalOpen}
+          onOpenChange={setIsUpdateTimeModalOpen}
+          currentStartTime={poolInfo?.startTime || 0}
+          currentEndTime={poolInfo?.endTime || 0}
+          onUpdateTimes={updateIaoTimes}
+          isLoading={isStakeLoading}
+        />
+      )}
     </Card>
   );
-}; 
+};

@@ -12,6 +12,8 @@ import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSwapKLineData } from '@/hooks/useSwapKLineData';
 import { TimeInterval } from '@/hooks/useTokenPrice';
+import { useRouter } from 'next/navigation';
+import { useAppKitAccount } from '@reown/appkit/react';
 import {
   agentAPI
 } from '@/services/api'
@@ -39,6 +41,8 @@ export function AgentInfo({ agent }: AgentInfoProps) {
   const [baseTokenXaaRate, setBaseTokenXaaRate] = useState<number>(1);
 
   useEffect(() => {
+    console.log("agent", agent);
+
     const fetchBaseTokenXaaRate = async () => {
       if (agent?.tokenAddress && agent.symbol !== "XAA") {
         try {
@@ -109,6 +113,9 @@ export function AgentInfo({ agent }: AgentInfoProps) {
     if (!agent) return "";
     return agent.status;
   };
+
+  const router = useRouter();
+  const address = useAppKitAccount()?.address;
 
   if (tokenLoading) {
     return (
@@ -256,6 +263,19 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                 className="h-full w-full object-cover rounded-full"
               />
             </Avatar>
+            {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
+              <CustomButton
+                className="flex items-center gap-2 ml-2 text-xs py-1 px-2"
+                onClick={() => {
+                  window.open(`/${locale}/chat/edit/${agent.id}`, '_blank')
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                {t('edit')}
+              </CustomButton>
+            )}
           </div>
         </div>
       </div>

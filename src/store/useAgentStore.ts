@@ -18,14 +18,14 @@ export const useAgentStore = create<State & Actions>((set, get) => ({
   agents: [],
   loading: false,
   setAgents: (agents: LocalAgent[]) => set({ agents }),
-  getAgentById: (id: string) => get().agents.find(agent => agent.id === parseInt(id)),
+  getAgentById: (id: string) => get().agents.find(agent => agent.id === id),
   fetchAgents: async () => {
     try {
       set({ loading: true });
       const response = await agentAPI.getAllAgents();
       if (response.code === 200 && response.data?.items) {
         const agents = response.data.items.map((item: any) => ({
-          id: parseInt(item.id),
+          id: item.id,
           name: item.name,
           description: item.description,
           category: item.category,

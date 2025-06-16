@@ -31,16 +31,16 @@ export function AgentDetail({ id }: AgentDetailProps) {
     const fetchAgent = async () => {
       try {
         setIsLoading(true);
-        const res = await agentAPI.getAgentById(parseInt(id)) as unknown as ApiResponse<LocalAgent>;
+        const res = await agentAPI.getAgentById((id)) as unknown as ApiResponse<LocalAgent>;
 
         console.log("fetchAgent res", res);
-        const agent = await agentAPI.getAgentById(parseInt(id));
-        if(res.code === 200 && res.data){
+        const agent = await agentAPI.getAgentById((id));
+        if (res.code === 200 && res.data) {
           console.log("res.data1", res.data);
-          
+
           setAgent(res.data);
         }
-        
+
       } catch (err) {
         setError(err instanceof Error ? err.message : t('fetchError'));
       } finally {
@@ -81,7 +81,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
           <div className="md:block hidden">
             {agent && <IaoPool agent={agent} />}
           </div>
-          
+
           {/* 代币信息卡片 */}
           {agent && <TokenInfoCard projectDescription={agent.projectDescription} />}
         </div>

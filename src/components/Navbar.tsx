@@ -54,7 +54,13 @@ const Navbar = () => {
       id: "creating",
       href: "/create",
       label: t('navigation.creating'),
-      comingSoon: true
+      comingSoon: false
+    },
+    {
+      id: "model",
+      href: "/chat/create",
+      label: t('navigation.model'),
+      comingSoon: false
     }
   ];
 
@@ -376,7 +382,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="lg:hidden absolute top-[64px] lg:top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg"
+              className="lg:hidden absolute top-[62px] lg:top-[80px] left-0 right-0 bg-background border-b border-border-color shadow-lg"
             >
               <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
                 {navigationLinks.map((link) => (

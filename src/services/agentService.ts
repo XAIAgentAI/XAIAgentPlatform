@@ -1,5 +1,5 @@
 import { LocalAgent } from "@/types/agent"
-import { DBCToken } from "@/hooks/useDBCScan"
+import { DBCToken } from "@/services/dbcScan"
 import { getBatchTokenPrices } from "./swapService"
 
 // 格式化数字
@@ -13,7 +13,7 @@ export const formatNumber = (num: string | number | undefined, decimals: number 
 
 // 将 API 响应数据转换为 LocalAgent 对象
 export const transformToLocalAgent = (item: any): LocalAgent => ({
-  id: parseInt(item.id),
+  id: (item.id),
   name: item.name,
   description: item.description,
   longDescription: item.longDescription || item.description,
