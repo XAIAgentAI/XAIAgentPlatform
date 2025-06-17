@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -13,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ModalDateTimePicker } from "@/components/ui/modal-date-time-picker";
 import { useTranslations } from 'next-intl';
 
 interface UpdateIaoTimeModalProps {
@@ -34,34 +34,32 @@ export const UpdateIaoTimeModal = ({
 }: UpdateIaoTimeModalProps) => {
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
-  
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
 
-  // 将Unix时间戳转换为本地日期时间字符串
-  const formatDateTimeLocal = (timestamp: number) => {
-    if (!timestamp || timestamp === 0) return '';
-    const date = new Date(timestamp * 1000);
-    return date.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm格式
-  };
-
-  // 将本地日期时间字符串转换为Unix时间戳
-  const parseDateTime = (dateTimeStr: string) => {
-    if (!dateTimeStr) return 0;
-    return Math.floor(new Date(dateTimeStr).getTime() / 1000);
-  };
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [sharedTimezone, setSharedTimezone] = useState<string>('Asia/Shanghai');
 
   // 初始化时间值
   useEffect(() => {
     if (isOpen) {
-      setStartTime(formatDateTimeLocal(currentStartTime));
-      setEndTime(formatDateTimeLocal(currentEndTime));
+      if (currentStartTime > 0) {
+        setStartDate(new Date(currentStartTime * 1000));
+      }
+      if (currentEndTime > 0) {
+        setEndDate(new Date(currentEndTime * 1000));
+      }
     }
   }, [isOpen, currentStartTime, currentEndTime]);
 
+  const handleTimezoneChange = (timezone: string) => {
+    setSharedTimezone(timezone);
+  };
+
+
+
   const handleSubmit = async () => {
-    const newStartTime = parseDateTime(startTime);
-    const newEndTime = parseDateTime(endTime);
+    const newStartTime = Math.floor(startDate.getTime() / 1000);
+    const newEndTime = Math.floor(endDate.getTime() / 1000);
 
     // 验证时间
     if (newStartTime <= 0 || newEndTime <= 0) {
@@ -75,7 +73,7 @@ export const UpdateIaoTimeModal = ({
 
     if (newStartTime >= newEndTime) {
       toast({
-        title: "错误", 
+        title: "错误",
         description: "开始时间必须早于结束时间",
         variant: "destructive"
       });
@@ -112,8 +110,12 @@ export const UpdateIaoTimeModal = ({
   const handleCancel = () => {
     onOpenChange(false);
     // 重置为当前值
-    setStartTime(formatDateTimeLocal(currentStartTime));
-    setEndTime(formatDateTimeLocal(currentEndTime));
+    if (currentStartTime > 0) {
+      setStartDate(new Date(currentStartTime * 1000));
+    }
+    if (currentEndTime > 0) {
+      setEndDate(new Date(currentEndTime * 1000));
+    }
   };
 
   return (
@@ -128,39 +130,48 @@ export const UpdateIaoTimeModal = ({
         
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="current-start">当前开始时间</Label>
-            <div className="text-sm text-gray-600">
+            <Label>当前开始时间</Label>
+            <div className="text-sm text-muted-foreground">
               {currentStartTime > 0 ? new Date(currentStartTime * 1000).toLocaleString() : '未设置'}
             </div>
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="current-end">当前结束时间</Label>
-            <div className="text-sm text-gray-600">
+            <Label>当前结束时间</Label>
+            <div className="text-sm text-muted-foreground">
               {currentEndTime > 0 ? new Date(currentEndTime * 1000).toLocaleString() : '未设置'}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="start-time">新开始时间</Label>
-            <Input
-              id="start-time"
-              type="datetime-local"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              disabled={isLoading}
-            />
+            <Label>新开始时间</Label>
+            <div suppressHydrationWarning>
+              <ModalDateTimePicker
+                value={startDate}
+                onChange={(timestamp: number) => {
+                  setStartDate(new Date(timestamp));
+                }}
+                timezone={sharedTimezone}
+                onTimezoneChange={handleTimezoneChange}
+                disabled={isLoading}
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="end-time">新结束时间</Label>
-            <Input
-              id="end-time"
-              type="datetime-local"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              disabled={isLoading}
-            />
+            <Label>新结束时间</Label>
+            <div suppressHydrationWarning>
+              <ModalDateTimePicker
+                value={endDate}
+                onChange={(timestamp: number) => {
+                  setEndDate(new Date(timestamp));
+                }}
+                timezone={sharedTimezone}
+                onTimezoneChange={handleTimezoneChange}
+                showTimezone={false}
+                disabled={isLoading}
+              />
+            </div>
           </div>
         </div>
 
@@ -174,8 +185,8 @@ export const UpdateIaoTimeModal = ({
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={isLoading || !startTime || !endTime}
-            className="bg-[#F47521] hover:bg-[#F47521]/90"
+            disabled={isLoading || !startDate || !endDate}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isLoading ? '更新中...' : '确认更新'}
           </Button>

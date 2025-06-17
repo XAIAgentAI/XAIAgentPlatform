@@ -232,7 +232,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
     try {
       setIsCreatingToken(true);
-      
+
       // 调用API创建Token并自动设置到IAO合约
       const response = await fetch('/api/agents/create-token', {
         method: 'POST',
@@ -246,13 +246,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       });
 
       const data = await response.json();
-      
+
       if (data.code === 200) {
         toast({
           title: t('success'),
           description: t('tokenCreationSuccess'),
         });
-        
+
         // 刷新页面以显示新创建的Token
         setTimeout(() => {
           window.location.reload();
@@ -373,31 +373,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   return (
     <Card className="p-6">
 
-      <div className="flex justify-between items-center mb-4">
-        {/* 修改IAO时间按钮 - 只有合约所有者可见 */}
-        {isOwner && (
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300"
-            onClick={() => setIsUpdateTimeModalOpen(true)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12,6 12,12 16,14"/>
-            </svg>
-            修改IAO时间
-          </Button>
-        )}
+      <div className="flex justify-end items-center mb-4">
+
 
         <Button
           variant="outline"
@@ -505,7 +482,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           {isCreator && isIaoSuccessful && (
             <div className="mt-6 p-4 bg-green-50 rounded-lg">
               <h3 className="text-lg font-semibold mb-2">{t('creatorOperations')}</h3>
-              
+
               {!agent.tokenAddress ? (
                 <>
                   <p className="text-sm text-muted-foreground mb-4">
@@ -737,7 +714,32 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         // Pool data before IAO ends
         <>
           {/* 募资进行中，显示的池子数据 */}
-          <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
+          <div className="flex  gap-4 justify-between">
+            <h2 className="text-2xl font-bold mb-6 flex-none">{t('title')}</h2>
+            {/* 修改IAO时间按钮 - 只有合约所有者可见且IAO未结束 */}
+            {isOwner && !isIAOEnded && (
+              <Button
+                className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
+                onClick={() => setIsUpdateTimeModalOpen(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
+                </svg>
+                修改IAO时间
+              </Button>
+            )}
+          </div>
 
           <div className="space-y-4">
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
