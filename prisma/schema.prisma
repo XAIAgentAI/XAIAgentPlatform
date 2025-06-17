@@ -71,8 +71,8 @@ model Agent {
   paymentContractAddress String? // 添加支付合约地址字段
   projectDescription String?   // 添加项目说明字段，存储JSON格式的多语言项目说明
   iaoTokenAmount  Decimal?   // IAO代币数量字段
-  iaoStartTime    DateTime?  // IAO开始时间
-  iaoEndTime      DateTime?  // IAO结束时间
+  iaoStartTime    BigInt?    // IAO开始时间戳
+  iaoEndTime      BigInt?    // IAO结束时间戳
 }
 
 model Example {

@@ -37,9 +37,14 @@ export function handleError(error: unknown) {
 }
 
 export function createSuccessResponse<T>(data: T, message = '操作成功') {
+  // 处理 BigInt 序列化问题
+  const safeData = JSON.parse(JSON.stringify(data, (_, value) => 
+    typeof value === 'bigint' ? value.toString() : value
+  ));
+  
   return NextResponse.json({
     code: 200,
     message,
-    data,
+    data: safeData,
   });
 } 

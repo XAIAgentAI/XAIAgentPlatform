@@ -121,9 +121,9 @@ export async function PUT(
     if (updateStartTime && updateEndTime && fullAgent.iaoContractAddress) {
       console.log(`[时间更新] 检查是否需要更新IAO合约时间...`);
       
-      // 获取当前的开始和结束时间
-      const currentStartTime = fullAgent.iaoStartTime ? Math.floor(new Date(fullAgent.iaoStartTime).getTime() / 1000) : null;
-      const currentEndTime = fullAgent.iaoEndTime ? Math.floor(new Date(fullAgent.iaoEndTime).getTime() / 1000) : null;
+      // 获取当前的开始和结束时间（直接使用时间戳）
+      const currentStartTime = fullAgent.iaoStartTime ? Number(fullAgent.iaoStartTime) : null;
+      const currentEndTime = fullAgent.iaoEndTime ? Number(fullAgent.iaoEndTime) : null;
       
       console.log(`[时间更新] 当前开始时间: ${currentStartTime}`);
       console.log(`[时间更新] 当前结束时间: ${currentEndTime}`);
@@ -141,12 +141,12 @@ export async function PUT(
       if (!timeChanged) {
         console.log(`[时间更新] 时间未发生显著变化，跳过合约更新`);
         
-        // 仅更新数据库中的时间记录，不调用合约
+        // 仅更新数据库中的时间记录，不调用合约（存储为Unix时间戳）
         await prisma.agent.update({
           where: { id: params.id },
           data: {
-            iaoStartTime: new Date(updateStartTime * 1000),
-            iaoEndTime: new Date(updateEndTime * 1000),
+            iaoStartTime: BigInt(updateStartTime),
+            iaoEndTime: BigInt(updateEndTime),
           },
         });
       } else {
@@ -206,12 +206,12 @@ export async function PUT(
               },
             });
             
-            // 更新Agent记录中的开始和结束时间
+            // 更新Agent记录中的开始和结束时间（存储为Unix时间戳）
             await prisma.agent.update({
               where: { id: params.id },
               data: {
-                iaoStartTime: new Date(updateStartTime * 1000),
-                iaoEndTime: new Date(updateEndTime * 1000),
+                iaoStartTime: BigInt(updateStartTime),
+                iaoEndTime: BigInt(updateEndTime),
               },
             });
           }
