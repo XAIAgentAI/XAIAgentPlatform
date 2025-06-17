@@ -18,7 +18,9 @@ const nextConfig = {
         './public/**/*',
         './src/**/*'
       ]
-    }
+    },
+    // 启用 instrumentation 功能
+    instrumentationHook: true
   },
   env: {
     _next_intl_trailing_slash: 'true',

@@ -72,10 +72,36 @@ export async function POST(request: Request) {
       containerLink,
     } = body;
 
+    // 打印接收到的时间相关参数
+    console.log('📅 接收到的时间参数:', {
+      startTimestamp,
+      durationHours,
+      startTimestampType: typeof startTimestamp,
+      durationHoursType: typeof durationHours,
+      startTimestampDate: startTimestamp ? new Date(startTimestamp * 1000).toISOString() : 'undefined',
+      calculatedEndTime: startTimestamp && durationHours ?
+        new Date((startTimestamp + durationHours * 3600) * 1000).toISOString() : 'undefined'
+    });
+
     // 验证必填字段
     if (!name || !description || !category || !capabilities || !symbol) {
       return NextResponse.json(
         { code: 400, message: '缺少必填字段' },
+        { status: 400 }
+      );
+    }
+
+    // 验证时间参数
+    if (startTimestamp && (typeof startTimestamp !== 'number' || startTimestamp <= 0)) {
+      return NextResponse.json(
+        { code: 400, message: 'startTimestamp 必须是正整数' },
+        { status: 400 }
+      );
+    }
+
+    if (durationHours && (typeof durationHours !== 'number' || durationHours <= 0)) {
+      return NextResponse.json(
+        { code: 400, message: 'durationHours 必须是正数' },
         { status: 400 }
       );
     }
@@ -306,17 +332,34 @@ async function processTask(
     console.log(`[IAO部署] 部署成功:`);
     console.log(`[IAO部署] - IAO合约地址: ${iaoResult.data.proxy_address}`);
 
-    // 更新 Agent 状态和合约地址
+    // 计算 IAO 时间戳
+    const startTimestamp = taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600;
+    const durationHours = taskData.durationHours || 72;
+    const endTimestamp = startTimestamp + (durationHours * 3600);
+
+    // 详细的时间计算日志
+    console.log(`[时间计算] 详细信息:`);
+    console.log(`[时间计算] - 客户端传入 startTimestamp: ${taskData.startTimestamp} (${taskData.startTimestamp ? new Date(taskData.startTimestamp * 1000).toISOString() : 'undefined'})`);
+    console.log(`[时间计算] - 客户端传入 durationHours: ${taskData.durationHours}`);
+    console.log(`[时间计算] - 实际使用 startTimestamp: ${startTimestamp} (${new Date(startTimestamp * 1000).toISOString()})`);
+    console.log(`[时间计算] - 实际使用 durationHours: ${durationHours}`);
+    console.log(`[时间计算] - 计算出的 endTimestamp: ${endTimestamp} (${new Date(endTimestamp * 1000).toISOString()})`);
+
+    // 更新 Agent 状态和合约地址，同时保存 IAO 时间戳
     console.log(`[Agent更新] 开始更新Agent状态...`);
+    console.log(`[Agent更新] IAO时间: ${new Date(startTimestamp * 1000).toISOString()} 到 ${new Date(endTimestamp * 1000).toISOString()}`);
+
     await prisma.agent.update({
       where: { id: agentId },
       data: {
         status: 'TBA',
         iaoContractAddress: iaoResult.data.proxy_address,
+        iaoStartTime: BigInt(startTimestamp), // 存储为BigInt时间戳
+        iaoEndTime: BigInt(endTimestamp),     // 存储为BigInt时间戳
         // tokenAddress保持null，等待后续创建
       },
     });
-    console.log(`[Agent更新] Agent状态已更新为TBA`);
+    console.log(`[Agent更新] Agent状态已更新为TBA，IAO时间已保存`);
 
     // 更新任务历史记录
     console.log(`[完成] Agent创建流程完成`);

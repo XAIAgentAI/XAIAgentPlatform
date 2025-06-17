@@ -433,11 +433,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             setCreationProgress(100);
             setDisplayProgress(100);
 
-            debugger
 
             // 如果是创建模式，更新data状态中的agent ID
             if (mode === 'create' && result.data?.data?.agentId) {
-                debugger
               setData(prev => ({
                 ...(prev || {
                   name: formData.name,
@@ -691,8 +689,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 <div className="flex justify-center">
                     <button
                         onClick={() => {
-                            console.log(data, 'data')
-                            debugger
                             router.push(`/${locale}/agent-detail/${data.id}`)
                         }}
                         className="mt-6 opacity-90 hover:opacity-100 bg-primary text-white font-medium py-3 px-6 rounded-lg transition-all"
@@ -764,11 +760,11 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         setImageUrl(agentData.avatar);
                     }
                     
-                    // 设置开始和结束时间
+                    // 设置开始和结束时间（从时间戳转换）
                     if (agentData.iaoStartTime) {
-                        const startDate = new Date(agentData.iaoStartTime);
-                        const endDate = agentData.iaoEndTime ? new Date(agentData.iaoEndTime) : new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-                        
+                        const startDate = new Date(Number(agentData.iaoStartTime) * 1000);
+                        const endDate = agentData.iaoEndTime ? new Date(Number(agentData.iaoEndTime) * 1000) : new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+
                         setDateRange({
                             range: {
                                 from: startDate,

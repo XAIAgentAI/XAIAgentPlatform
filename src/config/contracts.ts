@@ -1155,6 +1155,25 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
         "anonymous": false,
         "inputs": [
             {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "startTime",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "endTime",
+                "type": "uint256"
+            }
+        ],
+        "name": "TimeUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
                 "indexed": true,
                 "internalType": "address",
                 "name": "user",
@@ -1438,6 +1457,19 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
     },
     {
         "inputs": [],
+        "name": "minDepositBalance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "oracle",
         "outputs": [
             {
@@ -1509,6 +1541,19 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
             }
         ],
         "name": "setAdmin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_minDepositBalance",
+                "type": "uint256"
+            }
+        ],
+        "name": "setMinDepositBalance",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -1737,7 +1782,7 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
         "stateMutability": "view",
         "type": "function"
     }
-] as const;
+]
 
 export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
     {

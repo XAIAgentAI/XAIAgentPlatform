@@ -92,8 +92,8 @@ interface AgentRecord {
   iaoContractAddress: string | null;
   iaoContractAddressTestnet: string | null;
   iaoTokenAmount: any; // Decimal in prisma
-  iaoStartTime: Date | null;
-  iaoEndTime: Date | null;
+  iaoStartTime: bigint | null;
+  iaoEndTime: bigint | null;
   createdAt: Date;
   // 其他字段...
 }
@@ -122,69 +122,47 @@ const updatePriceData = async (agentId: string, priceInfo: any, item: any) => {
   }).catch(err => console.error(`更新Agent价格字段失败 (${agentId}):`, err));
 };
 
-// 更新合约时间信息到数据库
-const updateContractTimeInfo = async (agentId: string, timeInfo: { startTime: number; endTime: number }) => {
-  if (!timeInfo) return;
-  
-  // 异步更新合约时间信息
-  prisma.agent.update({
-    where: { id: agentId },
-    data: {
-      iaoStartTime: timeInfo.startTime ? new Date(timeInfo.startTime * 1000) : null,
-      iaoEndTime: timeInfo.endTime ? new Date(timeInfo.endTime * 1000) : null
-    } as any
-  }).catch(err => console.error(`更新合约时间信息失败 (${agentId}):`, err));
-};
+// 已移除：合约时间信息现在通过事件监听自动同步到数据库
+// 不再需要在API查询时更新合约时间
 
-// 获取外部数据（Token价格、DBC令牌和合约时间信息）
+// 获取外部数据（Token价格和DBC令牌信息）
+// 注意：合约时间信息现在通过事件监听自动同步，不再需要主动获取
 interface ExternalDataResult {
   tokenPrices: Record<string, any>;
   dbcTokens: any[];
-  contractTimes: Record<string, { startTime: number; endTime: number }>;
   needFetchData: boolean;
-  needFetchContractTime: boolean;
 }
 
 async function fetchExternalData(
   tokenInfos: { address: string; symbol: string }[],
-  contractInfos: { address: string; symbol: string }[],
   forceRefresh: boolean
 ): Promise<ExternalDataResult> {
   const now = Math.floor(Date.now() / 1000);
   console.log(`[性能] 开始检查是否需要获取外部数据`);
   const priceCheckStartTime = Date.now();
-  
+
   // 检查是否需要获取价格和token数据
   let needFetchData = forceRefresh || (dbcTokensCache.length === 0) || tokenInfos.some(info => {
     const cacheKey = `${info.symbol}-${info.address}`;
     const lastUpdate = tokenPriceCache[cacheKey]?.timestamp || 0;
     return now - lastUpdate > CACHE_TTL;
   });
-  
-  // 检查是否需要获取合约时间信息
-  const needFetchContractTime = forceRefresh || (now - contractTimeCache.timestamp > CONTRACT_TIME_CACHE_TTL);
-  
+
   console.log(`[性能] 检查缓存耗时: ${Date.now() - priceCheckStartTime}ms`);
   console.log(`[性能] 是否需要获取外部数据: ${needFetchData}`);
-  console.log(`[性能] 是否需要获取合约时间: ${needFetchContractTime}`);
 
   // 默认使用缓存数据
   let tokenPrices = {} as Record<string, any>;
   let dbcTokens = dbcTokensCache;
-  let contractTimes = contractTimeCache.data;
   
   // 创建一个Promise数组来并行获取所有外部数据
   const externalDataPromises: Promise<any>[] = [];
-  
+
   if (needFetchData) {
     if (tokenInfos.length > 0) {
       externalDataPromises.push(getBatchTokenPrices(tokenInfos));
     }
     externalDataPromises.push(fetchDBCTokens());
-  }
-  
-  if (needFetchContractTime && contractInfos.length > 0) {
-    externalDataPromises.push(getBatchContractTimeInfo(contractInfos));
   }
   
   if (externalDataPromises.length > 0) {
@@ -202,7 +180,7 @@ async function fetchExternalData(
         tokenPrices = results[resultIndex++];
       }
       dbcTokens = results[resultIndex++];
-      
+
       // 更新缓存
       dbcTokensCache = dbcTokens;
       Object.entries(tokenPrices).forEach(([symbol, data]) => {
@@ -217,16 +195,6 @@ async function fetchExternalData(
       });
     }
     
-    if (needFetchContractTime && contractInfos.length > 0) {
-      contractTimes = results[resultIndex++];
-      
-      // 更新缓存
-      contractTimeCache = {
-        data: contractTimes,
-        timestamp: now
-      };
-    }
-    
     console.log(`[性能] 获取外部数据完成，总耗时: ${Date.now() - fetchDataStartTime}ms`);
   } else {
     console.log(`[性能] 使用缓存数据`);
@@ -235,20 +203,16 @@ async function fetchExternalData(
   return {
     tokenPrices,
     dbcTokens,
-    contractTimes,
-    needFetchData,
-    needFetchContractTime
+    needFetchData
   };
 }
 
 // 格式化Agent数据
 function formatAgentData(
-  items: any[], 
-  dbcTokens: any[], 
-  tokenPrices: Record<string, any>, 
-  contractTimes: Record<string, { startTime: number; endTime: number }>,
-  needFetchData: boolean,
-  needFetchContractTime: boolean
+  items: any[],
+  dbcTokens: any[],
+  tokenPrices: Record<string, any>,
+  needFetchData: boolean
 ): { formattedItems: AgentWithSortData[], updateOperations: Promise<void>[] } {
   const now = Math.floor(Date.now() / 1000);
   console.log(`[性能] 开始处理返回数据`);
@@ -303,17 +267,7 @@ function formatAgentData(
       }
     }
     
-    // 获取合约时间信息
-    let contractTimeInfo = null;
-    if (contractAddress) {
-      contractTimeInfo = contractTimes[contractAddress];
-      
-      // 如果有新获取的合约时间信息，异步更新到数据库
-      if (needFetchContractTime && contractTimeInfo) {
-        const updateTimeOp = updateContractTimeInfo(item.id, contractTimeInfo);
-        updateOperations.push(updateTimeOp);
-      }
-    }
+    // 合约时间信息现在直接从数据库获取（通过事件监听自动同步）
 
     // 使用类型断言确保类型安全
     const agent = item as unknown as AgentRecord;
@@ -347,9 +301,9 @@ function formatAgentData(
       price: priceInfo?.usdPrice ? `$${priceInfo.usdPrice}` : undefined,
       priceChange24h: priceInfo?.priceChange24h,
       lp: priceInfo?.lp,
-      // 合约时间信息
-      startTime: contractTimeInfo?.startTime || (agent.iaoStartTime ? Math.floor(agent.iaoStartTime.getTime() / 1000) : undefined),
-      endTime: contractTimeInfo?.endTime || (agent.iaoEndTime ? Math.floor(agent.iaoEndTime.getTime() / 1000) : undefined),
+      // 合约时间信息 - 直接使用数据库中的时间戳（通过事件监听自动同步）
+      startTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : undefined,
+      endTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : undefined,
       // 保存原始数值用于排序
       _usdPrice: priceInfo?.usdPrice || 0,
       _volume24h: priceInfo?.volume24h || 0,
@@ -566,26 +520,16 @@ export async function GET(request: Request) {
     
     console.log(`[性能] 组装token信息耗时: ${Date.now() - tokenAssemblyStartTime}ms`);
     
-    // 组装合约信息，用于获取startTime和endTime
-    const contractInfos = items
-      .filter(item => (process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress))
-      .map(item => ({
-        address: (process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.iaoContractAddressTestnet : item.iaoContractAddress) || '',
-        symbol: item.symbol || 'XAA',
-      }));
-
-    // 获取外部数据
-    const externalData = await fetchExternalData(tokenInfos, contractInfos, forceRefresh);
-    const { tokenPrices, dbcTokens, contractTimes, needFetchData, needFetchContractTime } = externalData;
+    // 获取外部数据（不再需要获取合约时间，通过事件监听自动同步）
+    const externalData = await fetchExternalData(tokenInfos, forceRefresh);
+    const { tokenPrices, dbcTokens, needFetchData } = externalData;
     
     // 格式化数据
     const { formattedItems, updateOperations } = formatAgentData(
-      items, 
-      dbcTokens, 
-      tokenPrices, 
-      contractTimes, 
-      needFetchData, 
-      needFetchContractTime
+      items,
+      dbcTokens,
+      tokenPrices,
+      needFetchData
     );
     
     // 排序数据
@@ -602,7 +546,7 @@ export async function GET(request: Request) {
       page,
       pageSize,
       priceDataFreshness: needFetchData ? 'fresh' : 'cached',
-      contractTimeDataFreshness: needFetchContractTime ? 'fresh' : 'cached',
+      timeDataSource: 'database_synced_by_events', // 说明时间数据来源
     });
   } catch (error) {
     console.log(`[性能] API请求异常，总耗时: ${Date.now() - startTime}ms`);
