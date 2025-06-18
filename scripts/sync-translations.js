@@ -368,7 +368,7 @@ function updatePlaceholderTranslations(translations, lang) {
 // 递归计算对象中的键数量
 function countKeys(obj) {
   let count = 0;
-  
+
   function traverse(o) {
     for (const key in o) {
       if (o.hasOwnProperty(key)) {
@@ -379,16 +379,109 @@ function countKeys(obj) {
       }
     }
   }
-  
+
   traverse(obj);
   return count;
 }
 
+// 检查翻译完整性
+function checkTranslationCompleteness(translations, lang) {
+  const issues = [];
+
+  function traverse(obj, path = []) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const currentPath = [...path, key];
+        const pathString = currentPath.join('.');
+
+        if (typeof obj[key] === 'string') {
+          // 检查是否有未翻译的占位符
+          if (obj[key].startsWith(`[${lang}]`)) {
+            issues.push({
+              type: 'untranslated',
+              path: pathString,
+              value: obj[key]
+            });
+          }
+          // 检查是否有其他语言的占位符
+          else if (obj[key].match(/^\[(?:en|ja|ko|zh)\]/)) {
+            issues.push({
+              type: 'wrong_language',
+              path: pathString,
+              value: obj[key]
+            });
+          }
+        } else if (obj[key] instanceof Object && !Array.isArray(obj[key])) {
+          traverse(obj[key], currentPath);
+        }
+      }
+    }
+  }
+
+  traverse(translations);
+  return issues;
+}
+
+// 生成翻译报告
+function generateTranslationReport(baseTranslations, allTranslations) {
+  const report = {
+    baseKeys: countKeys(baseTranslations),
+    languages: {}
+  };
+
+  for (const lang of SUPPORTED_LANGUAGES) {
+    const translations = allTranslations[lang] || {};
+    const issues = checkTranslationCompleteness(translations, lang);
+    const translatedKeys = countKeys(translations);
+    const completeness = Math.round((translatedKeys / report.baseKeys) * 100);
+
+    report.languages[lang] = {
+      totalKeys: translatedKeys,
+      completeness: `${completeness}%`,
+      issues: issues.length,
+      untranslated: issues.filter(i => i.type === 'untranslated').length,
+      wrongLanguage: issues.filter(i => i.type === 'wrong_language').length
+    };
+  }
+
+  return report;
+}
+
+// 显示翻译报告
+function displayTranslationReport(report) {
+  console.log('\n📊 Translation Completeness Report');
+  console.log('=====================================');
+  console.log(`Base language (${BASE_LANGUAGE}) keys: ${report.baseKeys}`);
+  console.log('');
+
+  for (const [lang, data] of Object.entries(report.languages)) {
+    console.log(`${lang.toUpperCase()}:`);
+    console.log(`  Keys: ${data.totalKeys}/${report.baseKeys} (${data.completeness})`);
+    if (data.issues > 0) {
+      console.log(`  Issues: ${data.issues} total`);
+      if (data.untranslated > 0) {
+        console.log(`    - ${data.untranslated} untranslated`);
+      }
+      if (data.wrongLanguage > 0) {
+        console.log(`    - ${data.wrongLanguage} wrong language markers`);
+      }
+    } else {
+      console.log(`  ✅ No issues found`);
+    }
+    console.log('');
+  }
+}
+
 async function syncTranslations() {
   try {
+    console.log('🔄 Starting translation synchronization...\n');
+
     // 读取基准语言文件（中文）
     const baseLanguagePath = path.join(MESSAGES_DIR, `${BASE_LANGUAGE}.json`);
     const baseTranslations = JSON.parse(fs.readFileSync(baseLanguagePath, 'utf8'));
+
+    // 存储所有翻译以生成报告
+    const allTranslations = {};
 
     // 同步每种语言
     for (const lang of SUPPORTED_LANGUAGES) {
@@ -404,7 +497,7 @@ async function syncTranslations() {
           continue;
         }
       }
-      
+
       // 首先更新已存在但未翻译的占位符
       const { translations: updatedTranslations, replacedCount } = updatePlaceholderTranslations(langTranslations, lang);
       langTranslations = updatedTranslations;
@@ -417,30 +510,126 @@ async function syncTranslations() {
 
       // 写入更新后的翻译文件
       fs.writeFileSync(langFilePath, formattedJson + '\n', 'utf8');
-      
+
+      // 存储翻译以生成报告
+      allTranslations[lang] = mergedTranslations;
+
       console.log(`✅ Successfully synchronized ${lang}.json`);
-      
+
       // 统计新增的键数量
       const beforeKeys = countKeys(langTranslations);
       const afterKeys = countKeys(mergedTranslations);
       const newKeys = afterKeys - beforeKeys;
-      
+
       if (newKeys > 0) {
         console.log(`   Added ${newKeys} new keys to ${lang}.json`);
       }
-      
+
       if (replacedCount > 0) {
         console.log(`   Replaced ${replacedCount} placeholder translations with defaults`);
       }
     }
 
-    console.log('\n🎉 Translation synchronization completed!');
-    
+    // 生成并显示翻译报告
+    const report = generateTranslationReport(baseTranslations, allTranslations);
+    displayTranslationReport(report);
+
+    console.log('🎉 Translation synchronization completed!');
+
   } catch (error) {
     console.error('❌ Error during synchronization:', error);
     process.exit(1);
   }
 }
 
-// 执行同步
-syncTranslations(); 
+// 添加命令行参数支持
+function parseArguments() {
+  const args = process.argv.slice(2);
+  const options = {
+    checkOnly: false,
+    verbose: false
+  };
+
+  for (const arg of args) {
+    switch (arg) {
+      case '--check':
+      case '-c':
+        options.checkOnly = true;
+        break;
+      case '--verbose':
+      case '-v':
+        options.verbose = true;
+        break;
+      case '--help':
+      case '-h':
+        console.log(`
+Translation Sync Tool
+
+Usage: node sync-translations.js [options]
+
+Options:
+  -c, --check     Only check translation completeness, don't sync
+  -v, --verbose   Show detailed information
+  -h, --help      Show this help message
+
+Examples:
+  node sync-translations.js           # Sync all translations
+  node sync-translations.js --check   # Only check completeness
+        `);
+        process.exit(0);
+        break;
+    }
+  }
+
+  return options;
+}
+
+// 仅检查翻译完整性的函数
+async function checkTranslations() {
+  try {
+    console.log('🔍 Checking translation completeness...\n');
+
+    const baseLanguagePath = path.join(MESSAGES_DIR, `${BASE_LANGUAGE}.json`);
+    const baseTranslations = JSON.parse(fs.readFileSync(baseLanguagePath, 'utf8'));
+
+    const allTranslations = {};
+
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const langFilePath = path.join(MESSAGES_DIR, `${lang}.json`);
+      if (fs.existsSync(langFilePath)) {
+        try {
+          allTranslations[lang] = JSON.parse(fs.readFileSync(langFilePath, 'utf8'));
+        } catch (error) {
+          console.error(`Error reading ${lang}.json:`, error);
+          allTranslations[lang] = {};
+        }
+      } else {
+        allTranslations[lang] = {};
+      }
+    }
+
+    const report = generateTranslationReport(baseTranslations, allTranslations);
+    displayTranslationReport(report);
+
+  } catch (error) {
+    console.error('❌ Error during check:', error);
+    process.exit(1);
+  }
+}
+
+// 主执行函数
+async function main() {
+  const options = parseArguments();
+
+  if (options.checkOnly) {
+    await checkTranslations();
+  } else {
+    await syncTranslations();
+  }
+}
+
+// 执行主函数
+main().catch(error => {
+  console.error('❌ Unexpected error:', error);
+  process.exit(1);
+});
