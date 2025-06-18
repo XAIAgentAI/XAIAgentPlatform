@@ -114,7 +114,27 @@ export async function POST(request: Request) {
       })
     });
 
-    const tokenResult = await tokenResponse.json();
+    let tokenResult;
+    try {
+      const responseText = await tokenResponse.text();
+      console.log(`[Token创建] 原始响应:`, responseText);
+      console.log(`[Token创建] 响应状态:`, tokenResponse.status);
+
+      // 尝试解析JSON
+      if (responseText.trim()) {
+        tokenResult = JSON.parse(responseText);
+      } else {
+        tokenResult = { code: 500, message: '空响应' };
+      }
+    } catch (parseError: any) {
+      console.error(`[Token创建] JSON解析失败:`, parseError);
+
+      tokenResult = {
+        code: 500,
+        message: `响应解析失败: ${parseError.message}`
+      };
+    }
+
     console.log(`[Token创建] Token部署结果:`, tokenResult);
     console.log(`[Token创建] Token合约地址: ${tokenResult.data?.proxy_address || '部署失败'}`);
     
@@ -165,7 +185,27 @@ export async function POST(request: Request) {
       })
     });
 
-    const setTokenResult = await setTokenResponse.json();
+    let setTokenResult;
+    try {
+      const responseText = await setTokenResponse.text();
+      console.log(`[IAO设置] 原始响应:`, responseText);
+      console.log(`[IAO设置] 响应状态:`, setTokenResponse.status);
+      console.log(`[IAO设置] 响应头:`, Object.fromEntries(setTokenResponse.headers.entries()));
+
+      // 尝试解析JSON
+      if (responseText.trim()) {
+        setTokenResult = JSON.parse(responseText);
+      } else {
+        setTokenResult = { code: 500, message: '空响应' };
+      }
+    } catch (parseError: any) {
+      console.error(`[IAO设置] JSON解析失败:`, parseError);
+
+      setTokenResult = {
+        code: 500,
+        message: `响应解析失败: ${parseError.message}`
+      };
+    }
     console.log(`[IAO设置] 设置Token到IAO合约结果:`, setTokenResult);
     
     if (setTokenResult.code !== 200) {

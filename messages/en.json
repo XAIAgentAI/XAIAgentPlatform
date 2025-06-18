@@ -21,12 +21,12 @@
       "hours": "h",
       "minutes": "m",
       "seconds": "s",
-      "selectDateRange": "[en] 选择日期范围",
-      "1day": "[en] 1天",
-      "7day": "[en] 7天",
-      "14day": "[en] 14天",
-      "30day": "[en] 30天",
-      "90day": "[en] 90天"
+      "selectDateRange": "Select Date Range",
+      "1day": "1 Day",
+      "7day": "7 Days",
+      "14day": "14 Days",
+      "30day": "30 Days",
+      "90day": "90 Days"
     },
     "perDay": "day",
     "noData": "No Data",
@@ -69,7 +69,8 @@
       "chatIcon": "Chat Icon",
       "contractLink": "View contract on DBCScan",
       "copyContractAddress": "Copy contract address"
-    }
+    },
+    "edit": "[en] 修改Agent信息"
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -78,7 +79,7 @@
     "disconnect": "Disconnect",
     "balance": "Balance",
     "address": "Address",
-    "connectionTimeout": "[en] 钱包连接超时，请重试"
+    "connectionTimeout": "Wallet connection timeout, please try again"
   },
   "buttons": {
     "buyDBC": "BUY DBC",
@@ -115,7 +116,9 @@
     "transactionSent": "Transaction Sent",
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
-    "stakeSuccessWithAmount": "Successfully staked {amount} DBC"
+    "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
+    "contractTimeUpdateFailed": "[en] 更新合约时间失败",
+    "contractTimeUpdateError": "[en] 更新合约时间发生错误"
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -219,9 +222,35 @@
     "lpXaaAmount": "LP Pool XAA Amount",
     "paidXaaAmount": "Paid XAA Amount",
     "claimableSicAmount": "Claimable SIC Amount",
-    "level": "[en] 等级",
-    "actualStakedAmount": "[en] NFT加成后的实际{symbol}数量",
-    "nftBoostAmount": "[en] NFT加成的{symbol}数量"
+    "level": "Level",
+    "actualStakedAmount": "Actual {symbol} Amount After NFT Boost",
+    "nftBoostAmount": "NFT Boost {symbol} Amount",
+    "updateIaoTime": "Update IAO Time",
+    "createToken": "Create Token",
+    "creatingToken": "Creating Token...",
+    "operationFailed": "Operation Failed",
+    "onlyCreatorAfterSuccess": "Only creator can create token after IAO success",
+    "tokenCreationSuccess": "Token created successfully",
+    "updatePaymentContract": "Deploy Payment Contract"
+  },
+  "paymentContract": {
+    "title": "Deploy Payment Contract",
+    "description": "Set payment contract parameters, which will be associated with the current Token after deployment",
+    "ownerAddress": "Owner Address",
+    "paymentToken": "Payment Token",
+    "addressFreeRequestCount": "Address Free Request Count",
+    "freeRequestCount": "Free Request Count",
+    "minUsdBalance": "Minimum USD Balance",
+    "vipMonthlyQuotas": "VIP Monthly Quotas",
+    "vipPriceFixed": "VIP Fixed Price",
+    "vipPriceMonthly": "VIP Monthly Price",
+    "cancel": "Cancel",
+    "deploy": "Deploy Contract",
+    "deploying": "Deploying...",
+    "error": "Error",
+    "tokenAddressRequired": "Token address cannot be empty",
+    "deploySuccess": "Payment contract deployed successfully",
+    "deployFailed": "Failed to deploy payment contract"
   },
   "tokenInfo": {
     "totalSupply": "Total XAA Supply: 100B",
@@ -751,7 +780,8 @@
       "updateFailed": "Update failed",
       "createFailed": "Creation failed",
       "timeNotEditable": "Please modify in blockchain explorer",
-      "viewOnExplorerForTime": "Modify time in blockchain explorer"
+      "viewOnExplorerForTime": "Modify time in blockchain explorer",
+      "editAIProject": "[en] 编辑 AI 项目"
     },
     "datePicker": {
       "selectDateTime": "Select Date and Time",

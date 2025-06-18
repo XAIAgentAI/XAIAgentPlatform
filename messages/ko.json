@@ -69,7 +69,8 @@
       "chatIcon": "채팅 아이콘",
       "contractLink": "컨트랙트 상세 보기",
       "copyContractAddress": "컨트랙트 주소 복사"
-    }
+    },
+    "edit": "[ko] 修改Agent信息"
   },
   "wallet": {
     "connect": "지갑 연결",
@@ -78,7 +79,7 @@
     "disconnect": "연결 해제",
     "balance": "잔액",
     "address": "주소",
-    "connectionTimeout": "[ko] 钱包连接超时，请重试"
+    "connectionTimeout": "지갑 연결 시간 초과, 다시 시도해주세요"
   },
   "buttons": {
     "buyDBC": "DBC 구매",
@@ -116,7 +117,9 @@
     "transactionSent": "거래가 전송되었습니다",
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
-    "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공"
+    "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공",
+    "contractTimeUpdateFailed": "[ko] 更新合约时间失败",
+    "contractTimeUpdateError": "[ko] 更新合约时间发生错误"
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -220,9 +223,35 @@
     "lpXaaAmount": "LP 풀의 XAA 수량",
     "paidXaaAmount": "지불된 XAA 수량",
     "claimableSicAmount": "청구 가능한 SIC 수량",
-    "level": "[ko] 等级",
-    "actualStakedAmount": "[ko] NFT加成后的实际{symbol}数量",
-    "nftBoostAmount": "[ko] NFT加成的{symbol}数量"
+    "level": "레벨",
+    "actualStakedAmount": "NFT 부스트 후 실제 {symbol} 수량",
+    "nftBoostAmount": "NFT 부스트 {symbol} 수량",
+    "updateIaoTime": "IAO 시간 수정",
+    "createToken": "토큰 생성",
+    "creatingToken": "토큰 생성 중...",
+    "operationFailed": "작업 실패",
+    "onlyCreatorAfterSuccess": "IAO 성공 후 생성자만 토큰을 생성할 수 있습니다",
+    "tokenCreationSuccess": "토큰이 성공적으로 생성되었습니다",
+    "updatePaymentContract": "결제 계약 배포"
+  },
+  "paymentContract": {
+    "title": "결제 계약 배포",
+    "description": "결제 계약 매개변수를 설정하고, 배포 후 현재 토큰과 연결됩니다",
+    "ownerAddress": "소유자 주소",
+    "paymentToken": "결제 토큰",
+    "addressFreeRequestCount": "주소 무료 요청 수",
+    "freeRequestCount": "무료 요청 수",
+    "minUsdBalance": "최소 USD 잔액",
+    "vipMonthlyQuotas": "VIP 월간 할당량",
+    "vipPriceFixed": "VIP 고정 가격",
+    "vipPriceMonthly": "VIP 월 가격",
+    "cancel": "취소",
+    "deploy": "계약 배포",
+    "deploying": "배포 중...",
+    "error": "오류",
+    "tokenAddressRequired": "토큰 주소는 비워둘 수 없습니다",
+    "deploySuccess": "결제 계약이 성공적으로 배포되었습니다",
+    "deployFailed": "결제 계약 배포에 실패했습니다"
   },
   "tokenInfo": {
     "totalSupply": "XAA의 총 공급량: 100B",
@@ -760,7 +789,8 @@
       "updateFailed": "업데이트 실패",
       "createFailed": "생성 실패",
       "timeNotEditable": "블록체인 탐색기에서 수정하세요",
-      "viewOnExplorerForTime": "블록체인 탐색기에서 시간 수정"
+      "viewOnExplorerForTime": "블록체인 탐색기에서 시간 수정",
+      "editAIProject": "[ko] 编辑 AI 项目"
     },
     "datePicker": {
       "selectDateTime": "날짜 및 시간 선택",

@@ -45,13 +45,33 @@ class ContractEventListener {
   private isListening = false;
   private watchUnsubscribe: (() => void) | null = null;
   private healthCheckInterval: NodeJS.Timeout | null = null;
+  private isRestarting = false; // 防止重复重启
+  private restartTimeout: NodeJS.Timeout | null = null; // 重启定时器
+  private lastLogTime = 0; // 上次日志时间
+  private logCooldown = 5000; // 日志冷却时间（5秒）
+
+  /**
+   * 限制日志输出频率
+   */
+  private logWithCooldown(message: string) {
+    const now = Date.now();
+    if (now - this.lastLogTime > this.logCooldown) {
+      console.log(message);
+      this.lastLogTime = now;
+    }
+  }
 
   /**
    * 开始监听所有IAO合约的TimeUpdated事件
    */
   async startListening() {
     if (this.isListening) {
-      console.log('事件监听已在运行中');
+      this.logWithCooldown('事件监听已在运行中');
+      return;
+    }
+
+    if (this.isRestarting) {
+      this.logWithCooldown('事件监听器正在重启中，跳过重复启动');
       return;
     }
 
@@ -113,14 +133,25 @@ class ContractEventListener {
             console.error('❌ 事件监听错误:', error);
             this.isListening = false;
 
-            // 过滤器错误频繁，延长重连间隔
-            if (error.message.includes('Filter id') || error.message.includes('does not exist')) {
-              console.log('🔄 检测到过滤器错误，30秒后重新创建监听器...');
-              setTimeout(() => this.restartListening(), 30000); // 延长到30秒
-            } else {
-              console.log('🔄 其他错误，60秒后重新创建监听器...');
-              setTimeout(() => this.restartListening(), 60000); // 延长到60秒
+            // 防止重复重启
+            if (this.isRestarting) {
+              console.log('⚠️ 重启已在进行中，跳过重复重启');
+              return;
             }
+
+            // 清除之前的重启定时器
+            if (this.restartTimeout) {
+              clearTimeout(this.restartTimeout);
+              this.restartTimeout = null;
+            }
+
+            // 过滤器错误频繁，延长重连间隔
+            const delay = error.message.includes('Filter id') || error.message.includes('does not exist') ? 30000 : 60000;
+            console.log(`🔄 ${delay/1000}秒后重新创建监听器...`);
+
+            this.restartTimeout = setTimeout(() => {
+              this.restartListening();
+            }, delay);
           },
           // 强制使用轮询模式，避免过滤器
           poll: true,
@@ -227,11 +258,18 @@ class ContractEventListener {
    * 停止监听
    */
   stopListening() {
+    // 清除重启定时器
+    if (this.restartTimeout) {
+      clearTimeout(this.restartTimeout);
+      this.restartTimeout = null;
+    }
+
     if (this.watchUnsubscribe) {
       this.watchUnsubscribe();
       this.watchUnsubscribe = null;
     }
     this.isListening = false;
+    this.isRestarting = false;
     console.log('事件监听已停止');
   }
 
@@ -239,10 +277,23 @@ class ContractEventListener {
    * 重新启动监听
    */
   private async restartListening() {
+    if (this.isRestarting) {
+      console.log('⚠️ 重启已在进行中，跳过重复重启');
+      return;
+    }
+
+    this.isRestarting = true;
     console.log('重新启动事件监听...');
-    this.stopListening();
-    await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒
-    await this.startListening();
+
+    try {
+      this.stopListening();
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 等待2秒，给更多时间清理
+      await this.startListening();
+    } catch (error) {
+      console.error('重启事件监听失败:', error);
+    } finally {
+      this.isRestarting = false;
+    }
   }
 
   /**

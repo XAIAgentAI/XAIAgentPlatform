@@ -21,12 +21,12 @@
       "hours": "時間",
       "minutes": "分",
       "seconds": "秒",
-      "selectDateRange": "[ja] 选择日期范围",
-      "1day": "[ja] 1天",
-      "7day": "[ja] 7天",
-      "14day": "[ja] 14天",
-      "30day": "[ja] 30天",
-      "90day": "[ja] 90天"
+      "selectDateRange": "日付範囲を選択",
+      "1day": "1日",
+      "7day": "7日",
+      "14day": "14日",
+      "30day": "30日",
+      "90day": "90日"
     },
     "perDay": "日",
     "noData": "データなし",
@@ -69,7 +69,8 @@
       "chatIcon": "チャットアイコン",
       "contractLink": "コントラクトの詳細を表示",
       "copyContractAddress": "コントラクトアドレスをコピー"
-    }
+    },
+    "edit": "[ja] 修改Agent信息"
   },
   "wallet": {
     "connect": "ウォレットを接続",
@@ -78,7 +79,7 @@
     "disconnect": "切断",
     "balance": "残高",
     "address": "アドレス",
-    "connectionTimeout": "[ja] 钱包连接超时，请重试"
+    "connectionTimeout": "ウォレット接続がタイムアウトしました。再試行してください"
   },
   "buttons": {
     "buyDBC": "DBCを購入",
@@ -115,7 +116,9 @@
     "transactionSent": "取引を送信しました",
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
-    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました"
+    "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
+    "contractTimeUpdateFailed": "[ja] 更新合约时间失败",
+    "contractTimeUpdateError": "[ja] 更新合约时间发生错误"
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -219,9 +222,35 @@
     "lpXaaAmount": "LPプールのXAA数量",
     "paidXaaAmount": "支払済みのXAA数量",
     "claimableSicAmount": "請求可能なSIC数量",
-    "level": "[ja] 等级",
-    "actualStakedAmount": "[ja] NFT加成后的实际{symbol}数量",
-    "nftBoostAmount": "[ja] NFT加成的{symbol}数量"
+    "level": "レベル",
+    "actualStakedAmount": "NFTブースト後の実際の{symbol}数量",
+    "nftBoostAmount": "NFTブースト{symbol}数量",
+    "updateIaoTime": "IAO時間を更新",
+    "createToken": "トークンを作成",
+    "creatingToken": "トークンを作成中...",
+    "operationFailed": "操作に失敗しました",
+    "onlyCreatorAfterSuccess": "IAO成功後、作成者のみがトークンを作成できます",
+    "tokenCreationSuccess": "トークンが正常に作成されました",
+    "updatePaymentContract": "支払いコントラクトをデプロイ"
+  },
+  "paymentContract": {
+    "title": "支払いコントラクトをデプロイ",
+    "description": "支払いコントラクトのパラメータを設定し、デプロイ後に現在のトークンと関連付けられます",
+    "ownerAddress": "所有者アドレス",
+    "paymentToken": "支払いトークン",
+    "addressFreeRequestCount": "アドレス無料リクエスト数",
+    "freeRequestCount": "無料リクエスト数",
+    "minUsdBalance": "最小USD残高",
+    "vipMonthlyQuotas": "VIP月間クォータ",
+    "vipPriceFixed": "VIP固定価格",
+    "vipPriceMonthly": "VIP月額料金",
+    "cancel": "キャンセル",
+    "deploy": "コントラクトをデプロイ",
+    "deploying": "デプロイ中...",
+    "error": "エラー",
+    "tokenAddressRequired": "トークンアドレスは空にできません",
+    "deploySuccess": "支払いコントラクトが正常にデプロイされました",
+    "deployFailed": "支払いコントラクトのデプロイに失敗しました"
   },
   "tokenInfo": {
     "totalSupply": "XAAの総供給量：100B",
@@ -583,7 +612,7 @@
     "viewStakeDetailAndReward": "ステーキングの詳細と報酬を表示",
     "connectWalletToViewStakeDetail": "ウォレットを接続してNFTステーキングの詳細を表示",
     "expired": "期限切れ",
-    "claiming": "[ja] 领取中"
+    "claiming": "請求中"
   },
   "regions": {
     "japan": "日本",
@@ -751,7 +780,8 @@
       "updateFailed": "更新に失敗しました",
       "createFailed": "作成に失敗しました",
       "timeNotEditable": "ブロックチェーンエクスプローラーで変更してください",
-      "viewOnExplorerForTime": "ブロックチェーンエクスプローラーで時間を変更"
+      "viewOnExplorerForTime": "ブロックチェーンエクスプローラーで時間を変更",
+      "editAIProject": "[ja] 编辑 AI 项目"
     },
     "datePicker": {
       "selectDateTime": "日付と時間を選択",

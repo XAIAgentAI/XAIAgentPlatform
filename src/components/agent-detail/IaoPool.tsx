@@ -43,7 +43,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [dbcAmount, setDbcAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState<string>("0");
   const [xaaBalance, setXaaBalance] = useState<string>("0");
-  const [isCreator, setIsCreator] = useState(false);
+
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [isIaoSuccessful, setIsIaoSuccessful] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -75,7 +75,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     getContractOwner,
     isContractOwner,
     updateIaoTimes
-  } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol);
+  } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol || '');
   const { toast } = useToast();
   const t = useTranslations('iaoPool');
   const chainId = useChainId();
@@ -155,26 +155,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     return () => clearInterval(timer);
   }, [fetchUserBalance, address, isConnected]);
 
-  // 检查用户是否是创建者
-  useEffect(() => {
-    const checkIsCreator = async () => {
-      if (!address || !isConnected) {
-        setIsCreator(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(`/api/agents/check-creator?agentId=${agent.id}&address=${address}`);
-        const data = await response.json();
-        setIsCreator(data.isCreator);
-      } catch (error) {
-        console.error('Failed to check if user is creator:', error);
-        setIsCreator(false);
-      }
-    };
-
-    checkIsCreator();
-  }, [address, isConnected, agent.id]);
+  // 直接通过地址比较判断是否是创建者
+  const isCreator = address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase();
 
   // 检查IAO是否成功结束
   useEffect(() => {
@@ -183,6 +165,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
       try {
         const isSuccess = await checkIsSuccess();
+        console.log('isSuccess', isSuccess);
         setIsIaoSuccessful(isSuccess);
       } catch (error) {
         console.error('Failed to check IAO status:', error);
@@ -194,7 +177,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     const interval = setInterval(checkIaoStatus, 60000); // 每分钟检查一次
 
     return () => clearInterval(interval);
-  }, [iaoContractAddress, checkIsSuccess]);
+  }, [iaoContractAddress]);
 
   // 检查用户是否是合约所有者
   useEffect(() => {
@@ -332,7 +315,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     const formattedAmount = Number(dbcAmount).toFixed(18); // DBC max 18 decimal places
 
     try {
-      const result = await stake(formattedAmount, agent.symbol, agent.tokenAddress);
+      const result = await stake(formattedAmount, agent.symbol || '', agent.tokenAddress || '');
       // If user rejects signature, stake function will throw error and won't execute here
       if (result && result.hash) {
         toast({
@@ -351,7 +334,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
     }
   };
 
-  const now = Date.now();
   const isDepositPeriod = true;
   const isIAOStarted = poolInfo?.endTime && Date.now() < poolInfo.endTime * 1000 && poolInfo?.startTime && Date.now() > poolInfo.startTime * 1000;
 
@@ -453,10 +435,100 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         }
       `}</style>
 
+
+
       {isIAOEnded ? (
         // Pool data after IAO ends
         <>
-          <h2 className="text-xl font-bold mb-6">{t('iaoCompletedData')}</h2>
+          {/* 创建者专属按钮 - 只有在IAO成功且Token未创建时显示 */}
+          {isCreator && isIaoSuccessful && !agent.tokenAddress && (
+            <>
+
+              <Button
+                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white"
+                onClick={handleCreateToken}
+                disabled={isCreatingToken}
+              >
+                {isCreatingToken ? (
+                  <div className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {t('creatingToken')}
+                  </div>
+                ) : (
+                  t('createToken')
+                )}
+              </Button>
+
+
+            </>
+
+          )}
+
+          {console.log("agent", isIaoSuccessful, agent.paymentContractAddress)}
+          {
+            isCreator && !agent.paymentContractAddress && (
+              // isCreator && isIaoSuccessful && !agent.paymentContractAddress && (
+              <>
+                <Button
+                  className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
+                  onClick={() => setIsPaymentModalOpen(true)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                  </svg>
+                  {t('updatePaymentContract')}
+                </Button>
+              </>
+            )
+          }
+
+          <div className="flex gap-4 justify-between items-center mb-6">
+            <h2 className="text-xl font-bold">{t('iaoCompletedData')}</h2>
+            {/* 修改IAO时间按钮 - 只有合约所有者可见且IAO未结束 */}
+            {isOwner && !isIAOEnded && (
+              <>
+                <Button
+                  className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
+                  onClick={() => setIsUpdateTimeModalOpen(true)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                  </svg>
+                  {t('updateIaoTime')}
+                </Button>
+
+
+              </>
+
+            )}
+
+
+          </div>
 
           <div className="space-y-4">
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
@@ -478,49 +550,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
             </div>
           </div>
 
-          {/* 创建者专属按钮 - 只有在IAO成功且Token未创建时显示 */}
-          {isCreator && isIaoSuccessful && (
-            <div className="mt-6 p-4 bg-green-50 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">{t('creatorOperations')}</h3>
 
-              {!agent.tokenAddress ? (
-                <>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {t('createTokenTip')}
-                  </p>
-                  <Button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
-                    onClick={handleCreateToken}
-                    disabled={isCreatingToken}
-                  >
-                    {isCreatingToken ? (
-                      <div className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        {t('creatingToken')}
-                      </div>
-                    ) : (
-                      t('createToken')
-                    )}
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Token已创建成功，地址: {tokenAddress.substring(0, 6)}...{tokenAddress.substring(tokenAddress.length - 4)}
-                  </p>
-                  <Button
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                    onClick={() => setIsPaymentModalOpen(true)}
-                  >
-                    部署支付合约
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
 
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4">{t('lpPoolData')}</h3>
@@ -714,32 +744,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         // Pool data before IAO ends
         <>
           {/* 募资进行中，显示的池子数据 */}
-          <div className="flex  gap-4 justify-between">
-            <h2 className="text-2xl font-bold mb-6 flex-none">{t('title')}</h2>
-            {/* 修改IAO时间按钮 - 只有合约所有者可见且IAO未结束 */}
-            {isOwner && !isIAOEnded && (
-              <Button
-                className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
-                onClick={() => setIsUpdateTimeModalOpen(true)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12,6 12,12 16,14" />
-                </svg>
-                修改IAO时间
-              </Button>
-            )}
-          </div>
+          <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
 
           <div className="space-y-4">
             <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">

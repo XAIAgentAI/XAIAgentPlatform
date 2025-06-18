@@ -59,6 +59,7 @@ export interface LocalAgent {
   iaoContractAddressTestnet?: string;
   projectDescription?: string;
   iaoTokenAmount?: number;
+  paymentContractAddress?: string;
 }
 
 export interface AgentPrice {

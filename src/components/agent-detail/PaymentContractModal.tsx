@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,7 @@ export const PaymentContractModal = ({
   onSuccess
 }: PaymentContractModalProps) => {
   const { toast } = useToast();
+  const t = useTranslations('paymentContract');
   const [isDeploying, setIsDeploying] = useState(false);
   const [paymentParams, setPaymentParams] = useState({
     address_free_request_count: 10,
@@ -66,72 +68,55 @@ export const PaymentContractModal = ({
   const handleDeployPaymentContract = async () => {
     if (!tokenAddress) {
       toast({
-        title: "错误",
-        description: "Token地址不能为空",
+        title: t('error'),
+        description: t('tokenAddressRequired'),
       });
       return;
     }
 
     try {
       setIsDeploying(true);
-      
-      // 确保payment_token已设置为token地址
-      const finalParams = {
-        ...paymentParams,
-        payment_token: tokenAddress
-      };
 
-      // 调用API部署支付合约
-      const response = await fetch("http://3.0.25.131:8070/deploy/payment", {
+      // 调用我们自己的API端点部署支付合约
+      const response = await fetch(`/api/agents/${agentId}/deploy-payment-contract`, {
         method: "POST",
         headers: {
-          "accept": "application/json",
-          "content-type": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(finalParams)
+        body: JSON.stringify({
+          address_free_request_count: paymentParams.address_free_request_count,
+          free_request_count: paymentParams.free_request_count,
+          min_usd_balance_for_using_free_request: paymentParams.min_usd_balance_for_using_free_request,
+          vip_monthly_quotas: paymentParams.vip_monthly_quotas,
+          vip_price_fixed_count: paymentParams.vip_price_fixed_count,
+          vip_price_monthly: paymentParams.vip_price_monthly
+        })
       });
 
       const data = await response.json();
-      
-      if (response.ok) {
+
+      if (response.ok && data.code === 200) {
         toast({
-          title: "成功",
-          description: "支付合约部署成功",
+          title: t('success'),
+          description: t('deploySuccess'),
         });
-        
+
         // 关闭模态框
         onOpenChange(false);
-        
-        // 可以选择保存支付合约地址到数据库
-        if (data.data?.proxy_address) {
-          try {
-            await fetch(`/api/agents/${agentId}/payment-contract`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-              },
-              body: JSON.stringify({
-                paymentContractAddress: data.data.proxy_address
-              }),
-            });
-            
-            // 调用成功回调
-            if (onSuccess) {
-              onSuccess();
-            }
-          } catch (err) {
-            console.error('Failed to save payment contract address:', err);
-          }
+
+        // 调用成功回调
+        if (onSuccess) {
+          onSuccess();
         }
       } else {
-        throw new Error(data.message || "部署支付合约失败");
+        throw new Error(data.message || t('deployFailed'));
       }
     } catch (error: any) {
       console.error('Deploy payment contract failed:', error);
       toast({
-        title: "错误",
-        description: error.message || "部署支付合约失败",
+        title: t('error'),
+        description: error.message || t('deployFailed'),
       });
     } finally {
       setIsDeploying(false);
@@ -142,15 +127,15 @@ export const PaymentContractModal = ({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>部署支付合约</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            设置支付合约参数，部署后将与当前Token关联
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="owner" className="text-right">
-              所有者地址
+              {t('ownerAddress')}
             </Label>
             <Input
               id="owner"
@@ -163,7 +148,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="payment_token" className="text-right">
-              支付Token
+              {t('paymentToken')}
             </Label>
             <Input
               id="payment_token"
@@ -176,7 +161,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="address_free_request_count" className="text-right">
-              地址免费请求数
+              {t('addressFreeRequestCount')}
             </Label>
             <Input
               id="address_free_request_count"
@@ -189,7 +174,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="free_request_count" className="text-right">
-              免费请求数
+              {t('freeRequestCount')}
             </Label>
             <Input
               id="free_request_count"
@@ -202,7 +187,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="min_usd_balance_for_using_free_request" className="text-right">
-              最低USD余额
+              {t('minUsdBalance')}
             </Label>
             <Input
               id="min_usd_balance_for_using_free_request"
@@ -215,7 +200,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="vip_monthly_quotas" className="text-right">
-              VIP月配额
+              {t('vipMonthlyQuotas')}
             </Label>
             <Input
               id="vip_monthly_quotas"
@@ -228,7 +213,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="vip_price_fixed_count" className="text-right">
-              VIP固定价格
+              {t('vipPriceFixed')}
             </Label>
             <Input
               id="vip_price_fixed_count"
@@ -241,7 +226,7 @@ export const PaymentContractModal = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="vip_price_monthly" className="text-right">
-              VIP月价格
+              {t('vipPriceMonthly')}
             </Label>
             <Input
               id="vip_price_monthly"
@@ -254,14 +239,14 @@ export const PaymentContractModal = ({
           </div>
         </div>
         <DialogFooter>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isDeploying}
           >
-            取消
+            {t('cancel')}
           </Button>
-          <Button 
+          <Button
             onClick={handleDeployPaymentContract}
             disabled={isDeploying || !paymentParams.payment_token}
           >
@@ -271,10 +256,10 @@ export const PaymentContractModal = ({
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                部署中...
+                {t('deploying')}
               </div>
             ) : (
-              "部署合约"
+              t('deploy')
             )}
           </Button>
         </DialogFooter>
