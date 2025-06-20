@@ -335,8 +335,8 @@ class ContractEventListener {
       await prisma.agent.update({
         where: { id: agentId },
         data: {
-          iaoStartTime: BigInt(startTime as string),
-          iaoEndTime: BigInt(endTime as string),
+          iaoStartTime: BigInt(startTime),
+          iaoEndTime: BigInt(endTime),
         }
       });
 

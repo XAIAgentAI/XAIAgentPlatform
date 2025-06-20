@@ -1782,7 +1782,7 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
         "stateMutability": "view",
         "type": "function"
     }
-]
+] as const
 
 export const TESTNET_USERAGENT_STAKE_CONTRACT_ABI = [
     {
