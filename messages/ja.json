@@ -231,11 +231,20 @@
     "operationFailed": "操作に失敗しました",
     "onlyCreatorAfterSuccess": "IAO成功後、作成者のみがトークンを作成できます",
     "tokenCreationSuccess": "トークンが正常に作成されました",
+    "tokenCreationSubmitted": "トークン作成タスクが送信されました",
+    "tokenCreating": "トークン作成中...",
+    "tokenCreated": "トークンが作成されました",
+    "tokenCreationFailed": "トークン作成に失敗しました",
+    "retryCreateToken": "トークンを再作成",
+    "refreshStatus": "ステータスを更新",
     "updatePaymentContract": "支払いコントラクトをデプロイ"
   },
   "paymentContract": {
     "title": "支払いコントラクトをデプロイ",
     "description": "支払いコントラクトのパラメータを設定し、デプロイ後に現在のトークンと関連付けられます",
+    "basicInfo": "基本情報",
+    "freeRequestConfig": "無料リクエスト設定",
+    "vipConfig": "VIP設定",
     "ownerAddress": "所有者アドレス",
     "paymentToken": "支払いトークン",
     "addressFreeRequestCount": "アドレス無料リクエスト数",
@@ -248,6 +257,7 @@
     "deploy": "コントラクトをデプロイ",
     "deploying": "デプロイ中...",
     "error": "エラー",
+    "success": "成功",
     "tokenAddressRequired": "トークンアドレスは空にできません",
     "deploySuccess": "支払いコントラクトが正常にデプロイされました",
     "deployFailed": "支払いコントラクトのデプロイに失敗しました"

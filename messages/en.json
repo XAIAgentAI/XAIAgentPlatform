@@ -231,11 +231,20 @@
     "operationFailed": "Operation Failed",
     "onlyCreatorAfterSuccess": "Only creator can create token after IAO success",
     "tokenCreationSuccess": "Token created successfully",
+    "tokenCreationSubmitted": "Token creation task submitted",
+    "tokenCreating": "Token creating...",
+    "tokenCreated": "Token created",
+    "tokenCreationFailed": "Token creation failed",
+    "retryCreateToken": "Retry Create Token",
+    "refreshStatus": "Refresh Status",
     "updatePaymentContract": "Deploy Payment Contract"
   },
   "paymentContract": {
     "title": "Deploy Payment Contract",
     "description": "Set payment contract parameters, which will be associated with the current Token after deployment",
+    "basicInfo": "Basic Information",
+    "freeRequestConfig": "Free Request Configuration",
+    "vipConfig": "VIP Configuration",
     "ownerAddress": "Owner Address",
     "paymentToken": "Payment Token",
     "addressFreeRequestCount": "Address Free Request Count",
@@ -248,6 +257,7 @@
     "deploy": "Deploy Contract",
     "deploying": "Deploying...",
     "error": "Error",
+    "success": "Success",
     "tokenAddressRequired": "Token address cannot be empty",
     "deploySuccess": "Payment contract deployed successfully",
     "deployFailed": "Failed to deploy payment contract"

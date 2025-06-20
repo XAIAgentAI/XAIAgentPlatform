@@ -44,6 +44,7 @@ model Agent {
   reviews         Review[]
   history         History[]
   prices          AgentPrice[]
+  tasks           Task[]    // 关联到任务
   type            String?
   tvl             String?
   holdersCount    Int?
@@ -111,6 +112,23 @@ model History {
   agent     Agent    @relation(fields: [agentId], references: [id])
   agentId   String
   timestamp DateTime @default(now())
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?  // 关联到任务的ID
+}
+
+// 任务模型，用于异步任务处理
+model Task {
+  id          String    @id @default(uuid())
+  type        String    // 任务类型: CREATE_TOKEN, DEPLOY_PAYMENT_CONTRACT 等
+  status      String    // PENDING, PROCESSING, COMPLETED, FAILED, PARTIAL_SUCCESS
+  result      String?   // JSON格式的结果数据
+  agent       Agent     @relation(fields: [agentId], references: [id])
+  agentId     String
+  createdBy   String    // 创建者地址
+  createdAt   DateTime  @default(now())
+  startedAt   DateTime? // 开始执行时间
+  completedAt DateTime? // 完成时间
+  history     History[] // 关联的历史记录
 }
 
 // 用于存储 nonce

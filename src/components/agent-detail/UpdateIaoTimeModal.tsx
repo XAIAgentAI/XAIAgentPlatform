@@ -120,31 +120,31 @@ export const UpdateIaoTimeModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>修改IAO时间</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl">修改IAO时间</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base">
             修改IAO的开始时间和结束时间。只有合约所有者可以执行此操作。
           </DialogDescription>
         </DialogHeader>
-        
-        <div className="grid gap-4 py-4">
+
+        <div className="grid gap-3 sm:gap-4 py-4">
           <div className="space-y-2">
-            <Label>当前开始时间</Label>
-            <div className="text-sm text-muted-foreground">
+            <Label className="text-sm font-medium">当前开始时间</Label>
+            <div className="text-xs sm:text-sm text-muted-foreground p-2 bg-muted rounded">
               {currentStartTime > 0 ? new Date(currentStartTime * 1000).toLocaleString() : '未设置'}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>当前结束时间</Label>
-            <div className="text-sm text-muted-foreground">
+            <Label className="text-sm font-medium">当前结束时间</Label>
+            <div className="text-xs sm:text-sm text-muted-foreground p-2 bg-muted rounded">
               {currentEndTime > 0 ? new Date(currentEndTime * 1000).toLocaleString() : '未设置'}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>新开始时间</Label>
+            <Label className="text-sm font-medium">新开始时间</Label>
             <div suppressHydrationWarning>
               <ModalDateTimePicker
                 value={startDate}
@@ -159,7 +159,7 @@ export const UpdateIaoTimeModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label>新结束时间</Label>
+            <Label className="text-sm font-medium">新结束时间</Label>
             <div suppressHydrationWarning>
               <ModalDateTimePicker
                 value={endDate}
@@ -175,18 +175,19 @@ export const UpdateIaoTimeModal = ({
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:gap-0">
           <Button
             variant="outline"
             onClick={handleCancel}
             disabled={isLoading}
+            className="w-full sm:w-auto text-sm sm:text-base"
           >
             取消
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={isLoading || !startDate || !endDate}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto text-sm sm:text-base"
           >
             {isLoading ? '更新中...' : '确认更新'}
           </Button>

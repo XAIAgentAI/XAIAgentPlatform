@@ -231,11 +231,20 @@
     "operationFailed": "操作失败",
     "onlyCreatorAfterSuccess": "只有创建者在IAO成功后才能创建Token",
     "tokenCreationSuccess": "Token创建成功",
+    "tokenCreationSubmitted": "Token创建任务已提交",
+    "tokenCreating": "Token创建中...",
+    "tokenCreated": "Token已创建",
+    "tokenCreationFailed": "Token创建失败",
+    "retryCreateToken": "重新创建Token",
+    "refreshStatus": "刷新状态",
     "updatePaymentContract": "部署支付合约"
   },
   "paymentContract": {
     "title": "部署支付合约",
     "description": "设置支付合约参数，部署后将与当前Token关联",
+    "basicInfo": "基本信息",
+    "freeRequestConfig": "免费请求配置",
+    "vipConfig": "VIP配置",
     "ownerAddress": "所有者地址",
     "paymentToken": "支付Token",
     "addressFreeRequestCount": "地址免费请求数",
@@ -248,6 +257,7 @@
     "deploy": "部署合约",
     "deploying": "部署中...",
     "error": "错误",
+    "success": "成功",
     "tokenAddressRequired": "Token地址不能为空",
     "deploySuccess": "支付合约部署成功",
     "deployFailed": "部署支付合约失败"

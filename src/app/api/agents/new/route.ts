@@ -4,6 +4,7 @@ import { createSuccessResponse, handleError } from '@/lib/error';
 import { verify } from 'jsonwebtoken';
 import { Decimal } from '@prisma/client/runtime/library';
 import { v4 as uuidv4 } from 'uuid';
+import { reloadContractListeners } from '@/services/contractEventListener';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
@@ -360,6 +361,10 @@ async function processTask(
       },
     });
     console.log(`[Agent更新] Agent状态已更新为TBA，IAO时间已保存`);
+
+    // 在合约地址更新到数据库后，重新加载事件监听器
+    console.log('[事件监听] 触发监听器重新加载...');
+    await reloadContractListeners();
 
     // 更新任务历史记录
     console.log(`[完成] Agent创建流程完成`);

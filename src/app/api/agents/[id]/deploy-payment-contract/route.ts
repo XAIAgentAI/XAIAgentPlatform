@@ -87,9 +87,94 @@ export async function POST(
       );
     }
 
+    // 创建任务记录
+    const task = await prisma.task.create({
+      data: {
+        type: 'DEPLOY_PAYMENT_CONTRACT',
+        status: 'PENDING',
+        agentId,
+        createdBy: decoded.address,
+      },
+    });
+
+    // 记录任务提交历史
+    await prisma.history.create({
+      data: {
+        action: 'deploy_payment_contract_submit',
+        result: 'pending',
+        agentId,
+        taskId: task.id,
+      },
+    });
+
+    // 在后台执行支付合约部署任务
+    processPaymentContractDeployment(
+      task.id,
+      agentId,
+      agent,
+      {
+        address_free_request_count,
+        free_request_count,
+        min_usd_balance_for_using_free_request,
+        vip_monthly_quotas,
+        vip_price_fixed_count,
+        vip_price_monthly
+      }
+    ).catch(error => {
+      console.error(`[后台任务失败] 支付合约部署任务 ${task.id} 失败:`, error);
+    });
+
+    // 立即返回成功响应
+    return createSuccessResponse({
+      code: 200,
+      message: '已成功提交支付合约部署任务，请稍后查询结果',
+      data: {
+        taskId: task.id,
+      },
+    });
+  } catch (error) {
+    console.error('提交支付合约部署任务过程中发生错误:', error);
+    return handleError(error);
+  }
+}
+
+// 后台处理支付合约部署任务
+async function processPaymentContractDeployment(
+  taskId: string,
+  agentId: string,
+  agent: any,
+  params: {
+    address_free_request_count?: number,
+    free_request_count?: number,
+    min_usd_balance_for_using_free_request?: number,
+    vip_monthly_quotas?: number,
+    vip_price_fixed_count?: number,
+    vip_price_monthly?: number
+  }
+) {
+  try {
     console.log(`[支付合约部署] 开始为Agent ${agentId} 部署支付合约...`);
     console.log(`[支付合约部署] 创建者地址: ${agent.creator.address}`);
     console.log(`[支付合约部署] Token地址: ${agent.tokenAddress}`);
+
+    // 更新任务状态为处理中
+    await prisma.task.update({
+      where: { id: taskId },
+      data: { 
+        status: 'PROCESSING',
+        startedAt: new Date()
+      }
+    });
+
+    // 解构参数，提供默认值
+    const {
+      address_free_request_count = 10,
+      free_request_count = 100,
+      min_usd_balance_for_using_free_request = 100000,
+      vip_monthly_quotas = 10,
+      vip_price_fixed_count = 100000,
+      vip_price_monthly = 100000
+    } = params;
 
     // 调用外部API部署支付合约
     const deployResponse = await fetch("http://3.0.25.131:8070/deploy/payment", {
@@ -100,14 +185,14 @@ export async function POST(
         "authorization": "Basic YWRtaW46MTIz"
       },
       body: JSON.stringify({
-        address_free_request_count: address_free_request_count || 10,
-        free_request_count: free_request_count || 100,
-        min_usd_balance_for_using_free_request: min_usd_balance_for_using_free_request || 100000,
+        address_free_request_count,
+        free_request_count,
+        min_usd_balance_for_using_free_request,
         owner: agent.creator.address,
         payment_token: agent.tokenAddress,
-        vip_monthly_quotas: vip_monthly_quotas || 10,
-        vip_price_fixed_count: vip_price_fixed_count || 100000,
-        vip_price_monthly: vip_price_monthly || 100000
+        vip_monthly_quotas,
+        vip_price_fixed_count,
+        vip_price_monthly
       })
     });
 
@@ -123,14 +208,24 @@ export async function POST(
           action: 'deploy_payment_contract',
           result: 'failed',
           agentId,
+          taskId,
           error: `支付合约部署失败: ${deployResult.message || '未知错误'}`
         },
       });
 
-      return NextResponse.json(
-        { code: 500, message: `支付合约部署失败: ${deployResult.message || '未知错误'}` },
-        { status: 500 }
-      );
+      // 更新任务状态为失败
+      await prisma.task.update({
+        where: { id: taskId },
+        data: {
+          status: 'FAILED',
+          result: JSON.stringify({
+            error: `支付合约部署失败: ${deployResult.message || '未知错误'}`
+          }),
+          completedAt: new Date(),
+        },
+      });
+
+      return;
     }
 
     console.log(`[支付合约部署] 部署成功，合约地址: ${deployResult.data.proxy_address}`);
@@ -149,18 +244,34 @@ export async function POST(
         action: 'deploy_payment_contract',
         result: 'success',
         agentId,
+        taskId,
       },
     });
 
-    return createSuccessResponse({
-      code: 200,
-      message: '支付合约部署成功',
+    // 更新任务状态为成功
+    await prisma.task.update({
+      where: { id: taskId },
       data: {
-        paymentContractAddress: deployResult.data.proxy_address,
+        status: 'COMPLETED',
+        result: JSON.stringify({
+          paymentContractAddress: deployResult.data.proxy_address,
+        }),
+        completedAt: new Date(),
       },
     });
   } catch (error) {
-    console.error('部署支付合约过程中发生错误:', error);
-    return handleError(error);
+    console.error('后台处理支付合约部署任务时发生错误:', error);
+    
+    // 更新任务状态为失败
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'FAILED',
+        result: JSON.stringify({
+          error: `处理过程中发生错误: ${error instanceof Error ? error.message : String(error)}`
+        }),
+        completedAt: new Date(),
+      },
+    });
   }
 }

@@ -4,14 +4,16 @@
 
 **您说得对！** 既然有了事件监听，就不需要复杂的缓存机制。
 
-### 📋 简化后的架构
+### 📋 优化后的架构
 
 ```
+前端 (用户操作)
+    ↓ (调用合约 setTimeFor)
 智能合约 (权威数据源)
-    ↓ (setTimeFor 函数)
-TimeUpdated 事件
-    ↓ (事件监听)
-数据库 (自动同步)
+    ↓ (合约调用成功)
+前端调用API
+    ↓ (PUT /api/agents/[id])
+数据库 (手动同步)
     ↓ (直接查询)
 API 响应
 ```
@@ -19,10 +21,10 @@ API 响应
 ## 🔄 数据流程
 
 ### 1. **时间更新流程**
-1. 用户调用 `setTimeFor(startTime, endTime)` 合约函数
-2. 合约更新时间并触发 `TimeUpdated(startTime, endTime)` 事件
-3. 事件监听器自动捕获事件
-4. 自动更新数据库中的 `iaoStartTime` 和 `iaoEndTime`
+1. 前端调用智能合约的 `setTimeFor(startTime, endTime)` 函数
+2. 等待合约交易确认成功
+3. 合约调用成功后，前端调用 `PUT /api/agents/[id]` 接口
+4. API接口更新数据库中的 `iaoStartTime` 和 `iaoEndTime`
 
 ### 2. **时间查询流程**
 1. 用户请求 Agent 列表或详情
@@ -31,28 +33,41 @@ API 响应
 
 ## 💡 核心优势
 
-### ✅ **简单高效**
-- 无需复杂的缓存逻辑
-- 无需手动同步机制
+### ✅ **简单可控**
+- 前端直接控制合约调用和数据库更新
+- 明确的错误处理和状态反馈
 - 数据库查询速度快（10-50ms）
 
 ### ✅ **数据一致性**
-- 事件驱动确保实时同步
-- 智能合约是唯一数据源
-- 避免数据不一致问题
+- 合约调用成功后立即更新数据库
+- 智能合约是权威数据源
+- 前端确保操作的原子性
 
 ### ✅ **性能优化**
 - 查询时无需 RPC 调用
 - 减少网络延迟
-- 降低 Gas 费用
+- 用户体验更好（即时反馈）
 
 ## 🛠️ 实现细节
 
-### 1. **事件监听服务**
+### 1. **前端合约调用**
 ```typescript
-// src/services/contractEventListener.ts
-// 监听所有 IAO 合约的 TimeUpdated 事件
-// 自动更新数据库中的时间字段
+// src/hooks/useStakeContract.ts
+// 调用合约 setTimeFor 函数
+// 成功后调用 API 更新数据库
+const updateIaoTimes = async (startTime: number, endTime: number, agentId?: string) => {
+  // 1. 调用合约
+  const hash = await viemWalletClient.writeContract(request);
+  await waitForTransactionConfirmation(hash, publicClient);
+
+  // 2. 调用API更新数据库
+  if (agentId) {
+    await fetch(`/api/agents/${agentId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ updateStartTime: startTime, updateEndTime: endTime })
+    });
+  }
+};
 ```
 
 ### 2. **数据库字段**
@@ -62,42 +77,47 @@ iaoStartTime: BigInt?    -- IAO开始时间戳（秒）
 iaoEndTime: BigInt?      -- IAO结束时间戳（秒）
 ```
 
-### 3. **API 优化**
+### 3. **API 接口**
 ```typescript
-// 直接使用数据库中的时间戳，无需额外查询合约和转换
-startTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : undefined,
-endTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : undefined,
+// PUT /api/agents/[id] - 更新数据库中的IAO时间
+// 接收 updateStartTime 和 updateEndTime 参数
+// 直接更新数据库，不调用合约
 ```
 
-## 🚀 部署和使用
+## 🚀 使用方式
 
-### 1. **启动事件监听**
-```bash
-# 应用启动时自动开始监听
-# 或通过 API 手动启动
-curl -X POST /api/events/start -d '{"action": "start"}'
+### 1. **前端更新IAO时间**
+```typescript
+// 在 IaoPool 组件中
+const handleUpdateTimes = async (startTime: number, endTime: number) => {
+  // updateIaoTimes 会先调用合约，成功后调用API更新数据库
+  await updateIaoTimes(startTime, endTime, agent.id);
+};
 ```
 
-### 2. **检查监听状态**
+### 2. **API调用示例**
 ```bash
-curl /api/events/start
-```
-
-### 3. **手动同步（可选）**
-```bash
-# 用于初始化或错误恢复
-curl -X POST /api/events/sync -d '{"agentId": "xxx"}'
+# 更新IAO时间
+curl -X PUT /api/agents/[agentId] \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer [token]" \
+  -d '{
+    "updateStartTime": 1703980800,
+    "updateEndTime": 1704067200
+  }'
 ```
 
 ## ⚠️ 注意事项
 
-### 1. **初始数据同步**
-- 应用首次启动时需要同步历史数据
-- 使用批量同步 API: `PUT /api/events/sync`
+### 1. **错误处理**
+- 合约调用失败时，不会更新数据库
+- 数据库更新失败时，会记录错误但不影响合约状态
+- 前端需要处理各种错误情况
 
-### 2. **服务重启处理**
-- 事件监听器会自动重连
-- 重启期间的事件可能需要手动补齐
+### 2. **数据一致性**
+- 合约是权威数据源
+- 数据库仅作为查询缓存
+- 如有不一致，以合约数据为准
 
 ### 3. **错误处理**
 - 网络异常时自动重试

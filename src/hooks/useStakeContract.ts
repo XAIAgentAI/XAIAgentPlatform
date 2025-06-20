@@ -891,7 +891,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
   }, [address, getContractOwner]);
 
   // 更新IAO时间
-  const updateIaoTimes = useCallback(async (startTime: number, endTime: number): Promise<void> => {
+  const updateIaoTimes = useCallback(async (startTime: number, endTime: number, agentId?: string): Promise<void> => {
     if (!walletClient || !address) {
       throw new Error('Wallet not connected');
     }
@@ -932,6 +932,34 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
       // 等待交易确认
       await waitForTransactionConfirmation(hash, publicClient);
+
+      // 合约调用成功后，调用API更新数据库中的IAO时间
+      if (agentId) {
+        try {
+          const response = await fetch(`/api/agents/${agentId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({
+              updateStartTime: startTime,
+              updateEndTime: endTime,
+            }),
+          });
+
+          const result = await response.json();
+          if (result.code !== 200) {
+            console.error('更新数据库IAO时间失败:', result.message);
+            // 即使数据库更新失败，合约已经成功，所以不抛出错误
+          } else {
+            console.log('数据库IAO时间更新成功');
+          }
+        } catch (error) {
+          console.error('调用API更新数据库IAO时间失败:', error);
+          // 即使数据库更新失败，合约已经成功，所以不抛出错误
+        }
+      }
 
       // 刷新池信息
       await fetchPoolInfo();

@@ -232,11 +232,20 @@
     "operationFailed": "작업 실패",
     "onlyCreatorAfterSuccess": "IAO 성공 후 생성자만 토큰을 생성할 수 있습니다",
     "tokenCreationSuccess": "토큰이 성공적으로 생성되었습니다",
+    "tokenCreationSubmitted": "토큰 생성 작업이 제출되었습니다",
+    "tokenCreating": "토큰 생성 중...",
+    "tokenCreated": "토큰이 생성되었습니다",
+    "tokenCreationFailed": "토큰 생성에 실패했습니다",
+    "retryCreateToken": "토큰 재생성",
+    "refreshStatus": "상태 새로고침",
     "updatePaymentContract": "결제 계약 배포"
   },
   "paymentContract": {
     "title": "결제 계약 배포",
     "description": "결제 계약 매개변수를 설정하고, 배포 후 현재 토큰과 연결됩니다",
+    "basicInfo": "기본 정보",
+    "freeRequestConfig": "무료 요청 설정",
+    "vipConfig": "VIP 설정",
     "ownerAddress": "소유자 주소",
     "paymentToken": "결제 토큰",
     "addressFreeRequestCount": "주소 무료 요청 수",
@@ -249,6 +258,7 @@
     "deploy": "계약 배포",
     "deploying": "배포 중...",
     "error": "오류",
+    "success": "성공",
     "tokenAddressRequired": "토큰 주소는 비워둘 수 없습니다",
     "deploySuccess": "결제 계약이 성공적으로 배포되었습니다",
     "deployFailed": "결제 계약 배포에 실패했습니다"

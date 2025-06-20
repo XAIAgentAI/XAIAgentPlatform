@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError } from '@/lib/error';
 import { verify } from 'jsonwebtoken';
-import { reloadContractListeners } from '@/services/contractEventListener';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
-// 保存支付合约地址
-export async function POST(
+// 获取Agent所有任务
+export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
@@ -34,18 +33,7 @@ export async function POST(
       );
     }
 
-    // 获取请求体
-    const body = await request.json();
-    const { paymentContractAddress } = body;
-
-    if (!paymentContractAddress) {
-      return NextResponse.json(
-        { code: 400, message: '缺少支付合约地址' },
-        { status: 400 }
-      );
-    }
-
-    // 验证用户是否为该Agent的创建者
+    // 获取Agent信息
     const agent = await prisma.agent.findUnique({
       where: { id: agentId },
       include: {
@@ -64,44 +52,63 @@ export async function POST(
       );
     }
 
-    // 检查请求者是否为创建者
+    // 验证请求者是否是Agent的创建者
     if (agent.creator.address.toLowerCase() !== decoded.address.toLowerCase()) {
       return NextResponse.json(
-        { code: 403, message: '只有创建者可以更新支付合约地址' },
+        { code: 403, message: '只有Agent创建者可以查询其任务' },
         { status: 403 }
       );
     }
 
-    // 更新Agent记录，添加支付合约地址
-    const updatedAgent = await prisma.agent.update({
-      where: { id: agentId },
-      data: {
-        iaoContractAddress: paymentContractAddress
+    // 获取所有任务
+    const tasks = await prisma.task.findMany({
+      where: { agentId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: {
+            history: true
+          }
+        }
       }
     });
 
-    // 合约地址更新成功，重新加载监听器
-    console.log('[事件监听] 支付合约地址已更新，触发监听器重新加载...');
-    await reloadContractListeners();
+    // 处理任务结果
+    const formattedTasks = tasks.map((task: any) => {
+      let resultData = null;
+      if (task.result) {
+        try {
+          resultData = JSON.parse(task.result);
+        } catch (error) {
+          console.error(`解析任务${task.id}结果失败:`, error);
+          resultData = { error: '结果格式错误' };
+        }
+      }
 
-    // 记录历史
-    await prisma.history.create({
-      data: {
-        action: 'update_payment_contract',
-        result: 'success',
-        agentId: agentId,
-      },
+      return {
+        id: task.id,
+        type: task.type,
+        status: task.status,
+        createdAt: task.createdAt,
+        startedAt: task.startedAt,
+        completedAt: task.completedAt,
+        agentId: task.agentId,
+        result: resultData,
+        historyCount: task._count.history
+      };
     });
 
     return createSuccessResponse({
       code: 200,
-      message: '支付合约地址已保存',
+      message: '查询Agent任务列表成功',
       data: {
-        agentId: updatedAgent.id,
-        iaoContractAddress: updatedAgent.iaoContractAddress
+        agentId,
+        agentName: agent.name,
+        tasks: formattedTasks
       },
     });
   } catch (error) {
+    console.error('查询Agent任务列表过程中发生错误:', error);
     return handleError(error);
   }
 } 

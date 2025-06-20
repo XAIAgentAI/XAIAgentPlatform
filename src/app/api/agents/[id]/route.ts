@@ -96,8 +96,11 @@ export async function PUT(
       body: JSON.stringify(body, null, 2)
     });
 
-    // 验证必填字段
-    if (!name || !description || !category || !capabilities) {
+    // 如果只是更新IAO时间，不需要验证其他必填字段
+    const isTimeUpdateOnly = updateStartTime && updateEndTime && !name && !description && !category && !capabilities;
+
+    // 验证必填字段（除非只是更新时间）
+    if (!isTimeUpdateOnly && (!name || !description || !category || !capabilities)) {
       throw new ApiError(400, '缺少必要参数');
     }
 
@@ -117,31 +120,23 @@ export async function PUT(
       throw new ApiError(404, 'Agent不存在');
     }
 
-    // 如果提供了时间更新参数，并且存在IAO合约地址，则更新合约时间
-    if (updateStartTime && updateEndTime && fullAgent.iaoContractAddress) {
-      console.log(`[时间更新] 检查是否需要更新IAO合约时间...`);
-      
-      // 获取当前的开始和结束时间（直接使用时间戳）
-      const currentStartTime = fullAgent.iaoStartTime ? Number(fullAgent.iaoStartTime) : null;
-      const currentEndTime = fullAgent.iaoEndTime ? Number(fullAgent.iaoEndTime) : null;
-      
-      console.log(`[时间更新] 当前开始时间: ${currentStartTime}`);
-      console.log(`[时间更新] 当前结束时间: ${currentEndTime}`);
+    // 如果提供了时间更新参数，直接更新数据库中的IAO时间
+    if (updateStartTime && updateEndTime) {
+      console.log(`[时间更新] 更新数据库中的IAO时间...`);
       console.log(`[时间更新] 新开始时间: ${updateStartTime}`);
       console.log(`[时间更新] 新结束时间: ${updateEndTime}`);
-      
-      // 判断时间是否发生变化
-      const timeChanged = (
-        currentStartTime === null || 
-        currentEndTime === null || 
-        Math.abs(currentStartTime - updateStartTime) > 60 || // 允许1分钟的误差
-        Math.abs(currentEndTime - updateEndTime) > 60
-      );
-      
-      if (!timeChanged) {
-        console.log(`[时间更新] 时间未发生显著变化，跳过合约更新`);
-        
-        // 仅更新数据库中的时间记录，不调用合约（存储为Unix时间戳）
+
+      try {
+        // 记录时间更新历史
+        await prisma.history.create({
+          data: {
+            action: 'update_time_from_client',
+            result: 'success',
+            agentId: params.id,
+          },
+        });
+
+        // 更新Agent记录中的开始和结束时间（存储为Unix时间戳）
         await prisma.agent.update({
           where: { id: params.id },
           data: {
@@ -149,127 +144,76 @@ export async function PUT(
             iaoEndTime: BigInt(updateEndTime),
           },
         });
-      } else {
-        console.log(`[时间更新] 时间发生显著变化，开始更新合约...`);
-        console.log(`[时间更新] IAO合约地址: ${fullAgent.iaoContractAddress}`);
-        console.log(`[时间更新] 创建者地址: ${fullAgent.creator.address}`);
-      
-        try {
-          // 记录开始更新时间的历史
-          await prisma.history.create({
-            data: {
-              action: 'update_time_start',
-              result: 'processing',
-              agentId: params.id,
-            },
-          });
-          
-          // 调用合约API设置时间
-          const setTimeResponse = await fetch("http://3.0.25.131:8070/contracts/set-time-for", {
-            method: "POST",
-            headers: {
-              "accept": "application/json",
-              "content-type": "application/json",
-              "authorization": "Basic YWRtaW46MTIz"
-            },
-            body: JSON.stringify({
-              iao_address: fullAgent.iaoContractAddress,
-              owner: fullAgent.creator.address,
-              start_time: updateStartTime,
-              end_time: updateEndTime
-            })
-          });
 
-          const setTimeResult = await setTimeResponse.json();
-          console.log(`[时间更新] 设置时间结果:`, setTimeResult);
-          
-          if (setTimeResult.code !== 200) {
-            console.error(`[时间更新] 失败原因: ${setTimeResult.message || '未知错误'}`);
-            // 记录时间设置失败历史
-            await prisma.history.create({
-              data: {
-                action: 'update_time',
-                result: 'failed',
-                agentId: params.id,
-                error: `设置IAO时间失败: ${setTimeResult.message || '未知错误'}`
-              },
-            });
-          } else {
-            console.log(`[时间更新] 合约时间更新成功`);
-            
-            // 记录时间设置成功历史
-            await prisma.history.create({
-              data: {
-                action: 'update_time',
-                result: 'success',
-                agentId: params.id,
-              },
-            });
-            
-            // 更新Agent记录中的开始和结束时间（存储为Unix时间戳）
-            await prisma.agent.update({
-              where: { id: params.id },
-              data: {
-                iaoStartTime: BigInt(updateStartTime),
-                iaoEndTime: BigInt(updateEndTime),
-              },
-            });
-          }
-        } catch (error) {
-          console.error('更新IAO合约时间过程中发生错误:', error);
-          
-          // 记录时间设置错误历史
-          await prisma.history.create({
-            data: {
-              action: 'update_time',
-              result: 'failed',
-              agentId: params.id,
-              error: `设置IAO时间时发生错误: ${error instanceof Error ? error.message : '未知错误'}`
-            },
-          });
+        console.log(`[时间更新] 数据库IAO时间更新成功`);
+
+        // 如果只是更新时间，直接返回成功响应
+        if (isTimeUpdateOnly) {
+          return createSuccessResponse(null, 'IAO时间更新成功');
         }
+      } catch (error) {
+        console.error(`[时间更新] 数据库更新失败:`, error);
+
+        // 记录时间设置失败历史
+        await prisma.history.create({
+          data: {
+            action: 'update_time_from_client',
+            result: 'failed',
+            agentId: params.id,
+            error: `数据库更新失败: ${error instanceof Error ? error.message : '未知错误'}`
+          },
+        });
+
+        return NextResponse.json({
+          code: 500,
+          message: `更新IAO时间失败: ${error instanceof Error ? error.message : '未知错误'}`,
+          data: null
+        });
       }
     }
 
-    // 更新 Agent
-    const updatedAgent = await prisma.agent.update({
-      where: { id: params.id },
-      data: {
-        name,
-        description,
-        longDescription,
-        category,
-        avatar,
-        capabilities: JSON.stringify(capabilities),
-        containerLink,
-        examples: examples
-          ? {
-              deleteMany: {},
-              createMany: {
-                data: examples.map((example: any) => ({
-                  title: example.title,
-                  description: example.description,
-                  prompt: example.prompt,
-                })),
-              },
-            }
-          : undefined,
-      } as any,
-      include: {
-        creator: {
-          select: {
-            address: true,
+    // 如果不是只更新时间，则更新其他Agent字段
+    if (!isTimeUpdateOnly) {
+      // 更新 Agent
+      const updatedAgent = await prisma.agent.update({
+        where: { id: params.id },
+        data: {
+          name,
+          description,
+          longDescription,
+          category,
+          avatar,
+          capabilities: JSON.stringify(capabilities),
+          containerLink,
+          examples: examples
+            ? {
+                deleteMany: {},
+                createMany: {
+                  data: examples.map((example: any) => ({
+                    title: example.title,
+                    description: example.description,
+                    prompt: example.prompt,
+                  })),
+                },
+              }
+            : undefined,
+        } as any,
+        include: {
+          creator: {
+            select: {
+              address: true,
+            },
           },
+          examples: true,
         },
-        examples: true,
-      },
-    });
+      });
 
-    return createSuccessResponse({
-      ...updatedAgent,
-      capabilities: JSON.parse(updatedAgent.capabilities),
-      creatorAddress: updatedAgent.creator.address,
-    }, '更新成功');
+      return createSuccessResponse({
+        ...updatedAgent,
+        capabilities: JSON.parse(updatedAgent.capabilities),
+        creatorAddress: updatedAgent.creator.address,
+      }, '更新成功');
+    }
   } catch (error) {
     return handleError(error);
   }

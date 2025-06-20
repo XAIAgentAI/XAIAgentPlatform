@@ -21,16 +21,15 @@ console.log(`🔧 事件监听器配置:`, {
   rpcUrl: rpcUrl ? `${rpcUrl.substring(0, 30)}...` : 'undefined'
 });
 
-// 创建公共客户端 - 优先使用 WebSocket，回退到 HTTP
+// 创建公共客户端
 const createTransport = () => {
-  // 尝试使用 WebSocket（如果 RPC URL 支持）
-  const wsUrl = rpcUrl?.replace('https://', 'wss://').replace('http://', 'ws://');
-
-  // 由于 DBC 可能不支持 WebSocket，直接使用 HTTP
+  // 当前配置强制使用HTTP，因为我们使用的DBC主网RPC节点对WebSocket的支持不稳定
   return http(rpcUrl, {
     // 增加重试配置
     retryCount: 3,
     retryDelay: 1000,
+    // 延长请求超时时间，以应对不稳定的RPC节点
+    timeout: 30_000, // 30秒
   });
 };
 
@@ -43,7 +42,7 @@ const publicClient = createPublicClient({
 
 class ContractEventListener {
   private isListening = false;
-  private watchUnsubscribe: (() => void) | null = null;
+  private watchUnsubscribes: (() => void)[] = []; // 改为正确的类型：一个返回void的函数数组
   private healthCheckInterval: NodeJS.Timeout | null = null;
   private isRestarting = false; // 防止重复重启
   private restartTimeout: NodeJS.Timeout | null = null; // 重启定时器
@@ -119,47 +118,41 @@ class ContractEventListener {
         const blockNumber = await publicClient.getBlockNumber();
         console.log(`🔗 RPC 连接正常，当前区块: ${blockNumber}`);
 
-        // 使用轮询模式监听事件（避免过滤器问题）
-        console.log('🔄 使用轮询模式监听事件（避免 DBC RPC 过滤器限制）');
+        // 轮询模式：为每个合约地址创建独立的监听器，提高稳定性
+        console.log('🔄 为每个合约创建独立监听器（轮询模式，避免DBC RPC限制）');
 
-        this.watchUnsubscribe = publicClient.watchEvent({
-          address: contractAddresses as `0x${string}`[],
-          event: parseAbiItem('event TimeUpdated(uint256 startTime, uint256 endTime)'),
-          onLogs: (logs) => {
-            console.log(`🎉 收到 ${logs.length} 个 TimeUpdated 事件`);
-            logs.forEach(log => this.handleTimeUpdatedEvent(log));
-          },
-          onError: (error) => {
-            console.error('❌ 事件监听错误:', error);
-            this.isListening = false;
+        contractAddresses.forEach(address => {
+          const unwatch = publicClient.watchEvent({
+            address: address as `0x${string}`, // 单个地址
+            event: parseAbiItem('event TimeUpdated(uint256 startTime, uint256 endTime)'),
+            onLogs: (logs) => {
+              console.log(`🎉 收到 ${logs.length} 个 TimeUpdated 事件 (合约: ${address})`);
+              logs.forEach(log => this.handleTimeUpdatedEvent(log));
+            },
+            onError: (error) => {
+              console.error(`❌ 合约 ${address} 的事件监听发生错误:`, error);
+              // 任何一个监听器出错，都触发整体重启
+              if (!this.isRestarting) {
+                // 根据错误类型调整重启延迟
+                const isTimeoutError = error.name === 'TimeoutError';
+                const delay = isTimeoutError ? 60000 : 30000; // 超时错误等待更长时间
+                console.log(`🔄 将在${delay / 1000}秒后重启所有监听器... (原因: ${error.name})`);
 
-            // 防止重复重启
-            if (this.isRestarting) {
-              console.log('⚠️ 重启已在进行中，跳过重复重启');
-              return;
-            }
-
-            // 清除之前的重启定时器
-            if (this.restartTimeout) {
-              clearTimeout(this.restartTimeout);
-              this.restartTimeout = null;
-            }
-
-            // 过滤器错误频繁，延长重连间隔
-            const delay = error.message.includes('Filter id') || error.message.includes('does not exist') ? 30000 : 60000;
-            console.log(`🔄 ${delay/1000}秒后重新创建监听器...`);
-
-            this.restartTimeout = setTimeout(() => {
-              this.restartListening();
-            }, delay);
-          },
-          // 强制使用轮询模式，避免过滤器
-          poll: true,
-          pollingInterval: 30000, // 30秒轮询一次，减少过滤器压力
+                this.isListening = false;
+                if (this.restartTimeout) clearTimeout(this.restartTimeout);
+                this.restartTimeout = setTimeout(() => {
+                  this.restartListening('error');
+                }, delay);
+              }
+            },
+            poll: true,
+            pollingInterval: 60000, // 60秒轮询一次，减轻RPC压力
+          });
+          this.watchUnsubscribes.push(unwatch);
         });
 
         this.isListening = true;
-        console.log('✅ 事件监听启动成功（轮询模式，30秒间隔，避免过滤器问题）');
+        console.log(`✅ ${contractAddresses.length} 个事件监听器启动成功`);
 
       } catch (error) {
         console.error('❌ 创建事件监听器失败:', error);
@@ -252,45 +245,59 @@ class ContractEventListener {
     }
   }
 
-
-
   /**
    * 停止监听
    */
-  stopListening() {
+  async stopListening() {
     // 清除重启定时器
     if (this.restartTimeout) {
       clearTimeout(this.restartTimeout);
       this.restartTimeout = null;
     }
 
-    if (this.watchUnsubscribe) {
-      this.watchUnsubscribe();
-      this.watchUnsubscribe = null;
+    if (this.watchUnsubscribes.length > 0) {
+      console.log(`正在停止 ${this.watchUnsubscribes.length} 个监听器...`);
+      // viem的unwatch函数是同步的(返回void)，我们只需遍历并调用它们
+      for (const unwatch of this.watchUnsubscribes) {
+        try {
+          unwatch();
+        } catch (e) {
+          // 这是一个安全措施，以防万一unwatch调用本身抛出异常
+          console.warn('卸载监听器时发生同步错误:', e);
+        }
+      }
+      this.watchUnsubscribes = [];
     }
+
     this.isListening = false;
-    this.isRestarting = false;
-    console.log('事件监听已停止');
+    console.log('所有事件监听已停止');
   }
 
   /**
    * 重新启动监听
+   * @param source 触发重启的来源，'manual' 表示手动触发, 'error' 表示错误后自动恢复
    */
-  private async restartListening() {
+  public async restartListening(source: 'manual' | 'error' = 'error') {
     if (this.isRestarting) {
-      console.log('⚠️ 重启已在进行中，跳过重复重启');
+      this.logWithCooldown('⚠️ 重启已在进行中，跳过重复重启');
       return;
     }
 
     this.isRestarting = true;
-    console.log('重新启动事件监听...');
+    if (source === 'manual') {
+      console.log('🔄 手动触发: 重新加载合约监听器...');
+    } else {
+      console.log('🔄 错误恢复: 重新启动事件监听...');
+    }
 
     try {
-      this.stopListening();
-      await new Promise(resolve => setTimeout(resolve, 2000)); // 等待2秒，给更多时间清理
+      await this.stopListening();
+      // 等待1秒，确保旧的监听器完全停止
+      // await new Promise(resolve => setTimeout(resolve, 1000)); // await stopListening() 已经是异步，无需额外等待
       await this.startListening();
+      console.log('✅ 事件监听器已成功重启');
     } catch (error) {
-      console.error('重启事件监听失败:', error);
+      console.error('❌ 重启事件监听失败:', error);
     } finally {
       this.isRestarting = false;
     }
@@ -352,8 +359,13 @@ export const startContractEventListener = () => {
 };
 
 // 导出停止函数
-export const stopContractEventListener = () => {
-  contractEventListener.stopListening();
+export const stopContractEventListener = async () => {
+  await contractEventListener.stopListening();
+};
+
+// 导出手动重启函数，用于在创建新合约后刷新监听列表
+export const reloadContractListeners = () => {
+  return contractEventListener.restartListening('manual');
 };
 
 // 导出手动同步函数

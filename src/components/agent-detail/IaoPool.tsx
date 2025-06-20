@@ -49,6 +49,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
+  const [tokenCreationTask, setTokenCreationTask] = useState<{
+    id: string;
+    status: string;
+    createdAt: string;
+  } | null>(null);
   const [userStakeInfo, setUserStakeInfo] = useState<UserStakeInfo>({
     userDeposited: "0",
     claimableXAA: "0",
@@ -158,6 +163,32 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   // 直接通过地址比较判断是否是创建者
   const isCreator = address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase();
 
+  // 获取token创建任务状态
+  const fetchTokenCreationTask = useCallback(async () => {
+    if (!isCreator || !isAuthenticated) return;
+
+    try {
+      const response = await fetch(`/api/agents/${agent.id}/tasks`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.code === 200) {
+          // 查找最新的CREATE_TOKEN任务
+          const createTokenTask = data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
+          if (createTokenTask) {
+            setTokenCreationTask(createTokenTask);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch token creation task:', error);
+    }
+  }, [agent.id, isCreator, isAuthenticated]);
+
   // 检查IAO是否成功结束
   useEffect(() => {
     const checkIaoStatus = async () => {
@@ -178,6 +209,36 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
     return () => clearInterval(interval);
   }, [iaoContractAddress]);
+
+  // 获取token创建任务状态
+  useEffect(() => {
+    fetchTokenCreationTask();
+  }, [fetchTokenCreationTask]);
+
+  // 轮询检查任务状态
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    // 如果有正在进行的任务，开始轮询
+    if (tokenCreationTask && (tokenCreationTask.status === 'PENDING' || tokenCreationTask.status === 'PROCESSING')) {
+      interval = setInterval(() => {
+        fetchTokenCreationTask();
+      }, 5000); // 每5秒检查一次
+    }
+
+    // 如果任务完成且成功，刷新页面以显示新的token信息
+    if (tokenCreationTask && tokenCreationTask.status === 'COMPLETED' && !agent.tokenAddress) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); // 2秒后刷新页面
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [tokenCreationTask?.status, fetchTokenCreationTask, agent.tokenAddress]);
 
   // 检查用户是否是合约所有者
   useEffect(() => {
@@ -233,13 +294,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       if (data.code === 200) {
         toast({
           title: t('success'),
-          description: t('tokenCreationSuccess'),
+          description: t('tokenCreationSubmitted'),
         });
 
-        // 刷新页面以显示新创建的Token
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        // 立即获取任务状态
+        fetchTokenCreationTask();
       } else {
         throw new Error(data.message || t('operationFailed'));
       }
@@ -353,14 +412,12 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
   }, [poolInfo]);
 
   return (
-    <Card className="p-6">
+    <Card className="p-4 sm:p-6">
 
       <div className="flex justify-end items-center mb-4">
-
-
         <Button
           variant="outline"
-          className="relative flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce"
+          className="relative flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce text-sm sm:text-base"
           onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
           aria-label={t('goToDbcswap', { symbol: agent.symbol })}
         >
@@ -371,15 +428,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           <div className="relative z-10 flex items-center animate-arrow-move">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="ml-1"
+              className="ml-1 sm:w-4 sm:h-4"
             >
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               <polyline points="15 3 21 3 21 9" />
@@ -440,99 +497,117 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
       {isIAOEnded ? (
         // Pool data after IAO ends
         <>
-          {/* 创建者专属按钮 - 只有在IAO成功且Token未创建时显示 */}
-          {isCreator && isIaoSuccessful && !agent.tokenAddress && (
-            <>
-
-              <Button
-                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white"
-                onClick={handleCreateToken}
-                disabled={isCreatingToken}
-              >
-                {isCreatingToken ? (
-                  <div className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    {t('creatingToken')}
+          <h2 className="text-lg sm:text-xl font-bold">{t('iaoCompletedData')}</h2>
+          {/* 创建token和创建支付合约 */}
+          <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-2 sm:gap-4 mb-2">
+            {/* 创建者专属按钮和状态显示 */}
+            {isCreator && isIaoSuccessful && (
+              <>
+                {/* Token状态显示 */}
+                {tokenCreationTask && !agent.tokenAddress && (
+                  <div className={`w-full sm:w-fit border rounded-lg px-3 py-2 text-sm sm:text-base ${
+                    tokenCreationTask.status === 'FAILED'
+                      ? 'bg-red-50 border-red-200'
+                      : tokenCreationTask.status === 'COMPLETED'
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-blue-50 border-blue-200'
+                  }`}>
+                    <div className="flex items-center gap-2">
+                      {tokenCreationTask.status === 'PENDING' || tokenCreationTask.status === 'PROCESSING' ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span className="text-blue-700 font-medium">{t('tokenCreating')}</span>
+                        </>
+                      ) : tokenCreationTask.status === 'COMPLETED' ? (
+                        <>
+                          <svg className="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          <span className="text-green-700 font-medium">{t('tokenCreated')}</span>
+                        </>
+                      ) : tokenCreationTask.status === 'FAILED' || tokenCreationTask.status === 'PARTIAL_SUCCESS' ? (
+                        <>
+                          <svg className="h-4 w-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                          </svg>
+                          <span className="text-red-700 font-medium">{t('tokenCreationFailed')}</span>
+                          <button
+                            onClick={fetchTokenCreationTask}
+                            className="ml-2 p-1 text-red-600 hover:text-red-800 hover:bg-red-100 rounded transition-colors"
+                            title={t('refreshStatus')}
+                          >
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                          </button>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
-                ) : (
-                  t('createToken')
                 )}
-              </Button>
 
-
-            </>
-
-          )}
-
-          {console.log("agent", isIaoSuccessful, agent.paymentContractAddress)}
-          {
-            isCreator && !agent.paymentContractAddress && (
-              // isCreator && isIaoSuccessful && !agent.paymentContractAddress && (
-              <>
-                <Button
-                  className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
-                  onClick={() => setIsPaymentModalOpen(true)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                {/* 创建Token按钮 - 根据任务状态显示不同的按钮 */}
+                {!agent.tokenAddress && (!tokenCreationTask || (tokenCreationTask.status !== 'PENDING' && tokenCreationTask.status !== 'PROCESSING')) && (
+                  <Button
+                    className={`w-full sm:w-fit text-white text-sm sm:text-base h-10 ${
+                      tokenCreationTask && (tokenCreationTask.status === 'FAILED' || tokenCreationTask.status === 'PARTIAL_SUCCESS')
+                        ? 'bg-red-600 hover:bg-red-700'
+                        : 'bg-green-600 hover:bg-green-700'
+                    }`}
+                    onClick={handleCreateToken}
+                    disabled={isCreatingToken}
                   >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12,6 12,12 16,14" />
-                  </svg>
-                  {t('updatePaymentContract')}
-                </Button>
+                    {isCreatingToken ? (
+                      <div className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span className="text-sm sm:text-base">{t('creatingToken')}</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {tokenCreationTask && (tokenCreationTask.status === 'FAILED' || tokenCreationTask.status === 'PARTIAL_SUCCESS') && (
+                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                          </svg>
+                        )}
+                        <span className="text-sm sm:text-base">
+                          {tokenCreationTask && (tokenCreationTask.status === 'FAILED' || tokenCreationTask.status === 'PARTIAL_SUCCESS')
+                            ? t('retryCreateToken')
+                            : t('createToken')
+                          }
+                        </span>
+                      </div>
+                    )}
+                  </Button>
+                )}
               </>
-            )
-          }
-
-          <div className="flex gap-4 justify-between items-center mb-6">
-            <h2 className="text-xl font-bold">{t('iaoCompletedData')}</h2>
-            {/* 修改IAO时间按钮 - 只有合约所有者可见且IAO未结束 */}
-            {isOwner && !isIAOEnded && (
-              <>
-                <Button
-                  className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-fit"
-                  onClick={() => setIsUpdateTimeModalOpen(true)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12,6 12,12 16,14" />
-                  </svg>
-                  {t('updateIaoTime')}
-                </Button>
-
-
-              </>
-
             )}
-
-
+            {console.log("agent", isIaoSuccessful, agent.paymentContractAddress)}
+            {
+              isCreator && isIaoSuccessful && !agent.paymentContractAddress && (
+                // isCreator && isIaoSuccessful && !agent.paymentContractAddress && (
+                <>
+                  <Button
+                    className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-full sm:w-fit text-sm sm:text-base h-10 flex items-center justify-center gap-2"
+                    onClick={() => setIsPaymentModalOpen(true)}
+                  >
+                    <span>{t('updatePaymentContract')}</span>
+                  </Button>
+                </>
+              )
+            }
           </div>
 
-          <div className="space-y-4">
-            <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-              <span className="text-black whitespace-nowrap">
+
+
+          <div className="space-y-3 sm:space-y-4">
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
+              <span className="text-black font-medium">
                 {t('iaoReleasedAmount', { symbol: agent.symbol })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
@@ -540,8 +615,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
               </span>
             </div>
 
-            <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-              <span className="text-black whitespace-nowrap">
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
+              <span className="text-black font-medium">
                 {t('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
               </span>
               <span className="font-semibold text-[#F47521] break-all">
@@ -552,11 +627,11 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
 
 
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">{t('lpPoolData')}</h3>
-            <div className="space-y-4">
-              <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
-                <span className="text-black whitespace-nowrap">
+          <div className="mt-6 sm:mt-8">
+            <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{t('lpPoolData')}</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 p-3 rounded-lg">
+                <span className="text-black font-medium">
                   {t('lpPoolTokenAmount', { symbol: agent.symbol })}:
                 </span>
                 <span className="font-semibold text-[#F47521] break-all">
@@ -564,8 +639,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 </span>
               </div>
 
-              <div className="text-base flex flex-wrap items-center gap-2 bg-green-50 p-3 rounded-lg">
-                <span className="text-black whitespace-nowrap">
+              <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 p-3 rounded-lg">
+                <span className="text-black font-medium">
                   {t('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
                 </span>
                 <span className="font-semibold text-[#F47521] break-all">
@@ -744,18 +819,42 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
         // Pool data before IAO ends
         <>
           {/* 募资进行中，显示的池子数据 */}
-          <h2 className="text-2xl font-bold mb-6">{t('title')}</h2>
-
-          <div className="space-y-4">
-            <div className="text-base flex flex-wrap items-center gap-2 bg-orange-50 p-3 rounded-lg">
-              <span className="text-black whitespace-nowrap">{t('totalInPool', { symbol: agent.symbol })}:</span>
+          <h2 className="text-xl sm:text-2xl font-bold mb-0 ">{t('title')}</h2>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-2  sm:mb-4 justify-end items-start sm:items-center ">
+            {isOwner && !isIAOEnded && (
+              <Button
+                className="bg-[#F47521] hover:bg-[#F47521]/90 text-white w-full sm:w-fit text-sm sm:text-base flex items-center justify-center gap-2"
+                onClick={() => setIsUpdateTimeModalOpen(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="sm:w-4 sm:h-4"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
+                </svg>
+                <span>{t('updateIaoTime')}</span>
+              </Button>
+            )}
+          </div>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
+              <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
               <span className="font-semibold text-[#F47521] break-all">
                 {isPoolInfoLoading ? "--" : Number(poolInfo.totalReward).toLocaleString()} {agent.symbol}
               </span>
             </div>
 
-            <div className="text-base flex flex-wrap items-center gap-2 bg-blue-50 p-3 rounded-lg">
-              <span className="text-black whitespace-nowrap">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
+              <span className="text-black font-medium">{t('currentTotal', { symbol: agent.tokenAddress === 'XAA' ? 'DBC' : 'XAA' })}:</span>
 
               {
                 poolInfo.startTime ? (<span className="font-semibold text-[#F47521] break-all">
@@ -769,8 +868,8 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
             </div>
 
-            <div className="text-base flex flex-wrap items-center gap-2 bg-purple-50 p-3 rounded-lg">
-              <span className="text-black whitespace-nowrap">
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 p-3 rounded-lg">
+              <span className="text-black font-medium">
                 {poolInfo?.startTime && Date.now() < poolInfo.startTime * 1000
                   ? t('startCountdown')
                   : t('endCountdown')
@@ -783,13 +882,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                   // Show countdown to start
                   <Countdown
                     remainingTime={Math.max(0, poolInfo.startTime * 1000 - Date.now())}
-                    className="font-semibold text-[#F47521] break-all"
+                    className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
                   />
                 ) : poolInfo?.endTime ? (
                   // Show countdown to end
                   <Countdown
                     remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
-                    className="font-semibold text-[#F47521] break-all"
+                    className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
                   />
                 ) : (
                   <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
@@ -798,7 +897,6 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                 <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
               )}
             </div>
-
 
           </div>
 
@@ -809,15 +907,15 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           {/* 募资结束前，投资按钮 */}
           {
             (!poolInfo?.endTime || Date.now() < poolInfo.endTime * 1000) && (
-              <div className="mt-0 pt-6 bg-muted rounded-lg">
+              <div className="mt-0 pt-4 sm:pt-6 bg-muted rounded-lg">
 
                 {(
                   <>
-                    <h3 className="text-lg font-semibold mb-4">{t('youSend')}</h3>
+                    <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('youSend')}</h3>
 
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="font-medium">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
-                      <div className="flex-1 relative">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                      <div className="font-medium text-sm sm:text-base min-w-fit">{agent.symbol === 'XAA' ? 'DBC' : 'XAA'}</div>
+                      <div className="flex-1 w-full relative">
                         <Input
                           type="number"
                           value={dbcAmount}
@@ -830,13 +928,13 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                           min="0"
                           max={agent.symbol === 'XAA' ? maxAmount : xaaBalance}
                           step="any"
-                          className="pr-16"
+                          className="pr-12 sm:pr-16 text-sm sm:text-base"
                           placeholder="00.00"
                           disabled={!isDepositPeriod || isStakeLoading || !isAuthenticated || !showIAOReal}
                         />
                         <button
                           onClick={handleSetMaxAmount}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 sm:px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading}
                         >
                           {t('maxButton')}
@@ -847,7 +945,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
 
                     {showIAOReal === "true" ? (
                       <Button
-                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white text-sm sm:text-base py-2 sm:py-3"
                         onClick={handleStake}
                         disabled={!isAuthenticated || !isDepositPeriod || isStakeLoading || !isIAOStarted}
                       >
@@ -863,7 +961,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
                       </Button>
                     ) : (
                       <Button
-                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white"
+                        className="w-full bg-[#F47521] hover:bg-[#F47521]/90 text-white text-sm sm:text-base py-2 sm:py-3"
                         onClick={handleStake}
                         disabled={true}
                       >
@@ -993,7 +1091,7 @@ export const IaoPool = ({ agent }: { agent: LocalAgent }) => {
           onOpenChange={setIsUpdateTimeModalOpen}
           currentStartTime={poolInfo?.startTime || 0}
           currentEndTime={poolInfo?.endTime || 0}
-          onUpdateTimes={updateIaoTimes}
+          onUpdateTimes={(startTime: number, endTime: number) => updateIaoTimes(startTime, endTime, agent.id)}
           isLoading={isStakeLoading}
         />
       )}
