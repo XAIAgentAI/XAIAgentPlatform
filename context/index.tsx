@@ -44,7 +44,22 @@ const modal = createAppKit({
     metadata: metadata,
     features: {
         analytics: true,
-    }
+        // 禁用邮箱登录
+        email: false,
+        // 禁用社交登录（包括 Google、X、Discord 等）
+        socials: false,
+    },
+    // 禁用所有钱包，然后只通过 includeWalletIds 启用指定钱包
+    // allWallets: 'HIDE',
+    // 排除 Trust Wallet 选项 - 使用完整的钱包 ID
+    excludeWalletIds: ['4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'],
+    // 只包含我们想要的钱包，这样可以更好地控制显示的钱包
+    // includeWalletIds: [
+    //     'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // MetaMask
+    //     '1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369', // Rainbow
+    //     '20459438007b75f4f4acb98bf29aa3b800550309646d375da5fd4aac6c2a2c66', // TokenPocket (TP)
+    //     'ef333840daf915aafdc4a004525502d6d49d77bd9c65e0642dbaefb3c2893bef'  // imToken (IM)
+    // ]
 })
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
