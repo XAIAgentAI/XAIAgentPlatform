@@ -306,7 +306,8 @@ async function processTask(
           reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
           // 不传递 reward_token 参数，或传递 null
           reward_token: "0x0000000000000000000000000000000000000000",
-          start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600
+          start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600,
+          token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
         })
       });
 
