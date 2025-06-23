@@ -3,7 +3,6 @@
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { toZonedTime, format as formatInTimeZone } from 'date-fns-tz';
 import { useTranslations } from 'next-intl';
 
 interface Timezone {
