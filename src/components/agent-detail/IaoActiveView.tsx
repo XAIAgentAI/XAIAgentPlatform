@@ -1,0 +1,292 @@
+/**
+ * IAO进行中的视图组件 - 简化版本
+ */
+
+'use client';
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from 'next-intl';
+import { Countdown } from "../ui-custom/countdown";
+import { IaoProgressDisplay } from './IaoProgressDisplay';
+import type { LocalAgent } from "@/types/agent";
+
+interface IaoActiveViewProps {
+  agent: LocalAgent;
+  poolInfo: any;
+  iaoProgress: any;
+  userStakeInfo: any;
+  dbcAmount: string;
+  setDbcAmount: (amount: string) => void;
+  maxAmount: string;
+  xaaBalance: string;
+  isCreator: boolean;
+  isIaoSuccessful: boolean;
+  isStakeLoading: boolean;
+  isPoolInfoLoading: boolean;
+  isUserStakeInfoLoading: boolean;
+  isAuthenticated: boolean;
+  isConnected: boolean;
+  onStake: () => void;
+  onSetMaxAmount: () => void;
+  onTimeModalOpen: () => void;
+  isContractOwner?: () => Promise<boolean>;
+}
+
+export const IaoActiveView = ({
+  agent,
+  poolInfo,
+  iaoProgress,
+  userStakeInfo,
+  dbcAmount,
+  setDbcAmount,
+  maxAmount,
+  xaaBalance,
+  isCreator,
+  isIaoSuccessful,
+  isStakeLoading,
+  isPoolInfoLoading,
+  isUserStakeInfoLoading,
+  isAuthenticated,
+  isConnected,
+  onStake,
+  onSetMaxAmount,
+  onTimeModalOpen,
+  isContractOwner
+}: IaoActiveViewProps) => {
+  const t = useTranslations('iaoPool');
+
+  const formatNumber = (value: string | number, decimals: number = 2): string => {
+    if (!value || value === '0') return '0';
+    const num = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(num)) return '0';
+    return num.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: decimals
+    });
+  };
+
+  // 检查IAO是否已开始
+  const isIaoStarted = poolInfo?.startTime ? Date.now() >= poolInfo.startTime * 1000 : false;
+  
+  // 检查IAO是否已结束
+  const isIaoEnded = poolInfo?.endTime ? Date.now() >= poolInfo.endTime * 1000 : false;
+  
+  // 检查IAO是否活跃
+  const isIaoActive = isIaoStarted && !isIaoEnded;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 简单的输入验证
+    if (value === '' || /^\d*\.?\d*$/.test(value)) {
+      setDbcAmount(value);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 允许的按键
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab', 'Enter'];
+    const disallowedKeys = ['-', 'e', 'E', '+'];
+    
+    if (allowedKeys.includes(e.key)) return;
+    if (disallowedKeys.includes(e.key)) {
+      e.preventDefault();
+      return;
+    }
+    
+    if (!/^[0-9.]$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const getButtonText = (): string => {
+    if (!isIaoStarted) return t('iaoNotStarted');
+    if (!isAuthenticated) return t('connectWalletFirst');
+    if (isStakeLoading) return t('processing');
+    if (!isIaoActive) return t('stakeNotStarted');
+    return t('send');
+  };
+
+  const isButtonDisabled = (): boolean => {
+    return !isAuthenticated || 
+           !isIaoActive || 
+           isStakeLoading || 
+           !isIaoStarted ||
+           !dbcAmount ||
+           Number(dbcAmount) <= 0 ||
+           Number(dbcAmount) > Number(maxAmount);
+  };
+
+  const renderPoolInfo = () => (
+    <div className="space-y-3 sm:space-y-4">
+      {/* 状态指示器 */}
+      <div className="flex items-center gap-2 mb-4">
+        <div className={`w-2 h-2 rounded-full ${
+          !poolInfo?.startTime ? 'bg-gray-500' :
+          !isIaoStarted ? 'bg-blue-500' :
+          isIaoActive ? 'bg-green-500' : 'bg-red-500'
+        }`}></div>
+        <span className={`text-sm font-medium ${
+          !poolInfo?.startTime ? 'text-gray-500' :
+          !isIaoStarted ? 'text-blue-500' :
+          isIaoActive ? 'text-green-500' : 'text-red-500'
+        }`}>
+          IAO {!poolInfo?.startTime ? '未开始' : !isIaoStarted ? '即将开始' : isIaoActive ? '进行中' : '已结束'}
+        </span>
+      </div>
+
+      {/* 池子总量 */}
+      <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
+        <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
+        <span className="font-semibold text-[#F47521] break-all">
+          {isPoolInfoLoading ? "--" : `${formatNumber(poolInfo?.totalReward || '0')} ${agent.symbol}`}
+        </span>
+      </div>
+
+      {/* 当前质押总量 */}
+      <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
+        <span className="text-black font-medium">
+          {t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+        </span>
+        <span className="font-semibold text-[#F47521] break-all">
+          {poolInfo?.startTime ? (
+            isPoolInfoLoading ? "--" : formatNumber(iaoProgress.totalDeposited)
+          ) : "0"}
+        </span>
+      </div>
+
+      {/* 倒计时 */}
+      <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 p-3 rounded-lg">
+        <span className="text-black font-medium">
+          {!poolInfo?.startTime ? t('toBeAnnounced') : 
+           Date.now() < poolInfo.startTime * 1000 ? t('startCountdown') : t('endCountdown')}:
+        </span>
+        {!poolInfo?.startTime ? (
+          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+        ) : isPoolInfoLoading ? (
+          <span className="font-semibold text-[#F47521] break-all">--</span>
+        ) : Date.now() < poolInfo.startTime * 1000 ? (
+          <Countdown
+            remainingTime={Math.max(0, poolInfo.startTime * 1000 - Date.now())}
+            className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
+          />
+        ) : poolInfo.endTime ? (
+          <Countdown
+            remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
+            className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
+          />
+        ) : (
+          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderStakeForm = () => {
+    if (isIaoEnded) return null;
+
+    return (
+      <div className="mt-0 pt-4 sm:pt-6 bg-muted rounded-lg">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('youSend')}</h3>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="font-medium text-sm sm:text-base min-w-fit">
+            {agent.symbol === 'XAA' ? 'DBC' : 'XAA'}
+          </div>
+          
+          <div className="flex-1 w-full relative">
+            <Input
+              type="number"
+              value={dbcAmount}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              min="0"
+              max={maxAmount}
+              step="any"
+              className="pr-12 sm:pr-16 text-sm sm:text-base"
+              placeholder="00.00"
+              disabled={!isIaoActive || isStakeLoading || !isAuthenticated}
+            />
+            
+            <button
+              onClick={onSetMaxAmount}
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 sm:px-2 py-1 text-xs font-semibold text-primary hover:text-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!isAuthenticated || !isIaoActive || isStakeLoading}
+            >
+              {t('maxButton')}
+            </button>
+          </div>
+        </div>
+
+        <div className="text-xs text-gray-500 mt-1">
+          可用余额: {`${formatNumber(agent.symbol === 'XAA' ? maxAmount : xaaBalance)} ${agent.symbol === 'XAA' ? 'DBC' : 'XAA'}`}
+        </div>
+
+        <Button
+          className="w-full text-sm sm:text-base py-2 sm:py-3 mt-4"
+          style={{ backgroundColor: '#F47521', borderColor: '#F47521' }}
+          onClick={onStake}
+          disabled={isButtonDisabled()}
+        >
+          {getButtonText()}
+        </Button>
+      </div>
+    );
+  };
+
+  const renderUserStakeInfo = () => {
+    if (!userStakeInfo.userDeposited || Number(userStakeInfo.userDeposited) <= 0) return null;
+
+    return (
+      <div className="space-y-3 mt-4">
+        <div>
+          <p className="text-sm text-muted-foreground">
+            {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+            <span className="text-[#F47521] ml-1">
+              {isUserStakeInfoLoading ? "--" : formatNumber(userStakeInfo.userDeposited)}
+            </span>
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-2 sm:mb-4 justify-between items-start sm:items-center">
+        <h2 className="text-xl sm:text-2xl font-bold mb-0">{t('title')}</h2>
+        {isCreator && !isIaoEnded && (
+          <Button
+            className="w-full sm:w-fit text-sm sm:text-base flex items-center justify-center gap-2"
+            style={{ backgroundColor: '#F47521', borderColor: '#F47521' }}
+            onClick={onTimeModalOpen}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-4 sm:h-4">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12,6 12,12 16,14" />
+            </svg>
+            <span>{t('updateIaoTime')}</span>
+          </Button>
+        )}
+      </div>
+
+      {renderPoolInfo()}
+
+      {/* IAO进度显示 - 仅创建者可见 */}
+      {isCreator && (
+        <IaoProgressDisplay
+          iaoProgress={iaoProgress}
+          isIaoEnded={isIaoEnded}
+          isIaoSuccessful={isIaoSuccessful}
+          isCreator={isCreator}
+          startTime={poolInfo?.startTime}
+          endTime={poolInfo?.endTime}
+          isPoolInfoLoading={isPoolInfoLoading}
+        />
+      )}
+
+      {renderStakeForm()}
+      {renderUserStakeInfo()}
+    </>
+  );
+};

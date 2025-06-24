@@ -76,6 +76,7 @@
     "sonner": "^2.0.1",
     "tailwind-merge": "^2.6.0",
     "uuid": "^11.1.0",
+    "vconsole": "^3.15.1",
     "viem": "^2.22.13",
     "wagmi": "^2.14.9",
     "zod": "^3.24.1",
@@ -83,7 +84,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@prisma/client": "^6.4.1",
     "@shadcn/ui": "^0.0.4",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lodash.clamp": "^4.0.9",

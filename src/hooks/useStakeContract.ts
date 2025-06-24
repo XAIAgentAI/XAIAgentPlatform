@@ -4,7 +4,7 @@ import { CONTRACTS, getContractABI } from '@/config/contracts';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useAuth } from '@/hooks/useAuth';
-import { createPublicClient, createWalletClient, custom, http, parseEther, parseGwei, type Hash } from 'viem';
+import { createPublicClient, createWalletClient, custom, http, parseEther, parseGwei, formatEther, type Hash } from 'viem';
 import { useWalletClient } from 'wagmi';
 import { currentChain } from '@/config/wagmi';
 import * as React from 'react';
@@ -133,7 +133,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     };
   }, [tMessages]);
 
-  // 添加此方法用于检查IAO是否成功
+  // 检查IAO是否成功 - 简化版本，直接调用合约的isSuccess方法
   const checkIsSuccess = useCallback(async (): Promise<boolean> => {
     try {
       if (!iaoContractAddress) return false;
@@ -145,26 +145,22 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
       const contractABI = getContractABI(symbol);
 
-      console.log(iaoContractAddress, 'iaoContractAddress')
-      console.log(contractABI, 'contractABI')
+      // 首先检查 IAO 是否已经结束
+      const endTime = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: 'endTime',
+      });
 
-      // UserAgent IAO合约有isSuccess方法，XAA的没有
+      const isIAOEnded = Date.now() > Number(endTime) * 1000;
+
+      // 如果 IAO 还没有结束，直接返回 false
+      if (!isIAOEnded) {
+        return false;
+      }
+
+      // UserAgent IAO合约有isSuccess方法，直接调用
       if (symbol !== 'XAA') {
-        // 首先检查 IAO 是否已经结束
-        const endTime = await publicClient.readContract({
-          address: iaoContractAddress,
-          abi: contractABI,
-          functionName: 'endTime',
-        });
-
-        const isIAOEnded = Date.now() > Number(endTime) * 1000;
-
-        // 如果 IAO 还没有结束，直接返回 false
-        if (!isIAOEnded) {
-          return false;
-        }
-
-        // IAO 已经结束，检查 isSuccess 方法
         try {
           const isSuccess = await publicClient.readContract({
             address: iaoContractAddress,
@@ -174,18 +170,11 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
           return !!isSuccess;
         } catch (error) {
           console.error('Failed to check isSuccess:', error);
-          // 如果合约没有isSuccess方法，IAO已结束就认为成功
           return false;
         }
       } else {
-        // 对于XAA，根据时间判断
-        const endTime = await publicClient.readContract({
-          address: iaoContractAddress,
-          abi: contractABI,
-          functionName: 'endTime',
-        });
-
-        return Date.now() > Number(endTime) * 1000;
+        // 对于XAA，根据时间判断（保持原有逻辑）
+        return true; // IAO已结束
       }
     } catch (error) {
       console.error('Failed to check IAO success status:', error);
@@ -972,6 +961,77 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     }
   }, [walletClient, address, isContractOwner, iaoContractAddress, symbol, fetchPoolInfo]);
 
+  // 获取筹资进度信息
+  const getIaoProgress = useCallback(async () => {
+    if (!iaoContractAddress || !walletClient) {
+      return {
+        totalDeposited: '0',
+        investorCount: 0,
+        targetAmount: '1500', // 1500 USD 目标
+        progressPercentage: '0',
+        remainingAmount: '1500',
+        currentUsdValue: '0'
+      };
+    }
+
+    try {
+      const publicClient = createPublicClient({
+        chain: currentChain,
+        transport: custom(walletClient.transport),
+      });
+
+      const contractABI = getContractABI(symbol);
+
+      // 获取总投资金额
+      const totalDeposited = await publicClient.readContract({
+        address: iaoContractAddress,
+        abi: contractABI,
+        functionName: totalDepositedFunctionName,
+      });
+
+      // 获取投资人数 - 通过事件日志或者遍历用户地址
+      // 这里先返回一个占位值，后续可以通过事件日志优化
+      let investorCount = 0;
+      try {
+        // 可以通过查询 Deposit 事件来获取投资人数
+        // 这里先用简化的方式
+        investorCount = Number(totalDeposited) > 0 ? 1 : 0; // 临时实现
+      } catch (error) {
+        console.warn('Failed to get investor count:', error);
+      }
+
+      const totalDepositedNum = Number(formatEther(totalDeposited as bigint));
+      const targetAmount = 1500; // 1500 USD 目标
+
+      // 这里需要获取 XAA 价格来计算 USD 等值
+      // 暂时假设 XAA = 1 USD，后续可以集成价格预言机
+      const xaaPrice = 1; // USD per XAA
+      const currentUsdValue = totalDepositedNum * xaaPrice;
+
+      const progressPercentage = Math.min((currentUsdValue / targetAmount) * 100, 100);
+      const remainingAmount = Math.max(targetAmount - currentUsdValue, 0);
+
+      return {
+        totalDeposited: totalDepositedNum.toFixed(2),
+        investorCount,
+        targetAmount: targetAmount.toString(),
+        progressPercentage: progressPercentage.toFixed(1),
+        remainingAmount: remainingAmount.toFixed(2),
+        currentUsdValue: currentUsdValue.toFixed(2)
+      };
+    } catch (error) {
+      console.error('Failed to get IAO progress:', error);
+      return {
+        totalDeposited: '0',
+        investorCount: 0,
+        targetAmount: '1500',
+        progressPercentage: '0',
+        remainingAmount: '1500',
+        currentUsdValue: '0'
+      };
+    }
+  }, [iaoContractAddress, symbol, walletClient, totalDepositedFunctionName]);
+
   return {
     poolInfo,
     isLoading,
@@ -985,5 +1045,6 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     getContractOwner,
     isContractOwner,
     updateIaoTimes,
+    getIaoProgress,
   };
 }; 

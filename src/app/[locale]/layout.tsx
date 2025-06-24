@@ -8,6 +8,7 @@ import {routing} from '@/i18n/routing';
 import ContextProvider from '../../../context';
 import { Toaster } from '@/components/Toaster';
 import Navbar from '@/components/Navbar';
+import VConsole from '@/components/VConsole';
 import './globals.css';
 import './fonts.css';
 import Script from 'next/script';
@@ -60,6 +61,7 @@ export default async function LocaleLayout({
               <div className="flex-1">{children}</div>
             </div>
             <Toaster />
+            <VConsole />
           </ContextProvider>
         </NextIntlClientProvider>
       </body>
