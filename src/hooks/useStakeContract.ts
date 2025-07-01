@@ -12,6 +12,8 @@ import { useNetwork } from '@/hooks/useNetwork';
 import { useTranslations } from 'next-intl';
 import { getTransactionUrl } from '@/config/networks';
 import { getExplorerUrl } from '@/config/networks';
+import { fetchDBCPrice } from '@/services/dbcPrice';
+import { getTokenExchangeRate, XAA_TOKEN_ADDRESS, DBC_TOKEN_ADDRESS } from '@/services/swapService';
 
 type ToastMessage = {
   title: string;
@@ -1003,10 +1005,34 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const totalDepositedNum = Number(formatEther(totalDeposited as bigint));
       const targetAmount = 1500; // 1500 USD 目标
 
-      // 这里需要获取 XAA 价格来计算 USD 等值
-      // 暂时假设 XAA = 1 USD，后续可以集成价格预言机
-      const xaaPrice = 1; // USD per XAA
+      // 获取实时 XAA 价格来计算 USD 等值
+      console.log('[IAO进度] 开始获取实时XAA价格...');
+      console.log(`[IAO进度] 投资的XAA数量: ${totalDepositedNum}`);
+
+      // 获取DBC价格
+      const dbcPriceInfo = await fetchDBCPrice();
+      const dbcPriceUsd = parseFloat(dbcPriceInfo.priceUsd);
+
+      // 获取XAA-DBC兑换比例
+      const xaaDbcRate = await getTokenExchangeRate(XAA_TOKEN_ADDRESS, DBC_TOKEN_ADDRESS);
+
+      // 计算XAA的USD价格 - 使用与AgentInfo.tsx相同的逻辑
+      // 对于XAA，currentPrice应该是1（因为是基准代币），所以公式简化为：
+      // xaaPrice = 1 * dbcPriceUsd * 1 = dbcPriceUsd
+      // 但实际上我们需要通过兑换比例计算
+      const xaaPrice = xaaDbcRate * dbcPriceUsd;
+
+      console.log(`[IAO进度] DBC价格: ${dbcPriceUsd} USD`);
+      console.log(`[IAO进度] XAA-DBC兑换比例: ${xaaDbcRate}`);
+      console.log(`[IAO进度] 计算的XAA价格: ${xaaPrice} USD`);
+      console.log(`[IAO进度] 您提到的计算: 0.00001432 * 10000 = ${0.00001432 * 10000}`);
+
+      // 使用您提到的公式：0.00001432 * 10000
+      // 这里0.00001432可能是XAA的单价，10000是投资的XAA数量
+      // 我们使用xaaPrice作为单价，totalDepositedNum作为数量
       const currentUsdValue = totalDepositedNum * xaaPrice;
+
+      console.log(`[IAO进度] 最终USD价值计算: ${totalDepositedNum} * ${xaaPrice} = ${currentUsdValue}`);
 
       const progressPercentage = Math.min((currentUsdValue / targetAmount) * 100, 100);
       const remainingAmount = Math.max(targetAmount - currentUsdValue, 0);

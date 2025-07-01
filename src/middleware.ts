@@ -42,11 +42,18 @@ const authRoutes = [
   '/api/user/profile',
   '/api/user/settings',
   '/api/user/assets',
+  '/api/token/distribute',
 ];
 
 // 需要根据方法进行身份验证的路由
 const methodAuthRoutes = [
   { path: '/api/agents/[id]', methods: ['POST', 'PUT', 'DELETE', 'PATCH'] },
+  { path: '/api/agents/[id]/transfer-ownership', methods: ['POST'] },
+  { path: '/api/agents/[id]/burn-tokens', methods: ['POST'] },
+  { path: '/api/agents/[id]/tasks', methods: ['GET'] },
+  { path: '/api/agents/create-token', methods: ['POST'] },
+  { path: '/api/agents/[id]/deploy-payment-contract', methods: ['POST'] },
+  { path: '/api/agents/[id]/add-liquidity', methods: ['POST'] },
 ];
 
 // 检查路径是否匹配

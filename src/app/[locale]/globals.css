@@ -118,3 +118,16 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Force override for animation speeds */
+.animate-wave {
+  animation: wave 4s ease-in-out infinite !important;
+}
+
+.animate-subtle-bounce {
+  animation: subtle-bounce 3s ease-in-out infinite !important;
+}
+
+.animate-arrow-move {
+  animation: arrow-move 2.5s ease-in-out infinite !important;
+}

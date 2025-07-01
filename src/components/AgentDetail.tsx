@@ -27,27 +27,36 @@ export function AgentDetail({ id }: AgentDetailProps) {
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations('agentDetail');
 
-  useEffect(() => {
-    const fetchAgent = async () => {
-      try {
+  const fetchAgent = async (showGlobalLoading = true) => {
+    try {
+      if (showGlobalLoading) {
         setIsLoading(true);
-        const res = await agentAPI.getAgentById((id)) as unknown as ApiResponse<LocalAgent>;
+      }
+      const res = await agentAPI.getAgentById((id)) as unknown as ApiResponse<LocalAgent>;
 
-        console.log("fetchAgent res", res);
-        const agent = await agentAPI.getAgentById((id));
-        if (res.code === 200 && res.data) {
-          console.log("res.data1", res.data);
+      console.log("fetchAgent res", res);
+      const agent = await agentAPI.getAgentById((id));
+      if (res.code === 200 && res.data) {
+        console.log("res.data1", res.data);
 
-          setAgent(res.data);
-        }
+        setAgent(res.data);
+      }
 
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t('fetchError'));
-      } finally {
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('fetchError'));
+    } finally {
+      if (showGlobalLoading) {
         setIsLoading(false);
       }
-    };
+    }
+  };
 
+  // 刷新代理数据（不显示全局加载）
+  const refreshAgent = async () => {
+    await fetchAgent(false);
+  };
+
+  useEffect(() => {
     fetchAgent();
   }, [id, t]);
 
@@ -63,7 +72,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
         <div className="lg:col-span-2 space-y-6 lg:space-y-0">
           {/* 移动端IaoPool */}
           <div className="md:hidden ">
-            {agent && <IaoPool agent={agent} />}
+            {agent && <IaoPool agent={agent} onRefreshAgent={refreshAgent} />}
           </div>
           {/* Agent信息卡片 */}
           <AgentInfo agent={agent as any} currentPrice={0} />
@@ -79,7 +88,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
 
           {/* pc端IaoPool */}
           <div className="md:block hidden">
-            {agent && <IaoPool agent={agent} />}
+            {agent && <IaoPool agent={agent} onRefreshAgent={refreshAgent} />}
           </div>
 
           {/* 代币信息卡片 */}

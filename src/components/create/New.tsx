@@ -113,13 +113,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         name: '',
         symbol: '',
         description: '',
-        price: '',
         containerLink: '',
         twitterLink: '',
         telegramLink: '',
         tokenSupply: '100000000000',
         iaoPercentage: '15%',
-        miningRate: `${t("mining")}`,
+        miningRate: '6', // 默认每年可挖矿6%的总供应量
         userFirst: '',
         userSecond: '',
         userThird: '',
@@ -534,7 +533,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 프로젝트 기간: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 일\n4. DBCSwap에 거래쌍 설립`
                 }),
                 iaoTokenAmount: 20000000000,
-                miningRate: '0.1%'
+                miningRate: parseFloat(formData.miningRate) || 6 // 转换为数字，默认6%
             };
 
             // 如果是编辑模式，添加时间更新信息
@@ -861,13 +860,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         name: agentData.name || '',
                         symbol: agentData.symbol || '',
                         description: agentData.description || '',
-                        price: agentData.iaoTokenAmount ? (Number(agentData.iaoTokenAmount) / 1e18).toString() : '',  // 转换 wei 到标准单位
                         containerLink: agentData.containerLink ? agentData.containerLink.replace('https://', '') : '',  // 移除https://前缀
                         twitterLink: twitterLink,
                         telegramLink: telegramLink,
                         tokenSupply: agentData.totalSupply?.toString() || '100000000000',
                         iaoPercentage: '15%',
-                        miningRate: `${t("mining")}`,
+                        miningRate: '6', // 默认每年可挖矿6%的总供应量
                         userFirst: '',
                         userSecond: '',
                         userThird: '',
@@ -1018,6 +1016,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                     <div className="text-gray-400 text-sm">
                                         {formData.description.length}/500
                                     </div>
+                                </div>
+                                <div className="text-gray-400 text-xs mt-1 italic">
+                                    {t("descriptionExample")}
                                 </div>
                                 {descriptionError && (
                                     <div className="text-red-500 text-sm mt-1">{t("descriptionRequired")}</div>
@@ -1204,32 +1205,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
                             {/* 可选字段部分 */}
 
-                            {/* 1. 价格字段 (可选) */}
-                            <div>
-                                <label className="block mb-2">{t("price")}</label>
-                                <div className="relative">
-                                    <div className="flex items-center bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
-                                        <input
-                                            name="price"
-                                            type="text"
-                                            inputMode="numeric"
-                                            value={formData.price}
-                                            onChange={(e) => {
-                                                // Only allow numbers
-                                                const value = e.target.value.replace(/[^0-9.]/g, '').replace(/^\./g, '').replace(/\.+/g, '.');
-                                                setFormData(prev => ({ ...prev, price: value }));
-                                            }}
-                                            className="flex-1 bg-transparent focus:outline-none min-w-0"
-                                            placeholder="0"
-                                        />
-                                        <div className="ml-2 bg-gray-100 dark:bg-card-inner opacity-75 rounded-full px-3 py-1 text-sm whitespace-nowrap">
-                                            {formData.symbol || "TOKEN"} / {t("time")}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* 2. 代币供应量、挖矿率、IAO比例 (三列网格布局) */}
+                            {/* 1. 代币供应量、挖矿率、IAO比例 (三列网格布局) */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block mb-2">{t("tokenSupply")}</label>
@@ -1243,14 +1219,22 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2">{t("miningRate")}</label>
+                                    <label className="block mb-2">{t("miningRate")} (%)</label>
                                     <input
                                         name="miningRate"
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        step="0.1"
                                         value={formData.miningRate}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
                                         disabled
+                                        onChange={handleChange}
+                                        placeholder="每年可挖矿的代币比例 (如: 6 表示6%)"
+                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
                                     />
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        每年可挖矿的代币数量 = 总供应量 × {formData.miningRate}%
+                                    </div>
                                 </div>
 
                                 <div>
@@ -1265,7 +1249,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             </div>
 
-                            {/* 3. 容器链接 (可选) */}
+                            {/* 2. 容器链接 (可选) */}
                             <div>
                                 <label className="block mb-2">
                                     {t("container")} <span className="text-gray-500 text-sm">({t("optional")})</span>
@@ -1297,7 +1281,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 4. 推特链接 (可选) */}
+                            {/* 3. 推特链接 (可选) */}
                             <div>
                                 <label className="block mb-2">
                                     {t("twitterLink")} <span className="text-gray-500 text-sm">({t("optional")})</span>
@@ -1315,7 +1299,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 5. Telegram链接 (可选) */}
+                            {/* 4. Telegram链接 (可选) */}
                             <div>
                                 <label className="block mb-2">
                                     {t("telegramLink")} <span className="text-gray-500 text-sm">({t("optional")})</span>
@@ -1336,7 +1320,10 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             {/* 对话示例部分 */}
                             <div className="mt-6">
                                 <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
+                                    <div className="flex items-center gap-2">
+                                        <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
+                                        <span className="text-gray-500 text-sm">({t("optional")})</span>
+                                    </div>
                                     <button
                                         onClick={generateUseCases}
                                         disabled={generatingUseCases || !formData.description}

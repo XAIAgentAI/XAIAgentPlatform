@@ -83,13 +83,37 @@ module.exports = {
           "100%": { opacity: 0.4 }
         },
         "smoothShine": {
-          '0%': { 
-            transform: 'translateX(-100%)', 
-            opacity: '0.3' 
+          '0%': {
+            transform: 'translateX(-100%)',
+            opacity: '0.3'
           },
-          '100%': { 
-            transform: 'translateX(100%)', 
-            opacity: '0.3' 
+          '100%': {
+            transform: 'translateX(100%)',
+            opacity: '0.3'
+          },
+        },
+        "wave": {
+          '0%, 100%': {
+            transform: 'translateX(-100%)',
+          },
+          '50%': {
+            transform: 'translateX(100%)',
+          },
+        },
+        "subtle-bounce": {
+          '0%, 100%': {
+            transform: 'translateY(0) scale(1)',
+          },
+          '50%': {
+            transform: 'translateY(-4px) scale(1.02)',
+          },
+        },
+        "arrow-move": {
+          '0%, 100%': {
+            transform: 'translateX(0)',
+          },
+          '50%': {
+            transform: 'translateX(5px)',
           },
         },
        "combined": {
@@ -137,8 +161,11 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-ball": "scaleBall 1.5s infinite ease-in-out",
-        "chatthink": "fade-left-to-right 2s linear infinite"
-      },      
+        "chatthink": "fade-left-to-right 2s linear infinite",
+        "wave": "wave 4s ease-in-out infinite",
+        "subtle-bounce": "subtle-bounce 3s ease-in-out infinite",
+        "arrow-move": "arrow-move 2.5s ease-in-out infinite",
+      },
     },
   },
   plugins: [

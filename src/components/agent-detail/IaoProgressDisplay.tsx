@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface IaoProgressData {
   totalDeposited: string;
@@ -17,6 +18,7 @@ interface IaoProgressDisplayProps {
   startTime?: number;
   endTime?: number;
   isPoolInfoLoading?: boolean;
+  isRefreshing?: boolean;
 }
 
 export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
@@ -26,8 +28,10 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
   isCreator,
   startTime,
   endTime,
-  isPoolInfoLoading
+  isPoolInfoLoading,
+  isRefreshing
 }) => {
+  const t = useTranslations('iaoPool');
   // 如果没有获取到开始时间和结束时间，不显示组件
   if (!startTime || !endTime) {
     return null;
@@ -53,7 +57,7 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
       <div className="bg-gray-50 p-4 rounded-lg space-y-3 mb-4 mt-4">
         <div className="flex justify-center items-center">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
-          <span className="ml-2 text-sm text-gray-600">加载筹资信息中...</span>
+          <span className="ml-2 text-sm text-gray-600">{t('loadingFundingInfo')}</span>
         </div>
       </div>
     );
@@ -62,9 +66,22 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
 
 
   return (
-    <div className="bg-green-50 p-4 rounded-lg space-y-3 mb-4 mt-4">
+    <div className="relative bg-green-50 p-4 rounded-lg space-y-3 mb-4 mt-4">
+      {/* 刷新状态覆盖层 */}
+      {isRefreshing && (
+        <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{t('updatingData')}</span>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-700">实时筹资进度</span>
+        <span className="text-sm font-medium text-gray-700">{t('realTimeFundingProgress')}</span>
         <span className="text-sm font-semibold text-green-600">
           {iaoProgress.progressPercentage}%
         </span>
@@ -81,7 +98,7 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
       {/* 详细信息 */}
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span className="text-gray-600">已筹集:</span>
+          <span className="text-gray-600">{t('raised')}:</span>
           <div className="font-semibold text-green-600">
             ${iaoProgress.currentUsdValue} USD
           </div>
@@ -90,19 +107,19 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
           </div>
         </div>
         <div>
-          <span className="text-gray-600">目标:</span>
+          <span className="text-gray-600">{t('target')}:</span>
           <div className="font-semibold text-gray-800">
             ${iaoProgress.targetAmount} USD
           </div>
         </div>
         <div>
-          <span className="text-gray-600">投资人数:</span>
+          <span className="text-gray-600">{t('investors')}:</span>
           <div className="font-semibold text-blue-600">
-            {iaoProgress.investorCount} 人
+            {iaoProgress.investorCount} {t('people')}
           </div>
         </div>
         <div>
-          <span className="text-gray-600">还需:</span>
+          <span className="text-gray-600">{t('remaining')}:</span>
           <div className="font-semibold text-orange-600">
             ${iaoProgress.remainingAmount} USD
           </div>
@@ -111,7 +128,7 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
 
       {/* 进度提示 */}
       <div className="mt-3 p-2 bg-blue-100 rounded text-xs text-blue-700">
-        💡 筹资进度每30秒自动更新，目标金额为 $1500 USD
+        💡 {t('progressTip')}
       </div>
     </div>
   );

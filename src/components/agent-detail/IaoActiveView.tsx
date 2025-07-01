@@ -4,6 +4,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
@@ -29,7 +30,7 @@ interface IaoActiveViewProps {
   isConnected: boolean;
   onStake: () => void;
   onSetMaxAmount: () => void;
-  onTimeModalOpen: () => void;
+  onRefresh?: () => void | Promise<void>;
   isContractOwner?: () => Promise<boolean>;
 }
 
@@ -51,10 +52,23 @@ export const IaoActiveView = ({
   isConnected,
   onStake,
   onSetMaxAmount,
-  onTimeModalOpen,
+  onRefresh,
   isContractOwner
 }: IaoActiveViewProps) => {
   const t = useTranslations('iaoPool');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // 处理刷新
+  const handleRefresh = async () => {
+    if (onRefresh) {
+      setIsRefreshing(true);
+      try {
+        await onRefresh();
+      } finally {
+        setIsRefreshing(false);
+      }
+    }
+  };
 
   const formatNumber = (value: string | number, decimals: number = 2): string => {
     if (!value || value === '0') return '0';
@@ -118,7 +132,20 @@ export const IaoActiveView = ({
   };
 
   const renderPoolInfo = () => (
-    <div className="space-y-3 sm:space-y-4">
+    <div className="relative space-y-3 sm:space-y-4">
+      {/* 刷新状态覆盖层 */}
+      {isRefreshing && (
+        <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{t('updatingData')}</span>
+          </div>
+        </div>
+      )}
+
       {/* 状态指示器 */}
       <div className="flex items-center gap-2 mb-4">
         <div className={`w-2 h-2 rounded-full ${
@@ -131,7 +158,7 @@ export const IaoActiveView = ({
           !isIaoStarted ? 'text-blue-500' :
           isIaoActive ? 'text-green-500' : 'text-red-500'
         }`}>
-          IAO {!poolInfo?.startTime ? '未开始' : !isIaoStarted ? '即将开始' : isIaoActive ? '进行中' : '已结束'}
+          IAO {!poolInfo?.startTime ? t('notStarted') : !isIaoStarted ? t('comingSoon') : isIaoActive ? t('inProgress') : t('ended')}
         </span>
       </div>
 
@@ -186,7 +213,20 @@ export const IaoActiveView = ({
     if (isIaoEnded) return null;
 
     return (
-      <div className="mt-0 pt-4 sm:pt-6 bg-muted rounded-lg">
+      <div className="relative mt-0 pt-4 sm:pt-6 bg-muted rounded-lg">
+        {/* 刷新状态覆盖层 */}
+        {isRefreshing && (
+          <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{t('updatingData')}</span>
+            </div>
+          </div>
+        )}
+
         <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('youSend')}</h3>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -219,7 +259,7 @@ export const IaoActiveView = ({
         </div>
 
         <div className="text-xs text-gray-500 mt-1">
-          可用余额: {`${formatNumber(agent.symbol === 'XAA' ? maxAmount : xaaBalance)} ${agent.symbol === 'XAA' ? 'DBC' : 'XAA'}`}
+          {t('availableBalance')}: {`${formatNumber(agent.symbol === 'XAA' ? maxAmount : xaaBalance)} ${agent.symbol === 'XAA' ? 'DBC' : 'XAA'}`}
         </div>
 
         <Button
@@ -238,7 +278,20 @@ export const IaoActiveView = ({
     if (!userStakeInfo.userDeposited || Number(userStakeInfo.userDeposited) <= 0) return null;
 
     return (
-      <div className="space-y-3 mt-4">
+      <div className="relative space-y-3 mt-4">
+        {/* 刷新状态覆盖层 */}
+        {isRefreshing && (
+          <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{t('updatingData')}</span>
+            </div>
+          </div>
+        )}
+
         <div>
           <p className="text-sm text-muted-foreground">
             {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
@@ -255,20 +308,33 @@ export const IaoActiveView = ({
     <>
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-2 sm:mb-4 justify-between items-start sm:items-center">
         <h2 className="text-xl sm:text-2xl font-bold mb-0">{t('title')}</h2>
-        {isCreator && !isIaoEnded && (
-          <Button
-            className="w-full sm:w-fit text-sm sm:text-base flex items-center justify-center gap-2"
-            style={{ backgroundColor: '#F47521', borderColor: '#F47521' }}
-            onClick={onTimeModalOpen}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-4 sm:h-4">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12,6 12,12 16,14" />
-            </svg>
-            <span>{t('updateIaoTime')}</span>
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full sm:w-fit text-sm sm:text-base flex items-center justify-center gap-2"
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+        >
+          {isRefreshing ? (
+            <>
+              <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{t('refreshing')}</span>
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>{t('refresh')}</span>
+            </>
+          )}
+        </Button>
       </div>
+
+
 
       {renderPoolInfo()}
 
@@ -282,6 +348,7 @@ export const IaoActiveView = ({
           startTime={poolInfo?.startTime}
           endTime={poolInfo?.endTime}
           isPoolInfoLoading={isPoolInfoLoading}
+          isRefreshing={isRefreshing}
         />
       )}
 

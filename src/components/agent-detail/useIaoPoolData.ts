@@ -79,7 +79,8 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     getUserStakeInfo,
     checkIsSuccess,
     isContractOwner,
-    getIaoProgress
+    getIaoProgress,
+    fetchPoolInfo
   } = useStakeContract(tokenAddress as `0x${string}`, iaoContractAddress as `0x${string}`, agent.symbol || '');
 
   // 检查是否是创建者
@@ -153,12 +154,20 @@ export const useIaoPoolData = (agent: LocalAgent) => {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.code === 200) {
+        console.log('Token creation task API response:', data);
+
+        if (data.code === 200 && data.data && Array.isArray(data.data.tasks)) {
           const createTokenTask = data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
           if (createTokenTask) {
             setTokenCreationTask(createTokenTask);
           }
+        } else {
+          console.warn('Unexpected API response structure:', data);
         }
+      } else {
+        console.error('API request failed with status:', response.status);
+        const errorData = await response.json().catch(() => null);
+        console.error('Error response:', errorData);
       }
     } catch (error) {
       console.error('Failed to fetch token creation task:', error);
@@ -252,12 +261,12 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     poolInfo,
     isCreator,
     isIAOEnded,
-    
+
     // 加载状态
     isStakeLoading,
     isPoolInfoLoading,
     isUserStakeInfoLoading,
-    
+
     // 方法
     stake,
     claimRewards,
@@ -266,7 +275,8 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     fetchTokenCreationTask,
     fetchIaoProgress,
     checkIaoStatus,
-    
+    fetchPoolInfo,
+
     // 便捷访问
     address,
     isConnected,

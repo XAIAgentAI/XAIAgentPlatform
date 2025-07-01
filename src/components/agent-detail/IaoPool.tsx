@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
 import { useToast } from '@/components/ui/use-toast';
 import { useNetwork } from '@/hooks/useNetwork';
-import { PaymentContractModal } from './PaymentContractModal';
-import { UpdateIaoTimeModal } from './UpdateIaoTimeModal';
+// import { PaymentContractModal } from './PaymentContractModal';
+// import { UpdateIaoTimeModal } from './UpdateIaoTimeModal';
 import { IaoEndedView } from './IaoEndedView';
 import { IaoActiveView } from './IaoActiveView';
 import { useIaoPoolData } from './useIaoPoolData';
@@ -20,16 +20,17 @@ import type { LocalAgent } from "@/types/agent";
 
 interface IaoPoolProps {
   agent: LocalAgent;
+  onRefreshAgent?: () => void | Promise<void>;
 }
 
-export const IaoPool = ({ agent }: IaoPoolProps) => {
+export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   const t = useTranslations('iaoPool');
   const { toast } = useToast();
   const { ensureCorrectNetwork } = useNetwork();
-  
-  // 模态框状态
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
+
+  // 模态框状态 - 暂时移除支付合约和修改时间功能
+  // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  // const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
 
@@ -56,6 +57,7 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
     fetchTokenCreationTask,
     fetchIaoProgress,
     checkIaoStatus,
+    fetchPoolInfo,
     address,
     isConnected,
     isAuthenticated
@@ -146,13 +148,13 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
     try {
       const formattedAmount = Number(dbcAmount).toFixed(18);
       const result = await stake(formattedAmount, agent.symbol || '', agent.tokenAddress || '');
-      
+
       if (result && result.hash) {
-        const successMessage = t('sendSuccess', { 
-          amount: Number(formattedAmount).toFixed(2), 
-          symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' 
+        const successMessage = t('sendSuccess', {
+          amount: Number(formattedAmount).toFixed(2),
+          symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA'
         });
-        
+
         toast({
           variant: "default",
           title: t('success'),
@@ -160,7 +162,12 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
         });
 
         setDbcAmount('');
-        await fetchUserStakeInfo();
+        // 立即更新用户质押信息和IAO进度
+        await Promise.all([
+          fetchUserStakeInfo(),
+          fetchIaoProgress()
+        ]);
+        console.log('[投资成功] 已更新用户质押信息和IAO进度');
       } else {
         throw new Error(t('transactionFailed'));
       }
@@ -204,10 +211,10 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
     try {
       setIsClaiming(true);
       const result: any = await claimRewards();
-      
+
       if (result?.success) {
         await fetchUserStakeInfo();
-        
+
         toast({
           title: t('claimSuccess'),
           description: `${t('tokenSentToWallet')} ${t('importTokenAddress')}: ${agent.tokenAddress}`,
@@ -238,11 +245,18 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
   /**
    * 刷新数据
    */
-  const handleRefreshData = useCallback(() => {
+  const handleRefreshData = useCallback(async () => {
+    // 首先刷新代理信息
+    if (onRefreshAgent) {
+      await onRefreshAgent();
+    }
+
+    // 然后刷新IAO相关数据
+    fetchPoolInfo(); // 刷新池子信息（包含IAO时间、总奖励等）
     fetchUserStakeInfo();
     fetchIaoProgress();
     checkIaoStatus();
-  }, [fetchUserStakeInfo, fetchIaoProgress, checkIaoStatus]);
+  }, [fetchPoolInfo, fetchUserStakeInfo, fetchIaoProgress, checkIaoStatus, onRefreshAgent]);
 
   /**
    * 渲染DBCSwap跳转按钮
@@ -255,38 +269,42 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
         onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
         aria-label={t('goToDbcswap', { symbol: agent.symbol })}
       >
+        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 animate-wave" />
         <span className="relative z-10 font-medium">
           {t('goToDbcswap', { symbol: agent.symbol })}
         </span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="ml-1 sm:w-4 sm:h-4"
-        >
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-          <polyline points="15 3 21 3 21 9" />
-          <line x1="10" y1="14" x2="21" y2="3" />
-        </svg>
+        <div className="relative z-10 flex items-center animate-arrow-move">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="ml-1 sm:w-4 sm:h-4"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          <div className="absolute left-0 w-5 h-5 bg-white/30 rounded-full blur-sm -z-10 animate-ping" />
+        </div>
       </Button>
     </div>
   );
 
   // 检查是否可以领取
-  const canClaim = !isClaiming && 
-                   !userStakeInfo.hasClaimed && 
-                   Number(userStakeInfo.userDeposited) > 0;
+  const canClaim = !isClaiming &&
+    !userStakeInfo.hasClaimed &&
+    Number(userStakeInfo.userDeposited) > 0;
 
   return (
     <Card className="p-4 sm:p-6">
       {renderDbcSwapButton()}
-      
+
       {isIAOEnded ? (
         <IaoEndedView
           agent={agent}
@@ -298,8 +316,6 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
           tokenCreationTask={tokenCreationTask}
           isPoolInfoLoading={isPoolInfoLoading}
           onCreateToken={handleCreateToken}
-          onPaymentModalOpen={() => setIsPaymentModalOpen(true)}
-          onTimeModalOpen={() => setIsUpdateTimeModalOpen(true)}
           onClaimRewards={handleClaimRewards}
           onRefreshStatus={handleRefreshData}
           isCreating={isCreating}
@@ -325,13 +341,13 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
           isConnected={isConnected}
           onStake={handleStake}
           onSetMaxAmount={handleSetMaxAmount}
-          onTimeModalOpen={() => setIsUpdateTimeModalOpen(true)}
+          onRefresh={handleRefreshData}
           isContractOwner={isContractOwner}
         />
       )}
 
-      {/* 模态框 */}
-      <PaymentContractModal
+      {/* 模态框 - 暂时注释支付合约和修改时间功能 */}
+      {/* <PaymentContractModal
         isOpen={isPaymentModalOpen}
         onOpenChange={setIsPaymentModalOpen}
         agentId={agent.id}
@@ -351,7 +367,7 @@ export const IaoPool = ({ agent }: IaoPoolProps) => {
         }}
         isLoading={false}
         isPoolInfoLoading={isPoolInfoLoading}
-      />
+      /> */}
     </Card>
   );
 };

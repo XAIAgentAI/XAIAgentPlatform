@@ -74,6 +74,17 @@ model Agent {
   iaoTokenAmount  Decimal?   // IAO代币数量字段
   iaoStartTime    BigInt?    // IAO开始时间戳
   iaoEndTime      BigInt?    // IAO结束时间戳
+  miningRate      Decimal?   // 挖矿速率（每年可挖矿的代币比例）
+  // Owner管理相关状态字段
+  ownerTransferred Boolean @default(false) // 代币owner是否已转移
+  liquidityAdded Boolean @default(false)   // 流动性是否已添加
+  tokensBurned Boolean @default(false)     // 代币是否已销毁
+  miningOwnerTransferred Boolean @default(false) // 挖矿合约owner是否已转移
+  // 池子相关字段
+  poolAddress String?                      // 流动性池地址
+  poolCreated Boolean @default(false)     // 池子是否已创建
+  initialLiquidityAmount Decimal?         // 初始流动性代币数量
+  initialXaaAmount Decimal?               // 初始流动性XAA数量
 }
 
 model Example {

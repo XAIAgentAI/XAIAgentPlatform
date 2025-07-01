@@ -71,6 +71,7 @@ export async function POST(request: Request) {
       projectDescription,
       iaoTokenAmount,
       containerLink,
+      miningRate,
     } = body;
 
     // 打印接收到的时间相关参数
@@ -195,6 +196,7 @@ export async function POST(request: Request) {
         tokenAddressTestnet: null,
         iaoContractAddressTestnet: null,
         projectDescription: projectDescription || null,
+        // miningRate: miningRate ? new Decimal(miningRate) : new Decimal(6), // 默认6% - 临时注释
       } as any,
     });
 
@@ -302,7 +304,7 @@ async function processTask(
         },
         body: JSON.stringify({
           duration_hours: taskData.durationHours || 72,
-          owner: agent.creator.address,
+          owner: process.env.SERVER_WALLET_ADDRESS,
           reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
           // 不传递 reward_token 参数，或传递 null
           reward_token: "0x0000000000000000000000000000000000000000",

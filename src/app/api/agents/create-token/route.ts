@@ -135,19 +135,30 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     // 从数据库中获取必要的参数
     const iaoContractAddress = agent.iaoContractAddress;
 
+    // 计算代币相关数量
+    // 重要：需要将数据库中的数值转换为 Wei 单位 (乘以 10^18)
+    const totalSupplyFromDB = agent.totalSupply ? BigInt(agent.totalSupply.toString()) : BigInt('100000000000'); // 默认1000亿个代币
+    const totalSupplyInWei = totalSupplyFromDB * BigInt('1000000000000000000'); // 转换为 Wei (乘以 10^18)
+
     // 计算IAO代币数量：总供应量 × IAO比例 (默认15%)
-    const totalSupply = agent.totalSupply ? BigInt(agent.totalSupply.toString()) : BigInt('100000000000000000000000000000'); // 默认1000亿
     const iaoPercentage = 15; // 15%
-    const amountToIAO = (totalSupply * BigInt(iaoPercentage) / BigInt(100)).toString();
+    const amountToIAO = (totalSupplyInWei * BigInt(iaoPercentage) / BigInt(100)).toString();
+
+    // 计算每年可挖矿的代币数量：总供应量 × 挖矿速率
+    const miningRateFromDB = agent.miningRate ? parseFloat(agent.miningRate.toString()) : 6; // 默认6%
+    const tokenAmountCanMintPerYear = (totalSupplyInWei * BigInt(Math.floor(miningRateFromDB * 100)) / BigInt(10000)).toString();
 
     console.log(`[Token创建] 开始为Agent ${agentId} 部署Token...`);
     console.log(`[Token创建] 创建者地址: ${agent.creator.address}`);
     console.log(`[Token创建] Token名称: ${agent.name.replace(/\s+/g, '')}`);
     console.log(`[Token创建] Token符号: ${agent.symbol}`);
     console.log(`[Token创建] IAO合约地址: ${iaoContractAddress}`);
-    console.log(`[Token创建] 总供应量: ${totalSupply.toString()}`);
+    console.log(`[Token创建] 数据库中的总供应量: ${totalSupplyFromDB.toString()}`);
+    console.log(`[Token创建] Wei单位的总供应量: ${totalSupplyInWei.toString()}`);
+    console.log(`[Token创建] 挖矿速率: ${miningRateFromDB}%`);
+    console.log(`[Token创建] 每年可挖矿代币数量(Wei): ${tokenAmountCanMintPerYear}`);
     console.log(`[Token创建] IAO比例: ${iaoPercentage}%`);
-    console.log(`[Token创建] 分配给IAO的代币数量: ${amountToIAO}`);
+    console.log(`[Token创建] 分配给IAO的代币数量(Wei): ${amountToIAO}`);
     
     // 开始处理，更新任务状态
     await prisma.task.update({
@@ -159,15 +170,18 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     });
     
     // 准备请求体 - 使用正确的字段名格式（下划线）
+    // 重要：owner设置为平台钱包地址，而不是创建者地址
+    // 重要：所有代币数量都必须转换为 Wei 单位
+    const { getServerWalletAddress } = await import('@/lib/server-wallet/config');
     const requestBody = {
-      owner: agent.creator.address,
-      token_amount_can_mint_per_year: agent.totalSupply ? agent.totalSupply.toString() : '1000000000000000000000000',
-      token_init_supply: agent.totalSupply ? agent.totalSupply.toString() : '1000000000000000000000000',
+      owner: getServerWalletAddress(), // 修改：使用平台钱包地址作为owner
+      token_amount_can_mint_per_year: tokenAmountCanMintPerYear, // 使用基于挖矿速率计算的值
+      token_init_supply: totalSupplyInWei.toString(), // 使用 Wei 单位
       token_name: agent.name.replace(/\s+/g, ''),
       token_supply_fixed_years: 8,
       token_symbol: agent.symbol,
       iao_contract_address: iaoContractAddress,
-      amount_to_iao: amountToIAO
+      amount_to_iao: amountToIAO // 已经是 Wei 单位
     };
 
     console.log(`[Token创建] 请求体:`, JSON.stringify(requestBody, null, 2));
