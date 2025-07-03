@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
@@ -42,6 +42,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     xaaBalance,
     isIaoSuccessful,
     tokenCreationTask,
+    distributionTask,
     userStakeInfo,
     iaoProgress,
     poolInfo,
@@ -63,6 +64,18 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     isAuthenticated
   } = useIaoPoolData(agent);
 
+  // 监听任务状态变化，重置 isCreating 状态
+  useEffect(() => {
+    console.log('🎯 Task status changed:', tokenCreationTask?.status, 'isCreating:', isCreating);
+    if (tokenCreationTask) {
+      // 当任务状态不再是处理中时，重置 isCreating
+      if (tokenCreationTask.status !== 'PENDING' && tokenCreationTask.status !== 'PROCESSING') {
+        console.log('✅ Resetting isCreating to false due to task status:', tokenCreationTask.status);
+        setIsCreating(false);
+      }
+    }
+  }, [tokenCreationTask?.status, isCreating]);
+
   /**
    * 创建Token
    */
@@ -79,6 +92,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     if (!isCorrectNetwork) return;
 
     try {
+      console.log('🚀 Starting token creation, setting isCreating to true');
       setIsCreating(true);
 
       const response = await fetch('/api/agents/create-token', {
@@ -95,11 +109,17 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       const data = await response.json();
 
       if (data.code === 200) {
+        console.log('✅ Token creation submitted successfully');
         toast({
           title: t('success'),
           description: t('tokenCreationSubmitted'),
         });
+        // 获取任务状态，但不立即设置 isCreating 为 false
+        // 让轮询机制接管状态管理
+        console.log('🔄 Fetching token creation task status...');
         await fetchTokenCreationTask();
+        console.log('📝 Task status fetched, keeping isCreating true until task status updates');
+        // 注意：这里不设置 setIsCreating(false)，让任务状态来控制UI
       } else {
         throw new Error(data.message || t('operationFailed'));
       }
@@ -109,7 +129,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         title: t('error'),
         description: error.message || t('operationFailed'),
       });
-    } finally {
+      // 只有在出错时才设置 isCreating 为 false
       setIsCreating(false);
     }
   }, [isCreator, isIaoSuccessful, agent.id, ensureCorrectNetwork, toast, t, fetchTokenCreationTask]);
@@ -259,6 +279,14 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   }, [fetchPoolInfo, fetchUserStakeInfo, fetchIaoProgress, checkIaoStatus, onRefreshAgent]);
 
   /**
+   * 处理支付模态框打开（暂时禁用）
+   */
+  const handlePaymentModalOpen = useCallback(() => {
+    // 支付模态框功能暂时被注释，这里提供空实现
+    console.log('支付模态框功能暂时禁用');
+  }, []);
+
+  /**
    * 渲染DBCSwap跳转按钮
    */
   const renderDbcSwapButton = () => (
@@ -314,8 +342,10 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
           isIaoSuccessful={isIaoSuccessful}
           isCreator={isCreator}
           tokenCreationTask={tokenCreationTask}
+          distributionTask={distributionTask}
           isPoolInfoLoading={isPoolInfoLoading}
           onCreateToken={handleCreateToken}
+          onPaymentModalOpen={handlePaymentModalOpen}
           onClaimRewards={handleClaimRewards}
           onRefreshStatus={handleRefreshData}
           isCreating={isCreating}

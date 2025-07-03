@@ -49,190 +49,9 @@ export class LiquidityDistributionManager {
     });
   }
 
-  /**
-   * 计算IAO结束后的代币价格（相对于XAA）
-   */
-  private async calculateTokenPriceAfterIao(agentId: string): Promise<number> {
-    try {
-      console.log(`💰 计算IAO结束后的代币价格 - Agent ID: ${agentId}`);
 
-      // 获取Agent信息
-      const agent = await prisma.agent.findUnique({
-        where: { id: agentId },
-        select: {
-          iaoContractAddress: true,
-          totalSupply: true
-        }
-      });
 
-      if (!agent?.iaoContractAddress) {
-        console.log('⚠️ 未找到IAO合约地址，无法计算真实价格');
-        throw new Error('IAO合约地址未设置，无法计算代币价格');
-      }
 
-      // 获取IAO合约的实际筹资数据
-      const iaoData = await this.getIaoContractData(agent.iaoContractAddress);
-
-      if (!iaoData.isSuccess) {
-        console.log('⚠️ IAO尚未成功，无法计算结束价格');
-        throw new Error('IAO尚未成功完成');
-      }
-
-      // 计算IAO结束价格
-      const iaoEndPrice = iaoData.totalRaised / iaoData.totalTokensSold; // USD per token
-
-      // 获取当前XAA价格（USD）
-      const xaaPrice = await this.getCurrentXaaPrice();
-
-      // 计算代币相对于XAA的价格，并上浮2%
-      const tokenToXaaPrice = (iaoEndPrice ) * 1.02;
-
-      console.log(`📊 IAO真实价格计算结果:`);
-      console.log(`  - IAO筹资总额: ${iaoData.totalRaised} USD`);
-      console.log(`  - IAO售出代币: ${iaoData.totalTokensSold}`);
-      console.log(`  - IAO结束价格: ${iaoEndPrice} USD/Token`);
-      console.log(`  - 当前XAA价格: ${xaaPrice} USD`);
-      console.log(`  - 代币/XAA价格比例: ${tokenToXaaPrice} (已上浮2%)`);
-
-      return tokenToXaaPrice;
-
-    } catch (error) {
-      console.error('❌ 计算代币价格失败:', error);
-      console.log('🔄 使用备用计算方法...');
-      return await this.calculateFallbackPrice(agentId);
-    }
-  }
-
-  /**
-   * 获取IAO合约数据
-   */
-  private async getIaoContractData(iaoContractAddress: string): Promise<{
-    isSuccess: boolean;
-    totalRaised: number;
-    totalTokensSold: number;
-  }> {
-    try {
-      console.log(`🔍 查询IAO合约数据: ${iaoContractAddress}`);
-
-      // 导入必要的依赖
-      const { createPublicClient, http } = await import('viem');
-      const { getContractABI } = await import('@/config/contracts');
-      const { dbcMainnet } = await import('@/config/networks');
-
-      // 创建公共客户端
-      const publicClient = createPublicClient({
-        chain: dbcMainnet,
-        transport: http()
-      });
-
-      // 获取合约ABI（非XAA代币使用UserAgent IAO ABI）
-      const contractABI = getContractABI('UserAgent');
-
-      // 1. 检查IAO是否成功
-      const [isSuccess, endTime, totalDeposited, totalDepositedWithNFT] = await Promise.all([
-        publicClient.readContract({
-          address: iaoContractAddress as `0x${string}`,
-          abi: contractABI,
-          functionName: 'isSuccess',
-        }).catch(() => false),
-
-        publicClient.readContract({
-          address: iaoContractAddress as `0x${string}`,
-          abi: contractABI,
-          functionName: 'endTime',
-        }).catch(() => BigInt(0)),
-
-        publicClient.readContract({
-          address: iaoContractAddress as `0x${string}`,
-          abi: contractABI,
-          functionName: 'totalDeposited',
-        }).catch(() => BigInt(0)),
-
-        publicClient.readContract({
-          address: iaoContractAddress as `0x${string}`,
-          abi: contractABI,
-          functionName: 'totalDepositedWithNFT',
-        }).catch(() => BigInt(0))
-      ]);
-
-      // 检查IAO是否已结束
-      const isIAOEnded = Date.now() > Number(endTime) * 1000;
-
-      if (!isIAOEnded) {
-        throw new Error('IAO尚未结束');
-      }
-
-      if (!isSuccess) {
-        throw new Error('IAO未成功');
-      }
-
-      // 2. 计算总筹资金额（USD）
-      // totalDeposited 是XAA数量，需要转换为USD
-      const xaaPrice = await this.getCurrentXaaPrice(); // USD per XAA
-      const totalDepositedNum = parseFloat((totalDeposited as bigint).toString()) / 1e18; // 转换为XAA数量
-      const totalRaisedUSD = totalDepositedNum * xaaPrice;
-
-      // 3. 计算售出的代币数量
-      // 根据IAO规则，15%的代币用于IAO
-      // 这里需要从Agent信息获取总供应量
-      const agent = await prisma.agent.findUnique({
-        where: { iaoContractAddress },
-        select: { totalSupply: true }
-      });
-
-      if (!agent?.totalSupply) {
-        throw new Error('无法获取代币总供应量');
-      }
-
-      const totalSupply = parseFloat(agent.totalSupply.toString());
-      const totalTokensSold = totalSupply * 0.15; // 15%用于IAO
-
-      console.log(`📊 IAO合约数据查询结果:`);
-      console.log(`  - IAO成功: ${isSuccess}`);
-      console.log(`  - 筹资XAA数量: ${totalDepositedNum}`);
-      console.log(`  - XAA价格: ${xaaPrice} USD`);
-      console.log(`  - 筹资总额: ${totalRaisedUSD} USD`);
-      console.log(`  - 售出代币数量: ${totalTokensSold}`);
-
-      return {
-        isSuccess: !!isSuccess,
-        totalRaised: totalRaisedUSD,
-        totalTokensSold: totalTokensSold
-      };
-
-    } catch (error) {
-      console.error('❌ 查询IAO合约失败:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * 备用价格计算方法
-   */
-  private async calculateFallbackPrice(agentId: string): Promise<number> {
-    console.log('🔄 使用备用价格计算方法');
-
-    // 如果无法获取真实IAO数据，使用合理的默认值
-    // 这个值应该基于项目的实际情况设定
-    const fallbackRatio = 0.0001; // 10000个代币 = 1个XAA
-
-    console.log(`⚠️ 使用备用价格比例: ${fallbackRatio}`);
-    return fallbackRatio;
-  }
-
-  /**
-   * 获取当前XAA价格（USD）
-   */
-  private async getCurrentXaaPrice(): Promise<number> {
-    try {
-      // 这里应该调用实际的价格API
-      // 目前返回一个模拟价格
-      return 0.00001432; // 示例XAA价格
-    } catch (error) {
-      console.error('❌ 获取XAA价格失败:', error);
-      return 0.00001432; // 默认XAA价格
-    }
-  }
 
   /**
    * 计算流动性分发数量
@@ -334,7 +153,11 @@ export class LiquidityDistributionManager {
       console.log(`  - 代币数量: ${tokenAmount} (${DISTRIBUTION_RATIOS.LIQUIDITY * 100}%)`);
       console.log(`  - XAA数量: ${xaaAmount}`);
 
-      // 2. 检查Agent状态
+      // 2. 计算IAO初始价格（基于投入比例）
+      const iaoPrice = parseFloat(xaaAmount) / parseFloat(tokenAmount);
+      console.log(`💰 IAO初始价格: ${iaoPrice} XAA/Token (${xaaAmount} XAA / ${tokenAmount} Token)`);
+
+      // 3. 检查Agent状态
       const agent = await prisma.agent.findUnique({
         where: { id: params.agentId }
       });
@@ -355,6 +178,7 @@ export class LiquidityDistributionManager {
       console.log(`  - tokenAddress: ${params.tokenAddress}`);
       console.log(`  - tokenAmount: ${tokenAmount}`);
       console.log(`  - xaaAmount: ${xaaAmount}`);
+      console.log(`  - 计算的IAO价格: ${iaoPrice}`);
 
       const addLiquidityParams: AddLiquidityParams = {
         tokenAddress: params.tokenAddress,
@@ -375,20 +199,9 @@ export class LiquidityDistributionManager {
         where: { id: params.agentId },
         data: {
           liquidityAdded: true,
-          // 如果有池子地址字段，也可以更新
-          // poolAddress: result.poolAddress
+          poolAddress: result.poolAddress // 保存池子地址到数据库
         }
       });
-
-      // 5. 记录历史
-      await prisma.history.create({
-        data: {
-          action: 'liquidity_distribution_success',
-          result: 'success',
-          agentId: params.agentId,
-        },
-      });
-
       console.log('✅ 流动性分发完成');
       console.log(`🏊 池子地址: ${result.poolAddress}`);
       console.log(`📝 交易哈希: ${result.txHash}`);
@@ -406,15 +219,7 @@ export class LiquidityDistributionManager {
       console.error('❌ 流动性分发失败:', error);
 
       // 记录失败历史
-      try {
-        await prisma.history.create({
-          data: {
-            action: 'liquidity_distribution_failed',
-            result: 'failed',
-            agentId: params.agentId,
-          },
-        });
-      } catch (dbError) {
+      try {      } catch (dbError) {
         console.error('记录失败历史时出错:', dbError);
       }
 

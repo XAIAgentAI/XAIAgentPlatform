@@ -86,15 +86,7 @@ export async function POST(
       },
     });
 
-    // 记录任务提交历史
-    await prisma.history.create({
-      data: {
-        action: 'add_liquidity_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
+
 
     // 在后台执行流动性添加任务
     processLiquidityAdditionTask(
@@ -147,15 +139,7 @@ async function processLiquidityAdditionTask(
       }
     });
 
-    // 记录开始处理的历史
-    await prisma.history.create({
-      data: {
-        action: 'add_liquidity_start',
-        result: 'processing',
-        agentId,
-        taskId,
-      },
-    });
+
 
     // 执行流动性添加
     console.log('💰 开始执行流动性添加...');
@@ -188,15 +172,7 @@ async function processLiquidityAdditionTask(
         }
       });
 
-      // 记录成功历史
-      await prisma.history.create({
-        data: {
-          action: 'add_liquidity_success',
-          result: 'success',
-          agentId,
-          taskId,
-        },
-      });
+
 
       console.log(`✅ 流动性添加任务 ${taskId} 完成成功`);
 
@@ -216,16 +192,7 @@ async function processLiquidityAdditionTask(
         }
       });
 
-      // 记录失败历史
-      await prisma.history.create({
-        data: {
-          action: 'add_liquidity_failed',
-          result: 'failed',
-          error: result.error,
-          agentId,
-          taskId,
-        },
-      });
+
 
       console.error(`❌ 流动性添加任务 ${taskId} 失败:`, result.error);
     }
@@ -247,15 +214,6 @@ async function processLiquidityAdditionTask(
       }
     });
 
-    // 记录错误历史
-    await prisma.history.create({
-      data: {
-        action: 'add_liquidity_error',
-        result: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
-        agentId,
-        taskId,
-      },
-    });
+
   }
 }

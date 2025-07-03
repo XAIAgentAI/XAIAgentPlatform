@@ -11,135 +11,121 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  address     String    @unique // 钱包地址
+  id          String   @id @default(uuid())
+  address     String   @unique // 钱包地址
   nickname    String?
   avatar      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  preferences String?   // JSON string
-  reviews     Review[]  // 用户发布的评价
-  agents      Agent[]   // 用户创建的 agents
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  preferences String? // JSON string
+  reviews     Review[] // 用户发布的评价
+  agents      Agent[] // 用户创建的 agents
 }
 
 model Agent {
-  id              String    @id @default(uuid())
-  name            String
-  description     String
-  longDescription String?
-  category        String
-  avatar          String?
-  status          String    @default("active")
-  capabilities    String    // JSON string array
-  rating          Float     @default(0)
-  usageCount      Int       @default(0)
-  marketCap       String    @default("0")
-  change24h       String    @default("0")
-  volume24h       String    @default("0")
-  creator         User      @relation(fields: [creatorId], references: [id])
-  creatorId       String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  examples        Example[]
-  reviews         Review[]
-  history         History[]
-  prices          AgentPrice[]
-  tasks           Task[]    // 关联到任务
-  type            String?
-  tvl             String?
-  holdersCount    Int?
-  socialLinks     String?   // JSON string
-  containerLink   String?   // 容器链接
-  totalSupply     Decimal?   // 使用 Decimal 类型存储大数字，支持任意精度
-  marketCapTokenNumber Decimal?   // 新增字段，使用 Decimal 类型以支持大数字
-  symbol          String?   // 添加 symbol 字段，因为看到代码中也用到了这个
-  chatEntry       String?   // 添加 chatEntry 字段，因为代码中也用到了这个
-  useCases        String?   // JSON string array
-  useCasesJA      String?   // JSON string array
-  useCasesKO      String?   // JSON string array
-  useCasesZH      String?   // JSON string array
-  statusJA        String?
-  statusKO        String?
-  statusZH        String?
-  descriptionJA   String?
-  descriptionKO   String?
-  descriptionZH   String?
-  lifetime        String?   // 添加 lifetime 字段
-  tokenAddress    String?
-  iaoContractAddress String?
-  tokenAddressTestnet String?
+  id                        String       @id @default(uuid())
+  name                      String
+  description               String
+  longDescription           String?
+  category                  String
+  avatar                    String?
+  status                    String       @default("active")
+  capabilities              String // JSON string array
+  rating                    Float        @default(0)
+  usageCount                Int          @default(0)
+  marketCap                 String       @default("0")
+  change24h                 String       @default("0")
+  volume24h                 String       @default("0")
+  creator                   User         @relation(fields: [creatorId], references: [id])
+  creatorId                 String
+  createdAt                 DateTime     @default(now())
+  updatedAt                 DateTime     @updatedAt
+  examples                  Example[]
+  reviews                   Review[]
+  prices                    AgentPrice[]
+  tasks                     Task[] // 关联到任务
+  type                      String?
+  tvl                       String?
+  holdersCount              Int?
+  socialLinks               String? // JSON string
+  containerLink             String? // 容器链接
+  totalSupply               Decimal? // 使用 Decimal 类型存储大数字，支持任意精度
+  marketCapTokenNumber      Decimal? // 新增字段，使用 Decimal 类型以支持大数字
+  symbol                    String? // 添加 symbol 字段，因为看到代码中也用到了这个
+  chatEntry                 String? // 添加 chatEntry 字段，因为代码中也用到了这个
+  useCases                  String? // JSON string array
+  useCasesJA                String? // JSON string array
+  useCasesKO                String? // JSON string array
+  useCasesZH                String? // JSON string array
+  statusJA                  String?
+  statusKO                  String?
+  statusZH                  String?
+  descriptionJA             String?
+  descriptionKO             String?
+  descriptionZH             String?
+  lifetime                  String? // 添加 lifetime 字段
+  tokenAddress              String?
+  iaoContractAddress        String?
+  tokenAddressTestnet       String?
   iaoContractAddressTestnet String?
-  paymentContractAddress String? // 添加支付合约地址字段
-  projectDescription String?   // 添加项目说明字段，存储JSON格式的多语言项目说明
-  iaoTokenAmount  Decimal?   // IAO代币数量字段
-  iaoStartTime    BigInt?    // IAO开始时间戳
-  iaoEndTime      BigInt?    // IAO结束时间戳
-  miningRate      Decimal?   // 挖矿速率（每年可挖矿的代币比例）
+  paymentContractAddress    String? // 添加支付合约地址字段
+  projectDescription        String? // 添加项目说明字段，存储JSON格式的多语言项目说明
+  iaoTokenAmount            Decimal? // IAO代币数量字段
+  iaoStartTime              BigInt? // IAO开始时间戳
+  iaoEndTime                BigInt? // IAO结束时间戳
+  miningRate                Decimal? // 挖矿速率（每年可挖矿的代币比例）
   // Owner管理相关状态字段
-  ownerTransferred Boolean @default(false) // 代币owner是否已转移
-  liquidityAdded Boolean @default(false)   // 流动性是否已添加
-  tokensBurned Boolean @default(false)     // 代币是否已销毁
-  miningOwnerTransferred Boolean @default(false) // 挖矿合约owner是否已转移
+  ownerTransferred          Boolean      @default(false) // 代币owner是否已转移
+  liquidityAdded            Boolean      @default(false) // 流动性是否已添加
+  tokensBurned              Boolean      @default(false) // 代币是否已销毁
+  miningOwnerTransferred    Boolean      @default(false) // 挖矿合约owner是否已转移
   // 池子相关字段
-  poolAddress String?                      // 流动性池地址
-  poolCreated Boolean @default(false)     // 池子是否已创建
-  initialLiquidityAmount Decimal?         // 初始流动性代币数量
-  initialXaaAmount Decimal?               // 初始流动性XAA数量
+  poolAddress               String? // 流动性池地址
+  poolCreated               Boolean      @default(false) // 池子是否已创建
+  initialLiquidityAmount    Decimal? // 初始流动性代币数量
+  initialXaaAmount          Decimal? // 初始流动性XAA数量
 }
 
 model Example {
-  id          String  @id @default(uuid())
+  id          String @id @default(uuid())
   title       String
   description String
   prompt      String
-  agent       Agent   @relation(fields: [agentId], references: [id])
+  agent       Agent  @relation(fields: [agentId], references: [id])
   agentId     String
 }
 
 model Review {
-  id          String   @id @default(uuid())
-  rating      Float
-  comment     String
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
-  agent       Agent    @relation(fields: [agentId], references: [id])
-  agentId     String
-  createdAt   DateTime @default(now())
-}
-
-model Chat {
-  id        String  @id @default(uuid())
-  name      String  @unique
-  password  String
-  chat      Json    // 用于存储复杂的对话结构
+  id        String   @id @default(uuid())
+  rating    Float
+  comment   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  agentId   String
   createdAt DateTime @default(now())
 }
 
-model History {
+model Chat {
   id        String   @id @default(uuid())
-  action    String
-  result    String
-  error     String?  // 添加可选的错误信息字段
-  agent     Agent    @relation(fields: [agentId], references: [id])
-  agentId   String
-  timestamp DateTime @default(now())
-  task      Task?    @relation(fields: [taskId], references: [id])
-  taskId    String?  // 关联到任务的ID
+  name      String   @unique
+  password  String
+  chat      Json // 用于存储复杂的对话结构
+  createdAt DateTime @default(now())
 }
 
 // 任务模型，用于异步任务处理
 model Task {
   id          String    @id @default(uuid())
-  type        String    // 任务类型: CREATE_TOKEN, DEPLOY_PAYMENT_CONTRACT 等
-  status      String    // PENDING, PROCESSING, COMPLETED, FAILED, PARTIAL_SUCCESS
-  result      String?   // JSON格式的结果数据
+  type        String // 任务类型: CREATE_TOKEN, DEPLOY_PAYMENT_CONTRACT 等
+  status      String // PENDING, PROCESSING, COMPLETED, FAILED, PARTIAL_SUCCESS
+  result      String? // JSON格式的结果数据
   agent       Agent     @relation(fields: [agentId], references: [id])
   agentId     String
-  createdBy   String    // 创建者地址
+  createdBy   String // 创建者地址
   createdAt   DateTime  @default(now())
   startedAt   DateTime? // 开始执行时间
   completedAt DateTime? // 完成时间
-  history     History[] // 关联的历史记录
 }
 
 // 用于存储 nonce
@@ -152,19 +138,19 @@ model AuthNonce {
 }
 
 model Count {
-  project   String   @id @default(uuid())
-  count     Int
+  project String @id @default(uuid())
+  count   Int
 }
 
 model chat {
-  name      String    @id @default(uuid())
-  password  String 
-  chat      Json      @db.JsonB
+  name     String @id @default(uuid())
+  password String
+  chat     Json   @db.JsonB
 }
 
 model AgentPrice {
   id        Int      @id @default(autoincrement())
-  agentId   String   // 修改为 String 类型以匹配 Agent 的 id
+  agentId   String // 修改为 String 类型以匹配 Agent 的 id
   price     Float
   timestamp DateTime @default(now())
   agent     Agent    @relation(fields: [agentId], references: [id])

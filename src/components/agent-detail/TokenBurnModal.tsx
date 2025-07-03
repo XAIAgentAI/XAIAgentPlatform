@@ -147,14 +147,14 @@ export default function TokenBurnModal({ agent, onStatusUpdate }: TokenBurnModal
       switch (taskStatus.status) {
         case 'PENDING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" />
               等待中
             </Badge>
           );
         case 'PROCESSING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" />
               销毁中
             </Badge>

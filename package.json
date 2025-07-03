@@ -20,7 +20,12 @@
     "clear-agents": "ts-node -P scripts/tsconfig.json scripts/clear-agents.ts",
     "prisma:seed": "ts-node -P scripts/tsconfig.json prisma/seed.ts",
     "test:agent-api": "tsx scripts/test-agent-api.ts",
-    "delete:test-agents": "tsx scripts/delete-test-agents.ts"
+    "delete:test-agents": "tsx scripts/delete-test-agents.ts",
+    "memory:monitor": "node scripts/memory-monitor.js",
+    "memory:monitor:continuous": "node scripts/memory-monitor.js --continuous",
+    "memory:monitor:save": "node scripts/memory-monitor.js --continuous --save",
+    "build:debug": "next build --experimental-debug-memory-usage",
+    "build:profile": "node --heap-prof node_modules/next/dist/bin/next build"
   },
   "dependencies": {
 

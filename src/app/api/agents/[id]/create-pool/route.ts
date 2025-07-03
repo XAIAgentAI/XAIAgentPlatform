@@ -333,6 +333,9 @@ export async function POST(
       );
     }
 
+    // 声明currentTick变量在外层作用域
+    let currentTick = 0; // 默认tick值
+
     // 如果池子不存在（地址为0x0），则创建池子
     if (!poolAddress || poolAddress === '0x0000000000000000000000000000000000000000') {
       console.log('🏗️ 池子不存在，开始创建池子...');
@@ -406,17 +409,34 @@ export async function POST(
           functionName: 'slot0',
         }) as readonly [bigint, number, number, number, number, number, boolean];
 
-        const sqrtPriceX96 = slot0[0];
-        console.log('🔍 池子当前价格:', sqrtPriceX96.toString());
+        const [sqrtPriceX96, tick] = slot0;
+        currentTick = tick; // 保存当前tick
+
+        console.log('🔍 池子当前状态:');
+        console.log(`  - sqrtPriceX96: ${sqrtPriceX96.toString()}`);
+        console.log(`  - 当前tick: ${tick}`);
 
         // 如果价格为0，说明池子未初始化
         if (sqrtPriceX96 === BigInt(0)) {
           console.log('🏗️ 池子未初始化，开始初始化...');
 
-          // 计算初始价格 (1:1 比例)
+          // 计算IAO初始价格
+          const iaoPrice = parseFloat(xaaAmount) / parseFloat(tokenAmount);
+          console.log(`💰 计算的IAO价格: ${iaoPrice}`);
+
+          if (iaoPrice <= 0) {
+            throw new Error('IAO价格计算错误，无法初始化池子');
+          }
+
+          // 使用IAO价格初始化池子
           // sqrtPriceX96 = sqrt(price) * 2^96
-          // 对于1:1的价格，sqrtPriceX96 = 2^96
-          const initialSqrtPrice = BigInt('79228162514264337593543950336'); // 2^96
+          const sqrtPrice = Math.sqrt(iaoPrice);
+          const initialSqrtPrice = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
+
+          console.log(`🏗️ 使用IAO价格初始化池子:`);
+          console.log(`  - IAO价格: ${iaoPrice}`);
+          console.log(`  - sqrt价格: ${sqrtPrice}`);
+          console.log(`  - sqrtPriceX96: ${initialSqrtPrice.toString()}`);
 
           const initializeHash = await walletClient.writeContract({
             address: poolAddress as `0x${string}`,
@@ -428,13 +448,18 @@ export async function POST(
           console.log(`✅ 池子初始化交易已提交: ${initializeHash}`);
           await publicClient.waitForTransactionReceipt({ hash: initializeHash });
           console.log('✅ 池子初始化完成');
+
+          // 计算初始化后的tick
+          currentTick = Math.floor(Math.log(iaoPrice) / Math.log(1.0001));
+          console.log(`📊 初始化后的tick: ${currentTick}`);
         } else {
           console.log('✅ 池子已初始化');
         }
 
       } catch (error) {
         console.error('❌ 检查池子状态失败:', error);
-        // 继续执行，可能池子状态正常
+        // 继续执行，使用默认tick值0
+        currentTick = 0;
       }
     }
 
@@ -577,24 +602,23 @@ export async function POST(
 
     console.log('🔄 代币顺序:', { token0, token1, isToken0 });
 
-    // 使用0.05%手续费，价格范围20%-500%
+    // 使用0.05%手续费，基于当前tick动态计算范围
     // 对于0.05%手续费，tick间距是10
     const tickSpacing = 10; // 0.05%手续费的tick间距
 
-    // 计算价格范围对应的tick值
-    // 价格范围：20% = 0.2, 500% = 5.0
-    // tick = log(price) / log(1.0001)
-    const minPriceRatio = 0.2;  // 20%
-    const maxPriceRatio = 5.0;  // 500%
-
-    const tickLower = Math.floor(Math.log(minPriceRatio) / Math.log(1.0001) / tickSpacing) * tickSpacing; // 约-16090
-    const tickUpper = Math.floor(Math.log(maxPriceRatio) / Math.log(1.0001) / tickSpacing) * tickSpacing; // 约16090
+    // 基于当前tick计算合理的范围（上下各1000个tick，约10倍价格范围）
+    const tickRange = 1000;
+    const tickLower = Math.floor((currentTick - tickRange) / tickSpacing) * tickSpacing;
+    const tickUpper = Math.floor((currentTick + tickRange) / tickSpacing) * tickSpacing;
 
     console.log(`📊 池子配置:`);
     console.log(`  - 手续费: 0.05% (${fee})`);
     console.log(`  - Tick间距: ${tickSpacing}`);
-    console.log(`  - 价格范围: ${minPriceRatio} - ${maxPriceRatio} (20% - 500%)`);
-    console.log(`  - Tick范围: [${tickLower}, ${tickUpper}]`);
+    console.log(`  - 当前tick: ${currentTick}`);
+    console.log(`  - tickLower: ${tickLower}`);
+    console.log(`  - tickUpper: ${tickUpper}`);
+    console.log(`  - tick范围: ${tickRange * 2} ticks`);
+    console.log(`  - 价格范围: ${Math.pow(1.0001, tickLower).toFixed(6)} - ${Math.pow(1.0001, tickUpper).toFixed(6)}`);
 
     const mintParams = {
       token0: token0 as `0x${string}`,

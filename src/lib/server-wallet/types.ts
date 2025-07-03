@@ -26,7 +26,7 @@ export interface TransactionResult {
   amount: string;
   txHash: string;
   status: 'pending' | 'confirmed' | 'failed';
-  toAddress: string;
+  toAddress: string | null; // 允许为 null，表示地址未知
   error?: string;
 }
 

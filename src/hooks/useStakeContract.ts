@@ -1012,9 +1012,14 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       // 获取DBC价格
       const dbcPriceInfo = await fetchDBCPrice();
       const dbcPriceUsd = parseFloat(dbcPriceInfo.priceUsd);
+      console.log(`[IAO进度] dbcPriceInfo原始数据:`, dbcPriceInfo);
+      console.log(`[IAO进度] dbcPriceUsd解析结果: ${dbcPriceUsd}`);
 
       // 获取XAA-DBC兑换比例
       const xaaDbcRate = await getTokenExchangeRate(XAA_TOKEN_ADDRESS, DBC_TOKEN_ADDRESS);
+      console.log(`[IAO进度] XAA_TOKEN_ADDRESS: ${XAA_TOKEN_ADDRESS}`);
+      console.log(`[IAO进度] DBC_TOKEN_ADDRESS: ${DBC_TOKEN_ADDRESS}`);
+      console.log(`[IAO进度] xaaDbcRate原始值: ${xaaDbcRate}`);
 
       // 计算XAA的USD价格 - 使用与AgentInfo.tsx相同的逻辑
       // 对于XAA，currentPrice应该是1（因为是基准代币），所以公式简化为：
@@ -1025,6 +1030,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       console.log(`[IAO进度] DBC价格: ${dbcPriceUsd} USD`);
       console.log(`[IAO进度] XAA-DBC兑换比例: ${xaaDbcRate}`);
       console.log(`[IAO进度] 计算的XAA价格: ${xaaPrice} USD`);
+      console.log(`[IAO进度] 价格计算详情: ${xaaDbcRate} * ${dbcPriceUsd} = ${xaaPrice}`);
       console.log(`[IAO进度] 您提到的计算: 0.00001432 * 10000 = ${0.00001432 * 10000}`);
 
       // 使用您提到的公式：0.00001432 * 10000
@@ -1033,6 +1039,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       const currentUsdValue = totalDepositedNum * xaaPrice;
 
       console.log(`[IAO进度] 最终USD价值计算: ${totalDepositedNum} * ${xaaPrice} = ${currentUsdValue}`);
+      console.log(`[IAO进度] 各变量类型检查:`);
+      console.log(`[IAO进度] - totalDepositedNum类型: ${typeof totalDepositedNum}, 值: ${totalDepositedNum}`);
+      console.log(`[IAO进度] - xaaPrice类型: ${typeof xaaPrice}, 值: ${xaaPrice}`);
+      console.log(`[IAO进度] - currentUsdValue类型: ${typeof currentUsdValue}, 值: ${currentUsdValue}`);
 
       const progressPercentage = Math.min((currentUsdValue / targetAmount) * 100, 100);
       const remainingAmount = Math.max(targetAmount - currentUsdValue, 0);

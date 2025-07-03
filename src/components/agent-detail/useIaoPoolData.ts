@@ -47,6 +47,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
   // IAO状态
   const [isIaoSuccessful, setIsIaoSuccessful] = useState(false);
   const [tokenCreationTask, setTokenCreationTask] = useState<TokenCreationTask | null>(null);
+  const [distributionTask, setDistributionTask] = useState<any>(null);
   const [userStakeInfo, setUserStakeInfo] = useState<UserStakeInfo>({
     userDeposited: "0",
     claimableXAA: "0",
@@ -159,7 +160,21 @@ export const useIaoPoolData = (agent: LocalAgent) => {
         if (data.code === 200 && data.data && Array.isArray(data.data.tasks)) {
           const createTokenTask = data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
           if (createTokenTask) {
+            console.log('🔄 Token creation task status updated:', createTokenTask.status);
             setTokenCreationTask(createTokenTask);
+          } else {
+            console.log('📝 No CREATE_TOKEN task found');
+            setTokenCreationTask(null);
+          }
+
+          // 同时获取分发任务状态
+          const distributeTask = data.data.tasks.find((task: any) => task.type === 'DISTRIBUTE_TOKENS');
+          if (distributeTask) {
+            console.log('🔄 Distribution task status updated:', distributeTask.status);
+            setDistributionTask(distributeTask);
+          } else {
+            console.log('📝 No DISTRIBUTE_TOKENS task found');
+            setDistributionTask(null);
           }
         } else {
           console.warn('Unexpected API response structure:', data);
@@ -256,6 +271,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     xaaBalance,
     isIaoSuccessful,
     tokenCreationTask,
+    distributionTask,
     userStakeInfo,
     iaoProgress,
     poolInfo,

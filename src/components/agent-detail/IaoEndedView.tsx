@@ -21,6 +21,7 @@ interface IaoEndedViewProps {
   isIaoSuccessful: boolean;
   isCreator: boolean;
   tokenCreationTask: any;
+  distributionTask: any;
   isPoolInfoLoading: boolean;
   onCreateToken: () => void;
   onPaymentModalOpen: () => void;
@@ -39,6 +40,7 @@ export const IaoEndedView = ({
   isIaoSuccessful,
   isCreator,
   tokenCreationTask,
+  distributionTask,
   isPoolInfoLoading,
   onCreateToken,
   onClaimRewards,
@@ -216,7 +218,7 @@ export const IaoEndedView = ({
               {/* 步骤1: 创建代币 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
                 agent.tokenAddress ? 'bg-green-50 border-green-200' :
-                isCreating || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
+                isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
                 tokenCreationTask?.status === 'FAILED' ? 'bg-red-50 border-red-200' :
                 'bg-orange-50 border-orange-200'
               }`}>
@@ -230,7 +232,7 @@ export const IaoEndedView = ({
                 <div className="flex items-center gap-2">
                   {agent.tokenAddress ? (
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
-                  ) : isCreating || tokenCreationTask?.status === 'PROCESSING' ? (
+                  ) : isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? (
                     <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">创建中...</span>
                   ) : tokenCreationTask?.status === 'FAILED' ? (
                     <Button size="sm" onClick={onCreateToken} variant="destructive">
@@ -247,6 +249,8 @@ export const IaoEndedView = ({
               {/* 步骤2: 代币分发（包含流动性和销毁） */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
                 agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned ? 'bg-green-50 border-green-200' :
+                distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
+                distributionTask?.status === 'FAILED' ? 'bg-red-50 border-red-200' :
                 agent.tokenAddress ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-3">
@@ -258,6 +262,15 @@ export const IaoEndedView = ({
                 </div>
                 <div className="flex items-center gap-2">
                   {agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned ? (
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
+                  ) : distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? (
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">分发中...</span>
+                  ) : distributionTask?.status === 'FAILED' ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">分发失败</span>
+                      <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
+                    </div>
+                  ) : distributionTask?.status === 'COMPLETED' ? (
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
                   ) : agent.tokenAddress ? (
                     <div className="flex items-center gap-2">

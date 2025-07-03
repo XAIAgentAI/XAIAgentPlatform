@@ -3,7 +3,7 @@
  */
 
 import { createPublicClient, createWalletClient, http, parseEther, formatEther } from 'viem';
-import { currentChain } from '@/config/chain';
+import { currentChain } from '@/config/networks';
 import { getServerWalletClients } from './index';
 import { DISTRIBUTION_ADDRESSES } from './config';
 import type { TransactionResult } from './types';

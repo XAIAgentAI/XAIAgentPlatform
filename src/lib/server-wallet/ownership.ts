@@ -3,7 +3,7 @@
  */
 
 import { createPublicClient, createWalletClient, http } from 'viem';
-import { currentChain } from '@/config/chain';
+import { currentChain } from '@/config/networks';
 import { getServerWalletClients } from './index';
 import { getMiningContractAddress } from './config';
 import type { TransactionResult } from './types';
@@ -68,9 +68,11 @@ export async function transferTokenOwnership(
       if (verifyOwner.toLowerCase() === newOwner.toLowerCase()) {
         console.log(`✅ 代币Owner转移成功 - 新Owner: ${newOwner}`);
         return {
-          success: true,
-          hash,
-          message: `代币Owner已成功转移到 ${newOwner}`
+          type: 'creator',
+          amount: '0',
+          txHash: hash,
+          status: 'confirmed',
+          toAddress: newOwner
         };
       } else {
         throw new Error(`Owner transfer verification failed. Expected: ${newOwner}, Actual: ${verifyOwner}`);
@@ -82,9 +84,12 @@ export async function transferTokenOwnership(
   } catch (error) {
     console.error('❌ 代币Owner转移失败:', error);
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      message: '代币Owner转移失败'
+      type: 'creator',
+      amount: '0',
+      txHash: '',
+      status: 'failed',
+      toAddress: newOwner,
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -148,9 +153,11 @@ export async function transferMiningOwnership(
       if (verifyOwner.toLowerCase() === newOwner.toLowerCase()) {
         console.log(`✅ 挖矿合约Owner转移成功 - 新Owner: ${newOwner}`);
         return {
-          success: true,
-          hash,
-          message: `挖矿合约Owner已成功转移到 ${newOwner}`
+          type: 'mining',
+          amount: '0',
+          txHash: hash,
+          status: 'confirmed',
+          toAddress: newOwner
         };
       } else {
         throw new Error(`Mining owner transfer verification failed. Expected: ${newOwner}, Actual: ${verifyOwner}`);
@@ -162,9 +169,12 @@ export async function transferMiningOwnership(
   } catch (error) {
     console.error('❌ 挖矿合约Owner转移失败:', error);
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      message: '挖矿合约Owner转移失败'
+      type: 'mining',
+      amount: '0',
+      txHash: '',
+      status: 'failed',
+      toAddress: newOwner,
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }

@@ -214,32 +214,13 @@ class ContractEventListener {
           iaoEndTime: BigInt(endTime),
         }
       });
-
-      // 记录同步历史
-      await prisma.history.create({
-        data: {
-          action: 'time_sync_from_contract',
-          result: 'success',
-          agentId: agent.id,
-        }
-      });
-
       console.log(`成功同步Agent ${agent.id} 的时间信息`);
 
     } catch (error) {
       console.error('处理TimeUpdated事件失败:', error);
       
       // 记录错误历史
-      try {
-        await prisma.history.create({
-          data: {
-            action: 'time_sync_from_contract',
-            result: 'failed',
-            agentId: 'unknown',
-            error: `同步时间失败: ${error instanceof Error ? error.message : '未知错误'}`
-          }
-        });
-      } catch (historyError) {
+      try {      } catch (historyError) {
         console.error('记录错误历史失败:', historyError);
       }
     }

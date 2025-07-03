@@ -20,11 +20,7 @@ async function main() {
 
     // 删除相关的历史记录
     for (const agent of testAgents) {
-      await prisma.history.deleteMany({
-        where: {
-          agentId: agent.id
-        }
-      });
+      // History table has been removed
       console.log(`已删除 Agent ${agent.name} 的历史记录`);
     }
 

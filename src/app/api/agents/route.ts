@@ -368,13 +368,13 @@ function sortAgentData(
 function cleanExpiredCache(): void {
   const now = Math.floor(Date.now() / 1000);
   const cacheCleanStartTime = Date.now();
-  
+
   Object.keys(tokenPriceCache).forEach(key => {
     if (now - tokenPriceCache[key].timestamp > CACHE_TTL * 2) {
       delete tokenPriceCache[key];
     }
   });
-  
+
   console.log(`[性能] 清理缓存耗时: ${Date.now() - cacheCleanStartTime}ms`);
 }
 

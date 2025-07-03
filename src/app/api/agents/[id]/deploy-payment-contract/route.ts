@@ -97,15 +97,7 @@ export async function POST(
       },
     });
 
-    // 记录任务提交历史
-    await prisma.history.create({
-      data: {
-        action: 'deploy_payment_contract_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
+
 
     // 在后台执行支付合约部署任务
     processPaymentContractDeployment(
@@ -202,16 +194,7 @@ async function processPaymentContractDeployment(
     if (!deployResponse.ok || deployResult.code !== 200 || !deployResult.data?.proxy_address) {
       console.error(`[支付合约部署] 失败原因: ${deployResult.message || '未知错误'}`);
       
-      // 记录部署失败历史
-      await prisma.history.create({
-        data: {
-          action: 'deploy_payment_contract',
-          result: 'failed',
-          agentId,
-          taskId,
-          error: `支付合约部署失败: ${deployResult.message || '未知错误'}`
-        },
-      });
+
 
       // 更新任务状态为失败
       await prisma.task.update({
@@ -238,15 +221,7 @@ async function processPaymentContractDeployment(
       }
     });
 
-    // 记录部署成功历史
-    await prisma.history.create({
-      data: {
-        action: 'deploy_payment_contract',
-        result: 'success',
-        agentId,
-        taskId,
-      },
-    });
+
 
     // 更新任务状态为成功
     await prisma.task.update({

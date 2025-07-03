@@ -7,7 +7,8 @@ const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },
@@ -23,7 +24,6 @@ const nextConfig = {
     instrumentationHook: true
   },
   env: {
-    _next_intl_trailing_slash: 'true',
     DATABASE_URL: process.env.DATABASE_URL || ''
   },
   eslint: {
@@ -35,6 +35,12 @@ const nextConfig = {
       'utf-8-validate': 'commonjs utf-8-validate',
       'bufferutil': 'commonjs bufferutil',
     });
+
+    // Disable minification for problematic files
+    if (config.optimization) {
+      config.optimization.minimize = false;
+    }
+
     return config;
   },
 }

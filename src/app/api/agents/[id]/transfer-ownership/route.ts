@@ -130,17 +130,6 @@ export async function POST(
         createdBy: user.address,
       },
     });
-
-    // 记录任务提交历史
-    await prisma.history.create({
-      data: {
-        action: 'transfer_ownership_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
-
     // 在后台执行Owner转移任务
     processOwnershipTransferTask(
       task.id,
@@ -190,17 +179,6 @@ async function processOwnershipTransferTask(
         startedAt: new Date()
       }
     });
-
-    // 记录开始处理的历史
-    await prisma.history.create({
-      data: {
-        action: 'transfer_ownership_start',
-        result: 'processing',
-        agentId,
-        taskId,
-      },
-    });
-
     let result: any;
     let updateData: any = {};
 
@@ -230,15 +208,15 @@ async function processOwnershipTransferTask(
       );
       
       // 处理批量结果
-      const tokenSuccess = batchResult.tokenResult.success;
-      const miningSuccess = batchResult.miningResult.success;
+      const tokenSuccess = batchResult.tokenResult.status === 'confirmed';
+      const miningSuccess = batchResult.miningResult.status === 'confirmed';
       
       if (tokenSuccess && miningSuccess) {
         result = {
           success: true,
           message: '代币和挖矿合约Owner转移都成功',
-          tokenHash: batchResult.tokenResult.hash,
-          miningHash: batchResult.miningResult.hash
+          tokenHash: batchResult.tokenResult.txHash,
+          miningHash: batchResult.miningResult.txHash
         };
         updateData = {
           ownerTransferred: true,
@@ -281,17 +259,6 @@ async function processOwnershipTransferTask(
           result: JSON.stringify(result)
         }
       });
-
-      // 记录成功历史
-      await prisma.history.create({
-        data: {
-          action: 'transfer_ownership_success',
-          result: 'success',
-          agentId,
-          taskId,
-        },
-      });
-
       console.log(`✅ Owner转移任务 ${taskId} 完成成功`);
 
     } else {
@@ -313,18 +280,6 @@ async function processOwnershipTransferTask(
           result: JSON.stringify(result)
         }
       });
-
-      // 记录失败历史
-      await prisma.history.create({
-        data: {
-          action: 'transfer_ownership_failed',
-          result: status === 'PARTIAL_SUCCESS' ? 'partial_success' : 'failed',
-          error: result.error || result.message,
-          agentId,
-          taskId,
-        },
-      });
-
       console.error(`❌ Owner转移任务 ${taskId} 失败:`, result.error || result.message);
     }
 
@@ -343,17 +298,5 @@ async function processOwnershipTransferTask(
           message: 'Owner转移处理失败'
         })
       }
-    });
-
-    // 记录错误历史
-    await prisma.history.create({
-      data: {
-        action: 'transfer_ownership_error',
-        result: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
-        agentId,
-        taskId,
-      },
-    });
-  }
+    });  }
 }

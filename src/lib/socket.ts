@@ -41,8 +41,11 @@ export const useSocket = () => {
     socketRef.current = socket
 
     return () => {
-      // socket.disconnect()
-      // isConnectedRef.current = false
+      if (socketRef.current) {
+        socketRef.current.disconnect()
+        socketRef.current = null
+      }
+      isConnectedRef.current = false
     }
   }, [])
 

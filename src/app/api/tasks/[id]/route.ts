@@ -47,11 +47,6 @@ export async function GET(
               }
             }
           }
-        },
-        history: {
-          orderBy: {
-            timestamp: 'desc'
-          }
         }
       }
     });
@@ -95,13 +90,7 @@ export async function GET(
         agentId: task.agentId,
         agentName: task.agent.name,
         result: resultData,
-        history: task.history.map((h: any) => ({
-          id: h.id,
-          action: h.action,
-          result: h.result,
-          error: h.error,
-          timestamp: h.timestamp
-        }))
+        // History table has been removed - task details are now in the result field
       },
     });
   } catch (error) {

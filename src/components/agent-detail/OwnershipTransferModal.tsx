@@ -138,7 +138,7 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
 
     if (tokenTransferred && miningTransferred) {
       return (
-        <Badge variant="success" className="flex items-center gap-1">
+        <Badge variant="default" className="flex items-center gap-1 bg-green-100 text-green-800">
           <CheckCircle className="w-3 h-3" />
           全部已转移
         </Badge>
@@ -147,7 +147,7 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
 
     if (tokenTransferred || miningTransferred) {
       return (
-        <Badge variant="warning" className="flex items-center gap-1">
+        <Badge variant="secondary" className="flex items-center gap-1 bg-yellow-100 text-yellow-800">
           <AlertCircle className="w-3 h-3" />
           部分已转移
         </Badge>
@@ -158,14 +158,14 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
       switch (taskStatus.status) {
         case 'PENDING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1 bg-yellow-100 text-yellow-800">
               <Loader2 className="w-3 h-3 animate-spin" />
               等待中
             </Badge>
           );
         case 'PROCESSING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1 bg-yellow-100 text-yellow-800">
               <Loader2 className="w-3 h-3 animate-spin" />
               转移中
             </Badge>
@@ -179,7 +179,7 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
           );
         case 'PARTIAL_SUCCESS':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1 bg-yellow-100 text-yellow-800">
               <AlertCircle className="w-3 h-3" />
               部分成功
             </Badge>
@@ -254,7 +254,7 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
               <Crown className="w-4 h-4" />
               <span className="text-sm font-medium">代币Owner</span>
             </div>
-            <Badge variant={agent.ownerTransferred ? "success" : "secondary"} className="text-xs">
+            <Badge variant="secondary" className="text-xs">
               {agent.ownerTransferred ? "已转移" : "未转移"}
             </Badge>
           </div>
@@ -263,7 +263,7 @@ export default function OwnershipTransferModal({ agent, onStatusUpdate }: Owners
               <Pickaxe className="w-4 h-4" />
               <span className="text-sm font-medium">挖矿合约Owner</span>
             </div>
-            <Badge variant={agent.miningOwnerTransferred ? "success" : "secondary"} className="text-xs">
+            <Badge variant="secondary" className="text-xs">
               {agent.miningOwnerTransferred ? "已转移" : "未转移"}
             </Badge>
           </div>

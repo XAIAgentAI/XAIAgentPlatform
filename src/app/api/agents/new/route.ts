@@ -205,14 +205,7 @@ export async function POST(request: Request) {
       await prisma.$executeRaw`UPDATE "Agent" SET "containerLink" = ${containerLink} WHERE id = ${newId}`;
     }
 
-    // 创建任务历史记录
-    await prisma.history.create({
-      data: {
-        action: 'create',
-        result: 'CREATING',
-        agentId: agent.id,
-      },
-    });
+
 
     // 异步处理任务
     processTask(agent.id, {
@@ -369,15 +362,8 @@ async function processTask(
     console.log('[事件监听] 触发监听器重新加载...');
     await reloadContractListeners();
 
-    // 更新任务历史记录
+    // Agent创建流程完成
     console.log(`[完成] Agent创建流程完成`);
-    await prisma.history.create({
-      data: {
-        action: 'process',
-        result: 'success',
-        agentId,
-      },
-    });
   } catch (error) {
     // 处理错误
     console.error('[错误] 任务处理失败:', error);
@@ -399,14 +385,6 @@ async function processTask(
       },
     });
 
-    // 记录失败历史
-    await prisma.history.create({
-      data: {
-        action: 'process',
-        result: 'failed',
-        agentId,
-        //error: error instanceof Error ? error.message : 'Unknown error'
-      },
-    });
+
   }
 }

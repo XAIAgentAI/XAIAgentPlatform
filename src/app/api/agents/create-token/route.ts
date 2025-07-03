@@ -100,15 +100,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // 记录开始创建Token的历史
-    await prisma.history.create({
-      data: {
-        action: 'create_token_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
+
 
     // 在后台执行Token创建和IAO设置任务
     processTokenCreationTask(task.id, agentId, agent).catch(error => {
@@ -223,16 +215,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     
     if (tokenResult.code !== 200 || !tokenResult.data?.proxy_address) {
       console.error(`[Token创建] 失败原因: ${tokenResult.message || '未知错误'}`);
-      // 记录Token创建失败历史
-      await prisma.history.create({
-        data: {
-          action: 'create_token',
-          result: 'failed',
-          agentId,
-          taskId,
-          error: `Token部署失败: ${tokenResult.message || '未知错误'}`
-        },
-      });
+
 
       // 更新任务状态为失败
       await prisma.task.update({
@@ -249,15 +232,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
       return;
     }
 
-    // 记录Token创建成功历史
-    await prisma.history.create({
-      data: {
-        action: 'create_token',
-        result: 'success',
-        agentId,
-        taskId,
-      },
-    });
+
 
     // 更新Agent记录 - Token创建成功后直接完成
     console.log(`[完成] Token创建完成`);

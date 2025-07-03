@@ -21,7 +21,7 @@ export async function GET(
         _count: {
           select: {
             reviews: true,
-            history: true,
+            tasks: true,
           },
         },
       },
@@ -36,7 +36,7 @@ export async function GET(
       capabilities: JSON.parse(agent.capabilities),
       creatorAddress: agent.creator.address,
       reviewCount: agent._count.reviews,
-      historyCount: agent._count.history,
+      taskCount: agent._count.tasks,
       totalSupply: agent.totalSupply ? Number(agent.totalSupply) : null,
       tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress,
       iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
@@ -127,14 +127,7 @@ export async function PUT(
       console.log(`[时间更新] 新结束时间: ${updateEndTime}`);
 
       try {
-        // 记录时间更新历史
-        await prisma.history.create({
-          data: {
-            action: 'update_time_from_client',
-            result: 'success',
-            agentId: params.id,
-          },
-        });
+
 
         // 更新Agent记录中的开始和结束时间（存储为Unix时间戳）
         await prisma.agent.update({
@@ -154,15 +147,7 @@ export async function PUT(
       } catch (error) {
         console.error(`[时间更新] 数据库更新失败:`, error);
 
-        // 记录时间设置失败历史
-        await prisma.history.create({
-          data: {
-            action: 'update_time_from_client',
-            result: 'failed',
-            agentId: params.id,
-            error: `数据库更新失败: ${error instanceof Error ? error.message : '未知错误'}`
-          },
-        });
+
 
         return NextResponse.json({
           code: 500,

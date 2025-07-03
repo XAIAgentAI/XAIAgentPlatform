@@ -96,15 +96,7 @@ export async function POST(
       },
     });
 
-    // 记录任务提交历史
-    await prisma.history.create({
-      data: {
-        action: 'burn_tokens_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
+
 
     // 在后台执行代币销毁任务
     processBurnTokensTask(
@@ -154,15 +146,7 @@ async function processBurnTokensTask(
       }
     });
 
-    // 记录开始处理的历史
-    await prisma.history.create({
-      data: {
-        action: 'burn_tokens_start',
-        result: 'processing',
-        agentId,
-        taskId,
-      },
-    });
+
 
     // 执行代币销毁
     console.log('🔥 开始执行代币销毁...');
@@ -194,15 +178,7 @@ async function processBurnTokensTask(
         }
       });
 
-      // 记录成功历史
-      await prisma.history.create({
-        data: {
-          action: 'burn_tokens_success',
-          result: 'success',
-          agentId,
-          taskId,
-        },
-      });
+
 
       console.log(`✅ 代币销毁任务 ${taskId} 完成成功`);
 
@@ -222,16 +198,7 @@ async function processBurnTokensTask(
         }
       });
 
-      // 记录失败历史
-      await prisma.history.create({
-        data: {
-          action: 'burn_tokens_failed',
-          result: 'failed',
-          error: result.error,
-          agentId,
-          taskId,
-        },
-      });
+
 
       console.error(`❌ 代币销毁任务 ${taskId} 失败:`, result.error);
     }
@@ -253,15 +220,6 @@ async function processBurnTokensTask(
       }
     });
 
-    // 记录错误历史
-    await prisma.history.create({
-      data: {
-        action: 'burn_tokens_error',
-        result: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
-        agentId,
-        taskId,
-      },
-    });
+
   }
 }

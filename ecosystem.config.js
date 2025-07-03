@@ -21,22 +21,22 @@ module.exports = {
     },
     {
       name: "xaiagentplatform",     // 开发/测试环境
-      script: "server.js",              
+      script: "server.js",
       instances: 1,
       exec_mode: "fork",
-      watch: false,                      
-      ignore_watch: ["node_modules", "logs"], 
+      watch: false,
+      ignore_watch: ["node_modules", "logs"],
       max_memory_restart: "1G",
       node_args: "--max-old-space-size=1024",
       listen_timeout: 50000,
       kill_timeout: 5000,
       max_restarts: 5,
       min_uptime: "5m",
-      source_map_support: true,         
+      source_map_support: true,
       autorestart: true,
       exp_backoff_restart_delay: 100,
       env: {
-        NODE_ENV: "production",             
+        NODE_ENV: "production",
         PORT: 3000
       }
     },
