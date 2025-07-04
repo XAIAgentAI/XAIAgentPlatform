@@ -217,13 +217,9 @@ export async function POST(request: Request) {
     }).catch(console.error);
 
     return createSuccessResponse({
-      code: 200,
-      message: '任务已创建',
-      data: {
-        agentId: agent.id,
-        status: 'CREATING',
-      },
-    });
+      agentId: agent.id,
+      status: 'CREATING',
+    }, '任务已创建');
   } catch (error) {
     return handleError(error);
   }

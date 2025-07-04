@@ -1,19 +1,20 @@
 /**
- * 代币销毁API端点
- * POST /api/agents/[id]/burn-tokens
+ * XAA销毁API端点
+ * POST /api/agents/[id]/burn-xaa
+ * 销毁IAO中XAA数量的5%，由服务端钱包执行
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAgentCreator } from '@/lib/auth-middleware';
-import { burnTokens } from '@/lib/server-wallet/burn';
 import { createSuccessResponse, handleError } from '@/lib/error';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { burnXAAFromServerWallet } from '@/lib/server-wallet/burn-xaa';
 
 // 请求参数验证schema
-const BurnTokensRequestSchema = z.object({
+const BurnXAARequestSchema = z.object({
   agentId: z.string().min(1, 'Agent ID is required'),
-  burnAmount: z.string().min(1, 'Burn amount is required'),
+  iaoContractAddress: z.string().min(1, 'IAO contract address is required'),
 });
 
 export async function POST(
@@ -21,14 +22,14 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    console.log('🔥 收到代币销毁请求...');
+    console.log('🔥 收到XAA销毁请求...');
 
     // 解析请求体
     const body = await request.json();
     const agentId = params.id;
 
     // 验证请求参数
-    const validationResult = BurnTokensRequestSchema.safeParse({
+    const validationResult = BurnXAARequestSchema.safeParse({
       agentId,
       ...body
     });
@@ -45,7 +46,7 @@ export async function POST(
       );
     }
 
-    const { burnAmount } = validationResult.data;
+    const { iaoContractAddress } = validationResult.data;
 
     // 验证用户身份和权限
     console.log('🔐 验证用户权限...');
@@ -57,29 +58,17 @@ export async function POST(
       return NextResponse.json(
         {
           code: 400,
-          message: '代币尚未创建，无法执行销毁',
+          message: '代币尚未创建，无法执行XAA销毁',
         },
         { status: 400 }
       );
     }
 
-    // 检查是否已经添加流动性（必须先添加流动性再销毁）
-    if (!agent.liquidityAdded) {
+    if (!agent.iaoContractAddress) {
       return NextResponse.json(
         {
           code: 400,
-          message: '必须先添加流动性才能销毁代币',
-        },
-        { status: 400 }
-      );
-    }
-
-    // 检查是否已经销毁过代币
-    if (agent.tokensBurned) {
-      return NextResponse.json(
-        {
-          code: 400,
-          message: '代币已经销毁过了',
+          message: 'IAO合约地址未设置，无法执行XAA销毁',
         },
         { status: 400 }
       );
@@ -88,49 +77,50 @@ export async function POST(
     // 创建任务记录
     const task = await prisma.task.create({
       data: {
-        type: 'BURN_TOKENS',
+        type: 'BURN_XAA',
         status: 'PENDING',
         agentId,
         createdBy: user.address,
       },
     });
 
+    console.log(`✅ 任务创建成功，任务ID: ${task.id}`);
 
-
-    // 在后台执行代币销毁任务
-    processBurnTokensTask(
+    // 在后台执行XAA销毁任务
+    processBurnXAATask(
       task.id,
       agentId,
-      agent.tokenAddress,
-      burnAmount,
+      iaoContractAddress,
       user.address
     ).catch(error => {
-      console.error(`[后台任务失败] 代币销毁任务 ${task.id} 失败:`, error);
+      console.error(`[后台任务失败] XAA销毁任务 ${task.id} 失败:`, error);
     });
 
     // 立即返回成功响应
     return createSuccessResponse({
-      taskId: task.id,
-    }, '代币销毁任务已提交，请稍后查询结果');
+      code: 200,
+      message: 'XAA销毁任务已提交，请稍后查询结果',
+      data: {
+        taskId: task.id,
+      },
+    });
 
   } catch (error) {
-    console.error('提交代币销毁任务过程中发生错误:', error);
+    console.error('提交XAA销毁任务过程中发生错误:', error);
     return handleError(error);
   }
 }
 
-// 后台处理代币销毁任务
-async function processBurnTokensTask(
+// 后台处理XAA销毁任务
+async function processBurnXAATask(
   taskId: string,
   agentId: string,
-  tokenAddress: string,
-  burnAmount: string,
+  iaoContractAddress: string,
   userAddress: string
 ) {
   try {
-    console.log(`[代币销毁] 开始为Agent ${agentId} 销毁代币...`);
-    console.log(`[代币销毁] 代币地址: ${tokenAddress}`);
-    console.log(`[代币销毁] 销毁数量: ${burnAmount}`);
+    console.log(`[XAA销毁] 开始为Agent ${agentId} 销毁XAA...`);
+    console.log(`[XAA销毁] IAO合约地址: ${iaoContractAddress}`);
 
     // 开始处理，更新任务状态
     await prisma.task.update({
@@ -141,17 +131,13 @@ async function processBurnTokensTask(
       }
     });
 
+    console.log('🔥 开始执行XAA销毁...');
 
+    // 执行XAA销毁
+    const result = await burnXAAFromServerWallet(iaoContractAddress as `0x${string}`);
 
-    // 执行代币销毁
-    console.log('🔥 开始执行代币销毁...');
-    const result = await burnTokens(
-      tokenAddress as `0x${string}`,
-      burnAmount
-    );
-
-    if (result.status === 'confirmed') {
-      // 更新Agent状态
+    if (result.success) {
+      // 更新Agent状态 - 标记XAA已销毁
       await prisma.agent.update({
         where: { id: agentId },
         data: { tokensBurned: true }
@@ -166,22 +152,23 @@ async function processBurnTokensTask(
           result: JSON.stringify({
             success: true,
             txHash: result.txHash,
-            status: result.status,
-            type: result.type,
+            burnAmount: result.burnAmount,
+            iaoXAAAmount: result.iaoXAAAmount,
             transactions: [{
-              type: 'burn',
-              amount: burnAmount,
+              type: 'burn_xaa',
+              amount: result.burnAmount,
               txHash: result.txHash,
               status: 'confirmed',
-              toAddress: result.toAddress
+              toAddress: '0x0000000000000000000000000000000000000000', // 销毁地址
+              description: `销毁IAO中${result.burnAmount}个XAA (总量的5%)`
             }]
           })
         }
       });
 
-
-
-      console.log(`✅ 代币销毁任务 ${taskId} 完成成功`);
+      console.log(`✅ XAA销毁任务 ${taskId} 完成成功`);
+      console.log(`🔥 销毁数量: ${result.burnAmount} XAA`);
+      console.log(`📊 IAO总XAA: ${result.iaoXAAAmount} XAA`);
 
     } else {
       // 更新任务状态为失败
@@ -192,28 +179,24 @@ async function processBurnTokensTask(
           completedAt: new Date(),
           result: JSON.stringify({
             success: false,
-            error: result.error || '代币销毁失败',
-            status: result.status,
-            type: result.type,
+            error: result.error || 'XAA销毁失败',
             transactions: [{
-              type: 'burn',
-              amount: burnAmount,
-              txHash: result.txHash || '',
+              type: 'burn_xaa',
+              amount: '0',
+              txHash: '',
               status: 'failed',
-              toAddress: result.toAddress,
-              error: result.error || '代币销毁失败'
+              toAddress: '0x0000000000000000000000000000000000000000',
+              error: result.error || 'XAA销毁失败'
             }]
           })
         }
       });
 
-
-
-      console.error(`❌ 代币销毁任务 ${taskId} 失败:`, result.error);
+      console.error(`❌ XAA销毁任务 ${taskId} 失败:`, result.error);
     }
 
   } catch (error) {
-    console.error(`❌ 代币销毁任务 ${taskId} 处理过程中发生错误:`, error);
+    console.error(`❌ XAA销毁任务 ${taskId} 处理过程中发生错误:`, error);
 
     // 更新任务状态为失败
     await prisma.task.update({
@@ -224,11 +207,9 @@ async function processBurnTokensTask(
         result: JSON.stringify({
           success: false,
           error: error instanceof Error ? error.message : 'Unknown error',
-          message: '代币销毁处理失败'
+          message: 'XAA销毁处理失败'
         })
       }
     });
-
-
   }
 }

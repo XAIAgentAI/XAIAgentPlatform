@@ -32,17 +32,19 @@ export function AgentDetail({ id }: AgentDetailProps) {
       if (showGlobalLoading) {
         setIsLoading(true);
       }
-      const res = await agentAPI.getAgentById((id)) as unknown as ApiResponse<LocalAgent>;
 
-      console.log("fetchAgent res", res);
-      const agent = await agentAPI.getAgentById((id));
+      const res = await agentAPI.getAgentById(id);
+
       if (res.code === 200 && res.data) {
-        console.log("res.data1", res.data);
-
         setAgent(res.data);
+        setError(null);
+      } else {
+        console.error("❌ [ERROR] Invalid response:", res);
+        setError(res.message || t('fetchError'));
       }
 
     } catch (err) {
+      console.error("❌ [ERROR] Exception in fetchAgent:", err);
       setError(err instanceof Error ? err.message : t('fetchError'));
     } finally {
       if (showGlobalLoading) {

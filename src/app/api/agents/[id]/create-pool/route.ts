@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPublicClient, createWalletClient, http, parseEther, formatEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { currentChain } from '@/config/networks';
+import { createSuccessResponse, handleError } from '@/lib/error';
 import { z } from 'zod';
 
 // DBCSwap V3 合约地址配置
@@ -671,18 +672,14 @@ export async function POST(
     // 简化：不更新数据库，只返回结果
     console.log('✅ 跳过数据库更新，直接返回结果');
 
-    return NextResponse.json({
-      code: 200,
-      message: '池子创建和流动性添加成功',
-      data: {
-        poolAddress: poolAddress,
-        liquidityTxHash: addLiquidityHash,
-        tokenAmount: formatEther(tokenAmountWei),
-        xaaAmount: formatEther(xaaAmountWei),
-        blockNumber: receipt.blockNumber.toString(),
-        fee: fee,
-      },
-    });
+    return createSuccessResponse({
+      poolAddress: poolAddress,
+      liquidityTxHash: addLiquidityHash,
+      tokenAmount: formatEther(tokenAmountWei),
+      xaaAmount: formatEther(xaaAmountWei),
+      blockNumber: receipt.blockNumber.toString(),
+      fee: fee,
+    }, '池子创建和流动性添加成功');
 
   } catch (error: any) {
     console.error('❌ 创建池子失败:', error);

@@ -101,10 +101,10 @@ export default function LiquidityManagement({ agent, onStatusUpdate }: Liquidity
           },
         });
 
-        const data = await response.json();
-        
-        if (data.code === 200) {
-          const task = data.data;
+        const response_data = await response.json();
+
+        if (response_data.code === 200) {
+          const task = response_data.data;
           setTaskStatus(task);
 
           if (task.status === 'COMPLETED') {

@@ -109,12 +109,8 @@ export async function POST(request: Request) {
 
     // 立即返回成功响应
     return createSuccessResponse({
-      code: 200,
-      message: '已成功提交Token创建任务，请稍后查询结果',
-      data: {
-        taskId: task.id,
-      },
-    });
+      taskId: task.id,
+    }, '已成功提交Token创建任务，请稍后查询结果');
   } catch (error) {
     console.error('提交Token创建任务过程中发生错误:', error);
     return handleError(error);

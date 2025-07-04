@@ -102,12 +102,8 @@ export async function POST(
 
     // 立即返回成功响应
     return createSuccessResponse({
-      code: 200,
-      message: '流动性添加任务已提交，请稍后查询结果',
-      data: {
-        taskId: task.id,
-      },
-    });
+      taskId: task.id,
+    }, '流动性添加任务已提交，请稍后查询结果');
 
   } catch (error) {
     console.error('提交流动性添加任务过程中发生错误:', error);

@@ -93,14 +93,10 @@ export async function GET(
     });
 
     return createSuccessResponse({
-      code: 200,
-      message: '查询Agent任务列表成功',
-      data: {
-        agentId,
-        agentName: agent.name,
-        tasks: formattedTasks
-      },
-    });
+      agentId,
+      agentName: agent.name,
+      tasks: formattedTasks
+    }, '查询Agent任务列表成功');
   } catch (error) {
     console.error('查询Agent任务列表过程中发生错误:', error);
     return handleError(error);

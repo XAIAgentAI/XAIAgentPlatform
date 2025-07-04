@@ -304,6 +304,12 @@ function formatAgentData(
       // 合约时间信息 - 直接使用数据库中的时间戳（通过事件监听自动同步）
       startTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : undefined,
       endTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : undefined,
+      // 管理状态字段
+      tokensDistributed: item.tokensDistributed,
+      liquidityAdded: item.liquidityAdded,
+      tokensBurned: item.tokensBurned,
+      ownerTransferred: item.ownerTransferred,
+      miningOwnerTransferred: item.miningOwnerTransferred,
       // 保存原始数值用于排序
       _usdPrice: priceInfo?.usdPrice || 0,
       _volume24h: priceInfo?.volume24h || 0,

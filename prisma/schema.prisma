@@ -77,6 +77,7 @@ model Agent {
   // Owner管理相关状态字段
   ownerTransferred          Boolean      @default(false) // 代币owner是否已转移
   liquidityAdded            Boolean      @default(false) // 流动性是否已添加
+  tokensDistributed         Boolean      @default(false) // 代币是否已分发
   tokensBurned              Boolean      @default(false) // 代币是否已销毁
   miningOwnerTransferred    Boolean      @default(false) // 挖矿合约owner是否已转移
   // 池子相关字段

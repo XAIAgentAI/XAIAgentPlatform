@@ -153,12 +153,13 @@ export const useIaoPoolData = (agent: LocalAgent) => {
         },
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Token creation task API response:', data);
+      const response_data = await response.json();
 
-        if (data.code === 200 && data.data && Array.isArray(data.data.tasks)) {
-          const createTokenTask = data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
+      if (response_data.code === 200) {
+        console.log('Token creation task API response:', response_data);
+
+        if (response_data.code === 200 && response_data.data && Array.isArray(response_data.data.tasks)) {
+          const createTokenTask = response_data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
           if (createTokenTask) {
             console.log('🔄 Token creation task status updated:', createTokenTask.status);
             setTokenCreationTask(createTokenTask);
@@ -168,7 +169,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
           }
 
           // 同时获取分发任务状态
-          const distributeTask = data.data.tasks.find((task: any) => task.type === 'DISTRIBUTE_TOKENS');
+          const distributeTask = response_data.data.tasks.find((task: any) => task.type === 'DISTRIBUTE_TOKENS');
           if (distributeTask) {
             console.log('🔄 Distribution task status updated:', distributeTask.status);
             setDistributionTask(distributeTask);
@@ -177,7 +178,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
             setDistributionTask(null);
           }
         } else {
-          console.warn('Unexpected API response structure:', data);
+          console.warn('Unexpected API response structure:', response_data);
         }
       } else {
         console.error('API request failed with status:', response.status);

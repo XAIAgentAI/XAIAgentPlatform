@@ -31,6 +31,15 @@ export async function GET(
       throw new ApiError(404, 'Agent不存在');
     }
 
+    // 管理状态字段
+    const managementStatus = {
+      tokensDistributed: (agent as any).tokensDistributed,
+      liquidityAdded: (agent as any).liquidityAdded,
+      tokensBurned: (agent as any).tokensBurned,
+      ownerTransferred: (agent as any).ownerTransferred,
+      miningOwnerTransferred: (agent as any).miningOwnerTransferred,
+    };
+
     return createSuccessResponse({
       ...agent,
       capabilities: JSON.parse(agent.capabilities),
@@ -42,6 +51,8 @@ export async function GET(
       iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
       projectDescription: (agent as any).projectDescription,
       containerLink: (agent as any).containerLink,
+      // 添加管理状态字段
+      ...managementStatus,
     });
   } catch (error) {
     return handleError(error);

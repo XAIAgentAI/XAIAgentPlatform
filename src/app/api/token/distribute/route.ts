@@ -110,12 +110,8 @@ export async function POST(request: NextRequest) {
 
     // 立即返回成功响应
     return createSuccessResponse({
-      code: 200,
-      message: '已成功提交代币分发任务，请稍后查询结果',
-      data: {
-        taskId: task.id,
-      },
-    });
+      taskId: task.id,
+    }, '已成功提交代币分发任务，请稍后查询结果');
 
   } catch (error: any) {
     const endTime = Date.now();
@@ -175,81 +171,40 @@ async function processTokenDistributionTask(taskId: string) {
       }
     });
 
-    console.log('� [DEBUG] �💰 开始执行代币分配流程...');
-    console.log('🔍 [DEBUG] 📊 分配参数:');
-    console.log(`🔍 [DEBUG]   - 任务ID: ${taskId}`);
-    console.log(`🔍 [DEBUG]   - Agent ID: ${agentId}`);
-    console.log(`🔍 [DEBUG]   - 总供应量: ${totalSupply}`);
-    console.log(`🔍 [DEBUG]   - 代币地址: ${tokenAddress}`);
-    console.log(`🔍 [DEBUG]   - 用户地址: ${userAddress}`);
-    console.log(`🔍 [DEBUG]   - 包含销毁: ${includeBurn}`);
-    if (includeBurn) {
-      console.log(`🔍 [DEBUG]   - 销毁比例: ${burnPercentage}%`);
-    }
-    if (retryTaskId) {
-      console.log(`🔍 [DEBUG]   - 重试任务: ${retryTaskId}`);
-    }
-
-    console.log('🔍 [DEBUG] 调用 distributeTokensWithOptions...');
+    console.log('💰 开始执行代币分配流程...');
     const result = await distributeTokensWithOptions(agentId, totalSupply, tokenAddress, userAddress, {
       includeBurn,
       burnPercentage,
       retryTaskId
     });
-    console.log('🔍 [DEBUG] distributeTokensWithOptions 返回结果:', result);
-
-    // 检查结果状态
-    console.log('🔍 [DEBUG] 检查分发结果状态...');
+    // 检查交易结果
     const hasFailedTransactions = result.data?.transactions?.some(tx => tx.status === 'failed') || false;
     const hasSuccessfulTransactions = result.data?.transactions?.some(tx => tx.status === 'confirmed') || false;
-    console.log('🔍 [DEBUG] 结果状态分析:', {
-      hasFailedTransactions,
-      hasSuccessfulTransactions,
-      totalTransactions: result.data?.transactions?.length || 0,
-      transactions: result.data?.transactions?.map(tx => ({
-        type: tx.type,
-        status: tx.status,
-        txHash: tx.txHash
-      }))
-    });
 
     let taskStatus: 'COMPLETED' | 'FAILED' | 'PARTIAL_FAILED';
 
-    console.log('🔍 [DEBUG] 判断任务最终状态...');
     if (!result.success && !hasSuccessfulTransactions) {
-      // 完全失败
       taskStatus = 'FAILED';
-      console.log('🔍 [DEBUG] ❌ 代币分配完全失败:', result.error);
     } else if (hasFailedTransactions && hasSuccessfulTransactions) {
-      // 部分失败
       taskStatus = 'PARTIAL_FAILED';
-      console.log('🔍 [DEBUG] ⚠️ 代币分配部分失败 - 部分交易成功，部分交易失败');
     } else if (result.success && !hasFailedTransactions) {
-      // 完全成功
       taskStatus = 'COMPLETED';
-      console.log('🔍 [DEBUG] ✅ 代币分配完全成功');
     } else {
-      // 默认处理
       taskStatus = result.success ? 'COMPLETED' : 'FAILED';
-      console.log('🔍 [DEBUG] 默认状态处理:', { taskStatus, success: result.success });
     }
 
-    console.log('🔍 [DEBUG] 最终任务状态:', taskStatus);
+    console.log('📊 代币分发任务完成，状态:', taskStatus);
 
-    // 更新任务状态，保留原来的 metadata
-    console.log('🔍 [DEBUG] 更新任务状态到数据库:', taskStatus);
-
-    // 获取原来的任务数据以保留 metadata
+    // 更新任务状态
     const originalTaskData = JSON.parse(task.result || '{}');
     const originalMetadata = originalTaskData.metadata || {};
 
     const taskResult = {
-      metadata: originalMetadata, // 保留原来的 metadata
+      metadata: originalMetadata,
       ...result.data,
       error: result.error,
       status: taskStatus
     };
-    console.log('🔍 [DEBUG] 任务结果数据 (保留metadata):', taskResult);
 
     await prisma.task.update({
       where: { id: taskId },
@@ -259,9 +214,14 @@ async function processTokenDistributionTask(taskId: string) {
         result: JSON.stringify(taskResult)
       }
     });
-    console.log('🔍 [DEBUG] 任务状态更新完成');
 
-
+    // 如果任务完成，更新Agent的tokensDistributed状态
+    if (taskStatus === 'COMPLETED') {
+      await prisma.agent.update({
+        where: { id: agentId },
+        data: { tokensDistributed: true } as any
+      });
+    }
 
     // 如果完全失败，直接返回
     if (taskStatus === 'FAILED') {
@@ -337,24 +297,20 @@ export async function GET(request: NextRequest) {
     });
 
     return createSuccessResponse({
-      code: 200,
-      message: '查询成功',
-      data: {
-        distributions: tasks.map(task => {
-          const taskData = task.result ? JSON.parse(task.result) : {};
-          const metadata = taskData.metadata || taskData;
-          return {
-            id: task.id,
-            status: task.status,
-            totalSupply: metadata.totalSupply,
-            tokenAddress: metadata.tokenAddress,
-            createdAt: task.createdAt,
-            completedAt: task.completedAt,
-            transactions: taskData.transactions || [],
-          };
-        }),
-      },
-    });
+      distributions: tasks.map(task => {
+        const taskData = task.result ? JSON.parse(task.result) : {};
+        const metadata = taskData.metadata || taskData;
+        return {
+          id: task.id,
+          status: task.status,
+          totalSupply: metadata.totalSupply,
+          tokenAddress: metadata.tokenAddress,
+          createdAt: task.createdAt,
+          completedAt: task.completedAt,
+          transactions: taskData.transactions || [],
+        };
+      }),
+    }, '查询成功');
 
   } catch (error: any) {
     console.error('❌ 查询分配状态错误:', error);
@@ -394,11 +350,7 @@ export async function PATCH(request: NextRequest) {
 
     console.log('✅ 重试完成');
 
-    return createSuccessResponse({
-      code: 200,
-      message: '重试成功',
-      data: result.data,
-    });
+    return createSuccessResponse(result.data, '重试成功');
 
   } catch (error: any) {
     console.error('❌ 重试错误:', error);

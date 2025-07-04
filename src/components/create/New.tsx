@@ -577,7 +577,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
 
                 // 如果是创建模式，更新data状态中的agent ID
-                if (mode === 'create' && result.data?.data?.agentId) {
+                if (mode === 'create' && result.data?.agentId) {
                     setData(prev => ({
                         ...(prev || {
                             name: formData.name,
@@ -585,7 +585,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             description: formData.description,
                             useCases: { zh: [], en: [], ko: [], ja: [] }
                         }),
-                        id: result.data?.data?.agentId
+                        id: result.data?.agentId
                     }));
                 }
 

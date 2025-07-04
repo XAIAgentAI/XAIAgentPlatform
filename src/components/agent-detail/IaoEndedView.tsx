@@ -4,12 +4,13 @@
 
 'use client';
 
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
+import { useToast } from '@/components/ui/use-toast';
 import { IaoResultDisplay } from './IaoResultDisplay';
 // import LiquidityManagement from './LiquidityManagement';
 // import TokenBurnModal from './TokenBurnModal';
-// import OwnershipTransferModal from './OwnershipTransferModal';
 import { TokenDistributionModal } from './TokenDistributionModal';
 import type { LocalAgent } from "@/types/agent";
 
@@ -50,6 +51,11 @@ export const IaoEndedView = ({
   canClaim
 }: IaoEndedViewProps) => {
   const t = useTranslations('iaoPool');
+  const { toast } = useToast();
+  const [isBurning, setIsBurning] = useState(false);
+  const [isTransferringOwnership, setIsTransferringOwnership] = useState(false);
+  const [ownershipTaskId, setOwnershipTaskId] = useState<string | null>(null);
+  const [ownershipTaskStatus, setOwnershipTaskStatus] = useState<'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | null>(null);
 
   const formatNumber = (value: string | number, decimals: number = 2): string => {
     if (!value || value === '0') return '0';
@@ -69,6 +75,195 @@ export const IaoEndedView = ({
     const canClaimAfter = (poolInfo?.endTime || 0) * 1000 + claimDelayMs;
 
     return Date.now() >= canClaimAfter;
+  };
+
+  // 销毁代币处理函数
+  const handleBurnTokens = async (e: React.MouseEvent) => {
+    e.preventDefault(); // 阻止默认行为
+    e.stopPropagation(); // 阻止事件冒泡
+
+    try {
+      setIsBurning(true);
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast({
+          title: '错误',
+          description: '请先连接钱包并完成认证',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      console.log('🔥 [DEBUG] 调用销毁XAA接口...');
+
+      const response = await fetch(`/api/agents/${agent.id}/burn-xaa`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          iaoContractAddress: agent.iaoContractAddress,
+        }),
+      });
+
+      const result = await response.json();
+      console.log('🔥 [DEBUG] 销毁XAA提交结果:', result);
+
+      if (result.code === 200) {
+        toast({
+          title: 'XAA销毁任务已提交',
+          description: '任务已提交，正在后台处理...',
+        });
+
+        // 刷新状态
+        onRefreshStatus();
+      } else {
+        throw new Error(result.message || 'XAA销毁任务提交失败');
+      }
+    } catch (error) {
+      console.error('销毁XAA失败:', error);
+      toast({
+        title: '销毁失败',
+        description: error instanceof Error ? error.message : '未知错误',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsBurning(false);
+    }
+  };
+
+  // 轮询任务状态
+  const pollOwnershipTaskStatus = async (taskId: string) => {
+    const maxAttempts = 60; // 最多轮询60次（5分钟）
+    let attempts = 0;
+
+    const poll = async () => {
+      try {
+        attempts++;
+        console.log(`🔄 [DEBUG] 轮询所有权转移任务状态 (${attempts}/${maxAttempts}): ${taskId}`);
+
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/tasks/${taskId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        const result = await response.json();
+        console.log(`📊 [DEBUG] 任务状态查询结果:`, result);
+
+        if (result.code === 200 && result.data) {
+          const task = result.data;
+          setOwnershipTaskStatus(task.status);
+
+          if (task.status === 'COMPLETED') {
+            console.log('✅ 所有权转移任务完成');
+            toast({
+              title: '所有权转移成功',
+              description: '代币所有权已成功转移给创建者',
+            });
+            setIsTransferringOwnership(false);
+            onRefreshStatus(); // 刷新整体状态
+            return;
+          } else if (task.status === 'FAILED') {
+            console.log('❌ 所有权转移任务失败');
+            toast({
+              title: '所有权转移失败',
+              description: task.result?.message || '转移过程中发生错误',
+              variant: 'destructive',
+            });
+            setIsTransferringOwnership(false);
+            return;
+          } else if (task.status === 'PROCESSING' || task.status === 'PENDING') {
+            // 继续轮询
+            if (attempts < maxAttempts) {
+              setTimeout(poll, 5000); // 5秒后再次查询
+            } else {
+              console.log('⏰ 轮询超时');
+              toast({
+                title: '查询超时',
+                description: '任务仍在处理中，请稍后手动刷新查看结果',
+                variant: 'destructive',
+              });
+              setIsTransferringOwnership(false);
+            }
+          }
+        } else {
+          throw new Error(result.message || '查询任务状态失败');
+        }
+      } catch (error) {
+        console.error('轮询任务状态失败:', error);
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 5000); // 出错后也继续重试
+        } else {
+          toast({
+            title: '查询失败',
+            description: '无法获取任务状态，请稍后手动刷新',
+            variant: 'destructive',
+          });
+          setIsTransferringOwnership(false);
+        }
+      }
+    };
+
+    poll();
+  };
+
+  // 转移代币所有权处理函数
+  const handleTransferOwnership = async () => {
+    try {
+      setIsTransferringOwnership(true);
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast({
+          title: '错误',
+          description: '请先连接钱包并完成认证',
+          variant: 'destructive',
+        });
+        setIsTransferringOwnership(false);
+        return;
+      }
+
+      console.log('🔑 [DEBUG] 调用转移代币所有权接口...');
+
+      const response = await fetch(`/api/agents/${agent.id}/transfer-ownership`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      console.log('🔑 [DEBUG] 转移代币所有权提交结果:', result);
+
+      if (result.code === 200) {
+        const taskId = result.data.taskId;
+        setOwnershipTaskId(taskId);
+        setOwnershipTaskStatus('PENDING');
+
+        toast({
+          title: '代币所有权转移任务已提交',
+          description: '任务已提交，正在后台处理...',
+        });
+
+        // 开始轮询任务状态
+        pollOwnershipTaskStatus(taskId);
+      } else {
+        throw new Error(result.message || '代币所有权转移任务提交失败');
+      }
+    } catch (error) {
+      console.error('转移代币所有权失败:', error);
+      toast({
+        title: '转移失败',
+        description: error instanceof Error ? error.message : '未知错误',
+        variant: 'destructive',
+      });
+      setIsTransferringOwnership(false);
+    }
   };
 
 
@@ -246,9 +441,9 @@ export const IaoEndedView = ({
                 </div>
               </div>
 
-              {/* 步骤2: 代币分发（包含流动性和销毁） */}
+              {/* 步骤2: 代币分发 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned ? 'bg-green-50 border-green-200' :
+                agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-50 border-green-200' :
                 distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
                 distributionTask?.status === 'FAILED' ? 'bg-red-50 border-red-200' :
                 agent.tokenAddress ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
@@ -257,11 +452,11 @@ export const IaoEndedView = ({
                   <span className="text-lg">📤</span>
                   <div>
                     <div className="font-medium text-sm">2. 代币分发</div>
-                    <div className="text-xs text-gray-600">分发代币、添加流动性、销毁代币</div>
+                    <div className="text-xs text-gray-600">分发代币、添加流动性</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned ? (
+                  {agent.tokensDistributed && agent.liquidityAdded ? (
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
                   ) : distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? (
                     <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">分发中...</span>
@@ -282,24 +477,67 @@ export const IaoEndedView = ({
                 </div>
               </div>
 
-              {/* 步骤3: 转移所有权 */}
+              {/* 步骤3: 销毁代币 */}
+              <div className={`flex items-center justify-between p-3 rounded-lg border ${
+                agent.tokensBurned ? 'bg-green-50 border-green-200' :
+                isBurning ? 'bg-blue-50 border-blue-200' :
+                (agent.tokensDistributed && agent.liquidityAdded) ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
+              }`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-lg">🔥</span>
+                  <div>
+                    <div className="font-medium text-sm">3. 销毁代币</div>
+                    <div className="text-xs text-gray-600">销毁IAO中5%的XAA代币</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {agent.tokensBurned ? (
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
+                  ) : isBurning ? (
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">销毁中...</span>
+                  ) : (agent.tokensDistributed && agent.liquidityAdded) ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={handleBurnTokens}
+                      disabled={isBurning}
+                    >
+                      销毁代币
+                    </Button>
+                  ) : (
+                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">等待中</span>
+                  )}
+                </div>
+              </div>
+
+              {/* 步骤4: 转移所有权 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
                 agent.ownerTransferred ? 'bg-green-50 border-green-200' :
-                (agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned) ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
+                agent.tokensBurned ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🔑</span>
                   <div>
-                    <div className="font-medium text-sm">3. 转移所有权</div>
+                    <div className="font-medium text-sm">4. 转移所有权</div>
                     <div className="text-xs text-gray-600">转移合约控制权，完全去中心化</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {agent.ownerTransferred ? (
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
-                  ) : (agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned) ? (
-                    <Button size="sm" variant="outline" disabled>
-                      开发中
+                  ) : agent.tokensBurned ? (
+                    <Button
+                      size="sm"
+                      // variant="outline"
+                      type="button"
+                      onClick={handleTransferOwnership}
+                      disabled={isTransferringOwnership}
+                    >
+                      {isTransferringOwnership ? (
+                        ownershipTaskStatus === 'PENDING' ? '提交中...' :
+                        ownershipTaskStatus === 'PROCESSING' ? '转移中...' :
+                        '处理中...'
+                      ) : '转移所有权'}
                     </Button>
                   ) : (
                     <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">等待中</span>

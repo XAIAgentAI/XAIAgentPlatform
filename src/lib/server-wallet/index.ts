@@ -1048,6 +1048,14 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
     // 更新数据库
     await updateDistributionTask(taskId, newStatus, allTransactions);
 
+    // 如果重试后任务完成，更新Agent的tokensDistributed状态
+    if (newStatus === 'COMPLETED') {
+      await prisma.agent.update({
+        where: { id: task.agentId },
+        data: { tokensDistributed: true } as any
+      });
+    }
+
     return {
       success: newStatus === 'COMPLETED',
       taskId,

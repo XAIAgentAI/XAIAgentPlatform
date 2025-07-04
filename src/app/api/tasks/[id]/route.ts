@@ -78,21 +78,17 @@ export async function GET(
     }
 
     return createSuccessResponse({
-      code: 200,
-      message: '查询任务成功',
-      data: {
-        id: task.id,
-        type: task.type,
-        status: task.status,
-        createdAt: task.createdAt,
-        startedAt: task.startedAt,
-        completedAt: task.completedAt,
-        agentId: task.agentId,
-        agentName: task.agent.name,
-        result: resultData,
-        // History table has been removed - task details are now in the result field
-      },
-    });
+      id: task.id,
+      type: task.type,
+      status: task.status,
+      createdAt: task.createdAt,
+      startedAt: task.startedAt,
+      completedAt: task.completedAt,
+      agentId: task.agentId,
+      agentName: task.agent.name,
+      result: resultData,
+      // History table has been removed - task details are now in the result field
+    }, '查询任务成功');
   } catch (error) {
     console.error('查询任务过程中发生错误:', error);
     return handleError(error);

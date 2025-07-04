@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { LocalAgent } from '@/types/agent';
-import { mergeDistributionTasks, filterDistributionTasks, type DistributionTask } from '@/lib/task-utils';
+import { mergeDistributionTasks, filterDistributionTasks } from '@/lib/task-utils';
 
 interface TokenDistributionModalProps {
   agent: LocalAgent;
@@ -64,15 +64,17 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
       });
 
       if (response.ok) {
-        const {data} = await response.json();
-        console.log('🔍 [DEBUG] Distribution task API response:', data, data.code === 200 , data.data, Array.isArray(data.data.tasks) );
+        const response_data = await response.json();
+        console.log('🔍 [DEBUG] Distribution task API response:', response_data, response_data.code === 200 , response_data.data, Array.isArray(response_data.data.tasks) );
 
-        if (data.code === 200 && data.data && Array.isArray(data.data.tasks)) {
-          console.log('🔍 [DEBUG] 找到的任务列表:', data.data.tasks);
+        if (response_data.code === 200 && response_data.data && Array.isArray(response_data.data.tasks)) {
+          console.log('🔍 [DEBUG] 找到的任务列表:', response_data.data.tasks);
 
           // 获取所有DISTRIBUTE_TOKENS任务
-          const distributeTasks = filterDistributionTasks(data.data.tasks);
+          const distributeTasks = filterDistributionTasks(response_data.data.tasks);
           console.log('🔍 [DEBUG] 找到的分发任务数量:', distributeTasks.length);
+
+
 
           if (distributeTasks.length > 0) {
             // 应用合并逻辑：合并所有分发任务的交易记录
@@ -155,7 +157,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
         clearInterval(interval);
       }
     };
-  }, [distributionTask?.status, fetchDistributionTask]);
+  }, [distributionTask?.status]); // 移除 fetchDistributionTask 依赖，避免不必要的重新渲染
 
   // 监听任务状态变化，仅在任务完成时触发主页面状态更新
   useEffect(() => {
@@ -166,14 +168,14 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
         onStatusUpdate?.();
       }
     }
-  }, [distributionTask?.status, onStatusUpdate]);
+  }, [distributionTask?.status]); // 移除 onStatusUpdate 依赖，避免无限循环
 
   // 当模态框打开时，获取任务状态
   useEffect(() => {
     if (isOpen) {
       fetchDistributionTask();
     }
-  }, [isOpen, fetchDistributionTask]);
+  }, [isOpen]); // 移除 fetchDistributionTask 依赖，避免不必要的重新渲染
 
   // 辅助函数：检查具体步骤的状态
   const getStepStatusFromTransactions = (step: string, isProcessing: boolean = false) => {
@@ -337,14 +339,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
       };
     }
 
-    if (step === 'burn') {
-      return {
-        completed: !!agent.tokensBurned,
-        inProgress: false,
-        failed: false,
-        text: agent.tokensBurned ? '已完成' : '等待中'
-      };
-    }
+
 
     return {
       completed: false,
@@ -364,6 +359,8 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
     AIRDROP: 2,     // 2%
     MINING: 40      // 40%
   };
+
+
 
   const handleDistribute = async () => {
     console.log('🔍 [DEBUG] handleDistribute 开始执行');
@@ -634,26 +631,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.LIQUIDITY)}</span>
               </div>
 
-              {/* 代币销毁 */}
-              <div className={`flex justify-between items-center p-2 rounded border ${
-                getDistributionStepStatus('burn').completed ? 'bg-green-50 border-green-200' :
-                getDistributionStepStatus('burn').inProgress ? 'bg-blue-50 border-blue-200' :
-                getDistributionStepStatus('burn').failed ? 'bg-red-50 border-red-200' :
-                'bg-gray-50 border-gray-200'
-              }`}>
-                <div className="flex items-center gap-2">
-                  <span>🔥 销毁代币</span>
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    getDistributionStepStatus('burn').completed ? 'bg-green-100 text-green-800' :
-                    getDistributionStepStatus('burn').inProgress ? 'bg-blue-100 text-blue-800' :
-                    getDistributionStepStatus('burn').failed ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-600'
-                  }`}>
-                    {getDistributionStepStatus('burn').text}
-                  </span>
-                </div>
-                <span className="font-medium text-gray-500">创建者代币</span>
-              </div>
+
             </div>
           </div>
 
@@ -820,6 +798,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             关闭
           </Button>
+
           <Button
             onClick={handleDistribute}
             disabled={

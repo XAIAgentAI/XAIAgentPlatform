@@ -76,35 +76,62 @@ export const agentAPI = {
 
 
   // 获取单个 agent
-  getAgentById: async (id: string): Promise<LocalAgent> => {
-    const { data } = await api.get(`/agents/${id}`);
-    console.log("response1", data);
+  getAgentById: async (id: string): Promise<ApiResponse<LocalAgent>> => {
+    console.log("🔍 [DEBUG] getAgentById called with id:", id);
 
-    // 获取池子数据
-    const poolsResponse = await getBatchTokenPrices([{
-      symbol: data.data.symbol,
-      address: data.data.tokenAddress,
-    }]);
+    const response = await api.get(`/agents/${id}`);
+    console.log("🔍 [DEBUG] API response:", response);
+    console.log("🔍 [DEBUG] Response data:", response.data);
 
-    const poolData = poolsResponse[data.data.symbol];
-
-    const res = {
-      data: {
-        ...data.data,
-        targetTokenAmountLp: poolData?.targetTokenAmountLp || 0,
-        baseTokenAmountLp: poolData?.baseTokenAmountLp || 0,
-      }
+    // 检查响应数据
+    if (!response.data) {
+      console.error("❌ [ERROR] No response data");
+      throw new Error('No response data');
     }
 
-    console.log("poolResponse", poolData, "res", res);
+    if (response.data.code !== 200) {
+      console.error("❌ [ERROR] API returned error code:", response.data.code, response.data.message);
+      throw new Error(response.data?.message || 'API returned error');
+    }
 
-    return {
-      ...data,
+    if (!response.data.data) {
+      console.error("❌ [ERROR] No agent data in response");
+      throw new Error('No agent data in response');
+    }
+
+    const agentData = response.data.data;
+    console.log("🔍 [DEBUG] Agent data:", agentData);
+
+    let poolData = {};
+
+    // 只有当agent有symbol和tokenAddress时才获取池子数据
+    if (agentData.symbol && agentData.tokenAddress) {
+      try {
+        console.log("🔍 [DEBUG] Fetching pool data for:", agentData.symbol, agentData.tokenAddress);
+        const poolsResponse = await getBatchTokenPrices([{
+          symbol: agentData.symbol,
+          address: agentData.tokenAddress,
+        }]);
+        poolData = poolsResponse[agentData.symbol] || {};
+        console.log("🔍 [DEBUG] Pool data fetched:", poolData);
+      } catch (error) {
+        console.warn("⚠️ [WARN] Failed to fetch pool data:", error);
+        // 继续执行，不让池子数据获取失败影响整个请求
+      }
+    } else {
+      console.log("🔍 [DEBUG] Skipping pool data fetch - missing symbol or tokenAddress");
+    }
+
+    const result = {
+      ...response.data,
       data: {
-        ...data.data,
+        ...agentData,
         ...poolData,
       }
-    }
+    };
+
+    console.log("🔍 [DEBUG] Final result:", result);
+    return result;
   },
 
   // 获取实时价格数据

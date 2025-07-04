@@ -35,15 +35,14 @@ export async function burnTokens(
       throw new Error(`Insufficient token balance. Required: ${burnAmount}, Available: ${balance.formatted}`);
     }
 
-    // 首先尝试使用合约的burn方法
+    // 只尝试使用合约的burn方法，如果失败则直接报错
     const burnResult = await tryContractBurn(tokenAddress, burnAmountWei);
     if (burnResult) {
       return burnResult;
     }
 
-    // 如果合约没有burn方法，则使用转移到黑洞地址的方式
-    console.log(`⚠️ 合约没有burn方法，使用转移到黑洞地址的方式`);
-    return await burnByTransfer(tokenAddress, burnAmountWei);
+    // 如果合约没有burn方法，直接报错
+    throw new Error('合约没有burn方法，无法执行销毁操作');
 
   } catch (error) {
     console.error('❌ 代币销毁失败:', error);
@@ -207,58 +206,7 @@ async function tryBurnFromMethod(
   }
 }
 
-/**
- * 通过转移到黑洞地址的方式销毁代币
- */
-async function burnByTransfer(
-  tokenAddress: `0x${string}`,
-  burnAmountWei: bigint
-): Promise<TransactionResult> {
-  const { walletClient, publicClient, serverAccount } = await getServerWalletClients();
 
-  // ERC20 transfer方法的ABI
-  const erc20TransferABI = [
-    {
-      name: 'transfer',
-      type: 'function',
-      stateMutability: 'nonpayable',
-      inputs: [
-        { name: 'to', type: 'address' },
-        { name: 'amount', type: 'uint256' }
-      ],
-      outputs: [{ name: '', type: 'bool' }]
-    }
-  ] as const;
-
-  console.log(`🔥 执行代币销毁 - 转移 ${formatEther(burnAmountWei)} 代币到黑洞地址`);
-
-  // 执行转移到黑洞地址（等同于销毁）
-  const hash = await walletClient.writeContract({
-    address: tokenAddress,
-    abi: erc20TransferABI,
-    functionName: 'transfer',
-    args: [BURN_ADDRESS, burnAmountWei],
-    account: serverAccount.address,
-  });
-
-  console.log(`📝 转移销毁交易已提交 - Hash: ${hash}`);
-
-  // 等待交易确认
-  const receipt = await publicClient.waitForTransactionReceipt({ hash });
-
-  if (receipt.status === 'success') {
-    console.log(`✅ 转移销毁成功 - 已销毁 ${formatEther(burnAmountWei)} 代币`);
-    return {
-      type: 'creator',
-      amount: formatEther(burnAmountWei),
-      txHash: hash,
-      status: 'confirmed',
-      toAddress: BURN_ADDRESS
-    };
-  } else {
-    throw new Error('Transfer burn transaction failed');
-  }
-}
 
 /**
  * 检查代币余额
