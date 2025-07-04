@@ -6,7 +6,6 @@
 import { createPublicClient, createWalletClient, http, parseEther, formatEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { currentChain } from '@/config/networks';
-import { getPoolCurrentPrice, getTokenPriceInXAA } from '@/services/poolPriceService';
 
 // DBCSwap V3 合约地址配置
 export const DBCSWAP_CONFIG = {

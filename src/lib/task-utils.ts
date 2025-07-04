@@ -5,7 +5,7 @@
 
 // 任务接口定义
 export interface TaskTransaction {
-  type: string;
+  type: 'creator' | 'iao' | 'liquidity' | 'airdrop' | 'mining' | 'burn';
   amount: string;
   txHash: string;
   status: 'pending' | 'confirmed' | 'failed';
