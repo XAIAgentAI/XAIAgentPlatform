@@ -772,7 +772,7 @@
       "mining": {
         "title": "채굴 요구사항",
         "gpu": "GPU 메모리 최소 요구사항 설정",
-        "container": "AI 컨테이너 다운로드 링크 설정"
+        "container": "AI 모델 컨테이너 다운로드 링크 설정"
       }
     },
     "examples": {
@@ -844,7 +844,7 @@
       "descriptionLimit": "프로젝트 설명은 100-500자로, AI 에이전트의 기능과 특징을 자세히 설명해주세요",
       "descriptionExample": "예시: TensorFlow를 사용한 딥러닝 기반 음색 인식 시스템, 악기와 인성을 구분하여 음악 분류 및 음성 인식에 적용",
       "logoSizeHint": "권장 크기: 100×100픽셀, PNG, JPG 형식 지원",
-      "containerLinkHint": "AI 컨테이너의 Docker 이미지 다운로드 링크, 에이전트 배포에 사용",
+      "containerLinkHint": "AI 모델 컨테이너의 Docker 이미지 다운로드 링크, AI 모델 배포에 사용",
       "containerLinkExample": "예: https://hub.docker.com/r/username/image",
       "socialLinkHint": "프로젝트의 소셜 미디어 링크",
       "twitterLink": "트위터 링크",

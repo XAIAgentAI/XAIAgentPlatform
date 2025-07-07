@@ -799,7 +799,7 @@
       "mining": {
         "title": "挖矿要求",
         "gpu": "设置GPU显存最低要求",
-        "container": "设置AI容器下载链接"
+        "container": "设置AI模型容器下载链接"
       }
     },
     "examples": {
@@ -859,7 +859,7 @@
       "descriptionLimit": "项目描述建议100-500字，详细说明您的AI智能体功能和特色",
       "descriptionExample": "示例：基于深度学习的音色识别系统，使用TensorFlow实现，区分乐器及人声，应用于音乐分类与语音识别",
       "logoSizeHint": "建议尺寸：100×100像素，支持PNG、JPG格式",
-      "containerLinkHint": "AI容器的Docker镜像下载链接，用于部署您的智能体",
+      "containerLinkHint": "AI模型容器的Docker镜像下载链接，用于部署您的AI模型",
       "containerLinkExample": "例如：https://hub.docker.com/r/username/image",
       "socialLinkHint": "您的项目社交媒体链接",
       "twitterLink": "推特链接",

@@ -763,7 +763,7 @@
       "mining": {
         "title": "マイニング要件",
         "gpu": "GPUメモリの最低要件を設定",
-        "container": "AIコンテナのダウンロードリンクを設定"
+        "container": "AIモデルコンテナのダウンロードリンクを設定"
       }
     },
     "examples": {
@@ -835,7 +835,7 @@
       "descriptionLimit": "プロジェクトの説明は100-500文字で、AIエージェントの機能と特徴を詳しく説明してください",
       "descriptionExample": "例：TensorFlowを使用した深層学習ベースの音色認識システム、楽器と人声を区別し、音楽分類と音声認識に応用",
       "logoSizeHint": "推奨サイズ：100×100ピクセル、PNG、JPG形式をサポート",
-      "containerLinkHint": "AIコンテナのDockerイメージダウンロードリンク、エージェントのデプロイに使用",
+      "containerLinkHint": "AIモデルコンテナのDockerイメージダウンロードリンク、AIモデルのデプロイに使用",
       "containerLinkExample": "例：https://hub.docker.com/r/username/image",
       "socialLinkHint": "プロジェクトのソーシャルメディアリンク",
       "twitterLink": "Twitterリンク",

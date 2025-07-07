@@ -799,7 +799,7 @@
       "mining": {
         "title": "Mining Requirements",
         "gpu": "Set minimum GPU memory requirement",
-        "container": "Set AI container download link"
+        "container": "Set AI model container download link"
       }
     },
     "examples": {
@@ -871,7 +871,7 @@
       "descriptionLimit": "Project description should be 100-500 characters, detailing your AI agent's features and characteristics",
       "descriptionExample": "Example: Deep learning-based timbre recognition system using TensorFlow to distinguish instruments and vocals, applied to music classification and speech recognition",
       "logoSizeHint": "Recommended size: 100×100 pixels, supports PNG, JPG formats",
-      "containerLinkHint": "Docker image download link for your AI container, used to deploy your agent",
+      "containerLinkHint": "Docker image download link for your AI model container, used to deploy your AI model",
       "containerLinkExample": "Example: https://hub.docker.com/r/username/image",
       "socialLinkHint": "Your project's social media links",
       "twitterLink": "Twitter Link",
