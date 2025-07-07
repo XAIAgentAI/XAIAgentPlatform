@@ -135,7 +135,12 @@
     "loading": "로딩 중...",
     "social": "소셜",
     "lp": "유동성 풀",
-    "chat": "채팅"
+    "chat": "채팅",
+    "filterBy": "필터",
+    "all": "전체",
+    "iaoOngoing": "IAO 진행중",
+    "tradable": "거래 가능",
+    "iaoComingSoon": "IAO 시작 예정"
   },
   "agentDetail": {
     "overview": "개요",

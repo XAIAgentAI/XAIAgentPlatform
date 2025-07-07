@@ -134,7 +134,12 @@
     "24hChange": "24h Change",
     "social": "Social",
     "lp": "LP",
-    "chat": "Chat"
+    "chat": "Chat",
+    "filterBy": "Filter",
+    "all": "All",
+    "iaoOngoing": "IAO Ongoing",
+    "tradable": "Tradable",
+    "iaoComingSoon": "IAO Coming Soon"
   },
   "agentDetail": {
     "overview": "Overview",

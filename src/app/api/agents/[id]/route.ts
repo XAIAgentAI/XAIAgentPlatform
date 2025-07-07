@@ -3,6 +3,64 @@ import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
 import { getUserId } from '@/lib/auth';
 
+// 根据IAO时间动态计算状态
+function calculateDynamicStatus(agent: any): string {
+  const now = Math.floor(Date.now() / 1000);
+  const iaoStartTime = agent.iaoStartTime ? Number(agent.iaoStartTime) : null;
+  const iaoEndTime = agent.iaoEndTime ? Number(agent.iaoEndTime) : null;
+  const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+    ? agent.tokenAddressTestnet
+    : agent.tokenAddress;
+
+  // 调试打印 - 单个Agent详情
+  console.log(`[Agent详情状态计算] Agent: ${agent.name} (${agent.id})`);
+  console.log(`[Agent详情状态计算] 原始状态: ${agent.status}`);
+  console.log(`[Agent详情状态计算] 当前时间戳: ${now} (${new Date(now * 1000).toISOString()})`);
+  console.log(`[Agent详情状态计算] IAO开始时间: ${iaoStartTime} (${iaoStartTime ? new Date(iaoStartTime * 1000).toISOString() : 'null'})`);
+  console.log(`[Agent详情状态计算] IAO结束时间: ${iaoEndTime} (${iaoEndTime ? new Date(iaoEndTime * 1000).toISOString() : 'null'})`);
+  console.log(`[Agent详情状态计算] 代币地址: ${tokenAddress || 'null'}`);
+  console.log(`[Agent详情状态计算] 测试环境: ${process.env.NEXT_PUBLIC_IS_TEST_ENV}`);
+
+  // 如果没有IAO时间信息，返回原状态
+  if (!iaoStartTime || !iaoEndTime) {
+    console.log(`[Agent详情状态计算] 没有IAO时间信息，返回原状态: ${agent.status}`);
+    return agent.status;
+  }
+
+  let calculatedStatus: string;
+
+  // 根据当前时间和IAO时间判断状态
+  if (now < iaoStartTime) {
+    // IAO还未开始
+    calculatedStatus = 'IAO_COMING_SOON';
+    console.log(`[Agent详情状态计算] IAO还未开始，状态: ${calculatedStatus}`);
+  } else if (now >= iaoStartTime && now < iaoEndTime) {
+    // IAO进行中
+    calculatedStatus = 'IAO_ONGOING';
+    console.log(`[Agent详情状态计算] IAO进行中，状态: ${calculatedStatus}`);
+  } else if (now >= iaoEndTime) {
+    // IAO已结束，检查是否有代币地址
+    if (tokenAddress) {
+      // 有代币地址，表示可交易
+      calculatedStatus = 'TRADABLE';
+      console.log(`[Agent详情状态计算] IAO已结束且有代币地址，状态: ${calculatedStatus}`);
+    } else {
+      // IAO结束但还没有代币地址，可能在处理中
+      calculatedStatus = 'TBA';
+      console.log(`[Agent详情状态计算] IAO已结束但无代币地址，状态: ${calculatedStatus}`);
+    }
+  } else {
+    // 默认返回原状态
+    calculatedStatus = agent.status;
+    console.log(`[Agent详情状态计算] 未匹配任何条件，返回原状态: ${calculatedStatus}`);
+  }
+
+  console.log(`[Agent详情状态计算] 最终状态: ${calculatedStatus}`);
+  console.log(`[Agent详情状态计算] ==========================================`);
+
+  return calculatedStatus;
+}
+
 // 获取 Agent 详情
 export async function GET(
   request: Request,
@@ -40,8 +98,12 @@ export async function GET(
       miningOwnerTransferred: (agent as any).miningOwnerTransferred,
     };
 
+    // 计算动态状态
+    const dynamicStatus = calculateDynamicStatus(agent);
+
     return createSuccessResponse({
       ...agent,
+      status: dynamicStatus, // 使用动态计算的状态
       capabilities: JSON.parse(agent.capabilities),
       creatorAddress: agent.creator.address,
       reviewCount: agent._count.reviews,
@@ -51,6 +113,9 @@ export async function GET(
       iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
       projectDescription: (agent as any).projectDescription,
       containerLink: (agent as any).containerLink,
+      // 添加IAO时间信息
+      iaoStartTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : null,
+      iaoEndTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : null,
       // 添加管理状态字段
       ...managementStatus,
     });

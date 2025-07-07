@@ -45,6 +45,7 @@ next-env.d.ts
 
 
 .specstory/*
+.augment/*
 .cursor/*
 
 

@@ -17,6 +17,7 @@ import { useAccount } from 'wagmi';
 import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 import { useAppKit } from '@reown/appkit/react'
 import { useToast } from '@/components/ui/use-toast'
+import { useSearchParams } from "next/navigation"
 
 type SortField = "marketCap" | "holdersCount" | "tvl" | null
 type SortDirection = "asc" | "desc"
@@ -41,12 +42,16 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc")
   const router = useRouter()
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address } = useAccount();
   const { getStakeList } = useStakingNFTContract();
   const { open } = useAppKit();
   const { toast } = useToast();
+
+  // 获取当前的状态筛选值
+  const currentStatusFilter = searchParams?.get('status') || "";
 
   const handleSort = (field: SortField) => {
     let newSortDirection = sortDirection;
@@ -110,34 +115,82 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
-      <div className="flex items-center gap-4 mb-6">
-        <span className="text-muted-color text-xs">{t('sortBy')}</span>
-        <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
-          if (value === "marketCap") {
-            setSortField("marketCap");
-            router.push(`?sortBy=marketCap&sortOrder=desc`);
-          } else if (value === "latest") {
-            setSortField(null);
-            router.push(`?sortBy=createdAt&sortOrder=desc`);
-          }
-        }}>
-          <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
-            <TabsTrigger
-              value="marketCap"
-              className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
-            >
-              {t('marketCap')}
-            </TabsTrigger>
-            <TabsTrigger
-              value="latest"
-              className="data-[state=active]:bg-foreground data-[state=active]:text-background px-4 py-1"
-            >
-              {t('latest')}
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <div className="flex flex-col gap-4 mb-6">
+        {/* 第一行：排序 + 筛选 */}
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8">
+          {/* 排序选项 */}
+          <div className="flex items-center gap-4">
+            <span className="text-muted-color text-xs whitespace-nowrap">{t('sortBy')}</span>
+            <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+              if (value === "marketCap") {
+                setSortField("marketCap");
+                router.push(`?sortBy=marketCap&sortOrder=desc`);
+              } else if (value === "latest") {
+                setSortField(null);
+                router.push(`?sortBy=createdAt&sortOrder=desc`);
+              }
+            }}>
+              <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
+                <TabsTrigger
+                  value="marketCap"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
+                >
+                  {t('marketCap')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="latest"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
+                >
+                  {t('latest')}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
 
-        <div className="ml-auto flex items-center gap-6">
+          {/* 状态筛选 */}
+          <div className="flex items-center gap-4">
+            <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
+            <Tabs defaultValue={currentStatusFilter} className="w-auto" onValueChange={(value) => {
+              const currentParams = new URLSearchParams(window.location.search);
+              if (value === "") {
+                currentParams.delete('status');
+              } else {
+                currentParams.set('status', value);
+              }
+              router.push(`?${currentParams.toString()}`);
+            }}>
+              <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 flex-wrap lg:flex-nowrap">
+                <TabsTrigger
+                  value=""
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-2 lg:px-4 py-1 text-xs lg:text-sm whitespace-nowrap"
+                >
+                  {t('all')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="IAO_ONGOING"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-2 lg:px-4 py-1 text-xs lg:text-sm whitespace-nowrap"
+                >
+                  {t('iaoOngoing')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="TRADABLE"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-2 lg:px-4 py-1 text-xs lg:text-sm whitespace-nowrap"
+                >
+                  {t('tradable')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="IAO_COMING_SOON"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-2 lg:px-4 py-1 text-xs lg:text-sm whitespace-nowrap"
+                >
+                  {t('iaoComingSoon')}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
+
+        {/* 第二行：质押NFT按钮 */}
+        <div className="flex items-center justify-end gap-6">
           {
             address ? (
               <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">

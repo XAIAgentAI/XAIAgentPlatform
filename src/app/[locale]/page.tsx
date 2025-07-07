@@ -11,24 +11,26 @@ export default function Home() {
   const [agents, setAgents] = useState<LocalAgent[]>([])
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
-  
-  // 从URL参数中获取排序方式
+
+  // 从URL参数中获取排序方式和筛选状态
   const sortBy = searchParams?.get('sortBy') || "marketCap"
   const sortOrder = searchParams?.get('sortOrder') || "desc"
+  const statusFilter = searchParams?.get('status') || ""
 
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {
       setLoading(true)
-      // 使用当前URL中的排序参数
+      // 使用当前URL中的排序参数和筛选参数
       const options = {
         pageSize: 30,
         sortBy: sortBy as string,
-        sortOrder: sortOrder as "asc" | "desc"
+        sortOrder: sortOrder as "asc" | "desc",
+        ...(statusFilter && { status: statusFilter })
       };
-      
+
       console.log('Fetching agents with options:', options);
-      
+
       // 获取agents数据
       const response = await agentAPI.getAllAgents(options);
 
@@ -45,7 +47,7 @@ export default function Home() {
   // 监听URL参数变化，重新获取数据
   useEffect(() => {
     fetchAgentsData();
-  }, [sortBy, sortOrder]); // 依赖项中添加sortBy和sortOrder
+  }, [sortBy, sortOrder, statusFilter]); // 依赖项中添加sortBy、sortOrder和statusFilter
 
   return (
     <>

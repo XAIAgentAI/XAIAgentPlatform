@@ -134,7 +134,12 @@
     "24hChange": "24小时涨跌",
     "social": "社交",
     "lp": "流动性池",
-    "chat": "对话"
+    "chat": "对话",
+    "filterBy": "筛选",
+    "all": "全部",
+    "iaoOngoing": "IAO进行中",
+    "tradable": "可交易",
+    "iaoComingSoon": "IAO即将开始"
   },
   "agentDetail": {
     "overview": "概览",

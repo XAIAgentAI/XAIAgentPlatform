@@ -23,7 +23,7 @@ const getCategoryColor = (category: string) => {
 
 const getVariantColor = (variant: BadgeVariant = "default") => {
   const colors: Record<BadgeVariant, string> = {
-    "default": "bg-secondary",
+    "default": "!bg-[#2E9951]",
     "success": "bg-[#2E9951]",
     "lightSuccess": "bg-[#74992E]",
     "warning": "bg-[#FF8A00]",

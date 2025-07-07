@@ -134,7 +134,12 @@
     "loading": "読み込み中...",
     "social": "ソーシャル",
     "lp": "流動性プール",
-    "chat": "チャット"
+    "chat": "チャット",
+    "filterBy": "フィルター",
+    "all": "すべて",
+    "iaoOngoing": "IAO進行中",
+    "tradable": "取引可能",
+    "iaoComingSoon": "IAO開始予定"
   },
   "agentDetail": {
     "overview": "概要",

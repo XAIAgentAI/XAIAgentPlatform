@@ -8,6 +8,57 @@ import { getBatchContractTimeInfo } from '@/services/contractService';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
+// 根据状态筛选生成时间条件
+function getStatusTimeFilter(status?: string | null) {
+  if (!status) return [];
+
+  const now = Math.floor(Date.now() / 1000);
+
+  switch (status) {
+    case 'IAO_ONGOING':
+      // IAO进行中：当前时间在IAO开始时间和结束时间之间
+      return [{
+        AND: [
+          { iaoStartTime: { lte: now } },
+          { iaoEndTime: { gt: now } }
+        ]
+      }];
+
+    case 'TRADABLE':
+      // 可交易：IAO已结束且有代币地址
+      return [{
+        AND: [
+          { iaoEndTime: { lte: now } },
+          {
+            OR: [
+              { tokenAddress: { not: null } },
+              { tokenAddressTestnet: { not: null } }
+            ]
+          }
+        ]
+      }];
+
+    case 'IAO_COMING_SOON':
+      // IAO即将开始：当前时间小于IAO开始时间
+      return [{
+        iaoStartTime: { gt: now }
+      }];
+
+    case 'TBA':
+      // 待公布：IAO已结束但没有代币地址
+      return [{
+        AND: [
+          { iaoEndTime: { lte: now } },
+          { tokenAddress: null },
+          { tokenAddressTestnet: null }
+        ]
+      }];
+
+    default:
+      return [];
+  }
+}
+
 // 定义排序字段接口
 interface AgentWithSortData {
   id: string;
@@ -207,6 +258,63 @@ async function fetchExternalData(
   };
 }
 
+// 根据IAO时间动态计算状态
+function calculateDynamicStatus(item: any, now: number): string {
+  const iaoStartTime = item.iaoStartTime ? Number(item.iaoStartTime) : null;
+  const iaoEndTime = item.iaoEndTime ? Number(item.iaoEndTime) : null;
+  const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+    ? item.tokenAddressTestnet
+    : item.tokenAddress;
+
+  // 调试打印
+  console.log(`[状态计算] Agent: ${item.name} (${item.id})`);
+  console.log(`[状态计算] 原始状态: ${item.status}`);
+  console.log(`[状态计算] 当前时间戳: ${now} (${new Date(now * 1000).toISOString()})`);
+  console.log(`[状态计算] IAO开始时间: ${iaoStartTime} (${iaoStartTime ? new Date(iaoStartTime * 1000).toISOString() : 'null'})`);
+  console.log(`[状态计算] IAO结束时间: ${iaoEndTime} (${iaoEndTime ? new Date(iaoEndTime * 1000).toISOString() : 'null'})`);
+  console.log(`[状态计算] 代币地址: ${tokenAddress || 'null'}`);
+  console.log(`[状态计算] 测试环境: ${process.env.NEXT_PUBLIC_IS_TEST_ENV}`);
+
+  // 如果没有IAO时间信息，返回原状态
+  if (!iaoStartTime || !iaoEndTime) {
+    console.log(`[状态计算] 没有IAO时间信息，返回原状态: ${item.status}`);
+    return item.status;
+  }
+
+  let calculatedStatus: string;
+
+  // 根据当前时间和IAO时间判断状态
+  if (now < iaoStartTime) {
+    // IAO还未开始
+    calculatedStatus = 'IAO_COMING_SOON';
+    console.log(`[状态计算] IAO还未开始，状态: ${calculatedStatus}`);
+  } else if (now >= iaoStartTime && now < iaoEndTime) {
+    // IAO进行中
+    calculatedStatus = 'IAO_ONGOING';
+    console.log(`[状态计算] IAO进行中，状态: ${calculatedStatus}`);
+  } else if (now >= iaoEndTime) {
+    // IAO已结束，检查是否有代币地址
+    if (tokenAddress) {
+      // 有代币地址，表示可交易
+      calculatedStatus = 'TRADABLE';
+      console.log(`[状态计算] IAO已结束且有代币地址，状态: ${calculatedStatus}`);
+    } else {
+      // IAO结束但还没有代币地址，可能在处理中
+      calculatedStatus = 'TBA';
+      console.log(`[状态计算] IAO已结束但无代币地址，状态: ${calculatedStatus}`);
+    }
+  } else {
+    // 默认返回原状态
+    calculatedStatus = item.status;
+    console.log(`[状态计算] 未匹配任何条件，返回原状态: ${calculatedStatus}`);
+  }
+
+  console.log(`[状态计算] 最终状态: ${calculatedStatus}`);
+  console.log(`[状态计算] ==========================================`);
+
+  return calculatedStatus;
+}
+
 // 格式化Agent数据
 function formatAgentData(
   items: any[],
@@ -217,10 +325,10 @@ function formatAgentData(
   const now = Math.floor(Date.now() / 1000);
   console.log(`[性能] 开始处理返回数据`);
   const processingStartTime = Date.now();
-  
+
   // 异步操作集合，用于等待所有数据库操作完成
   const updateOperations: Promise<void>[] = [];
-  
+
   const formattedItems: AgentWithSortData[] = items.map(item => {
     const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' 
       ? item.tokenAddressTestnet 
@@ -272,13 +380,16 @@ function formatAgentData(
     // 使用类型断言确保类型安全
     const agent = item as unknown as AgentRecord;
 
+    // 计算动态状态
+    const dynamicStatus = calculateDynamicStatus(item, now);
+
     return {
       id: item.id,
       name: item.name,
       description: item.description,
       category: item.category,
       avatar: item.avatar,
-      status: item.status,
+      status: dynamicStatus,
       capabilities: JSON.parse(item.capabilities),
       rating: item.rating,
       usageCount: item.usageCount,
@@ -434,8 +545,8 @@ export async function GET(request: Request) {
         } : {},
         // 分类筛选
         category ? { category } : {},
-        // 状态筛选
-        status ? { status } : {},
+        // 状态筛选 - 根据时间动态筛选
+        ...getStatusTimeFilter(status),
       ],
     };
 
