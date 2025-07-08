@@ -117,7 +117,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
       <div className="flex flex-col gap-4 mb-6">
         {/* 第一行：排序 + 筛选 */}
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-8">
           {/* 排序选项 */}
           <div className="flex items-center gap-4">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('sortBy')}</span>

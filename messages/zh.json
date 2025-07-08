@@ -356,10 +356,10 @@
     "deployFailed": "部署支付合约失败"
   },
   "tokenInfo": {
-    "totalSupply": "XAA 总供应量：1000亿",
-    "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
-    "iaoDuration": "在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。",
-    "tradingPair": "IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。"
+    "totalSupply": "前8年总供应量：1000亿，以后每年挖矿产生50亿",
+    "iaoAllocation": "15% 的代币将通过 IAO 销售，仅接受 $XAA。投资者将根据其 $XAA 投资比例获得代币。",
+    "iaoDuration": "在IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。",
+    "tradingPair": "IAO 结束后，10%的代币和$XAA将立即在DBCSwap上建立流动性池，实现自由交易。"
   },
   "agents": {
     "infrastructure": "基础设施",
@@ -756,20 +756,20 @@
     },
     "requirements": {
       "title": "代币创建经济模型",
-      "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
-      "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
+      "supply": "{symbol} 代币供应: 前8年总供应量1000亿，之后每年挖矿产生50亿",
+      "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA",
       "iaoAllocation": {
         "title": "IAO分配:",
         "pool": "95% $XAA分配给流动性池(永久锁定)",
-        "burn": "5% $XAA打入黑洞地址"
+        "burn": "5% $XAA会被销毁"
       },
-      "liquidity": "流动性池: IAO结束后，3% $XXX和$XAA自动在DBCSwap建立流动性",
-      "team": "团队分配: 32% $XXX，分2000天线性解锁",
+      "liquidity": "流动性池: IAO结束后，10% {symbol}和$XAA自动在DBCSwap建立流动性",
+      "team": "团队分配: 33% {symbol}，分2000天线性解锁，每40天解锁一次",
       "mining": {
         "title": "挖矿机制:",
-        "output": "每年60亿$XXX产出",
+        "output": "每年50亿{symbol}产出",
         "unlock": "10%立即获得，90%分180天解锁",
-        "requirement": "需持有XAA节点(每个机器质押10个XAA节点)"
+        "requirement": "需持有XAA挖矿NFT(每个机器质押最少1个，最多10个XAA挖矿NFT)"
       },
       "airdrop": {
         "title": "空投分配:",
@@ -876,17 +876,17 @@
       "agentDetails": "代理详情",
       "useCases": "用例",
       "TokenDistribution": {
-        "title": "代币分配详情",
+        "title": "代币经济模型",
         "points": {
-          "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生60亿",
+          "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿",
           "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
-          "3": "在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
+          "3": "在为期XXXX小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
           "4": "IAO 结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
-          "5": "团队拥有30%的{symbol},IAO结束后开始解锁，分2000天线性解锁",
-          "6": "2%的{symbol}用来进行Token Sale,IAO结束后开始解锁，分400天线性解锁",
-          "7": "{symbol}挖矿每年产生60亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
-          "8": "需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点",
-          "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+          "5": "团队拥有33%的{symbol},IAO结束后开始解锁，分2000天线性解锁，每40天解锁一次",
+          "6": "{symbol}挖矿每年产生50亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
+          "7": "需要持有XAA挖矿NFT才能参与挖矿，每个机器需要质押最少1个XAA挖矿NFT，最多质押10个XAA挖矿NFT",
+          "8": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+          
         }
       },
       "price": "价格",

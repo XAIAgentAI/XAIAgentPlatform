@@ -526,12 +526,45 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 useCasesZH: finalUseCases.zh,
                 socialLinks: [formData.twitterLink, formData.telegramLink].filter(link => link).join(', ') || 'https://x.com/test, https://t.me/test',
                 chatEntry: null,
-                projectDescription: JSON.stringify({
-                    en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. Project Duration: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} days\n4. Trading pairs will be established on DBCSwap`,
-                    zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 项目持续时间: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 天\n4. 将在 DBCSwap 上建立交易对`,
-                    ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. プロジェクト期間: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 日間\n4. DBCSwap に取引ペアを設立`,
-                    ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 프로젝트 기간: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 일\n4. DBCSwap에 거래쌍 설립`
-                }),
+                projectDescription: (() => {
+                    const symbol = formData.symbol || '$XXX';
+                    const iaoDurationHours = Math.floor(((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)) * 24;
+
+                    return JSON.stringify({
+                        en: `1. ${symbol} total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter
+2. 15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive ${symbol} based on their $XAA investment proportion
+3. After the ${iaoDurationHours}-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned
+4. After IAO concludes, 10% of ${symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of ${symbol}
+5. The team holds 33% of ${symbol}, unlocking begins after IAO concludes, with linear release over 2000 days, unlocked every 40 days
+6. ${symbol} mining produces 5 billion annually, with 10% of mined ${symbol} available immediately and 90% released linearly over 180 days
+7. XAA mining NFTs are required to participate in mining. Each machine must stake at least 1 XAA mining NFT, with a maximum of 10 XAA mining NFTs
+8. 1% of ${symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of ${symbol} airdropped to XAA node NFT holders`,
+                        zh: `1. ${symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿
+2. 15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 ${symbol}
+3. 在为期${iaoDurationHours}小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁
+4. IAO 结束后，10%的${symbol}和$XAA将立即在DBCSwap上建立流动性池，实现${symbol}的自由交易
+5. 团队拥有33%的${symbol},IAO结束后开始解锁，分2000天线性解锁，每40天解锁一次
+6. ${symbol}挖矿每年产生50亿，挖矿产生的${symbol}，10%立刻获得，90%分180天线性解锁
+7. 需要持有XAA挖矿NFT才能参与挖矿，每个机器需要质押最少1个XAA挖矿NFT，最多质押10个XAA挖矿NFT
+8. 1%的${symbol}空投给$XAA和$DBC前10000名持有者，1%${symbol}空投给XAA的节点NFT持有者`,
+                        ja: `1. ${symbol} 最初の8年間の総供給量：1000億、その後は年間50億をマイニング
+2. トークンの15％はIAOを通じて販売され、$XAAのみを受け入れます。投資家は$XAAの投資比率に基づいて${symbol}を受け取ります
+3. ${iaoDurationHours}時間のIAO終了後、$XAAの95％はオンチェーン流動性プールに分配され、取り消されることはありません。流動性LPトークンはブラックホールアドレスに送信されます。$XAAの5％はバーンされます
+4. IAO終了後、${symbol}と$XAAの10％はDBCSwap上で即座に流動性プールを形成し、${symbol}の自由な取引を可能にします
+5. チームは${symbol}の33％を保有し、IAO終了後から2000日間で線形にアンロックされ、40日ごとにアンロックされます
+6. ${symbol}のマイニングは年間50億を生成し、マイニングされた${symbol}の10％は即時獲得、90％は180日間で線形にアンロックされます
+7. マイニングに参加するにはXAAマイニングNFTの保持が必要です。各マシンは最低1つ、最大10つのXAAマイニングNFTをステーキングする必要があります
+8. ${symbol}の1％は$XAAと$DBCの上位10,000名の保有者に、1％はXAAノードNFT保有者にエアドロップされます`,
+                        ko: `1. ${symbol} 처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성
+2. 토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 ${symbol}을 받게 됩니다
+3. ${iaoDurationHours}시간의 IAO 기간이 끝난 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다
+4. IAO 종료 후, ${symbol}과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 ${symbol}의 자유로운 거래를 가능하게 합니다
+5. 팀은 ${symbol}의 33%를 보유하며, IAO 종료 후 2000일 동안 선형적으로 잠금 해제되며, 40일마다 잠금 해제됩니다
+6. ${symbol} 채굴은 매년 50억을 생성하며, 채굴된 ${symbol}의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 잠금 해제됩니다
+7. 채굴에 참여하려면 XAA 채굴 NFT를 보유해야 합니다. 각 기계는 최소 1개, 최대 10개의 XAA 채굴 NFT를 스테이킹해야 합니다
+8. ${symbol}의 1%는 $XAA와 $DBC 상위 10,000명의 보유자에게, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다`
+                    });
+                })(),
                 iaoTokenAmount: 20000000000,
                 miningRate: parseFloat(formData.miningRate) || 6 // 转换为数字，默认6%
             };

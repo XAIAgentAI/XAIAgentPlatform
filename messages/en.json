@@ -356,10 +356,10 @@
     "deployFailed": "Failed to deploy payment contract"
   },
   "tokenInfo": {
-    "totalSupply": "Total XAA Supply: 100B",
-    "iaoAllocation": "20% of tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
-    "iaoDuration": "During the 14-day IAO period, 50% of $DBC will be allocated to the project team's ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools, which will never be revoked.",
-    "tradingPair": "After IAO ends, $XAA and $DBC will immediately establish trading pairs on DBCSwap, enabling free trading of $XAA."
+    "totalSupply": "Total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
+    "iaoAllocation": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive tokens proportional to their $XAA investment.",
+    "iaoDuration": "After the IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned.",
+    "tradingPair": "After IAO ends, 10% of tokens and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading."
   },
   "agents": {
     "infrastructure": "Infrastructure",
@@ -756,20 +756,20 @@
     },
     "requirements": {
       "title": "Token Economic Model Creation",
-      "supply": "$XXX Token Supply: Total supply of 100 billion in the first 8 years, with 6 billion mined annually thereafter",
-      "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA. Holding XAA NFT increases investment quota",
+      "supply": "{symbol} Token Supply: Total supply of 100 billion in the first 8 years, with 5 billion mined annually thereafter",
+      "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA",
       "iaoAllocation": {
         "title": "IAO Allocation:",
         "pool": "95% $XAA allocated to liquidity pool (permanently locked)",
-        "burn": "5% $XAA sent to black hole address"
+        "burn": "5% $XAA will be burned"
       },
-      "liquidity": "Liquidity Pool: After IAO ends, 3% $XXX and $XAA automatically establish liquidity on DBCSwap",
-      "team": "Team Allocation: 32% $XXX, linearly unlocked over 2000 days",
+      "liquidity": "Liquidity Pool: After IAO ends, 10% {symbol} and $XAA automatically establish liquidity on DBCSwap",
+      "team": "Team Allocation: 33% {symbol}, linearly unlocked over 2000 days, unlocked every 40 days",
       "mining": {
         "title": "Mining Mechanism:",
-        "output": "Annual output of 6 billion $XXX",
+        "output": "Annual output of 5 billion {symbol}",
         "unlock": "10% immediately available, 90% unlocked over 180 days",
-        "requirement": "Requires holding XAA node (10 XAA nodes staked per machine)"
+        "requirement": "Requires holding XAA mining NFT (minimum 1, maximum 10 XAA mining NFTs staked per machine)"
       },
       "airdrop": {
         "title": "Airdrop Allocation:",
@@ -883,17 +883,16 @@
       "startTimeRequired": "Please select start time",
       "endTimeRequired": "Please select end time",
       "TokenDistribution": {
-        "title": "Token Distribution Details",
+        "title": "Token Economic Model",
         "points": {
-          "1": "{symbol} total supply in first 8 years: 100 billion, with 6 billion mined annually thereafter",
+          "1": "{symbol} total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
           "2": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
-          "3": "After the 72-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
+          "3": "After the XXXX-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
           "4": "After IAO concludes, 10% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",
-          "5": "The team holds 30% of {symbol}, unlocking begins after IAO concludes, with linear release over 2000 days",
-          "6": "2% of {symbol} will be used for Token Sale, unlocking begins after IAO concludes, with linear release over 400 days",
-          "7": "{symbol} mining produces 6 billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
-          "8": "XAA mining nodes are required to participate in mining. Each machine must stake at least 1 XAA mining node, with a maximum of 10 XAA mining nodes",
-          "9": "1% of {symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of {symbol} airdropped to XAA node NFT holders"
+          "5": "The team holds 33% of {symbol}, unlocking begins after IAO concludes, with linear release over 2000 days, unlocked every 40 days",
+          "6": "{symbol} mining produces 5 billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
+          "7": "XAA mining NFTs are required to participate in mining. Each machine must stake at least 1 XAA mining NFT, with a maximum of 10 XAA mining NFTs",
+          "8": "1% of {symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of {symbol} airdropped to XAA node NFT holders"
         }
       },
       "price": "Price",

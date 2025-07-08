@@ -69,7 +69,7 @@ const Header: React.FC = () => {
             </h2>
             <div className="text-sm text-muted-foreground pl-5 space-y-3">
               <ul className="list-disc pl-5 space-y-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((point) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((point) => (
                     <li key={point}>
                         {point}. {m(`TokenDistribution.points.${point}`, { symbol:"$XXX" })}
                     </li>

@@ -2,19 +2,19 @@ export function TokenInfo() {
   const tokenInfo = [
     {
       id: 1,
-      text: "The total supply of XAA is: 100B",
+      text: "Total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
     },
     {
       id: 2,
-      text: "20% of the tokens will be sold through IAO, accepting only $DBC. Investors will receive $XAA proportional to their $DBC investment.",
+      text: "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive tokens proportional to their $XAA investment.",
     },
     {
       id: 3,
-      text: "During the 14-day IAO, 50% of the $DBC will be allocated to the project team for ecosystem development, and the remaining 50% will be allocated to on-chain liquidity pools.",
+      text: "After the IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned.",
     },
     {
       id: 4,
-      text: "After the IAO ends, $XAA and $DBC will immediately establish a trading pair on DBCSwap, enabling free trading of $XAA.",
+      text: "After IAO ends, 10% of tokens and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading.",
     },
   ];
 
