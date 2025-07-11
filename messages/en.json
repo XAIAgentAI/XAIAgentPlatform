@@ -70,7 +70,8 @@
       "contractLink": "View contract on DBCScan",
       "copyContractAddress": "Copy contract address"
     },
-    "edit": "[en] 修改Agent信息"
+    "edit": "Edit Agent Info",
+    "editPromptExamples": "Edit Prompt Examples"
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -322,6 +323,7 @@
       "analyze": "• Analyze failure reasons and optimize project plan",
       "adjust": "• Consider adjusting token economic model",
       "community": "• Strengthen community building and marketing promotion",
+      "editPrompt": "• Edit prompt usage examples to improve user experience",
       "retry": "• Can re-launch IAO"
     },
     "investmentRefund": "💰 Your Investment Processing:",
@@ -816,6 +818,7 @@
       }
     },
     "createAgent": {
+      "freeCreationNotice": "Creating a project requires no fees, tokens will be automatically generated after successful IAO",
       "socialLink": "Social Link",
       "container": "Container Link",
       "socialExists": "The link should start with 'https'",

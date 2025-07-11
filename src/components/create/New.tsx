@@ -975,9 +975,21 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     <SuccessDisplay />
                 ) : (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
-                        <h1 className="text-2xl font-bold mb-6">
-                            {mode === 'edit' ? t("editAIProject") : t("createAIProject")}
-                        </h1>
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-bold mb-2">
+                                {mode === 'edit' ? t("editAIProject") : t("createAIProject")}
+                            </h1>
+
+                            {/* 免费创建提示 - 作为副标题 */}
+                            {mode === 'create' && (
+                                <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center">
+                                    <svg className="w-4 h-4 text-gray-500 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {t("freeCreationNotice")}
+                                </p>
+                            )}
+                        </div>
 
                         <div className="space-y-4">
                             {/* 必填字段部分 */}
@@ -1367,7 +1379,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
 
                                 {/* Example 1 */}
-                                <div className="relative mb-6">
+                                <div id="examples" className="relative mb-6">
                                     <div className="flex items-center mb-2">
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
                                             1

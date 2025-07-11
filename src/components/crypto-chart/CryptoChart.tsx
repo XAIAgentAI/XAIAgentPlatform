@@ -571,7 +571,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
   if (!klineData.length) {
     return (
-      <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
+      <div className="w-full h-[150px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
         <div className="text-muted-foreground text-center">
           {/* <p>{t('noData')}</p> */}
           {t('waitForIoComplete')}
@@ -583,7 +583,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
   if (error || chartError) {
     return (
-      <div className="w-full h-[500px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
+      <div className="w-full h-[150px] flex flex-col items-center justify-center space-y-4 bg-background/50 rounded-lg border border-border">
         <div className="text-destructive text-center">
           <p className="mb-2">{error || chartError}</p>
           <Button

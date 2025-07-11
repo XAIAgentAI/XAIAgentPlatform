@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
 interface IaoProgressData {
   totalDeposited: string;
@@ -16,6 +18,7 @@ interface IaoResultDisplayProps {
   isIaoEnded: boolean;
   isIaoSuccessful: boolean;
   isCreator: boolean;
+  agentId?: string;
   startTime?: number;
   endTime?: number;
   isPoolInfoLoading?: boolean;
@@ -31,6 +34,7 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
   isIaoEnded,
   isIaoSuccessful,
   isCreator,
+  agentId,
   startTime,
   endTime,
   isPoolInfoLoading,
@@ -39,6 +43,8 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const t = useTranslations('iaoPool');
+  const router = useRouter();
+  const locale = useLocale();
 
   // 如果正在加载池信息，不显示
   if (isPoolInfoLoading) {
@@ -55,6 +61,11 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
     return null;
   }
 
+  // 如果 IAO 成功，不显示此组件
+  if (isIaoSuccessful) {
+    return null;
+  }
+
   const handleRefresh = async () => {
     if (onRefreshStatus) {
       setIsRefreshing(true);
@@ -63,6 +74,12 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
       } finally {
         setIsRefreshing(false);
       }
+    }
+  };
+
+  const handleEditPrompt = () => {
+    if (agentId) {
+      router.push(`/${locale}/chat/edit/${agentId}`);
     }
   };
 
@@ -174,6 +191,18 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
                     <li>{t('creatorSuggestionsList.analyze')}</li>
                     <li>{t('creatorSuggestionsList.adjust')}</li>
                     <li>{t('creatorSuggestionsList.community')}</li>
+                    <li>
+                      {agentId ? (
+                        <button
+                          onClick={handleEditPrompt}
+                          className="text-red-700 hover:text-red-800 underline hover:no-underline transition-colors cursor-pointer"
+                        >
+                          {t('creatorSuggestionsList.editPrompt')}
+                        </button>
+                      ) : (
+                        <span>{t('creatorSuggestionsList.editPrompt')}</span>
+                      )}
+                    </li>
                     <li>{t('creatorSuggestionsList.retry')}</li>
                   </ul>
                 </div>

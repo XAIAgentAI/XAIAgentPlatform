@@ -278,6 +278,7 @@ export const IaoEndedView = ({
         isIaoEnded={true}
         isIaoSuccessful={isIaoSuccessful}
         isCreator={isCreator}
+        agentId={agent.id}
         startTime={poolInfo?.startTime}
         endTime={poolInfo?.endTime}
         isPoolInfoLoading={isPoolInfoLoading}

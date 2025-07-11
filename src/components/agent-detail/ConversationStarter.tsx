@@ -6,12 +6,31 @@ import { toast } from "../ui/use-toast";
 import { useLocale, useTranslations } from 'next-intl';
 import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
-import { MessageSquare } from "lucide-react";
+import { Edit } from "lucide-react";
+import { useAppKitAccount } from '@reown/appkit/react';
+import { useRouter } from 'next/navigation';
 
-export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
+interface ConversationStarterProps {
+  agent: LocalAgent;
+}
+
+export default function ConversationStarter({ agent }: ConversationStarterProps) {
   const t = useTranslations();
-
   const locale = useLocale();
+  const router = useRouter();
+  const { address } = useAppKitAccount();
+
+  // 检查是否为创建者
+  const isAgentCreator = address && (agent as any)?.creator?.address &&
+    address.toLowerCase() === (agent as any).creator.address.toLowerCase();
+
+  // 处理编辑提示词
+  const handleEditPrompt = () => {
+    if (agent?.id) {
+      // 跳转到编辑页面并滚动到底部（提示词示例编辑区域）
+      router.push(`/${locale}/chat/edit/${agent.id}#examples`);
+    }
+  };
 
   console.log("agent", agent);
 
@@ -68,7 +87,19 @@ export default function ConversationStarter({ agent }: { agent: LocalAgent }) {
     <Card className="p-6 bg-card" style={{
       marginTop: 16
     }}>
-      <h2 className="text-lg font-semibold mb-4">{t('agent.conversationStarter')}</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold">{t('agent.conversationStarter')}</h2>
+        {isAgentCreator && (
+          <button
+            onClick={handleEditPrompt}
+            className="flex items-center gap-1 px-3 py-1 text-xs text-primary hover:text-primary/80 border border-primary/20 hover:border-primary/40 rounded-md transition-colors"
+            title={t('agent.editPromptExamples')}
+          >
+            <Edit size={12} />
+            {t('agent.editPromptExamples')}
+          </button>
+        )}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 opacity-50">
         {suggestions.map((suggestion: string, index: number) => (
           <div
