@@ -284,7 +284,7 @@ async function processTask(
     console.log(`[IAO部署] - 所有者地址: ${agent.creator.address}`);
 
     const iaoResult = await retry(async () => {
-      const iaoResponse = await fetch("http://3.0.25.131:8070/deploy/IAO", {
+      const iaoResponse = await fetch("http://54.179.233.88:8070/deploy/IAO", {
         method: "POST",
         headers: {
           "accept": "application/json",
@@ -377,7 +377,7 @@ async function processTask(
     await prisma.agent.update({
       where: { id: agentId },
       data: {
-        status: 'failed',
+        status: 'FAILED',
       },
     });
 

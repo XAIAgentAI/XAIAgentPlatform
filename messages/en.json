@@ -38,9 +38,9 @@
     "agents": "Agents",
     "marketplace": "Marketplace",
     "profile": "Profile",
-    "trading": "Trading AI Agent",
-    "explore": "Explore AI Agent",
-    "creating": "Creating AI Agent",
+    "trading": "Trading AI Model",
+    "explore": "Explore AI Model",
+    "creating": "Creating AI Model",
     "chat": "Chat",
     "model": "Creating AI Model"
   },
@@ -118,14 +118,21 @@
     "waitForConfirmation": "Please wait for confirmation",
     "transactionConfirmationTimeout": "Transaction confirmation timeout",
     "stakeSuccessWithAmount": "Successfully staked {amount} DBC",
-    "contractTimeUpdateFailed": "[en] 更新合约时间失败",
-    "contractTimeUpdateError": "[en] 更新合约时间发生错误"
+    "contractTimeUpdateFailed": "Failed to update contract time",
+    "contractTimeUpdateError": "Error occurred while updating contract time",
+    "missingRequiredFields": "Missing required fields",
+    "agentNameExists": "Agent name already exists",
+    "agentSymbolExists": "Agent symbol already exists",
+    "invalidStartTimestamp": "startTimestamp must be a positive integer",
+    "invalidDurationHours": "durationHours must be a positive number",
+    "invalidToken": "Invalid token",
+    "unauthorizedAccess": "Unauthorized access"
   },
   "agentList": {
     "sortBy": "Sort by",
     "marketCap": "FDV",
     "latest": "Latest",
-    "aiAgents": "AI Agents",
+    "aiAgents": "AI Models",
     "24h": "24h",
     "tvl": "Token Price",
     "holdersCount": "Holders",
@@ -305,7 +312,7 @@
     "remaining": "Remaining",
     "progressTip": "Funding progress updates every 30 seconds, target amount is $1500 USD",
     "updatePaymentContract": "Deploy Payment Contract",
-    "iaoStatusTitle": "Final Fundraising Result",
+    "iaoStatusTitle": "Final IAO Result",
     "iaoSuccessful": "Successful",
     "iaoFailed": "Failed",
     "finalAmount": "Final Amount",
@@ -317,10 +324,10 @@
     "iaoSuccessMessage": "Congratulations! The fundraising target has been achieved. {isCreator, select, true {You can now start creating tokens and deploying payment contracts.} other {Tokens will be distributed to investors after the creator completes the relevant operations.}}",
     "iaoSuccessCreatorTip": "💡 Please be patient and wait for token creation to complete, then you can claim your token rewards.",
     "iaoFailedTitle": "⚠️ IAO Did Not Meet Success Criteria",
-    "iaoFailedMessage": "The fundraising amount did not reach the minimum requirement of $1500 USD. According to smart contract rules, investors' funds will be automatically refunded and tokens will not be created.",
+    "iaoFailedMessage": "The fundraising amount did not reach the minimum requirement of $1500 USD. According to IAO rules, investors' $XAA will be automatically refunded and tokens will not be created. This AI model can initiate IAO again after 7 days.",
     "creatorSuggestions": "📊 Creator Suggestions:",
     "creatorSuggestionsList": {
-      "analyze": "• Analyze failure reasons and optimize project plan",
+      "analyze": "• Analyze failure reasons and optimize AI model plan",
       "adjust": "• Consider adjusting token economic model",
       "community": "• Strengthen community building and marketing promotion",
       "editPrompt": "• Edit prompt usage examples to improve user experience",
@@ -330,7 +337,7 @@
     "refundAutomatic": "✅ Your investment amount will be automatically refunded to your wallet",
     "checkWallet": "📋 Please check your wallet balance changes",
     "refreshIfNeeded": "🔄 If you haven't received the refund, please click the refresh button below",
-    "thankYouMessage": "💡 Thank you for your attention, looking forward to the project team's next attempt.",
+    "thankYouMessage": "💡 Thank you for your attention, looking forward to the AI model team's next attempt.",
     "refreshingStatus": "Refreshing...",
     "refreshStatusButton": "Refresh Status"
   },
@@ -365,7 +372,7 @@
   },
   "agents": {
     "infrastructure": "Infrastructure",
-    "aiAgent": "AI Agent",
+    "aiAgent": "AI Model",
     "featuredAgents": "Featured Agents",
     "noAgentsFound": "No Agents Found",
     "noAgentsFoundDesc": "Create your first agent or explore featured agents.",
@@ -388,7 +395,7 @@
     "zero": "0"
   },
   "accessibility": {
-    "logo": "XAI Agent Platform Logo",
+    "logo": "XAI Model Platform Logo",
     "chatIcon": "Chat Icon",
     "searchIcon": "Search Icon",
     "walletIcon": "Wallet Icon",
@@ -407,20 +414,21 @@
     "percentage": "Percentage",
     "previous": "Previous",
     "next": "Next",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "tokenNotCreated": "Token has not been created yet, it will be automatically created after IAO success"
   },
   "agentDescription": {
     "title": "Description",
-    "platform": "XAIAgent is a blockchain-based decentralized AI Agent platform that integrates the creation, utilization, deployment, and trading of AI Agents. Through no-code development tools, general users can easily create AI Agents, while advanced developers can develop and deploy more sophisticated AI Agents through the XAgentScope framework. Utilizing the GPU mining network of the DBC chain ensures complete decentralization of AI execution while providing data privacy, high performance, and low-cost advantages. The platform incorporates various AI models to support complex tasks and multi-round conversations, and promotes continuous ecosystem growth through a multi-token economic model, making it an all-in-one platform that integrates AI and blockchain.",
+    "platform": "XAIAgent is a blockchain-based decentralized AI Model platform that integrates the creation, utilization, deployment, and trading of AI Models. Through no-code development tools, general users can easily create AI Models, while advanced developers can develop and deploy more sophisticated AI Models through the XAgentScope framework. Utilizing the GPU mining network of the DBC chain ensures complete decentralization of AI execution while providing data privacy, high performance, and low-cost advantages. The platform incorporates various AI models to support complex tasks and multi-round conversations, and promotes continuous ecosystem growth through a multi-token economic model, making it an all-in-one platform that integrates AI and blockchain.",
     "tools": "It provides development tools for ordinary users and XAgentScope framework for advanced developers.",
     "infrastructure": "Through DBC blockchain's GPU mining network support, XAIAgent ensures completely decentralized AI operation, providing data privacy, high performance and low cost advantages.",
     "models": "The platform has pre-installed various AI models that can handle complex tasks and multi-round conversations.",
     "ecosystem": "Its token economic model promotes sustainable ecosystem growth, making XAIAgent an integrated platform for AI and blockchain technology.",
     "conversationStarters": {
-      "createAgent": "Help me create an AI Agent",
+      "createAgent": "Help me create an AI Model",
       "functions": "What functions do you have?",
-      "agentTypes": "What types of AI Agents can you create?",
-      "usage": "Can you tell me how to use xx as an Agent?"
+      "agentTypes": "What types of AI Models can you create?",
+      "usage": "Can you tell me how to use xx as a Model?"
     }
   },
   "buy-dbc": {
@@ -474,13 +482,13 @@
     "base": "Custom Style",
     "sharetail": "! Try StyleID and see yours 👇  \nTry it now 👉 https://app.xaiagent.io/styleid \nJoin the community 👉 https://t.me/XAIAgentAI \nMy AI-generated image👇\n",
     "need": "StyleID requires a photo containing a face",
-    "Xaiagent": "XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
+    "Xaiagent": "XAIAgent is a blockchain-based decentralized AI model platform that integrates the creation, use, deployment, and trading of AI models",
     "StyleID": "Generate task photos, users only need to provide one photo to quickly obtain their own unique personal photos that support multiple styles",
     "LogoLift": "Logo generation, various styles of logos can be generated through text dialogue",
     "PicSpan": "Expand the image to any desired scale",
     "selectagent": "Select an agent",
     "inputHolder": "Upload a photo",
-    "inputInfo": "AI agent might make mistakes. Please check important information.",
+    "inputInfo": "AI model might make mistakes. Please check important information.",
     "Data": {
       "Scholar GPT": {
         "metrics": "DATA +45.67% | Market Cap: $222M",
@@ -525,12 +533,12 @@
     },
     "data": {
       "Xaiagent": {
-        "description": "XAIAgent is a blockchain-based decentralized AI agent platform that integrates the creation, use, deployment, and trading of AI agents",
+        "description": "XAIAgent is a blockchain-based decentralized AI model platform that integrates the creation, use, deployment, and trading of AI models",
         "prompts": [
-          "Help me create an AI Agent",
+          "Help me create an AI Model",
           "What functions do you have?",
-          "What types of AI Agents can you create?",
-          "Can you tell me how to use xx as an Agent?"
+          "What types of AI Models can you create?",
+          "Can you tell me how to use xx as a Model?"
         ]
       },
       "StyleID": {
@@ -546,7 +554,7 @@
         "description": "Logo generation, various styles of logos can be generated through text dialogue",
         "prompts": [
           "I want a logo with a strong sense of technology, mainly in blue and purple colors, with a futuristic feel. Can you help me design one?",
-          "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain projects",
+          "Please design a minimalist style logo for me, with black and white color scheme and abstract letter 'X', suitable for blockchain AI models",
           "I hope the logo can embody the concepts of decentralization and artificial intelligence. Can we try several different design styles?",
           "Can you generate a logo with dynamic visual effects that is suitable for social media avatars?"
         ]
@@ -561,8 +569,8 @@
         ]
       }
     },
-    "explore": "Explore AI Agent",
-    "trade": "Trade AI Agent",
+    "explore": "Explore AI Model",
+    "trade": "Trade AI Model",
     "signup": "Signup",
     "login": "login",
     "username": "Username",
@@ -731,21 +739,38 @@
   },
   "create": {
     "title": "Creation Guide",
-    "time_setting_requirements": {
-      "title": "Time Setting Requirements",
-      "description": "All configurations must be completed at least 24 hours before the scheduled start time.",
-      "example": "If planning to start at 10:00 Monday, setup must be completed by 10:00 Sunday."
+    "iaoDescription": {
+      "title": "IAO Description",
+      "point1": "IAO minimum duration is 72 hours, maximum is 240 hours",
+      "point2": "IAO success criteria: raised $XAA not less than $1500",
+      "point3": "After IAO failure, $XAA will be automatically returned to investors, and IAO can be initiated again after 7 days",
+      "point4": "After IAO success, AI tokens and $XAA will automatically establish trading pairs on DBCSwap within 5-20 minutes, with AI token price close to the price at IAO end"
     },
-    "runtime_duration_range": {
-      "title": "Runtime Duration Range",
-      "description": "Single runtime duration is limited between 72 hours (3 days) and 720 hours (30 days).",
-      "note": "Settings outside this range will not take effect."
+    "decentralizedAI": {
+      "title": "Decentralized AI Model Service Description",
+      "intro": "This is an AI service ecosystem jointly participated by developers and miners (GPU providers), operating as follows:",
+      "point1": {
+        "title": "Developers Upload AI Models",
+        "content": "Developers do not need to deploy GPU servers themselves, they only need to package trained AI models into standardized containers (such as Docker) and provide public download links. Containers need to include clear deployment documentation, specifying hardware requirements (such as GPU memory, computing power, etc.) and operation methods."
+      },
+      "point2": {
+        "title": "Miners Provide Computing Services",
+        "content": "Miners (GPU providers) download and deploy AI containers according to developers' documentation, use their own GPU servers to run models, and provide inference/training services externally. Miners earn Token rewards by contributing computing power, with earnings linked to service quality and computing scale."
+      },
+      "point3": {
+        "title": "Clear Hardware Requirements",
+        "content": "Developers must specify the minimum hardware configuration of model containers (such as memory, CPU, RAM, etc.) to ensure miners can match requirements. For example: \"Minimum requirements: NVIDIA GPU (16GB memory), CUDA 11.4\"."
+      },
+      "point4": {
+        "title": "Decentralized Collaboration Advantages",
+        "content": "Developers don't need to maintain hardware and can focus on model optimization; miners can monetize idle GPUs and choose high-yield model deployments as needed; users get more open and low-cost AI services."
+      },
+      "point5": {
+        "title": "Process Summary",
+        "content": "Developers package models → Miners deploy and run → Users call services → Miners earn Tokens. This model is similar to \"AI version of Filecoin\", achieving decentralized trading of computing resources through blockchain technology."
+      }
     },
-    "start_time_restrictions": {
-      "title": "Start Time Restrictions",
-      "description": "After completing setup, you must wait at least 24 hours before starting; early launch is not possible.",
-      "note": "Even if setup is completed early, the earliest start time remains setup time + 24 hours."
-    },
+
     "mining_requirements": {
       "title": "Mining Requirements",
       "ai_model_environment": {
@@ -779,46 +804,10 @@
         "nft": "1% to XAA node NFT holders"
       }
     },
-    "process": {
-      "error": "Please connect the wallet first",
-      "title": "Creation Process",
-      "title2": "Creation Address",
-      "href": "Visit",
-      "hrefc": "page to create your agent",
-      "steps": {
-        "name": "Please name your AI token/project",
-        "description": "Please describe the functionality of your AI token/project",
-        "examples": "Describe what kind of conversations your AI project can have with users (please provide some example dialogues)"
-      }
-    },
-    "iao": {
-      "title": "IAO Settings",
-      "time": {
-        "title": "IAO Time Settings",
-        "duration": "Set IAO duration (72-720 hours)",
-        "start": "IAO will start 24 hours after setup"
-      },
-      "mining": {
-        "title": "Mining Requirements",
-        "gpu": "Set minimum GPU memory requirement",
-        "container": "Set AI model container download link"
-      }
-    },
-    "examples": {
-      "title": "Example Dialogues",
-      "user": "User:",
-      "ai": "AI:",
-      "example1": {
-        "user": "Help me create an AI token",
-        "ai": "Okay, please enter your AI token name"
-      },
-      "example2": {
-        "user": "Generate an image from user-input text",
-        "ai": "This requirement has been added to your AI model"
-      }
-    },
+
+
     "createAgent": {
-      "freeCreationNotice": "Creating a project requires no fees, tokens will be automatically generated after successful IAO",
+      "freeCreationNotice": "Creating an AI model requires no fees, tokens will be automatically generated after successful IAO",
       "socialLink": "Social Link",
       "container": "Container Link",
       "socialExists": "The link should start with 'https'",
@@ -827,7 +816,7 @@
       "nameAndSymbolExists": "Both the agent name and symbol already exist.",
       "pleaseChooseDifferentName": "Please select a different name.",
       "pleaseChooseDifferentSymbol": "Please select a different symbol.",
-      "createSymbol": "Project Symbol",
+      "createSymbol": "AI Model Symbol",
       "symbolRule": "3-5 uppercase English letters",
       "7hour": "7 hours from now",
       "1day": "24 hours from now",
@@ -840,12 +829,14 @@
       "endTime": "End Time",
       "agentDetails": "Agent Details",
       "useCases": "Use Cases",
-      "creationProcessMessage": "Your AI agent is being created. This may take a few moments...",
-      "createAIProject": "Create AI Token Project",
-      "projectName": "Project Name",
+      "creationProcessMessage": "Your AI model is being created. This may take a few moments...",
+      "createAIProject": "Create AI Token AI Model",
+      "createAIModelProject": "Create AI Token AI Model",
+      "editAIModelProject": "Edit AI Model AI Model",
+      "projectName": "AI Model Project Name",
       "projectNamePlaceholder": "1-20 letters",
-      "projectDescription": "Project Description",
-      "projectDescriptionPlaceholder": "Describe the functionality of your AI project",
+      "projectDescription": "AI Model Description",
+      "projectDescriptionPlaceholder": "Describe the functionality of your AI model",
       "tokenSupply": "Token Supply",
       "iaoPercentage": "IAO Percentage",
       "miningRate": "Mining Rate",
@@ -856,11 +847,11 @@
       "userQuestion": "User Question",
       "agentResponse": "Agent Response",
       "createSuccess": "Creation Successful!",
-      "created": "The AI token project has been successfully created. Your Agent ID is ",
-      "viewProject": "View Project",
+      "created": "The AI token AI model has been successfully created. Your Agent ID is ",
+      "viewProject": "View AI Model",
       "creating": "Creating...",
       "createNow": "Create Now",
-      "provideDescriptionFirst": "Please provide a project description first",
+      "provideDescriptionFirst": "Please provide an AI model description first",
       "generateExamples": "Generate Examples",
       "time": "time",
       "eg1": "Example 1",
@@ -868,18 +859,18 @@
       "eg3": "Example 3",
       "required": "Required",
       "optional": "Optional",
-      "nameRequired": "Project name is required",
+      "nameRequired": "AI model project name is required",
       "symbolRequired": "Token symbol is required",
-      "descriptionRequired": "Project description is required",
-      "descriptionLimit": "Project description should be 100-500 characters, detailing your AI agent's features and characteristics",
+      "descriptionRequired": "AI model description is required",
+      "descriptionLimit": "AI model description should be 100-500 characters, detailing your AI model's features and characteristics",
       "descriptionExample": "Example: Deep learning-based timbre recognition system using TensorFlow to distinguish instruments and vocals, applied to music classification and speech recognition",
       "logoSizeHint": "Recommended size: 100×100 pixels, supports PNG, JPG formats",
       "containerLinkHint": "Docker image download link for your AI model container, used to deploy your AI model",
       "containerLinkExample": "Example: https://hub.docker.com/r/username/image",
-      "socialLinkHint": "Your project's social media links",
+      "socialLinkHint": "Your AI model's social media links",
       "twitterLink": "Twitter Link",
       "telegramLink": "Telegram Link",
-      "twitterPlaceholder": "https://x.com/your_project",
+      "twitterPlaceholder": "https://x.com/your_ai_model",
       "containerLink": "Container Link",
       "containerLinkLabel": "Docker Image",
       "containerLinkCopied": "Container link copied to clipboard",
@@ -893,7 +884,7 @@
       "save": "Save",
       "saving": "Saving...",
       "cancel": "Cancel",
-      "telegramPlaceholder": "https://t.me/your_project",
+      "telegramPlaceholder": "https://t.me/your_ai_model",
       "linkFormatError": "Invalid link format, must start with https://",
       "logoRequired": "Please upload a token logo",
       "startTimeRequired": "Please select start time",
@@ -913,12 +904,12 @@
       },
       "price": "Price",
       "update": "Update",
-      "fetchError": "Failed to fetch project data",
+      "fetchError": "Failed to fetch AI model data",
       "updateFailed": "Update failed",
       "createFailed": "Creation failed",
       "timeNotEditable": "Please modify in blockchain explorer",
       "viewOnExplorerForTime": "Modify time in blockchain explorer",
-      "editAIProject": "Edit AI Project",
+      "editAIProject": "Edit AI Model",
       "iaoStartTime": "IAO Start Time",
       "iaoDuration": "IAO Duration",
       "days": "Days",

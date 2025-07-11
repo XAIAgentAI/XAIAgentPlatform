@@ -165,7 +165,7 @@ async function processPaymentContractDeployment(
     } = params;
 
     // 调用外部API部署支付合约
-    const deployResponse = await fetch("http://3.0.25.131:8070/deploy/payment", {
+    const deployResponse = await fetch("http://54.179.233.88:8070/deploy/payment", {
       method: "POST",
       headers: {
         "accept": "application/json",

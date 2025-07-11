@@ -49,7 +49,29 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     const [iaoDurationError, setIaoDurationError] = useState(false);
     const locale = useLocale();
     const t = useTranslations("create.createAgent");
+    const tMessages = useTranslations('messages');
     const [creating, setCreating] = useState(false);
+
+    // 错误消息映射函数
+    const getLocalizedErrorMessage = (serverMessage: string) => {
+        const errorMappings: { [key: string]: string } = {
+            '缺少必填字段': tMessages('missingRequiredFields'),
+            'Agent 名称已存在': tMessages('agentNameExists'),
+            'Agent Symbol 已存在': tMessages('agentSymbolExists'),
+            'startTimestamp 必须是正整数': tMessages('invalidStartTimestamp'),
+            'durationHours 必须是正数': tMessages('invalidDurationHours'),
+            '无效的 token': tMessages('invalidToken'),
+            '未授权访问': tMessages('unauthorizedAccess'),
+            // 英文错误消息映射
+            'Missing required fields': tMessages('missingRequiredFields'),
+            'Agent name already exists': tMessages('agentNameExists'),
+            'Agent symbol already exists': tMessages('agentSymbolExists'),
+            'Invalid token': tMessages('invalidToken'),
+            'Unauthorized access': tMessages('unauthorizedAccess'),
+        };
+
+        return errorMappings[serverMessage] || serverMessage;
+    };
     const [creationProgress, setCreationProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
     const [success, setSuccess] = useState(false);
@@ -162,9 +184,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         setStartTimeError(false);
         setIaoDurationError(false);
 
-        // 按顺序验证字段：项目名称 → 代币符号 → 项目描述 → 代币Logo → 开始时间 → IAO持续时间
+        // 按顺序验证字段：AI模型项目名称 → 代币符号 → AI模型描述 → 代币Logo → 开始时间 → IAO持续时间
 
-        // 1. 项目名称
+        // 1. AI模型项目名称
         if (!formData.name.trim()) {
             setNameError(true);
             nameInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -180,7 +202,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             return false;
         }
 
-        // 3. 项目描述
+        // 3. AI模型描述
         if (!formData.description.trim()) {
             setDescriptionError(true);
             descriptionInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -271,7 +293,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         "새로운 생산성 시스템 설정을 안내해 주세요"
                     ],
                     zh: [
-                        "帮我为项目进行创意头脑风暴",
+                        "帮我为AI模型进行创意头脑风暴",
                         "协助我分析业务的市场趋势",
                         "指导我建立新的效率系统"
                     ]
@@ -599,15 +621,33 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             setCreationProgress(80);
             setDisplayProgress(80);
 
+            // 解析响应
+            const result = await createResponse.json();
+
             if (!createResponse.ok) {
-                throw new Error(mode === 'edit' ? t("updateFailed") : t("createFailed"));
+                console.error("API错误:", result);
+
+                // 获取本地化的错误消息
+                let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
+                if (result.message) {
+                    errorMessage = getLocalizedErrorMessage(result.message);
+                }
+
+                toast({
+                    variant: "destructive",
+                    description: errorMessage,
+                });
+
+                setCreating(false);
+                setCreationProgress(0);
+                setDisplayProgress(0);
+                return;
             }
 
-            const result = await createResponse.json();
+            // 成功处理
             if (result.code === 200) {
                 setCreationProgress(100);
                 setDisplayProgress(100);
-
 
                 // 如果是创建模式，更新data状态中的agent ID
                 if (mode === 'create' && result.data?.agentId) {
@@ -634,6 +674,17 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             setCreating(false);
             setCreationProgress(0);
             setDisplayProgress(0);
+
+            // 显示本地化的错误toast
+            let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
+            if (error instanceof Error) {
+                errorMessage = getLocalizedErrorMessage(error.message);
+            }
+
+            toast({
+                variant: "destructive",
+                description: errorMessage,
+            });
         } finally {
         }
     };
@@ -965,7 +1016,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     };
 
     return (
-        <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
+        <div className=" rounded-md inset-0   flex justify-center items-start ">
             <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
                 {creating && !success ? (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
@@ -976,9 +1027,20 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 ) : (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
                         <div className="mb-6">
-                            <h1 className="text-2xl font-bold mb-2">
-                                {mode === 'edit' ? t("editAIProject") : t("createAIProject")}
-                            </h1>
+                            <div className="flex items-center justify-between mb-2">
+                                <h1 className="text-2xl font-bold">
+                                    {mode === 'edit' ? t("editAIModelProject") : t("createAIModelProject")}
+                                </h1>
+                                <button
+                                    onClick={() => window.open(`/${locale}/create-guide`, '_blank')}
+                                    className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center gap-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    创建指南
+                                </button>
+                            </div>
 
                             {/* 免费创建提示 - 作为副标题 */}
                             {mode === 'create' && (
@@ -1369,13 +1431,13 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                         <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
                                         <span className="text-gray-500 text-sm">({t("optional")})</span>
                                     </div>
-                                    <button
+                                    {/* <button
                                         onClick={generateUseCases}
                                         disabled={generatingUseCases || !formData.description}
                                         className="flex items-center space-x-2 bg-primary text-white bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <span>{t("generateExamples")}</span>
-                                    </button>
+                                    </button> */}
                                 </div>
 
                                 {/* Example 1 */}

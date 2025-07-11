@@ -175,7 +175,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     console.log(`[Token创建] 请求体:`, JSON.stringify(requestBody, null, 2));
 
     // 部署Token
-    const tokenResponse = await fetch("http://3.0.25.131:8070/deploy/token", {
+    const tokenResponse = await fetch("http://54.179.233.88:8070/deploy/token", {
       method: "POST",
       headers: {
         "accept": "application/json",

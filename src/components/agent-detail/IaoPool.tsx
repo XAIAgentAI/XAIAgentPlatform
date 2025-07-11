@@ -17,6 +17,7 @@ import { IaoEndedView } from './IaoEndedView';
 import { IaoActiveView } from './IaoActiveView';
 import { useIaoPoolData } from './useIaoPoolData';
 import type { LocalAgent } from "@/types/agent";
+import { UpdateIaoTimeModal } from './UpdateIaoTimeModal';
 
 interface IaoPoolProps {
   agent: LocalAgent;
@@ -30,7 +31,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
 
   // 模态框状态 - 暂时移除支付合约和修改时间功能
   // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  // const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
+  const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
 
@@ -384,7 +385,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         tokenAddress={agent.tokenAddress || ''}
         ownerAddress={agent.iaoContractAddress || ''}
         onSuccess={handleRefreshData}
-      />
+      /> */}
 
       <UpdateIaoTimeModal
         isOpen={isUpdateTimeModalOpen}
@@ -397,7 +398,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         }}
         isLoading={false}
         isPoolInfoLoading={isPoolInfoLoading}
-      /> */}
+      />
     </Card>
   );
 };

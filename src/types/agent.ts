@@ -10,15 +10,45 @@ export enum AgentStatus {
   FAILED = 'FAILED',
 }
 
-export const STATUS_VARIANT_MAP: Record<AgentStatus, BadgeVariant> = {
-  [AgentStatus.TRADABLE]: 'success',        // 深绿色
-  [AgentStatus.IAO_ONGOING]: 'lightSuccess', // 浅绿色
-  [AgentStatus.IAO_COMING_SOON]: 'warning',   // 橙色
-  [AgentStatus.TBA]: 'coffee',               // 咖啡色
-  [AgentStatus.CREATING]: 'lightSuccess',          // 浅绿色
-  [AgentStatus.ACTIVE]: 'success',          // 深绿色
-  [AgentStatus.FAILED]: 'error',            // 红色
-}
+// 状态到颜色变体的映射
+export const STATUS_VARIANT_MAP: Record<string, BadgeVariant> = {
+  'TRADABLE': 'success',        // 深绿色
+  'Tradable': 'success',        // 兼容原有格式
+  'IAO_ONGOING': 'lightSuccess', // 浅绿色
+  'IAO_COMING_SOON': 'warning',   // 橙色
+  'TBA': 'coffee',               // 咖啡色
+  'CREATING': 'lightSuccess',    // 浅绿色
+  'ACTIVE': 'success',          // 深绿色
+  'FAILED': 'error',            // 红色
+  'failed': 'error',            // 兼容小写
+  'PENDING': 'warning',         // 橙色
+  'pending': 'warning',         // 兼容小写
+};
+
+// 状态标准化映射 - 将各种可能的状态值标准化为显示文本
+export const STATUS_DISPLAY_MAP: Record<string, string> = {
+  'TRADABLE': 'TRADABLE',
+  'Tradable': 'TRADABLE',
+  'IAO_ONGOING': 'IAO_ONGOING',
+  'IAO_COMING_SOON': 'IAO_COMING_SOON',
+  'TBA': 'TBA',
+  'CREATING': 'CREATING',
+  'ACTIVE': 'ACTIVE',
+  'FAILED': 'FAILED',
+  'failed': 'FAILED',
+  'PENDING': 'PENDING',
+  'pending': 'PENDING',
+};
+
+// 获取状态对应的颜色变体
+export const getStatusVariant = (status: string): BadgeVariant => {
+  return STATUS_VARIANT_MAP[status] || 'default';
+};
+
+// 获取标准化的状态显示文本
+export const getStatusDisplayText = (status: string): string => {
+  return STATUS_DISPLAY_MAP[status] || status;
+};
 
 export interface LocalAgent {
   id: string;

@@ -1,12 +1,30 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 
+// 格式化大数字显示
+const formatLargeNumber = (num: string | number): string => {
+  const numValue = typeof num === 'string' ? parseFloat(num) : num;
+  if (isNaN(numValue)) return '0';
+
+  if (numValue >= 1000000000) {
+    return (numValue / 1000000000).toFixed(1) + 'B';
+  } else if (numValue >= 1000000) {
+    return (numValue / 1000000).toFixed(1) + 'M';
+  } else if (numValue >= 1000) {
+    return (numValue / 1000).toFixed(1) + 'K';
+  } else {
+    return numValue.toFixed(0);
+  }
+};
+
 interface IaoProgressData {
   totalDeposited: string;
   investorCount: number;
   targetAmount: string;
+  targetXaaAmount: string; // 目标金额对应的XAA数量
   progressPercentage: string;
   remainingAmount: string;
+  remainingXaaAmount: string; // 还差多少XAA
   currentUsdValue: string;
 }
 
@@ -100,16 +118,15 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
         <div>
           <span className="text-gray-600">{t('raised')}:</span>
           <div className="font-semibold text-green-600">
-            ${iaoProgress.currentUsdValue} USD
-          </div>
-          <div className="text-xs text-gray-500">
-            {iaoProgress.totalDeposited} XAA
+            <div className="text-sm">{formatLargeNumber(iaoProgress.totalDeposited)}$XAA</div>
+            <div className="text-xs text-gray-500">(${iaoProgress.currentUsdValue}USDT)</div>
           </div>
         </div>
         <div>
           <span className="text-gray-600">{t('target')}:</span>
           <div className="font-semibold text-gray-800">
-            ${iaoProgress.targetAmount} USD
+            <div className="text-sm">{formatLargeNumber(iaoProgress.targetXaaAmount)}$XAA</div>
+            <div className="text-xs text-gray-500">($1500USDT)</div>
           </div>
         </div>
         <div>
@@ -121,7 +138,8 @@ export const IaoProgressDisplay: React.FC<IaoProgressDisplayProps> = ({
         <div>
           <span className="text-gray-600">{t('remaining')}:</span>
           <div className="font-semibold text-orange-600">
-            ${iaoProgress.remainingAmount} USD
+            <div className="text-sm">{formatLargeNumber(iaoProgress.remainingXaaAmount)}$XAA</div>
+            <div className="text-xs text-gray-500">(${iaoProgress.remainingAmount}USDT)</div>
           </div>
         </div>
       </div>

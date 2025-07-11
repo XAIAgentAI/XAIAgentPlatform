@@ -64,8 +64,10 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     totalDeposited: '0',
     investorCount: 0,
     targetAmount: '1500',
+    targetXaaAmount: '0', // 目标金额对应的XAA数量
     progressPercentage: '0',
     remainingAmount: '1500',
+    remainingXaaAmount: '0', // 还差多少XAA
     currentUsdValue: '0'
   });
 

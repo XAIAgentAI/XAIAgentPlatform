@@ -26,9 +26,10 @@ interface HolderItem {
 interface HoldersListProps {
   tokenAddress: string;
   holders: string;
+  hasTokenAddress?: boolean;
 }
 
-export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
+export function HoldersList({ tokenAddress, holders, hasTokenAddress }: HoldersListProps) {
   const { holdersData, loading, error } = useDBCHolders(tokenAddress);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -75,6 +76,25 @@ export function HoldersList({ tokenAddress, holders }: HoldersListProps) {
       <Card className="p-4 bg-card-inner">
         <div className="text-center text-destructive">{error}</div>
       </Card>
+    );
+  }
+
+  // 检查代币是否已创建：如果代币地址不存在，显示提示信息
+  const shouldShowTokenNotCreatedMessage = !hasTokenAddress || !tokenAddress;
+
+  if (shouldShowTokenNotCreatedMessage) {
+    return (
+      <div className="font-['Sora']">
+        <div className="text-s mb-4">
+          {t('title', { count: Number(holders || 0).toLocaleString() })}
+        </div>
+
+        <Card className="p-6 bg-card-inner">
+          <div className="text-center text-muted-foreground">
+            {t('tokenNotCreated')}
+          </div>
+        </Card>
+      </div>
     );
   }
 

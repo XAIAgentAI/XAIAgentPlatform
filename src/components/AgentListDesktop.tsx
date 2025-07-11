@@ -9,7 +9,7 @@ import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { useTranslations, useLocale } from 'next-intl';
-import { AgentStatus, STATUS_VARIANT_MAP, type AgentListProps } from "@/types/agent"
+import { getStatusVariant, getStatusDisplayText, type AgentListProps } from "@/types/agent"
 import { SocialLinks } from "@/components/ui/social-links"
 import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
@@ -316,8 +316,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                               </CustomBadge>
                               {
                                 agent.status === 'PENDING' && (
-                                  <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
-                                    {agent.status}
+                                  <CustomBadge variant={getStatusVariant(agent.status)}>
+                                    {getStatusDisplayText(agent.status)}
                                   </CustomBadge>
                                 )
                               }
@@ -394,8 +394,8 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
                       </TableCell>
                       <TableCell>
                         <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          <CustomBadge variant={STATUS_VARIANT_MAP[agent.status as AgentStatus] || 'default'}>
-                            {agent.status}
+                          <CustomBadge variant={getStatusVariant(agent.status)}>
+                            {getStatusDisplayText(agent.status)}
                           </CustomBadge>
                         </div>
                       </TableCell>

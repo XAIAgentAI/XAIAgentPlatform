@@ -118,8 +118,15 @@
     "waitForConfirmation": "確認をお待ちください",
     "transactionConfirmationTimeout": "取引確認がタイムアウトしました",
     "stakeSuccessWithAmount": "{amount} DBCのステーキングに成功しました",
-    "contractTimeUpdateFailed": "[ja] 更新合约时间失败",
-    "contractTimeUpdateError": "[ja] 更新合约时间发生错误"
+    "contractTimeUpdateFailed": "コントラクト時間の更新に失敗しました",
+    "contractTimeUpdateError": "コントラクト時間の更新中にエラーが発生しました",
+    "missingRequiredFields": "必須フィールドが不足しています",
+    "agentNameExists": "エージェント名は既に存在します",
+    "agentSymbolExists": "エージェントシンボルは既に存在します",
+    "invalidStartTimestamp": "startTimestampは正の整数である必要があります",
+    "invalidDurationHours": "durationHoursは正の数である必要があります",
+    "invalidToken": "無効なトークンです",
+    "unauthorizedAccess": "未認証のアクセスです"
   },
   "agentList": {
     "sortBy": "並び替え",
@@ -307,20 +314,20 @@
     "remaining": "残り",
     "progressTip": "資金調達進捗は30秒ごとに自動更新されます。目標金額は$1500 USDです",
     "updatePaymentContract": "支払いコントラクトをデプロイ",
-    "iaoStatusTitle": "[ja] 最终筹资结果",
-    "iaoSuccessful": "[ja] 成功",
-    "iaoFailed": "[ja] 失败",
-    "finalAmount": "[ja] 最终金额",
-    "targetAmount": "[ja] 目标金额",
-    "investorCount": "[ja] 投资人数",
-    "overAchieved": "[ja] 超额完成",
-    "underAchieved": "[ja] 未达成",
-    "iaoSuccessTitle": "[ja] 🎉 IAO 成功完成！",
-    "iaoSuccessMessage": "[ja] 恭喜！筹资目标已达成。{isCreator, select, true {您可以开始创建代币并部署支付合约。} other {代币将在创建者完成相关操作后分发给投资者。}}",
-    "iaoSuccessCreatorTip": "[ja] 💡 请耐心等待代币创建完成，届时您可以领取您的代币奖励。",
-    "iaoFailedTitle": "[ja] ⚠️ IAO 未达成功标准",
-    "iaoFailedMessage": "[ja] 筹资金额未达到 $1500 USD 的最低要求。根据智能合约规则，投资者的资金将自动退还，代币不会被创建。",
-    "creatorSuggestions": "[ja] 📊 创建者建议：",
+    "iaoStatusTitle": "最終 IAO 結果",
+    "iaoSuccessful": "成功",
+    "iaoFailed": "失敗",
+    "finalAmount": "最終金額",
+    "targetAmount": "目標金額",
+    "investorCount": "投資家数",
+    "overAchieved": "超過達成",
+    "underAchieved": "未達成",
+    "iaoSuccessTitle": "🎉 IAO 成功完了！",
+    "iaoSuccessMessage": "おめでとうございます！資金調達目標を達成しました。{isCreator, select, true {トークンの作成と支払い契約のデプロイを開始できます。} other {トークンは作成者が関連操作を完了後、投資家に配布されます。}}",
+    "iaoSuccessCreatorTip": "💡 トークンの作成が完了するまでお待ちください。完了後、トークン報酬を受け取ることができます。",
+    "iaoFailedTitle": "⚠️ IAO 成功基準未達",
+    "iaoFailedMessage": "資金調達額が最低要件の $1500 USD に達しませんでした。IAO規則に従い、投資家の$XAAは自動的に返金され、トークンは作成されません。7日後にこのプロジェクトは再度IAOを開始できます。",
+    "creatorSuggestions": "📊 作成者への提案:",
     "creatorSuggestionsList": {
       "analyze": "• 失敗原因を分析し、プロジェクト計画を最適化する",
       "adjust": "• トークン経済モデルの調整を検討する",
@@ -328,13 +335,13 @@
       "editPrompt": "• プロンプト使用例を編集し、ユーザー体験を向上させる",
       "retry": "• IAOを再開始することができます"
     },
-    "investmentRefund": "[ja] 💰 您的投资处理：",
-    "refundAutomatic": "[ja] ✅ 您的投资金额将自动退还到您的钱包",
-    "checkWallet": "[ja] 📋 请查收钱包余额变化",
-    "refreshIfNeeded": "[ja] 🔄 如未收到退款，请点击下方刷新按钮",
-    "thankYouMessage": "[ja] 💡 感谢您的关注，期待项目方的下一次尝试。",
-    "refreshingStatus": "[ja] 刷新中...",
-    "refreshStatusButton": "[ja] 刷新状态"
+    "investmentRefund": "💰 投資金の処理:",
+    "refundAutomatic": "✅ 投資金は自動的にウォレットに返金されます",
+    "checkWallet": "📋 ウォレットの残高変更を確認してください",
+    "refreshIfNeeded": "🔄 返金を受け取っていない場合は、下の更新ボタンをクリックしてください",
+    "thankYouMessage": "💡 ご関心ありがとうございます。プロジェクトチームの次回の挑戦をお待ちください。",
+    "refreshingStatus": "更新中...",
+    "refreshStatusButton": "状態を更新"
   },
   "paymentContract": {
     "title": "支払いコントラクトをデプロイ",
@@ -395,7 +402,8 @@
     "percentage": "割合",
     "previous": "前へ",
     "next": "次へ",
-    "loading": "読み込み中..."
+    "loading": "読み込み中...",
+    "tokenNotCreated": "現在トークンはまだ作成されていません。IAO成功後に自動的に作成されます"
   },
   "agentDescription": {
     "title": "説明",
@@ -733,6 +741,37 @@
   },
   "create": {
     "title": "トークン経済モデル作成",
+    "iaoDescription": {
+      "title": "IAO説明",
+      "point1": "IAOの最短継続時間は72時間、最長は240時間です",
+      "point2": "IAO成功の基準：調達した$XAAが1500ドル以上",
+      "point3": "IAO失敗後、$XAAは自動的に投資家に返還され、7日後に再度IAOを開始できます",
+      "point4": "IAO成功後、5-20分後にAIトークンと$XAAがDBCSwapで自動的に取引ペアを確立し、デフォルトでAIトークンの価格はIAO終了時の価格に近くなります"
+    },
+    "decentralizedAI": {
+      "title": "分散型AIモデルサービス説明",
+      "intro": "これは開発者とマイナー（GPUプロバイダー）が共同で参加するAIサービスエコシステムで、以下のように動作します：",
+      "point1": {
+        "title": "開発者がAIモデルをアップロード",
+        "content": "開発者は自分でGPUサーバーを展開する必要がなく、訓練済みのAIモデルを標準化されたコンテナ（Dockerなど）にパッケージ化し、公開ダウンロードリンクを提供するだけです。コンテナには明確な展開ドキュメントを添付し、ハードウェア要件（GPU メモリ、計算能力など）と実行方法を説明する必要があります。"
+      },
+      "point2": {
+        "title": "マイナーが計算サービスを提供",
+        "content": "マイナー（GPUプロバイダー）は開発者のドキュメントに従ってAIコンテナをダウンロードして展開し、自分のGPUサーバーを使用してモデルを実行し、外部に推論/訓練サービスを提供します。マイナーは計算能力を提供することでTokenリワードを獲得し、収益はサービス品質と計算規模に関連します。"
+      },
+      "point3": {
+        "title": "明確なハードウェア要件",
+        "content": "開発者はモデルコンテナの最低ハードウェア構成（メモリ、CPU、RAMなど）を明記し、マイナーが要件に合致できるようにする必要があります。例：\"最低要件：NVIDIA GPU（16GBメモリ）、CUDA 11.4\"。"
+      },
+      "point4": {
+        "title": "分散型協力の利点",
+        "content": "開発者はハードウェアを維持する必要がなく、モデル最適化に集中できます；マイナーは遊休GPUを収益化でき、必要に応じて高収益モデルの展開を選択できます；ユーザーはより開放的で低コストのAIサービスを得られます。"
+      },
+      "point5": {
+        "title": "プロセス要約",
+        "content": "開発者がモデルをパッケージ化 → マイナーが展開・実行 → ユーザーがサービスを呼び出し → マイナーがTokenを獲得。このモデルは\"AI版Filecoin\"に似ており、ブロックチェーン技術を通じて計算リソースの分散型取引を実現します。"
+      }
+    },
     "time_setting_requirements": {
       "title": "時間設定要件",
       "description": "計画された開始時刻の24時間前にすべての設定を完了する必要があります。",
@@ -806,19 +845,7 @@
         "container": "AIモデルコンテナのダウンロードリンクを設定"
       }
     },
-    "examples": {
-      "title": "サンプル対話",
-      "user": "ユーザー:",
-      "ai": "AI:",
-      "example1": {
-        "user": "AIトークンを作成してください",
-        "ai": "はい、AIトークンの名前を入力してください"
-      },
-      "example2": {
-        "user": "ユーザーが入力したテキストから画像を生成する",
-        "ai": "この要件はAIモデルに追加されました"
-      }
-    },
+
     "createAgent": {
       "freeCreationNotice": "プロジェクトの作成は無料で、トークンはIAO成功後に自動的に生成されます",
       "socialLink": "ソーシャルリンク",
@@ -844,6 +871,8 @@
       "useCases": "ユースケース",
       "creationProcessMessage": "AIエージェントを作成中です。しばらくお待ちください...",
       "createAIProject": "AIトークンプロジェクトを作成",
+      "createAIModelProject": "AIモデルトークンプロジェクトを作成",
+      "editAIModelProject": "AIモデルプロジェクトを編集",
       "projectName": "プロジェクト名",
       "projectNamePlaceholder": "20文字以内",
       "projectDescription": "プロジェクトの説明",

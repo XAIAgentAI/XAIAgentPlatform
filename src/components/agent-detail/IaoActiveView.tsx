@@ -122,13 +122,29 @@ export const IaoActiveView = ({
   };
 
   const isButtonDisabled = (): boolean => {
-    return !isAuthenticated || 
-           !isIaoActive || 
-           isStakeLoading || 
-           !isIaoStarted ||
-           !dbcAmount ||
-           Number(dbcAmount) <= 0 ||
-           Number(dbcAmount) > Number(maxAmount);
+    const buttonState = {
+      isAuthenticated,
+      isIaoActive,
+      isStakeLoading,
+      isIaoStarted,
+      dbcAmount,
+      dbcAmountNumber: Number(dbcAmount),
+      maxAmount,
+      maxAmountNumber: Number(maxAmount),
+      isAmountValid: Number(dbcAmount) > 0,
+      isAmountWithinLimit: Number(dbcAmount) <= Number(maxAmount),
+      disabled: !isAuthenticated ||
+                !isIaoActive ||
+                isStakeLoading ||
+                !isIaoStarted ||
+                !dbcAmount ||
+                Number(dbcAmount) <= 0 ||
+                Number(dbcAmount) > Number(maxAmount)
+    };
+
+    console.warn("投资按钮状态:", buttonState);
+
+    return buttonState.disabled;
   };
 
   const renderPoolInfo = () => (

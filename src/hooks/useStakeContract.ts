@@ -970,8 +970,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalDeposited: '0',
         investorCount: 0,
         targetAmount: '1500', // 1500 USD 目标
+        targetXaaAmount: '0', // 目标金额对应的XAA数量
         progressPercentage: '0',
         remainingAmount: '1500',
+        remainingXaaAmount: '0', // 还差多少XAA
         currentUsdValue: '0'
       };
     }
@@ -1038,11 +1040,21 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       // 我们使用xaaPrice作为单价，totalDepositedNum作为数量
       const currentUsdValue = totalDepositedNum * xaaPrice;
 
+      // 计算目标金额对应的XAA数量
+      const targetXaaAmount = xaaPrice > 0 ? targetAmount / xaaPrice : 0;
+
+      // 计算还差多少XAA
+      const remainingXaaAmount = Math.max(targetXaaAmount - totalDepositedNum, 0);
+
       console.log(`[IAO进度] 最终USD价值计算: ${totalDepositedNum} * ${xaaPrice} = ${currentUsdValue}`);
+      console.log(`[IAO进度] 目标XAA数量计算: ${targetAmount} / ${xaaPrice} = ${targetXaaAmount}`);
+      console.log(`[IAO进度] 还差XAA数量: ${targetXaaAmount} - ${totalDepositedNum} = ${remainingXaaAmount}`);
       console.log(`[IAO进度] 各变量类型检查:`);
       console.log(`[IAO进度] - totalDepositedNum类型: ${typeof totalDepositedNum}, 值: ${totalDepositedNum}`);
       console.log(`[IAO进度] - xaaPrice类型: ${typeof xaaPrice}, 值: ${xaaPrice}`);
       console.log(`[IAO进度] - currentUsdValue类型: ${typeof currentUsdValue}, 值: ${currentUsdValue}`);
+      console.log(`[IAO进度] - targetXaaAmount类型: ${typeof targetXaaAmount}, 值: ${targetXaaAmount}`);
+      console.log(`[IAO进度] - remainingXaaAmount类型: ${typeof remainingXaaAmount}, 值: ${remainingXaaAmount}`);
 
       const progressPercentage = Math.min((currentUsdValue / targetAmount) * 100, 100);
       const remainingAmount = Math.max(targetAmount - currentUsdValue, 0);
@@ -1051,8 +1063,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalDeposited: totalDepositedNum.toFixed(2),
         investorCount,
         targetAmount: targetAmount.toString(),
+        targetXaaAmount: targetXaaAmount.toFixed(0), // 目标金额对应的XAA数量
         progressPercentage: progressPercentage.toFixed(1),
         remainingAmount: remainingAmount.toFixed(2),
+        remainingXaaAmount: remainingXaaAmount.toFixed(0), // 还差多少XAA
         currentUsdValue: currentUsdValue.toFixed(2)
       };
     } catch (error) {
@@ -1061,8 +1075,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         totalDeposited: '0',
         investorCount: 0,
         targetAmount: '1500',
+        targetXaaAmount: '0',
         progressPercentage: '0',
         remainingAmount: '1500',
+        remainingXaaAmount: '0',
         currentUsdValue: '0'
       };
     }

@@ -119,7 +119,14 @@
     "transactionConfirmationTimeout": "交易确认超时",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC",
     "contractTimeUpdateFailed": "更新合约时间失败",
-    "contractTimeUpdateError": "更新合约时间发生错误"
+    "contractTimeUpdateError": "更新合约时间发生错误",
+    "missingRequiredFields": "缺少必填字段",
+    "agentNameExists": "Agent 名称已存在",
+    "agentSymbolExists": "Agent Symbol 已存在",
+    "invalidStartTimestamp": "startTimestamp 必须是正整数",
+    "invalidDurationHours": "durationHours 必须是正数",
+    "invalidToken": "无效的 token",
+    "unauthorizedAccess": "未授权访问"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -305,7 +312,7 @@
     "remaining": "还需",
     "progressTip": "筹资进度每30秒自动更新，目标金额为 $1500 USD",
     "updatePaymentContract": "部署支付合约",
-    "iaoStatusTitle": "最终筹资结果",
+    "iaoStatusTitle": "最终IAO结果",
     "iaoSuccessful": "成功",
     "iaoFailed": "失败",
     "finalAmount": "最终金额",
@@ -317,10 +324,10 @@
     "iaoSuccessMessage": "恭喜！筹资目标已达成。{isCreator, select, true {您可以开始创建代币并部署支付合约。} other {代币将在创建者完成相关操作后分发给投资者。}}",
     "iaoSuccessCreatorTip": "💡 请耐心等待代币创建完成，届时您可以领取您的代币奖励。",
     "iaoFailedTitle": "⚠️ IAO 未达成功标准",
-    "iaoFailedMessage": "筹资金额未达到 $1500 USD 的最低要求。根据智能合约规则，投资者的资金将自动退还，代币不会被创建。",
+    "iaoFailedMessage": "筹资金额未达到 $1500 USD 的最低要求。根据IAO规则，投资者的$XAA会自动退还，代币不会被创建。7天后此AI模型可以再次发起IAO。",
     "creatorSuggestions": "📊 创建者建议：",
     "creatorSuggestionsList": {
-      "analyze": "• 分析失败原因，优化项目方案",
+      "analyze": "• 分析失败原因，优化AI模型方案",
       "adjust": "• 考虑调整代币经济模型",
       "community": "• 加强社区建设和营销推广",
       "editPrompt": "• 编辑提示词使用示例，提升用户体验",
@@ -330,7 +337,7 @@
     "refundAutomatic": "✅ 您的投资金额将自动退还到您的钱包",
     "checkWallet": "📋 请查收钱包余额变化",
     "refreshIfNeeded": "🔄 如未收到退款，请点击下方刷新按钮",
-    "thankYouMessage": "💡 感谢您的关注，期待项目方的下一次尝试。",
+    "thankYouMessage": "💡 感谢您的关注，期待AI模型方的下一次尝试。",
     "refreshingStatus": "刷新中...",
     "refreshStatusButton": "刷新状态"
   },
@@ -393,7 +400,8 @@
     "percentage": "百分比",
     "previous": "上一页",
     "next": "下一页",
-    "loading": "加载中..."
+    "loading": "加载中...",
+    "tokenNotCreated": "当前代币尚未创建，IAO成功后将会自动创建代币"
   },
   "agentDescription": {
     "title": "描述",
@@ -480,7 +488,7 @@
     "PicSpan": "扩展图片，可以按照想要的比例进行任意的图片扩展",
     "selectagent": "选择一个智能体",
     "inputHolder": "上传一张照片",
-    "inputInfo": "AI智能体可能会出错。请检查重要信息。",
+    "inputInfo": "AI模型可能会出错。请检查重要信息。",
     "Data": {
       "Scholar GPT": {
         "metrics": "DATA +45.67% | 市值: $222M",
@@ -546,7 +554,7 @@
         "description": "标志生成，可以通过文本对话生成各种风格的标志。",
         "prompts": [
           "我想要一个科技感强的标志，主要以蓝色和紫色为主，带有未来感。你能帮我设计一个吗？",
-          "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链项目。",
+          "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链AI模型。",
           "我希望标志能体现去中心化和人工智能的概念。我们可以尝试几种不同的设计风格吗？",
           "你能生成一个适合社交媒体头像的动态视觉效果标志吗？"
         ]
@@ -561,8 +569,8 @@
         ]
       }
     },
-    "explore": "探索AI智能体",
-    "trade": "交易AI智能体",
+    "explore": "探索AI模型",
+    "trade": "交易AI模型",
     "signup": "注册",
     "login": "登录",
     "username": "用户名",
@@ -731,20 +739,36 @@
   },
   "create": {
     "title": "创建指南",
-    "time_setting_requirements": {
-      "title": "设置时间要求",
-      "description": "必须在计划启动时间的24小时前完成所有配置。",
-      "example": "若计划周一10:00启动，需在周日10:00前完成设置。"
+    "iaoDescription": {
+      "title": "IAO说明",
+      "point1": "IAO最短持续时间是72小时，最长是240小时",
+      "point2": "IAO成功的标准：募集的$XAA不低于1500美金",
+      "point3": "IAO失败后，$XAA会自动返还给投资者，7天后可以再次发起IAO",
+      "point4": "IAO成功后，5-20分钟后AI代币和$XAA将会在DBCSwap自动建立交易对，默认AI代币的价格和IAO结束的时候价格接近"
     },
-    "runtime_duration_range": {
-      "title": "运行时长范围",
-      "description": "单次运行时长仅限72小时（3天）至720小时（30天）之间。",
-      "note": "超出此范围的设置将无法生效。"
-    },
-    "start_time_restrictions": {
-      "title": "启动时间限制",
-      "description": "完成设置后，至少需等待24小时才能启动，无法提前开始。",
-      "note": "即使提前完成配置，最早启动时间仍为设置时间+24小时。"
+    "decentralizedAI": {
+      "title": "去中心化AI模型服务说明",
+      "intro": "这是一个由开发者与矿工（GPU提供商）共同参与的AI服务生态，其运作方式如下：",
+      "point1": {
+        "title": "开发者上传AI模型",
+        "content": "开发者无需自行部署GPU服务器，只需将训练好的AI模型打包成标准化容器（如Docker），并公开下载链接。容器需附带清晰的部署文档，说明硬件要求（如GPU显存、算力等）和运行方式。"
+      },
+      "point2": {
+        "title": "矿工提供算力服务",
+        "content": "矿工（GPU提供商）根据开发者的文档下载并部署AI容器，用自己的GPU服务器运行模型，对外提供推理/训练服务。矿工通过贡献算力获得Token奖励，收益与服务质量、算力规模挂钩。"
+      },
+      "point3": {
+        "title": "明确硬件要求",
+        "content": "开发者必须标注模型容器的最低硬件配置（如显存、CPU、内存等），确保矿工能匹配需求。例如：\"最低要求：NVIDIA GPU（16GB显存）、CUDA 11.4\"。"
+      },
+      "point4": {
+        "title": "去中心化协作优势",
+        "content": "开发者无需维护硬件，专注模型优化；矿工闲置GPU可变现，按需选择高收益模型部署；用户获得更开放、低成本的AI服务。"
+      },
+      "point5": {
+        "title": "流程总结",
+        "content": "开发者打包模型 → 矿工部署运行 → 用户调用服务 → 矿工赚取Token。这种模式类似\"AI版Filecoin\"，通过区块链技术实现算力资源的去中心化交易。"
+      }
     },
     "mining_requirements": {
       "title": "挖掘要求",
@@ -779,53 +803,17 @@
         "nft": "1%给XAA节点NFT持有者"
       }
     },
-    "process": {
-      "error": "请先连接钱包",
-      "title": "创建流程",
-      "title2": "创建地址",
-      "href": "前往",
-      "hrefc": "页面创建你的agent",
-      "steps": {
-        "name": "请给你的AI币/项目进行命名",
-        "description": "请描述你的AI币/项目功能",
-        "examples": "描述你的AI项目可以和用户进行什么内容的对话(请举出几个对话案例)"
-      }
-    },
-    "iao": {
-      "title": "IAO设置",
-      "time": {
-        "title": "IAO时间设置",
-        "duration": "设置IAO持续时间(72-720小时)",
-        "start": "IAO将在设置后24小时启动"
-      },
-      "mining": {
-        "title": "挖矿要求",
-        "gpu": "设置GPU显存最低要求",
-        "container": "设置AI模型容器下载链接"
-      }
-    },
-    "examples": {
-      "title": "示例对话",
-      "user": "用户:",
-      "ai": "AI:",
-      "example1": {
-        "user": "帮我创建一个AI代币",
-        "ai": "好的，请输入您的AI代币名称"
-      },
-      "example2": {
-        "user": "用户输入文字，生成一张图片",
-        "ai": "该需求已加入您的AI模型"
-      }
-    },
     "createAgent": {
-      "freeCreationNotice": "创建项目不需要任何费用，代币将会在IAO成功后自动生成",
-      "createAIProject": "创建AI代币项目",
-      "projectName": "项目名称",
+      "freeCreationNotice": "创建AI模型不需要任何费用，代币将会在IAO成功后自动生成",
+      "createAIProject": "创建AI代币AI模型",
+      "createAIModelProject": "创建AI模型代币AI模型",
+      "editAIModelProject": "编辑AI模型AI模型",
+      "projectName": "AI模型项目名称",
       "projectNamePlaceholder": "1-20个字母",
       "createSymbol": "代币名",
       "symbolRule": "3-5个大写英文字母",
-      "projectDescription": "项目描述",
-      "projectDescriptionPlaceholder": "描述你的AI项目功能",
+      "projectDescription": "AI模型描述",
+      "projectDescriptionPlaceholder": "描述你的AI模型功能",
       "tokenSupply": "代币总量",
       "iaoPercentage": "IAO比例",
       "mining": "60亿/年",
@@ -836,8 +824,8 @@
       "userQuestion": "用户提问",
       "agentResponse": "Agent回复",
       "createSuccess": "创建成功!",
-      "created": "AI代币项目已成功创建,您的Agent ID为 ",
-      "viewProject": "查看项目",
+      "created": "AI代币AI模型已成功创建,您的Agent ID为 ",
+      "viewProject": "查看AI模型",
       "creating": "创建中...",
       "createNow": "立即创建",
       "nameExists": "Agent 名称已存在",
@@ -848,7 +836,7 @@
       "socialLink": "社交链接",
       "socialExists": "链接应以'https'开头",
       "container": "容器链接",
-      "provideDescriptionFirst": "请先提供项目描述",
+      "provideDescriptionFirst": "请先提供AI模型描述",
       "generateExamples": "生成示例",
       "startTime": "开始时间",
       "endTime": "结束时间",
@@ -856,18 +844,18 @@
       "eg1": "示例1",
       "required": "必填",
       "optional": "可选",
-      "nameRequired": "项目名称为必填项",
+      "nameRequired": "AI模型项目名称为必填项",
       "symbolRequired": "代币符号为必填项",
-      "descriptionRequired": "项目描述为必填项",
-      "descriptionLimit": "项目描述建议100-500字，详细说明您的AI智能体功能和特色",
+      "descriptionRequired": "AI模型描述为必填项",
+      "descriptionLimit": "AI模型描述建议100-500字，详细说明您的AI模型功能和特色",
       "descriptionExample": "示例：基于深度学习的音色识别系统，使用TensorFlow实现，区分乐器及人声，应用于音乐分类与语音识别",
       "logoSizeHint": "建议尺寸：100×100像素，支持PNG、JPG格式",
       "containerLinkHint": "AI模型容器的Docker镜像下载链接，用于部署您的AI模型",
       "containerLinkExample": "例如：https://hub.docker.com/r/username/image",
-      "socialLinkHint": "您的项目社交媒体链接",
+      "socialLinkHint": "您的AI模型社交媒体链接",
       "twitterLink": "推特链接",
       "telegramLink": "Telegram链接",
-      "twitterPlaceholder": "https://x.com/your_project",
+      "twitterPlaceholder": "https://x.com/your_ai_model",
       "containerLink": "容器链接",
       "containerLinkLabel": "Docker镜像",
       "containerLinkCopied": "容器链接已复制到剪贴板",
@@ -888,7 +876,7 @@
       "endTimeRequired": "请选择结束时间",
       "eg2": "示例2",
       "eg3": "示例3",
-      "creationProcessMessage": "正在创建您的AI智能体，这可能需要一些时间...",
+      "creationProcessMessage": "正在创建您的AI模型，这可能需要一些时间...",
       "agentDetails": "代理详情",
       "useCases": "用例",
       "TokenDistribution": {
@@ -906,9 +894,9 @@
         }
       },
       "price": "价格",
-      "editAIProject": "编辑 AI 项目",
+      "editAIProject": "编辑 AI 模型",
       "update": "更新",
-      "fetchError": "获取项目数据失败",
+      "fetchError": "获取AI模型数据失败",
       "updateFailed": "更新失败",
       "createFailed": "创建失败",
       "timeNotEditable": "请前往区块链浏览器修改",
