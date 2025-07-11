@@ -61,6 +61,7 @@ export interface LocalAgent {
   iaoTokenAmount?: number;
   paymentContractAddress?: string;
   miningRate?: number; // 挖矿速率（每年可挖矿的代币比例）
+  containerLink?: string; // 容器链接
   // Owner管理相关状态字段
   tokensDistributed?: boolean;
   ownerTransferred?: boolean;

@@ -410,24 +410,24 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             return;
         }
 
-        // 检查容器链接
-        if (containerLink) {
-            // 容器链接现在自动添加https://前缀，所以不需要检查
-            // 但我们可以检查是否是有效的URL格式
-            const fullUrl = `https://${containerLink}`;
-            try {
-                new URL(fullUrl);
-            } catch {
-                setContainerShow(true);
-                containerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-                return;
-            }
-        }
+        // 检查容器链接 - 已隐藏字段，跳过验证
+        // if (containerLink) {
+        //     // 容器链接现在自动添加https://前缀，所以不需要检查
+        //     // 但我们可以检查是否是有效的URL格式
+        //     const fullUrl = `https://${containerLink}`;
+        //     try {
+        //         new URL(fullUrl);
+        //     } catch {
+        //         setContainerShow(true);
+        //         containerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        //         return;
+        //     }
+        // }
 
         // 重置错误状态
         setTwitterError(false);
         setTelegramError(false);
-        setContainerShow(false);
+        // setContainerShow(false); // 容器链接字段已隐藏
 
         setCreating(true);
         try {
@@ -493,7 +493,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             // 准备完整数据
             const agentData = {
                 name: formData.name,
-                containerLink: formData.containerLink ? `https://${formData.containerLink}` : '',
+                containerLink: '', // 容器链接在创建时不填写，后续在详情页面由创建者添加
                 description: formData.description || "An Agent",
                 category: 'AI Agent',
                 capabilities: ['chat', 'information'],
@@ -1294,8 +1294,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             </div>
 
-                            {/* 2. 容器链接 (可选) */}
-                            <div>
+                            {/* 2. 容器链接 (可选) - 隐藏，在项目创建后在详情页显示 */}
+                            {/* <div>
                                 <label className="block mb-2">
                                     {t("container")} <span className="text-gray-500 text-sm">({t("optional")})</span>
                                 </label>
@@ -1324,7 +1324,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 {containerShow && (
                                     <div className="text-red-500 text-sm mt-1">{t("linkFormatError")}</div>
                                 )}
-                            </div>
+                            </div> */}
 
                             {/* 3. 推特链接 (可选) */}
                             <div>

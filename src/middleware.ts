@@ -58,8 +58,12 @@ const methodAuthRoutes = [
 
 // 检查路径是否匹配
 function matchPath(path: string, pattern: string): boolean {
-  const patternParts = pattern.split('/');
-  const pathParts = path.split('/');
+  // 移除末尾的斜杠进行标准化
+  const normalizedPath = path.replace(/\/$/, '');
+  const normalizedPattern = pattern.replace(/\/$/, '');
+
+  const patternParts = normalizedPattern.split('/');
+  const pathParts = normalizedPath.split('/');
 
   if (patternParts.length !== pathParts.length) {
     return false;
@@ -75,15 +79,33 @@ function matchPath(path: string, pattern: string): boolean {
 
 // 检查是否需要身份验证
 function needsAuth(path: string, method: string): boolean {
+  console.log(`Checking auth for path: ${path}, method: ${method}`);
+
   // 检查是否在 authRoutes 中
-  if (authRoutes.some(pattern => matchPath(path, pattern))) {
+  const authRouteMatch = authRoutes.some(pattern => {
+    const match = matchPath(path, pattern);
+    console.log(`Auth route check: ${pattern} -> ${match}`);
+    return match;
+  });
+
+  if (authRouteMatch) {
+    console.log('Auth required by authRoutes');
     return true;
   }
-  
+
   // 检查是否在 methodAuthRoutes 中且方法匹配
-  return methodAuthRoutes.some(route => 
-    matchPath(path, route.path) && route.methods.includes(method)
-  );
+  const methodAuthMatch = methodAuthRoutes.some(route => {
+    const pathMatch = matchPath(path, route.path);
+    const methodMatch = route.methods.includes(method);
+    console.log(`Method auth check: ${route.path} (${route.methods.join(',')}) -> path: ${pathMatch}, method: ${methodMatch}`);
+    return pathMatch && methodMatch;
+  });
+
+  if (methodAuthMatch) {
+    console.log('Auth required by methodAuthRoutes');
+  }
+
+  return methodAuthMatch;
 }
 
 // 创建国际化中间件

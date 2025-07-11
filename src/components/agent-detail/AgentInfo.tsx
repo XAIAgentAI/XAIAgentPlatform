@@ -12,24 +12,15 @@ import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSwapKLineData } from '@/hooks/useSwapKLineData';
 import { TimeInterval } from '@/hooks/useTokenPrice';
-import { useRouter } from 'next/navigation';
 import { useAppKitAccount } from '@reown/appkit/react';
-import {
-  agentAPI
-} from '@/services/api'
 import { useState, useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
-import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices, getTokenExchangeRate } from "@/services/swapService";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getTokenExchangeRate } from "@/services/swapService";
 import { useDBCPrice } from '@/hooks/useDBCPrice';
 import { formatPrice } from '@/lib/format';
 import { API_CONFIG } from '@/config/api';
-
-interface ApiResponse<T> {
-  code: number;
-  message: string;
-  data: T;
-}
+import { ContainerLinkManager } from './ContainerLinkManager';
 
 interface AgentInfoProps {
   agent: LocalAgent;
@@ -59,7 +50,6 @@ export function AgentInfo({ agent }: AgentInfoProps) {
   }, [agent?.tokenAddress, agent?.symbol]);
 
   const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
-  const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
   const tAgentDetail = useTranslations('agentDetail');
@@ -108,13 +98,6 @@ export function AgentInfo({ agent }: AgentInfoProps) {
     return agent.description;
   };
 
-  // 根据当前语言获取对应的状态
-  const getLocalizedStatus = () => {
-    if (!agent) return "";
-    return agent.status;
-  };
-
-  const router = useRouter();
   const address = useAppKitAccount()?.address;
 
   if (tokenLoading) {
@@ -329,6 +312,12 @@ export function AgentInfo({ agent }: AgentInfoProps) {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Container Link Manager */}
+      <ContainerLinkManager
+        agent={agent}
+        isCreator={address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase()}
+      />
 
       {/* Description */}
       <div className="mt-6">

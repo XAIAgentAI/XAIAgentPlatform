@@ -134,6 +134,30 @@ export const agentAPI = {
     return result;
   },
 
+  // 更新 agent
+  updateAgent: async (id: string, data: {
+    name: string;
+    description: string;
+    longDescription?: string;
+    category: string;
+    avatar?: string;
+    capabilities: string[];
+    containerLink?: string;
+    examples?: Array<{
+      title: string;
+      description: string;
+      prompt: string;
+    }>;
+  }): Promise<ApiResponse<LocalAgent>> => {
+    const token = localStorage.getItem('token'); // 使用正确的token键名
+    const response = await api.put(`/agents/${id}`, data, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+
   // 获取实时价格数据
   getAgentPrices: async (): Promise<Record<string, { marketCap: string; change24h: string; volume24h: string }>> => {
     const response = await api.get('/agents/prices');
