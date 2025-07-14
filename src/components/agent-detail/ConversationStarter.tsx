@@ -9,16 +9,19 @@ import { LocalAgent } from "@/types/agent";
 import { Edit } from "lucide-react";
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useRouter } from 'next/navigation';
+import { ConversationExamplesModal } from "./ConversationExamplesModal";
 
 interface ConversationStarterProps {
   agent: LocalAgent;
+  onRefreshAgent?: () => Promise<void>;
 }
 
-export default function ConversationStarter({ agent }: ConversationStarterProps) {
+export default function ConversationStarter({ agent, onRefreshAgent }: ConversationStarterProps) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const { address } = useAppKitAccount();
+  const [isExamplesModalOpen, setIsExamplesModalOpen] = useState(false);
 
   // 检查是否为创建者
   const isAgentCreator = address && (agent as any)?.creator?.address &&
@@ -26,10 +29,7 @@ export default function ConversationStarter({ agent }: ConversationStarterProps)
 
   // 处理编辑提示词
   const handleEditPrompt = () => {
-    if (agent?.id) {
-      // 跳转到编辑页面并滚动到底部（提示词示例编辑区域）
-      router.push(`/${locale}/chat/edit/${agent.id}#examples`);
-    }
+    setIsExamplesModalOpen(true);
   };
 
   console.log("agent", agent);
@@ -79,61 +79,85 @@ export default function ConversationStarter({ agent }: ConversationStarterProps)
   const suggestions = getLocalizedUseCases();
   console.log("suggestions", suggestions);
 
-  if (!suggestions) {
+  // 如果没有对话示例且不是创建者，则不显示该组件
+  if (!suggestions.length && !isAgentCreator) {
     return null;
   }
 
   return (
-    <Card className="p-6 bg-card" style={{
-      marginTop: 16
-    }}>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">{t('agent.conversationStarter')}</h2>
-        {isAgentCreator && (
-          <button
-            onClick={handleEditPrompt}
-            className="flex items-center gap-1 px-3 py-1 text-xs text-primary hover:text-primary/80 border border-primary/20 hover:border-primary/40 rounded-md transition-colors"
-            title={t('agent.editPromptExamples')}
-          >
-            <Edit size={12} />
-            {t('agent.editPromptExamples')}
-          </button>
-        )}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 opacity-50">
-        {suggestions.map((suggestion: string, index: number) => (
-          <div
-            key={index}
-            className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
-            onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
-          >
-            {suggestion}
+    <>
+      <Card className="p-6 bg-card" style={{
+        marginTop: 16
+      }}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold">{t('agent.conversationStarter')}</h2>
+          {isAgentCreator && (
+            <button
+              onClick={handleEditPrompt}
+              className="flex items-center gap-1 px-3 py-1 text-xs text-primary hover:text-primary/80 border border-primary/20 hover:border-primary/40 rounded-md transition-colors"
+              title={t('agent.editPromptExamples')}
+            >
+              <Edit size={12} />
+              {t('agent.editPromptExamples')}
+            </button>
+          )}
+        </div>
+        
+        {suggestions.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {suggestions.map((suggestion: string, index: number) => (
+              <div
+                key={index}
+                className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
+                onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
+              >
+                {suggestion}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="flex justify-center mt-6">
-        <CustomButton
-          className="flex items-center gap-2 px-8"
-          onClick={() => {
-            if (agent.symbol === "STID") {
-              window.open(`/${locale}/chat`, '_blank');
-            } else if (agent.symbol === "SIC") {
-              window.open('https://app.superimage.ai', '_blank');
-            } else if (agent.symbol === "DLC") {
-              window.open('https://www.deeplink.cloud/software', '_blank');
-            }
-          }} 
-        >
-          <Image
-            src="/images/chat.svg"
-            alt={t('agent.accessibility.chatIcon')}
-            width={12}
-            height={12}
-            aria-hidden="true"
-          />
-          {t('agent.chat')}
-        </CustomButton>
-      </div>
-    </Card>
+        ) : isAgentCreator ? (
+          <div className="text-center py-6 text-muted-foreground">
+            <p>{t('agent.noExamplesYet')}</p>
+            <p className="text-sm mt-2">{t('agent.clickEditToAdd')}</p>
+          </div>
+        ) : null}
+        
+        <div className="flex justify-center mt-6">
+          <CustomButton
+            className="flex items-center gap-2 px-8"
+            onClick={() => {
+              if (agent.symbol === "STID") {
+                window.open(`/${locale}/chat`, '_blank');
+              } else if (agent.symbol === "SIC") {
+                window.open('https://app.superimage.ai', '_blank');
+              } else if (agent.symbol === "DLC") {
+                window.open('https://www.deeplink.cloud/software', '_blank');
+              }
+            }} 
+          >
+            <Image
+              src="/images/chat.svg"
+              alt={t('agent.accessibility.chatIcon')}
+              width={12}
+              height={12}
+              aria-hidden="true"
+            />
+            {t('agent.chat')}
+          </CustomButton>
+        </div>
+      </Card>
+
+      {/* 对话示例编辑Modal */}
+      <ConversationExamplesModal 
+        agent={agent} 
+        isOpen={isExamplesModalOpen} 
+        onClose={() => setIsExamplesModalOpen(false)}
+        onUpdate={() => {
+          if (onRefreshAgent) {
+            onRefreshAgent();
+          }
+        }}
+      />
+    </>
   );
 } 

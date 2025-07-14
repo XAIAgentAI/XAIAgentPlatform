@@ -238,7 +238,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
         <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
           <div className="flex items-center gap-2">
-                    {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
+                    {/* {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
               <Button
                 variant="outline"
                 className="flex items-center gap-2 ml-2 text-xs py-1 px-2"
@@ -252,7 +252,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                 {t('edit')}
               </Button>
             )}
-            
+             */}
             <span className="text-xs text-muted-foreground whitespace-nowrap">{t('createdBy')}:</span>
             <Avatar className="h-7 w-7">
               <img

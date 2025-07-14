@@ -8,9 +8,19 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: false,
-  trailingSlash: true,
+  trailingSlash: false,
   images: {
     unoptimized: true,
+  },
+  // 使用rewrites代替redirects，不会产生实际的重定向
+  async rewrites() {
+    return [
+      // 处理API路径，确保无论带不带斜杠都能正确处理
+      {
+        source: '/api/:path*/',
+        destination: '/api/:path*',
+      }
+    ];
   },
   experimental: {
     outputFileTracingRoot: process.cwd(),

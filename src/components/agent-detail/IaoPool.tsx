@@ -28,18 +28,18 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   const t = useTranslations('iaoPool');
   const { toast } = useToast();
   const { ensureCorrectNetwork } = useNetwork();
-
-  // 模态框状态 - 暂时移除支付合约和修改时间功能
-  // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
 
   // 使用数据管理Hook
   const {
+    // 状态
     dbcAmount,
     setDbcAmount,
-    maxAmount,
+    maxDbcAmount,
+    maxXaaAmount,
     xaaBalance,
     isIaoSuccessful,
     tokenCreationTask,
@@ -49,9 +49,13 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     poolInfo,
     isCreator,
     isIAOEnded,
+
+    // 加载状态
     isStakeLoading,
     isPoolInfoLoading,
     isUserStakeInfoLoading,
+
+    // 方法
     stake,
     claimRewards,
     isContractOwner,
@@ -60,83 +64,15 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     fetchIaoProgress,
     checkIaoStatus,
     fetchPoolInfo,
+
+    // 便捷访问
     address,
     isConnected,
     isAuthenticated
   } = useIaoPoolData(agent);
 
-  // 监听任务状态变化，重置 isCreating 状态
-  useEffect(() => {
-    console.log('🎯 Task status changed:', tokenCreationTask?.status, 'isCreating:', isCreating);
-    if (tokenCreationTask) {
-      // 当任务状态不再是处理中时，重置 isCreating
-      if (tokenCreationTask.status !== 'PENDING' && tokenCreationTask.status !== 'PROCESSING') {
-        console.log('✅ Resetting isCreating to false due to task status:', tokenCreationTask.status);
-        setIsCreating(false);
-      }
-    }
-  }, [tokenCreationTask?.status, isCreating]);
-
   /**
-   * 创建Token
-   */
-  const handleCreateToken = useCallback(async () => {
-    if (!isCreator || !isIaoSuccessful) {
-      toast({
-        title: t('error'),
-        description: t('onlyCreatorAfterSuccess'),
-      });
-      return;
-    }
-
-    const isCorrectNetwork = await ensureCorrectNetwork();
-    if (!isCorrectNetwork) return;
-
-    try {
-      console.log('🚀 Starting token creation, setting isCreating to true');
-      setIsCreating(true);
-
-      const response = await fetch('/api/agents/create-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({
-          agentId: agent.id,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.code === 200) {
-        console.log('✅ Token creation submitted successfully');
-        toast({
-          title: t('success'),
-          description: t('tokenCreationSubmitted'),
-        });
-        // 获取任务状态，但不立即设置 isCreating 为 false
-        // 让轮询机制接管状态管理
-        console.log('🔄 Fetching token creation task status...');
-        await fetchTokenCreationTask();
-        console.log('📝 Task status fetched, keeping isCreating true until task status updates');
-        // 注意：这里不设置 setIsCreating(false)，让任务状态来控制UI
-      } else {
-        throw new Error(data.message || t('operationFailed'));
-      }
-    } catch (error: any) {
-      console.error('Create token failed:', error);
-      toast({
-        title: t('error'),
-        description: error.message || t('operationFailed'),
-      });
-      // 只有在出错时才设置 isCreating 为 false
-      setIsCreating(false);
-    }
-  }, [isCreator, isIaoSuccessful, agent.id, ensureCorrectNetwork, toast, t, fetchTokenCreationTask]);
-
-  /**
-   * 质押操作
+   * 处理质押
    */
   const handleStake = useCallback(async () => {
     if (!isAuthenticated) {
@@ -155,54 +91,97 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       return;
     }
 
-    if (Number(dbcAmount) > Number(maxAmount)) {
+    if (Number(dbcAmount) > Number(maxDbcAmount)) {
       toast({
         title: t('error'),
-        description: t('insufficientBalance'),
+        description: t('notEnoughBalance'),
       });
       return;
     }
 
-    const isCorrectNetwork = await ensureCorrectNetwork();
-    if (!isCorrectNetwork) return;
-
     try {
-      const formattedAmount = Number(dbcAmount).toFixed(18);
-      const result = await stake(formattedAmount, agent.symbol || '', agent.tokenAddress || '');
-
-      if (result && result.hash) {
-        const successMessage = t('sendSuccess', {
-          amount: Number(formattedAmount).toFixed(2),
-          symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA'
-        });
-
+      await ensureCorrectNetwork();
+      const result = await stake(dbcAmount);
+      
+      if (result && (result as any).success) {
         toast({
-          variant: "default",
           title: t('success'),
-          description: successMessage,
+          description: t('stakeSuccess', {
+            amount: dbcAmount,
+            symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA'
+          }),
         });
-
-        setDbcAmount('');
-        // 立即更新用户质押信息和IAO进度
-        await Promise.all([
-          fetchUserStakeInfo(),
-          fetchIaoProgress()
-        ]);
-        console.log('[投资成功] 已更新用户质押信息和IAO进度');
+        
+        // 刷新用户质押信息
+        await fetchUserStakeInfo();
+        
+        // 清空输入
+        setDbcAmount("");
       } else {
-        throw new Error(t('transactionFailed'));
+        throw new Error((result as any)?.error || t('stakeFailed'));
       }
     } catch (error: any) {
-      const errorMessage = t('stakeFailed') + ' ' + (error.message || '');
+      console.error('质押失败:', error);
       toast({
         title: t('error'),
-        description: errorMessage,
+        description: error.message || t('stakeFailed'),
       });
     }
-  }, [isAuthenticated, dbcAmount, maxAmount, ensureCorrectNetwork, stake, agent, toast, t, fetchUserStakeInfo]);
+  }, [isAuthenticated, dbcAmount, maxDbcAmount, ensureCorrectNetwork, stake, agent, toast, t, fetchUserStakeInfo]);
 
   /**
-   * 领取奖励
+   * 处理创建代币
+   */
+  const handleCreateToken = useCallback(async () => {
+    if (!isAuthenticated || !isCreator) {
+      toast({
+        title: t('error'),
+        description: t('notAuthorized'),
+      });
+      return;
+    }
+
+    try {
+      setIsCreating(true);
+      
+      const response = await fetch(`/api/agents/${agent.id}/create-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          name: agent.name,
+          symbol: agent.symbol || 'DBC',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.code === 200) {
+        toast({
+          title: t('success'),
+          description: t('tokenCreationInitiated'),
+        });
+
+        // 刷新任务状态
+        await fetchTokenCreationTask();
+      } else {
+        throw new Error(data.message || t('tokenCreationFailed'));
+      }
+    } catch (error: any) {
+      console.error('创建代币失败:', error);
+      toast({
+        title: t('error'),
+        description: error.message || t('tokenCreationFailed'),
+      });
+    } finally {
+      setIsCreating(false);
+    }
+  }, [isAuthenticated, isCreator, agent.id, agent.name, agent.symbol, fetchTokenCreationTask, toast, t]);
+
+  /**
+   * 处理领取奖励
    */
   const handleClaimRewards = useCallback(async () => {
     if (!isAuthenticated) {
@@ -259,9 +238,9 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
    */
   const handleSetMaxAmount = useCallback(() => {
     const reserveAmount = 0.01; // 保留gas费
-    const availableAmount = Math.max(Number(agent.symbol === 'XAA' ? maxAmount : xaaBalance) - reserveAmount, 0);
+    const availableAmount = Math.max(Number(agent.symbol === 'XAA' ? maxDbcAmount : maxXaaAmount) - reserveAmount, 0);
     setDbcAmount(availableAmount.toString());
-  }, [maxAmount, xaaBalance, agent.symbol]);
+  }, [maxDbcAmount, maxXaaAmount, agent.symbol]);
 
   /**
    * 刷新数据
@@ -361,7 +340,8 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
           userStakeInfo={userStakeInfo}
           dbcAmount={dbcAmount}
           setDbcAmount={setDbcAmount}
-          maxAmount={maxAmount}
+          maxDbcAmount={maxDbcAmount}
+          maxXaaAmount={maxXaaAmount}
           xaaBalance={xaaBalance}
           isCreator={isCreator}
           isIaoSuccessful={isIaoSuccessful}

@@ -9,6 +9,7 @@ import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
 import { StateDisplay } from "@/components/ui-custom/state-display";
 import { useTranslations } from 'next-intl';
+import { useAppKitAccount } from '@reown/appkit/react';
 
 interface AgentDetailProps {
   id: string;
@@ -26,6 +27,11 @@ export function AgentDetail({ id }: AgentDetailProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations('agentDetail');
+  const { address } = useAppKitAccount();
+  
+  // 检查当前用户是否是Agent创建者
+  const isAgentCreator = address && agent && (agent as any)?.creator?.address &&
+    address.toLowerCase() === (agent as any).creator.address.toLowerCase();
 
   const fetchAgent = async (showGlobalLoading = true) => {
     try {
@@ -76,11 +82,12 @@ export function AgentDetail({ id }: AgentDetailProps) {
           <div className="md:hidden ">
             {agent && <IaoPool agent={agent} onRefreshAgent={refreshAgent} />}
           </div>
+          
           {/* Agent信息卡片 */}
           <AgentInfo agent={agent as any} currentPrice={0} />
 
           {/* 对话启动器 */}
-          {agent && <ConversationStarter agent={agent} />}
+          {agent && <ConversationStarter agent={agent} onRefreshAgent={refreshAgent} />}
         </div>
 
         {/* 右侧区域 */}

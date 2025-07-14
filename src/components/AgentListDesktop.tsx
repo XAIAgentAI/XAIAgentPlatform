@@ -51,7 +51,7 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const { toast } = useToast();
 
   // 获取当前的状态筛选值
-  const currentStatusFilter = searchParams?.get('status') || "";
+  const currentStatusFilter = searchParams?.get('status') || "TRADABLE";
 
   const handleSort = (field: SortField) => {
     let newSortDirection = sortDirection;
@@ -118,37 +118,9 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
       <div className="flex flex-col gap-4 mb-6">
         {/* 第一行：排序 + 筛选 */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-8">
-          {/* 排序选项 */}
-          <div className="flex items-center gap-4">
-            <span className="text-muted-color text-xs whitespace-nowrap">{t('sortBy')}</span>
-            <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
-              if (value === "marketCap") {
-                setSortField("marketCap");
-                router.push(`?sortBy=marketCap&sortOrder=desc`);
-              } else if (value === "latest") {
-                setSortField(null);
-                router.push(`?sortBy=createdAt&sortOrder=desc`);
-              }
-            }}>
-              <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
-                <TabsTrigger
-                  value="marketCap"
-                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
-                >
-                  {t('marketCap')}
-                </TabsTrigger>
-                <TabsTrigger
-                  value="latest"
-                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
-                >
-                  {t('latest')}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
 
-          {/* 状态筛选 */}
-          <div className="flex items-center gap-4">
+       {/* 状态筛选 */}
+       <div className="flex items-center gap-4">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
             <Tabs defaultValue={currentStatusFilter} className="w-auto" onValueChange={(value) => {
               const currentParams = new URLSearchParams(window.location.search);
@@ -187,6 +159,37 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               </TabsList>
             </Tabs>
           </div>
+
+          {/* 排序选项 */}
+          <div className="flex items-center gap-4">
+            <span className="text-muted-color text-xs whitespace-nowrap">{t('sortBy')}</span>
+            <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
+              if (value === "marketCap") {
+                setSortField("marketCap");
+                router.push(`?sortBy=marketCap&sortOrder=desc`);
+              } else if (value === "latest") {
+                setSortField(null);
+                router.push(`?sortBy=createdAt&sortOrder=desc`);
+              }
+            }}>
+              <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
+                <TabsTrigger
+                  value="marketCap"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
+                >
+                  {t('marketCap')}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="latest"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 lg:px-4 py-1 text-xs lg:text-sm"
+                >
+                  {t('latest')}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+   
         </div>
 
         {/* 第二行：质押NFT按钮 */}
@@ -290,151 +293,170 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
               </TableBody>
             ) : (
               <TableBody>
-                {sortedAgents.map((agent) => {
-                  const socialLinks = parseSocialLinks(agent.socialLinks);
-                  return (
-                    <TableRow
-                      key={`${agent.id}-${agent.symbol}`}
-                      className="cursor-pointer hover:bg-[#F8F8F8] dark:hover:bg-[#222222]"
-                      onClick={() => handleRowClick(agent.id)}
-                    >
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-4">
-                          <Avatar className="w-[45px] h-[45px] rounded-[100px]">
-                            <img src={agent.avatar} alt={agent.name} className="object-cover" />
-                          </Avatar>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name}</h3>
-                              <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
-                                ${agent.symbol}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CustomBadge>
-                                {agent.type}
-                              </CustomBadge>
-                              {
-                                agent.status === 'PENDING' && (
-                                  <CustomBadge variant={getStatusVariant(agent.status)}>
-                                    {getStatusDisplayText(agent.status)}
-                                  </CustomBadge>
-                                )
-                              }
-                              <div className="flex  gap-2">
-                                {socialLinks.twitter.length > 0 && (
-                                  <SocialLinks links={socialLinks.twitter.join(", ")} />
-                                )}
-                                {socialLinks.telegram.length > 0 && (
-                                  <SocialLinks links={socialLinks.telegram.join(", ")} />
-                                )}
-                                {socialLinks.medium.length > 0 && (
-                                  <SocialLinks links={socialLinks.medium.join(", ")} />
-                                )}
+                {sortedAgents.length > 0 ? (
+                  sortedAgents.map((agent) => {
+                    const socialLinks = parseSocialLinks(agent.socialLinks);
+                    return (
+                      <TableRow
+                        key={`${agent.id}-${agent.symbol}`}
+                        className="cursor-pointer hover:bg-[#F8F8F8] dark:hover:bg-[#222222]"
+                        onClick={() => handleRowClick(agent.id)}
+                      >
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-4">
+                            <Avatar className="w-[45px] h-[45px] rounded-[100px]">
+                              <img src={agent.avatar} alt={agent.name} className="object-cover" />
+                            </Avatar>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name}</h3>
+                                <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
+                                  ${agent.symbol}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <CustomBadge>
+                                  {agent.type}
+                                </CustomBadge>
+                                {
+                                  agent.status === 'PENDING' && (
+                                    <CustomBadge variant={getStatusVariant(agent.status)}>
+                                      {getStatusDisplayText(agent.status)}
+                                    </CustomBadge>
+                                  )
+                                }
+                                <div className="flex  gap-2">
+                                  {socialLinks.twitter.length > 0 && (
+                                    <SocialLinks links={socialLinks.twitter.join(", ")} />
+                                  )}
+                                  {socialLinks.telegram.length > 0 && (
+                                    <SocialLinks links={socialLinks.telegram.join(", ")} />
+                                  )}
+                                  {socialLinks.medium.length > 0 && (
+                                    <SocialLinks links={socialLinks.medium.join(", ")} />
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")))
-                            ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                              maximumFractionDigits: 0
-                            })
-                            : agent.marketCap}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className={`text-sm font-normal font-['Sora'] leading-[10px] ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
-                          {agent.priceChange24h ?
-                            (parseFloat(agent.priceChange24h) === -0 ?
-                              "+0.00%" :
-                              `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
-                            ) :
-                            "0.00%"
-                          }
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.price || '$0'}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.holdersCount.toLocaleString()}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
-                            ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                              style: 'currency',
-                              currency: 'USD',
-                              maximumFractionDigits: 0
-                            })
-                            : agent.volume24h}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          {
-                            agent.lp !== undefined && !isNaN(Number(agent.lp))
-                              ? Number(agent.lp).toLocaleString('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                  maximumFractionDigits: 0
-                                })
-                              : '$0'
-                          }
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
-                          <CustomBadge variant={getStatusVariant(agent.status)}>
-                            {getStatusDisplayText(agent.status)}
-                          </CustomBadge>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                      {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (agent.symbol === "STID") {
-                              window.open(`/${locale}/chat`, '_blank');
-                            } else if (agent.symbol === "SIC") {
-                              window.open('https://app.superimage.ai', '_blank');
-                            } else if (agent.symbol === "DLC") {
-                              window.open('https://www.deeplink.cloud/software', '_blank');
-                            } else if (agent.symbol === "DGC") {
-                              window.open('https://degpt.ai ', '_blank');
-                            }
-                          }}
-                          className="text-secondary-color hover:text-primary-color transition-colors duration-200"
-                          aria-label="Open chat"
-                        >
-                          <div 
-                            className={`
-                              animate-combined-ani
-                              bg-primary
-                              mb-[1px]
-                              h-[34px] px-[17px] border-none text-white rounded-[10px]
-                              text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
-                            `}
-                          >
-                            <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2 mb-[0.6px]"></img>
-                            <span className="text-md mt-[0.6px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")))
+                              ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                              : agent.marketCap}
                           </div>
-                        </button>
-                      )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        </TableCell>
+                        <TableCell>
+                          <div className={`text-sm font-normal font-['Sora'] leading-[10px] ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
+                            {agent.priceChange24h ?
+                              (parseFloat(agent.priceChange24h) === -0 ?
+                                "+0.00%" :
+                                `${parseFloat(agent.priceChange24h) > 0 ? '+' : ''}${agent.priceChange24h}%`
+                              ) :
+                              "0.00%"
+                            }
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            {agent.price || '$0'}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            {agent.holdersCount.toLocaleString()}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
+                              ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                maximumFractionDigits: 0
+                              })
+                              : agent.volume24h}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            {
+                              agent.lp !== undefined && !isNaN(Number(agent.lp))
+                                ? Number(agent.lp).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    maximumFractionDigits: 0
+                                  })
+                                : '$0'
+                            }
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">
+                            <CustomBadge variant={getStatusVariant(agent.status)}>
+                              {getStatusDisplayText(agent.status)}
+                            </CustomBadge>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                        {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (agent.symbol === "STID") {
+                                window.open(`/${locale}/chat`, '_blank');
+                              } else if (agent.symbol === "SIC") {
+                                window.open('https://app.superimage.ai', '_blank');
+                              } else if (agent.symbol === "DLC") {
+                                window.open('https://www.deeplink.cloud/software', '_blank');
+                              } else if (agent.symbol === "DGC") {
+                                window.open('https://degpt.ai ', '_blank');
+                              }
+                            }}
+                            className="text-secondary-color hover:text-primary-color transition-colors duration-200"
+                            aria-label="Open chat"
+                          >
+                            <div 
+                              className={`
+                                animate-combined-ani
+                                bg-primary
+                                mb-[1px]
+                                h-[34px] px-[17px] border-none text-white rounded-[10px]
+                                text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
+                              `}
+                            >
+                              <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2 mb-[0.6px]"></img>
+                              <span className="text-md mt-[0.6px]">{agent.symbol==="DLC"?"Game":"Chat"}</span>
+                            </div>
+                          </button>
+                        )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={9} className="text-center py-10">
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <Image 
+                          src="/logo.png" 
+                          alt="No data" 
+                          width={50} 
+                          height={50} 
+                          className="opacity-30" 
+                        />
+                        <div className="text-muted-color text-sm">
+                          {t('noDataAvailable')}
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             )}
           </Table>

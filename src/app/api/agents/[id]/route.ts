@@ -21,8 +21,13 @@ function calculateDynamicStatus(agent: any): string {
   console.log(`[Agent详情状态计算] 代币地址: ${tokenAddress || 'null'}`);
   console.log(`[Agent详情状态计算] 测试环境: ${process.env.NEXT_PUBLIC_IS_TEST_ENV}`);
 
-  // 如果没有IAO时间信息，返回原状态
+  // 如果没有IAO时间信息，检查原状态
   if (!iaoStartTime || !iaoEndTime) {
+    // 如果原状态是FAILED或failed，但没有IAO时间信息，说明是还未设置IAO时间，应该显示TBA
+    if (agent.status === 'FAILED' || agent.status === 'failed') {
+      console.log(`[Agent详情状态计算] 没有IAO时间信息且原状态为${agent.status}，改为TBA`);
+      return 'TBA';
+    }
     console.log(`[Agent详情状态计算] 没有IAO时间信息，返回原状态: ${agent.status}`);
     return agent.status;
   }
@@ -45,14 +50,27 @@ function calculateDynamicStatus(agent: any): string {
       calculatedStatus = 'TRADABLE';
       console.log(`[Agent详情状态计算] IAO已结束且有代币地址，状态: ${calculatedStatus}`);
     } else {
-      // IAO结束但还没有代币地址，可能在处理中
-      calculatedStatus = 'TBA';
-      console.log(`[Agent详情状态计算] IAO已结束但无代币地址，状态: ${calculatedStatus}`);
+      // IAO结束但还没有代币地址，检查原状态
+      if (agent.status === 'FAILED') {
+        // 如果原状态是FAILED，说明IAO确实失败了
+        calculatedStatus = 'FAILED';
+        console.log(`[Agent详情状态计算] IAO已结束，原状态为FAILED，保持FAILED状态`);
+      } else {
+        // 其他情况，可能在处理中
+        calculatedStatus = 'TBA';
+        console.log(`[Agent详情状态计算] IAO已结束但无代币地址，状态: ${calculatedStatus}`);
+      }
     }
   } else {
     // 默认返回原状态
     calculatedStatus = agent.status;
     console.log(`[Agent详情状态计算] 未匹配任何条件，返回原状态: ${calculatedStatus}`);
+  }
+
+  // 最终检查：如果计算出的状态是FAILED或failed，统一改为TBA
+  if (calculatedStatus === 'FAILED' || calculatedStatus === 'failed') {
+    calculatedStatus = 'TBA';
+    console.log(`[Agent详情状态计算] 将${agent.status}状态改为TBA`);
   }
 
   console.log(`[Agent详情状态计算] 最终状态: ${calculatedStatus}`);

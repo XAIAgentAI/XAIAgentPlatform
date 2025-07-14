@@ -31,7 +31,10 @@
     "perDay": "日",
     "noData": "データなし",
     "status": "ステータス",
-    "view": "表示"
+    "view": "表示",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "キャンセル"
   },
   "navigation": {
     "home": "ホーム",
@@ -71,7 +74,12 @@
       "copyContractAddress": "コントラクトアドレスをコピー"
     },
     "edit": "エージェント情報を編集",
-    "editPromptExamples": "プロンプト例を編集"
+    "editPromptExamples": "プロンプト例を編集",
+    "noExamplesYet": "まだ会話例がありません",
+    "clickEditToAdd": "「プロンプト例を編集」をクリックして例を追加してください",
+    "examplePrompt": "例",
+    "examplePlaceholder": "ここに会話例を入力してください...",
+    "examplesUpdateNotice": "これらの例はユーザーがこのAIモデルとの会話を開始するのに役立ちます。"
   },
   "wallet": {
     "connect": "ウォレットを接続",
@@ -147,7 +155,8 @@
     "all": "すべて",
     "iaoOngoing": "IAO進行中",
     "tradable": "取引可能",
-    "iaoComingSoon": "IAO開始予定"
+    "iaoComingSoon": "IAO開始予定",
+    "noDataAvailable": "データがありません"
   },
   "agentDetail": {
     "overview": "概要",
@@ -394,7 +403,15 @@
     "totalSupply": "総供給量",
     "holders": "保有者数",
     "tba": "近日発表",
-    "zero": "0"
+    "zero": "0",
+    "units": {
+      "billion": "十億",
+      "million": "百万",
+      "thousand": "千",
+      "billionShort": "B",
+      "millionShort": "M",
+      "thousandShort": "K"
+    }
   },
   "holderDistribution": {
     "title": "保有者分布 ({count}人の保有者)",
@@ -769,7 +786,7 @@
       },
       "point5": {
         "title": "プロセス要約",
-        "content": "開発者がモデルをパッケージ化 → マイナーが展開・実行 → ユーザーがサービスを呼び出し → マイナーがTokenを獲得。このモデルは\"AI版Filecoin\"に似ており、ブロックチェーン技術を通じて計算リソースの分散型取引を実現します。"
+        "content": "開発者がモデルをパッケージ化 → マイナーが展開・実行 → ユーザーがサービスを呼び出し → マイナーがTokenを獲得。"
       }
     },
     "time_setting_requirements": {
@@ -887,7 +904,7 @@
       "userQuestion": "ユーザーの質問",
       "agentResponse": "エージェントの返答",
       "createSuccess": "作成成功!",
-      "created": "AIトークンプロジェクトが正常に作成されました。あなたのエージェントIDは ",
+      "created": "AIトークンプロジェクトが正常に作成されました。あなたのAIモデルIDは ",
       "viewProject": "プロジェクトを表示",
       "creating": "作成中...",
       "createNow": "今すぐ作成",
@@ -959,7 +976,8 @@
       "durationHint": "* 期間範囲：72-240時間（3-10日）",
       "durationError": "期間は72-240時間（3-10日）の間である必要があります",
       "iaoScheduleInfo": "IAOは{startHours}時間後に開始し、{durationHours}時間継続し、{endTime}に終了予定です",
-      "calculating": "計算中..."
+      "calculating": "計算中...",
+      "additionalSettingsAfterCreation": "モデル作成後にIAO時間、コンテナリンク、会話例を設定できます"
     },
     "datePicker": {
       "selectDateTime": "日付と時間を選択",

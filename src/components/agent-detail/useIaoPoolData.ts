@@ -41,8 +41,9 @@ export const useIaoPoolData = (agent: LocalAgent) => {
 
   // 余额状态
   const [dbcAmount, setDbcAmount] = useState("");
-  const [maxAmount, setMaxAmount] = useState<string>("0");
+  const [maxDbcAmount, setMaxDbcAmount] = useState<string>("0");
   const [xaaBalance, setXaaBalance] = useState<string>("0");
+  const [maxXaaAmount, setMaxXaaAmount] = useState<string>("0");
 
   // IAO状态
   const [isIaoSuccessful, setIsIaoSuccessful] = useState(false);
@@ -97,7 +98,8 @@ export const useIaoPoolData = (agent: LocalAgent) => {
   // 获取用户余额
   const fetchUserBalance = useCallback(async () => {
     if (!address || !isConnected) {
-      setMaxAmount("0");
+      setMaxDbcAmount("0");
+      setMaxXaaAmount("0");
       setXaaBalance("0");
       return;
     }
@@ -111,7 +113,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
       const dbcBalance = await publicClient.getBalance({
         address: address as `0x${string}`
       });
-      setMaxAmount(formatEther(dbcBalance));
+      setMaxDbcAmount(formatEther(dbcBalance));
 
       const ERC20_ABI = [
         {
@@ -132,15 +134,19 @@ export const useIaoPoolData = (agent: LocalAgent) => {
           functionName: 'balanceOf',
           args: [address as `0x${string}`]
         });
-        setXaaBalance(formatEther(xaaBalance));
+        const formattedXaaBalance = formatEther(xaaBalance);
+        setXaaBalance(formattedXaaBalance);
+        setMaxXaaAmount(formattedXaaBalance);
       } catch (error) {
         console.error('Failed to get XAA balance:', error);
         setXaaBalance("0");
+        setMaxXaaAmount("0");
       }
     } catch (error) {
       console.error('Failed to get balance:', error);
-      setMaxAmount("0");
+      setMaxDbcAmount("0");
       setXaaBalance("0");
+      setMaxXaaAmount("0");
     }
   }, [address, isConnected]);
 
@@ -270,7 +276,8 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     // 状态
     dbcAmount,
     setDbcAmount,
-    maxAmount,
+    maxDbcAmount,
+    maxXaaAmount,
     xaaBalance,
     isIaoSuccessful,
     tokenCreationTask,

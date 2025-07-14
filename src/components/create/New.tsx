@@ -140,7 +140,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         telegramLink: '',
         tokenSupply: '100000000000',
         iaoPercentage: '15%',
-        miningRate: '6', // 默认每年可挖矿6%的总供应量
+        miningRate: '5', // 默认每年可挖矿5%的总供应量
         userFirst: '',
         userSecond: '',
         userThird: '',
@@ -588,7 +588,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     });
                 })(),
                 iaoTokenAmount: 20000000000,
-                miningRate: parseFloat(formData.miningRate) || 6 // 转换为数字，默认6%
+                miningRate: parseFloat(formData.miningRate) || 5 // 转换为数字，默认5%
             };
 
             // 如果是编辑模式，添加时间更新信息
@@ -811,7 +811,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1  gap-6 mb-8">
                     <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-semibold mb-4 flex items-center">
                             <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -819,7 +819,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             </svg>
                             {t("agentDetails")}
                         </h3>
-                        <div className="space-y-3">
+                        <div className=" grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
                             <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">{t("projectName")}</p>
                                 <p className="font-medium">{data.name}</p>
@@ -835,52 +835,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            {t("useCases")}
-                        </h3>
-
-                        <div className="space-y-4">
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">English</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.en.map((useCase, index) => (
-                                        <li key={`en-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">日本語</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.ja.map((useCase, index) => (
-                                        <li key={`ja-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">한국어</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.ko.map((useCase, index) => (
-                                        <li key={`ko-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">中文</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.zh.map((useCase, index) => (
-                                        <li key={`zh-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+               
                 </div>
 
                 <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-8">
@@ -891,13 +846,15 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         {t('TokenDistribution.title')}
                     </h3>
                     <div className="space-y-3 text-sm">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((point) => (
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((point) => (
                             <p key={point}>
                                 {point}. {t(`TokenDistribution.points.${point}`, { symbol: data.symbol })}
                             </p>
                         ))}
                     </div>
                 </div>
+
+
 
                 <div className="flex justify-center">
                     <button
@@ -949,7 +906,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         telegramLink: telegramLink,
                         tokenSupply: agentData.totalSupply?.toString() || '100000000000',
                         iaoPercentage: '15%',
-                        miningRate: '6', // 默认每年可挖矿6%的总供应量
+                        miningRate: '5', // 默认每年可挖矿5%的总供应量
                         userFirst: '',
                         userSecond: '',
                         userThird: '',
@@ -1016,8 +973,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     };
 
     return (
-        <div className=" rounded-md inset-0   flex justify-center items-start ">
-            <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
+        <div className="rounded-md inset-0 flex justify-center items-start px-4 sm:px-0">
+            <div className="w-full sm:w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
                 {creating && !success ? (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
                         <CreationAnimation />
@@ -1025,9 +982,10 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 ) : success ? (
                     <SuccessDisplay />
                 ) : (
-                    <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
+                    <div className="bg-white dark:bg-[#161616] rounded-xl p-4 sm:p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
                         <div className="mb-6">
-                            <div className="flex items-center justify-between mb-2">
+                            {/* 桌面端：水平布局 */}
+                            <div className="hidden sm:flex sm:items-center sm:justify-between mb-2">
                                 <h1 className="text-2xl font-bold">
                                     {mode === 'edit' ? t("editAIModelProject") : t("createAIModelProject")}
                                 </h1>
@@ -1042,10 +1000,39 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </button>
                             </div>
 
-                            {/* 免费创建提示 - 作为副标题 */}
+                            {/* 移动端：垂直布局 */}
+                            <div className="sm:hidden">
+                                <h1 className="text-xl font-bold mb-2">
+                                    {mode === 'edit' ? t("editAIModelProject") : t("createAIModelProject")}
+                                </h1>
+
+                                {/* 免费创建提示 - 移动端 */}
+                                {mode === 'create' && (
+                                    <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center mb-3">
+                                        <svg className="w-4 h-4 text-gray-500 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {t("freeCreationNotice")}
+                                    </p>
+                                )}
+
+                                <div className="flex justify-end">
+                                    <button
+                                        onClick={() => window.open(`/${locale}/create-guide`, '_blank')}
+                                        className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2 w-fit"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                        查看创建指南
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* 免费创建提示 - 桌面端 */}
                             {mode === 'create' && (
-                                <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center">
-                                    <svg className="w-4 h-4 text-gray-500 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <p className="hidden sm:flex text-sm text-gray-500 dark:text-gray-500 items-center">
+                                    <svg className="w-4 h-4 text-gray-500 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     {t("freeCreationNotice")}
@@ -1188,8 +1175,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 5. IAO时间设置 (必填，仅在创建模式显示) */}
-                            {mode !== 'edit' && (
+                            {/* 仅在编辑模式下显示IAO时间设置 */}
+                            {mode === 'edit' && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     {/* IAO开始时间 */}
                                     <div ref={startTimeInputRef}>
@@ -1205,7 +1192,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoStartDays}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 1;
-                                                        // 确保至少1天，最多30天
                                                         const clampedValue = Math.max(1, Math.min(30, value));
                                                         setIaoStartDays(clampedValue);
                                                         if (startTimeError) setStartTimeError(false);
@@ -1223,7 +1209,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoStartHours}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 0;
-                                                        // 确保0-23小时范围
                                                         const clampedValue = Math.max(0, Math.min(23, value));
                                                         setIaoStartHours(clampedValue);
                                                         if (startTimeError) setStartTimeError(false);
@@ -1254,7 +1239,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoDurationDays}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 3;
-                                                        // 确保3-10天范围（对应72-240小时）
                                                         const clampedValue = Math.max(3, Math.min(10, value));
                                                         setIaoDurationDays(clampedValue);
                                                         if (iaoDurationError) setIaoDurationError(false);
@@ -1272,7 +1256,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoDurationHours}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 0;
-                                                        // 确保0-23小时范围
                                                         const clampedValue = Math.max(0, Math.min(23, value));
                                                         setIaoDurationHours(clampedValue);
                                                         if (iaoDurationError) setIaoDurationError(false);
@@ -1291,8 +1274,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             )}
 
-                            {/* 6. IAO时间信息显示 (仅在创建模式显示) */}
-                            {mode !== 'edit' && (
+                            {/* 6. IAO时间信息显示 (仅在编辑模式显示) */}
+                            {mode === 'edit' && (
                                 <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg mb-2">
                                     <div className="text-red-500 text-xs">
                                         {t("iaoScheduleInfo", {
@@ -1310,83 +1293,32 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             )}
 
-                            {/* 可选字段部分 */}
-
-                            {/* 1. 代币供应量、挖矿率、IAO比例 (三列网格布局) */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label className="block mb-2">{t("tokenSupply")}</label>
-                                    <input
-                                        name="tokenSupply"
-                                        value={formData.tokenSupply}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                        disabled
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block mb-2">{t("miningRate")} (%)</label>
-                                    <input
-                                        name="miningRate"
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        step="0.1"
-                                        value={formData.miningRate}
-                                        disabled
-                                        onChange={handleChange}
-                                        placeholder="每年可挖矿的代币比例 (如: 6 表示6%)"
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                    />
-                                    <div className="text-xs text-gray-500 mt-1">
-                                        每年可挖矿的代币数量 = 总供应量 × {formData.miningRate}%
+                            {/* 代币信息展示 */}
+                            <div className="bg-gray-50 p-3 rounded-lg">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-sm">
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("tokenSupply")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.tokenSupply}</span>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label className="block mb-2">{t("iaoPercentage")}</label>
-                                    <input
-                                        name="iaoPercentage"
-                                        value={formData.iaoPercentage}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                        disabled
-                                    />
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("miningRate")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.miningRate}%</span>
+                                        </div>
+                                        <div className="text-xs text-gray-500 mt-1">
+                                            每年可挖矿的代币数量 = 总供应量 × {formData.miningRate}%
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("iaoPercentage")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.iaoPercentage}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* 2. 容器链接 (可选) - 隐藏，在项目创建后在详情页显示 */}
-                            {/* <div>
-                                <label className="block mb-2">
-                                    {t("container")} <span className="text-gray-500 text-sm">({t("optional")})</span>
-                                </label>
-                                <div className="text-gray-500 text-sm mb-2">{t("containerLinkHint")}</div>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span className="text-gray-500 text-sm">https://</span>
-                                    </div>
-                                    <input
-                                        name="containerLink"
-                                        ref={containerRef}
-                                        value={formData.containerLink}
-                                        onChange={(e) => {
-                                            let value = e.target.value;
-                                            // Remove https:// if user types it
-                                            if (value.startsWith('https://')) {
-                                                value = value.substring(8);
-                                            }
-                                            setFormData(prev => ({ ...prev, containerLink: value }));
-                                        }}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 pl-20 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder="hub.docker.com/r/username/image"
-                                    />
-                                </div>
-                                <div className="text-gray-400 text-sm mt-1">{t("containerLinkExample")}</div>
-                                {containerShow && (
-                                    <div className="text-red-500 text-sm mt-1">{t("linkFormatError")}</div>
-                                )}
-                            </div> */}
 
                             {/* 3. 推特链接 (可选) */}
                             <div>
@@ -1424,76 +1356,72 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 对话示例部分 */}
-                            <div className="mt-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <div className="flex items-center gap-2">
-                                        <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
-                                        <span className="text-gray-500 text-sm">({t("optional")})</span>
-                                    </div>
-                                    {/* <button
-                                        onClick={generateUseCases}
-                                        disabled={generatingUseCases || !formData.description}
-                                        className="flex items-center space-x-2 bg-primary text-white bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        <span>{t("generateExamples")}</span>
-                                    </button> */}
-                                </div>
-
-                                {/* Example 1 */}
-                                <div id="examples" className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            1
+                            {/* 对话示例部分 - 仅在编辑模式下显示 */}
+                            {mode === 'edit' && (
+                                <div className="mt-6">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="flex items-center gap-2">
+                                            <h2 className="text-xl font-bold" id="examples">{t("dialogExample")}</h2>
+                                            <span className="text-gray-500 text-sm">({t("optional")})</span>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg1")}</h3>
                                     </div>
-                                    <textarea
-                                        id="11111"
-                                        name="userFirst"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[0] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
-                                </div>
 
-                                {/* Example 2 */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            2
+                                    {/* Example 1 */}
+                                    <div id="examples" className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                1
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg1")}</h3>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg2")}</h3>
+                                        <textarea
+                                            id="11111"
+                                            name="userFirst"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[0] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
                                     </div>
-                                    <textarea
-                                        id="22222"
-                                        name="userSecond"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[1] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
-                                </div>
 
-                                {/* Example 3 */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            3
+                                    {/* Example 2 */}
+                                    <div className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                2
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg2")}</h3>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                                        <textarea
+                                            id="22222"
+                                            name="userSecond"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[1] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
                                     </div>
-                                    <textarea
-                                        id="33333"
-                                        name="userThird"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[2] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
+
+                                    {/* Example 3 */}
+                                    <div className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                3
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                                        </div>
+                                        <textarea
+                                            id="33333"
+                                            name="userThird"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[2] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+
                             <button
                                 onClick={handleCreate}
                                 disabled={creating || !formData.name}
@@ -1501,6 +1429,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             >
                                 {creating ? t("creating") : mode === 'edit' ? t("update") : t("createNow")}
                             </button>
+                            
+                            {mode === 'create' && (
+                                <div className="text-gray-500 text-sm mt-2 text-center">
+                                    {t("additionalSettingsAfterCreation")}
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}

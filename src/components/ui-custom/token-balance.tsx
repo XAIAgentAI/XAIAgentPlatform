@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { CONTRACTS } from "@/config/contracts";
 import { useWalletClient } from 'wagmi';
 
-// ERC20 的 ABI
+// Drc20 的 ABI
 const ERC20_ABI = [
   {
     "constant": true,

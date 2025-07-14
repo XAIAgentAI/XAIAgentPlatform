@@ -31,7 +31,10 @@
     "social": "社交",
     "noData": "暂无数据",
     "status": "状态",
-    "view": "查看"
+    "view": "查看",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "取消"
   },
   "navigation": {
     "home": "首页",
@@ -71,7 +74,12 @@
       "copyContractAddress": "复制合约地址"
     },
     "edit": "修改Agent信息",
-    "editPromptExamples": "编辑提示词示例"
+    "editPromptExamples": "编辑提示词示例",
+    "noExamplesYet": "暂无对话示例",
+    "clickEditToAdd": "点击\"编辑提示词示例\"添加示例",
+    "examplePrompt": "示例",
+    "examplePlaceholder": "在此输入对话示例...",
+    "examplesUpdateNotice": "这些示例将帮助用户开始与AI模型的对话。"
   },
   "wallet": {
     "connect": "连接钱包",
@@ -126,7 +134,9 @@
     "invalidStartTimestamp": "startTimestamp 必须是正整数",
     "invalidDurationHours": "durationHours 必须是正数",
     "invalidToken": "无效的 token",
-    "unauthorizedAccess": "未授权访问"
+    "unauthorizedAccess": "未授权访问",
+    "updateSuccess": "更新成功",
+    "updateFailed": "更新失败"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -147,7 +157,8 @@
     "all": "全部",
     "iaoOngoing": "IAO进行中",
     "tradable": "可交易",
-    "iaoComingSoon": "IAO即将开始"
+    "iaoComingSoon": "IAO即将开始",
+    "noDataAvailable": "暂无数据"
   },
   "agentDetail": {
     "overview": "概览",
@@ -392,7 +403,15 @@
     "totalSupply": "总供应量",
     "holders": "持有者",
     "tba": "待公布",
-    "zero": "0"
+    "zero": "0",
+    "units": {
+      "billion": "亿",
+      "million": "万",
+      "thousand": "千",
+      "billionShort": "亿",
+      "millionShort": "万",
+      "thousandShort": "千"
+    }
   },
   "holderDistribution": {
     "title": "持有者分布 ({count} 个持有者)",
@@ -767,7 +786,7 @@
       },
       "point5": {
         "title": "流程总结",
-        "content": "开发者打包模型 → 矿工部署运行 → 用户调用服务 → 矿工赚取Token。这种模式类似\"AI版Filecoin\"，通过区块链技术实现算力资源的去中心化交易。"
+        "content": "开发者打包模型 → 矿工部署运行 → 用户调用服务 → 矿工赚取Token。"
       }
     },
     "mining_requirements": {
@@ -824,7 +843,7 @@
       "userQuestion": "用户提问",
       "agentResponse": "Agent回复",
       "createSuccess": "创建成功!",
-      "created": "AI代币AI模型已成功创建,您的Agent ID为 ",
+      "created": "AI代币AI模型已成功创建,您的AI模型ID为 ",
       "viewProject": "查看AI模型",
       "creating": "创建中...",
       "createNow": "立即创建",
@@ -890,7 +909,6 @@
           "6": "{symbol}挖矿每年产生50亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
           "7": "需要持有XAA挖矿NFT才能参与挖矿，每个机器需要质押最少1个XAA挖矿NFT，最多质押10个XAA挖矿NFT",
           "8": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
-          
         }
       },
       "price": "价格",
@@ -910,7 +928,8 @@
       "durationHint": "* 持续时间范围：72-240小时（3-10天）",
       "durationError": "持续时间必须在72-240小时之间（3-10天）",
       "iaoScheduleInfo": "IAO将在 {startHours} 小时后开始，持续 {durationHours} 小时，预计 {endTime} 结束",
-      "calculating": "计算中..."
+      "calculating": "计算中...",
+      "additionalSettingsAfterCreation": "创建AI模型后，您可以设置IAO时间、容器链接和对话示例"
     },
     "datePicker": {
       "selectDateTime": "选择日期和时间",

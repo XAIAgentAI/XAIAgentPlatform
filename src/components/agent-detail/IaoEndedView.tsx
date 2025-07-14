@@ -422,7 +422,7 @@ export const IaoEndedView = ({
                   <span className="text-lg">🪙</span>
                   <div>
                     <div className="font-medium text-sm">1. 创建代币</div>
-                    <div className="text-xs text-gray-600">部署ERC20代币合约</div>
+                    <div className="text-xs text-gray-600">部署Drc20代币合约</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

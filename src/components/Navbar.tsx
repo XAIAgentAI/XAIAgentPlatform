@@ -50,12 +50,12 @@ const Navbar = () => {
       href: "/agents",
       label: t('navigation.explore')
     },
-    {
-      id: "creating",
-      href: "/create-guide",
-      label: t('navigation.creating'),
-      comingSoon: false
-    },
+    // {
+    //   id: "creating",
+    //   href: "/create-guide",
+    //   label: t('navigation.creating'),
+    //   comingSoon: false
+    // },
     {
       id: "model",
       href: "/create",

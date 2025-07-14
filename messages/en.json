@@ -31,7 +31,10 @@
     "perDay": "day",
     "noData": "No Data",
     "status": "Status",
-    "view": "View"
+    "view": "View",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel"
   },
   "navigation": {
     "home": "Home",
@@ -71,7 +74,12 @@
       "copyContractAddress": "Copy contract address"
     },
     "edit": "Edit Agent Info",
-    "editPromptExamples": "Edit Prompt Examples"
+    "editPromptExamples": "Edit Prompt Examples",
+    "noExamplesYet": "No conversation examples yet",
+    "clickEditToAdd": "Click 'Edit Prompt Examples' to add some examples",
+    "examplePrompt": "Example",
+    "examplePlaceholder": "Enter conversation example here...",
+    "examplesUpdateNotice": "Examples will be displayed to help users start a conversation with this AI model."
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -126,7 +134,9 @@
     "invalidStartTimestamp": "startTimestamp must be a positive integer",
     "invalidDurationHours": "durationHours must be a positive number",
     "invalidToken": "Invalid token",
-    "unauthorizedAccess": "Unauthorized access"
+    "unauthorizedAccess": "Unauthorized access",
+    "updateSuccess": "Update successful",
+    "updateFailed": "Update failed"
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -147,7 +157,8 @@
     "all": "All",
     "iaoOngoing": "IAO Ongoing",
     "tradable": "Tradable",
-    "iaoComingSoon": "IAO Coming Soon"
+    "iaoComingSoon": "IAO Coming Soon",
+    "noDataAvailable": "No data available"
   },
   "agentDetail": {
     "overview": "Overview",
@@ -392,7 +403,15 @@
     "totalSupply": "Total Supply",
     "holders": "Holders",
     "tba": "TBA",
-    "zero": "0"
+    "zero": "0",
+    "units": {
+      "billion": "Billion",
+      "million": "Million",
+      "thousand": "Thousand",
+      "billionShort": "B",
+      "millionShort": "M",
+      "thousandShort": "K"
+    }
   },
   "accessibility": {
     "logo": "XAI Model Platform Logo",
@@ -767,7 +786,7 @@
       },
       "point5": {
         "title": "Process Summary",
-        "content": "Developers package models → Miners deploy and run → Users call services → Miners earn Tokens. This model is similar to \"AI version of Filecoin\", achieving decentralized trading of computing resources through blockchain technology."
+        "content": "Developers package models → Miners deploy and run → Users call services → Miners earn Tokens."
       }
     },
 
@@ -847,7 +866,7 @@
       "userQuestion": "User Question",
       "agentResponse": "Agent Response",
       "createSuccess": "Creation Successful!",
-      "created": "The AI token AI model has been successfully created. Your Agent ID is ",
+      "created": "The AI token AI model has been successfully created. Your AI Model ID is ",
       "viewProject": "View AI Model",
       "creating": "Creating...",
       "createNow": "Create Now",
@@ -919,7 +938,8 @@
       "durationHint": "* Duration range: 72-240 hours (3-10 days)",
       "durationError": "Duration must be between 72-240 hours (3-10 days)",
       "iaoScheduleInfo": "IAO will start in {startHours} hours, last for {durationHours} hours, expected to end at {endTime}",
-      "calculating": "Calculating..."
+      "calculating": "Calculating...",
+      "additionalSettingsAfterCreation": "You can set IAO time, container link, and conversation examples after creating the model"
     },
     "datePicker": {
       "selectDateTime": "Select Date and Time",

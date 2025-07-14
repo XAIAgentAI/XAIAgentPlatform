@@ -133,7 +133,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     const amountToIAO = (totalSupplyInWei * BigInt(iaoPercentage) / BigInt(100)).toString();
 
     // 计算每年可挖矿的代币数量：总供应量 × 挖矿速率
-    const miningRateFromDB = agent.miningRate ? parseFloat(agent.miningRate.toString()) : 6; // 默认6%
+    const miningRateFromDB = agent.miningRate ? parseFloat(agent.miningRate.toString()) : 5; // 默认5%
     const tokenAmountCanMintPerYear = (totalSupplyInWei * BigInt(Math.floor(miningRateFromDB * 100)) / BigInt(10000)).toString();
 
     console.log(`[Token创建] 开始为Agent ${agentId} 部署Token...`);

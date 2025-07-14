@@ -2,14 +2,35 @@ import axios from 'axios';
 import { LocalAgent } from '@/types/agent';
 import { getBatchTokenPrices } from './swapService';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL + '/api' || 'http://localhost:3000/api';
+// 确保API_BASE_URL末尾没有斜杠
+const API_BASE_URL = (process.env.NEXT_PUBLIC_HOST_URL || 'http://localhost:3000') + '/api';
 
+// 修复URL路径的函数
+function normalizeURL(url: string): string {
+  // 确保URL不以斜杠结尾，除非是根路径
+  if (url !== '/' && url.endsWith('/')) {
+    return url.slice(0, -1);
+  }
+  return url;
+}
+
+// 创建axios实例
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // 增加超时时间到30秒
   headers: {
     'Content-Type': 'application/json',
-  },
+  }
+});
+
+// 添加请求拦截器确保URL格式一致
+api.interceptors.request.use(config => {
+  if (config.url) {
+    config.url = normalizeURL(config.url);
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });
 
 interface ApiResponse<T> {

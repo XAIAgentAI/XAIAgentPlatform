@@ -98,7 +98,7 @@ async function tryBurnMethod(
   serverAccount: any
 ): Promise<TransactionResult | null> {
   try {
-    // ERC20 burn方法的ABI
+    // Drc20 burn方法的ABI
     const erc20BurnABI = [
       {
         name: 'burn',
