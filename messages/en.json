@@ -253,6 +253,8 @@
     "poolDynamicTip": "As the amount of {investSymbol} in the IAO pool increases, the corresponding amount of {symbol} decreases",
     "maxButton": "Max",
     "insufficientBalance": "Insufficient balance, maximum available amount: {amount} {symbol}",
+    "notEnoughBalance": "Not enough balance",
+    "stakeSuccess": "Successfully purchased {amount} {symbol}",
     "stakedAmount": "Paid {symbol} Amount",
     "stakeSuccessful": "Purchase successful!",
     "stakeFailed": "Purchase failed, please try again",
@@ -298,8 +300,10 @@
     "createToken": "Create Token",
     "creatingToken": "Creating Token...",
     "operationFailed": "Operation Failed",
+    "notAuthorized": "You are not authorized to perform this action",
     "onlyCreatorAfterSuccess": "Only creator can create token after IAO success",
     "tokenCreationSuccess": "Token created successfully",
+    "tokenCreationInitiated": "Token creation task initiated",
     "tokenCreationSubmitted": "Token creation task submitted",
     "tokenCreating": "Token creating...",
     "tokenCreated": "Token created",
@@ -339,7 +343,7 @@
     "creatorSuggestions": "📊 Creator Suggestions:",
     "creatorSuggestionsList": {
       "analyze": "• Analyze failure reasons and optimize AI model plan",
-      "adjust": "• Consider adjusting token economic model",
+
       "community": "• Strengthen community building and marketing promotion",
       "editPrompt": "• Edit prompt usage examples to improve user experience",
       "retry": "• Can re-launch IAO"
@@ -762,7 +766,7 @@
       "title": "IAO Description",
       "point1": "IAO minimum duration is 72 hours, maximum is 240 hours",
       "point2": "IAO success criteria: raised $XAA not less than $1500",
-      "point3": "After IAO failure, $XAA will be automatically returned to investors, and IAO can be initiated again after 7 days",
+      "point3": "After IAO failure, $XAA will be automatically returned to investors, and IAO can be restarted after 7 days",
       "point4": "After IAO success, AI tokens and $XAA will automatically establish trading pairs on DBCSwap within 5-20 minutes, with AI token price close to the price at IAO end"
     },
     "decentralizedAI": {

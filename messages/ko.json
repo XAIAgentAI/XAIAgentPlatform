@@ -256,7 +256,9 @@
     "poolDynamicTip": "IAO 풀의 {investSymbol} 수량이 증가함에 따라 해당하는 {symbol} 수량은 감소합니다",
     "maxButton": "최대",
     "insufficientBalance": "잔액 부족, 최대 사용 가능 금액: {amount} {symbol}",
-    "stakedAmount": "지불한 {symbol} 수량",
+    "notEnoughBalance": "잔액 부족",
+    "stakeSuccess": "{amount} {symbol} 구매 성공",
+    "stakedAmount": "지불한 {symbol} 금액",
     "stakeSuccessful": "구매 성공!",
     "stakeFailed": "구매 실패, 다시 시도해주세요",
     "claimableAmount": "청구 가능한 {symbol} 수량",
@@ -299,8 +301,10 @@
     "createToken": "토큰 생성",
     "creatingToken": "토큰 생성 중...",
     "operationFailed": "작업 실패",
+    "notAuthorized": "이 작업을 수행할 권한이 없습니다",
     "onlyCreatorAfterSuccess": "IAO 성공 후 생성자만 토큰을 생성할 수 있습니다",
-    "tokenCreationSuccess": "토큰이 성공적으로 생성되었습니다",
+    "tokenCreationSuccess": "토큰 생성 성공",
+    "tokenCreationInitiated": "토큰 생성 작업이 시작되었습니다",
     "tokenCreationSubmitted": "토큰 생성 작업이 제출되었습니다",
     "tokenCreating": "토큰 생성 중...",
     "tokenCreated": "토큰이 생성되었습니다",
@@ -340,7 +344,7 @@
     "creatorSuggestions": "📊 생성자 제안:",
     "creatorSuggestionsList": {
       "analyze": "• 실패 원인을 분석하고 프로젝트 계획을 최적화하세요",
-      "adjust": "• 토큰 경제 모델 조정을 고려해보세요",
+
       "community": "• 커뮤니티 구축과 마케팅 홍보를 강화하세요",
       "editPrompt": "• 프롬프트 사용 예시를 편집하여 사용자 경험을 향상시키세요",
       "retry": "• IAO를 다시 시작할 수 있습니다"
@@ -771,7 +775,7 @@
       "title": "IAO 설명",
       "point1": "IAO 최소 지속 시간은 72시간, 최대는 240시간입니다",
       "point2": "IAO 성공 기준: 모금된 $XAA가 1500달러 이상",
-      "point3": "IAO 실패 후, $XAA는 자동으로 투자자에게 반환되며, 7일 후 다시 IAO를 시작할 수 있습니다",
+      "point3": "IAO 실패 후, $XAA는 자동으로 투자자에게 반환되며, 7일 후 IAO를 다시 시작할 수 있습니다",
       "point4": "IAO 성공 후, 5-20분 후에 AI 토큰과 $XAA가 DBCSwap에서 자동으로 거래 쌍을 설정하며, 기본적으로 AI 토큰 가격은 IAO 종료 시 가격과 비슷합니다"
     },
     "decentralizedAI": {

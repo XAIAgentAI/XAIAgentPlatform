@@ -210,7 +210,6 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
                   <p className="text-xs text-red-700 font-medium">{t('creatorSuggestions')}</p>
                   <ul className="text-xs text-red-700 space-y-1 ml-4">
                     <li>{t('creatorSuggestionsList.analyze')}</li>
-                    <li>{t('creatorSuggestionsList.adjust')}</li>
                     <li>{t('creatorSuggestionsList.community')}</li>
                     <li>
                       {agentId ? (

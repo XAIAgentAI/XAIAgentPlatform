@@ -253,6 +253,8 @@
     },
     "maxButton": "最大",
     "insufficientBalance": "余额不足，最大可用金额: {amount} {symbol}",
+    "notEnoughBalance": "余额不足",
+    "stakeSuccess": "成功购买 {amount} {symbol}",
     "stakedAmount": "已支付的 {symbol} 数量",
     "stakeSuccessful": "购买成功！",
     "stakeFailed": "购买失败，请重试",
@@ -298,8 +300,10 @@
     "createToken": "创建Token",
     "creatingToken": "正在创建Token...",
     "operationFailed": "操作失败",
+    "notAuthorized": "您没有执行此操作的权限",
     "onlyCreatorAfterSuccess": "只有创建者在IAO成功后才能创建Token",
     "tokenCreationSuccess": "Token创建成功",
+    "tokenCreationInitiated": "Token创建任务已启动",
     "tokenCreationSubmitted": "Token创建任务已提交",
     "tokenCreating": "Token创建中...",
     "tokenCreated": "Token已创建",
@@ -339,7 +343,7 @@
     "creatorSuggestions": "📊 创建者建议：",
     "creatorSuggestionsList": {
       "analyze": "• 分析失败原因，优化AI模型方案",
-      "adjust": "• 考虑调整代币经济模型",
+
       "community": "• 加强社区建设和营销推广",
       "editPrompt": "• 编辑提示词使用示例，提升用户体验",
       "retry": "• 可以重新发起 IAO"
@@ -762,7 +766,7 @@
       "title": "IAO说明",
       "point1": "IAO最短持续时间是72小时，最长是240小时",
       "point2": "IAO成功的标准：募集的$XAA不低于1500美金",
-      "point3": "IAO失败后，$XAA会自动返还给投资者，7天后可以再次发起IAO",
+      "point3": "IAO失败后，$XAA会自动返还给投资者，7天后可以重新发起IAO",
       "point4": "IAO成功后，5-20分钟后AI代币和$XAA将会在DBCSwap自动建立交易对，默认AI代币的价格和IAO结束的时候价格接近"
     },
     "decentralizedAI": {

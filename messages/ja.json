@@ -255,7 +255,9 @@
     "poolDynamicTip": "IAOプール内の{investSymbol}の量が増えるにつれて、対応する{symbol}の量は減少します",
     "maxButton": "最大",
     "insufficientBalance": "残高不足、利用可能な最大額: {amount} {symbol}",
-    "stakedAmount": "支払済みの{symbol}量",
+    "notEnoughBalance": "残高不足",
+    "stakeSuccess": "{amount} {symbol} の購入に成功しました",
+    "stakedAmount": "支払った {symbol} 量",
     "stakeSuccessful": "購入が成功しました！",
     "stakeFailed": "購入に失敗しました。もう一度お試しください",
     "claimableAmount": "請求可能な {symbol} 数量",
@@ -298,8 +300,10 @@
     "createToken": "トークンを作成",
     "creatingToken": "トークンを作成中...",
     "operationFailed": "操作に失敗しました",
+    "notAuthorized": "この操作を実行する権限がありません",
     "onlyCreatorAfterSuccess": "IAO成功後、作成者のみがトークンを作成できます",
     "tokenCreationSuccess": "トークンが正常に作成されました",
+    "tokenCreationInitiated": "トークン作成タスクが開始されました",
     "tokenCreationSubmitted": "トークン作成タスクが送信されました",
     "tokenCreating": "トークン作成中...",
     "tokenCreated": "トークンが作成されました",
@@ -339,7 +343,7 @@
     "creatorSuggestions": "📊 作成者への提案:",
     "creatorSuggestionsList": {
       "analyze": "• 失敗原因を分析し、プロジェクト計画を最適化する",
-      "adjust": "• トークン経済モデルの調整を検討する",
+
       "community": "• コミュニティ構築とマーケティング推進を強化する",
       "editPrompt": "• プロンプト使用例を編集し、ユーザー体験を向上させる",
       "retry": "• IAOを再開始することができます"
@@ -762,7 +766,7 @@
       "title": "IAO説明",
       "point1": "IAOの最短継続時間は72時間、最長は240時間です",
       "point2": "IAO成功の基準：調達した$XAAが1500ドル以上",
-      "point3": "IAO失敗後、$XAAは自動的に投資家に返還され、7日後に再度IAOを開始できます",
+      "point3": "IAO失敗後、$XAAは自動的に投資家に返還され、7日後にIAOを再開できます",
       "point4": "IAO成功後、5-20分後にAIトークンと$XAAがDBCSwapで自動的に取引ペアを確立し、デフォルトでAIトークンの価格はIAO終了時の価格に近くなります"
     },
     "decentralizedAI": {

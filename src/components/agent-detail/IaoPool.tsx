@@ -91,7 +91,10 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       return;
     }
 
-    if (Number(dbcAmount) > Number(maxDbcAmount)) {
+    // 根据代币类型选择正确的最大可用余额进行比较
+    const maxAvailableAmount = agent.symbol === 'XAA' ? maxDbcAmount : maxXaaAmount;
+    
+    if (Number(dbcAmount) > Number(maxAvailableAmount)) {
       toast({
         title: t('error'),
         description: t('notEnoughBalance'),
@@ -101,9 +104,9 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
 
     try {
       await ensureCorrectNetwork();
-      const result = await stake(dbcAmount);
+      const result = await stake(dbcAmount, agent.symbol);
       
-      if (result && (result as any).success) {
+      if (result &&( (result as any)?.hash || result?.receipt?.status === 'success')) {
         toast({
           title: t('success'),
           description: t('stakeSuccess', {
@@ -127,7 +130,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         description: error.message || t('stakeFailed'),
       });
     }
-  }, [isAuthenticated, dbcAmount, maxDbcAmount, ensureCorrectNetwork, stake, agent, toast, t, fetchUserStakeInfo]);
+  }, [isAuthenticated, dbcAmount, maxDbcAmount, maxXaaAmount, ensureCorrectNetwork, stake, agent.symbol, toast, t, fetchUserStakeInfo]);
 
   /**
    * 处理创建代币
@@ -238,9 +241,11 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
    */
   const handleSetMaxAmount = useCallback(() => {
     const reserveAmount = 0.01; // 保留gas费
-    const availableAmount = Math.max(Number(agent.symbol === 'XAA' ? maxDbcAmount : maxXaaAmount) - reserveAmount, 0);
+    // 根据代币类型选择正确的最大可用余额
+    const maxAmount = agent.symbol === 'XAA' ? maxDbcAmount : maxXaaAmount;
+    const availableAmount = Math.max(Number(maxAmount) - reserveAmount, 0);
     setDbcAmount(availableAmount.toString());
-  }, [maxDbcAmount, maxXaaAmount, agent.symbol]);
+  }, [maxDbcAmount, maxXaaAmount, agent.symbol, setDbcAmount]);
 
   /**
    * 刷新数据
