@@ -466,7 +466,7 @@ export const IaoEndedView = ({
                       <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">分发失败</span>
                       <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
                     </div>
-                  ) : distributionTask?.status === 'COMPLETED' ? (
+                  ) : distributionTask?.status === 'COMPLETED' || (agent.tokensDistributed && agent.liquidityAdded) ? (
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
                   ) : agent.tokenAddress ? (
                     <div className="flex items-center gap-2">

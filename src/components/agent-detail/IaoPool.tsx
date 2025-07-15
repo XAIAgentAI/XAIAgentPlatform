@@ -19,6 +19,23 @@ import { useIaoPoolData } from './useIaoPoolData';
 import type { LocalAgent } from "@/types/agent";
 import { UpdateIaoTimeModal } from './UpdateIaoTimeModal';
 
+/**
+ * 安全解析capabilities字段
+ * 可能是JSON字符串或逗号分隔的字符串
+ */
+const parseCapabilities = (capabilities: string | null | undefined): string[] => {
+  if (!capabilities) return ['chat'];
+  
+  try {
+    // 尝试解析为JSON
+    const parsed = JSON.parse(capabilities);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch (e) {
+    // 如果解析失败，假设它是逗号分隔的字符串
+    return capabilities.split(',').map(item => item.trim());
+  }
+};
+
 interface IaoPoolProps {
   agent: LocalAgent;
   onRefreshAgent?: () => void | Promise<void>;
@@ -32,6 +49,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
+  const [isDeployingIao, setIsDeployingIao] = useState(false);
 
   // 使用数据管理Hook
   const {
@@ -184,6 +202,56 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   }, [isAuthenticated, isCreator, agent.id, agent.name, agent.symbol, fetchTokenCreationTask, toast, t]);
 
   /**
+   * 重新部署IAO合约
+   */
+  const handleRedeployIao = useCallback(async () => {
+    if (!isAuthenticated || !isCreator) {
+      toast({
+        title: t('error'),
+        description: t('notAuthorized'),
+      });
+      return;
+    }
+
+    try {
+      setIsDeployingIao(true);
+      
+      // 调用重新部署IAO的API
+      const response = await fetch(`/api/agents/${agent.id}/redeploy-iao`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.code === 200) {
+        toast({
+          title: t('success'),
+          description: '已重新部署IAO合约，请稍后刷新页面查看结果',
+        });
+
+        // 延迟3秒后刷新页面
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        throw new Error(data.message || '重新部署IAO失败');
+      }
+    } catch (error: any) {
+      console.error('重新部署IAO失败:', error);
+      toast({
+        title: t('error'),
+        description: error.message || '重新部署IAO失败',
+      });
+    } finally {
+      setIsDeployingIao(false);
+    }
+  }, [isAuthenticated, isCreator, agent.id, toast, t]);
+
+  /**
    * 处理领取奖励
    */
   const handleClaimRewards = useCallback(async () => {
@@ -309,6 +377,44 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     </div>
   );
 
+  /**
+   * 渲染IAO重新部署按钮（当IAO未部署成功时显示）
+   */
+  const renderIaoRedeploySection = () => {
+    if (!isCreator || agent.iaoContractAddress) return null;
+
+    return (
+      <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <div className="flex items-start gap-3">
+          <svg className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <div className="flex-1">
+            <h4 className="text-sm font-medium text-yellow-800 mb-2">IAO部署未完成</h4>
+            <p className="text-xs text-yellow-700 mb-3">
+              您的IAO合约尚未成功部署，请点击下方按钮重新尝试部署。
+            </p>
+            <Button
+              className="w-full text-sm py-2 bg-yellow-500 hover:bg-yellow-600 text-white"
+              onClick={handleRedeployIao}
+              disabled={isDeployingIao}
+            >
+              {isDeployingIao ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  正在部署...
+                </>
+              ) : '重新部署IAO'}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // 检查是否可以领取
   const canClaim = !isClaiming &&
     !userStakeInfo.hasClaimed &&
@@ -317,6 +423,9 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   return (
     <Card className="p-4 sm:p-6">
       {renderDbcSwapButton()}
+      
+      {/* IAO重新部署按钮 */}
+      {renderIaoRedeploySection()}
 
       {isIAOEnded ? (
         <IaoEndedView

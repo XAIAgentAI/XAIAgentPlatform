@@ -164,19 +164,44 @@ export const agentAPI = {
     avatar?: string;
     capabilities: string[];
     containerLink?: string;
+    useCases?: string;
+    useCasesJA?: string;
+    useCasesKO?: string;
+    useCasesZH?: string;
     examples?: Array<{
       title: string;
       description: string;
       prompt: string;
     }>;
   }): Promise<ApiResponse<LocalAgent>> => {
-    const token = localStorage.getItem('token'); // 使用正确的token键名
-    const response = await api.put(`/agents/${id}`, data, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    // 打印更新数据
+    console.log('Updating agent with data:', JSON.stringify(data, null, 2));
+    
+    // 获取认证信息
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    const walletAddress = localStorage.getItem('walletAddress');
+    
+    // 构建请求头
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (userId) headers['x-user-id'] = userId;
+    if (walletAddress) headers['x-user-address'] = walletAddress;
+    
+    console.log('Request headers:', headers);
+    
+    try {
+      const response = await api.put(`/agents/${id}`, data, { headers });
+      console.log('API response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('Error updating agent:', error);
+      console.error('Error details:', error.response?.data || error.message);
+      throw error;
+    }
   },
 
   // 获取实时价格数据

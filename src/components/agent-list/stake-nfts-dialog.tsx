@@ -438,9 +438,9 @@ export const StakeNFTsDialog = ({
         <DialogHeader className="flex-none flex flex-row items-center justify-between">
           <div>
             <DialogTitle>{!address ? t('connectWalletToViewStakeDetail') : t('stakeNFTRewardDetail')}</DialogTitle>
-            {/* <DialogDescription>
+            <DialogDescription>
               {t('viewStakeDetailAndReward')}
-            </DialogDescription> */}
+            </DialogDescription>
           </div>
           {!address && (
             <Button

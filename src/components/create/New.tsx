@@ -146,6 +146,11 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         userThird: '',
     });
 
+    // 添加一个用于防抖的ref
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // 移除直接保存表单数据的函数，只使用防抖保存
+
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [iaoContractAddress, setIaoContractAddress] = useState<string | null>(null);
@@ -165,6 +170,89 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             }
         }));
     }, [iaoStartDays, iaoStartHours, iaoDurationDays, iaoDurationHours]);
+
+    // 从localStorage加载表单数据
+    useEffect(() => {
+        // 只有在创建模式下才从localStorage加载数据
+        if (mode === 'create') {
+            try {
+                const savedFormData = localStorage.getItem('ai_model_form_data');
+                if (savedFormData) {
+                    const parsedData = JSON.parse(savedFormData);
+                    setFormData(parsedData);
+                    
+                    // 如果有图片URL，也恢复它
+                    if (parsedData.imageUrl) {
+                        setImageUrl(parsedData.imageUrl);
+                    }
+                    
+                    // 恢复日期范围
+                    if (parsedData.dateRange) {
+                        const savedRange = parsedData.dateRange;
+                        setDateRange({
+                            range: {
+                                from: new Date(savedRange.from),
+                                to: savedRange.to ? new Date(savedRange.to) : undefined
+                            }
+                        });
+                    }
+                    
+                    // 恢复用例数据
+                    if (parsedData.useCases) {
+                        setUseCases(parsedData.useCases);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading form data from localStorage:', error);
+            }
+        }
+    }, [mode]);
+
+    // 当表单数据变化时保存到localStorage (防抖处理)
+    useEffect(() => {
+        // 只有在创建模式下才保存到localStorage
+        if (mode === 'create') {
+            // 清除之前的计时器
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+            
+            // 设置新的防抖计时器，延迟300ms保存数据
+            debounceTimerRef.current = setTimeout(() => {
+                try {
+                    const dataToSave = {
+                        ...formData,
+                        imageUrl,
+                        dateRange: {
+                            from: dateRange.range.from?.toISOString(),
+                            to: dateRange.range.to?.toISOString()
+                        },
+                        useCases
+                    };
+                    console.log('保存表单数据到localStorage:', formData.name, formData.symbol);
+                    localStorage.setItem('ai_model_form_data', JSON.stringify(dataToSave));
+                } catch (error) {
+                    console.error('Error saving form data to localStorage:', error);
+                }
+            }, 300); // 改为300ms的防抖时间，提供更好的响应性
+        }
+        
+        return () => {
+            // 组件卸载时清除计时器
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+        };
+    }, [formData, imageUrl, dateRange, useCases, mode]);
+
+    // 修改 useEffect，确保只在真正成功后才清除localStorage
+    useEffect(() => {
+        // 只有在创建成功后才清除localStorage，而不是每次刷新页面
+        if (success && mode === 'create') {
+            localStorage.removeItem('ai_model_form_data');
+            console.log('创建成功，已清除表单缓存数据');
+        }
+    }, [success, mode]);
 
     const CheckWallet = () => {
         if (localStorage.getItem("@appkit/connection_status") === "connected") {
@@ -368,21 +456,35 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         return token;
     }
 
+    // 修改handleNameChange，移除直接保存逻辑
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const validateValue = value.replace(/[^A-Za-z ]/g, '').slice(0, 20);
-        setFormData(prev => ({ ...prev, name: validateValue }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, name: validateValue };
+            return updated;
+        });
+        
         // 清除错误状态
         if (nameError && validateValue.trim()) {
             setNameError(false);
         }
     };
 
+    // 修改handleSymbolChange，移除直接保存逻辑
     const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
         const validatedValue = uppercaseValue.slice(0, 6);
-        setFormData(prev => ({ ...prev, symbol: validatedValue }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, symbol: validatedValue };
+            return updated;
+        });
+        
         // 清除错误状态
         if (symbolError && validatedValue.trim()) {
             setSymbolError(false);
@@ -403,55 +505,21 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     };
 
     const handleCreate = async () => {
-        //检查是否需要连接钱包
-        if (!CheckWallet()) {
-            return;
-        }
-
-        // 验证必填字段
+        // 检查必填字段
         if (!validateRequiredFields()) {
             return;
         }
 
-        //检查https满足否
-        const twitterLink = formData.twitterLink;
-        const telegramLink = formData.telegramLink;
-        const containerLink = formData.containerLink;
-
-        // 检查推特链接
-        if (twitterLink && !twitterLink.startsWith('https://')) {
-            setTwitterError(true);
-            twitterRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        // 检查钱包连接
+        if (!CheckWallet()) {
             return;
         }
 
-        // 检查Telegram链接
-        if (telegramLink && !telegramLink.startsWith('https://')) {
-            setTelegramError(true);
-            telegramRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-            return;
-        }
-
-        // 检查容器链接 - 已隐藏字段，跳过验证
-        // if (containerLink) {
-        //     // 容器链接现在自动添加https://前缀，所以不需要检查
-        //     // 但我们可以检查是否是有效的URL格式
-        //     const fullUrl = `https://${containerLink}`;
-        //     try {
-        //         new URL(fullUrl);
-        //     } catch {
-        //         setContainerShow(true);
-        //         containerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-        //         return;
-        //     }
-        // }
-
-        // 重置错误状态
-        setTwitterError(false);
-        setTelegramError(false);
-        // setContainerShow(false); // 容器链接字段已隐藏
-
+        // 设置创建中状态
         setCreating(true);
+        setCreationProgress(0);
+        setDisplayProgress(0);
+
         try {
             // 重置状态
             setNameExists(false);
@@ -537,62 +605,23 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 statusZH: '可交易',
                 descriptionJA: formData.description || 'AIエージェントの説明',
                 descriptionKO: formData.description || 'AI 에이전트 설명',
-                descriptionZH: formData.description || 'AI智能体描述',
-                detailDescription: formData.description || 'Detailed description of the AI agent',
-                lifetime: '',
-                totalSupply: 100000000000,
-                marketCapTokenNumber: 100000000000,
-                useCases: finalUseCases.en,
-                useCasesJA: finalUseCases.ja,
-                useCasesKO: finalUseCases.ko,
-                useCasesZH: finalUseCases.zh,
-                socialLinks: [formData.twitterLink, formData.telegramLink].filter(link => link).join(', ') || 'https://x.com/test, https://t.me/test',
-                chatEntry: null,
-                projectDescription: (() => {
-                    const symbol = formData.symbol || '$XXX';
-                    const iaoDurationHours = Math.floor(((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)) * 24;
-
-                    return JSON.stringify({
-                        en: `1. ${symbol} total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter
-2. 15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive ${symbol} based on their $XAA investment proportion
-3. After the ${iaoDurationHours}-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned
-4. After IAO concludes, 10% of ${symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of ${symbol}
-5. The team holds 33% of ${symbol}, unlocking begins after IAO concludes, with linear release over 2000 days, unlocked every 40 days
-6. ${symbol} mining produces 5 billion annually, with 10% of mined ${symbol} available immediately and 90% released linearly over 180 days
-7. XAA mining NFTs are required to participate in mining. Each machine must stake at least 1 XAA mining NFT, with a maximum of 10 XAA mining NFTs
-8. 1% of ${symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of ${symbol} airdropped to XAA node NFT holders`,
-                        zh: `1. ${symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿
-2. 15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 ${symbol}
-3. 在为期${iaoDurationHours}小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁
-4. IAO 结束后，10%的${symbol}和$XAA将立即在DBCSwap上建立流动性池，实现${symbol}的自由交易
-5. 团队拥有33%的${symbol},IAO结束后开始解锁，分2000天线性解锁，每40天解锁一次
-6. ${symbol}挖矿每年产生50亿，挖矿产生的${symbol}，10%立刻获得，90%分180天线性解锁
-7. 需要持有XAA挖矿NFT才能参与挖矿，每个机器需要质押最少1个XAA挖矿NFT，最多质押10个XAA挖矿NFT
-8. 1%的${symbol}空投给$XAA和$DBC前10000名持有者，1%${symbol}空投给XAA的节点NFT持有者`,
-                        ja: `1. ${symbol} 最初の8年間の総供給量：1000億、その後は年間50億をマイニング
-2. トークンの15％はIAOを通じて販売され、$XAAのみを受け入れます。投資家は$XAAの投資比率に基づいて${symbol}を受け取ります
-3. ${iaoDurationHours}時間のIAO終了後、$XAAの95％はオンチェーン流動性プールに分配され、取り消されることはありません。流動性LPトークンはブラックホールアドレスに送信されます。$XAAの5％はバーンされます
-4. IAO終了後、${symbol}と$XAAの10％はDBCSwap上で即座に流動性プールを形成し、${symbol}の自由な取引を可能にします
-5. チームは${symbol}の33％を保有し、IAO終了後から2000日間で線形にアンロックされ、40日ごとにアンロックされます
-6. ${symbol}のマイニングは年間50億を生成し、マイニングされた${symbol}の10％は即時獲得、90％は180日間で線形にアンロックされます
-7. マイニングに参加するにはXAAマイニングNFTの保持が必要です。各マシンは最低1つ、最大10つのXAAマイニングNFTをステーキングする必要があります
-8. ${symbol}の1％は$XAAと$DBCの上位10,000名の保有者に、1％はXAAノードNFT保有者にエアドロップされます`,
-                        ko: `1. ${symbol} 처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성
-2. 토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 ${symbol}을 받게 됩니다
-3. ${iaoDurationHours}시간의 IAO 기간이 끝난 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다
-4. IAO 종료 후, ${symbol}과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 ${symbol}의 자유로운 거래를 가능하게 합니다
-5. 팀은 ${symbol}의 33%를 보유하며, IAO 종료 후 2000일 동안 선형적으로 잠금 해제되며, 40일마다 잠금 해제됩니다
-6. ${symbol} 채굴은 매년 50억을 생성하며, 채굴된 ${symbol}의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 잠금 해제됩니다
-7. 채굴에 참여하려면 XAA 채굴 NFT를 보유해야 합니다. 각 기계는 최소 1개, 최대 10개의 XAA 채굴 NFT를 스테이킹해야 합니다
-8. ${symbol}의 1%는 $XAA와 $DBC 상위 10,000명의 보유자에게, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다`
-                    });
-                })(),
-                iaoTokenAmount: 20000000000,
-                miningRate: parseFloat(formData.miningRate) || 5 // 转换为数字，默认5%
+                descriptionZH: formData.description || 'AI代理描述',
+                // 添加社交链接
+                socialLinks: [
+                    formData.twitterLink ? formData.twitterLink : '',
+                    formData.telegramLink ? formData.telegramLink : '',
+                ].filter(Boolean).join(',')
             };
 
-            // 如果是编辑模式，添加时间更新信息
+            // 仅在编辑模式下添加对话示例字段
             if (mode === 'edit') {
+                // 添加对话示例字段
+                (agentData as any).useCases = finalUseCases.en;
+                (agentData as any).useCasesJA = finalUseCases.ja;
+                (agentData as any).useCasesKO = finalUseCases.ko;
+                (agentData as any).useCasesZH = finalUseCases.zh;
+                
+                // 添加时间更新信息
                 console.log('[时间更新] 添加时间更新信息到请求...');
                 console.log(`[时间更新] 开始时间: ${Math.floor(dateRange.range.from.getTime() / 1000)}`);
                 console.log(`[时间更新] 结束时间: ${Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000)}`);
@@ -660,6 +689,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         }),
                         id: result.data?.agentId
                     }));
+                    
+
                 }
 
                 // 更新成功后，如果是编辑模式，可以直接跳转回详情页
@@ -689,9 +720,15 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     };
 
+    // 修改handleChange，移除直接保存逻辑
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, [name]: value };
+            return updated;
+        });
 
         // 清除对应字段的错误状态
         if (name === 'description' && descriptionError && value.trim()) {
@@ -699,6 +736,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     };
 
+    // 修改handleExChange，移除直接保存逻辑
     const handleExChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, name, value } = e.target;
 
@@ -720,9 +758,13 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         });
 
         // Update formData as before
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => {
+            const updated = { ...prev, [name]: value };
+            return updated;
+        });
     };
 
+    // 修改handleImageUpload，移除直接保存逻辑
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;

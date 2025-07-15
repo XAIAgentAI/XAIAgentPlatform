@@ -6,7 +6,7 @@ import { toast } from "../ui/use-toast";
 import { useLocale, useTranslations } from 'next-intl';
 import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
-import { Edit } from "lucide-react";
+import { Edit, MessageCircle } from "lucide-react";
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useRouter } from 'next/navigation';
 import { ConversationExamplesModal } from "./ConversationExamplesModal";
@@ -22,42 +22,48 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
   const router = useRouter();
   const { address } = useAppKitAccount();
   const [isExamplesModalOpen, setIsExamplesModalOpen] = useState(false);
+  // 添加本地状态管理
+  const [localAgent, setLocalAgent] = useState<LocalAgent>(agent);
+
+  // 初始化和更新时同步props到本地状态
+  useEffect(() => {
+    setLocalAgent(agent);
+  }, [agent]);
 
   // 检查是否为创建者
-  const isAgentCreator = address && (agent as any)?.creator?.address &&
-    address.toLowerCase() === (agent as any).creator.address.toLowerCase();
+  const isAgentCreator = address && (localAgent as any)?.creator?.address &&
+    address.toLowerCase() === (localAgent as any).creator.address.toLowerCase();
 
   // 处理编辑提示词
   const handleEditPrompt = () => {
     setIsExamplesModalOpen(true);
   };
 
-  console.log("agent", agent);
-
-  if (!agent) {
+  if (!localAgent) {
     return null;
   }
 
   // 根据当前语言获取对应的用例
   const getLocalizedUseCases = () => {
-    if (!agent) return [];
+    console.log("localAgent11", localAgent);
+    if (!localAgent) return [];
     let useCases: string[] | string | undefined;
 
     switch (locale) {
       case 'ja':
-        useCases = agent.useCasesJA || agent.useCases;
+        useCases = localAgent.useCasesJA || localAgent.useCases;
         break;
       case 'ko':
-        useCases = agent.useCasesKO || agent.useCases;
+        useCases = localAgent.useCasesKO || localAgent.useCases;
         break;
       case 'zh':
-        useCases = agent.useCasesZH || agent.useCases;
+        useCases = localAgent.useCasesZH || localAgent.useCases;
         break;
       default:
-        useCases = agent.useCases;
+        useCases = localAgent.useCases;
     }
 
-    // 如果是 undefined，返回空数组
+    // 如果是 undefined 或 null，返回空数组
     if (!useCases) return [];
 
     // 如果已经是数组，直接返回
@@ -66,7 +72,8 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
     // 如果是字符串，尝试解析 JSON
     if (typeof useCases === 'string') {
       try {
-        return JSON.parse(useCases);
+        const parsed = JSON.parse(useCases);
+        return Array.isArray(parsed) ? parsed : [];
       } catch (e) {
         console.error('Failed to parse useCases:', e);
         return [];
@@ -77,11 +84,37 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
   };
 
   const suggestions = getLocalizedUseCases();
-  console.log("suggestions", suggestions);
+  
+  // 处理聊天按钮点击
+  const handleChatClick = () => {
+    if (localAgent.symbol === "STID") {
+      window.open(`/${locale}/chat`, '_blank');
+    } else if (localAgent.symbol === "SIC") {
+      window.open('https://app.superimage.ai', '_blank');
+    } else if (localAgent.symbol === "DLC") {
+      window.open('https://www.deeplink.cloud/software', '_blank');
+    }
+  };
 
-  // 如果没有对话示例且不是创建者，则不显示该组件
+  // 如果没有对话示例且不是创建者，则显示简化版的聊天按钮
   if (!suggestions.length && !isAgentCreator) {
-    return null;
+    return (
+      <div className="flex justify-center mt-6">
+        <CustomButton
+          className="flex items-center gap-2 px-8"
+          onClick={handleChatClick}
+        >
+          <Image
+            src="/images/chat.svg"
+            alt={t('agent.accessibility.chatIcon')}
+            width={12}
+            height={12}
+            aria-hidden="true"
+          />
+          {t('agent.chat')}
+        </CustomButton>
+      </div>
+    );
   }
 
   return (
@@ -104,55 +137,70 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
         </div>
         
         {suggestions.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {suggestions.map((suggestion: string, index: number) => (
-              <div
-                key={index}
-                className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
-                onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {suggestions.map((suggestion: string, index: number) => (
+                <div
+                  key={index}
+                  className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
+                  onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
+                >
+                  {suggestion}
+                </div>
+              ))}
+            </div>
+            
+            <div className="flex justify-center mt-6">
+              <CustomButton
+                className="flex items-center gap-2 px-8"
+                onClick={handleChatClick}
               >
-                {suggestion}
-              </div>
-            ))}
-          </div>
+                <Image
+                  src="/images/chat.svg"
+                  alt={t('agent.accessibility.chatIcon')}
+                  width={12}
+                  height={12}
+                  aria-hidden="true"
+                />
+                {t('agent.chat')}
+              </CustomButton>
+            </div>
+          </>
         ) : isAgentCreator ? (
-          <div className="text-center py-6 text-muted-foreground">
-            <p>{t('agent.noExamplesYet')}</p>
-            <p className="text-sm mt-2">{t('agent.clickEditToAdd')}</p>
+          <div className="text-center py-6">
+            <div className="text-muted-foreground mb-6">
+              <p>{t('agent.noExamplesYet')}</p>
+              <p className="text-sm mt-2">{t('agent.clickEditToAdd')}</p>
+            </div>
+            
+            <CustomButton
+              className="flex items-center gap-2 px-8 mx-auto"
+              onClick={handleChatClick}
+            >
+              <Image
+                src="/images/chat.svg"
+                alt={t('agent.accessibility.chatIcon')}
+                width={12}
+                height={12}
+                aria-hidden="true"
+              />
+              {t('agent.chat')}
+            </CustomButton>
           </div>
         ) : null}
-        
-        <div className="flex justify-center mt-6">
-          <CustomButton
-            className="flex items-center gap-2 px-8"
-            onClick={() => {
-              if (agent.symbol === "STID") {
-                window.open(`/${locale}/chat`, '_blank');
-              } else if (agent.symbol === "SIC") {
-                window.open('https://app.superimage.ai', '_blank');
-              } else if (agent.symbol === "DLC") {
-                window.open('https://www.deeplink.cloud/software', '_blank');
-              }
-            }} 
-          >
-            <Image
-              src="/images/chat.svg"
-              alt={t('agent.accessibility.chatIcon')}
-              width={12}
-              height={12}
-              aria-hidden="true"
-            />
-            {t('agent.chat')}
-          </CustomButton>
-        </div>
       </Card>
 
       {/* 对话示例编辑Modal */}
       <ConversationExamplesModal 
-        agent={agent} 
+        agent={localAgent} 
         isOpen={isExamplesModalOpen} 
         onClose={() => setIsExamplesModalOpen(false)}
-        onUpdate={() => {
+        onUpdate={(updatedAgent) => {
+          // 更新本地状态
+          if (updatedAgent) {
+            setLocalAgent(updatedAgent);
+          }
+          // 同时通知父组件更新（如果需要）
           if (onRefreshAgent) {
             onRefreshAgent();
           }

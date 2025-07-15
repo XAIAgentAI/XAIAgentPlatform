@@ -107,6 +107,57 @@ export async function GET(
       throw new ApiError(404, 'Agent不存在');
     }
 
+    // 检查是否已有token地址
+    const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+      ? agent.tokenAddressTestnet
+      : agent.tokenAddress;
+    
+    // 初始化任务数据
+    let tokenCreationTaskData = null;
+    
+    // 只有在没有token地址时才查询任务状态
+    if (!tokenAddress) {
+      // 获取最新的创建代币任务
+      const tokenCreationTask = await prisma.task.findFirst({
+        where: {
+          agentId: agent.id,
+          type: 'CREATE_TOKEN'
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        select: {
+          id: true,
+          status: true,
+          createdAt: true,
+          completedAt: true,
+          result: true
+        }
+      });
+      
+      // 处理任务结果
+      if (tokenCreationTask) {
+        try {
+          tokenCreationTaskData = {
+            id: tokenCreationTask.id,
+            status: tokenCreationTask.status,
+            createdAt: tokenCreationTask.createdAt,
+            completedAt: tokenCreationTask.completedAt,
+            result: tokenCreationTask.result ? JSON.parse(tokenCreationTask.result) : null
+          };
+        } catch (error) {
+          console.error('解析创建代币任务结果失败:', error);
+          tokenCreationTaskData = {
+            id: tokenCreationTask.id,
+            status: tokenCreationTask.status,
+            createdAt: tokenCreationTask.createdAt,
+            completedAt: tokenCreationTask.completedAt,
+            result: { error: '结果格式错误' }
+          };
+        }
+      }
+    }
+
     // 管理状态字段
     const managementStatus = {
       tokensDistributed: (agent as any).tokensDistributed,
@@ -136,6 +187,8 @@ export async function GET(
       iaoEndTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : null,
       // 添加管理状态字段
       ...managementStatus,
+      // 添加创建代币任务信息
+      tokenCreationTask: tokenCreationTaskData,
     });
   } catch (error) {
     return handleError(error);
@@ -177,7 +230,12 @@ export async function PUT(
       examples,
       containerLink,
       updateStartTime,
-      updateEndTime
+      updateEndTime,
+      // 添加对话示例字段
+      useCases,
+      useCasesJA,
+      useCasesKO,
+      useCasesZH
     } = body;
 
     console.log('Updating agent with data:', { 
@@ -187,6 +245,10 @@ export async function PUT(
       containerLink,
       updateStartTime,
       updateEndTime,
+      useCases,
+      useCasesJA,
+      useCasesKO,
+      useCasesZH,
       body: JSON.stringify(body, null, 2)
     });
 
@@ -253,17 +315,30 @@ export async function PUT(
 
     // 如果不是只更新时间，则更新其他Agent字段
     if (!isTimeUpdateOnly) {
+      // 准备更新数据
+      const updateData: any = {
+        name,
+        description,
+        longDescription,
+        category,
+        avatar,
+        capabilities: JSON.stringify(capabilities),
+        containerLink,
+      };
+
+      // 添加对话示例字段（如果提供）
+      if (useCases !== undefined) updateData.useCases = useCases;
+      if (useCasesJA !== undefined) updateData.useCasesJA = useCasesJA;
+      if (useCasesKO !== undefined) updateData.useCasesKO = useCasesKO;
+      if (useCasesZH !== undefined) updateData.useCasesZH = useCasesZH;
+
+      console.log('Final update data:', updateData);
+
       // 更新 Agent
       const updatedAgent = await prisma.agent.update({
         where: { id: params.id },
         data: {
-          name,
-          description,
-          longDescription,
-          category,
-          avatar,
-          capabilities: JSON.stringify(capabilities),
-          containerLink,
+          ...updateData,
           examples: examples
             ? {
                 deleteMany: {},
@@ -276,7 +351,7 @@ export async function PUT(
                 },
               }
             : undefined,
-        } as any,
+        },
         include: {
           creator: {
             select: {
@@ -287,6 +362,8 @@ export async function PUT(
         },
       });
 
+      console.log('Update successful, returning agent:', updatedAgent);
+
       return createSuccessResponse({
         ...updatedAgent,
         capabilities: JSON.parse(updatedAgent.capabilities),
@@ -294,6 +371,7 @@ export async function PUT(
       }, '更新成功');
     }
   } catch (error) {
+    console.error('更新Agent失败:', error);
     return handleError(error);
   }
 }
