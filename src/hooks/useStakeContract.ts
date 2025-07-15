@@ -431,39 +431,119 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
     const amountWei = parseEther(amount);
 
-    // 估算gas
-    const estimatedGas = await publicClient.estimateGas({
-      account: formattedAddress,
-      to: iaoContractAddress,
-      value: amountWei
+    try {
+      // 估算gas
+      const estimatedGas = await publicClient.estimateGas({
+        account: formattedAddress,
+        to: iaoContractAddress,
+        value: amountWei
+      });
+
+      // 增加25% gas limit作为安全缓冲（原来是10%）
+      const gasWithBuffer = estimatedGas * BigInt(125) / BigInt(100);
+
+      // 发送交易
+      const hash = await viemWalletClient.sendTransaction({
+        account: formattedAddress,
+        to: iaoContractAddress,
+        value: amountWei,
+        gas: gasWithBuffer
+      });
+
+      toast(createToastMessage({
+        title: t('transactionSent'),
+        description: t('waitForConfirmation'),
+        txHash: hash,
+      } as ToastMessage));
+
+      const receipt = await waitForTransactionConfirmation(hash, publicClient);
+
+      toast(createToastMessage({
+        title: t('success'),
+        description: t('stakeSuccessWithAmount', { amount }),
+        txHash: hash,
+      } as ToastMessage));
+
+      return { hash, receipt };
+    } catch (error: any) {
+      console.error('质押DBC失败:', error);
+      
+      // 处理特定的错误类型
+      if (error.name === 'EstimateGasExecutionError' || error.message?.includes('EstimateGasExecutionError')) {
+        throw new Error(t('insufficientFundsOrNetworkError'));
+      }
+      
+      // 重新抛出原始错误
+      throw error;
+    }
+  };
+
+  // 处理 DBC 质押 - 备选方法，当 estimateGas 失败时使用
+  const handleStakeDBCFallback = async (amount: string, formattedAddress: `0x${string}`) => {
+    if (!walletClient) throw new Error('Wallet client not found');
+    
+    const viemWalletClient = createWalletClient({
+      chain: currentChain,
+      transport: custom(walletClient.transport),
     });
 
-    // 增加10% gas limit作为安全缓冲
-    const gasWithBuffer = estimatedGas * BigInt(110) / BigInt(100);
-
-    // 发送交易
-    const hash = await viemWalletClient.sendTransaction({
-      account: formattedAddress,
-      to: iaoContractAddress,
-      value: amountWei,
-      gas: gasWithBuffer
+    const publicClient = createPublicClient({
+      chain: currentChain,
+      transport: custom(walletClient.transport),
     });
 
-    toast(createToastMessage({
-      title: t('transactionSent'),
-      description: t('waitForConfirmation'),
-      txHash: hash,
-    } as ToastMessage));
+    const amountWei = parseEther(amount);
 
-    const receipt = await waitForTransactionConfirmation(hash, publicClient);
+    try {
+      // 使用固定 gas 限制
+      const fixedGasLimit = BigInt(150000); // 增加 gas 限制以确保交易成功
+      
+      // 获取当前 gas 价格
+      let maxFeePerGas, maxPriorityFeePerGas;
+      try {
+        const feeData = await publicClient.estimateFeesPerGas();
+        maxFeePerGas = feeData.maxFeePerGas;
+        maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
+        
+        // 增加 gas 价格以确保交易被矿工优先处理
+        maxFeePerGas = maxFeePerGas * BigInt(120) / BigInt(100); // 增加 20%
+        maxPriorityFeePerGas = maxPriorityFeePerGas * BigInt(120) / BigInt(100); // 增加 20%
+      } catch (error) {
+        console.warn('获取 gas 价格失败，使用默认值', error);
+        // 使用默认值
+        maxFeePerGas = parseGwei('20');
+        maxPriorityFeePerGas = parseGwei('2');
+      }
+      
+      // 发送交易
+      const hash = await viemWalletClient.sendTransaction({
+        account: formattedAddress,
+        to: iaoContractAddress,
+        value: amountWei,
+        gas: fixedGasLimit,
+        maxFeePerGas,
+        maxPriorityFeePerGas
+      });
 
-    toast(createToastMessage({
-      title: t('success'),
-      description: t('stakeSuccessWithAmount', { amount }),
-      txHash: hash,
-    } as ToastMessage));
+      toast(createToastMessage({
+        title: t('transactionSent'),
+        description: t('waitForConfirmation'),
+        txHash: hash,
+      } as ToastMessage));
 
-    return { hash, receipt };
+      const receipt = await waitForTransactionConfirmation(hash, publicClient);
+
+      toast(createToastMessage({
+        title: t('success'),
+        description: t('stakeSuccessWithAmount', { amount }),
+        txHash: hash,
+      } as ToastMessage));
+
+      return { hash, receipt };
+    } catch (error: any) {
+      console.error('备选质押DBC方法失败:', error);
+      throw error;
+    }
   };
 
   // 处理 XAA 质押
@@ -581,7 +661,25 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
       let result;
       if (agentSymbol === 'XAA') {
-        result = await handleStakeDBC(amount, formattedAddress);
+        try {
+          // 首先尝试使用主要的质押方法
+          result = await handleStakeDBC(amount, formattedAddress);
+        } catch (error: any) {
+          console.warn('主要质押方法失败，尝试备选方法:', error);
+          
+          // 检查是否是 EstimateGasExecutionError
+          if (error.name === 'EstimateGasExecutionError' || 
+              error.message?.includes('EstimateGasExecutionError') ||
+              error.message?.includes('Internal JSON-RPC error')) {
+            toast(createToastMessage({
+              title: t('warning'),
+              description: t('insufficientFundsOrNetworkError'),
+            }));
+          }
+          
+          // 尝试备选方法
+          result = await handleStakeDBCFallback(amount, formattedAddress);
+        }
       } else {
         result = await handleStakeXAA(amount, formattedAddress);
       }
@@ -591,10 +689,28 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
     } catch (error: any) {
       console.error('Stake failed:', error);
+      
+      // 提供更友好的错误消息
+      let errorMessage = error?.message || t('stakeFailed');
+      
+      // 检查常见错误类型并提供更友好的消息
+      if (errorMessage.includes('insufficient funds') || 
+          errorMessage.includes('gas required exceeds allowance') ||
+          errorMessage.includes('insufficient balance')) {
+        errorMessage = t('notEnoughBalance');
+      } else if (errorMessage.includes('user rejected') || 
+                errorMessage.includes('user denied')) {
+        errorMessage = t('userRejected');
+      } else if (errorMessage.includes('nonce too low') || 
+                errorMessage.includes('replacement transaction underpriced')) {
+        errorMessage = t('transactionPending');
+      }
+      
       toast(createToastMessage({
         title: t('error'),
-        description: error?.message || t('stakeFailed'),
+        description: errorMessage,
       }));
+      
       throw error;
     } finally {
       setIsLoading(false);
