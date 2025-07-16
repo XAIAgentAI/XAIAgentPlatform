@@ -610,7 +610,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 socialLinks: [
                     formData.twitterLink ? formData.twitterLink : '',
                     formData.telegramLink ? formData.telegramLink : '',
-                ].filter(Boolean).join(',')
+                ].filter(Boolean).join(','),
+                totalSupply: formData.tokenSupply 
             };
 
             // 仅在编辑模式下添加对话示例字段
