@@ -335,7 +335,7 @@ export const IaoEndedView = ({
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
           <span className="text-black font-medium">{t('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
-            {formatNumber(poolInfo?.totalReward || '0')}
+            {formatNumber((agent.totalSupply || 0) * 0.15)}
           </span>
         </div>
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
@@ -480,8 +480,8 @@ export const IaoEndedView = ({
 
   return (
     <>
-      {/* 管理面板和筹资结果 - 合并在标题上方 */}
-      <div className="space-y-4 mb-6">
+      {/* 管理面板和筹资结果 */}
+      <div className="space-y-4">
         {/* IAO管理面板 - 简化版本直接集成 */}
         {isCreator && isIaoSuccessful && (
           <div className="bg-white rounded-lg border p-4 mb-4">
