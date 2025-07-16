@@ -19,7 +19,8 @@ interface UpdateIaoTimeModalProps {
   onOpenChange: (open: boolean) => void;
   currentStartTime: number;
   currentEndTime: number;
-  onUpdateTimes: (startTime: number, endTime: number) => Promise<void>;
+  agentId: string;
+  onSuccess?: () => void;
   isLoading?: boolean;
   isPoolInfoLoading?: boolean;
 }
@@ -29,12 +30,14 @@ export const UpdateIaoTimeModal = ({
   onOpenChange,
   currentStartTime,
   currentEndTime,
-  onUpdateTimes,
-  isLoading = false,
+  agentId,
+  onSuccess,
+  isLoading: externalLoading = false,
   isPoolInfoLoading = false
 }: UpdateIaoTimeModalProps) => {
   const { toast } = useToast();
   const t = useTranslations('iaoPool.updateTimeModal');
+  const [isLoading, setIsLoading] = useState(externalLoading);
 
   // 开始时间设置（从现在开始的天数和小时数）
   const [iaoStartDays, setIaoStartDays] = useState<number>(1);
@@ -216,19 +219,61 @@ export const UpdateIaoTimeModal = ({
     if (hasError) return;
 
     try {
-      await onUpdateTimes(newStartTime, newEndTime);
-      onOpenChange(false);
-      toast({
-        title: t('successMessage'),
-        description: t('successMessage'),
+      setIsLoading(true);
+      
+      // 获取认证令牌
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast({
+          title: t('error'),
+          description: t('connectWalletFirst'),
+          variant: "destructive"
+        });
+        setIsLoading(false);
+        return;
+      }
+      
+      // 发送更新时间请求到后端API
+      const response = await fetch(`/api/agents/${agentId}/update-iao-times`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+          startTime: newStartTime, 
+          endTime: newEndTime 
+        }),
       });
-    } catch (error) {
+      
+      const data = await response.json();
+      
+      if (response.ok && data.code === 200) {
+        // 关闭模态框
+        onOpenChange(false);
+        
+        // 显示成功提示
+        toast({
+          title: t('successMessage'),
+          description: t('successDetails'),
+        });
+        
+        // 如果有成功回调，调用它
+        if (onSuccess) {
+          onSuccess();
+        }
+      } else {
+        throw new Error(data.message || t('errorDetails'));
+      }
+    } catch (error: any) {
       console.error('Failed to update IAO times:', error);
       toast({
         title: t('errorMessage'),
-        description: t('errorMessage'),
+        description: error.message || t('errorDetails'),
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

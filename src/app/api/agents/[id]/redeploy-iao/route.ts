@@ -6,6 +6,15 @@ import { getServerWalletAddress } from '@/lib/server-wallet/config';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
+/**
+ * 重新部署IAO合约API
+ * 
+ * 此API用于解决IAO失败后数据状态未重置的问题。
+ * 当IAO失败并需要重新启动时，需要部署一个全新的IAO合约，
+ * 而不是复用旧的合约，因为旧合约中的数据状态（如totalDepositedTokenIn，userDeposits等）
+ * 在IAO结束后不会被重置，导致质押数据累加而不是重置。
+ */
+
 // 重试函数
 async function retry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
   try {
@@ -74,17 +83,29 @@ export async function POST(
       );
     }
 
-    // 执行IAO重新部署
+    // 检查当前IAO状态
+    const currentIaoStatus = agent.status;
+    const hasIaoContract = !!agent.iaoContractAddress;
+    
     console.log(`[IAO重新部署] 开始为Agent ${agentId} 重新部署IAO...`);
     console.log(`[IAO重新部署] - 名称: ${agent.name}`);
     console.log(`[IAO重新部署] - Symbol: ${agent.symbol}`);
     console.log(`[IAO重新部署] - 创建者: ${agent.creator.address}`);
+    console.log(`[IAO重新部署] - 当前状态: ${currentIaoStatus}`);
+    console.log(`[IAO重新部署] - 当前IAO合约地址: ${agent.iaoContractAddress || '无'}`);
+    
+    // 如果有之前的IAO合约，记录下来
+    if (hasIaoContract) {
+      console.log(`[IAO重新部署] - 检测到已有IAO合约，将替换为新的IAO合约`);
+      console.log(`[IAO重新部署] - 此操作将重置所有质押数据`);
+    }
 
     // 使用默认的IAO设置
     const durationHours = 72; // 默认72小时
     const startTimestamp = Math.floor(Date.now() / 1000) + 3600; // 默认1小时后开始
 
     // 调用IAO部署API
+    console.log(`[IAO重新部署] 正在调用部署服务...`);
     const iaoResult = await retry(async () => {
       const iaoResponse = await fetch("http://54.179.233.88:8070/deploy/IAO", {
         method: "POST",
@@ -132,6 +153,11 @@ export async function POST(
     console.log(`[IAO重新部署] - IAO合约地址: ${iaoResult.data.proxy_address}`);
     console.log(`[IAO重新部署] - 开始时间: ${new Date(startTimestamp * 1000).toISOString()}`);
     console.log(`[IAO重新部署] - 结束时间: ${new Date(endTimestamp * 1000).toISOString()}`);
+    
+    if (hasIaoContract) {
+      console.log(`[IAO重新部署] - 旧IAO合约地址: ${agent.iaoContractAddress}`);
+      console.log(`[IAO重新部署] - 新IAO合约地址: ${iaoResult.data.proxy_address}`);
+    }
 
     // 更新Agent数据库记录
     await prisma.agent.update({
@@ -141,8 +167,15 @@ export async function POST(
         iaoContractAddress: iaoResult.data.proxy_address,
         iaoStartTime: BigInt(startTimestamp),
         iaoEndTime: BigInt(endTimestamp),
+        // 如果IAO重新部署，重置相关字段
+        tokensDistributed: false,
+        liquidityAdded: false,
+        tokensBurned: false,
+        ownerTransferred: false,
       },
     });
+
+    console.log(`[IAO重新部署] 数据库记录已更新，所有状态已重置`);
 
     // 尝试重新加载合约事件监听器
     try {
@@ -155,7 +188,7 @@ export async function POST(
     }
 
     return createSuccessResponse({
-      message: 'IAO合约已重新部署',
+      message: '已成功部署新的IAO合约',
       iaoContractAddress: iaoResult.data.proxy_address,
       startTime: startTimestamp,
       endTime: endTimestamp

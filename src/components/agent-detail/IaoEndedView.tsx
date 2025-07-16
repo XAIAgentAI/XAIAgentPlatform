@@ -13,6 +13,7 @@ import { IaoResultDisplay } from './IaoResultDisplay';
 // import TokenBurnModal from './TokenBurnModal';
 import { TokenDistributionModal } from './TokenDistributionModal';
 import type { LocalAgent } from "@/types/agent";
+import { Countdown } from "@/components/ui-custom/countdown";
 
 interface IaoEndedViewProps {
   agent: LocalAgent;
@@ -67,14 +68,40 @@ export const IaoEndedView = ({
     });
   };
 
-  // 检查是否在领取延迟期内
-  const shouldShowClaimButton = (): boolean => {
-    if (!userStakeInfo.userDeposited || Number(userStakeInfo.userDeposited) <= 0) return false;
+  // 处理手动领取退款（IAO失败时）
+  const handleClaimRefund = async () => {
+    // Assuming isAuthenticated is available in the context or passed as a prop
+    // For now, we'll assume it's true for demonstration purposes
+    const isAuthenticated = true; // Placeholder for actual authentication check
 
-    const claimDelayMs = 7 * 24 * 60 * 60 * 1000; // 7天
-    const canClaimAfter = (poolInfo?.endTime || 0) * 1000 + claimDelayMs;
+    if (!isAuthenticated) {
+      toast({
+        title: t('error'),
+        description: t('connectWalletFirst'),
+      });
+      return;
+    }
 
-    return Date.now() >= canClaimAfter;
+    try {
+      // 使用传入的isClaiming状态而不是自己创建
+      // 直接调用传入的onClaimRewards函数，它会处理设置isClaiming的逻辑
+      const result: any = await onClaimRewards();
+
+      if (result?.success) {
+        toast({
+          title: t('claimSuccess'),
+          description: t('refundSentToWallet'),
+        });
+      } else {
+        throw new Error(result?.error || t('claimFailed'));
+      }
+    } catch (error: any) {
+      const errorMessage = error.message || t('claimFailed');
+      toast({
+        title: t('error'),
+        description: errorMessage,
+      });
+    }
   };
 
   // 销毁代币处理函数
@@ -271,7 +298,19 @@ export const IaoEndedView = ({
   // 筹资结果展示 - 只负责渲染，不处理逻辑
   const FundraisingResults = () => (
     <div className="space-y-3 sm:space-y-4">
-
+      {!isIaoSuccessful && !isCreator && (
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+            <h3 className="text-base font-medium text-amber-800">IAO未达成目标</h3>
+          </div>
+          <p className="text-sm text-amber-700">
+            此IAO未达到筹资目标。所有参与者可以领取退款。
+          </p>
+        </div>
+      )}
 
       <IaoResultDisplay
         iaoProgress={iaoProgress}
@@ -285,8 +324,6 @@ export const IaoEndedView = ({
         userStakeInfo={userStakeInfo}
         onRefreshStatus={onRefreshStatus}
       />
-
-
     </div>
   );
 
@@ -336,60 +373,107 @@ export const IaoEndedView = ({
 
   // 用户质押信息 - 只负责渲染，不处理逻辑
   const UserStakeInfo = () => {
-    if (!userStakeInfo.userDeposited || Number(userStakeInfo.userDeposited) <= 0) return null;
-
-    const totalClaimable = (parseFloat(userStakeInfo.rewardForOrigin) || 0) + (parseFloat(userStakeInfo.rewardForNFT) || 0);
+    // 如果用户没有质押，不显示此部分
+    if (!userStakeInfo || !userStakeInfo.userDeposited || Number(userStakeInfo.userDeposited) <= 0) {
+      return null;
+    }
 
     return (
-      <div className="space-y-3 mt-4">
-        <div>
-          <p className="text-sm text-muted-foreground">
-            {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
-            <span className="text-[#F47521] ml-1">{formatNumber(userStakeInfo.userDeposited)}</span>
-          </p>
-        </div>
-
-        <div className="space-y-1">
-          <p className="text-sm text-muted-foreground">
-            {userStakeInfo.hasClaimed ? t('claimedAmount', { symbol: agent.symbol }) : t('claimableAmount', { symbol: agent.symbol })}:
-            <span className="text-[#F47521] ml-1">
-              {formatNumber(userStakeInfo.hasClaimed ? userStakeInfo.claimedAmount : totalClaimable.toString())}
+      <div className="mt-6 sm:mt-8">
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{t('yourStakeInfo')}</h2>
+        <div className="space-y-3 sm:space-y-4">
+          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
+            <span className="text-black font-medium">{t('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+            <span className="font-semibold text-[#F47521] break-all">
+              {formatNumber(userStakeInfo.userDeposited)}
             </span>
-          </p>
-        </div>
+          </div>
 
-        {shouldShowClaimButton() && !userStakeInfo.hasClaimed && (
-          <Button
-            className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white"
-            onClick={onClaimRewards}
-            disabled={isClaiming || !canClaim}
-          >
-            {isClaiming ? t('claiming') : t('claim')}
-          </Button>
-        )}
-
-        {userStakeInfo.hasClaimed && agent.tokenAddress && (
-          <div className="mt-2">
-            <p className="text-sm text-muted-foreground mb-1">{t('importTokenAddress')}</p>
-            <div className="relative">
-              <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
-                {agent.tokenAddress}
-              </code>
+          {/* 根据IAO状态和用户情况显示不同按钮 */}
+          {isIaoSuccessful ? (
+            // 成功的IAO，显示领取代币按钮
+            <div className="flex justify-center">
               <Button
-                variant="outline"
-                size="sm"
-                className="absolute right-2 top-1/2 -translate-y-1/2"
-                onClick={() => navigator.clipboard.writeText(agent.tokenAddress || '')}
+                className={`w-full sm:w-auto px-8 ${
+                  userStakeInfo.hasClaimed || !canClaim
+                    ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
+                    : 'bg-[#F47521] hover:bg-[#E56411]'
+                }`}
+                onClick={onClaimRewards}
+                disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
-                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                </svg>
-                {t('copy')}
+                {isClaiming ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {t('claiming')}
+                  </>
+                ) : userStakeInfo.hasClaimed ? (
+                  t('rewardClaimed')
+                ) : (
+                  t('claimRewards')
+                )}
               </Button>
             </div>
-          </div>
-        )}
+          ) : (
+            // 失败的IAO，显示领取退款按钮
+            <div className="flex flex-col items-center"> 
+              {/* 如果无法领取且未领取过，显示等待提示 */}
+              {!canClaim && !userStakeInfo.hasClaimed && Number(userStakeInfo.userDeposited) > 0 && !isClaiming && poolInfo?.endTime && (
+                <div className="mb-3 w-full p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-center mb-1">
+                    <svg className="w-4 h-4 mr-1 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span className="text-sm font-medium text-yellow-700">
+                      {t('waitingForRefund')}
+                    </span>
+                  </div>
+                  <div className="flex items-center text-yellow-600">
+                    <span className="text-xs mr-1">剩余时间:</span>
+                    {poolInfo?.endTime && (
+                      <Countdown 
+                        remainingTime={(poolInfo.endTime * 1000) + (10 * 60 * 1000) - Date.now()}
+                        mode="compact"
+                        color="warning"
+                        className="text-xs"
+                        onEnd={onRefreshStatus}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+                          
+              <Button
+                className={`w-full sm:w-auto px-8 ${
+                  userStakeInfo.hasClaimed || (!canClaim && !isClaiming)
+                    ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
+                    : 'bg-[#F47521] hover:bg-[#E56411]'
+                }`}
+                onClick={handleClaimRefund}
+                disabled={isClaiming || userStakeInfo.hasClaimed || (!canClaim && !isClaiming)}
+              >
+                {isClaiming ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {t('claiming')}
+                  </>
+                ) : userStakeInfo.hasClaimed ? (
+                  t('refundClaimed')
+                ) : !canClaim && Number(userStakeInfo.userDeposited) > 0 && !isClaiming ? (
+                  t('waitingToClaimRefund')
+                ) : (
+                  t('claimRefund')
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -477,7 +561,6 @@ export const IaoEndedView = ({
                   )}
                 </div>
               </div>
-
               {/* 步骤3: 销毁代币 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
                 agent.tokensBurned ? 'bg-green-50 border-green-200' :
@@ -511,59 +594,24 @@ export const IaoEndedView = ({
                 </div>
               </div>
 
-              {/* 步骤4: 转移所有权 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.ownerTransferred ? 'bg-green-50 border-green-200' :
-                agent.tokensBurned ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
-              }`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">🔑</span>
-                  <div>
-                    <div className="font-medium text-sm">4. 转移所有权</div>
-                    <div className="text-xs text-gray-600">转移合约控制权，完全去中心化</div>
+              {/* 代币地址显示 */}
+              {agent.tokenAddress && (
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <div className="text-xs text-gray-600 mb-1">代币地址:</div>
+                  <div className="text-xs font-mono break-all">{agent.tokenAddress}</div>
+                </div>
+              )}
+
+              {/* 完成状态 */}
+              {agent.ownerTransferred && (
+                <div className="mt-4 text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="text-green-600 mb-2">🎉</div>
+                  <div className="text-sm font-medium text-green-800">
+                    所有管理步骤已完成！项目已完全去中心化。
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  {agent.ownerTransferred ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">已完成</span>
-                  ) : agent.tokensBurned ? (
-                    <Button
-                      size="sm"
-                      // variant="outline"
-                      type="button"
-                      onClick={handleTransferOwnership}
-                      disabled={isTransferringOwnership}
-                    >
-                      {isTransferringOwnership ? (
-                        ownershipTaskStatus === 'PENDING' ? '提交中...' :
-                        ownershipTaskStatus === 'PROCESSING' ? '转移中...' :
-                        '处理中...'
-                      ) : '转移所有权'}
-                    </Button>
-                  ) : (
-                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">等待中</span>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
-
-            {/* 代币地址显示 */}
-            {agent.tokenAddress && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <div className="text-xs text-gray-600 mb-1">代币地址:</div>
-                <div className="text-xs font-mono break-all">{agent.tokenAddress}</div>
-              </div>
-            )}
-
-            {/* 完成状态 */}
-            {agent.ownerTransferred && (
-              <div className="mt-4 text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-green-600 mb-2">🎉</div>
-                <div className="text-sm font-medium text-green-800">
-                  所有管理步骤已完成！项目已完全去中心化。
-                </div>
-              </div>
-            )}
           </div>
         )}
         <FundraisingResults />

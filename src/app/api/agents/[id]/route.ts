@@ -167,6 +167,10 @@ export async function GET(
       miningOwnerTransferred: (agent as any).miningOwnerTransferred,
     };
 
+    // 打印调试信息
+    console.log('[Agent详情API] 管理状态字段:', managementStatus);
+    console.log(`[Agent详情API] tokensDistributed类型: ${typeof (agent as any).tokensDistributed}, 值: ${(agent as any).tokensDistributed}`);
+
     // 计算动态状态
     const dynamicStatus = calculateDynamicStatus(agent);
 
@@ -185,8 +189,12 @@ export async function GET(
       // 添加IAO时间信息
       iaoStartTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : null,
       iaoEndTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : null,
-      // 添加管理状态字段
-      ...managementStatus,
+      // 添加管理状态字段 - 这里把所有字段都展开明确列出，避免使用展开运算符
+      tokensDistributed: Boolean((agent as any).tokensDistributed),
+      liquidityAdded: Boolean((agent as any).liquidityAdded),
+      tokensBurned: Boolean((agent as any).tokensBurned),
+      ownerTransferred: Boolean((agent as any).ownerTransferred),
+      miningOwnerTransferred: Boolean((agent as any).miningOwnerTransferred),
       // 添加创建代币任务信息
       tokenCreationTask: tokenCreationTaskData,
     });
