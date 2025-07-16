@@ -203,6 +203,7 @@
     "claimAfterCountdown": "倒计时结束后可领取",
     "claim": "领取奖励",
     "claimSuccess": "领取成功",
+    "claimFailed": "领取失败，请重试",
     "tokenSentToWallet": "代币已发送到您的钱包",
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",
     "poolDynamicTip": "随着IAO池子中的{investSymbol}数量增加，对应获得{symbol}数量在减少",
@@ -249,7 +250,11 @@
         "endTimeOnly": "IAO将在 {endHours} 小时后结束，持续 {durationHours} 小时"
       },
       "successMessage": "IAO时间已更新",
-      "errorMessage": "更新IAO时间失败"
+      "successDetails": "IAO时间已成功更新，新的时间设置已生效",
+      "errorMessage": "更新IAO时间失败",
+      "errorDetails": "更新IAO时间时发生错误，请稍后重试",
+      "error": "错误",
+      "connectWalletFirst": "请先连接钱包"
     },
     "maxButton": "最大",
     "insufficientBalance": "余额不足，最大可用金额: {amount} {symbol}",
@@ -338,23 +343,33 @@
     "iaoSuccessTitle": "🎉 IAO 成功完成！",
     "iaoSuccessMessage": "恭喜！筹资目标已达成。{isCreator, select, true {您可以开始创建代币并部署支付合约。} other {代币将在创建者完成相关操作后分发给投资者。}}",
     "iaoSuccessCreatorTip": "💡 请耐心等待代币创建完成，届时您可以领取您的代币奖励。",
-    "iaoFailedTitle": "⚠️ IAO 未达成功标准",
-    "iaoFailedMessage": "筹资金额未达到 $1500 USD 的最低要求。根据IAO规则，投资者的$XAA会自动退还，代币不会被创建。7天后此AI模型可以再次发起IAO。",
-    "creatorSuggestions": "📊 创建者建议：",
+    "iaoFailedTitle": "⚠️ IAO 未达标",
+    "iaoFailedMessage": "筹资未达 $1500 USD 最低要求。投资者需手动领取$XAA，7天后可再次发起IAO。",
+    "creatorSuggestions": "📊 建议：",
     "creatorSuggestionsList": {
-      "analyze": "• 分析失败原因，优化AI模型方案",
-
-      "community": "• 加强社区建设和营销推广",
-      "editPrompt": "• 编辑提示词使用示例，提升用户体验",
-      "retry": "• 可以重新发起 IAO"
+      "analyze": "• 分析失败原因，优化方案",
+      "community": "• 加强社区建设和营销",
+      "editPrompt": "• 优化提示词和示例",
+      "retry": "• 7天后可重新发起"
     },
-    "investmentRefund": "💰 您的投资处理：",
-    "refundAutomatic": "✅ 您的投资金额将自动退还到您的钱包",
-    "checkWallet": "📋 请查收钱包余额变化",
-    "refreshIfNeeded": "🔄 如未收到退款，请点击下方刷新按钮",
-    "thankYouMessage": "💡 感谢您的关注，期待AI模型方的下一次尝试。",
+    "investmentRefund": "💰 投资处理：",
+    "refundAutomatic": "✅ 点击下方按钮领取投资金额",
+    "checkWallet": "📋 领取后查看钱包余额",
+    "refreshIfNeeded": "🔄 如未到账，请刷新状态",
+    "thankYouMessage": "💡 感谢关注，期待下次尝试",
     "refreshingStatus": "刷新中...",
-    "refreshStatusButton": "刷新状态"
+    "refreshStatusButton": "刷新状态",
+    "claimRefund": "领取退款",
+    "refundSentToWallet": "退款已发送到您的钱包",
+    "yourStakeInfo": "您的质押信息",
+    "yourStake": "您质押的{symbol}",
+    "waitingForRefund": "退款将在IAO结束后10分钟可领取",
+    "waitingToClaimRefund": "等待可领取",
+    "alreadyClaimed": "已领取",
+    "rewardClaimed": "奖励已领取",
+    "refundClaimed": "退款已领取",
+    "refundWaitingTime": "IAO结束后需等待10分钟才能领取退款。结束时间: {time}",
+    "loadingWaitingTime": "等待时间信息加载中..."
   },
   "paymentContract": {
     "title": "部署支付合约",

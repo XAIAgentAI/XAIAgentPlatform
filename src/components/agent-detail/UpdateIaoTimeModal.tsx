@@ -19,7 +19,8 @@ interface UpdateIaoTimeModalProps {
   onOpenChange: (open: boolean) => void;
   currentStartTime: number;
   currentEndTime: number;
-  onUpdateTimes: (startTime: number, endTime: number) => Promise<void>;
+  agentId: string;
+  onSuccess?: () => void;
   isLoading?: boolean;
   isPoolInfoLoading?: boolean;
 }
@@ -29,20 +30,22 @@ export const UpdateIaoTimeModal = ({
   onOpenChange,
   currentStartTime,
   currentEndTime,
-  onUpdateTimes,
-  isLoading = false,
+  agentId,
+  onSuccess,
+  isLoading: externalLoading = false,
   isPoolInfoLoading = false
 }: UpdateIaoTimeModalProps) => {
   const { toast } = useToast();
   const t = useTranslations('iaoPool.updateTimeModal');
+  const [isLoading, setIsLoading] = useState(externalLoading);
 
   // 开始时间设置（从现在开始的天数和小时数）
   const [iaoStartDays, setIaoStartDays] = useState<number>(1);
   const [iaoStartHours, setIaoStartHours] = useState<number>(0);
 
-  // 结束时间设置（从现在开始的天数和小时数）
-  const [iaoEndDays, setIaoEndDays] = useState<number>(4);
-  const [iaoEndHours, setIaoEndHours] = useState<number>(0);
+  // 持续时间设置（天数和小时数）
+  const [iaoDurationDays, setIaoDurationDays] = useState<number>(3);
+  const [iaoDurationHours, setIaoDurationHours] = useState<number>(0);
 
   // 错误状态
   const [startTimeError, setStartTimeError] = useState<boolean>(false);
@@ -64,28 +67,35 @@ export const UpdateIaoTimeModal = ({
       const startDiff = currentStartTime - now;
       const endDiff = currentEndTime - now;
 
+      console.log("startDiff", startDiff);
+      console.log("endDiff", endDiff);
+      
+
       // 初始化开始时间（如果还未开始）
       if (startDiff > 0) {
         const startDays = Math.floor(startDiff / (24 * 3600));
         const startHours = Math.floor((startDiff % (24 * 3600)) / 3600);
+
+
         setIaoStartDays(Math.max(1, startDays));
-        setIaoStartHours(startHours);
+        setIaoStartHours(0);
       } else {
         // 如果已经开始，设置为默认值
         setIaoStartDays(1);
         setIaoStartHours(0);
       }
 
-      // 初始化结束时间
-      if (endDiff > 0) {
-        const endDays = Math.floor(endDiff / (24 * 3600));
-        const endHours = Math.floor((endDiff % (24 * 3600)) / 3600);
-        setIaoEndDays(Math.max(1, endDays));
-        setIaoEndHours(endHours);
+      // 初始化持续时间
+      if (currentStartTime > 0 && currentEndTime > 0) {
+        const durationSeconds = currentEndTime - currentStartTime;
+        const durationDays = Math.floor(durationSeconds / (24 * 3600));
+        const durationHours = Math.floor((durationSeconds % (24 * 3600)) / 3600);
+        setIaoDurationDays(Math.max(3, durationDays));
+        setIaoDurationHours(durationHours);
       } else {
-        // 如果已经结束，设置为默认值
-        setIaoEndDays(4);
-        setIaoEndHours(0);
+        // 设置为默认值
+        setIaoDurationDays(3);
+        setIaoDurationHours(0);
       }
     }
   }, [isOpen, currentStartTime, currentEndTime]);
@@ -135,22 +145,22 @@ export const UpdateIaoTimeModal = ({
   const getPreviewInfo = () => {
     const now = Math.floor(Date.now() / 1000);
     const startDelaySeconds = (iaoStartDays * 24 + iaoStartHours) * 3600;
-    const endDelaySeconds = (iaoEndDays * 24 + iaoEndHours) * 3600;
-
+    
     const newStartTime = isIaoStarted ? currentStartTime : (now + startDelaySeconds);
-    const newEndTime = now + endDelaySeconds;
+    const durationSeconds = (iaoDurationDays * 24 + iaoDurationHours) * 3600;
+    const newEndTime = newStartTime + durationSeconds;
 
-    const durationHours = Math.floor((newEndTime - newStartTime) / 3600);
+    const durationHours = Math.floor(durationSeconds / 3600);
 
     if (isIaoStarted) {
       return t('previewInfo.endTimeOnly', {
-        endHours: iaoEndDays * 24 + iaoEndHours,
+        endHours: Math.floor((newEndTime - now) / 3600),
         durationHours
       });
     } else {
       return t('previewInfo.full', {
         startHours: iaoStartDays * 24 + iaoStartHours,
-        endHours: iaoEndDays * 24 + iaoEndHours,
+        endHours: Math.floor((newEndTime - now) / 3600),
         durationHours
       });
     }
@@ -165,11 +175,11 @@ export const UpdateIaoTimeModal = ({
     // 计算新的开始时间和结束时间
     const now = Math.floor(Date.now() / 1000);
     const startDelaySeconds = (iaoStartDays * 24 + iaoStartHours) * 3600;
-    const endDelaySeconds = (iaoEndDays * 24 + iaoEndHours) * 3600;
+    const durationSeconds = (iaoDurationDays * 24 + iaoDurationHours) * 3600;
 
     // 如果IAO已经开始，使用当前开始时间；否则使用新设置的开始时间
     const newStartTime = isIaoStarted ? currentStartTime : (now + startDelaySeconds);
-    const newEndTime = now + endDelaySeconds;
+    const newEndTime = newStartTime + durationSeconds;
 
     let hasError = false;
 
@@ -186,21 +196,7 @@ export const UpdateIaoTimeModal = ({
       return;
     }
 
-    // 验证结束时间必须晚于开始时间
-    if (newEndTime <= newStartTime) {
-      setEndTimeError(true);
-      hasError = true;
-      toast({
-        title: t('validationErrors.endAfterStart'),
-        description: t('endTimeHint'),
-        variant: "destructive"
-      });
-      endTimeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-
     // 验证持续时间（72-240小时）
-    const durationSeconds = newEndTime - newStartTime;
     if (durationSeconds < 72 * 3600 || durationSeconds > 240 * 3600) {
       setEndTimeError(true);
       hasError = true;
@@ -216,19 +212,61 @@ export const UpdateIaoTimeModal = ({
     if (hasError) return;
 
     try {
-      await onUpdateTimes(newStartTime, newEndTime);
-      onOpenChange(false);
-      toast({
-        title: t('successMessage'),
-        description: t('successMessage'),
+      setIsLoading(true);
+      
+      // 获取认证令牌
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast({
+          title: t('error'),
+          description: t('connectWalletFirst'),
+          variant: "destructive"
+        });
+        setIsLoading(false);
+        return;
+      }
+      
+      // 发送更新时间请求到后端API
+      const response = await fetch(`/api/agents/${agentId}/update-iao-times`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+          startTime: newStartTime, 
+          endTime: newEndTime 
+        }),
       });
-    } catch (error) {
+      
+      const data = await response.json();
+      
+      if (response.ok && data.code === 200) {
+        // 关闭模态框
+        onOpenChange(false);
+        
+        // 显示成功提示
+        toast({
+          title: t('successMessage'),
+          description: t('successDetails'),
+        });
+        
+        // 如果有成功回调，调用它
+        if (onSuccess) {
+          onSuccess();
+        }
+      } else {
+        throw new Error(data.message || t('errorDetails'));
+      }
+    } catch (error: any) {
       console.error('Failed to update IAO times:', error);
       toast({
         title: t('errorMessage'),
-        description: t('errorMessage'),
+        description: error.message || t('errorDetails'),
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -240,8 +278,8 @@ export const UpdateIaoTimeModal = ({
     // 重置为默认值
     setIaoStartDays(1);
     setIaoStartHours(0);
-    setIaoEndDays(4);
-    setIaoEndHours(0);
+    setIaoDurationDays(3);
+    setIaoDurationHours(0);
   };
 
   return (
@@ -336,22 +374,22 @@ export const UpdateIaoTimeModal = ({
             {/* IAO结束时间 */}
             <div ref={endTimeInputRef}>
               <label className="block mb-1">
-                {t('newEndTime')} <span className="text-red-500">*</span>
+                {t('iaoDuration')} <span className="text-red-500">*</span>
               </label>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
                   <input
                     type="number"
-                    min="1"
-                    max="30"
-                    value={iaoEndDays}
+                    min="3"
+                    max="10"
+                    value={iaoDurationDays}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value) || 1;
-                      const clampedValue = Math.max(1, Math.min(30, value));
-                      setIaoEndDays(clampedValue);
+                      const value = parseInt(e.target.value) || 3;
+                      const clampedValue = Math.max(3, Math.min(10, value));
+                      setIaoDurationDays(clampedValue);
                       if (endTimeError) setEndTimeError(false);
                     }}
-                    placeholder="4"
+                    placeholder="3"
                     className="w-16 bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 text-center"
                     disabled={isLoading || isIaoEnded}
                   />
@@ -362,11 +400,11 @@ export const UpdateIaoTimeModal = ({
                     type="number"
                     min="0"
                     max="23"
-                    value={iaoEndHours}
+                    value={iaoDurationHours}
                     onChange={(e) => {
                       const value = parseInt(e.target.value) || 0;
                       const clampedValue = Math.max(0, Math.min(23, value));
-                      setIaoEndHours(clampedValue);
+                      setIaoDurationHours(clampedValue);
                       if (endTimeError) setEndTimeError(false);
                     }}
                     placeholder="0"

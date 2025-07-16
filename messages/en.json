@@ -239,15 +239,20 @@
         "endAfterStart": "End time must be later than start time"
       },
       "previewInfo": {
-        "full": "IAO will start in {startHours} hours, end in {endHours} hours, lasting {durationHours} hours",
+        "full": "IAO will start in {startHours} hours and end in {endHours} hours, lasting {durationHours} hours",
         "endTimeOnly": "IAO will end in {endHours} hours, lasting {durationHours} hours"
       },
-      "successMessage": "IAO time has been updated",
-      "errorMessage": "Failed to update IAO time"
+      "successMessage": "IAO Time Updated",
+      "successDetails": "IAO time has been successfully updated with the new settings",
+      "errorMessage": "Failed to Update IAO Time",
+      "errorDetails": "An error occurred while updating IAO time, please try again later",
+      "error": "Error",
+      "connectWalletFirst": "Please connect your wallet first"
     },
     "claimAfterCountdown": "Claim available after countdown ends",
     "claim": "Claim Rewards",
     "claimSuccess": "Claim Successful",
+    "claimFailed": "Claim failed, please try again",
     "tokenSentToWallet": "XAA Token has been sent to your wallet",
     "importTokenAddress": "Please import the Token address in MetaMask to view:",
     "poolDynamicTip": "As the amount of {investSymbol} in the IAO pool increases, the corresponding amount of {symbol} decreases",
@@ -338,23 +343,33 @@
     "iaoSuccessTitle": "🎉 IAO Successfully Completed!",
     "iaoSuccessMessage": "Congratulations! The fundraising target has been achieved. {isCreator, select, true {You can now start creating tokens and deploying payment contracts.} other {Tokens will be distributed to investors after the creator completes the relevant operations.}}",
     "iaoSuccessCreatorTip": "💡 Please be patient and wait for token creation to complete, then you can claim your token rewards.",
-    "iaoFailedTitle": "⚠️ IAO Did Not Meet Success Criteria",
-    "iaoFailedMessage": "The fundraising amount did not reach the minimum requirement of $1500 USD. According to IAO rules, investors' $XAA will be automatically refunded and tokens will not be created. This AI model can initiate IAO again after 7 days.",
-    "creatorSuggestions": "📊 Creator Suggestions:",
+    "iaoFailedTitle": "⚠️ IAO Failed",
+    "iaoFailedMessage": "Fundraising below $1500 USD minimum. Investors need to manually claim $XAA. Can restart IAO after 7 days.",
+    "creatorSuggestions": "📊 Suggestions:",
     "creatorSuggestionsList": {
-      "analyze": "• Analyze failure reasons and optimize AI model plan",
-
-      "community": "• Strengthen community building and marketing promotion",
-      "editPrompt": "• Edit prompt usage examples to improve user experience",
-      "retry": "• Can re-launch IAO"
+      "analyze": "• Analyze failure reasons, optimize plan",
+      "community": "• Strengthen community & marketing",
+      "editPrompt": "• Improve prompts & examples",
+      "retry": "• Restart IAO after 7 days"
     },
-    "investmentRefund": "💰 Your Investment Processing:",
-    "refundAutomatic": "✅ Your investment amount will be automatically refunded to your wallet",
-    "checkWallet": "📋 Please check your wallet balance changes",
-    "refreshIfNeeded": "🔄 If you haven't received the refund, please click the refresh button below",
-    "thankYouMessage": "💡 Thank you for your attention, looking forward to the AI model team's next attempt.",
+    "investmentRefund": "💰 Your Investment:",
+    "refundAutomatic": "✅ Click button below to claim your investment",
+    "checkWallet": "📋 Check wallet balance after claiming",
+    "refreshIfNeeded": "🔄 If not received, refresh status",
+    "thankYouMessage": "💡 Thanks for your interest, stay tuned",
     "refreshingStatus": "Refreshing...",
-    "refreshStatusButton": "Refresh Status"
+    "refreshStatusButton": "Refresh Status",
+    "claimRefund": "Claim Refund",
+    "refundSentToWallet": "Refund has been sent to your wallet",
+    "yourStakeInfo": "Your Stake Information",
+    "yourStake": "Your Staked {symbol}",
+    "waitingForRefund": "Refund available 10 minutes after IAO ends",
+    "waitingToClaimRefund": "Waiting to claim",
+    "alreadyClaimed": "Claimed",
+    "rewardClaimed": "Rewards Claimed",
+    "refundClaimed": "Refund Claimed",
+    "refundWaitingTime": "Refund will be available 10 minutes after IAO ends. End time: {time}",
+    "loadingWaitingTime": "Loading waiting time information..."
   },
   "paymentContract": {
     "title": "Deploy Payment Contract",
