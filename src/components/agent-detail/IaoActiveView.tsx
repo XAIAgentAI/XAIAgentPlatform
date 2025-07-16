@@ -187,7 +187,7 @@ export const IaoActiveView = ({
       <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
         <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
         <span className="font-semibold text-[#F47521] break-all">
-          {isPoolInfoLoading ? "--" : `${formatNumber(poolInfo?.totalReward || '0')} ${agent.symbol}`}
+          {isPoolInfoLoading ? "--" : `${formatNumber((agent.totalSupply || 0) * 0.15)} ${agent.symbol}`}
         </span>
       </div>
 
