@@ -999,7 +999,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       try {
         // 可以通过查询 Deposit 事件来获取投资人数
         // 这里先用简化的方式
-        investorCount = Number(totalDeposited) > 0 ? 1 : 0; // 临时实现
+        investorCount = 0
       } catch (error) {
         console.warn('Failed to get investor count:', error);
       }

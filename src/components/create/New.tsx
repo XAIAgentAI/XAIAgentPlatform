@@ -62,12 +62,14 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             'durationHours 必须是正数': tMessages('invalidDurationHours'),
             '无效的 token': tMessages('invalidToken'),
             '未授权访问': tMessages('unauthorizedAccess'),
+            '每个钱包地址只能创建一个 Agent': tMessages('walletLimitOneAgent'),
             // 英文错误消息映射
             'Missing required fields': tMessages('missingRequiredFields'),
             'Agent name already exists': tMessages('agentNameExists'),
             'Agent symbol already exists': tMessages('agentSymbolExists'),
             'Invalid token': tMessages('invalidToken'),
             'Unauthorized access': tMessages('unauthorizedAccess'),
+            'Each wallet address can only create one Agent': tMessages('walletLimitOneAgent'),
         };
 
         return errorMappings[serverMessage] || serverMessage;
@@ -659,7 +661,11 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
                 // 获取本地化的错误消息
                 let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
-                if (result.message) {
+                
+                // 特殊处理错误代码 4001 - 一个钱包只能创建一个 agent
+                if (result.code === 4001) {
+                    errorMessage = tMessages('walletLimitOneAgent');
+                } else if (result.message) {
                     errorMessage = getLocalizedErrorMessage(result.message);
                 }
 
@@ -1351,7 +1357,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                             <span className="font-medium text-gray-800">{formData.miningRate}%</span>
                                         </div>
                                         <div className="text-xs text-gray-500 mt-1">
-                                            每年可挖矿的代币数量 = 总供应量 × {formData.miningRate}%
+                                            {t("miningRateFormula", {rate: formData.miningRate})}
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-start">

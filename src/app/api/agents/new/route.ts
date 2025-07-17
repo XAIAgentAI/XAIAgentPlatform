@@ -145,6 +145,24 @@ export async function POST(request: Request) {
       }
     }
 
+    // 检查环境变量 LIMIT_ONEPWALLET_ONEAGENT，如果为 true，限制一个钱包地址只能创建一个 agent
+    if (process.env.LIMIT_ONEPWALLET_ONEAGENT === 'true') {
+      // 查找该钱包地址是否已创建过 agent
+      const user = await prisma.user.findUnique({
+        where: { address: decoded.address },
+        include: {
+          agents: true
+        }
+      });
+
+      if (user && user.agents.length > 0) {
+        return NextResponse.json(
+          { code: 4001, message: '每个钱包地址只能创建一个 Agent' },
+          { status: 400 }
+        );
+      }
+    }
+
     // 查找或创建用户
     const user = await prisma.user.upsert({
       where: { address: decoded.address },

@@ -23,7 +23,7 @@ interface ApiResponse<T> {
 }
 
 export function AgentDetail({ id }: AgentDetailProps) {
-  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [agent, setAgent] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations('agentDetail');
@@ -68,6 +68,11 @@ export function AgentDetail({ id }: AgentDetailProps) {
     fetchAgent();
   }, [id, t]);
 
+  // 以小时为单位，确保结果是整数
+  const iaoTimeRemain = agent?.iaoStartTime && agent?.iaoEndTime 
+    ? Math.round((agent?.iaoEndTime - agent?.iaoStartTime) / 3600) 
+    : 72; // 默认为72小时
+
   return (
     <StateDisplay
       isLoading={isLoading}
@@ -101,7 +106,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
           </div>
 
           {/* 代币信息卡片 */}
-          {agent && <TokenInfoCard projectDescription={agent.projectDescription}  symbol={agent.symbol}/>}
+          {agent && <TokenInfoCard projectDescription={agent.projectDescription} symbol={agent.symbol} iaoDurationHours={iaoTimeRemain}/>}
         </div>
       </div>
     </StateDisplay>

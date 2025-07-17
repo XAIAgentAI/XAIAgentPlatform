@@ -135,7 +135,8 @@
     "invalidStartTimestamp": "startTimestamp는 양의 정수여야 합니다",
     "invalidDurationHours": "durationHours는 양수여야 합니다",
     "invalidToken": "유효하지 않은 토큰입니다",
-    "unauthorizedAccess": "권한이 없는 접근입니다"
+    "unauthorizedAccess": "권한이 없는 접근입니다",
+    "walletLimitOneAgent": "각 지갑 주소는 하나의 에이전트만 생성할 수 있습니다"
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -979,14 +980,14 @@
       "TokenDistribution": {
         "title": "토큰 경제 모델",
         "points": {
-          "1": "{symbol} 처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성",
-          "2": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
-          "3": "XXXX시간의 IAO 기간이 끝난 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
-          "4": "IAO 종료 후, {symbol}과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 {symbol}의 자유로운 거래를 가능하게 합니다",
-          "5": "팀은 {symbol}의 33%를 보유하며, IAO 종료 후 2000일 동안 선형적으로 잠금 해제되며, 40일마다 잠금 해제됩니다",
-          "6": "{symbol} 채굴은 매년 50억을 생성하며, 채굴된 {symbol}의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 잠금 해제됩니다",
-          "7": "채굴에 참여하려면 XAA 채굴 NFT를 보유해야 합니다. 각 기계는 최소 1개, 최대 10개의 XAA 채굴 NFT를 스테이킹해야 합니다",
-          "8": "{symbol}의 1%는 $XAA와 $DBC 상위 10,000명의 보유자에게, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
+          "1": "{symbol}의 첫 8년 총 공급량: 1000억, 이후 매년 50억이 채굴됨",
+          "2": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
+          "3": "{hours}시간의 IAO 기간 이후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 취소되지 않으며, LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
+          "4": "IAO 종료 후, {symbol}과 $XAA의 10%는 즉시 DBCSwap에서 유동성 풀을 설립하여 {symbol}의 자유로운 거래를 가능하게 합니다",
+          "5": "팀은 {symbol}의 33%를 보유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 해제되며, 40일마다 잠금 해제됩니다",
+          "6": "{symbol} 채굴은 연간 50억을 생산하며, 채굴된 {symbol}의 10%는 즉시 사용 가능하고 90%는 180일 동안 선형적으로 해제됩니다",
+          "7": "채굴에 참여하려면 XAA 채굴 NFT가 필요합니다. 각 기계는 최소 1개의 XAA 채굴 NFT를 스테이킹해야 하며, 최대 10개의 XAA 채굴 NFT가 가능합니다",
+          "8": "{symbol}의 1%는 상위 10,000명의 $XAA 및 $DBC 보유자에게 에어드롭되며, {symbol}의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
         }
       },
       "price": "가격",
@@ -1005,9 +1006,10 @@
       "startTimeError": "시작 시간은 최소 24시간 후여야 합니다",
       "durationHint": "* 지속 시간 범위: 72-240시간 (3-10일)",
       "durationError": "지속 시간은 72-240시간 (3-10일) 사이여야 합니다",
-      "iaoScheduleInfo": "IAO는 {startHours}시간 후에 시작하여 {durationHours}시간 동안 지속되며, {endTime}에 종료될 예정입니다",
+      "iaoScheduleInfo": "IAO는 {startHours}시간 후에 시작하여 {durationHours}시간 동안 지속되며 {endTime}에 종료될 예정입니다",
       "calculating": "계산 중...",
-      "additionalSettingsAfterCreation": "모델 생성 후 IAO 시간, 컨테이너 링크, 대화 예시를 설정할 수 있습니다"
+      "additionalSettingsAfterCreation": "모델 생성 후 IAO 시간, 컨테이너 링크, 대화 예시를 설정할 수 있습니다",
+      "miningRateFormula": "연간 채굴 가능 토큰 = 총 공급량 × {rate}%"
     },
     "datePicker": {
       "selectDateTime": "날짜 및 시간 선택",

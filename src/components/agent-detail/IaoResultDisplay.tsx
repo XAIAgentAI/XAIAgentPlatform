@@ -150,12 +150,12 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
             <div className="text-xs text-gray-500">($1500USDT)</div>
           </div>
         </div>
-        <div>
+        {/* <div>
           <span className="text-gray-600">{t('investorCount')}:</span>
           <div className="font-semibold text-blue-600">
             {iaoProgress.investorCount} 人
           </div>
-        </div>
+        </div> */}
         <div>
           <span className="text-gray-600">
             {isIaoSuccessful ? t('overAchieved') : t('underAchieved')}:

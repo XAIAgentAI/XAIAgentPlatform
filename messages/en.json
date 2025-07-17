@@ -136,7 +136,8 @@
     "invalidToken": "Invalid token",
     "unauthorizedAccess": "Unauthorized access",
     "updateSuccess": "Update successful",
-    "updateFailed": "Update failed"
+    "updateFailed": "Update failed",
+    "walletLimitOneAgent": "Each wallet address can only create one Agent"
   },
   "agentList": {
     "sortBy": "Sort by",
@@ -934,7 +935,7 @@
         "points": {
           "1": "{symbol} total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
           "2": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
-          "3": "After the XXXX-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
+          "3": "After the {hours}-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
           "4": "After IAO concludes, 10% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",
           "5": "The team holds 33% of {symbol}, unlocking begins after IAO concludes, with linear release over 2000 days, unlocked every 40 days",
           "6": "{symbol} mining produces 5 billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
@@ -960,7 +961,8 @@
       "durationError": "Duration must be between 72-240 hours (3-10 days)",
       "iaoScheduleInfo": "IAO will start in {startHours} hours, last for {durationHours} hours, expected to end at {endTime}",
       "calculating": "Calculating...",
-      "additionalSettingsAfterCreation": "You can set IAO time, container link, and conversation examples after creating the model"
+      "additionalSettingsAfterCreation": "You can set IAO time, container link, and conversation examples after creating the model",
+      "miningRateFormula": "Annual minable tokens = Total supply × {rate}%"
     },
     "datePicker": {
       "selectDateTime": "Select Date and Time",

@@ -4,9 +4,10 @@ import { useLocale, useTranslations } from 'next-intl';
 interface TokenInfoCardProps {
   projectDescription?: string;
   symbol?: string;
+  iaoDurationHours?: number; // 添加IAO持续时间参数
 }
 
-export function TokenInfoCard({ projectDescription, symbol }: TokenInfoCardProps) { 
+export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours }: TokenInfoCardProps) { 
   const locale = useLocale();
   const t = useTranslations("create.createAgent");
 
@@ -49,7 +50,21 @@ export function TokenInfoCard({ projectDescription, symbol }: TokenInfoCardProps
         ))} */}
 
         <div className="space-y-3 text-sm">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((point) => (
+          {[1, 2].map((point) => (
+            <p key={point}>
+              {point}. {t(`TokenDistribution.points.${point}`, { symbol: symbol || 'Token' })}
+            </p>
+          ))}
+          
+          {/* 第3点使用动态IAO持续时间 */}
+          <p>
+            3. {t(`TokenDistribution.points.3`, { 
+              symbol: symbol || 'Token', 
+              hours: iaoDurationHours 
+            })}
+          </p>
+          
+          {[4, 5, 6, 7, 8].map((point) => (
             <p key={point}>
               {point}. {t(`TokenDistribution.points.${point}`, { symbol: symbol || 'Token' })}
             </p>

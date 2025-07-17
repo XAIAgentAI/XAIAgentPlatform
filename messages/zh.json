@@ -136,7 +136,8 @@
     "invalidToken": "无效的 token",
     "unauthorizedAccess": "未授权访问",
     "updateSuccess": "更新成功",
-    "updateFailed": "更新失败"
+    "updateFailed": "更新失败",
+    "walletLimitOneAgent": "每个钱包地址只能创建一个 Agent"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -972,12 +973,12 @@
         "points": {
           "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿",
           "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
-          "3": "在为期XXXX小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
-          "4": "IAO 结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
-          "5": "团队拥有33%的{symbol},IAO结束后开始解锁，分2000天线性解锁，每40天解锁一次",
-          "6": "{symbol}挖矿每年产生50亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
-          "7": "需要持有XAA挖矿NFT才能参与挖矿，每个机器需要质押最少1个XAA挖矿NFT，最多质押10个XAA挖矿NFT",
-          "8": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+          "3": "在{hours}小时的IAO期间结束后，95%的$XAA将分配到链上流动性池，永不撤销，LP代币将发送到黑洞地址。5%的$XAA将被销毁",
+          "4": "IAO结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",
+          "5": "团队持有33%的{symbol}，IAO结束后开始解锁，在2000天内线性释放，每40天解锁一次",
+          "6": "{symbol}挖矿每年产生50亿，其中10%的挖矿{symbol}立即可用，90%在180天内线性释放",
+          "7": "参与挖矿需要XAA挖矿NFT。每台机器必须质押至少1个XAA挖矿NFT，最多10个XAA挖矿NFT",
+          "8": "1%的{symbol}空投给前10,000名$XAA和$DBC持有者，1%的{symbol}空投给XAA节点NFT持有者"
         }
       },
       "price": "价格",
@@ -998,7 +999,8 @@
       "durationError": "持续时间必须在72-240小时之间（3-10天）",
       "iaoScheduleInfo": "IAO将在 {startHours} 小时后开始，持续 {durationHours} 小时，预计 {endTime} 结束",
       "calculating": "计算中...",
-      "additionalSettingsAfterCreation": "创建AI模型后，您可以设置IAO时间、容器链接和对话示例"
+      "additionalSettingsAfterCreation": "创建AI模型后，您可以设置IAO时间、容器链接和对话示例",
+      "miningRateFormula": "每年可挖矿的代币数量 = 总供应量 × {rate}%"
     },
     "datePicker": {
       "selectDateTime": "选择日期和时间",
