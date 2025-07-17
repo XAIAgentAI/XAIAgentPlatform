@@ -686,17 +686,57 @@ export async function distributeTokens(
     // 初始化交易记录数组
     let transactions: TransactionResult[] = [];
 
-    // 1. 分配给创建者 (33%)
+    // 1. 分配给创建者 (33%)，使用transferAndLock锁定50秒
     if (!completedSteps.includes('creator')) {
-      console.log(`🔍 [DEBUG] 👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}`);
-      const creatorTx = await executeTransfer(
-        tokenAddress,
-        agentInfo.creator.address,
-        distributions.creator,
-        'creator'
-      );
-      transactions.push(creatorTx);
-      console.log(`🔍 [DEBUG] 👤 创建者分配结果: ${creatorTx.status === 'confirmed' ? '✅ 成功' : creatorTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${creatorTx.txHash || 'N/A'}`);
+      console.log(`🔍 [DEBUG] 👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}，锁定50秒`);
+      
+      try {
+        const { walletClient, publicClient } = initializeClients();
+        
+        // 导入XAA合约ABI
+        const xaaAbi = await import('@/config/xaa-abi.json');
+        
+        // 使用transferAndLock函数，锁定50秒
+        const hash = await walletClient.writeContract({
+          address: tokenAddress as `0x${string}`,
+          abi: xaaAbi,
+          functionName: 'transferAndLock',
+          args: [
+            agentInfo.creator.address as `0x${string}`, 
+            parseEther(distributions.creator),
+            BigInt(50) // 锁定50秒
+          ],
+        });
+        
+        console.log(`🔍 [DEBUG] 📤 创建者分配已发送(transferAndLock): ${hash}`);
+        
+        // 等待交易确认
+        const receipt = await publicClient.waitForTransactionReceipt({ hash });
+        
+        const status = receipt.status === 'success' ? 'confirmed' as const : 'failed' as const;
+        
+        const creatorTx: TransactionResult = {
+          type: 'creator',
+          amount: distributions.creator,
+          txHash: hash,
+          status,
+          toAddress: agentInfo.creator.address,
+        };
+        
+        transactions.push(creatorTx);
+        console.log(`🔍 [DEBUG] 👤 创建者分配结果(transferAndLock): ${status === 'confirmed' ? '✅ 成功' : '❌ 失败'} - Hash: ${hash}`);
+      } catch (error) {
+        console.error(`🔍 [DEBUG] ❌ 创建者分配失败(transferAndLock):`, error);
+        const creatorTx: TransactionResult = {
+          type: 'creator',
+          amount: distributions.creator,
+          txHash: '',
+          status: 'failed' as const,
+          toAddress: agentInfo.creator.address,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+        transactions.push(creatorTx);
+      }
     } else {
       console.log(`🔍 [DEBUG] 👤 [1/3] 跳过创建者分配 - 已完成 ✅`);
     }
