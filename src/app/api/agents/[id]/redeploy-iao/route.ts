@@ -27,6 +27,45 @@ async function retry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
   }
 }
 
+// 记录IAO部署日志
+async function logIaoDeployment({
+  agentId,
+  previousContractAddress,
+  newContractAddress,
+  status,
+  startTime,
+  endTime,
+  deployedBy,
+  deploymentDetails
+}: {
+  agentId: string;
+  previousContractAddress?: string | null;
+  newContractAddress: string;
+  status: 'SUCCESS' | 'FAILED';
+  startTime: number;
+  endTime: number;
+  deployedBy: string;
+  deploymentDetails?: any;
+}) {
+  try {
+    await prisma.$executeRaw`
+      INSERT INTO "IaoDeploymentLog" (
+        "id", "agentId", "previousContractAddress", "newContractAddress", 
+        "status", "startTime", "endTime", "deployedBy", "requestedAt", 
+        "completedAt", "deploymentDetails"
+      ) VALUES (
+        gen_random_uuid(), ${agentId}, ${previousContractAddress}, ${newContractAddress}, 
+        ${status}, ${BigInt(startTime)}, ${BigInt(endTime)}, ${deployedBy}, 
+        CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ${JSON.stringify(deploymentDetails || {})}::jsonb
+      )
+    `;
+    console.log(`[IAO部署日志] 已成功记录部署日志，AgentID: ${agentId}, 状态: ${status}`);
+  } catch (error) {
+    console.error('[IAO部署日志] 记录部署日志失败:', error);
+    // 日志记录失败不应影响主流程，所以这里只记录错误但不抛出
+  }
+}
+
 // 重新部署IAO API端点
 export async function POST(
   request: Request,
@@ -86,6 +125,7 @@ export async function POST(
     // 检查当前IAO状态
     const currentIaoStatus = agent.status;
     const hasIaoContract = !!agent.iaoContractAddress;
+    const previousContractAddress = agent.iaoContractAddress;
     
     console.log(`[IAO重新部署] 开始为Agent ${agentId} 重新部署IAO...`);
     console.log(`[IAO重新部署] - 名称: ${agent.name}`);
@@ -106,43 +146,86 @@ export async function POST(
 
     // 调用IAO部署API
     console.log(`[IAO重新部署] 正在调用部署服务...`);
-    const iaoResult = await retry(async () => {
-      const iaoResponse = await fetch("http://54.179.233.88:8070/deploy/IAO", {
-        method: "POST",
-        headers: {
-          "accept": "application/json",
-          "content-type": "application/json",
-          "authorization": "Basic YWRtaW46MTIz"
-        },
-        body: JSON.stringify({
-          duration_hours: durationHours,
-          owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
-          reward_amount: '2000000000000000000000000000', // 默认奖励数量
-          reward_token: "0x0000000000000000000000000000000000000000",
-          start_timestamp: startTimestamp,
-          token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
+    let iaoResult;
+    try {
+      iaoResult = await retry(async () => {
+        const iaoResponse = await fetch("http://54.179.233.88:8070/deploy/IAO", {
+          method: "POST",
+          headers: {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "authorization": "Basic YWRtaW46MTIz"
+          },
+          body: JSON.stringify({
+            duration_hours: durationHours,
+            owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
+            reward_amount: '2000000000000000000000000000', // 默认奖励数量
+            reward_token: "0x0000000000000000000000000000000000000000",
+            start_timestamp: startTimestamp,
+            token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
+              ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
+              : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+          })
+        });
+
+        const result = await iaoResponse.json();
+        console.log('[IAO重新部署] 部署响应:', result);
+        
+        if (result.code === 400 && result.message === 'CREATING') {
+          // IAO 部署请求已接受，继续处理
+          console.log('[IAO重新部署] 部署请求已接受，继续处理...');
+          return result;
+        } else if (result.code !== 200 || !result.data?.proxy_address) {
+          throw new Error(`IAO重新部署失败: ${result.message || '未知错误'}`);
+        }
+        
+        return result;
+      });
+    } catch (error) {
+      console.error(`[IAO重新部署] 部署失败:`, error);
+      
+      // 记录失败的部署日志
+      await logIaoDeployment({
+        agentId,
+        previousContractAddress,
+        newContractAddress: 'FAILED_DEPLOYMENT',
+        status: 'FAILED',
+        startTime: startTimestamp,
+        endTime: startTimestamp + (durationHours * 3600),
+        deployedBy: decoded.address,
+        deploymentDetails: {
+          error: error instanceof Error ? error.message : String(error),
+          requestTime: new Date().toISOString(),
+          durationHours,
+          tokenInAddress: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
             ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
             : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
-        })
+        }
       });
-
-      const result = await iaoResponse.json();
-      console.log('[IAO重新部署] 部署响应:', result);
       
-      if (result.code === 400 && result.message === 'CREATING') {
-        // IAO 部署请求已接受，继续处理
-        console.log('[IAO重新部署] 部署请求已接受，继续处理...');
-        return result;
-      } else if (result.code !== 200 || !result.data?.proxy_address) {
-        throw new Error(`IAO重新部署失败: ${result.message || '未知错误'}`);
-      }
-      
-      return result;
-    });
+      throw error;
+    }
 
     // 检查合约地址是否有效
     if (!iaoResult.data?.proxy_address) {
       console.error(`[IAO重新部署] 错误: 部署后未获取到合约地址`);
+      
+      // 记录失败的部署日志
+      await logIaoDeployment({
+        agentId,
+        previousContractAddress,
+        newContractAddress: 'INVALID_ADDRESS',
+        status: 'FAILED',
+        startTime: startTimestamp,
+        endTime: startTimestamp + (durationHours * 3600),
+        deployedBy: decoded.address,
+        deploymentDetails: {
+          error: '部署后未获取到合约地址',
+          response: iaoResult,
+          requestTime: new Date().toISOString()
+        }
+      });
+      
       throw new Error('IAO合约地址部署后丢失');
     }
 
@@ -175,7 +258,28 @@ export async function POST(
       },
     });
 
+    // 记录成功的部署日志
+    await logIaoDeployment({
+      agentId,
+      previousContractAddress,
+      newContractAddress: iaoResult.data.proxy_address,
+      status: 'SUCCESS',
+      startTime: startTimestamp,
+      endTime: endTimestamp,
+      deployedBy: decoded.address,
+      deploymentDetails: {
+        response: iaoResult.data,
+        durationHours,
+        requestTime: new Date().toISOString(),
+        previousStatus: currentIaoStatus,
+        tokenInAddress: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
+          ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
+          : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+      }
+    });
+
     console.log(`[IAO重新部署] 数据库记录已更新，所有状态已重置`);
+    console.log(`[IAO重新部署] 部署日志已记录`);
 
     // 尝试重新加载合约事件监听器
     try {

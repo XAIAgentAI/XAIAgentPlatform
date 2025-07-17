@@ -23,27 +23,28 @@ model User {
 }
 
 model Agent {
-  id                        String       @id @default(uuid())
+  id                        String             @id @default(uuid())
   name                      String
   description               String
   longDescription           String?
   category                  String
   avatar                    String?
-  status                    String       @default("active")
+  status                    String             @default("active")
   capabilities              String // JSON string array
-  rating                    Float        @default(0)
-  usageCount                Int          @default(0)
-  marketCap                 String       @default("0")
-  change24h                 String       @default("0")
-  volume24h                 String       @default("0")
-  creator                   User         @relation(fields: [creatorId], references: [id])
+  rating                    Float              @default(0)
+  usageCount                Int                @default(0)
+  marketCap                 String             @default("0")
+  change24h                 String             @default("0")
+  volume24h                 String             @default("0")
+  creator                   User               @relation(fields: [creatorId], references: [id])
   creatorId                 String
-  createdAt                 DateTime     @default(now())
-  updatedAt                 DateTime     @updatedAt
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @updatedAt
   examples                  Example[]
   reviews                   Review[]
   prices                    AgentPrice[]
   tasks                     Task[] // 关联到任务
+  deploymentLogs            IaoDeploymentLog[] // 关联到IAO部署日志
   type                      String?
   tvl                       String?
   holdersCount              Int?
@@ -75,14 +76,14 @@ model Agent {
   iaoEndTime                BigInt? // IAO结束时间戳
   miningRate                Decimal? // 挖矿速率（每年可挖矿的代币比例）
   // Owner管理相关状态字段
-  ownerTransferred          Boolean      @default(false) // 代币owner是否已转移
-  liquidityAdded            Boolean      @default(false) // 流动性是否已添加
-  tokensDistributed         Boolean      @default(false) // 代币是否已分发
-  tokensBurned              Boolean      @default(false) // 代币是否已销毁
-  miningOwnerTransferred    Boolean      @default(false) // 挖矿合约owner是否已转移
+  ownerTransferred          Boolean            @default(false) // 代币owner是否已转移
+  liquidityAdded            Boolean            @default(false) // 流动性是否已添加
+  tokensDistributed         Boolean            @default(false) // 代币是否已分发
+  tokensBurned              Boolean            @default(false) // 代币是否已销毁
+  miningOwnerTransferred    Boolean            @default(false) // 挖矿合约owner是否已转移
   // 池子相关字段
   poolAddress               String? // 流动性池地址
-  poolCreated               Boolean      @default(false) // 池子是否已创建
+  poolCreated               Boolean            @default(false) // 池子是否已创建
   initialLiquidityAmount    Decimal? // 初始流动性代币数量
   initialXaaAmount          Decimal? // 初始流动性XAA数量
 }
@@ -127,6 +128,25 @@ model Task {
   createdAt   DateTime  @default(now())
   startedAt   DateTime? // 开始执行时间
   completedAt DateTime? // 完成时间
+}
+
+// IAO部署日志模型，用于记录每次IAO部署的详细信息
+model IaoDeploymentLog {
+  id                     String   @id @default(uuid())
+  agent                  Agent    @relation(fields: [agentId], references: [id])
+  agentId                String
+  previousContractAddress String?
+  newContractAddress     String
+  status                 String // SUCCESS, FAILED
+  startTime              BigInt
+  endTime                BigInt
+  deployedBy             String // 部署者地址
+  requestedAt            DateTime @default(now())
+  completedAt            DateTime @default(now())
+  deploymentDetails      Json? // 存储部署的详细信息，如参数、响应等
+
+  @@index([agentId])
+  @@index([completedAt])
 }
 
 // 用于存储 nonce
