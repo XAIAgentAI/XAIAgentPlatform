@@ -5,6 +5,7 @@ import { useSignMessage } from 'wagmi';
 import { useAuthStore } from '@/stores/auth';
 import { useTranslations } from 'next-intl';
 import { useDisconnect } from 'wagmi';
+import { toast } from '@/components/ui/use-toast';
 
 export function useAuth() {
   const { address, isConnected, status } = useAppKitAccount();
@@ -93,6 +94,11 @@ export function useAuth() {
         console.error('获取nonce失败:', error);
         setError(t('messages.getNonceFailed'));
         setLoading(false);
+        // 显示toast提示
+        toast({
+          description: t('messages.getNonceFailed'),
+          variant: "destructive"
+        });
         return;
       }
 
@@ -106,8 +112,19 @@ export function useAuth() {
         signature = await signMessageAsync({ message });
       } catch (error: any) {
         console.error('签名请求被拒绝:', error);
-        setError(t('messages.signatureRejected'));
+        // setError(t('messages.loginRejected'));
         setLoading(false);
+        // 用户拒绝签名时，断开钱包连接
+        disconnect();
+        // 清理认证状态
+        localStorage.removeItem('token');
+        apiClient.clearToken();
+        reset();
+        // 显示toast提示
+        toast({
+          description: t('messages.loginRejected'),
+          variant: "destructive"
+        });
         return;
       }
 
@@ -152,8 +169,16 @@ export function useAuth() {
         // 其他错误处理
         if (error?.message?.includes('Nonce 已过期')) {
           setError(t('messages.nonceExpired'));
+          toast({
+            description: t('messages.nonceExpired'),
+            variant: "destructive"
+          });
         } else {
           setError(t('messages.walletConnectFailed'));
+          toast({
+            description: t('messages.walletConnectFailed'),
+            variant: "destructive"
+          });
         }
         localStorage.removeItem('token');
         apiClient.clearToken();
@@ -171,6 +196,10 @@ export function useAuth() {
       } else {
         setError(error instanceof Error ? error.message : t('messages.authenticationFailed'));
       }
+      toast({
+        description: error instanceof Error ? error.message : t('messages.authenticationFailed'),
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }

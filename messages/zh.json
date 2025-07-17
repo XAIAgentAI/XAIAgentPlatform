@@ -113,6 +113,7 @@
     "serverError": "服务器错误，请稍后重试",
     "getNonceFailed": "获取登录凭证失败，请刷新页面重试",
     "signatureRejected": "用户拒绝签名",
+    "loginRejected": "用户拒绝登录，已断开钱包连接",
     "nonceExpired": "登录会话已过期，请刷新页面重新登录",
     "walletConnectFailed": "钱包连接失败，请刷新页面重试",
     "authenticationFailed": "认证失败，请刷新页面重试",

@@ -113,6 +113,7 @@
     "serverError": "서버 오류입니다. 잠시 후 다시 시도해주세요.",
     "getNonceFailed": "로그인 인증 정보를 가져오는데 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요",
     "signatureRejected": "서명이 거부되었습니다",
+    "loginRejected": "로그인이 거부되어 지갑 연결이 해제되었습니다",
     "nonceExpired": "로그인 세션이 만료되었습니다. 페이지를 새로고침하고 다시 로그인해주세요",
     "walletConnectFailed": "지갑 연결에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요",
     "authenticationFailed": "인증에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요",

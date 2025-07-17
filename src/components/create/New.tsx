@@ -77,7 +77,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     const [success, setSuccess] = useState(false);
 
     // IAO 时间输入状态
-    const [iaoStartDays, setIaoStartDays] = useState(1);
+    const [iaoStartDays, setIaoStartDays] = useState(3); // 修改为3天
     const [iaoStartHours, setIaoStartHours] = useState(0);
     const [iaoDurationDays, setIaoDurationDays] = useState(3);
     const [iaoDurationHours, setIaoDurationHours] = useState(0);
@@ -92,8 +92,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     }>(() => {
         const now = new Date();
-        // 设置开始时间为当前时间+24小时
-        const startDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        // 设置开始时间为当前时间+72小时
+        const startDate = new Date(now.getTime() + 72 * 60 * 60 * 1000); // 修改为72小时
 
         // 计算结束日期（开始时间+72小时，默认持续时间）
         const endDate = new Date(startDate.getTime() + 72 * 60 * 60 * 1000);
@@ -315,7 +315,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         // 6. 验证开始时间是否至少为24小时后 (仅在创建模式下验证)
         if (mode !== 'edit') {
             const totalStartHours = iaoStartDays * 24 + iaoStartHours;
-            if (totalStartHours < 24) {
+            if (totalStartHours < 72) { // 修改为72小时
                 setStartTimeError(true);
                 startTimeInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
@@ -1264,7 +1264,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                         </div>
                                         <div className="text-gray-500 text-xs mt-1">{t("startTimeHint")}</div>
                                         {startTimeError && (
-                                            <div className="text-red-500 text-xs mt-1">{t("startTimeError")}</div>
+                                            <div className="text-red-500 text-xs mt-1">{t("startTimeError").replace('24', '72')}</div>
                                         )}
                                     </div>
 
