@@ -89,6 +89,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     isAuthenticated
   } = useIaoPoolData(agent);
 
+
   /**
    * 处理质押
    */
@@ -393,21 +394,20 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
    * 渲染IAO重新部署按钮（当IAO未部署成功时显示）
    */
   const renderIaoRedeploySection = () => {
-    // 判断是否需要显示重新部署按钮
-    const shouldShowRedeployButton = isCreator && (
+    // 判断是否需要显示部署信息
+    const shouldShowDeployInfo = 
       // 情况1: IAO合约不存在，需要部署
       !agent.iaoContractAddress || 
       // 情况2: IAO已结束且失败，需要重新部署
-      (isIAOEnded && !isIaoSuccessful)
-    );
+      (isIAOEnded && !isIaoSuccessful);
     
-    if (!shouldShowRedeployButton) return null;
+    if (!shouldShowDeployInfo) return null;
 
     // 部署状态相关判断 
     const isDeploying = agent.status === 'CREATING'; // 创建中
     const isDeployFailed = agent.status === 'FAILED'; // 部署失败
     const isIaoFailed = isIAOEnded && !isIaoSuccessful; // IAO结束且失败
-    
+
     // 根据不同状况显示不同的UI和提示信息
     let title = '';
     let description = '';
@@ -416,20 +416,28 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     
     if (isDeploying) {
       title = 'IAO正在部署中';
-      description = '系统正在部署您的IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。';
+      description = isCreator 
+        ? '系统正在部署您的IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。'
+        : '系统正在部署IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。';
     } else if (isDeployFailed) {
       title = 'IAO部署失败';
-      description = '您的IAO合约部署失败，请点击下方按钮重新尝试部署。';
+      description = isCreator 
+        ? '您的IAO合约部署失败，请点击下方按钮重新尝试部署。'
+        : 'IAO合约部署失败，请等待创作者重新部署IAO合约。';
       buttonText = '重新部署IAO (上次失败)';
       buttonClass = 'bg-red-500 hover:bg-red-600';
     } else if (isIaoFailed) {
-      title = 'IAO已结束且未达成目标';
-      description = '您的上一个IAO未达成目标，需要重新部署一个新的IAO合约才能启动新的筹资。点击下方按钮部署新的IAO，所有旧的质押数据将被重置。';
+      title = 'IAO未达标';
+      description = isCreator 
+        ? '您的IAO未达成目标，需要重新部署一个新的IAO合约才能启动新的IAO。所有参与者可以领取退款。点击下方按钮部署新的IAO，所有旧的质押数据将被重置。'
+        : '此IAO未达成目标，所有参与者可以领取退款。需要创作者重新部署一个新的IAO合约才能启动新的IAO。请等待创作者操作。';
       buttonText = '部署新的IAO合约';
       buttonClass = 'bg-yellow-500 hover:bg-yellow-600';
     } else {
       title = 'IAO部署未完成';
-      description = '您的IAO合约尚未成功部署，请点击下方按钮重新尝试部署。';
+      description = isCreator 
+        ? '您的IAO合约尚未成功部署，请点击下方按钮重新尝试部署。'
+        : 'IAO合约尚未成功部署，请等待创作者完成部署。';
       buttonText = '重新部署IAO';
       buttonClass = 'bg-yellow-500 hover:bg-yellow-600';
     }
@@ -443,7 +451,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
           <div className="flex-1">
             <h4 className="text-sm font-medium text-yellow-800 mb-2">{title}</h4>
             <p className="text-xs text-yellow-700 mb-3">{description}</p>
-            {!isDeploying && (
+            {!isDeploying && isCreator && (
               <Button
                 className={`w-full text-sm py-2 ${buttonClass} text-white`}
                 onClick={handleRedeployIao}

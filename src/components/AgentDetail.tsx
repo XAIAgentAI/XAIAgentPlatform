@@ -101,7 +101,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
           </div>
 
           {/* 代币信息卡片 */}
-          {agent && <TokenInfoCard projectDescription={agent.projectDescription} />}
+          {agent && <TokenInfoCard projectDescription={agent.projectDescription}  symbol={agent.symbol}/>}
         </div>
       </div>
     </StateDisplay>

@@ -298,7 +298,7 @@ export const IaoEndedView = ({
   // 筹资结果展示 - 只负责渲染，不处理逻辑
   const FundraisingResults = () => (
     <div className="space-y-3 sm:space-y-4">
-      {!isIaoSuccessful && !isCreator && (
+      {/* {!isIaoSuccessful && !isCreator && (
         <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
             <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,7 +310,7 @@ export const IaoEndedView = ({
             此IAO未达到筹资目标。所有参与者可以领取退款。
           </p>
         </div>
-      )}
+      )} */}
 
       <IaoResultDisplay
         iaoProgress={iaoProgress}

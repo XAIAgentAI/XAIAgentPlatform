@@ -215,6 +215,17 @@ export function useAuth() {
     };
   }, [isAuthenticated, debouncedAuthenticate, checkToken]);
 
+  // 监听钱包连接状态变化
+  useEffect(() => {
+    // 当钱包断开连接时（isConnected 从 true 变为 false）
+    if (!isConnected) {
+      console.log('钱包已断开连接，正在清理认证信息');
+      localStorage.removeItem('token');
+      apiClient.clearToken();
+      reset();
+    }
+  }, [isConnected, reset]);
+
   const logout = useCallback(async () => {
     try {
       await apiClient.disconnect();

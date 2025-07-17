@@ -99,7 +99,7 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
   // 如果没有对话示例且不是创建者，则显示简化版的聊天按钮
   if (!suggestions.length && !isAgentCreator) {
     return (
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center" style={{ marginTop: '1.5rem' }}>
         <CustomButton
           className="flex items-center gap-2 px-8"
           onClick={handleChatClick}
@@ -150,7 +150,7 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
               ))}
             </div>
             
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center" style={{ marginTop: '1.5rem' }}>
               <CustomButton
                 className="flex items-center gap-2 px-8"
                 onClick={handleChatClick}
