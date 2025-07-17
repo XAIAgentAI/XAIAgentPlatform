@@ -977,6 +977,8 @@
       "logoRequired": "토큰 로고를 업로드해주세요",
       "startTimeRequired": "시작 시간을 선택해주세요",
       "endTimeRequired": "종료 시간을 선택해주세요",
+      "viewGuide": "생성 가이드",
+      
       "TokenDistribution": {
         "title": "토큰 경제 모델",
         "points": {

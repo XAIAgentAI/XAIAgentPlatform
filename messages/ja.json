@@ -968,6 +968,7 @@
       "logoRequired": "トークンロゴをアップロードしてください",
       "startTimeRequired": "開始時間を選択してください",
       "endTimeRequired": "終了時間を選択してください",
+      "viewGuide": "作成ガイド",
       "TokenDistribution": {
         "title": "トークン経済モデル",
         "points": {

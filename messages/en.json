@@ -930,6 +930,7 @@
       "logoRequired": "Please upload a token logo",
       "startTimeRequired": "Please select start time",
       "endTimeRequired": "Please select end time",
+      "viewGuide": "Creation Guide",
       "TokenDistribution": {
         "title": "Token Economic Model",
         "points": {
