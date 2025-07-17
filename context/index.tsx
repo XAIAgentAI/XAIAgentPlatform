@@ -27,6 +27,7 @@ const connectionManager = {
 // 全局错误处理函数，捕获订阅冲突错误
 if (typeof window !== 'undefined') {
   window.addEventListener('error', (event) => {
+    console.error('捕获到错误:', event);
     if (event.message?.includes('Restore will override. subscription')) {
       console.log('捕获到订阅冲突错误，正在处理...');
       // 阻止错误冒泡
