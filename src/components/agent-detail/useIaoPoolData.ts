@@ -468,6 +468,59 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     };
   }, [state.tokenCreationTask, fetchTokenCreationTask, agent.tokenAddress, hookInstanceId]);
 
+  // 监听用户身份变化，触发执行fetchUserStakeInfo
+  useEffect(() => {
+    logDebug(`用户身份变化检测 [${hookInstanceId}]`, { address, isConnected, isAuthenticated });
+    const startTime = performance.now();
+    
+    // 当地址、连接状态或认证状态发生变化时，重新获取用户质押信息
+    if (address && isConnected) {
+      logDebug(`用户身份变化，重新获取质押信息 [${hookInstanceId}]`);
+      fetchUserStakeInfo();
+      fetchUserBalance(); // 同时更新用户余额
+    } else {
+      // 如果用户未连接或无地址，重置用户质押信息
+      updateState(() => ({ 
+        userStakeInfo: {
+          userDeposited: "0",
+          claimableXAA: "0",
+          hasClaimed: false,
+          claimedAmount: "0",
+          originDeposit: "0",
+          depositIncrByNFT: "0",
+          incrByNFTTier: "0",
+          rewardForOrigin: "0",
+          rewardForNFT: "0",
+          actualDepositedWithNFT: "0"
+        }
+      }));
+    }
+    
+    logPerformance(`用户身份变化处理完成 [${hookInstanceId}]`, startTime);
+  }, [address, isConnected, isAuthenticated, fetchUserStakeInfo, fetchUserBalance, updateState, hookInstanceId]);
+
+  // 监听合约地址变化，触发数据更新
+  useEffect(() => {
+    logDebug(`合约地址变化检测 [${hookInstanceId}]`, { iaoContractAddress, tokenAddress });
+    const startTime = performance.now();
+    
+    // 当合约地址变化且不为空时，重新获取相关数据
+    if (iaoContractAddress) {
+      logDebug(`合约地址变化，重新获取数据 [${hookInstanceId}]`);
+      // 刷新所有相关数据
+      fetchPoolInfo();
+      fetchIaoProgress();
+      checkIaoStatus();
+      
+      // 如果用户已连接，也刷新用户相关数据
+      if (address && isConnected) {
+        fetchUserStakeInfo();
+      }
+    }
+    
+    logPerformance(`合约地址变化处理完成 [${hookInstanceId}]`, startTime);
+  }, [iaoContractAddress, tokenAddress, address, isConnected, fetchPoolInfo, fetchIaoProgress, checkIaoStatus, fetchUserStakeInfo, hookInstanceId]);
+
   // 设置dbcAmount的方法 - 保持API兼容性
   const setDbcAmount = useCallback((value: string) => {
     updateState(() => ({ dbcAmount: value }));

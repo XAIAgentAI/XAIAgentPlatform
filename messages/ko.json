@@ -197,6 +197,7 @@
     "buyFailed": "구매 실패, 다시 시도해주세요",
     "buyNotStarted": "구매가 시작되지 않았습니다",
     "processing": "처리 중...",
+    "waitingForTokenCreation": "생성자가 토큰을 생성하기를 기다리는 중, 이후 보상을 청구할 수 있습니다",
     "send": "전송",
     "loadingData": "데이터 로딩 중...",
     "loading": "로딩 중...",
@@ -206,6 +207,7 @@
     "claimed": "청구됨",
     "claimSuccess": "청구 성공",
     "claimFailed": "청구 실패, 다시 시도해주세요",
+    "claimRewards": "보상 청구",
     "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
     "updateTimeModal": {
       "title": "IAO 시간 수정",

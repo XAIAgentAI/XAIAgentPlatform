@@ -50,6 +50,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [isDeployingIao, setIsDeployingIao] = useState(false);
+  const [hasConfirmedRedeployment, setHasConfirmedRedeployment] = useState(false);
 
   // 使用数据管理Hook
   const {
@@ -89,6 +90,42 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     isAuthenticated
   } = useIaoPoolData(agent);
 
+  // 检查是否可以领取
+  const canClaim = useMemo(() => {
+    // 基本条件：未正在领取、未领取过、有质押金额
+    const basicCondition = !isClaiming && 
+      !userStakeInfo?.hasClaimed && 
+      Number(userStakeInfo?.userDeposited || 0) > 0;
+    
+    if (!basicCondition) return false;
+    
+    // IAO成功情况，直接返回true
+    if (isIaoSuccessful) return true;
+    
+    // IAO失败情况，需要判断是否已超过结束时间10分钟
+    if (!isIaoSuccessful && poolInfo?.endTime) {
+      const waitingTimeInMs = 10 * 60 * 1000; // 10分钟
+      const iaoEndTimeMs = poolInfo.endTime * 1000;
+      const now = Date.now();
+      
+      // 返回是否已经过了10分钟等待期
+      return now >= (iaoEndTimeMs + waitingTimeInMs);
+    }
+    
+    return false;
+  }, [isClaiming, userStakeInfo, isIaoSuccessful, poolInfo]);
+  
+  // 检查是否可以重新部署IAO（IAO结束后需要等待7天）
+  const canRedeployIao = useMemo(() => {
+    if (!isIAOEnded || !poolInfo?.endTime) return false;
+    
+    const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000; // 7天的毫秒数
+    const iaoEndTimeMs = poolInfo.endTime * 1000;
+    const now = Date.now();
+    
+    // 返回是否已经过了7天等待期
+    return now >= (iaoEndTimeMs + sevenDaysInMs);
+  }, [isIAOEnded, poolInfo]);
 
   /**
    * 处理质押
@@ -215,11 +252,35 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       return;
     }
 
+    // 检查是否已经过了7天等待期
+    if (isIAOEnded && !isIaoSuccessful && !canRedeployIao) {
+      // 计算剩余等待时间
+      let remainingTimeText = '';
+      if (poolInfo?.endTime) {
+        const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+        const iaoEndTimeMs = poolInfo.endTime * 1000;
+        const now = Date.now();
+        const remainingMs = (iaoEndTimeMs + sevenDaysInMs) - now;
+        
+        if (remainingMs > 0) {
+          const remainingDays = Math.floor(remainingMs / (24 * 60 * 60 * 1000));
+          const remainingHours = Math.floor((remainingMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+          remainingTimeText = `（还需等待 ${remainingDays} 天 ${remainingHours} 小时）`;
+        }
+      }
+
+      toast({
+        title: t('error'),
+        description: `需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`,
+      });
+      return;
+    }
+
     try {
       setIsDeployingIao(true);
       
       // 显示确认对话框
-      if (agent.iaoContractAddress && !window.confirm('重新部署IAO将创建一个全新的IAO合约，之前的所有质押数据将会被重置。是否确定继续？')) {
+      if (agent.iaoContractAddress && !window.confirm('重新部署IAO将创建一个全新的IAO合约，之前的所有质押数据将会被重置。老用户仍然可以从旧合约中领取退款，不会受到影响。是否确定继续？')) {
         setIsDeployingIao(false);
         return;
       }
@@ -243,8 +304,11 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       if (response.ok && data.code === 200) {
         toast({
           title: t('success'),
-          description: '已成功部署新的IAO合约。所有质押数据已重置，页面将在3秒后刷新。',
+          description: '已成功部署新的IAO合约。所有质押数据已重置，页面将在3秒后刷新。老用户仍可从旧合约中领取退款。',
         });
+
+        // 重置确认状态
+        setHasConfirmedRedeployment(false);
 
         // 延迟3秒后刷新页面
         setTimeout(() => {
@@ -262,7 +326,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     } finally {
       setIsDeployingIao(false);
     }
-  }, [isAuthenticated, isCreator, agent.id, agent.iaoContractAddress, toast, t]);
+  }, [isAuthenticated, isCreator, agent.id, agent.iaoContractAddress, toast, t, setHasConfirmedRedeployment, isIAOEnded, isIaoSuccessful, canRedeployIao, poolInfo]);
 
   /**
    * 处理领取奖励
@@ -407,6 +471,21 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     const isDeploying = agent.status === 'CREATING'; // 创建中
     const isDeployFailed = agent.status === 'FAILED'; // 部署失败
     const isIaoFailed = isIAOEnded && !isIaoSuccessful; // IAO结束且失败
+    
+    // 计算剩余等待时间（如果IAO已结束但未到7天）
+    let remainingTimeText = '';
+    if (isIaoFailed && !canRedeployIao && poolInfo?.endTime) {
+      const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+      const iaoEndTimeMs = poolInfo.endTime * 1000;
+      const now = Date.now();
+      const remainingMs = (iaoEndTimeMs + sevenDaysInMs) - now;
+      
+      if (remainingMs > 0) {
+        const remainingDays = Math.floor(remainingMs / (24 * 60 * 60 * 1000));
+        const remainingHours = Math.floor((remainingMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        remainingTimeText = `（还需等待 ${remainingDays} 天 ${remainingHours} 小时）`;
+      }
+    }
 
     // 根据不同状况显示不同的UI和提示信息
     let title = '';
@@ -428,11 +507,22 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       buttonClass = 'bg-red-500 hover:bg-red-600';
     } else if (isIaoFailed) {
       title = 'IAO未达标';
-      description = isCreator 
-        ? '您的IAO未达成目标，需要重新部署一个新的IAO合约才能启动新的IAO。所有参与者可以领取退款。点击下方按钮部署新的IAO，所有旧的质押数据将被重置。'
-        : '此IAO未达成目标，所有参与者可以领取退款。需要创作者重新部署一个新的IAO合约才能启动新的IAO。请等待创作者操作。';
-      buttonText = '部署新的IAO合约';
-      buttonClass = 'bg-yellow-500 hover:bg-yellow-600';
+      
+      if (!canRedeployIao) {
+        description = isCreator 
+          ? `您的IAO未达成目标。为确保所有参与者有足够时间领取退款，需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`
+          : `此IAO未达成目标，所有参与者可以领取退款。创作者需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`;
+        buttonText = '等待7天后可重新部署';
+        buttonClass = 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed';
+      } else {
+        description = isCreator 
+          ? '您的IAO未达成目标。已经过了7天等待期，请先确认所有参与者都已有足够时间领取退款，然后点击下方"确认准备重新部署"按钮。确认后，您将能够部署新的IAO合约，不会影响老用户的退币操作。'
+          : '此IAO未达成目标，所有参与者可以领取退款。已经过了7天等待期，创作者现在可以重新部署新的IAO合约。';
+        
+        // 根据确认状态显示不同的按钮文本
+        buttonText = hasConfirmedRedeployment ? '部署新的IAO合约' : '确认准备重新部署';
+        buttonClass = hasConfirmedRedeployment ? 'bg-green-500 hover:bg-green-600' : 'bg-yellow-500 hover:bg-yellow-600';
+      }
     } else {
       title = 'IAO部署未完成';
       description = isCreator 
@@ -441,6 +531,30 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       buttonText = '重新部署IAO';
       buttonClass = 'bg-yellow-500 hover:bg-yellow-600';
     }
+
+    // 处理确认按钮点击
+    const handleConfirmButtonClick = () => {
+      if (isIaoFailed && !canRedeployIao) {
+        // 如果IAO失败但未到7天等待期，显示提示
+        toast({
+          title: "无法重新部署",
+          description: `需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`,
+        });
+        return;
+      }
+      
+      if (isIaoFailed && canRedeployIao && !hasConfirmedRedeployment) {
+        // 如果是IAO失败且已过7天等待期但未确认，则设置确认状态
+        setHasConfirmedRedeployment(true);
+        toast({
+          title: "已确认",
+          description: "您已确认准备重新部署。现在您可以点击绿色按钮部署新的IAO合约。",
+        });
+      } else {
+        // 否则执行重新部署
+        handleRedeployIao();
+      }
+    };
     
     return (
       <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -454,8 +568,8 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
             {!isDeploying && isCreator && (
               <Button
                 className={`w-full text-sm py-2 ${buttonClass} text-white`}
-                onClick={handleRedeployIao}
-                disabled={isDeployingIao}
+                onClick={handleConfirmButtonClick}
+                disabled={isDeployingIao || (isIaoFailed && !canRedeployIao)}
               >
                 {isDeployingIao ? (
                   <>
@@ -467,6 +581,13 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
                   </>
                 ) : buttonText}
               </Button>
+            )}
+            
+            {/* 添加额外的提示信息，强调不影响老用户退币 */}
+            {isIaoFailed && isCreator && canRedeployIao && (
+              <p className="text-xs text-green-700 mt-3 italic">
+                注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。
+              </p>
             )}
           </div>
         </div>
@@ -552,32 +673,6 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       />
     </>
   );
-
-  // 检查是否可以领取
-  const canClaim = useMemo(() => {
-    // 基本条件：未正在领取、未领取过、有质押金额
-    const basicCondition = !isClaiming && 
-      !userStakeInfo?.hasClaimed && 
-      Number(userStakeInfo?.userDeposited || 0) > 0;
-    
-    if (!basicCondition) return false;
-    
-    // IAO成功情况，直接返回true
-    if (isIaoSuccessful) return true;
-    
-    // IAO失败情况，需要判断是否已超过结束时间10分钟
-    if (!isIaoSuccessful && poolInfo?.endTime) {
-      const waitingTimeInMs = 10 * 60 * 1000; // 10分钟
-      const iaoEndTimeMs = poolInfo.endTime * 1000;
-      const now = Date.now();
-      
-      // 返回是否已经过了10分钟等待期
-      return now >= (iaoEndTimeMs + waitingTimeInMs);
-    }
-    
-    return false;
-  }, [isClaiming, userStakeInfo, isIaoSuccessful, poolInfo]);
-    
 
   return (
     <Card className="p-4 sm:p-6">

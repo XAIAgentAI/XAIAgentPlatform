@@ -58,6 +58,11 @@ export const IaoEndedView = ({
   const [ownershipTaskId, setOwnershipTaskId] = useState<string | null>(null);
   const [ownershipTaskStatus, setOwnershipTaskStatus] = useState<'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | null>(null);
 
+  // 添加shouldShowClaimButton函数
+  const shouldShowClaimButton = () => {
+    return isIaoSuccessful && agent.tokenAddress && !userStakeInfo.hasClaimed && canClaim;
+  };
+
   const formatNumber = (value: string | number, decimals: number = 2): string => {
     if (!value || value === '0') return '0';
     const num = typeof value === 'string' ? parseFloat(value) : value;
@@ -378,6 +383,10 @@ export const IaoEndedView = ({
       return null;
     }
 
+    // 计算总可领取金额
+    const totalClaimable = (parseFloat(userStakeInfo.rewardForOrigin || '0') || 0) + 
+                          (parseFloat(userStakeInfo.rewardForNFT || '0') || 0);
+
     return (
       <div className="mt-6 sm:mt-8">
         <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{t('yourStakeInfo')}</h2>
@@ -388,34 +397,93 @@ export const IaoEndedView = ({
               {formatNumber(userStakeInfo.userDeposited)}
             </span>
           </div>
+          
+          {/* 添加可领取/已领取金额显示 */}
+          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
+            <span className="text-black font-medium">
+              {userStakeInfo.hasClaimed ? 
+                t('claimedAmount', { symbol: agent.symbol }) : 
+                t('claimableAmount', { symbol: agent.symbol })}:
+            </span>
+            <span className="font-semibold text-[#F47521] break-all">
+              {formatNumber(userStakeInfo.hasClaimed ? 
+                userStakeInfo.claimedAmount || '0' : 
+                totalClaimable.toString())}
+            </span>
+          </div>
 
           {/* 根据IAO状态和用户情况显示不同按钮 */}
           {isIaoSuccessful ? (
             // 成功的IAO，显示领取代币按钮
-            <div className="flex justify-center">
-              <Button
-                className={`w-full sm:w-auto px-8 ${
-                  userStakeInfo.hasClaimed || !canClaim
-                    ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
-                    : 'bg-[#F47521] hover:bg-[#E56411]'
-                }`}
-                onClick={onClaimRewards}
-                disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim}
-              >
-                {isClaiming ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <div className="flex justify-center flex-col">
+              {!agent.tokenAddress ? (
+                <div className="w-full p-3 bg-yellow-50 border border-yellow-200 rounded-lg mb-3">
+                  <div className="flex items-center mb-1">
+                    <svg className="w-4 h-4 mr-1 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    {t('claiming')}
-                  </>
-                ) : userStakeInfo.hasClaimed ? (
-                  t('rewardClaimed')
-                ) : (
-                  t('claimRewards')
-                )}
-              </Button>
+                    <span className="text-sm font-medium text-yellow-700">
+                      {t('waitingForTokenCreation')}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Button
+                    className={`w-full sm:w-auto px-8 ${
+                      userStakeInfo.hasClaimed || !canClaim
+                        ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
+                        : 'bg-[#F47521] hover:bg-[#E56411]'
+                    }`}
+                    onClick={onClaimRewards}
+                    disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim || !agent.tokenAddress}
+                  >
+                    {isClaiming ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        {t('claiming')}
+                      </>
+                    ) : userStakeInfo.hasClaimed ? (
+                      t('rewardClaimed')
+                    ) : (
+                      t('claimRewards')
+                    )}
+                  </Button>
+
+                  {/* 添加代币地址复制功能 */}
+                  {userStakeInfo.hasClaimed && agent.tokenAddress && (
+                    <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-700 mb-2">{t('importTokenAddress')}</p>
+                      <div className="relative">
+                        <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
+                          {agent.tokenAddress}
+                        </code>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="absolute right-2 top-1/2 -translate-y-1/2"
+                          onClick={() => {
+                            navigator.clipboard.writeText(agent.tokenAddress || '');
+                            toast({
+                              title: t('copied'),
+                              duration: 2000,
+                            });
+                          }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                          </svg>
+                          {t('copy')}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           ) : (
             // 失败的IAO，显示领取退款按钮

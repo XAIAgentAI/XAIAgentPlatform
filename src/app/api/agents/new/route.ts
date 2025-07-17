@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken';
 import { Decimal } from '@prisma/client/runtime/library';
 import { v4 as uuidv4 } from 'uuid';
 import { reloadContractListeners } from '@/services/contractEventListener';
+import { calculateRewardAmount } from '@/lib/utils';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
@@ -294,7 +295,7 @@ async function processTask(
         body: JSON.stringify({
           duration_hours: taskData.durationHours || 72,
           owner: process.env.SERVER_WALLET_ADDRESS,
-          reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
+          reward_amount: calculateRewardAmount(agent.totalSupply),
           // 不传递 reward_token 参数，或传递 null
           reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600,

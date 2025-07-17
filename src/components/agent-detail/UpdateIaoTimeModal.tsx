@@ -77,11 +77,11 @@ export const UpdateIaoTimeModal = ({
         const startHours = Math.floor((startDiff % (24 * 3600)) / 3600);
 
 
-        setIaoStartDays(Math.max(1, startDays));
+        setIaoStartDays(0);
         setIaoStartHours(0);
       } else {
         // 如果已经开始，设置为默认值
-        setIaoStartDays(1);
+        setIaoStartDays(0);
         setIaoStartHours(0);
       }
 
@@ -183,18 +183,7 @@ export const UpdateIaoTimeModal = ({
 
     let hasError = false;
 
-    // 验证开始时间（只有在IAO未开始时才验证）
-    if (!isIaoStarted && startDelaySeconds < 24 * 3600) {
-      setStartTimeError(true);
-      hasError = true;
-      toast({
-        title: t('validationErrors.startAfter24h'),
-        description: t('startTimeHint'),
-        variant: "destructive"
-      });
-      startTimeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
+    // 移除了开始时间最少需要24小时的限制
 
     // 验证持续时间（72-240小时）
     if (durationSeconds < 72 * 3600 || durationSeconds > 240 * 3600) {
@@ -276,7 +265,7 @@ export const UpdateIaoTimeModal = ({
     setStartTimeError(false);
     setEndTimeError(false);
     // 重置为默认值
-    setIaoStartDays(1);
+    setIaoStartDays(0);
     setIaoStartHours(0);
     setIaoDurationDays(3);
     setIaoDurationHours(0);
@@ -330,16 +319,16 @@ export const UpdateIaoTimeModal = ({
                   <div className="flex items-center gap-1">
                     <input
                       type="number"
-                      min="1"
+                      min="0"
                       max="30"
                       value={iaoStartDays}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value) || 1;
-                        const clampedValue = Math.max(1, Math.min(30, value));
+                        const value = parseInt(e.target.value) || 0;
+                        const clampedValue = Math.max(0, Math.min(30, value));
                         setIaoStartDays(clampedValue);
                         if (startTimeError) setStartTimeError(false);
                       }}
-                      placeholder="1"
+                      placeholder="0"
                       className="w-16 bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 text-center"
                       disabled={isLoading || isIaoEnded}
                     />
@@ -364,7 +353,7 @@ export const UpdateIaoTimeModal = ({
                     <span className="text-gray-500 text-sm">{t('hours')}</span>
                   </div>
                 </div>
-                <div className="text-gray-500 text-xs mt-1">{t('startTimeHint')}</div>
+                <div className="text-gray-500 text-xs mt-1">可立即开始</div>
                 {startTimeError && (
                   <div className="text-red-500 text-xs mt-1">{t('startTimeError')}</div>
                 )}

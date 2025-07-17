@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError } from '@/lib/error';
 import { verify } from 'jsonwebtoken';
 import { getServerWalletAddress } from '@/lib/server-wallet/config';
+import { calculateRewardAmount } from '@/lib/utils';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
@@ -117,7 +118,7 @@ export async function POST(
         body: JSON.stringify({
           duration_hours: durationHours,
           owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
-          reward_amount: '2000000000000000000000000000', // 默认奖励数量
+          reward_amount: calculateRewardAmount(agent.totalSupply),
           reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: startTimestamp,
           token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
