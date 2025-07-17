@@ -93,6 +93,16 @@ class ApiClient {
     });
   }
 
+  async connectWalletNoSig(params: { address: string }) {
+    // 无需签名的钱包连接，直接使用地址登录
+    return this.request<{ token: string; address: string }>('/auth/wallet-connect-no-sig', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      noAuth: true,
+      maxRetries: 0
+    });
+  }
+  
   async disconnect() {
     return this.request('/auth/disconnect', {
       method: 'POST',

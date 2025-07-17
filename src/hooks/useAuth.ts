@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { apiClient } from '@/lib/api-client';
-import { useSignMessage } from 'wagmi';
 import { useAuthStore } from '@/stores/auth';
 import { useTranslations } from 'next-intl';
 import { useDisconnect } from 'wagmi';
 
 export function useAuth() {
   const { address, isConnected, status } = useAppKitAccount();
-  const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
   const t = useTranslations();
   const {
@@ -85,38 +83,12 @@ export function useAuth() {
         return;
       }
 
-      // 获取nonce
-      let nonceData;
-      try {
-        nonceData = await apiClient.getNonce();
-      } catch (error) {
-        console.error('获取nonce失败:', error);
-        setError(t('messages.getNonceFailed'));
-        setLoading(false);
-        return;
-      }
-
-      const { nonce } = nonceData;
       const formattedAddress = address.toLowerCase();
-      const message = `请签名以验证您是此钱包的所有者\n\n地址: ${formattedAddress}\nNonce: ${nonce}`;
-
-      // 请求用户签名
-      let signature;
+      
+      // 直接连接钱包（无需签名）
       try {
-        signature = await signMessageAsync({ message });
-      } catch (error: any) {
-        console.error('签名请求被拒绝:', error);
-        setError(t('messages.signatureRejected'));
-        setLoading(false);
-        return;
-      }
-
-      // 验证签名并登录
-      try {
-        const { token } = await apiClient.connectWallet({
-          address: formattedAddress,
-          signature,
-          message,
+        const { token } = await apiClient.connectWalletNoSig({
+          address: formattedAddress
         });
 
         // 保存token
@@ -150,11 +122,7 @@ export function useAuth() {
         }
         
         // 其他错误处理
-        if (error?.message?.includes('Nonce 已过期')) {
-          setError(t('messages.nonceExpired'));
-        } else {
-          setError(t('messages.walletConnectFailed'));
-        }
+        setError(t('messages.walletConnectFailed'));
         localStorage.removeItem('token');
         apiClient.clearToken();
         reset();
@@ -166,11 +134,7 @@ export function useAuth() {
       apiClient.clearToken();
       reset();
       disconnect();
-      if (error?.message?.includes('Nonce 已过期')) {
-        setError(t('messages.nonceExpired'));
-      } else {
-        setError(error instanceof Error ? error.message : t('messages.authenticationFailed'));
-      }
+      setError(error instanceof Error ? error.message : t('messages.authenticationFailed'));
     } finally {
       setLoading(false);
     }
@@ -181,7 +145,6 @@ export function useAuth() {
     isLoading,
     isAuthenticated,
     lastAuthAddress,
-    signMessageAsync,
     checkToken,
     setAuthenticated,
     setLoading,

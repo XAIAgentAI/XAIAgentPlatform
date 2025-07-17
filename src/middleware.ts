@@ -52,6 +52,7 @@ function needsAuth(path: string, method: string): boolean {
     '/api/cron/update-prices',
     '/api/auth/nonce',
     '/api/auth/wallet-connect',
+    '/api/auth/wallet-connect-no-sig',
     '/api/auth/disconnect',
     '/api/listener-status',
     '/api/restart-listener',
