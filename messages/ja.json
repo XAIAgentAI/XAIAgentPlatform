@@ -113,7 +113,6 @@
     "serverError": "サーバーエラー。後でもう一度お試しください",
     "getNonceFailed": "ログイン認証の取得に失敗しました。ページを更新して再試行してください",
     "signatureRejected": "署名が拒否されました",
-    "loginRejected": "ログインが拒否され、ウォレット接続が切断されました",
     "nonceExpired": "ログインセッションが期限切れです。ページを更新して再度ログインしてください",
     "walletConnectFailed": "ウォレット接続に失敗しました。ページを更新して再試行してください",
     "authenticationFailed": "認証に失敗しました。ページを更新して再試行してください",
