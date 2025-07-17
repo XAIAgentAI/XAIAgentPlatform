@@ -497,7 +497,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     }
     
     logPerformance(`用户身份变化处理完成 [${hookInstanceId}]`, startTime);
-  }, [address, isConnected, isAuthenticated, fetchUserStakeInfo, fetchUserBalance, updateState, hookInstanceId]);
+  }, [address, isConnected, isAuthenticated, fetchUserStakeInfo, fetchUserBalance, updateState, ]);
 
   // 监听合约地址变化，触发数据更新
   useEffect(() => {
@@ -519,7 +519,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     }
     
     logPerformance(`合约地址变化处理完成 [${hookInstanceId}]`, startTime);
-  }, [iaoContractAddress, tokenAddress, address, isConnected, fetchPoolInfo, fetchIaoProgress, checkIaoStatus, fetchUserStakeInfo, hookInstanceId]);
+  }, [iaoContractAddress, tokenAddress, address, isConnected, fetchPoolInfo, fetchIaoProgress, checkIaoStatus, fetchUserStakeInfo, ]);
 
   // 设置dbcAmount的方法 - 保持API兼容性
   const setDbcAmount = useCallback((value: string) => {
