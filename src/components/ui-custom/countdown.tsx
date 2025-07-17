@@ -8,11 +8,11 @@ interface CountdownProps {
   remainingTime: number; // Remaining time (milliseconds)
   className?: string;
   onEnd?: () => void; // Countdown end callback
-  mode?: 'full' | 'compact' | 'minimal'; // 显示模式: full(完整显示)、compact(紧凑显示)、minimal(最小显示)
-  hideZeroUnits?: boolean; // 是否隐藏为0的单位
-  alwaysShowSeconds?: boolean; // 是否始终显示秒数
-  color?: 'default' | 'warning' | 'danger' | 'success'; // 颜色主题
-  // 注意：IaoEndedView.tsx中原来的等待时间已被移除，不再使用10分钟或100分钟的等待期
+  mode?: 'full' | 'compact' | 'minimal'; // Display mode: full, compact, or minimal
+  hideZeroUnits?: boolean; // Whether to hide units with zero values
+  alwaysShowSeconds?: boolean; // Whether to always show seconds
+  color?: 'default' | 'warning' | 'danger' | 'success'; // Color theme
+  // Note: The waiting period in IaoEndedView.tsx has been removed, no longer using 10 or 100 minute waiting periods
 }
 
 export function Countdown({ 
@@ -78,7 +78,7 @@ export function Countdown({
     return () => clearInterval(timer);
   }, [remainingTime, onEnd]);
 
-  // 根据颜色主题设置样式
+  // Set styles based on color theme
   const getColorStyles = () => {
     switch (color) {
       case 'warning':
@@ -106,7 +106,7 @@ export function Countdown({
 
   const colorStyles = getColorStyles();
 
-  // 极简模式 - 只显示分:秒
+  // Minimal mode - only show minutes:seconds
   if (mode === 'minimal') {
     return (
       <div className={cn("flex items-center", className)}>
@@ -117,7 +117,7 @@ export function Countdown({
     );
   }
 
-  // 紧凑模式 - 数字和单位组合在一起，但不使用div分隔
+  // Compact mode - numbers and units combined without div separators
   if (mode === 'compact') {
     const parts: string[] = [];
     if (timeLeft.days > 0 || !hideZeroUnits) parts.push(`${timeLeft.days}${t('days')}`);
@@ -132,7 +132,7 @@ export function Countdown({
     );
   }
 
-  // 完整模式 - 默认样式
+  // Full mode - default style
   return (
     <div className={cn("flex items-center gap-2 flex-wrap", className)}>
       {(timeLeft.days > 0 || !hideZeroUnits) && (

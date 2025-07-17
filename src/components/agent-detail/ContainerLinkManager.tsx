@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { agentAPI } from '@/services/api';
@@ -10,6 +11,7 @@ interface ContainerLinkManagerProps {
 }
 
 export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerProps) {
+  const t = useTranslations('containerLinkManager');
   const [isEditingContainer, setIsEditingContainer] = useState(false);
   const [containerLinkInput, setContainerLinkInput] = useState('');
   const [isUpdatingContainer, setIsUpdatingContainer] = useState(false);
@@ -22,7 +24,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
   const handleSaveContainer = async () => {
     if (!containerLinkInput.trim()) {
       toast({
-        description: '请输入容器链接',
+        description: t('pleaseEnterContainerLink'),
         variant: 'destructive',
       });
       return;
@@ -35,14 +37,14 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
       // 确保是HTTPS协议
       if (urlObj.protocol !== 'https:') {
         toast({
-          description: '容器链接必须使用HTTPS协议',
+          description: t('mustUseHttps'),
           variant: 'destructive',
         });
         return;
       }
     } catch {
       toast({
-        description: '请输入有效的链接格式',
+        description: t('enterValidLinkFormat'),
         variant: 'destructive',
       });
       return;
@@ -63,7 +65,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
         (agent as any).containerLink = fullUrl;
         setIsEditingContainer(false);
         toast({
-          description: '容器链接更新成功',
+          description: t('updateSuccess'),
         });
       } else {
         throw new Error(response.message);
@@ -71,7 +73,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
     } catch (error) {
       console.error('更新容器链接失败:', error);
       toast({
-        description: '容器链接更新失败',
+        description: t('updateFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -87,7 +89,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
   const handleCopyLink = () => {
     navigator.clipboard.writeText((agent as any).containerLink);
     toast({
-      description: '容器链接已复制到剪贴板',
+      description: t('copied'),
     });
   };
 
@@ -103,7 +105,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="block">
-              容器链接 <span className="text-gray-500 text-sm">(可选)</span>
+              {t('containerLink')} <span className="text-gray-500 text-sm">({t('optional')})</span>
             </label>
             <div className="flex gap-2">
               <Button
@@ -111,7 +113,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
                 disabled={isUpdatingContainer}
                 size="sm"
               >
-                {isUpdatingContainer ? '保存中...' : '保存'}
+                {isUpdatingContainer ? t('saving') : t('save')}
               </Button>
               {(agent as any).containerLink && (
                 <Button
@@ -120,7 +122,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
                   size="sm"
                   disabled={isUpdatingContainer}
                 >
-                  取消
+                  {t('cancel')}
                 </Button>
               )}
             </div>
@@ -142,13 +144,13 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
               placeholder="example.com/your-container-image"
             />
           </div>
-          <div className="text-gray-400 text-sm mt-1">例如：hub.docker.com/r/username/image 或其他容器镜像链接</div>
+          <div className="text-gray-400 text-sm mt-1">{t('example')}</div>
         </div>
       ) : (
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="block">
-              容器链接
+              {t('containerLink')}
             </label>
             <Button
               onClick={handleEditContainer}
@@ -156,7 +158,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
               size="sm"
               className="text-xs"
             >
-              编辑
+              {t('edit')}
             </Button>
           </div>
           <div className="flex items-center gap-2 p-1.5 bg-white dark:bg-[#1a1a1a] rounded-lg border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
@@ -171,7 +173,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
             <button
               onClick={handleCopyLink}
               className="text-muted-foreground hover:text-foreground transition-colors p-1"
-              aria-label="复制容器链接"
+              aria-label={t('copyContainerLink')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

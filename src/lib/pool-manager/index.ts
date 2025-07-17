@@ -489,16 +489,21 @@ export class PoolManager {
       // 确定token0和token1的顺序
       const isToken0 = tokenAddress.toLowerCase() < DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS.toLowerCase();
 
-      // 统一计算：一个代币等于多少XAA (XAA/代币的比例)
-      const tokenToXaaRate = parseFloat(xaaAmount) / parseFloat(tokenAmount);
-      const uniswapPrice = tokenToXaaRate
+      // 根据代币顺序计算正确的价格方向
+      let uniswapPrice;
+      if (isToken0) {
+        // 如果代币是token0，XAA是token1，价格是XAA/代币
+        uniswapPrice = parseFloat(xaaAmount) / parseFloat(tokenAmount);
+      } else {
+        // 如果XAA是token0，代币是token1，价格是代币/XAA
+        uniswapPrice = parseFloat(tokenAmount) / parseFloat(xaaAmount);
+      }
 
       console.log(`💰 计算的Uniswap价格:`);
       console.log(`  - XAA地址: ${DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS}`);
       console.log(`  - 代币地址: ${tokenAddress}`);
       console.log(`  - 代币数量: ${tokenAmount}`);
       console.log(`  - XAA数量: ${xaaAmount}`);
-      console.log(`  - 代币:XAA比例: 1:${tokenToXaaRate} (一个代币等于${tokenToXaaRate}个XAA)`);
       console.log(`  - 代币是token0: ${isToken0}`);
       console.log(`  - token0: ${isToken0 ? tokenAddress : DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS}`);
       console.log(`  - token1: ${isToken0 ? DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS : tokenAddress}`);
@@ -576,95 +581,31 @@ export class PoolManager {
     let tickLower: number;
     let tickUpper: number;
 
-    if (uniswapPrice && uniswapPrice > 0) {
-      // 基于Uniswap价格计算理想的tick范围
-      const minPrice = uniswapPrice * 0.2;  // 20%
-      const maxPrice = uniswapPrice * 5.0;  // 500%
+    // 直接基于当前tick设置范围，使用更大的范围确保当前tick在中间
+    const tickRange = 30000; // 扩大范围到30000，确保能包含大多数价格情况
+    tickLower = Math.floor((currentTick - tickRange) / tickSpacing) * tickSpacing;
+    tickUpper = Math.floor((currentTick + tickRange) / tickSpacing) * tickSpacing;
 
-      // 将价格转换为tick（使用更精确的计算方式）
-      // tick = log(price) / log(1.0001)
-      // 注意：Uniswap V3的tick范围限制在 -887272 到 887272 之间
-      let idealTickLower = Math.floor(Math.log(minPrice) / Math.log(1.0001));
-      let idealTickUpper = Math.floor(Math.log(maxPrice) / Math.log(1.0001));
-      
-      // 处理极端价格情况，确保tick值在Uniswap V3允许的范围内
-      const MIN_TICK = -887272;
-      const MAX_TICK = 887272;
-      
-      if (idealTickLower < MIN_TICK) {
-        console.log(`⚠️ 警告: 计算的tickLower (${idealTickLower}) 低于允许的最小值，使用最小tick: ${MIN_TICK}`);
-        idealTickLower = MIN_TICK;
-      }
-      
-      if (idealTickUpper > MAX_TICK) {
-        console.log(`⚠️ 警告: 计算的tickUpper (${idealTickUpper}) 高于允许的最大值，使用最大tick: ${MAX_TICK}`);
-        idealTickUpper = MAX_TICK;
-      }
-      
-      // 根据tick间距调整
-      tickLower = Math.floor(idealTickLower / tickSpacing) * tickSpacing;
-      tickUpper = Math.floor(idealTickUpper / tickSpacing) * tickSpacing;
-
-      console.log(`📊 基于Uniswap价格的Tick范围计算:`);
-      console.log(`  - Uniswap价格: ${uniswapPrice}`);
-      console.log(`  - 最小价格 (20%): ${minPrice}`);
-      console.log(`  - 最大价格 (500%): ${maxPrice}`);
-      console.log(`  - 理想tickLower: ${idealTickLower}`);
-      console.log(`  - 理想tickUpper: ${idealTickUpper}`);
-      console.log(`  - 调整后tickLower: ${tickLower}`);
-      console.log(`  - 调整后tickUpper: ${tickUpper}`);
-      console.log(`  - 当前tick: ${currentTick}`);
-      
-      // 确保当前tick在范围内
-      if (currentTick < tickLower || currentTick >= tickUpper) {
-        console.log(`⚠️ 警告: 当前tick (${currentTick}) 不在计算范围内, 调整范围...`);
-        // 调整范围确保当前tick在范围内
-        // 我们保留价格范围的大小，但移动范围使当前tick位于中间
-        const tickRange = tickUpper - tickLower;
-        
-        // 计算新的范围，确保当前tick在范围中间位置
-        let newTickLower = Math.floor((currentTick - tickRange / 2) / tickSpacing) * tickSpacing;
-        let newTickUpper = Math.floor((currentTick + tickRange / 2) / tickSpacing) * tickSpacing;
-        
-        // 确保新范围也在Uniswap V3允许的范围内
-        if (newTickLower < MIN_TICK) {
-          newTickLower = MIN_TICK;
-          newTickUpper = Math.min(MAX_TICK, MIN_TICK + tickRange);
-        }
-        
-        if (newTickUpper > MAX_TICK) {
-          newTickUpper = MAX_TICK;
-          newTickLower = Math.max(MIN_TICK, MAX_TICK - tickRange);
-        }
-        
-        console.log(`🔄 调整后的范围:`);
-        console.log(`  - 新tickLower: ${newTickLower}`);
-        console.log(`  - 新tickUpper: ${newTickUpper}`);
-        console.log(`  - 新价格范围: ${Math.pow(1.0001, newTickLower).toFixed(8)} - ${Math.pow(1.0001, newTickUpper).toFixed(8)}`);
-        
-        // 使用调整后的范围
-        tickLower = newTickLower;
-        tickUpper = newTickUpper;
-        
-        // 再次验证tick是否在范围内
-        if (currentTick < tickLower || currentTick >= tickUpper) {
-          console.log(`🔴 严重警告: 调整后的范围仍然不包含当前tick，可能导致滑点检查失败`);
-          console.log(`  - 当前tick: ${currentTick}`);
-          console.log(`  - 调整后范围: ${tickLower} 到 ${tickUpper}`);
-        }
-      }
-    } else {
-      // 如果没有IAO价格，使用当前tick动态计算
-      const tickRange = 1000;
-      tickLower = Math.floor((currentTick - tickRange) / tickSpacing) * tickSpacing;
-      tickUpper = Math.floor((currentTick + tickRange) / tickSpacing) * tickSpacing;
-
-      console.log(`📊 基于当前tick的范围计算:`);
-      console.log(`  - 当前tick: ${currentTick}`);
-      console.log(`  - tickLower: ${tickLower}`);
-      console.log(`  - tickUpper: ${tickUpper}`);
-      console.log(`  - tick范围: ${tickRange * 2} ticks`);
+    // 处理极端价格情况，确保tick值在Uniswap V3允许的范围内
+    const MIN_TICK = -887272;
+    const MAX_TICK = 887272;
+    
+    if (tickLower < MIN_TICK) {
+      console.log(`⚠️ 警告: 计算的tickLower (${tickLower}) 低于允许的最小值，使用最小tick: ${MIN_TICK}`);
+      tickLower = MIN_TICK;
     }
+    
+    if (tickUpper > MAX_TICK) {
+      console.log(`⚠️ 警告: 计算的tickUpper (${tickUpper}) 高于允许的最大值，使用最大tick: ${MAX_TICK}`);
+      tickUpper = MAX_TICK;
+    }
+
+    console.log(`📊 基于当前tick的范围计算:`);
+    console.log(`  - 当前tick: ${currentTick}`);
+    console.log(`  - tickLower: ${tickLower}`);
+    console.log(`  - tickUpper: ${tickUpper}`);
+    console.log(`  - tick范围: ${tickUpper - tickLower} ticks`);
+    console.log(`  - 价格范围: ${Math.pow(1.0001, tickLower).toFixed(10)} - ${Math.pow(1.0001, tickUpper).toFixed(10)}`);
 
     // 验证并记录最终的tick范围
     const tickInRange = currentTick >= tickLower && currentTick < tickUpper;
@@ -672,16 +613,35 @@ export class PoolManager {
     console.log(`  - 当前tick: ${currentTick}`);
     console.log(`  - tickLower: ${tickLower}`);
     console.log(`  - tickUpper: ${tickUpper}`);
-    console.log(`  - tick在范围内: ${tickInRange}`);
-    console.log(`  - 价格范围: ${Math.pow(1.0001, tickLower).toFixed(8)} - ${Math.pow(1.0001, tickUpper).toFixed(8)}`);
+    console.log(`  - tick在范围内: ${tickInRange ? '✅' : '❌'}`);
+    console.log(`  - 价格范围: ${Math.pow(1.0001, tickLower).toFixed(10)} - ${Math.pow(1.0001, tickUpper).toFixed(10)}`);
 
     // 确保当前tick在范围内
     if (!tickInRange) {
-      // 这种情况理论上不应该发生，因为我们已经做了调整
-      // 但如果还是发生了，我们记录一个警告，然后继续执行
-      // 用户可能希望尝试添加流动性，即使有滑点风险
-      console.warn(`⚠️ 警告: 当前tick (${currentTick}) 仍不在设置的范围内 [${tickLower}, ${tickUpper})`);
-      console.warn('继续尝试添加流动性，但可能会失败，请注意滑点风险');
+      console.warn(`⚠️ 警告: 当前tick (${currentTick}) 不在设置的范围内 [${tickLower}, ${tickUpper})`);
+      console.warn('调整范围以包含当前tick...');
+      
+      // 如果当前tick不在范围内，重新调整范围
+      if (currentTick < tickLower) {
+        const diff = tickLower - currentTick;
+        tickLower = Math.floor((currentTick - tickSpacing) / tickSpacing) * tickSpacing;
+        tickUpper = Math.max(tickUpper - diff, tickLower + 10000); // 保持至少10000的范围
+      } else if (currentTick >= tickUpper) {
+        const diff = currentTick - tickUpper + 1;
+        tickUpper = Math.floor((currentTick + tickSpacing) / tickSpacing) * tickSpacing;
+        tickLower = Math.min(tickLower + diff, tickUpper - 10000); // 保持至少10000的范围
+      }
+      
+      console.log(`🔄 调整后的范围:`);
+      console.log(`  - 新tickLower: ${tickLower}`);
+      console.log(`  - 新tickUpper: ${tickUpper}`);
+      console.log(`  - 新价格范围: ${Math.pow(1.0001, tickLower).toFixed(10)} - ${Math.pow(1.0001, tickUpper).toFixed(10)}`);
+      
+      // 再次验证tick是否在范围内
+      const newTickInRange = currentTick >= tickLower && currentTick < tickUpper;
+      if (!newTickInRange) {
+        throw new Error(`无法调整tick范围以包含当前tick (${currentTick})`);
+      }
     }
 
     // 计算滑点

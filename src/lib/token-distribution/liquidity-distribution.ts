@@ -154,8 +154,25 @@ export class LiquidityDistributionManager {
       console.log(`  - XAA数量: ${xaaAmount}`);
 
       // 2. 计算IAO初始价格（基于投入比例）
-      const iaoPrice = parseFloat(xaaAmount) / parseFloat(tokenAmount);
-      console.log(`💰 IAO初始价格: ${iaoPrice} XAA/Token (${xaaAmount} XAA / ${tokenAmount} Token)`);
+      // 确定token0和token1的顺序
+      const { DBCSWAP_CONFIG } = await import('@/lib/pool-manager');
+      const isToken0 = params.tokenAddress.toLowerCase() < DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS.toLowerCase();
+      
+      // 根据代币顺序计算正确的价格方向
+      let iaoPrice;
+      if (isToken0) {
+        // 如果代币是token0，XAA是token1，价格是XAA/代币
+        iaoPrice = parseFloat(xaaAmount) / parseFloat(tokenAmount);
+      } else {
+        // 如果XAA是token0，代币是token1，价格是代币/XAA
+        iaoPrice = parseFloat(tokenAmount) / parseFloat(xaaAmount);
+      }
+      
+      console.log(`💰 IAO初始价格计算:`);
+      console.log(`  - 代币是token0: ${isToken0}`);
+      console.log(`  - token0: ${isToken0 ? params.tokenAddress : DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS}`);
+      console.log(`  - token1: ${isToken0 ? DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS : params.tokenAddress}`);
+      console.log(`  - IAO初始价格 (token1/token0): ${iaoPrice}`);
 
       // 3. 检查Agent状态
       const agent = await prisma.agent.findUnique({

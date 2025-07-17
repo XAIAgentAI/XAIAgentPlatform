@@ -694,7 +694,8 @@ export async function distributeTokens(
         const { walletClient, publicClient } = initializeClients();
         
         // 导入XAA合约ABI
-        const xaaAbi = await import('@/config/xaa-abi.json');
+        const xaaAbiModule = await import('@/config/xaa-abi.json');
+        const xaaAbi = xaaAbiModule.default; // 提取default属性获取实际的ABI数组
         
         // 使用transferAndLock函数，锁定50秒
         const hash = await walletClient.writeContract({
