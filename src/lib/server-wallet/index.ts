@@ -705,7 +705,7 @@ export async function distributeTokens(
           args: [
             agentInfo.creator.address as `0x${string}`, 
             parseEther(distributions.creator),
-            BigInt(5045760) // 锁定50次，8年，一次5045760秒
+            BigInt(40 * 24*60*60) // 锁定40天
           ],
         });
         
