@@ -198,7 +198,7 @@ export const IaoActiveView = ({
         </span>
         <span className="font-semibold text-[#F47521] break-all">
           {poolInfo?.startTime ? (
-            isPoolInfoLoading ? "--" : formatNumber(iaoProgress.totalDeposited)
+            isPoolInfoLoading ? "--" : formatNumber(poolInfo.totalDeposited)
           ) : "0"}
         </span>
       </div>

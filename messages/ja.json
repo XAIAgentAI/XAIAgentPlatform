@@ -1087,5 +1087,26 @@
     "updateFailed": "コンテナリンクの更新に失敗しました",
     "copied": "コンテナリンクがクリップボードにコピーされました",
     "copyContainerLink": "コンテナリンクをコピー"
+  },
+  "errors": {
+    "error": "エラー",
+    "success": "成功",
+    "unknownError": "不明なエラー",
+    "networkError": "ネットワークエラー、接続を確認してください",
+    "unauthorized": "未認証の操作です、ログインしてください",
+    "serverError": "サーバーエラー、後でもう一度お試しください",
+    "invalidInput": "無効な入力です、もう一度お試しください",
+    "connectWalletFirst": "先にウォレットを接続してください",
+    "walletAuthRequired": "ウォレットを接続して認証を完了してください",
+    "operationFailed": "操作に失敗しました",
+    "notAuthorized": "この操作を実行する権限がありません",
+    "queryTimeout": "クエリがタイムアウトしました",
+    "queryFailed": "クエリに失敗しました",
+    "taskStillProcessing": "タスクはまだ処理中です、後で手動で更新してください",
+    "cannotGetTaskStatus": "タスクステータスを取得できません、後で手動で更新してください",
+    "invalidToken": "無効なトークンです",
+    "unauthorizedAccess": "未認証のアクセスです",
+    "updateSuccess": "更新に成功しました",
+    "updateFailed": "更新に失敗しました"
   }
 }

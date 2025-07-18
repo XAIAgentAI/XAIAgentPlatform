@@ -51,7 +51,8 @@ export const IaoEndedView = ({
   isClaiming,
   canClaim
 }: IaoEndedViewProps) => {
-  const t = useTranslations('tokenDistribution');
+  const tTokenDistribution = useTranslations('tokenDistribution');
+  const tIaoPool = useTranslations('iaoPool');
   const { toast } = useToast();
   const [isBurning, setIsBurning] = useState(false);
   const [isTransferringOwnership, setIsTransferringOwnership] = useState(false);
@@ -81,8 +82,8 @@ export const IaoEndedView = ({
 
     if (!isAuthenticated) {
       toast({
-        title: t('error'),
-        description: t('connectWalletFirst'),
+        title: tIaoPool('error'),
+        description: tIaoPool('connectWalletFirst'),
       });
       return;
     }
@@ -94,16 +95,16 @@ export const IaoEndedView = ({
 
       if (result?.success) {
         toast({
-          title: t('claimSuccess'),
-          description: t('refundSentToWallet'),
+          title: tIaoPool('claimSuccess'),
+          description: tIaoPool('refundSentToWallet'),
         });
       } else {
-        throw new Error(result?.error || t('claimFailed'));
+        throw new Error(result?.error || tIaoPool('claimFailed'));
       }
     } catch (error: any) {
-      const errorMessage = error.message || t('claimFailed');
+      const errorMessage = error.message || tIaoPool('claimFailed');
       toast({
-        title: t('error'),
+        title: tIaoPool('error'),
         description: errorMessage,
       });
     }
@@ -120,8 +121,8 @@ export const IaoEndedView = ({
       const token = localStorage.getItem('token');
       if (!token) {
         toast({
-          title: t('error'),
-          description: t('walletAuthRequired'),
+          title: tTokenDistribution('error'),
+          description: tTokenDistribution('walletAuthRequired'),
           variant: 'destructive',
         });
         return;
@@ -145,20 +146,20 @@ export const IaoEndedView = ({
 
       if (result.code === 200) {
         toast({
-          title: t('burnTaskSubmitted'),
-          description: t('taskSubmitted'),
+          title: tTokenDistribution('burnTaskSubmitted'),
+          description: tTokenDistribution('taskSubmitted'),
         });
 
         // 刷新状态
         onRefreshStatus();
       } else {
-        throw new Error(result.message || t('burnFailed'));
+        throw new Error(result.message || tTokenDistribution('burnFailed'));
       }
     } catch (error) {
       console.error('销毁XAA失败:', error);
       toast({
-        title: t('burnFailed'),
-        description: error instanceof Error ? error.message : t('unknownError'),
+        title: tTokenDistribution('burnFailed'),
+        description: error instanceof Error ? error.message : tTokenDistribution('unknownError'),
         variant: 'destructive',
       });
     } finally {
@@ -193,8 +194,8 @@ export const IaoEndedView = ({
           if (task.status === 'COMPLETED') {
             console.log('✅ 所有权转移任务完成');
             toast({
-              title: t('ownershipTransferSuccess'),
-              description: t('ownershipTransferredToCreator'),
+              title: tIaoPool('ownershipTransferSuccess'),
+              description: tIaoPool('ownershipTransferredToCreator'),
             });
             setIsTransferringOwnership(false);
             onRefreshStatus(); // 刷新整体状态
@@ -202,8 +203,8 @@ export const IaoEndedView = ({
           } else if (task.status === 'FAILED') {
             console.log('❌ 所有权转移任务失败');
             toast({
-              title: t('ownershipTransferFailed'),
-              description: task.result?.message || t('transferError'),
+              title: tIaoPool('ownershipTransferFailed'),
+              description: task.result?.message || tIaoPool('transferError'),
               variant: 'destructive',
             });
             setIsTransferringOwnership(false);
@@ -215,15 +216,15 @@ export const IaoEndedView = ({
             } else {
               console.log('⏰ 轮询超时');
               toast({
-                title: t('queryTimeout'),
-                description: t('taskStillProcessing'),
+                title: tIaoPool('queryTimeout'),
+                description: tIaoPool('taskStillProcessing'),
                 variant: 'destructive',
               });
               setIsTransferringOwnership(false);
             }
           }
         } else {
-          throw new Error(result.message || t('queryFailed'));
+          throw new Error(result.message || tIaoPool('queryFailed'));
         }
       } catch (error) {
         console.error('轮询任务状态失败:', error);
@@ -231,8 +232,8 @@ export const IaoEndedView = ({
           setTimeout(poll, 5000); // 出错后也继续重试
         } else {
           toast({
-            title: t('queryFailed'),
-            description: t('cannotGetTaskStatus'),
+            title: tIaoPool('queryFailed'),
+            description: tIaoPool('cannotGetTaskStatus'),
             variant: 'destructive',
           });
           setIsTransferringOwnership(false);
@@ -251,8 +252,8 @@ export const IaoEndedView = ({
       const token = localStorage.getItem('token');
       if (!token) {
         toast({
-          title: t('error'),
-          description: t('walletAuthRequired'),
+          title: tIaoPool('error'),
+          description: tIaoPool('walletAuthRequired'),
           variant: 'destructive',
         });
         setIsTransferringOwnership(false);
@@ -278,20 +279,20 @@ export const IaoEndedView = ({
         setOwnershipTaskStatus('PENDING');
 
         toast({
-          title: t('ownershipTransferTaskSubmitted'),
-          description: t('taskSubmitted'),
+          title: tIaoPool('ownershipTransferTaskSubmitted'),
+          description: tIaoPool('taskSubmitted'),
         });
 
         // 开始轮询任务状态
         pollOwnershipTaskStatus(taskId);
       } else {
-        throw new Error(result.message || t('ownershipTransferFailed'));
+        throw new Error(result.message || tIaoPool('ownershipTransferFailed'));
       }
     } catch (error) {
       console.error('转移代币所有权失败:', error);
       toast({
-        title: t('ownershipTransferFailed'),
-        description: error instanceof Error ? error.message : t('unknownError'),
+        title: tIaoPool('ownershipTransferFailed'),
+        description: error instanceof Error ? error.message : tIaoPool('unknownError'),
         variant: 'destructive',
       });
       setIsTransferringOwnership(false);
@@ -321,17 +322,17 @@ export const IaoEndedView = ({
   // IAO完成数据展示 - 只负责渲染，不处理逻辑
   const IaoCompletedData = () => (
     <div className="mt-6 sm:mt-8">
-      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{t('iaoCompletedData')}</h2>
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('iaoCompletedData')}</h2>
       <div className="space-y-3 sm:space-y-4">
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{t('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
+          <span className="text-black font-medium">{tIaoPool('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
             {formatNumber((agent.totalSupply || 0) * 0.15)}
           </span>
         </div>
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
           <span className="text-black font-medium">
-            {t('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+            {tIaoPool('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
           </span>
           <span className="font-semibold text-[#F47521] break-all">
             {isPoolInfoLoading ? "--" : formatNumber(poolInfo?.totalDeposited || '0')}
@@ -344,16 +345,16 @@ export const IaoEndedView = ({
   // LP池数据展示 - 只负责渲染，不处理逻辑
   const LpPoolData = () => (
     <div className="mt-6 sm:mt-8">
-      <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{t('lpPoolData')}</h3>
+      <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{tIaoPool('lpPoolData')}</h3>
       <div className="space-y-3 sm:space-y-4">
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{t('lpPoolTokenAmount', { symbol: agent.symbol })}:</span>
+          <span className="text-black font-medium">{tIaoPool('lpPoolTokenAmount', { symbol: agent.symbol })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
             {formatNumber((agent as any).targetTokenAmountLp || 0)}
           </span>
         </div>
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{t('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+          <span className="text-black font-medium">{tIaoPool('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
           <span className="font-semibold text-[#F47521] break-all">
             {formatNumber((agent as any).baseTokenAmountLp || 0)}
           </span>
@@ -375,10 +376,10 @@ export const IaoEndedView = ({
 
     return (
       <div className="mt-6 sm:mt-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{t('yourStakeInfo')}</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('yourStakeInfo')}</h2>
         <div className="space-y-3 sm:space-y-4">
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
-            <span className="text-black font-medium">{t('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+            <span className="text-black font-medium">{tIaoPool('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
             <span className="font-semibold text-[#F47521] break-all">
               {formatNumber(userStakeInfo.userDeposited)}
             </span>
@@ -388,8 +389,8 @@ export const IaoEndedView = ({
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
             <span className="text-black font-medium">
               {userStakeInfo.hasClaimed ? 
-                t('claimedAmount', { symbol: agent.symbol }) : 
-                t('claimableAmount', { symbol: agent.symbol })}:
+                tIaoPool('claimedAmount', { symbol: agent.symbol }) : 
+                tIaoPool('claimableAmount', { symbol: agent.symbol })}:
             </span>
             <span className="font-semibold text-[#F47521] break-all">
               {formatNumber(userStakeInfo.hasClaimed ? 
@@ -409,7 +410,7 @@ export const IaoEndedView = ({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span className="text-sm font-medium text-yellow-700">
-                      {t('waitingForTokenCreation')}
+                      {tIaoPool('waitingForTokenCreation')}
                     </span>
                   </div>
                 </div>
@@ -430,19 +431,19 @@ export const IaoEndedView = ({
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        {t('claiming')}
+                        {tIaoPool('claiming')}
                       </>
                     ) : userStakeInfo.hasClaimed ? (
-                      t('rewardClaimed')
+                      tIaoPool('rewardClaimed')
                     ) : (
-                      t('claimRewards')
+                      tIaoPool('claimRewards')
                     )}
                   </Button>
 
                   {/* 添加代币地址复制功能 */}
                   {userStakeInfo.hasClaimed && agent.tokenAddress && (
                     <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-700 mb-2">{t('importTokenAddress')}</p>
+                      <p className="text-sm text-gray-700 mb-2">{tIaoPool('importTokenAddress')}</p>
                       <div className="relative">
                         <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
                           {agent.tokenAddress}
@@ -454,7 +455,7 @@ export const IaoEndedView = ({
                           onClick={() => {
                             navigator.clipboard.writeText(agent.tokenAddress || '');
                             toast({
-                              title: t('copied'),
+                              title: tIaoPool('copied'),
                               duration: 2000,
                             });
                           }}
@@ -463,7 +464,7 @@ export const IaoEndedView = ({
                             <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                             <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                           </svg>
-                          {t('copy')}
+                          {tIaoPool('copy')}
                         </Button>
                       </div>
                     </div>
@@ -482,11 +483,11 @@ export const IaoEndedView = ({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span className="text-sm font-medium text-yellow-700">
-                      {t('waitingForRefund')}
+                      {tIaoPool('waitingForRefund')}
                     </span>
                   </div>
                   <div className="flex items-center text-yellow-600">
-                    <span className="text-xs mr-1">{t('remainingTime')}:</span>
+                    <span className="text-xs mr-1">{tIaoPool('remainingTime')}:</span>
                     {poolInfo?.endTime && (
                       <Countdown 
                         remainingTime={(poolInfo.endTime * 1000) + (10 * 60 * 1000) - Date.now()}
@@ -515,14 +516,14 @@ export const IaoEndedView = ({
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    {t('claiming')}
+                    {tIaoPool('claiming')}
                   </>
                 ) : userStakeInfo.hasClaimed ? (
-                  t('refundClaimed')
+                  tIaoPool('refundClaimed')
                 ) : !canClaim && Number(userStakeInfo.userDeposited) > 0 && !isClaiming ? (
-                  t('waitingToClaimRefund')
+                  tIaoPool('waitingToClaimRefund')
                 ) : (
-                  t('claimRefund')
+                  tIaoPool('claimRefund')
                 )}
               </Button>
             </div>
@@ -540,10 +541,10 @@ export const IaoEndedView = ({
         {isCreator && isIaoSuccessful && (
           <div className="bg-white rounded-lg border p-4 mb-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">{t('iaoManagement')}</h3>
+              <h3 className="text-lg font-semibold text-gray-800">{tTokenDistribution('iaoManagement')}</h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-green-600 font-medium">{t('iaoSuccessful')}</span>
+                <span className="text-sm text-green-600 font-medium">{tTokenDistribution('iaoSuccessful')}</span>
               </div>
             </div>
 
@@ -559,22 +560,22 @@ export const IaoEndedView = ({
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🪙</span>
                   <div>
-                    <div className="font-medium text-sm">1. {t('createToken')}</div>
-                    <div className="text-xs text-gray-600">{t('deployDrc20Contract')}</div>
+                    <div className="font-medium text-sm">1. {tTokenDistribution('createToken')}</div>
+                    <div className="text-xs text-gray-600">{tTokenDistribution('deployDrc20Contract')}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {agent.tokenAddress ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{t('completed')}</span>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
                   ) : isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{t('creating')}</span>
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('creating')}</span>
                   ) : tokenCreationTask?.status === 'FAILED' ? (
                     <Button size="sm" onClick={onCreateToken} variant="destructive">
-                      {t('retryCreation')}
+                      {tTokenDistribution('retryCreation')}
                     </Button>
                   ) : (
                     <Button size="sm" onClick={onCreateToken} disabled={isCreating}>
-                      {t('createToken')}
+                      {tTokenDistribution('createToken')}
                     </Button>
                   )}
                 </div>
@@ -590,29 +591,29 @@ export const IaoEndedView = ({
                 <div className="flex items-center gap-3">
                   <span className="text-lg">📤</span>
                   <div>
-                    <div className="font-medium text-sm">2. {t('tokenDistribution')}</div>
-                    <div className="text-xs text-gray-600">{t('distributeTokensAddLiquidity')}</div>
+                    <div className="font-medium text-sm">2. {tTokenDistribution('tokenDistribution')}</div>
+                    <div className="text-xs text-gray-600">{tTokenDistribution('distributeTokensAddLiquidity')}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {agent.tokensDistributed && agent.liquidityAdded ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{t('completed')}</span>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
                   ) : distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{t('distributing')}</span>
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('distributing')}</span>
                   ) : distributionTask?.status === 'FAILED' ? (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{t('distributionFailed')}</span>
+                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{tTokenDistribution('distributionFailed')}</span>
                       <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
                     </div>
                   ) : distributionTask?.status === 'FAILED' ? (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{t('distributionFailed')}</span>
+                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{tTokenDistribution('distributionFailed')}</span>
                       <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
                     </div>
                   ) : agent.tokenAddress ? (
                     <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
                   ) : (
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{t('waiting')}</span>
+                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{tTokenDistribution('waiting')}</span>
                   )}
                 </div>
               </div>
@@ -626,21 +627,21 @@ export const IaoEndedView = ({
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🔥</span>
                   <div>
-                    <div className="font-medium text-sm">3. {t('burnTokens')}</div>
-                    <div className="text-xs text-gray-600">{t('burnXaaTokens')}</div>
+                    <div className="font-medium text-sm">3. {tTokenDistribution('burnTokens')}</div>
+                    <div className="text-xs text-gray-600">{tTokenDistribution('burnXaaTokens')}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {agent.tokensBurned ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{t('completed')}</span>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
                   ) : isBurning ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{t('burning')}</span>
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('burning')}</span>
                   ) : agent.tokensDistributed && agent.liquidityAdded ? (
                     <Button size="sm" onClick={handleBurnTokens} disabled={isBurning}>
-                      {t('burnTokens')}
+                      {tTokenDistribution('burnTokens')}
                     </Button>
                   ) : (
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{t('waiting')}</span>
+                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{tTokenDistribution('waiting')}</span>
                   )}
                 </div>
               </div>
@@ -654,18 +655,18 @@ export const IaoEndedView = ({
                   <div className="flex items-center gap-3">
                     <span className="text-lg">🔑</span>
                     <div>
-                      <div className="font-medium text-sm">4. {t('transferOwnership')}</div>
-                      <div className="text-xs text-gray-600">{t('transferTokenOwnership')}</div>
+                      <div className="font-medium text-sm">4. {tIaoPool('transferOwnership')}</div>
+                      <div className="text-xs text-gray-600">{tIaoPool('transferTokenOwnership')}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     {agent.ownershipTransferred ? (
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{t('completed')}</span>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
                     ) : isTransferringOwnership ? (
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{t('transferring')}</span>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('transferring')}</span>
                     ) : (
                       <Button size="sm" onClick={handleTransferOwnership} disabled={isTransferringOwnership}>
-                        {t('transferOwnership')}
+                        {tIaoPool('transferOwnership')}
                       </Button>
                     )}
                   </div>
@@ -675,7 +676,7 @@ export const IaoEndedView = ({
               {/* 代币地址显示 */}
               {agent.tokenAddress && (
                 <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 text-sm">
-                  <span className="font-medium">{t('tokenAddress')}:</span>
+                  <span className="font-medium">{tTokenDistribution('tokenAddress')}:</span>
                   <code className="bg-gray-100 px-2 py-1 rounded text-xs break-all flex-1">
                     {agent.tokenAddress}
                   </code>
@@ -685,7 +686,7 @@ export const IaoEndedView = ({
                     onClick={() => {
                       navigator.clipboard.writeText(agent.tokenAddress || '');
                       toast({
-                        title: t('copied'),
+                        title: tIaoPool('copied'),
                         duration: 2000,
                       });
                     }}
@@ -694,7 +695,7 @@ export const IaoEndedView = ({
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                       <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     </svg>
-                    {t('copy')}
+                    {tIaoPool('copy')}
                   </Button>
                 </div>
               )}
@@ -706,7 +707,7 @@ export const IaoEndedView = ({
                     <svg className="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>{t('managementCompleted')}</span>
+                    <span>{tTokenDistribution('managementCompleted')}</span>
                   </div>
                 </div>
               )}

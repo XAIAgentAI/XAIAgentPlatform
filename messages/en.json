@@ -1049,5 +1049,26 @@
     "updateFailed": "Failed to update container link",
     "copied": "Container link copied to clipboard",
     "copyContainerLink": "Copy container link"
+  },
+  "errors": {
+    "error": "Error",
+    "success": "Success",
+    "unknownError": "Unknown Error",
+    "networkError": "Network error, please check your connection",
+    "unauthorized": "Unauthorized operation, please login first",
+    "serverError": "Server error, please try again later",
+    "invalidInput": "Invalid input, please try again",
+    "connectWalletFirst": "Please connect wallet first",
+    "walletAuthRequired": "Please connect wallet and complete authentication",
+    "operationFailed": "Operation failed",
+    "notAuthorized": "You do not have permission to perform this operation",
+    "queryTimeout": "Query timeout",
+    "queryFailed": "Query failed",
+    "taskStillProcessing": "Task is still processing, please refresh manually later",
+    "cannotGetTaskStatus": "Cannot get task status, please refresh manually later",
+    "invalidToken": "Invalid token",
+    "unauthorizedAccess": "Unauthorized access",
+    "updateSuccess": "Update successful",
+    "updateFailed": "Update failed"
   }
 }

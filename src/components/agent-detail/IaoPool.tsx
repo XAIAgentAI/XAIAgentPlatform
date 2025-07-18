@@ -605,7 +605,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       </h2>
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
         {/* 仅在IAO未开始且用户是创建者时显示调整时间按钮 */}
-        {isCreator && poolInfo?.startTime && Date.now() < poolInfo.startTime * 1000 && agent.iaoContractAddress && !isIAOEnded && (
+        {isCreator && poolInfo?.startTime && Date.now() < poolInfo.startTime * 1000 && agent.iaoContractAddress && !isIAOEnded ? (
           <Button
             variant="primary"
             size="sm"
@@ -617,7 +617,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
             </svg>
             <span>{t('updateIaoTime')}</span>
           </Button>
-        )}
+        ) : null}
         
         {/* 刷新按钮 */}
         <Button

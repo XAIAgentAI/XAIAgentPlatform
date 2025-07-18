@@ -1037,5 +1037,26 @@
     "updateFailed": "容器链接更新失败",
     "copied": "容器链接已复制到剪贴板",
     "copyContainerLink": "复制容器链接"
+  },
+  "errors": {
+    "error": "错误",
+    "success": "成功",
+    "unknownError": "未知错误",
+    "networkError": "网络错误，请检查您的连接",
+    "unauthorized": "未授权操作，请先登录",
+    "serverError": "服务器错误，请稍后重试",
+    "invalidInput": "输入无效，请重试",
+    "connectWalletFirst": "请先连接钱包",
+    "walletAuthRequired": "请先连接钱包并完成认证",
+    "operationFailed": "操作失败",
+    "notAuthorized": "您没有执行此操作的权限",
+    "queryTimeout": "查询超时",
+    "queryFailed": "查询失败",
+    "taskStillProcessing": "任务仍在处理中，请稍后手动刷新查看结果",
+    "cannotGetTaskStatus": "无法获取任务状态，请稍后手动刷新",
+    "invalidToken": "无效的 token",
+    "unauthorizedAccess": "未授权访问",
+    "updateSuccess": "更新成功",
+    "updateFailed": "更新失败"
   }
 }
