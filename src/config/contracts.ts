@@ -1689,6 +1689,19 @@ export const MAINNET_USERAGENT_IAO_CONTRACT_ABI = [
     },
     {
         "inputs": [],
+        "name": "totalJoinedAddress",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "totalReward",
         "outputs": [
             {

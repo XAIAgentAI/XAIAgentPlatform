@@ -993,13 +993,16 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
         functionName: totalDepositedFunctionName,
       });
 
-      // 获取投资人数 - 通过事件日志或者遍历用户地址
-      // 这里先返回一个占位值，后续可以通过事件日志优化
+      // 获取投资人数 - 通过调用合约的totalJoinedAddress函数
       let investorCount = 0;
       try {
-        // 可以通过查询 Deposit 事件来获取投资人数
-        // 这里先用简化的方式
-        investorCount = 0
+        const joinedAddressCount = await publicClient.readContract({
+          address: iaoContractAddress,
+          abi: contractABI,
+          functionName: 'totalJoinedAddress',
+        });
+        investorCount = Number(joinedAddressCount);
+        console.log(`[IAO进度] 投资者数量: ${investorCount}`);
       } catch (error) {
         console.warn('Failed to get investor count:', error);
       }
