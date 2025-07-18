@@ -181,6 +181,7 @@
     "agentNotFound": "Agent not found"
   },
   "iaoPool": {
+    "remainingTime": "Remaining Time",
     "title": "IAO Pool",
     "totalInPool": "Total {symbol} in IAO Pool",
     "currentTotal": "Current Total {symbol} in IAO Pool",

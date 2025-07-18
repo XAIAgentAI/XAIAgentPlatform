@@ -895,9 +895,23 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         {t('TokenDistribution.title')}
                     </h3>
                     <div className="space-y-3 text-sm">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((point) => (
+                        {[1, 2].map((point) => (
                             <p key={point}>
-                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: data.symbol })}
+                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: formData.symbol })}
+                            </p>
+                        ))}
+                        
+                        {/* 第3点使用动态IAO持续时间 */}
+                        <p>
+                            3. {t(`TokenDistribution.points.3`, { 
+                                symbol: formData.symbol,
+                                hours: iaoDurationDays * 24 + iaoDurationHours
+                            })}
+                        </p>
+                        
+                        {[4, 5, 6, 7, 8].map((point) => (
+                            <p key={point}>
+                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: formData.symbol })}
                             </p>
                         ))}
                     </div>

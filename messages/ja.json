@@ -179,7 +179,7 @@
     "agentNotFound": "エージェントが見つかりません"
   },
   "iaoPool": {
-    "title": "IAOプール",
+    "title": "IAO プール",
     "totalInPool": "IAOプール内の{symbol}の総量",
     "currentTotal": "IAOプール内の{symbol}の現在の総量",
     "startCountdown": "開始までのカウントダウン",
@@ -372,7 +372,8 @@
     "rewardClaimed": "報酬請求済み",
     "refundClaimed": "返金請求済み",
     "refundWaitingTime": "返金はIAO終了後10分間で請求可能になります。終了時間: {time}",
-    "loadingWaitingTime": "待機時間情報を読み込み中..."
+    "loadingWaitingTime": "待機時間情報を読み込み中...",
+    "remainingTime": "残り時間"
   },
   "paymentContract": {
     "title": "支払いコントラクトをデプロイ",

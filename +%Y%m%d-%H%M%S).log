@@ -1,0 +1,283 @@
+   ▲ Next.js 14.0.4
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use at your own risk):
+     · instrumentationHook
+     · outputFileTracingRoot
+
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     "env._next_intl_trailing_slash" is missing, expected string
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ✓ Ready in 2.4s
+ ✓ Compiled /src/middleware in 181ms (241 modules)
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 988ms (120 modules)
+ ○ Compiling /[locale]/agent-detail/[id] ...
+ ✓ Compiled /[locale]/agent-detail/[id] in 7.6s (10742 modules)
+Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1244ms (10773 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 509ms (5525 modules)
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 0ms (5525 modules)
+ ✓ Compiled in 14ms (5615 modules)
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: testj (a963bbbc-e044-4cb0-b2c7-3d0a2fe12b90)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1752826988 (2025-07-18T08:23:08.000Z)
+[Agent详情状态计算] IAO开始时间: 1752912854 (2025-07-19T08:14:14.000Z)
+[Agent详情状态计算] IAO结束时间: 1753172054 (2025-07-22T08:14:14.000Z)
+[Agent详情状态计算] 代币地址: 0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: testj (a963bbbc-e044-4cb0-b2c7-3d0a2fe12b90)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1752826988 (2025-07-18T08:23:08.000Z)
+[Agent详情状态计算] IAO开始时间: 1752912854 (2025-07-19T08:14:14.000Z)
+[Agent详情状态计算] IAO结束时间: 1753172054 (2025-07-22T08:14:14.000Z)
+[Agent详情状态计算] 代币地址: 0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+ ✓ Compiled /api/agents/[id]/tasks in 388ms (5617 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: testj (a963bbbc-e044-4cb0-b2c7-3d0a2fe12b90)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1752826989 (2025-07-18T08:23:09.000Z)
+[Agent详情状态计算] IAO开始时间: 1752912854 (2025-07-19T08:14:14.000Z)
+[Agent详情状态计算] IAO结束时间: 1753172054 (2025-07-22T08:14:14.000Z)
+[Agent详情状态计算] 代币地址: 0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 353ms (5617 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: testj (a963bbbc-e044-4cb0-b2c7-3d0a2fe12b90)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1752826998 (2025-07-18T08:23:18.000Z)
+[Agent详情状态计算] IAO开始时间: 1752912854 (2025-07-19T08:14:14.000Z)
+[Agent详情状态计算] IAO结束时间: 1753172054 (2025-07-22T08:14:14.000Z)
+[Agent详情状态计算] 代币地址: 0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 428ms (5617 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: testj (a963bbbc-e044-4cb0-b2c7-3d0a2fe12b90)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1752827011 (2025-07-18T08:23:31.000Z)
+[Agent详情状态计算] IAO开始时间: 1752912854 (2025-07-19T08:14:14.000Z)
+[Agent详情状态计算] IAO结束时间: 1753172054 (2025-07-22T08:14:14.000Z)
+[Agent详情状态计算] 代币地址: 0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 387ms (5617 modules)
+ ✓ Compiled in 369ms (5496 modules)
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getNow.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13099 (line 377 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13099 (line 377 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getMessages.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ○ Compiling /_error ...
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getNow.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getNow.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./messages/ko.json
+Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 13130 (line 378 column 3) while parsing '{
+  "common": {
+    "connect": "지갑 연결"'
+Import trace for requested module:
+./messages/ko.json
+./messages/ lazy ^\.\/.*\.json$ namespace object
+./src/i18n/request.ts
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
+./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
+./src/app/[locale]/layout.tsx
+ ✓ Compiled /[locale] in 1422ms (10889 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 522ms (5509 modules)

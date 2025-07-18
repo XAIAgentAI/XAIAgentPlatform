@@ -181,6 +181,7 @@
     "agentNotFound": "未找到该 Agent"
   },
   "iaoPool": {
+    "remainingTime": "剩余时间",
     "title": "IAO 池",
     "totalInPool": "IAO 池中的总 {symbol}",
     "currentTotal": "当前 IAO 池中的总 {symbol}",

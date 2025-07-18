@@ -180,6 +180,7 @@
     "agentNotFound": "에이전트를 찾을 수 없습니다"
   },
   "iaoPool": {
+    "remainingTime": "남은 시간",
     "title": "IAO 풀",
     "totalInPool": "IAO 풀의 총 {symbol} 수량",
     "currentTotal": "IAO 풀의 현재 총 {symbol} 수량",

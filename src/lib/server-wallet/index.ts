@@ -697,7 +697,7 @@ export async function distributeTokens(
         const xaaAbiModule = await import('@/config/xaa-abi.json');
         const xaaAbi = xaaAbiModule.default; // 提取default属性获取实际的ABI数组
         
-        // 使用transferAndLock函数，锁定50秒
+        // 使用transferAndLock函数，锁定50次
         const hash = await walletClient.writeContract({
           address: tokenAddress as `0x${string}`,
           abi: xaaAbi,
@@ -705,7 +705,7 @@ export async function distributeTokens(
           args: [
             agentInfo.creator.address as `0x${string}`, 
             parseEther(distributions.creator),
-            BigInt(50) // 锁定50秒
+            BigInt(5045760) // 锁定50次，8年，一次5045760秒
           ],
         });
         
@@ -742,10 +742,41 @@ export async function distributeTokens(
       console.log(`🔍 [DEBUG] 👤 [1/3] 跳过创建者分配 - 已完成 ✅`);
     }
 
-    // 2. IAO合约分配 (15%) - 已由恒源自动完成，无需手动分配
+    // 2. IAO合约分配 (15%) - 已由合约自动完成，无需手动分配。但是要调用一下 setRewardToken
     console.log(`🏦 跳过IAO合约分配 (${DISTRIBUTION_RATIOS.IAO * 100}%) - 恒源已自动完成此分配`);
     if (agentInfo.iaoContractAddress) {
       console.log(`🏦 IAO合约地址: ${agentInfo.iaoContractAddress} (已自动分配)`);
+      
+      // 调用setRewardToken设置奖励代币
+      try {
+        console.log(`🔄 调用IAO合约的setRewardToken方法 - 设置奖励代币: ${tokenAddress}`);
+        
+        // 获取合约ABI
+        const { getContractABI } = await import('@/config/contracts');
+        const contractABI = getContractABI('UserAgent'); // 非XAA代币使用UserAgent IAO ABI
+        
+        // 调用setRewardToken方法
+        const hash = await walletClient.writeContract({
+          address: agentInfo.iaoContractAddress as `0x${string}`,
+          abi: contractABI,
+          functionName: 'setRewardToken',
+          args: [tokenAddress as `0x${string}`],
+        });
+        
+        console.log(`✅ setRewardToken交易已提交: ${hash}`);
+        
+        // 等待交易确认
+        const receipt = await publicClient.waitForTransactionReceipt({ hash });
+        
+        if (receipt.status === 'success') {
+          console.log(`✅ 奖励代币设置成功 - Token: ${tokenAddress}`);
+        } else {
+          console.warn(`⚠️ 奖励代币设置交易状态异常: ${receipt.status}`);
+        }
+      } catch (error) {
+        console.error('❌ 设置奖励代币失败:', error);
+        // 继续执行其他分配步骤，不中断流程
+      }
     }
 
     // 3. 分配给空投钱包 (2%)
