@@ -159,6 +159,165 @@ async function getAgentInfo(agentId: string) {
 }
 
 /**
+ * 批量执行transferAndLock操作
+ * @param tokenAddress 代币地址
+ * @param recipientAddress 接收者地址
+ * @param amount 每次转账金额
+ * @param lockTime 锁定时间（秒）
+ * @param count 执行次数
+ * @param concurrency 并发数，默认为5
+ * @param maxRetries 最大重试次数，默认为3
+ * @returns 执行结果
+ */
+export async function batchTransferAndLock(
+  tokenAddress: string,
+  recipientAddress: string,
+  amount: string,
+  lockTime: number,
+  count: number,
+  concurrency: number = 5,
+  maxRetries: number = 3
+): Promise<{
+  success: boolean;
+  completedCount: number;
+  failedCount: number;
+  transactions: Array<{
+    index: number;
+    txHash: string;
+    status: 'success' | 'failed';
+    error?: string;
+  }>;
+}> {
+  console.log(`🔄 开始批量执行transferAndLock - 总数: ${count}, 并发数: ${concurrency}`);
+  console.log(`📝 参数详情:`);
+  console.log(`  - 代币地址: ${tokenAddress}`);
+  console.log(`  - 接收者: ${recipientAddress}`);
+  console.log(`  - 每次金额: ${amount}`);
+  console.log(`  - 锁定时间: ${lockTime}秒`);
+
+  // 初始化客户端
+  const { walletClient, publicClient } = initializeClients();
+  
+  // 导入XAA合约ABI
+  const xaaAbiModule = await import('@/config/xaa-abi.json');
+  const xaaAbi = xaaAbiModule.default;
+  
+  // 转换为Wei
+  const amountWei = parseEther(amount);
+  
+  // 存储所有交易结果
+  const results: Array<{
+    index: number;
+    txHash: string;
+    status: 'success' | 'failed';
+    error?: string;
+  }> = [];
+  
+  // 创建任务队列
+  const tasks = Array.from({ length: count }, (_, i) => i);
+  
+  // 执行单个transferAndLock操作
+  const executeTransferAndLock = async (index: number, retryCount: number = 0): Promise<void> => {
+    console.log(`🔄 执行第 ${index + 1}/${count} 次transferAndLock操作`);
+    
+    try {
+      // 执行transferAndLock
+      const hash = await walletClient.writeContract({
+        address: tokenAddress as `0x${string}`,
+        abi: xaaAbi,
+        functionName: 'transferAndLock',
+        args: [
+          recipientAddress as `0x${string}`,
+          amountWei,
+          BigInt(lockTime)
+        ],
+      });
+      
+      console.log(`📤 第 ${index + 1}/${count} 次transferAndLock交易已发送: ${hash}`);
+      
+      // 等待交易确认
+      const receipt = await publicClient.waitForTransactionReceipt({ 
+        hash,
+        timeout: 60000 // 60秒超时
+      });
+      
+      if (receipt.status === 'success') {
+        console.log(`✅ 第 ${index + 1}/${count} 次transferAndLock成功 - Hash: ${hash}`);
+        results.push({
+          index,
+          txHash: hash,
+          status: 'success'
+        });
+      } else {
+        console.error(`❌ 第 ${index + 1}/${count} 次transferAndLock失败 - Hash: ${hash}`);
+        
+        // 如果还有重试次数，则重试
+        if (retryCount < maxRetries) {
+          console.log(`🔄 重试第 ${index + 1}/${count} 次transferAndLock (${retryCount + 1}/${maxRetries})`);
+          return executeTransferAndLock(index, retryCount + 1);
+        }
+        
+        results.push({
+          index,
+          txHash: hash,
+          status: 'failed',
+          error: 'Transaction failed'
+        });
+      }
+    } catch (error) {
+      console.error(`❌ 第 ${index + 1}/${count} 次transferAndLock异常:`, error);
+      
+      // 如果还有重试次数，则重试
+      if (retryCount < maxRetries) {
+        console.log(`🔄 重试第 ${index + 1}/${count} 次transferAndLock (${retryCount + 1}/${maxRetries})`);
+        return executeTransferAndLock(index, retryCount + 1);
+      }
+      
+      results.push({
+        index,
+        txHash: '',
+        status: 'failed',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  };
+  
+  // 使用并发控制执行所有任务
+  const processQueue = async () => {
+    while (tasks.length > 0) {
+      const batch = tasks.splice(0, concurrency);
+      if (batch.length === 0) break;
+      
+      console.log(`🔄 开始处理批次，大小: ${batch.length}`);
+      
+      // 并发执行当前批次
+      await Promise.all(batch.map(index => executeTransferAndLock(index)));
+      
+      console.log(`✅ 批次处理完成，剩余任务: ${tasks.length}`);
+    }
+  };
+  
+  // 开始执行队列
+  await processQueue();
+  
+  // 统计结果
+  const successCount = results.filter(r => r.status === 'success').length;
+  const failedCount = results.filter(r => r.status === 'failed').length;
+  
+  console.log(`📊 批量transferAndLock执行结果:`);
+  console.log(`  - 总数: ${count}`);
+  console.log(`  - 成功: ${successCount}`);
+  console.log(`  - 失败: ${failedCount}`);
+  
+  return {
+    success: failedCount === 0,
+    completedCount: successCount,
+    failedCount,
+    transactions: results
+  };
+}
+
+/**
  * 添加流动性到DBCSwap池子
  */
 async function addLiquidityToPool(
@@ -686,48 +845,52 @@ export async function distributeTokens(
     // 初始化交易记录数组
     let transactions: TransactionResult[] = [];
 
-    // 1. 分配给创建者 (33%)，使用transferAndLock锁定50秒
+    // 1. 分配给创建者 (33%)，使用批量transferAndLock锁定50次
     if (!completedSteps.includes('creator')) {
-      console.log(`🔍 [DEBUG] 👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}，锁定50秒`);
+      console.log(`🔍 [DEBUG] 👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}，批量锁定50次`);
       
       try {
-        const { walletClient, publicClient } = initializeClients();
+        // 计算每次锁定的金额（总金额除以50）
+        const totalAmount = parseFloat(distributions.creator);
+        const perLockAmount = (totalAmount / 50).toFixed(18); // 保留18位小数
+        console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${distributions.creator})`);
         
-        // 导入XAA合约ABI
-        const xaaAbiModule = await import('@/config/xaa-abi.json');
-        const xaaAbi = xaaAbiModule.default; // 提取default属性获取实际的ABI数组
+        // 使用批量transferAndLock函数，锁定50次
+        const batchResult = await batchTransferAndLock(
+          tokenAddress,
+          agentInfo.creator.address,
+          perLockAmount,
+          40 * 24 * 60 * 60, // 锁定40天
+          50, // 执行50次
+          5, // 并发数为5
+          3  // 最大重试次数为3
+        );
         
-        // 使用transferAndLock函数，锁定50次
-        const hash = await walletClient.writeContract({
-          address: tokenAddress as `0x${string}`,
-          abi: xaaAbi,
-          functionName: 'transferAndLock',
-          args: [
-            agentInfo.creator.address as `0x${string}`, 
-            parseEther(distributions.creator),
-            BigInt(40 * 24*60*60) // 锁定40天
-          ],
-        });
+        console.log(`🔍 [DEBUG] 👤 批量锁定结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
         
-        console.log(`🔍 [DEBUG] 📤 创建者分配已发送(transferAndLock): ${hash}`);
-        
-        // 等待交易确认
-        const receipt = await publicClient.waitForTransactionReceipt({ hash });
-        
-        const status = receipt.status === 'success' ? 'confirmed' as const : 'failed' as const;
-        
+        // 创建交易结果
         const creatorTx: TransactionResult = {
           type: 'creator',
           amount: distributions.creator,
-          txHash: hash,
-          status,
+          txHash: batchResult.transactions.length > 0 ? batchResult.transactions[0].txHash : '',
+          status: batchResult.success ? 'confirmed' as const : 'failed' as const,
           toAddress: agentInfo.creator.address,
+          error: batchResult.success ? undefined : `Failed to complete all transfers: ${batchResult.failedCount} failed out of 50`,
+          batchResult: {
+            completedCount: batchResult.completedCount,
+            failedCount: batchResult.failedCount,
+            transactions: batchResult.transactions.map(tx => ({
+              txHash: tx.txHash,
+              status: tx.status,
+              error: tx.error
+            }))
+          }
         };
         
         transactions.push(creatorTx);
-        console.log(`🔍 [DEBUG] 👤 创建者分配结果(transferAndLock): ${status === 'confirmed' ? '✅ 成功' : '❌ 失败'} - Hash: ${hash}`);
+        console.log(`🔍 [DEBUG] 👤 创建者批量分配结果: ${batchResult.success ? '✅ 全部成功' : '⚠️ 部分失败'}`);
       } catch (error) {
-        console.error(`🔍 [DEBUG] ❌ 创建者分配失败(transferAndLock):`, error);
+        console.error(`🔍 [DEBUG] ❌ 创建者分配失败(批量transferAndLock):`, error);
         const creatorTx: TransactionResult = {
           type: 'creator',
           amount: distributions.creator,
