@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { authAPI, } from '@/services/createAgent';
 import { config } from '@/lib/config';
+import { TokenDistributionInfo } from '@/components/ui-custom/token-distribution-info';
 
 import { toast } from '@/components/ui/use-toast';
 import { getExplorerUrl } from '@/config/networks';
@@ -898,27 +899,11 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         </svg>
                         {t('TokenDistribution.title')}
                     </h3>
-                    <div className="space-y-3 text-sm">
-                        {[1, 2].map((point) => (
-                            <p key={point}>
-                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: formData.symbol })}
-                            </p>
-                        ))}
-                        
-                        {/* 第3点使用动态IAO持续时间 */}
-                        <p>
-                            3. {t(`TokenDistribution.points.3`, { 
-                                symbol: formData.symbol,
-                                hours: iaoDurationDays * 24 + iaoDurationHours
-                            })}
-                        </p>
-                        
-                        {[4, 5, 6, 7, 8].map((point) => (
-                            <p key={point}>
-                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: formData.symbol })}
-                            </p>
-                        ))}
-                    </div>
+                    <TokenDistributionInfo 
+                        symbol={formData.symbol} 
+                        hours={iaoDurationDays * 24 + iaoDurationHours} 
+                        textSize="sm"
+                    />
                 </div>
 
 

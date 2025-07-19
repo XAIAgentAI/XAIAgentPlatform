@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { useLocale, useTranslations } from 'next-intl';
+import { TokenDistributionInfo } from '@/components/ui-custom/token-distribution-info';
 
 interface TokenInfoCardProps {
   projectDescription?: string;
@@ -49,27 +50,11 @@ export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours }: 
           </p>
         ))} */}
 
-        <div className="space-y-3 text-sm">
-          {[1, 2].map((point) => (
-            <p key={point}>
-              {point}. {t(`TokenDistribution.points.${point}`, { symbol: symbol || 'Token' })}
-            </p>
-          ))}
-          
-          {/* 第3点使用动态IAO持续时间 */}
-          <p>
-            3. {t(`TokenDistribution.points.3`, { 
-              symbol: symbol || 'Token', 
-              hours: iaoDurationHours 
-            })}
-          </p>
-          
-          {[4, 5, 6, 7, 8].map((point) => (
-            <p key={point}>
-              {point}. {t(`TokenDistribution.points.${point}`, { symbol: symbol || 'Token' })}
-            </p>
-          ))}
-        </div>
+        <TokenDistributionInfo 
+          symbol={symbol || 'Token'} 
+          hours={iaoDurationHours} 
+          textSize="sm"
+        />
 
       </div>
     </Card>

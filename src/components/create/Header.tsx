@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
+import { TokenDistributionInfo } from '@/components/ui-custom/token-distribution-info';
 
 const Header: React.FC = () => {
   const t = useTranslations("create");
@@ -18,13 +19,12 @@ const Header: React.FC = () => {
               <span className="text-primary">1.</span>{t("requirements.title")}
             </h2>
             <div className="text-sm text-muted-foreground pl-5 space-y-3">
-              <ul className="list-disc pl-5 space-y-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((point) => (
-                    <ol key={point}>
-                        {point}. {m(`TokenDistribution.points.${point}`, { symbol:"$XXX" })}
-                    </ol>
-                    ))}
-              </ul>
+              <TokenDistributionInfo 
+                symbol="$XXX" 
+                hours={72} 
+                textSize="sm"
+                className="pl-5"
+              />
             </div>
           </div>
 
