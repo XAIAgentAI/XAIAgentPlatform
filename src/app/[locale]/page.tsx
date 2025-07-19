@@ -26,8 +26,8 @@ export default function Home() {
         pageSize: 30,
         sortBy: sortBy as string,
         sortOrder: sortOrder as "asc" | "desc",
-        // 如果URL中没有status参数，默认使用TRADABLE
-        status: searchParams?.has('status') ? statusFilter : "TRADABLE"
+        // 只有当URL中有status参数且不为空时才添加status
+        ...(searchParams?.has('status') && statusFilter ? { status: statusFilter } : {})
       };
 
       console.log('Fetching agents with options:', options);
