@@ -1114,6 +1114,71 @@ export async function distributeTokens(
 }
 
 /**
+ * 重试批量transferAndLock操作
+ * 专门用于重试creator类型交易中的批量transferAndLock操作
+ */
+async function retryCreatorBatchTransferAndLock(
+  tokenAddress: string,
+  recipientAddress: string,
+  totalAmount: string,
+  failedCount: number
+): Promise<TransactionResult> {
+  console.log(`🔄 开始重试creator的批量transferAndLock操作 - 总金额: ${totalAmount}, 预计失败数: ${failedCount}`);
+  
+  try {
+    // 计算每次锁定的金额（总金额除以50）
+    const amount = parseFloat(totalAmount);
+    const perLockAmount = (amount / 50).toFixed(18); // 保留18位小数
+    console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${totalAmount})`);
+    
+    // 重新执行批量transferAndLock，但只执行之前失败的次数
+    // 由于无法确定具体哪几次失败，所以重新执行failedCount次
+    const batchResult = await batchTransferAndLock(
+      tokenAddress,
+      recipientAddress,
+      perLockAmount,
+      40 * 24 * 60 * 60, // 锁定40天
+      failedCount, // 只执行之前失败的次数
+      5, // 并发数为5
+      3  // 最大重试次数为3
+    );
+    
+    console.log(`🔍 [DEBUG] 👤 批量锁定重试结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
+    
+    // 创建交易结果
+    const result: TransactionResult = {
+      type: 'creator',
+      amount: totalAmount,
+      txHash: batchResult.transactions.length > 0 ? batchResult.transactions[0].txHash : '',
+      status: batchResult.failedCount === 0 ? 'confirmed' as const : 'failed' as const,
+      toAddress: recipientAddress,
+      error: batchResult.failedCount > 0 ? `Failed to complete all transfers: ${batchResult.failedCount} failed out of ${failedCount}` : undefined,
+      batchResult: {
+        completedCount: batchResult.completedCount,
+        failedCount: batchResult.failedCount,
+        transactions: batchResult.transactions.map(tx => ({
+          txHash: tx.txHash,
+          status: tx.status,
+          error: tx.error
+        }))
+      }
+    };
+    
+    return result;
+  } catch (error) {
+    console.error('❌ 重试批量transferAndLock失败:', error);
+    return {
+      type: 'creator',
+      amount: totalAmount,
+      txHash: '',
+      status: 'failed' as const,
+      toAddress: recipientAddress,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+}
+
+/**
  * 重试失败的交易（智能跳过已成功的步骤）
  */
 export async function retryFailedTransactions(taskId: string): Promise<DistributionResult> {
@@ -1250,6 +1315,74 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
             toAddress: poolAddress, // 可能是 null，表示池子地址未知
             error: error instanceof Error ? error.message : 'Unknown error'
           };
+        }
+      } else if (failedTx.type === 'creator') {
+        // 检查交易对象中是否直接包含batchResult
+        let failedBatchCount = 0;
+        
+        // 首先检查交易对象本身
+        if (failedTx.batchResult && typeof failedTx.batchResult === 'object') {
+          console.log(`🔍 在交易对象中找到批量操作信息: 失败=${failedTx.batchResult.failedCount}次`);
+          failedBatchCount = failedTx.batchResult.failedCount || 0;
+        } else {
+          // 如果交易对象中没有，尝试从数据库获取
+          console.log(`🔍 交易对象中没有批量操作信息，尝试从数据库获取`);
+          const taskDetail = await prisma.task.findUnique({
+            where: { id: taskId }
+          });
+          
+          // 尝试从任务结果中获取批量操作信息
+          if (taskDetail?.result) {
+            try {
+              const resultData = typeof taskDetail.result === 'string' 
+                ? JSON.parse(taskDetail.result) 
+                : taskDetail.result;
+                
+              // 查找creator交易的批量结果
+              if (resultData.transactions) {
+                const creatorTx = resultData.transactions.find((tx: any) => tx.type === 'creator');
+                if (creatorTx?.batchResult) {
+                  console.log(`🔍 在数据库中找到批量操作信息: 失败=${creatorTx.batchResult.failedCount}次`);
+                  failedBatchCount = creatorTx.batchResult.failedCount || 0;
+                }
+              }
+            } catch (e) {
+              console.error('解析任务结果失败:', e);
+            }
+          }
+        }
+        
+        if (failedBatchCount > 0) {
+          // 使用批量transferAndLock重试
+          console.log(`🔄 发现creator批量操作失败记录: ${failedBatchCount}次，使用批量重试`);
+          result = await retryCreatorBatchTransferAndLock(
+            tokenAddress,
+            failedTx.toAddress,
+            failedTx.amount,
+            failedBatchCount
+          );
+        } else {
+          // 如果没有找到失败记录但状态是失败，假设全部失败
+          if (failedTx.status === 'failed') {
+            console.log(`⚠️ 未找到具体失败记录，但状态为失败，假设需要全部重试`);
+            // 使用批量transferAndLock重试，但只执行2次（保守估计）
+            result = await retryCreatorBatchTransferAndLock(
+              tokenAddress,
+              failedTx.toAddress,
+              failedTx.amount,
+              2 // 保守估计失败次数为2
+            );
+          } else {
+            // 使用普通转账方式重试
+            console.log(`🔄 未找到批量操作失败记录，使用普通转账重试`);
+            result = await executeTransfer(
+              tokenAddress,
+              failedTx.toAddress,
+              failedTx.amount,
+              failedTx.type
+            );
+            console.log(`⚠️ 注意: 使用单笔转账替代批量transferAndLock进行重试，无法保证锁定功能`);
+          }
         }
       } else {
         // 普通转账交易重试

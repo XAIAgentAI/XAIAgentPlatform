@@ -11,6 +11,15 @@ export interface TaskTransaction {
   status: 'pending' | 'confirmed' | 'failed';
   toAddress: string | null;
   error?: string;
+  batchResult?: {
+    completedCount: number;
+    failedCount: number;
+    transactions: Array<{
+      txHash: string;
+      status: 'success' | 'failed';
+      error?: string;
+    }>;
+  };
 }
 
 export interface DistributionTask {
