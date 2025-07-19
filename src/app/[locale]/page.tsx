@@ -11,23 +11,21 @@ export default function Home() {
   const [agents, setAgents] = useState<LocalAgent[]>([])
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
-
-  // 从URL参数中获取排序方式和筛选状态
+  
+  // 从URL参数中获取排序方式
   const sortBy = searchParams?.get('sortBy') || "marketCap"
   const sortOrder = searchParams?.get('sortOrder') || "desc"
-  const statusFilter = searchParams?.get('status') || ""  // 默认不设置，让API处理默认值
-
+  
   // 获取代理列表
-  const fetchAgentsData = async () => {
+  const fetchAgentsData = async (statusFilter?: string) => {
     try {
       setLoading(true)
-      // 使用当前URL中的排序参数和筛选参数，如果没有则使用默认值
+      // 使用当前排序参数和筛选参数
       const options = {
         pageSize: 30,
         sortBy: sortBy as string,
         sortOrder: sortOrder as "asc" | "desc",
-        // 如果URL中没有status参数，默认使用TRADABLE
-        status: searchParams?.has('status') ? statusFilter : "TRADABLE"
+        status: statusFilter === "" ? undefined : statusFilter,
       };
 
       console.log('Fetching agents with options:', options);
@@ -45,23 +43,25 @@ export default function Home() {
     }
   };
 
-  // 监听URL参数变化，重新获取数据
+  // 初始加载时获取"可交易"状态的代理
   useEffect(() => {
-    fetchAgentsData();
-  }, [sortBy, sortOrder, statusFilter]); // 依赖项中添加sortBy、sortOrder和statusFilter
+    fetchAgentsData("TRADABLE");
+  }, [sortBy, sortOrder]); 
   
   return (
     <>
       <div className="container flex-1 flex flex-col container mx-auto px-4 py-2 hidden md:block">
         <AgentListDesktop 
           agents={agents} 
-          loading={loading} 
+          loading={loading}
+          fetchAgentsData={fetchAgentsData}
         />
       </div>
       <div className="container flex-1 flex flex-col container mx-auto px-4 py-2 md:hidden">
         <AgentListMobile 
           agents={agents} 
           loading={loading}
+          fetchAgentsData={fetchAgentsData}
         />
       </div>
     </>

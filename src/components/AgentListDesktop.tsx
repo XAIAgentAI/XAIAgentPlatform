@@ -34,7 +34,7 @@ const parseSocialLinks = (socialLinks?: string) => {
   };
 };
 
-const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
+const AgentListDesktop = ({ agents, loading, fetchAgentsData }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -49,9 +49,9 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
   const { getStakeList } = useStakingNFTContract();
   const { open } = useAppKit();
   const { toast } = useToast();
-
-  // 获取当前的状态筛选值
-  const currentStatusFilter = searchParams?.get('status') || "TRADABLE";
+  
+  // 添加当前筛选状态
+  const [currentFilter, setCurrentFilter] = useState("TRADABLE");
 
   const handleSort = (field: SortField) => {
     let newSortDirection = sortDirection;
@@ -122,14 +122,11 @@ const AgentListDesktop = ({ agents, loading }: AgentListProps) => {
        {/* 状态筛选 */}
        <div className="flex items-center gap-4">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
-            <Tabs defaultValue={currentStatusFilter} className="w-auto" onValueChange={(value) => {
-              const currentParams = new URLSearchParams(window.location.search);
-              if (value === "") {
-                currentParams.delete('status');
-              } else {
-                currentParams.set('status', value);
+            <Tabs value={currentFilter} className="w-auto" onValueChange={(value) => {
+              setCurrentFilter(value);
+              if (fetchAgentsData) {
+                fetchAgentsData(value);
               }
-              router.push(`?${currentParams.toString()}`);
             }}>
               <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 flex-wrap lg:flex-nowrap">
                 <TabsTrigger

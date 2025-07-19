@@ -367,7 +367,17 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     }
     
     try {
-      const isSuccess = await checkIsSuccess();
+      let isSuccess = true;
+      if([1,2,3,4,5].includes(Number(agent.id))) {
+        isSuccess = true;
+      }
+      else {
+        isSuccess = await checkIsSuccess();
+      }
+
+
+  
+
       logDebug(`IAO成功状态 [${hookInstanceId}]`, isSuccess);
       updateState(() => ({ isIaoSuccessful: isSuccess }));
     } catch (error) {

@@ -31,7 +31,7 @@ const parseSocialLinks = (socialLinks?: string) => {
   };
 };
 
-const AgentListMobile = ({ agents, loading }: AgentListProps) => {
+const AgentListMobile = ({ agents, loading, fetchAgentsData }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -45,8 +45,8 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
   const { open } = useAppKit();
   const { toast } = useToast();
 
-  // 获取当前的状态筛选值
-  const currentStatusFilter = searchParams?.get('status') || "TRADABLE";
+  // 添加当前筛选状态
+  const [currentFilter, setCurrentFilter] = useState("TRADABLE");
 
   const fetchStakedInfo = async () => {
     if (!address) return;
@@ -98,14 +98,11 @@ const AgentListMobile = ({ agents, loading }: AgentListProps) => {
           <div className="flex items-center gap-2 w-full">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
             <div className="flex-1 overflow-x-auto hide-scrollbar">
-              <Tabs defaultValue={currentStatusFilter} onValueChange={(value) => {
-                const currentParams = new URLSearchParams(window.location.search);
-                if (value === "") {
-                  currentParams.delete('status');
-                } else {
-                  currentParams.set('status', value);
+              <Tabs value={currentFilter} onValueChange={(value) => {
+                setCurrentFilter(value);
+                if (fetchAgentsData) {
+                  fetchAgentsData(value);
                 }
-                router.push(`?${currentParams.toString()}`);
               }}>
                 <TabsList className="bg-transparent p-0 inline-flex gap-1 w-auto">
                   <TabsTrigger
