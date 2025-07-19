@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { authAPI, } from '@/services/createAgent';
+import { config } from '@/lib/config';
 
 import { toast } from '@/components/ui/use-toast';
 import { getExplorerUrl } from '@/config/networks';
@@ -79,10 +80,10 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     const [success, setSuccess] = useState(false);
 
     // IAO 时间输入状态
-    const [iaoStartDays, setIaoStartDays] = useState(1);
-    const [iaoStartHours, setIaoStartHours] = useState(0);
-    const [iaoDurationDays, setIaoDurationDays] = useState(3);
-    const [iaoDurationHours, setIaoDurationHours] = useState(0);
+    const [iaoStartDays, setIaoStartDays] = useState<number>(config.iao.defaultStartDays);
+    const [iaoStartHours, setIaoStartHours] = useState<number>(config.iao.defaultStartHours);
+    const [iaoDurationDays, setIaoDurationDays] = useState<number>(config.iao.defaultDurationDays);
+    const [iaoDurationHours, setIaoDurationHours] = useState<number>(config.iao.defaultDurationHours);
     const [dateRange, setDateRange] = useState<{
         range: {
             from: Date;
@@ -94,11 +95,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     }>(() => {
         const now = new Date();
-        // 设置开始时间为当前时间+24小时
-        const startDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        // 设置开始时间为当前时间+最小延迟时间
+        const startDate = new Date(now.getTime() + config.iao.minStartDelayHours * 60 * 60 * 1000);
 
-        // 计算结束日期（开始时间+72小时，默认持续时间）
-        const endDate = new Date(startDate.getTime() + 72 * 60 * 60 * 1000);
+        // 计算结束日期（开始时间+默认持续时间）
+        const defaultDurationHours = config.iao.defaultDurationDays * 24 + config.iao.defaultDurationHours;
+        const endDate = new Date(startDate.getTime() + defaultDurationHours * 60 * 60 * 1000);
 
         return {
             range: {
@@ -327,14 +329,16 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         // 7. IAO持续时间验证 (仅在创建模式下验证)
         if (mode !== 'edit') {
             const totalDurationHours = iaoDurationDays * 24 + iaoDurationHours;
-            // 持续时间必须在72-240小时之间
-            if (totalDurationHours < 72 || totalDurationHours > 240) {
+            // 持续时间必须在配置的最小和最大值之间
+            if (totalDurationHours < config.iao.minDurationHours || totalDurationHours > config.iao.maxDurationHours) {
                 setIaoDurationError(true);
                 iaoDurationInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
             }
-            // 特殊情况：如果是3天，必须至少3天0小时（72小时）
-            if (iaoDurationDays === 3 && iaoDurationHours === 0 && totalDurationHours < 72) {
+            // 特殊情况：如果是最小天数，必须至少达到最小小时数
+            if (iaoDurationDays === Math.floor(config.iao.minDurationHours / 24) && 
+                iaoDurationHours === 0 && 
+                totalDurationHours < config.iao.minDurationHours) {
                 setIaoDurationError(true);
                 iaoDurationInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
@@ -1297,16 +1301,19 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                             <div className="flex items-center gap-1">
                                                 <input
                                                     type="number"
-                                                    min="3"
-                                                    max="10"
+                                                    min={Math.floor(config.iao.minDurationHours / 24)}
+                                                    max={Math.floor(config.iao.maxDurationHours / 24)}
                                                     value={iaoDurationDays}
                                                     onChange={(e) => {
-                                                        const value = parseInt(e.target.value) || 3;
-                                                        const clampedValue = Math.max(3, Math.min(10, value));
+                                                        const value = parseInt(e.target.value) || config.iao.defaultDurationDays;
+                                                        const clampedValue = Math.max(
+                                                            Math.floor(config.iao.minDurationHours / 24), 
+                                                            Math.min(Math.floor(config.iao.maxDurationHours / 24), value)
+                                                        );
                                                         setIaoDurationDays(clampedValue);
                                                         if (iaoDurationError) setIaoDurationError(false);
                                                     }}
-                                                    placeholder="3"
+                                                    placeholder={config.iao.defaultDurationDays.toString()}
                                                     className="w-16 bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 text-center"
                                                 />
                                                 <span className="text-gray-500 text-sm">{t("days")}</span>
@@ -1329,7 +1336,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                 <span className="text-gray-500 text-sm">{t("hours")}</span>
                                             </div>
                                         </div>
-                                        <div className="text-gray-500 text-xs mt-1">{t("durationHint")}</div>
+                                        <div className="text-gray-500 text-xs mt-1">{t("durationHint", {
+                                            min: config.iao.minDurationHours,
+                                            max: config.iao.maxDurationHours,
+                                            minDays: Math.floor(config.iao.minDurationHours / 24),
+                                            maxDays: Math.floor(config.iao.maxDurationHours / 24)
+                                        })}</div>
                                         {iaoDurationError && (
                                             <div className="text-red-500 text-xs mt-1">{t("durationError")}</div>
                                         )}

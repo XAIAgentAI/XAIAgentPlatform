@@ -265,13 +265,13 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         if (remainingMs > 0) {
           const remainingDays = Math.floor(remainingMs / (24 * 60 * 60 * 1000));
           const remainingHours = Math.floor((remainingMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-          remainingTimeText = `（还需等待 ${remainingDays} 天 ${remainingHours} 小时）`;
+          remainingTimeText = t('remainingWaitTime', {days: remainingDays, hours: remainingHours});
         }
       }
 
       toast({
         title: t('error'),
-        description: `需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`,
+        description: t('waitSevenDaysAfterIaoEnd', {remainingTime: remainingTimeText}),
       });
       return;
     }
@@ -280,15 +280,15 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       setIsDeployingIao(true);
       
       // 显示确认对话框
-      if (agent.iaoContractAddress && !window.confirm('重新部署IAO将创建一个全新的IAO合约，之前的所有质押数据将会被重置。老用户仍然可以从旧合约中领取退款，不会受到影响。是否确定继续？')) {
+      if (agent.iaoContractAddress && !window.confirm(t('redeployIaoConfirmation'))) {
         setIsDeployingIao(false);
         return;
       }
 
       // 调用重新部署IAO的API
       toast({
-        title: "部署中",
-        description: "正在部署新的IAO合约，请稍候...",
+        title: t('deploying'),
+        description: t('deployingNewIaoContract'),
       });
 
       const response = await fetch(`/api/agents/${agent.id}/redeploy-iao`, {
@@ -304,7 +304,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       if (response.ok && data.code === 200) {
         toast({
           title: t('success'),
-          description: '已成功部署新的IAO合约。所有质押数据已重置，页面将在3秒后刷新。老用户仍可从旧合约中领取退款。',
+          description: t('iaoRedeploySuccess'),
         });
 
         // 重置确认状态
@@ -315,13 +315,13 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
           window.location.reload();
         }, 3000);
       } else {
-        throw new Error(data.message || '重新部署IAO失败');
+        throw new Error(data.message || t('redeployIaoFailed'));
       }
     } catch (error: any) {
-      console.error('重新部署IAO失败:', error);
+      console.error(t('redeployIaoFailedLog'), error);
       toast({
         title: t('error'),
-        description: error.message || '重新部署IAO失败',
+        description: error.message || t('redeployIaoFailed'),
       });
     } finally {
       setIsDeployingIao(false);
@@ -483,7 +483,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       if (remainingMs > 0) {
         const remainingDays = Math.floor(remainingMs / (24 * 60 * 60 * 1000));
         const remainingHours = Math.floor((remainingMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-        remainingTimeText = `（还需等待 ${remainingDays} 天 ${remainingHours} 小时）`;
+        remainingTimeText = t('remainingWaitTime', {days: remainingDays, hours: remainingHours});
       }
     }
 
@@ -494,41 +494,41 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
     let buttonClass = '';
     
     if (isDeploying) {
-      title = 'IAO正在部署中';
+      title = t('iaoDeploying');
       description = isCreator 
-        ? '系统正在部署您的IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。'
-        : '系统正在部署IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。';
+        ? t('iaoDeployingDescCreator')
+        : t('iaoDeployingDescUser');
     } else if (isDeployFailed) {
-      title = 'IAO部署失败';
+      title = t('iaoDeployFailed');
       description = isCreator 
-        ? '您的IAO合约部署失败，请点击下方按钮重新尝试部署。'
-        : 'IAO合约部署失败，请等待创作者重新部署IAO合约。';
-      buttonText = '重新部署IAO (上次失败)';
+        ? t('iaoDeployFailedDescCreator')
+        : t('iaoDeployFailedDescUser');
+      buttonText = t('redeployIaoFailed');
       buttonClass = 'bg-red-500 hover:bg-red-600';
     } else if (isIaoFailed) {
-      title = 'IAO未达标';
+      title = t('iaoNotReached');
       
       if (!canRedeployIao) {
         description = isCreator 
-          ? `您的IAO未达成目标。为确保所有参与者有足够时间领取退款，需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`
-          : `此IAO未达成目标，所有参与者可以领取退款。创作者需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`;
-        buttonText = '等待7天后可重新部署';
+          ? t('iaoNotReachedWaitDescCreator', {remainingTime: remainingTimeText})
+          : t('iaoNotReachedWaitDescUser', {remainingTime: remainingTimeText});
+        buttonText = t('waitForRedeployAfter7Days');
         buttonClass = 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed';
       } else {
         description = isCreator 
-          ? '您的IAO未达成目标。已经过了7天等待期，请先确认所有参与者都已有足够时间领取退款，然后点击下方"确认准备重新部署"按钮。确认后，您将能够部署新的IAO合约，不会影响老用户的退币操作。'
-          : '此IAO未达成目标，所有参与者可以领取退款。已经过了7天等待期，创作者现在可以重新部署新的IAO合约。';
+          ? t('iaoNotReachedCanRedeployDescCreator')
+          : t('iaoNotReachedCanRedeployDescUser');
         
         // 根据确认状态显示不同的按钮文本
-        buttonText = hasConfirmedRedeployment ? '部署新的IAO合约' : '确认准备重新部署';
+        buttonText = hasConfirmedRedeployment ? t('deployNewIaoContract') : t('confirmReadyToRedeploy');
         buttonClass = hasConfirmedRedeployment ? 'bg-green-500 hover:bg-green-600' : 'bg-yellow-500 hover:bg-yellow-600';
       }
     } else {
-      title = 'IAO部署未完成';
+      title = t('iaoDeployNotCompleted');
       description = isCreator 
-        ? '您的IAO合约尚未成功部署，请点击下方按钮重新尝试部署。'
-        : 'IAO合约尚未成功部署，请等待创作者完成部署。';
-      buttonText = '重新部署IAO';
+        ? t('iaoDeployNotCompletedDescCreator')
+        : t('iaoDeployNotCompletedDescUser');
+      buttonText = t('redeployIao');
       buttonClass = 'bg-yellow-500 hover:bg-yellow-600';
     }
 
@@ -537,8 +537,8 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
       if (isIaoFailed && !canRedeployIao) {
         // 如果IAO失败但未到7天等待期，显示提示
         toast({
-          title: "无法重新部署",
-          description: `需要等待IAO结束后7天才能重新部署新的IAO合约 ${remainingTimeText}。`,
+          title: t('cannotRedeploy'),
+          description: t('waitSevenDaysAfterIaoEnd', {remainingTime: remainingTimeText}),
         });
         return;
       }
@@ -547,8 +547,8 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         // 如果是IAO失败且已过7天等待期但未确认，则设置确认状态
         setHasConfirmedRedeployment(true);
         toast({
-          title: "已确认",
-          description: "您已确认准备重新部署。现在您可以点击绿色按钮部署新的IAO合约。",
+          title: t('confirmed'),
+          description: t('confirmedReadyToRedeploy'),
         });
       } else {
         // 否则执行重新部署
@@ -577,7 +577,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    正在部署...
+                    {t('deploying')}
                   </>
                 ) : buttonText}
               </Button>
@@ -586,7 +586,7 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
             {/* 添加额外的提示信息，强调不影响老用户退币 */}
             {isIaoFailed && isCreator && canRedeployIao && (
               <p className="text-xs text-green-700 mt-3 italic">
-                注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。
+                {t('redeployNotAffectRefunds')}
               </p>
             )}
           </div>

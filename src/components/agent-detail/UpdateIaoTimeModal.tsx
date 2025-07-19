@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useTranslations } from 'next-intl';
+import { config } from '@/lib/config';
 
 interface UpdateIaoTimeModalProps {
   isOpen: boolean;
@@ -40,12 +41,12 @@ export const UpdateIaoTimeModal = ({
   const [isLoading, setIsLoading] = useState(externalLoading);
 
   // 开始时间设置（从现在开始的天数和小时数）
-  const [iaoStartDays, setIaoStartDays] = useState<number>(1);
-  const [iaoStartHours, setIaoStartHours] = useState<number>(0);
+  const [iaoStartDays, setIaoStartDays] = useState<number>(config.iao.defaultStartDays);
+  const [iaoStartHours, setIaoStartHours] = useState<number>(config.iao.defaultStartHours);
 
   // 持续时间设置（天数和小时数）
-  const [iaoDurationDays, setIaoDurationDays] = useState<number>(3);
-  const [iaoDurationHours, setIaoDurationHours] = useState<number>(0);
+  const [iaoDurationDays, setIaoDurationDays] = useState<number>(config.iao.defaultDurationDays);
+  const [iaoDurationHours, setIaoDurationHours] = useState<number>(config.iao.defaultDurationHours);
 
   // 错误状态
   const [startTimeError, setStartTimeError] = useState<boolean>(false);
@@ -90,12 +91,12 @@ export const UpdateIaoTimeModal = ({
         const durationSeconds = currentEndTime - currentStartTime;
         const durationDays = Math.floor(durationSeconds / (24 * 3600));
         const durationHours = Math.floor((durationSeconds % (24 * 3600)) / 3600);
-        setIaoDurationDays(Math.max(3, durationDays));
+        setIaoDurationDays(Math.max(config.iao.defaultDurationDays, durationDays));
         setIaoDurationHours(durationHours);
       } else {
         // 设置为默认值
-        setIaoDurationDays(3);
-        setIaoDurationHours(0);
+        setIaoDurationDays(config.iao.defaultDurationDays);
+        setIaoDurationHours(config.iao.defaultDurationHours);
       }
     }
   }, [isOpen, currentStartTime, currentEndTime]);
@@ -185,8 +186,8 @@ export const UpdateIaoTimeModal = ({
 
     // 移除了开始时间最少需要24小时的限制
 
-    // 验证持续时间（72-240小时）
-    if (durationSeconds < 72 * 3600 || durationSeconds > 240 * 3600) {
+    // 验证持续时间（使用配置的最小和最大值）
+    if (durationSeconds < config.iao.minDurationHours * 3600 || durationSeconds > config.iao.maxDurationHours * 3600) {
       setEndTimeError(true);
       hasError = true;
       toast({
@@ -265,10 +266,10 @@ export const UpdateIaoTimeModal = ({
     setStartTimeError(false);
     setEndTimeError(false);
     // 重置为默认值
-    setIaoStartDays(0);
-    setIaoStartHours(0);
-    setIaoDurationDays(3);
-    setIaoDurationHours(0);
+    setIaoStartDays(config.iao.defaultStartDays);
+    setIaoStartHours(config.iao.defaultStartHours);
+    setIaoDurationDays(config.iao.defaultDurationDays);
+    setIaoDurationHours(config.iao.defaultDurationHours);
   };
 
   return (
@@ -353,7 +354,7 @@ export const UpdateIaoTimeModal = ({
                     <span className="text-gray-500 text-sm">{t('hours')}</span>
                   </div>
                 </div>
-                <div className="text-gray-500 text-xs mt-1">可立即开始</div>
+                <div className="text-gray-500 text-xs mt-1">{t('startTimeHint')}</div>
                 {startTimeError && (
                   <div className="text-red-500 text-xs mt-1">{t('startTimeError')}</div>
                 )}
@@ -369,16 +370,19 @@ export const UpdateIaoTimeModal = ({
                 <div className="flex items-center gap-1">
                   <input
                     type="number"
-                    min="3"
-                    max="10"
+                    min={Math.floor(config.iao.minDurationHours / 24)}
+                    max={Math.floor(config.iao.maxDurationHours / 24)}
                     value={iaoDurationDays}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value) || 3;
-                      const clampedValue = Math.max(3, Math.min(10, value));
+                      const value = parseInt(e.target.value) || config.iao.defaultDurationDays;
+                      const clampedValue = Math.max(
+                        Math.floor(config.iao.minDurationHours / 24), 
+                        Math.min(Math.floor(config.iao.maxDurationHours / 24), value)
+                      );
                       setIaoDurationDays(clampedValue);
                       if (endTimeError) setEndTimeError(false);
                     }}
-                    placeholder="3"
+                    placeholder={config.iao.defaultDurationDays.toString()}
                     className="w-16 bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 text-center"
                     disabled={isLoading || isIaoEnded}
                   />
@@ -403,7 +407,12 @@ export const UpdateIaoTimeModal = ({
                   <span className="text-gray-500 text-sm">{t('hours')}</span>
                 </div>
               </div>
-              <div className="text-gray-500 text-xs mt-1">{t('endTimeHint')}</div>
+              <div className="text-gray-500 text-xs mt-1">{t('endTimeHint', {
+                min: config.iao.minDurationHours,
+                max: config.iao.maxDurationHours,
+                minDays: Math.floor(config.iao.minDurationHours / 24),
+                maxDays: Math.floor(config.iao.maxDurationHours / 24)
+              })}</div>
               {endTimeError && (
                 <div className="text-red-500 text-xs mt-1">{t('endTimeError')}</div>
               )}
