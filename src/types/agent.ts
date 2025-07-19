@@ -135,5 +135,6 @@ export interface Agent {
 export interface AgentListProps {
   agents: Agent[];
   loading?: boolean;
-  fetchAgentsData: (statusFilter?: string) => void;
+  onStatusFilterChange: (newStatus: string) => void;
+  currentStatusFilter: string;
 } 

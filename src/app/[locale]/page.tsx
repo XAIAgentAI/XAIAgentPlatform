@@ -11,13 +11,14 @@ export default function Home() {
   const [agents, setAgents] = useState<LocalAgent[]>([])
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
+  const [statusFilter, setStatusFilter] = useState<string>("TRADABLE")
   
   // 从URL参数中获取排序方式
   const sortBy = searchParams?.get('sortBy') || "marketCap"
   const sortOrder = searchParams?.get('sortOrder') || "desc"
   
   // 获取代理列表
-  const fetchAgentsData = async (statusFilter?: string) => {
+  const fetchAgentsData = async () => {
     try {
       setLoading(true)
       // 使用当前排序参数和筛选参数
@@ -43,10 +44,15 @@ export default function Home() {
     }
   };
 
-  // 初始加载时获取"可交易"状态的代理
+  // 当排序或状态筛选变化时重新获取数据
   useEffect(() => {
-    fetchAgentsData("TRADABLE");
-  }, [sortBy, sortOrder]); 
+    fetchAgentsData();
+  }, [sortBy, sortOrder, statusFilter]); 
+  
+  // 更新状态筛选器的处理函数
+  const handleStatusFilterChange = (newStatus: string) => {
+    setStatusFilter(newStatus);
+  };
   
   return (
     <>
@@ -54,14 +60,16 @@ export default function Home() {
         <AgentListDesktop 
           agents={agents} 
           loading={loading}
-          fetchAgentsData={fetchAgentsData}
+          onStatusFilterChange={handleStatusFilterChange}
+          currentStatusFilter={statusFilter}
         />
       </div>
       <div className="container flex-1 flex flex-col container mx-auto px-4 py-2 md:hidden">
         <AgentListMobile 
           agents={agents} 
           loading={loading}
-          fetchAgentsData={fetchAgentsData}
+          onStatusFilterChange={handleStatusFilterChange}
+          currentStatusFilter={statusFilter}
         />
       </div>
     </>

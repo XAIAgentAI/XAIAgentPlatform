@@ -437,6 +437,23 @@ function formatAgentData(
       }
     };
     
+    // 计算市值 - 优先使用priceInfo和totalSupply计算，如果无法计算则尝试从marketCap字符串提取
+    let calculatedMarketCap = 0;
+    if (priceInfo?.usdPrice && item.totalSupply) {
+      calculatedMarketCap = priceInfo.usdPrice * Number(item.totalSupply);
+    } else if (item.marketCap) {
+      try {
+        const marketCapStr = item.marketCap.replace(/[$,]/g, '');
+        const marketCapNum = parseFloat(marketCapStr);
+        if (!isNaN(marketCapNum)) {
+          calculatedMarketCap = marketCapNum;
+          console.log(`从字符串 ${item.marketCap} 提取市值: ${marketCapNum} 用于项目 ${item.name}`);
+        }
+      } catch (e) {
+        console.error(`无法从 ${item.marketCap} 提取市值用于项目 ${item.name}:`, e);
+      }
+    }
+    
     const formattedItem = {
       id: item.id,
       name: item.name,
@@ -480,7 +497,7 @@ function formatAgentData(
       _usdPrice: priceInfo?.usdPrice || 0,
       _volume24h: priceInfo?.volume24h || 0,
       _tvl: priceInfo?.tvl || 0,
-      _marketCap: priceInfo?.usdPrice && item.totalSupply ? priceInfo.usdPrice * Number(item.totalSupply) : 0,
+      _marketCap: calculatedMarketCap,
       _lp: priceInfo?.lp || 0,
       _priceChange24h: priceInfo?.priceChange24h || 0,
     };
@@ -505,6 +522,24 @@ async function sortAgentData(
 ): Promise<AgentWithSortData[]> {
   console.log('开始排序数据，输入items数量:', items.length);
   console.log('排序参数 - sortBy:', sortBy, 'sortOrder:', sortOrder, 'page:', page, 'status:', status);
+
+  // 记录排序前的数据情况
+  if (sortBy === 'marketCap') {
+    const marketCapStats = items.reduce((stats, item) => {
+      if (item._marketCap > 0) stats.withValue++;
+      else stats.zeroValue++;
+      return stats;
+    }, { withValue: 0, zeroValue: 0 });
+    
+    console.log(`排序前市值统计 - 有值项目: ${marketCapStats.withValue}, 零值项目: ${marketCapStats.zeroValue}`);
+    
+    // 记录前5个项目的市值情况
+    console.log('排序前前5项的市值情况:', items.slice(0, 5).map(item => ({
+      name: item.name,
+      _marketCap: item._marketCap,
+      marketCap: item.marketCap
+    })));
+  }
 
   let result = [...items]; // 创建副本以避免修改原数组
 
@@ -557,11 +592,34 @@ async function sortAgentData(
 
     // 将置顶项目放在最前面
     result = [...topThreeIaoItems, ...remainingItems];
+  } else {
+    console.log(`不执行置顶逻辑，因为page=${page}或status=${status}`);
   }
 
   if (['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h'].includes(sortBy)) {
     const sortField = `_${sortBy}`;
     console.log(`按字段 ${sortField} 排序`);
+    
+    // 确保所有项目都有有效的排序字段值
+    // 对于marketCap字段，如果_marketCap为0但marketCap字符串存在，尝试从字符串中提取数值
+    if (sortBy === 'marketCap') {
+      result.forEach(item => {
+        if (item._marketCap === 0 && item.marketCap) {
+          try {
+            // 从字符串中提取数值，例如从"$1,000,000"提取1000000
+            const marketCapStr = item.marketCap.replace(/[$,]/g, '');
+            const marketCapNum = parseFloat(marketCapStr);
+            if (!isNaN(marketCapNum)) {
+              item._marketCap = marketCapNum;
+              console.log(`从字符串 ${item.marketCap} 提取市值: ${marketCapNum} 用于项目 ${item.name}`);
+            }
+          } catch (e) {
+            console.error(`无法从 ${item.marketCap} 提取市值用于项目 ${item.name}:`, e);
+          }
+        }
+      });
+    }
+    
     result = result.sort((a, b) => {
       if (sortOrder === 'desc') {
         return (b[sortField] || 0) - (a[sortField] || 0);
@@ -569,6 +627,13 @@ async function sortAgentData(
         return (a[sortField] || 0) - (b[sortField] || 0);
       }
     });
+    
+    // 在排序完成后，记录排序结果的前几项，帮助调试
+    console.log(`排序后前5项的${sortField}值:`, result.slice(0, 5).map(item => ({
+      name: item.name,
+      [sortField]: item[sortField],
+      originalField: item[sortBy]
+    })));
   }
   // 支持更复杂的排序组合
   else if (sortBy === 'hot') {

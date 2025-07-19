@@ -34,7 +34,7 @@ const parseSocialLinks = (socialLinks?: string) => {
   };
 };
 
-const AgentListDesktop = ({ agents, loading, fetchAgentsData }: AgentListProps) => {
+const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatusFilter }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -50,8 +50,13 @@ const AgentListDesktop = ({ agents, loading, fetchAgentsData }: AgentListProps) 
   const { open } = useAppKit();
   const { toast } = useToast();
   
-  // 添加当前筛选状态
-  const [currentFilter, setCurrentFilter] = useState("TRADABLE");
+  // 使用传入的currentStatusFilter
+  const [currentFilter, setCurrentFilter] = useState(currentStatusFilter);
+
+  // 当父组件的currentStatusFilter变化时更新本地状态
+  useEffect(() => {
+    setCurrentFilter(currentStatusFilter);
+  }, [currentStatusFilter]);
 
   const handleSort = (field: SortField) => {
     let newSortDirection = sortDirection;
@@ -124,9 +129,7 @@ const AgentListDesktop = ({ agents, loading, fetchAgentsData }: AgentListProps) 
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
             <Tabs value={currentFilter} className="w-auto" onValueChange={(value) => {
               setCurrentFilter(value);
-              if (fetchAgentsData) {
-                fetchAgentsData(value);
-              }
+              onStatusFilterChange(value);
             }}>
               <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1 flex-wrap lg:flex-nowrap">
                 <TabsTrigger

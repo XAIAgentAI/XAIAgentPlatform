@@ -31,7 +31,7 @@ const parseSocialLinks = (socialLinks?: string) => {
   };
 };
 
-const AgentListMobile = ({ agents, loading, fetchAgentsData }: AgentListProps) => {
+const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusFilter }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -45,8 +45,13 @@ const AgentListMobile = ({ agents, loading, fetchAgentsData }: AgentListProps) =
   const { open } = useAppKit();
   const { toast } = useToast();
 
-  // 添加当前筛选状态
-  const [currentFilter, setCurrentFilter] = useState("TRADABLE");
+  // 使用传入的currentStatusFilter
+  const [currentFilter, setCurrentFilter] = useState(currentStatusFilter);
+
+  // 当父组件的currentStatusFilter变化时更新本地状态
+  useEffect(() => {
+    setCurrentFilter(currentStatusFilter);
+  }, [currentStatusFilter]);
 
   const fetchStakedInfo = async () => {
     if (!address) return;
@@ -100,9 +105,7 @@ const AgentListMobile = ({ agents, loading, fetchAgentsData }: AgentListProps) =
             <div className="flex-1 overflow-x-auto hide-scrollbar">
               <Tabs value={currentFilter} onValueChange={(value) => {
                 setCurrentFilter(value);
-                if (fetchAgentsData) {
-                  fetchAgentsData(value);
-                }
+                onStatusFilterChange(value);
               }}>
                 <TabsList className="bg-transparent p-0 inline-flex gap-1 w-auto">
                   <TabsTrigger
