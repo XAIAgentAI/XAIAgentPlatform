@@ -941,5 +941,35 @@
         ],
         "stateMutability": "pure",
         "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lockSeconds",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct Token.LockInfo[]",
+                "name": "lockInfos",
+                "type": "tuple[]"
+            }
+        ],
+        "name": "batchTransferAndLock",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
 ]

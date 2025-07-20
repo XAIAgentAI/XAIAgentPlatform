@@ -11,7 +11,7 @@ export default function Home() {
   const [agents, setAgents] = useState<LocalAgent[]>([])
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
-  const [statusFilter, setStatusFilter] = useState<string>("TRADABLE")
+  const [statusFilter, setStatusFilter] = useState<string>("")
   
   // 从URL参数中获取排序方式
   const sortBy = searchParams?.get('sortBy') || "marketCap"

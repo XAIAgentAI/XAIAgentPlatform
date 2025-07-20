@@ -329,16 +329,16 @@ export class PoolManager {
       console.log(`  - 初始价格: ${uniswapPrice}`);
       console.log(`  - 最小价格 (20%): ${minPrice}`);
       console.log(`  - 最大价格 (500%): ${maxPrice}`);
+        // throw new Error('先不初始化池子');
+              // const initializeHash = await this.walletClient.writeContract({
+      //   address: poolAddress as `0x${string}`,
+      //   abi: ABIS.POOL,
+      //   functionName: 'initialize',
+      //   args: [initialSqrtPrice],
+      // });
 
-      const initializeHash = await this.walletClient.writeContract({
-        address: poolAddress as `0x${string}`,
-        abi: ABIS.POOL,
-        functionName: 'initialize',
-        args: [initialSqrtPrice],
-      });
+      // await this.publicClient.waitForTransactionReceipt({ hash: initializeHash });
 
-      await this.publicClient.waitForTransactionReceipt({ hash: initializeHash });
-      console.log(`✅ 池子初始化完成`);
     } else {
       // 池子已初始化，检查当前价格是否合理
       const currentPoolPrice = Math.pow(Number(sqrtPriceX96) / Math.pow(2, 96), 2);
@@ -657,25 +657,25 @@ export class PoolManager {
     };
 
     console.log("mintParams", mintParams);
-    // throw new Error('test');
+    throw new Error('test');
 
-    const addLiquidityHash = await this.walletClient.writeContract({
-      address: DBCSWAP_CONFIG.POSITION_MANAGER,
-      abi: ABIS.POSITION_MANAGER,
-      functionName: 'mint',
-      args: [mintParams],
-    });
+    // const addLiquidityHash = await this.walletClient.writeContract({
+    //   address: DBCSWAP_CONFIG.POSITION_MANAGER,
+    //   abi: ABIS.POSITION_MANAGER,
+    //   functionName: 'mint',
+    //   args: [mintParams],
+    // });
 
-    const receipt = await this.publicClient.waitForTransactionReceipt({ 
-      hash: addLiquidityHash 
-    });
+    // const receipt = await this.publicClient.waitForTransactionReceipt({ 
+    //   hash: addLiquidityHash 
+    // });
 
-    return {
-      txHash: addLiquidityHash,
-      tokenAmount: formatEther(tokenAmountWei),
-      xaaAmount: formatEther(xaaAmountWei),
-      blockNumber: receipt.blockNumber.toString(),
-    };
+    // return {
+    //   txHash: addLiquidityHash,
+    //   tokenAmount: formatEther(tokenAmountWei),
+    //   xaaAmount: formatEther(xaaAmountWei),
+    //   blockNumber: receipt.blockNumber.toString(),
+    // };
 
   }
 }

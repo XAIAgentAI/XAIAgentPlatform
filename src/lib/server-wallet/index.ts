@@ -188,12 +188,11 @@ export async function batchTransferAndLock(
     error?: string;
   }>;
 }> {
-  console.log(`🔄 开始批量执行transferAndLock - 总数: ${count}, 并发数: ${concurrency}`);
+  console.log(`🔄 开始批量执行transferAndLock - 总数: ${count}, 锁定时间: ${lockTime}秒`);
   console.log(`📝 参数详情:`);
   console.log(`  - 代币地址: ${tokenAddress}`);
   console.log(`  - 接收者: ${recipientAddress}`);
   console.log(`  - 每次金额: ${amount}`);
-  console.log(`  - 锁定时间: ${lockTime}秒`);
 
   // 初始化客户端
   const { walletClient, publicClient } = initializeClients();
@@ -205,116 +204,79 @@ export async function batchTransferAndLock(
   // 转换为Wei
   const amountWei = parseEther(amount);
   
-  // 存储所有交易结果
-  const results: Array<{
-    index: number;
-    txHash: string;
-    status: 'success' | 'failed';
-    error?: string;
-  }> = [];
-  
-  // 创建任务队列
-  const tasks = Array.from({ length: count }, (_, i) => i);
-  
-  // 执行单个transferAndLock操作
-  const executeTransferAndLock = async (index: number, retryCount: number = 0): Promise<void> => {
-    console.log(`🔄 执行第 ${index + 1}/${count} 次transferAndLock操作`);
+  try {
+    console.log(`🔄 调用合约的批量transferAndLock功能`);
     
-    try {
-      // 执行transferAndLock
-      const hash = await walletClient.writeContract({
-        address: tokenAddress as `0x${string}`,
-        abi: xaaAbi,
-        functionName: 'transferAndLock',
-        args: [
-          recipientAddress as `0x${string}`,
-          amountWei,
-          BigInt(lockTime)
-        ],
-      });
+    // 创建50个相同锁定时间的锁定信息数组
+    const lockInfos = Array.from({ length: count }, (_, i) => ({
+      to: recipientAddress as `0x${string}`,
+      amount: amountWei,
+      lockSeconds: BigInt(lockTime) // 固定锁定时间
+    }));
+    
+    console.log(`📊 生成了${count}个锁定信息，每个锁定${lockTime}秒（${lockTime / 86400}天）`);
+    
+    // 执行批量transferAndLock
+    const hash = await walletClient.writeContract({
+      address: tokenAddress as `0x${string}`,
+      abi: xaaAbi,
+      functionName: 'batchTransferAndLock',
+      args: [
+        lockInfos
+      ],
+    });
+    
+    console.log(`📤 批量transferAndLock交易已发送: ${hash}`);
+    
+    // 等待交易确认
+    const receipt = await publicClient.waitForTransactionReceipt({ 
+      hash,
+      timeout: 120000 // 120秒超时
+    });
+    
+    if (receipt.status === 'success') {
+      console.log(`✅ 批量transferAndLock成功 - Hash: ${hash}`);
       
-      console.log(`📤 第 ${index + 1}/${count} 次transferAndLock交易已发送: ${hash}`);
-      
-      // 等待交易确认
-      const receipt = await publicClient.waitForTransactionReceipt({ 
-        hash,
-        timeout: 60000 // 60秒超时
-      });
-      
-      if (receipt.status === 'success') {
-        console.log(`✅ 第 ${index + 1}/${count} 次transferAndLock成功 - Hash: ${hash}`);
-        results.push({
-          index,
+      return {
+        success: true,
+        completedCount: count,
+        failedCount: 0,
+        transactions: [{
+          index: 0,
           txHash: hash,
           status: 'success'
-        });
-      } else {
-        console.error(`❌ 第 ${index + 1}/${count} 次transferAndLock失败 - Hash: ${hash}`);
-        
-        // 如果还有重试次数，则重试
-        if (retryCount < maxRetries) {
-          console.log(`🔄 重试第 ${index + 1}/${count} 次transferAndLock (${retryCount + 1}/${maxRetries})`);
-          return executeTransferAndLock(index, retryCount + 1);
-        }
-        
-        results.push({
-          index,
+        }]
+      };
+    } else {
+      console.error(`❌ 批量transferAndLock失败 - Hash: ${hash}`);
+      
+      return {
+        success: false,
+        completedCount: 0,
+        failedCount: count,
+        transactions: [{
+          index: 0,
           txHash: hash,
           status: 'failed',
           error: 'Transaction failed'
-        });
-      }
-    } catch (error) {
-      console.error(`❌ 第 ${index + 1}/${count} 次transferAndLock异常:`, error);
-      
-      // 如果还有重试次数，则重试
-      if (retryCount < maxRetries) {
-        console.log(`🔄 重试第 ${index + 1}/${count} 次transferAndLock (${retryCount + 1}/${maxRetries})`);
-        return executeTransferAndLock(index, retryCount + 1);
-      }
-      
-      results.push({
-        index,
+        }]
+      };
+    }
+  } catch (error) {
+    console.error(`❌ 批量transferAndLock异常:`, error);
+    
+    return {
+      success: false,
+      completedCount: 0,
+      failedCount: count,
+      transactions: [{
+        index: 0,
         txHash: '',
         status: 'failed',
         error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  };
-  
-  // 使用并发控制执行所有任务
-  const processQueue = async () => {
-    while (tasks.length > 0) {
-      const batch = tasks.splice(0, concurrency);
-      if (batch.length === 0) break;
-      
-      console.log(`🔄 开始处理批次，大小: ${batch.length}`);
-      
-      // 并发执行当前批次
-      await Promise.all(batch.map(index => executeTransferAndLock(index)));
-      
-      console.log(`✅ 批次处理完成，剩余任务: ${tasks.length}`);
-    }
-  };
-  
-  // 开始执行队列
-  await processQueue();
-  
-  // 统计结果
-  const successCount = results.filter(r => r.status === 'success').length;
-  const failedCount = results.filter(r => r.status === 'failed').length;
-  
-  console.log(`📊 批量transferAndLock执行结果:`);
-  console.log(`  - 总数: ${count}`);
-  console.log(`  - 成功: ${successCount}`);
-  console.log(`  - 失败: ${failedCount}`);
-  
-  return {
-    success: failedCount === 0,
-    completedCount: successCount,
-    failedCount,
-    transactions: results
-  };
+      }]
+    };
+  }
 }
 
 /**
@@ -855,15 +817,15 @@ export async function distributeTokens(
         const perLockAmount = (totalAmount / 50).toFixed(18); // 保留18位小数
         console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${distributions.creator})`);
         
-        // 使用批量transferAndLock函数，锁定50次
+        // 使用批量transferAndLock函数，一次性锁定50次，每次都是40天
         const batchResult = await batchTransferAndLock(
           tokenAddress,
           agentInfo.creator.address,
           perLockAmount,
           40 * 24 * 60 * 60, // 锁定40天
           50, // 执行50次
-          5, // 并发数为5
-          3  // 最大重试次数为3
+          5, // 并发数参数（已不再使用）
+          3  // 最大重试次数参数（已不再使用）
         );
         
         console.log(`🔍 [DEBUG] 👤 批量锁定结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
@@ -1131,22 +1093,21 @@ async function retryCreatorBatchTransferAndLock(
     const perLockAmount = (amount / 50).toFixed(18); // 保留18位小数
     console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${totalAmount})`);
     
-    // 重新执行批量transferAndLock，但只执行之前失败的次数
-    // 由于无法确定具体哪几次失败，所以重新执行failedCount次
+    // 使用新的批量transferAndLock方法，固定40天锁定时间
     const batchResult = await batchTransferAndLock(
       tokenAddress,
       recipientAddress,
       perLockAmount,
       40 * 24 * 60 * 60, // 锁定40天
       failedCount, // 只执行之前失败的次数
-      5, // 并发数为5
-      3  // 最大重试次数为3
+      5, // 并发数参数（已不再使用）
+      3  // 最大重试次数参数（已不再使用）
     );
     
     console.log(`🔍 [DEBUG] 👤 批量锁定重试结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
     
     // 创建交易结果
-    const result: TransactionResult = {
+    return {
       type: 'creator',
       amount: totalAmount,
       txHash: batchResult.transactions.length > 0 ? batchResult.transactions[0].txHash : '',
@@ -1163,8 +1124,6 @@ async function retryCreatorBatchTransferAndLock(
         }))
       }
     };
-    
-    return result;
   } catch (error) {
     console.error('❌ 重试批量transferAndLock失败:', error);
     return {
