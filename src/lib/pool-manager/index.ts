@@ -164,6 +164,26 @@ export interface PoolManagerResult {
   error?: string;
 }
 
+interface CalculatedPoolParams {
+  initialPrice: number;
+  minPrice: number;
+  maxPrice: number;
+  initialSqrtPrice: bigint;
+  minTick: number;
+  maxTick: number;
+  currentTick?: number;
+  isToken0: boolean;
+  token0: string;
+  token1: string;
+  amount0Desired: bigint;
+  amount1Desired: bigint;
+  amount0Min: bigint;
+  amount1Min: bigint;
+  deadline: bigint;
+  tokenAmountWei: bigint;
+  xaaAmountWei: bigint;
+}
+
 /**
  * 池子管理器类
  */
@@ -293,7 +313,7 @@ export class PoolManager {
   /**
    * 检查并初始化池子
    */
-  async ensurePoolInitialized(poolAddress: string, uniswapPrice?: number): Promise<void> {
+  async ensurePoolInitialized(poolAddress: string, params: CalculatedPoolParams): Promise<void> {
     const slot0 = await this.publicClient.readContract({
       address: poolAddress as `0x${string}`,
       abi: ABIS.POOL,
@@ -304,57 +324,36 @@ export class PoolManager {
 
     // 如果价格为0，说明池子未初始化
     if (sqrtPriceX96 === BigInt(0)) {
-      if (!uniswapPrice || uniswapPrice <= 0) {
-        throw new Error('池子未初始化且未提供Uniswap价格，无法初始化池子');
-      }
-
-      // 先计算初始tick，确保与其他地方计算方式一致
-      const initialTickRaw = Math.floor(Math.log(uniswapPrice) / Math.log(1.0001));
+      console.log(`🏗️ 使用计算的初始价格初始化池子:`);
+      console.log(`  - 初始价格: ${params.initialPrice}`);
+      console.log(`  - sqrtPriceX96: ${params.initialSqrtPrice.toString()}`);
       
-      // 使用tick计算sqrtPriceX96
-      const sqrtPrice = Math.sqrt(Math.pow(1.0001, initialTickRaw));
-      const initialSqrtPrice = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
-
-      console.log(`🏗️ 使用Uniswap价格初始化池子:`);
-      console.log(`  - Uniswap价格: ${uniswapPrice}`);
-      console.log(`  - 初始tick: ${initialTickRaw}`);
-      console.log(`  - sqrt价格: ${sqrtPrice}`);
-      console.log(`  - sqrtPriceX96: ${initialSqrtPrice.toString()}`);
-      
-      // 计算价格范围（与添加流动性时相同的逻辑）
-      const minPrice = uniswapPrice * 0.2;  // 20%
-      const maxPrice = uniswapPrice * 5.0;  // 500%
       
       console.log(`💰 池子价格范围计算:`);
-      console.log(`  - 初始价格: ${uniswapPrice}`);
-      console.log(`  - 最小价格 (20%): ${minPrice}`);
-      console.log(`  - 最大价格 (500%): ${maxPrice}`);
-        // throw new Error('先不初始化池子');
-              // const initializeHash = await this.walletClient.writeContract({
-      //   address: poolAddress as `0x${string}`,
-      //   abi: ABIS.POOL,
-      //   functionName: 'initialize',
-      //   args: [initialSqrtPrice],
-      // });
+      // throw new Error('先不初始化池子');
+      // 初始化池子
+      const initializeHash = await this.walletClient.writeContract({
+        address: poolAddress as `0x${string}`,
+        abi: ABIS.POOL,
+        functionName: 'initialize',
+        args: [params.initialSqrtPrice],
+      });
 
-      // await this.publicClient.waitForTransactionReceipt({ hash: initializeHash });
-
+      await this.publicClient.waitForTransactionReceipt({ hash: initializeHash });
     } else {
       // 池子已初始化，检查当前价格是否合理
       const currentPoolPrice = Math.pow(Number(sqrtPriceX96) / Math.pow(2, 96), 2);
       console.log(`🔍 池子已初始化，当前价格 (token1/token0): ${currentPoolPrice}`);
       
-      // 如果提供了Uniswap价格，可以与当前池子价格比较
-      if (uniswapPrice && uniswapPrice > 0) {
-        const priceDiffPercentage = Math.abs((currentPoolPrice - uniswapPrice) / uniswapPrice * 100);
-        console.log(`📊 价格比较:`);
-        console.log(`  - 池子当前价格: ${currentPoolPrice}`);
-        console.log(`  - 期望Uniswap价格: ${uniswapPrice}`);
-        console.log(`  - 价格差异: ${priceDiffPercentage.toFixed(2)}%`);
-        
-        if (priceDiffPercentage > 50) {
-          console.log(`⚠️ 警告: 价格差异较大 (${priceDiffPercentage.toFixed(2)}%)，可能影响流动性添加`);
-        }
+      // 与期望价格比较
+      const priceDiffPercentage = Math.abs((currentPoolPrice - params.initialPrice) / params.initialPrice * 100);
+      console.log(`📊 价格比较:`);
+      console.log(`  - 池子当前价格: ${currentPoolPrice}`);
+      console.log(`  - 期望初始价格: ${params.initialPrice}`);
+      console.log(`  - 价格差异: ${priceDiffPercentage.toFixed(2)}%`);
+      
+      if (priceDiffPercentage > 50) {
+        console.log(`⚠️ 警告: 价格差异较大 (${priceDiffPercentage.toFixed(2)}%)，可能影响流动性添加`);
       }
     }
   }
@@ -489,7 +488,7 @@ export class PoolManager {
   async addLiquidity(params: AddLiquidityParams): Promise<PoolManagerResult> {
     try {
       const { tokenAddress, tokenAmount, xaaAmount, priceRange } = params;
-
+  
       console.log(`\n========== 流动性参数验证 ==========`);
       console.log(`📊 代币信息:`);
       console.log(`  - 代币地址: ${tokenAddress}`);
@@ -524,8 +523,13 @@ export class PoolManager {
       const poolAddress = await this.ensurePoolExists(tokenAddress);
       console.log(`✅ 池子地址: ${poolAddress}`);
 
+      // 计算所有需要的参数
+      const calculatedParams = await this.calculatePoolParams(tokenAddress, tokenAmount, xaaAmount, priceRange, poolAddress);
+      console.log(`\n========== 计算参数结果 ==========`);
+      console.log(calculatedParams);
+
       // 3. 确保池子已初始化（使用提供的初始价格）
-      await this.ensurePoolInitialized(poolAddress, priceRange.initial);
+      await this.ensurePoolInitialized(poolAddress, calculatedParams);
       console.log(`✅ 池子初始化完成`);
 
       // 4. 授权代币
@@ -533,12 +537,7 @@ export class PoolManager {
       console.log(`✅ 代币授权完成`);
 
       // 5. 添加流动性
-      const result = await this.mintLiquidity(
-        tokenAddress, 
-        tokenAmount, 
-        xaaAmount, 
-        priceRange
-      );
+      const result = await this.mintLiquidity(tokenAddress, tokenAmount, xaaAmount, calculatedParams);
       console.log(`✅ 流动性添加完成`);
 
       return {
@@ -546,7 +545,7 @@ export class PoolManager {
         poolAddress,
         ...result
       };
-
+  
     } catch (error) {
       console.error('❌ 池子操作失败:', error);
       return {
@@ -556,109 +555,171 @@ export class PoolManager {
     }
   }
 
-
-  /**
-   * 铸造流动性
-   */
-  private async mintLiquidity(
-    tokenAddress: string, 
-    tokenAmount: string, 
-    xaaAmount: string, 
-    priceRange: PriceRange
-  ) {
+  private async calculatePoolParams(
+    tokenAddress: string,
+    tokenAmount: string,
+    xaaAmount: string,
+    priceRange: PriceRange,
+    poolAddress: string
+  ): Promise<CalculatedPoolParams> {
+    console.log(`\n========== 开始计算池子参数 ==========`);
+    
+    // 转换为Wei
     const tokenAmountWei = parseEther(tokenAmount);
     const xaaAmountWei = parseEther(xaaAmount);
-
-    // 获取池子地址
-    const poolAddress = await this.ensurePoolExists(tokenAddress);
-
-    // 设置截止时间
-    const deadline = BigInt(Math.floor(Date.now() / 1000) + this.options.deadline * 60);
-
+    
     // 确定token0和token1的顺序
-    const isToken0 = tokenAddress.toLowerCase() < DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS.toLowerCase();
+    const isToken0 = tokenAddress.toLowerCase() === DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS.toLowerCase();
     const token0 = isToken0 ? tokenAddress : DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS;
     const token1 = isToken0 ? DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS : tokenAddress;
     const amount0Desired = isToken0 ? tokenAmountWei : xaaAmountWei;
     const amount1Desired = isToken0 ? xaaAmountWei : tokenAmountWei;
-
+    
+    console.log(`📊 Token排序:`);
+    console.log(`  - isToken0: ${isToken0}`);
+    console.log(`  - token0: ${token0}`);
+    console.log(`  - token1: ${token1}`);
+    
     // 设置tick范围（基于提供的价格范围）
     const tickSpacing = 10; // 0.05%手续费的tick间距
-
+    const initialTickRaw = Math.floor(Math.log(priceRange.initial) / Math.log(1.0001));
+    
+    // 计算初始sqrtPriceX96
+    const sqrtPrice = Math.sqrt(Math.pow(1.0001, initialTickRaw));
+    const initialSqrtPrice = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
+    
+    console.log(`🏗️ 初始价格参数:`);
+    console.log(`  - 初始价格: ${priceRange.initial}`);
+    console.log(`  - 初始tick: ${initialTickRaw}`);
+    console.log(`  - sqrt价格: ${sqrtPrice}`);
+    console.log(`  - sqrtPriceX96: ${initialSqrtPrice.toString()}`);
+    
     // 计算tick范围
     let minTick = Math.floor(Math.log(priceRange.min) / Math.log(1.0001) / tickSpacing) * tickSpacing;
     let maxTick = Math.floor(Math.log(priceRange.max) / Math.log(1.0001) / tickSpacing) * tickSpacing;
-
+    
     // 确保tick在允许的范围内
     const MIN_TICK = -887272;
     const MAX_TICK = 887272;
     
     if (minTick < MIN_TICK) minTick = MIN_TICK;
     if (maxTick > MAX_TICK) maxTick = MAX_TICK;
-
+    
     console.log(`📊 价格范围设置:`);
     console.log(`  - 最小价格: ${priceRange.min} -> tick: ${minTick}`);
     console.log(`  - 最大价格: ${priceRange.max} -> tick: ${maxTick}`);
     console.log(`  - tick范围: ${maxTick - minTick} ticks`);
-
-    // 获取当前tick
-    const currentTick = await this.getCurrentTick(poolAddress);
     
-    // 确保当前tick在范围内
-    const tickInRange = currentTick >= minTick && currentTick < maxTick;
-    if (!tickInRange) {
-      console.warn(`⚠️ 警告: 当前tick (${currentTick}) 不在设置的范围内 [${minTick}, ${maxTick})`);
-      // 调整范围以包含当前tick
-      if (currentTick < minTick) {
-        const diff = minTick - currentTick;
-        minTick = Math.floor((currentTick - tickSpacing) / tickSpacing) * tickSpacing;
-        maxTick = Math.max(maxTick - diff, minTick + 10000); // 保持至少10000的范围
-      } else if (currentTick >= maxTick) {
-        const diff = currentTick - maxTick + 1;
-        maxTick = Math.floor((currentTick + tickSpacing) / tickSpacing) * tickSpacing;
-        minTick = Math.min(minTick + diff, maxTick - 10000); // 保持至少10000的范围
-      }
+    // 尝试获取当前tick
+    let currentTick: number | undefined;
+    try {
+      const slot0 = await this.publicClient.readContract({
+        address: poolAddress as `0x${string}`,
+        abi: ABIS.POOL,
+        functionName: 'slot0',
+      }) as readonly [bigint, number, number, number, number, number, boolean];
       
-      console.log(`🔄 调整后的范围:`);
-      console.log(`  - 新minTick: ${minTick}`);
-      console.log(`  - 新maxTick: ${maxTick}`);
-      
-      // 再次验证tick是否在范围内
-      const newTickInRange = currentTick >= minTick && currentTick < maxTick;
-      if (!newTickInRange) {
-        throw new Error(`无法调整tick范围以包含当前tick (${currentTick})`);
+      if (slot0[0] !== BigInt(0)) {
+        currentTick = slot0[1];
+        console.log(`🔍 池子已初始化，当前tick: ${currentTick}`);
+        
+        // 确保当前tick在范围内
+        const tickInRange = currentTick >= minTick && currentTick < maxTick;
+        if (!tickInRange) {
+          console.warn(`⚠️ 警告: 当前tick (${currentTick}) 不在设置的范围内 [${minTick}, ${maxTick})`);
+          // 调整范围以包含当前tick
+          if (currentTick < minTick) {
+            const diff = minTick - currentTick;
+            minTick = Math.floor((currentTick - tickSpacing) / tickSpacing) * tickSpacing;
+            maxTick = Math.max(maxTick - diff, minTick + 10000); // 保持至少10000的范围
+          } else if (currentTick >= maxTick) {
+            const diff = currentTick - maxTick + 1;
+            maxTick = Math.floor((currentTick + tickSpacing) / tickSpacing) * tickSpacing;
+            minTick = Math.min(minTick + diff, maxTick - 10000); // 保持至少10000的范围
+          }
+          
+          console.log(`🔄 调整后的范围:`);
+          console.log(`  - 新minTick: ${minTick}`);
+          console.log(`  - 新maxTick: ${maxTick}`);
+          
+          // 再次验证tick是否在范围内
+          const newTickInRange = currentTick >= minTick && currentTick < maxTick;
+          if (!newTickInRange) {
+            throw new Error(`无法调整tick范围以包含当前tick (${currentTick})`);
+          }
+        }
+      } else {
+        console.log(`🔍 池子未初始化，将使用计算的初始价格`);
       }
+    } catch (error) {
+      console.warn(`⚠️ 获取当前tick失败，将使用计算的初始价格:`, error);
     }
-
+    
     // 计算滑点
     const slippageMultiplier = (100 - this.options.slippage) / 100;
-    const amount0Min = BigInt(amount0Desired);
-    const amount1Min = BigInt(amount1Desired);
-
-    // console.log("slippageMultiplier", slippageMultiplier);
-    // console.log("amount0Desired", amount0Desired);
-    // console.log("amount1Desired", amount1Desired);
-    // console.log("amount0Min", amount0Min);
-    // console.log("amount1Min", amount1Min);
+    const amount0Min = BigInt(Math.floor(Number(amount0Desired) * slippageMultiplier));
+    const amount1Min = BigInt(Math.floor(Number(amount1Desired) * slippageMultiplier));
     
+    // 设置截止时间
+    const deadline = BigInt(Math.floor(Date.now() / 1000) + this.options.deadline * 60);
+    
+    console.log(`💰 流动性参数:`);
+    console.log(`  - amount0Desired: ${formatEther(amount0Desired)}`);
+    console.log(`  - amount1Desired: ${formatEther(amount1Desired)}`);
+    console.log(`  - amount0Min: ${formatEther(amount0Min)}`);
+    console.log(`  - amount1Min: ${formatEther(amount1Min)}`);
+    console.log(`  - 截止时间: ${new Date(Number(deadline) * 1000).toLocaleString()}`);
+    
+    return {
+      initialPrice: priceRange.initial,
+      minPrice: priceRange.min,
+      maxPrice: priceRange.max,
+      initialSqrtPrice,
+      minTick,
+      maxTick,
+      currentTick,
+      isToken0,
+      token0,
+      token1,
+      amount0Desired,
+      amount1Desired,
+      amount0Min,
+      amount1Min,
+      deadline,
+      tokenAmountWei,
+      xaaAmountWei
+    };
+  }
 
+  private async mintLiquidity(
+    tokenAddress: string, 
+    tokenAmount: string, 
+    xaaAmount: string, 
+    params: CalculatedPoolParams
+  ) {
+    console.log(`\n========== 开始添加流动性 ==========`);
+    
     const mintParams = {
-      token0: token0 as `0x${string}`,
-      token1: token1 as `0x${string}`,
+      token0: params.token0 as `0x${string}`,
+      token1: params.token1 as `0x${string}`,
       fee: this.options.fee,
-      tickLower: minTick,
-      tickUpper: maxTick,
-      amount0Desired: amount0Desired,
-      amount1Desired: amount1Desired,
-      amount0Min: amount0Min,
-      amount1Min: amount1Min,
+      tickLower: params.minTick,
+      tickUpper: params.maxTick,
+      amount0Desired: params.amount0Desired,
+      amount1Desired: params.amount1Desired,
+      amount0Min: params.amount0Min,
+      amount1Min: params.amount1Min,
       recipient: this.account.address,
-      deadline: deadline,
+      deadline: params.deadline,
     };
 
-    console.log("mintParams", mintParams);
+    console.log(`📊 添加流动性参数:`);
+    console.log(JSON.stringify(mintParams, (key, value) => 
+      typeof value === 'bigint' ? value.toString() : value, 2));
+    
+    // 暂时注释掉实际调用
     throw new Error('test');
-
+    
     // const addLiquidityHash = await this.walletClient.writeContract({
     //   address: DBCSWAP_CONFIG.POSITION_MANAGER,
     //   abi: ABIS.POSITION_MANAGER,
@@ -672,10 +733,11 @@ export class PoolManager {
 
     // return {
     //   txHash: addLiquidityHash,
-    //   tokenAmount: formatEther(tokenAmountWei),
-    //   xaaAmount: formatEther(xaaAmountWei),
+    //   tokenAmount: formatEther(params.tokenAmountWei),
+    //   xaaAmount: formatEther(params.xaaAmountWei),
     //   blockNumber: receipt.blockNumber.toString(),
     // };
+    
 
   }
 }

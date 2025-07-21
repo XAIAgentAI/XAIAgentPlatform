@@ -211,7 +211,7 @@ export async function batchTransferAndLock(
     const lockInfos = Array.from({ length: count }, (_, i) => ({
       to: recipientAddress as `0x${string}`,
       amount: amountWei,
-      lockSeconds: BigInt(lockTime) // 固定锁定时间
+      lockSeconds: BigInt(lockTime * (i+1)) // 固定锁定时间
     }));
     
     console.log(`📊 生成了${count}个锁定信息，每个锁定${lockTime}秒（${lockTime / 86400}天）`);
