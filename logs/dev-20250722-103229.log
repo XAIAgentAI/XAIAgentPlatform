@@ -1,0 +1,1745 @@
+   ▲ Next.js 14.0.4
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use at your own risk):
+     · instrumentationHook
+     · outputFileTracingRoot
+
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     "env._next_intl_trailing_slash" is missing, expected string
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ✓ Ready in 3.3s
+ ✓ Compiled /src/middleware in 228ms (241 modules)
+ ○ Compiling /[locale]/agent-detail/[id] ...
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled /[locale]/agent-detail/[id] in 11.5s (10257 modules)
+Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+(node:11732) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ○ Compiling /not-found ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 7.9s (10290 modules)
+ ✓ Compiled (10400 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753151584 (2025-07-22T02:33:04.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753151585 (2025-07-22T02:33:05.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753151586 (2025-07-22T02:33:06.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 1201ms (5470 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753151593 (2025-07-22T02:33:13.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753151594 (2025-07-22T02:33:14.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 1853ms (5472 modules)
+ ○ Compiling /api/token/distribute ...
+ ✓ Compiled /api/token/distribute in 3.7s (5886 modules)
+🔄 开始重试任务: ccc5470e-f341-492e-928e-a78b7731c968
+🔄 开始重试任务: ccc5470e-f341-492e-928e-a78b7731c968
+✅ 找到任务: {
+  id: 'ccc5470e-f341-492e-928e-a78b7731c968',
+  type: 'DISTRIBUTE_TOKENS',
+  status: 'PARTIAL_FAILED',
+  agentId: 'adc2cf24-7949-4908-aeb4-d98cde1c2cdb'
+}
+🪙 从 Agent 表获取代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+🔄 应用合并逻辑获取完整交易历史...
+🔄 开始合并分发任务: 4
+  处理任务 1/4: ID=ccc5470e-f341-492e-928e-a78b7731c968, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      📝 记录新交易: creator - confirmed
+      📝 记录新交易: airdrop - confirmed
+      📝 记录新交易: mining - confirmed
+      📝 记录新交易: liquidity - failed
+  处理任务 2/4: ID=a5e0aa75-fee2-4365-b0b2-ff2f4908a696, Status=FAILED
+    - 任务无交易记录
+  处理任务 3/4: ID=01b104d3-30ee-4f64-acd6-e25e94446b70, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      ⭐ 用成功交易覆盖: creator
+      ⭐ 用成功交易覆盖: airdrop
+      ⭐ 用成功交易覆盖: mining
+  处理任务 4/4: ID=af5c8bb3-518f-440e-90c3-79c81c7f6514, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      ⭐ 用成功交易覆盖: creator
+      ⭐ 用成功交易覆盖: airdrop
+      ⭐ 用成功交易覆盖: mining
+🎯 合并完成: 4 个交易，3 成功，1 失败
+📋 合并后获得 4 个交易记录
+🪙 任务代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📋 交易详情: [
+  { type: 'creator', status: 'confirmed', amount: '33000000000' },
+  { type: 'airdrop', status: 'confirmed', amount: '2000000000' },
+  { type: 'mining', status: 'confirmed', amount: '40000000000' },
+  { type: 'liquidity', status: 'failed', amount: '10000000000' }
+]
+🔄 智能重试 1 笔失败的交易
+✅ 跳过 3 笔已成功的交易
+🔄 重试 liquidity 交易: 10000000000 -> null
+🔄 重试流动性添加: 10000000000 代币
+🏊 开始添加流动性 - 代币: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861, 数量: 10000000000
+🚀 开始流动性分发...
+📊 Agent ID: adc2cf24-7949-4908-aeb4-d98cde1c2cdb
+🪙 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📈 总供应量: 100000000000
+🧮 计算流动性参数 - 总供应量: 100000000000, IAO合约: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+🔍 查询IAO合约中的总投入XAA数量 - 合约地址: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+🏦 IAO合约地址: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+✅ 查询到总投入XAA数量: 99999.99999999999 XAA (100000000000000000000000 wei)
+🔧 四舍五入后的XAA数量: 100000 XAA
+
+✅ 验证计算结果:
+  - 从XAA计算的流动性L: 51,816,718.902
+  - 从代币计算的流动性L: 51,816,718.902
+  - XAA误差: 0.000000%
+  - 代币误差: 0.000000%
+  - 价格倍数: 7.72x (相对于初始价格)
+  - 总价格范围: 38.59x
+
+========== 流动性价格配置 ==========
+💰 代币数量:
+  - 总供应量: 100000000000
+  - IAO代币数量(15%): 15000000000
+  - 流动性代币数量(10%): 10000000000
+  - 原始XAA数量: 100000
+  - 价格计算用XAA数量(100%): 100000
+  - 实际使用XAA数量(95%): 95000
+
+💰 价格计算:
+  - 计算公式: XAA数量 / IAO代币数量
+  - 基础价格 = 100000 / 15000000000 = 0.00001
+  - 调整价格 = 0.00001 * 1.1 = 0.000011000000000000001
+
+💰 价格和Tick设置:
+  - 基础初始价格: 0.00001000
+  - 调整后初始价格: 0.00001100 (1.1x of base)
+    • 原始tick: -114182
+    • 对齐后tick: -114190 (spacing: 10)
+  - 最低价格: 0.00000220 (20.0% of initial)
+    • 原始tick: -130278
+    • 对齐后tick: -130280 (spacing: 10)
+  - 最高价格: 0.00008491 (7.72x of initial)
+    • 原始tick: -93745
+    • 对齐后tick: -93750 (spacing: 10)
+  - 计算方法: 新的Uniswap V3公式
+
+📏 Tick配置:
+  - Fee: 0.05% (tickSpacing: 10)
+  - 初始tick到最低tick的距离: 16090
+  - 初始tick到最高tick的距离: 20440
+  - 总tick范围: 36530
+  - 验证价格:
+    • 最低价格 = 1.0001^-130280 = 0.00000220
+    • 初始价格 = 1.0001^-114190 = 0.00001099
+    • 最高价格 = 1.0001^-93750 = 0.00008486
+===================================
+
+�� 准备添加流动性: {
+  tokenAddress: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+  tokenAmount: '10000000000',
+  xaaAmount: '95000',
+  priceRange: {
+    initial: 0.000011000000000000001,
+    min: 0.0000022000000000000005,
+    max: 0.00008490883774736598
+  }
+}
+
+========== 流动性参数验证 ==========
+📊 代币信息:
+  - 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+  - 代币数量: 10000000000
+  - XAA数量: 95000
+
+💰 价格设置:
+  - 初始价格: 0.000011000000000000001
+  - 最小价格: 0.0000022000000000000005 (20.0% of initial)
+  - 最大价格: 0.00008490883774736598 (771.9% of initial)
+✅ 池子地址: 0x9d2723287c40A9f3BB5152004F3e7C20a85B3803
+
+========== 开始计算池子参数 ==========
+📊 Token排序:
+  - isToken0: false
+  - token0: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+  - token1: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📊 代币小数位数:
+  - token0 (0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a): 18
+  - token1 (0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861): 18
+📊 调整后的价格 (token1/token0):
+  - 初始价格: 0.000011000000000000001
+  - 最小价格: 0.0000022000000000000005
+  - 最大价格: 0.00008490883774736598
+📊 Tick间距: 10 (手续费: 0.05%)
+🏗️ 初始价格参数:
+  - 初始价格 (token1/token0): 0.000011000000000000001
+  - sqrtPriceX96: 262770087889115541137260544
+📊 原始Tick计算:
+  - 初始Tick: -114182
+  - 最小Tick: -130278
+  - 最大Tick: -93745
+📊 调整后的Tick范围:
+  - 最小Tick: -130280
+  - 最大Tick: -93740
+  - Tick范围: 36540 ticks
+🔍 池子未初始化，将使用计算的初始价格
+💰 流动性参数:
+  - amount0Desired: 95000
+  - amount1Desired: 10000000000
+  - amount0Min: 94524.999999999986106368
+  - amount1Min: 9950000000.000000036003905536
+  - 截止时间: 2025/7/22 10:55:51
+
+========== 计算参数结果 ==========
+{
+  initialPrice: 0.000011000000000000001,
+  minPrice: 0.0000022000000000000005,
+  maxPrice: 0.00008490883774736598,
+  initialSqrtPrice: 262770087889115541137260544n,
+  minTick: -130280,
+  maxTick: -93740,
+  currentTick: undefined,
+  isToken0: false,
+  token0: '0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a',
+  token1: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+  amount0Desired: 95000000000000000000000n,
+  amount1Desired: 10000000000000000000000000000n,
+  amount0Min: 94524999999999986106368n,
+  amount1Min: 9950000000000000036003905536n,
+  deadline: 1753152951n,
+  tokenAmountWei: 10000000000000000000000000000n,
+  xaaAmountWei: 95000000000000000000000n,
+  token0Decimals: 18,
+  token1Decimals: 18
+}
+🏗️ 使用计算的初始价格初始化池子:
+  - 初始价格: 0.000011000000000000001
+  - sqrtPriceX96: 262770087889115541137260544
+💰 池子价格范围计算:
+✅ 池子初始化完成
+📝 开始授权代币给Position Manager...
+✅ 代币授权交易已提交: 0x9325177c54e2bd8e86aeb5b555843c51db1a50e18b1352009eca63b692c84fb9
+⏳ 等待代币授权交易确认...
+✅ 代币授权确认完成
+📊 代币授权区块号: 3161740
+📊 代币授权Gas使用: 189126
+🔍 检查XAA授权前状态...
+💰 当前XAA授权额度: 95000
+🔄 重置XAA授权额度为0...
+✅ XAA授权重置完成
+📝 开始授权XAA代币...
+🔍 XAA代币地址: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔍 Position Manager地址: 0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+🔍 授权数量: 95000 XAA
+🔍 钱包地址: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+✅ XAA授权交易已提交: 0x76177bb3dca1a200fe05f1234ff7d7b62983d00663143c6e4b7f1443d4eeb335
+⏳ 等待XAA授权交易确认...
+⏳ 等待XAA授权交易确认...
+✅ XAA授权确认完成
+📊 XAA授权区块号: 3161742
+📊 XAA授权Gas使用: 203882
+✅ 代币授权完成
+
+========== 开始添加流动性 ==========
+📊 添加流动性参数:
+{
+  "token0": "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a",
+  "token1": "0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861",
+  "fee": 500,
+  "tickLower": -130280,
+  "tickUpper": -93740,
+  "amount0Desired": "95000000000000000000000",
+  "amount1Desired": "10000000000000000000000000000",
+  "amount0Min": "94524999999999986106368",
+  "amount1Min": "9950000000000000036003905536",
+  "recipient": "0x417Dd0DDAA54E651e304A12c9810173F57876159",
+  "deadline": "1753152951"
+}
+❌ 池子操作失败: ContractFunctionExecutionError: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753152951"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+    at getContractError (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:36:12)
+    at writeContract (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/actions/wallet/writeContract.js:85:98)
+    ... 7 lines matching cause stack trace ...
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  cause: ContractFunctionRevertedError: The contract function "mint" reverted with the following reason:
+  STF
+  
+  Version: viem@2.31.7
+      at eval (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:27:20)
+      at getContractError (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:35:7)
+      at writeContract (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/actions/wallet/writeContract.js:85:98)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async PoolManager.mintLiquidity (webpack-internal:///(rsc)/./src/lib/pool-manager/index.ts:893:34)
+      at async PoolManager.addLiquidity (webpack-internal:///(rsc)/./src/lib/pool-manager/index.ts:708:28)
+      at async LiquidityDistributionManager.distributeLiquidity (webpack-internal:///(rsc)/./src/lib/token-distribution/liquidity-distribution.ts:285:28)
+      at async addLiquidityToPool (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:273:24)
+      at async retryFailedTransactions (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:1037:45)
+      at async PATCH (webpack-internal:///(rsc)/./src/app/api/token/distribute/route.ts:312:24)
+      at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+    details: undefined,
+    docsPath: undefined,
+    metaMessages: undefined,
+    shortMessage: 'The contract function "mint" reverted with the following reason:\nSTF',
+    version: '2.31.7',
+    data: { abiItem: [Object], args: [Array], errorName: 'Error' },
+    raw: '0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000035354460000000000000000000000000000000000000000000000000000000000',
+    reason: 'STF',
+    signature: undefined
+  },
+  details: undefined,
+  docsPath: '/docs/contract/writeContract',
+  metaMessages: [
+    'Contract Call:',
+    '  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC\n' +
+      '  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))\n' +
+      '  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753152951"})\n' +
+      '  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159'
+  ],
+  shortMessage: 'The contract function "mint" reverted with the following reason:\nSTF',
+  version: '2.31.7',
+  abi: [
+    {
+      inputs: [Array],
+      name: 'mint',
+      outputs: [Array],
+      stateMutability: 'payable',
+      type: 'function'
+    }
+  ],
+  args: [
+    {
+      token0: '0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a',
+      token1: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+      fee: 500,
+      tickLower: -130280,
+      tickUpper: -93740,
+      amount0Desired: 95000000000000000000000n,
+      amount1Desired: 10000000000000000000000000000n,
+      amount0Min: 94524999999999986106368n,
+      amount1Min: 9950000000000000036003905536n,
+      recipient: '0x417Dd0DDAA54E651e304A12c9810173F57876159',
+      deadline: 1753152951n
+    }
+  ],
+  contractAddress: '0xfCE792dd602fA70143e43e7556e8a92D762bA9FC',
+  formattedArgs: undefined,
+  functionName: 'mint',
+  sender: '0x417Dd0DDAA54E651e304A12c9810173F57876159'
+}
+❌ 流动性分发失败: Error: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753152951"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+    at LiquidityDistributionManager.distributeLiquidity (webpack-internal:///(rsc)/./src/lib/token-distribution/liquidity-distribution.ts:287:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async addLiquidityToPool (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:273:24)
+    at async retryFailedTransactions (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:1037:45)
+    at async PATCH (webpack-internal:///(rsc)/./src/app/api/token/distribute/route.ts:312:24)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ 流动性添加失败: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753152951"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+❌ liquidity 重试结果: failed
+📊 重试结果汇总:
+  - 重试交易: 1
+  - 重试成功: 0
+  - 仍然失败: 1
+🔍 [DEBUG] 更新任务状态 - ID: ccc5470e-f341-492e-928e-a78b7731c968, Status: PARTIAL_FAILED
+✅ 任务状态已更新: ccc5470e-f341-492e-928e-a78b7731c968 -> PARTIAL_FAILED
+🔄 开始重试任务: ccc5470e-f341-492e-928e-a78b7731c968
+🔄 开始重试任务: ccc5470e-f341-492e-928e-a78b7731c968
+✅ 找到任务: {
+  id: 'ccc5470e-f341-492e-928e-a78b7731c968',
+  type: 'DISTRIBUTE_TOKENS',
+  status: 'PARTIAL_FAILED',
+  agentId: 'adc2cf24-7949-4908-aeb4-d98cde1c2cdb'
+}
+🪙 从 Agent 表获取代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+🔄 应用合并逻辑获取完整交易历史...
+🔄 开始合并分发任务: 4
+  处理任务 1/4: ID=ccc5470e-f341-492e-928e-a78b7731c968, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      📝 记录新交易: creator - confirmed
+      📝 记录新交易: airdrop - confirmed
+      📝 记录新交易: mining - confirmed
+      📝 记录新交易: liquidity - failed
+  处理任务 2/4: ID=a5e0aa75-fee2-4365-b0b2-ff2f4908a696, Status=FAILED
+    - 任务无交易记录
+  处理任务 3/4: ID=01b104d3-30ee-4f64-acd6-e25e94446b70, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      ⭐ 用成功交易覆盖: creator
+      ⭐ 用成功交易覆盖: airdrop
+      ⭐ 用成功交易覆盖: mining
+  处理任务 4/4: ID=af5c8bb3-518f-440e-90c3-79c81c7f6514, Status=PARTIAL_FAILED
+    - 找到 4 个交易记录
+      ⭐ 用成功交易覆盖: creator
+      ⭐ 用成功交易覆盖: airdrop
+      ⭐ 用成功交易覆盖: mining
+🎯 合并完成: 4 个交易，3 成功，1 失败
+📋 合并后获得 4 个交易记录
+🪙 任务代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📋 交易详情: [
+  { type: 'creator', status: 'confirmed', amount: '33000000000' },
+  { type: 'airdrop', status: 'confirmed', amount: '2000000000' },
+  { type: 'mining', status: 'confirmed', amount: '40000000000' },
+  { type: 'liquidity', status: 'failed', amount: '10000000000' }
+]
+🔄 智能重试 1 笔失败的交易
+✅ 跳过 3 笔已成功的交易
+🔄 重试 liquidity 交易: 10000000000 -> null
+🔄 重试流动性添加: 10000000000 代币
+🏊 开始添加流动性 - 代币: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861, 数量: 10000000000
+🚀 开始流动性分发...
+📊 Agent ID: adc2cf24-7949-4908-aeb4-d98cde1c2cdb
+🪙 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📈 总供应量: 100000000000
+🧮 计算流动性参数 - 总供应量: 100000000000, IAO合约: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+🔍 查询IAO合约中的总投入XAA数量 - 合约地址: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+🏦 IAO合约地址: 0xb5dE7aFb875B3f7E5B0258ECf35591556B190665
+✅ 查询到总投入XAA数量: 99999.99999999999 XAA (100000000000000000000000 wei)
+🔧 四舍五入后的XAA数量: 100000 XAA
+
+✅ 验证计算结果:
+  - 从XAA计算的流动性L: 51,816,718.902
+  - 从代币计算的流动性L: 51,816,718.902
+  - XAA误差: 0.000000%
+  - 代币误差: 0.000000%
+  - 价格倍数: 7.72x (相对于初始价格)
+  - 总价格范围: 38.59x
+
+========== 流动性价格配置 ==========
+💰 代币数量:
+  - 总供应量: 100000000000
+  - IAO代币数量(15%): 15000000000
+  - 流动性代币数量(10%): 10000000000
+  - 原始XAA数量: 100000
+  - 价格计算用XAA数量(100%): 100000
+  - 实际使用XAA数量(95%): 95000
+
+💰 价格计算:
+  - 计算公式: XAA数量 / IAO代币数量
+  - 基础价格 = 100000 / 15000000000 = 0.00001
+  - 调整价格 = 0.00001 * 1.1 = 0.000011000000000000001
+
+💰 价格和Tick设置:
+  - 基础初始价格: 0.00001000
+  - 调整后初始价格: 0.00001100 (1.1x of base)
+    • 原始tick: -114182
+    • 对齐后tick: -114190 (spacing: 10)
+  - 最低价格: 0.00000220 (20.0% of initial)
+    • 原始tick: -130278
+    • 对齐后tick: -130280 (spacing: 10)
+  - 最高价格: 0.00008491 (7.72x of initial)
+    • 原始tick: -93745
+    • 对齐后tick: -93750 (spacing: 10)
+  - 计算方法: 新的Uniswap V3公式
+
+📏 Tick配置:
+  - Fee: 0.05% (tickSpacing: 10)
+  - 初始tick到最低tick的距离: 16090
+  - 初始tick到最高tick的距离: 20440
+  - 总tick范围: 36530
+  - 验证价格:
+    • 最低价格 = 1.0001^-130280 = 0.00000220
+    • 初始价格 = 1.0001^-114190 = 0.00001099
+    • 最高价格 = 1.0001^-93750 = 0.00008486
+===================================
+
+�� 准备添加流动性: {
+  tokenAddress: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+  tokenAmount: '10000000000',
+  xaaAmount: '95000',
+  priceRange: {
+    initial: 0.000011000000000000001,
+    min: 0.0000022000000000000005,
+    max: 0.00008490883774736598
+  }
+}
+
+========== 流动性参数验证 ==========
+📊 代币信息:
+  - 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+  - 代币数量: 10000000000
+  - XAA数量: 95000
+
+💰 价格设置:
+  - 初始价格: 0.000011000000000000001
+  - 最小价格: 0.0000022000000000000005 (20.0% of initial)
+  - 最大价格: 0.00008490883774736598 (771.9% of initial)
+✅ 池子地址: 0x9d2723287c40A9f3BB5152004F3e7C20a85B3803
+
+========== 开始计算池子参数 ==========
+📊 Token排序:
+  - isToken0: false
+  - token0: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+  - token1: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+📊 代币小数位数:
+  - token0 (0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a): 18
+  - token1 (0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861): 18
+📊 调整后的价格 (token1/token0):
+  - 初始价格: 0.000011000000000000001
+  - 最小价格: 0.0000022000000000000005
+  - 最大价格: 0.00008490883774736598
+📊 Tick间距: 10 (手续费: 0.05%)
+🏗️ 初始价格参数:
+  - 初始价格 (token1/token0): 0.000011000000000000001
+  - sqrtPriceX96: 262770087889115541137260544
+📊 原始Tick计算:
+  - 初始Tick: -114182
+  - 最小Tick: -130278
+  - 最大Tick: -93745
+📊 调整后的Tick范围:
+  - 最小Tick: -130280
+  - 最大Tick: -93740
+  - Tick范围: 36540 ticks
+🔍 池子已初始化，当前tick: -114182
+💰 流动性参数:
+  - amount0Desired: 95000
+  - amount1Desired: 10000000000
+  - amount0Min: 94524.999999999986106368
+  - amount1Min: 9950000000.000000036003905536
+  - 截止时间: 2025/7/22 10:56:57
+
+========== 计算参数结果 ==========
+{
+  initialPrice: 0.000011000000000000001,
+  minPrice: 0.0000022000000000000005,
+  maxPrice: 0.00008490883774736598,
+  initialSqrtPrice: 262770087889115541137260544n,
+  minTick: -130280,
+  maxTick: -93740,
+  currentTick: -114182,
+  isToken0: false,
+  token0: '0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a',
+  token1: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+  amount0Desired: 95000000000000000000000n,
+  amount1Desired: 10000000000000000000000000000n,
+  amount0Min: 94524999999999986106368n,
+  amount1Min: 9950000000000000036003905536n,
+  deadline: 1753153017n,
+  tokenAmountWei: 10000000000000000000000000000n,
+  xaaAmountWei: 95000000000000000000000n,
+  token0Decimals: 18,
+  token1Decimals: 18
+}
+🔍 池子已初始化，当前价格 (token1/token0): 0.000011000000000000003
+📊 价格比较:
+  - 池子当前价格: 0.000011000000000000003
+  - 期望初始价格: 0.000011000000000000001
+  - 价格差异: 0.00%
+✅ 池子初始化完成
+📝 开始授权代币给Position Manager...
+✅ 代币授权交易已提交: 0x1eb1481b15ab01c27582d73e6f82fabf88544077a2583626d1814203583ecdf0
+⏳ 等待代币授权交易确认...
+✅ 代币授权确认完成
+📊 代币授权区块号: 3161748
+📊 代币授权Gas使用: 189126
+🔍 检查XAA授权前状态...
+💰 当前XAA授权额度: 95000
+🔄 重置XAA授权额度为0...
+✅ XAA授权重置完成
+📝 开始授权XAA代币...
+🔍 XAA代币地址: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔍 Position Manager地址: 0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+🔍 授权数量: 95000 XAA
+🔍 钱包地址: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+✅ XAA授权交易已提交: 0x791c001561a8a6315f61d17ce076e97fc7eb06234a6e073b12cb18cfa84d48e6
+⏳ 等待XAA授权交易确认...
+⏳ 等待XAA授权交易确认...
+✅ XAA授权确认完成
+📊 XAA授权区块号: 3161751
+📊 XAA授权Gas使用: 203882
+✅ 代币授权完成
+
+========== 开始添加流动性 ==========
+📊 添加流动性参数:
+{
+  "token0": "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a",
+  "token1": "0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861",
+  "fee": 500,
+  "tickLower": -130280,
+  "tickUpper": -93740,
+  "amount0Desired": "95000000000000000000000",
+  "amount1Desired": "10000000000000000000000000000",
+  "amount0Min": "94524999999999986106368",
+  "amount1Min": "9950000000000000036003905536",
+  "recipient": "0x417Dd0DDAA54E651e304A12c9810173F57876159",
+  "deadline": "1753153017"
+}
+❌ 池子操作失败: ContractFunctionExecutionError: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753153017"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+    at getContractError (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:36:12)
+    at writeContract (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/actions/wallet/writeContract.js:85:98)
+    ... 7 lines matching cause stack trace ...
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  cause: ContractFunctionRevertedError: The contract function "mint" reverted with the following reason:
+  STF
+  
+  Version: viem@2.31.7
+      at eval (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:27:20)
+      at getContractError (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/utils/errors/getContractError.js:35:7)
+      at writeContract (webpack-internal:///(rsc)/./node_modules/.pnpm/viem@2.31.7_bufferutil@4.0.9_typescript@5.7.3_utf-8-validate@5.0.10_zod@3.24.1/node_modules/viem/_esm/actions/wallet/writeContract.js:85:98)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async PoolManager.mintLiquidity (webpack-internal:///(rsc)/./src/lib/pool-manager/index.ts:893:34)
+      at async PoolManager.addLiquidity (webpack-internal:///(rsc)/./src/lib/pool-manager/index.ts:708:28)
+      at async LiquidityDistributionManager.distributeLiquidity (webpack-internal:///(rsc)/./src/lib/token-distribution/liquidity-distribution.ts:285:28)
+      at async addLiquidityToPool (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:273:24)
+      at async retryFailedTransactions (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:1037:45)
+      at async PATCH (webpack-internal:///(rsc)/./src/app/api/token/distribute/route.ts:312:24)
+      at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+    details: undefined,
+    docsPath: undefined,
+    metaMessages: undefined,
+    shortMessage: 'The contract function "mint" reverted with the following reason:\nSTF',
+    version: '2.31.7',
+    data: { abiItem: [Object], args: [Array], errorName: 'Error' },
+    raw: '0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000035354460000000000000000000000000000000000000000000000000000000000',
+    reason: 'STF',
+    signature: undefined
+  },
+  details: undefined,
+  docsPath: '/docs/contract/writeContract',
+  metaMessages: [
+    'Contract Call:',
+    '  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC\n' +
+      '  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))\n' +
+      '  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753153017"})\n' +
+      '  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159'
+  ],
+  shortMessage: 'The contract function "mint" reverted with the following reason:\nSTF',
+  version: '2.31.7',
+  abi: [
+    {
+      inputs: [Array],
+      name: 'mint',
+      outputs: [Array],
+      stateMutability: 'payable',
+      type: 'function'
+    }
+  ],
+  args: [
+    {
+      token0: '0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a',
+      token1: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
+      fee: 500,
+      tickLower: -130280,
+      tickUpper: -93740,
+      amount0Desired: 95000000000000000000000n,
+      amount1Desired: 10000000000000000000000000000n,
+      amount0Min: 94524999999999986106368n,
+      amount1Min: 9950000000000000036003905536n,
+      recipient: '0x417Dd0DDAA54E651e304A12c9810173F57876159',
+      deadline: 1753153017n
+    }
+  ],
+  contractAddress: '0xfCE792dd602fA70143e43e7556e8a92D762bA9FC',
+  formattedArgs: undefined,
+  functionName: 'mint',
+  sender: '0x417Dd0DDAA54E651e304A12c9810173F57876159'
+}
+❌ 流动性分发失败: Error: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753153017"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+    at LiquidityDistributionManager.distributeLiquidity (webpack-internal:///(rsc)/./src/lib/token-distribution/liquidity-distribution.ts:287:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async addLiquidityToPool (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:273:24)
+    at async retryFailedTransactions (webpack-internal:///(rsc)/./src/lib/server-wallet/index.ts:1037:45)
+    at async PATCH (webpack-internal:///(rsc)/./src/app/api/token/distribute/route.ts:312:24)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ 流动性添加失败: The contract function "mint" reverted with the following reason:
+STF
+
+Contract Call:
+  address:   0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+  function:  mint((address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address recipient, uint256 deadline))
+  args:          ({"token0":"0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a","token1":"0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861","fee":500,"tickLower":-130280,"tickUpper":-93740,"amount0Desired":"95000000000000000000000","amount1Desired":"10000000000000000000000000000","amount0Min":"94524999999999986106368","amount1Min":"9950000000000000036003905536","recipient":"0x417Dd0DDAA54E651e304A12c9810173F57876159","deadline":"1753153017"})
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.31.7
+❌ liquidity 重试结果: failed
+📊 重试结果汇总:
+  - 重试交易: 1
+  - 重试成功: 0
+  - 仍然失败: 1
+🔍 [DEBUG] 更新任务状态 - ID: ccc5470e-f341-492e-928e-a78b7731c968, Status: PARTIAL_FAILED
+✅ 任务状态已更新: ccc5470e-f341-492e-928e-a78b7731c968 -> PARTIAL_FAILED
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/user/profile/route.ts:30:22)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/user/profile/route.ts:30:22)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+ ○ Compiling /not-found ...
+ ✓ Compiled /favicon.ico in 3.5s (10370 modules)
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+[Reown Config] Failed to fetch remote project configuration. Using local/default values. TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 1064ms (5380 modules)
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 1959ms (5470 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:85:23)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+[Reown Config] Failed to fetch remote project configuration. Using local/default values. TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+钱包连接失败: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:85:23)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+钱包连接失败: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753152876 (2025-07-22T02:54:36.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753152877 (2025-07-22T02:54:37.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753152913 (2025-07-22T02:55:13.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: swapg (adc2cf24-7949-4908-aeb4-d98cde1c2cdb)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753152914 (2025-07-22T02:55:14.000Z)
+[Agent详情状态计算] IAO开始时间: 1753077592 (2025-07-21T05:59:52.000Z)
+[Agent详情状态计算] IAO结束时间: 1753509592 (2025-07-26T05:59:52.000Z)
+[Agent详情状态计算] 代币地址: 0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+ ○ Compiling /[locale]/create ...
+ ✓ Compiled /[locale]/create in 4.8s (10429 modules)
+ ○ Compiling /api/image ...
+ ✓ Compiled /api/image in 1748ms (5733 modules)
+OSS upload error: Error [ResponseError]: Client network socket disconnected before secure TLS connection was established, PUT https://xaiagent.oss-ap-northeast-2.aliyuncs.com/chat/1753153005319_z1fyg18.png -1 (connected: true, keepalive socket: false, agent status: {"createSocketCount":1,"createSocketErrorCount":0,"closeSocketCount":0,"errorSocketCount":0,"timeoutSocketCount":0,"requestCount":0,"freeSockets":{},"sockets":{"xaiagent.oss-ap-northeast-2.aliyuncs.com:443:::::::::::::::::::::":1},"requests":{}}, socketHandledRequests: 1, socketHandledResponses: 0)
+headers: {}
+    at Client.requestError (webpack-internal:///(rsc)/./node_modules/.pnpm/ali-oss@6.22.0/node_modules/ali-oss/lib/client.js:312:19)
+    at Client.request (webpack-internal:///(rsc)/./node_modules/.pnpm/ali-oss@6.22.0/node_modules/ali-oss/lib/client.js:196:26)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async proto.request (webpack-internal:///(rsc)/./node_modules/.pnpm/ali-oss@6.22.0/node_modules/ali-oss/lib/client.js:175:16)
+    at async Client.put (webpack-internal:///(rsc)/./node_modules/.pnpm/ali-oss@6.22.0/node_modules/ali-oss/lib/object.js:98:20)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/image/route.ts:48:24)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  status: -1,
+  code: 'ResponseError'
+}
+ ○ Compiling /not-found ...
+ ✓ Compiled /favicon.ico in 3.2s (10300 modules)
+ ✓ Compiled (10328 modules)
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 984ms (5416 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+[Reown Config] Failed to fetch remote project configuration. Using local/default values. TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: Client network socket disconnected before secure TLS connection was established
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1732:19)
+      at TLSSocket.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'ECONNRESET',
+    path: undefined,
+    host: 'api.web3modal.org',
+    port: 443,
+    localAddress: null
+  }
+}
+钱包连接失败: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+钱包连接失败: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
+
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7339)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'User',
+    database_host: 'ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech',
+    database_port: 5432
+  }
+}
+ ○ Compiling /api/image ...
+ ✓ Compiled /api/image in 2.3s (5644 modules)
+Success: https://xaiagent.oss-ap-northeast-2.aliyuncs.com/chat/1753153396515_7wvbfoi.png
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 1324ms (5736 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+ ○ Compiling /api/auth/nonce ...
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+ ✓ Compiled /api/auth/nonce in 2.2s (5739 modules)
+ ○ Compiling /api/auth/wallet-connect ...
+ ✓ Compiled /api/auth/wallet-connect in 2.5s (5906 modules)
+Wallet connect request: {
+  address: '0xf4F28aFf84bBc567878Cc46d146F30c9C65628Ce',
+  signature: '0x350f94e191cfa5e6cee58c4fda0fd800dfdf1029e01697184ec5082e2faba6116289b2ff8da7d909d9ad4956aee65a1c05a3d0f6db1e232212fae39bc69a14e01b',
+  message: 'Please sign to log in XAIAgent\n' +
+    '\n' +
+    'Nonce: 2dc7f087d3714c115b2731ee0d31908644d13406f0da292c08a213563da10559'
+}
+Extracted nonce: 2dc7f087d3714c115b2731ee0d31908644d13406f0da292c08a213563da10559
+Stored nonce lookup result: {
+  id: '72b13576-7a3a-4d0a-991d-31f6cb5510c5',
+  nonce: '2dc7f087d3714c115b2731ee0d31908644d13406f0da292c08a213563da10559',
+  address: '',
+  createdAt: 2025-07-22T03:03:30.416Z,
+  expiresAt: 2025-07-22T03:08:30.414Z
+}
+User: {
+  id: '2b756878-37ba-40ba-ac78-370d9ada16de',
+  address: '0xf4f28aff84bbc567878cc46d146f30c9c65628ce',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-07-22T03:03:34.653Z,
+  updatedAt: 2025-07-22T03:03:34.653Z,
+  preferences: null
+}
+ ○ Compiling /api/agents/new ...
+ ✓ Compiled /api/agents/new in 2.5s (6399 modules)
+🔧 事件监听器配置: {
+  environment: 'development',
+  chainId: 19880818,
+  chainName: 'DeepBrainChain Mainnet',
+  rpcUrl: 'https://rpc2.dbcwallet.io...'
+}
+📅 接收到的时间参数: {
+  startTimestamp: 1753239394,
+  durationHours: 120,
+  startTimestampType: 'number',
+  durationHoursType: 'number',
+  startTimestampDate: '2025-07-23T02:56:34.000Z',
+  calculatedEndTime: '2025-07-28T02:56:34.000Z'
+}
+[Agent创建] 开始处理Agent eba487b5-bce5-40a1-820c-af374dcbd794 的创建任务...
+[Agent创建] 找到Agent信息:
+[Agent创建] - 名称: cyqa
+[Agent创建] - 创建者: 0xf4f28aff84bbc567878cc46d146f30c9c65628ce
+[Agent创建] - Symbol: CYQA
+[IAO部署] 开始部署IAO合约...
+[IAO部署] 参数信息:
+[IAO部署] - 持续时间: 120小时
+[IAO部署] - 开始时间: 1753239394
+[IAO部署] - 奖励数量: 2000000000000000000000000000
+[IAO部署] - 所有者地址: 0xf4f28aff84bbc567878cc46d146f30c9c65628ce
+[IAO部署] 计算的奖励数量: 15000000000 (15000000000000000474191233024 Wei)
+IAO deployment response: {
+  code: 200,
+  message: 'Deployment successful',
+  data: { proxy_address: '0xB6bC5070ce92527B84415931A46Db83E066157ed' }
+}
+[IAO部署] 部署成功:
+[IAO部署] - IAO合约地址: 0xB6bC5070ce92527B84415931A46Db83E066157ed
+[时间计算] 详细信息:
+[时间计算] - 客户端传入 startTimestamp: 1753239394 (2025-07-23T02:56:34.000Z)
+[时间计算] - 客户端传入 durationHours: 120
+[时间计算] - 实际使用 startTimestamp: 1753239394 (2025-07-23T02:56:34.000Z)
+[时间计算] - 实际使用 durationHours: 120
+[时间计算] - 计算出的 endTimestamp: 1753671394 (2025-07-28T02:56:34.000Z)
+[Agent更新] 开始更新Agent状态...
+[Agent更新] IAO时间: 2025-07-23T02:56:34.000Z 到 2025-07-28T02:56:34.000Z
+[Agent更新] Agent状态已更新为TBA，IAO时间已保存
+[事件监听] 触发监听器重新加载...
+🔄 手动触发: 重新加载合约监听器...
+所有事件监听已停止
+事件监听器正在重启中，跳过重复启动
+✅ 事件监听器已成功重启
+[完成] Agent创建流程完成
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 1847ms (5301 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqa (eba487b5-bce5-40a1-820c-af374dcbd794)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153533 (2025-07-22T03:05:33.000Z)
+[Agent详情状态计算] IAO开始时间: 1753239394 (2025-07-23T02:56:34.000Z)
+[Agent详情状态计算] IAO结束时间: 1753671394 (2025-07-28T02:56:34.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqa (eba487b5-bce5-40a1-820c-af374dcbd794)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153534 (2025-07-22T03:05:34.000Z)
+[Agent详情状态计算] IAO开始时间: 1753239394 (2025-07-23T02:56:34.000Z)
+[Agent详情状态计算] IAO结束时间: 1753671394 (2025-07-28T02:56:34.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ○ Compiling /not-found ...
+ ✓ Compiled /favicon.ico in 2.8s (10322 modules)
+ ✓ Compiled (10348 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqa (eba487b5-bce5-40a1-820c-af374dcbd794)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153571 (2025-07-22T03:06:11.000Z)
+[Agent详情状态计算] IAO开始时间: 1753239394 (2025-07-23T02:56:34.000Z)
+[Agent详情状态计算] IAO结束时间: 1753671394 (2025-07-28T02:56:34.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 2.3s (5420 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqa (eba487b5-bce5-40a1-820c-af374dcbd794)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153579 (2025-07-22T03:06:19.000Z)
+[Agent详情状态计算] IAO开始时间: 1753239394 (2025-07-23T02:56:34.000Z)
+[Agent详情状态计算] IAO结束时间: 1753671394 (2025-07-28T02:56:34.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/image ...
+ ✓ Compiled /api/image in 2.9s (5740 modules)
+Success: https://xaiagent.oss-ap-northeast-2.aliyuncs.com/chat/1753153621062_3migb46.png
+ ○ Compiling /api/agents/new ...
+ ✓ Compiled /api/agents/new in 3.3s (6233 modules)
+🔧 事件监听器配置: {
+  environment: 'development',
+  chainId: 19880818,
+  chainName: 'DeepBrainChain Mainnet',
+  rpcUrl: 'https://rpc2.dbcwallet.io...'
+}
+📅 接收到的时间参数: {
+  startTimestamp: 1753240008,
+  durationHours: 120,
+  startTimestampType: 'number',
+  durationHoursType: 'number',
+  startTimestampDate: '2025-07-23T03:06:48.000Z',
+  calculatedEndTime: '2025-07-28T03:06:48.000Z'
+}
+[Agent创建] 开始处理Agent f0c56bff-354f-41e0-8d55-93524b200964 的创建任务...
+[Agent创建] 找到Agent信息:
+[Agent创建] - 名称: cyqb
+[Agent创建] - 创建者: 0xde184a6809898d81186def5c0823d2107c001da2
+[Agent创建] - Symbol: CYQB
+[IAO部署] 开始部署IAO合约...
+[IAO部署] 参数信息:
+[IAO部署] - 持续时间: 120小时
+[IAO部署] - 开始时间: 1753240008
+[IAO部署] - 奖励数量: 2000000000000000000000000000
+[IAO部署] - 所有者地址: 0xde184a6809898d81186def5c0823d2107c001da2
+[IAO部署] 计算的奖励数量: 15000000000 (15000000000000000474191233024 Wei)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: CREATING
+[Agent详情状态计算] 当前时间戳: 1753153640 (2025-07-22T03:07:20.000Z)
+[Agent详情状态计算] IAO开始时间: null (null)
+[Agent详情状态计算] IAO结束时间: null (null)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] 没有IAO时间信息，返回原状态: CREATING
+ ○ Compiling /api/agents/[id]/tasks ...
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: CREATING
+[Agent详情状态计算] 当前时间戳: 1753153643 (2025-07-22T03:07:23.000Z)
+[Agent详情状态计算] IAO开始时间: null (null)
+[Agent详情状态计算] IAO结束时间: null (null)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] 没有IAO时间信息，返回原状态: CREATING
+ ✓ Compiled /api/agents/[id]/tasks in 5.9s (6116 modules)
+IAO deployment response: {
+  code: 200,
+  message: 'Deployment successful',
+  data: { proxy_address: '0x6443BF4aa11Bc99A104317071F8b046bEBA1f4BA' }
+}
+[IAO部署] 部署成功:
+[IAO部署] - IAO合约地址: 0x6443BF4aa11Bc99A104317071F8b046bEBA1f4BA
+[时间计算] 详细信息:
+[时间计算] - 客户端传入 startTimestamp: 1753240008 (2025-07-23T03:06:48.000Z)
+[时间计算] - 客户端传入 durationHours: 120
+[时间计算] - 实际使用 startTimestamp: 1753240008 (2025-07-23T03:06:48.000Z)
+[时间计算] - 实际使用 durationHours: 120
+[时间计算] - 计算出的 endTimestamp: 1753672008 (2025-07-28T03:06:48.000Z)
+[Agent更新] 开始更新Agent状态...
+[Agent更新] IAO时间: 2025-07-23T03:06:48.000Z 到 2025-07-28T03:06:48.000Z
+[Agent更新] Agent状态已更新为TBA，IAO时间已保存
+[事件监听] 触发监听器重新加载...
+🔄 手动触发: 重新加载合约监听器...
+所有事件监听已停止
+事件监听器正在重启中，跳过重复启动
+✅ 事件监听器已成功重启
+[完成] Agent创建流程完成
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1777ms (5307 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 958ms (5327 modules)
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 0ms (5327 modules)
+ ✓ Compiled in 0ms (5417 modules)
+ ✓ Compiled in 1ms (5417 modules)
+ ✓ Compiled in 0ms (5417 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153784 (2025-07-22T03:09:44.000Z)
+[Agent详情状态计算] IAO开始时间: 1753240008 (2025-07-23T03:06:48.000Z)
+[Agent详情状态计算] IAO结束时间: 1753672008 (2025-07-28T03:06:48.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1ms (5417 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+ ✓ Compiled in 0ms (5417 modules)
+ ✓ Compiled in 0ms (5417 modules)
+ ✓ Compiled in 1ms (5417 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153789 (2025-07-22T03:09:49.000Z)
+[Agent详情状态计算] IAO开始时间: 1753240008 (2025-07-23T03:06:48.000Z)
+[Agent详情状态计算] IAO结束时间: 1753672008 (2025-07-28T03:06:48.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO还未开始，状态: IAO_COMING_SOON
+[Agent详情状态计算] 最终状态: IAO_COMING_SOON
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/update-iao-times ...
+ ✓ Compiled /not-found in 10.3s (11048 modules)
+[IAO时间更新] 开始为Agent f0c56bff-354f-41e0-8d55-93524b200964 更新IAO时间...
+[IAO时间更新] - 名称: cyqb
+[IAO时间更新] - 新开始时间: 2025-07-22T03:09:49.000Z
+[IAO时间更新] - 新结束时间: 2025-07-27T03:09:49.000Z
+[IAO时间更新] - 持续时间: 120小时
+[IAO时间更新] - 使用IAO合约地址: 0x6443BF4aa11Bc99A104317071F8b046bEBA1f4BA
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+[IAO时间更新] - 服务端钱包地址: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+[IAO时间更新] - 调用合约setTimeFor方法...
+[IAO时间更新] - 交易已提交: 0xf3258b09b097c025f63da4849b7653e0099e3033ecd228fc47aedd6ddb1e0e4e
+[IAO时间更新] - 交易成功: 0xf3258b09b097c025f63da4849b7653e0099e3033ecd228fc47aedd6ddb1e0e4e
+[IAO时间更新] 数据库记录已更新
+🔧 事件监听器配置: {
+  environment: 'development',
+  chainId: 19880818,
+  chainName: 'DeepBrainChain Mainnet',
+  rpcUrl: 'https://rpc2.dbcwallet.io...'
+}
+[事件监听] 触发监听器重新加载...
+🔄 手动触发: 重新加载合约监听器...
+所有事件监听已停止
+事件监听器正在重启中，跳过重复启动
+✅ 事件监听器已成功重启
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153808 (2025-07-22T03:10:08.000Z)
+[Agent详情状态计算] IAO开始时间: 1753153789 (2025-07-22T03:09:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1753585789 (2025-07-27T03:09:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153832 (2025-07-22T03:10:32.000Z)
+[Agent详情状态计算] IAO开始时间: 1753153789 (2025-07-22T03:09:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1753585789 (2025-07-27T03:09:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: undefined,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: undefined, 值: undefined
+[Agent详情状态计算] Agent: cyqb (f0c56bff-354f-41e0-8d55-93524b200964)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753153834 (2025-07-22T03:10:34.000Z)
+[Agent详情状态计算] IAO开始时间: 1753153789 (2025-07-22T03:09:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1753585789 (2025-07-27T03:09:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+User: {
+  id: 'a136cf7d-7054-46d1-876e-90ac458ea7f3',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-06-27T07:47:15.548Z,
+  updatedAt: 2025-06-27T07:47:15.548Z,
+  preferences: null
+}
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 2.5s (5375 modules)

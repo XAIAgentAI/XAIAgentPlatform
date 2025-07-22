@@ -16,6 +16,19 @@ export const DBCSWAP_CONFIG = {
     : "0x16d83F6B17914a4e88436251589194ca5ac0f452",
 } as const;
 
+// Uniswap V3 常量
+const TICK_SPACINGS = {
+  100: 1,    // 0.01%
+  500: 10,   // 0.05%
+  3000: 60,  // 0.3%
+  10000: 200 // 1%
+};
+
+const MIN_TICK = -887272;
+const MAX_TICK = 887272;
+const MIN_SQRT_RATIO = BigInt('4295128739');
+const MAX_SQRT_RATIO = BigInt('1461446703485210103287273052203988822378723970342');
+
 // 合约 ABI
 export const ABIS = {
   ERC20: [
@@ -43,6 +56,13 @@ export const ABIS = {
       ],
       "name": "allowance",
       "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [{"internalType": "uint8", "name": "", "type": "uint8"}],
       "stateMutability": "view",
       "type": "function"
     }
@@ -172,7 +192,6 @@ interface CalculatedPoolParams {
   minTick: number;
   maxTick: number;
   currentTick?: number;
-  isToken0: boolean;
   token0: string;
   token1: string;
   amount0Desired: bigint;
@@ -182,6 +201,57 @@ interface CalculatedPoolParams {
   deadline: bigint;
   tokenAmountWei: bigint;
   xaaAmountWei: bigint;
+  token0Decimals: number;
+  token1Decimals: number;
+}
+
+/**
+ * 计算 sqrtPriceX96
+ * @param price 价格 (token1/token0)
+ * @param token0Decimals token0 的小数位数
+ * @param token1Decimals token1 的小数位数
+ * @returns sqrtPriceX96 值
+ */
+function encodeSqrtRatioX96(price: number, token0Decimals: number, token1Decimals: number): bigint {
+  // 调整代币精度差异
+  const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
+  const adjustedPrice = price * decimalAdjustment;
+  
+  // 计算价格的平方根并乘以 2^96
+  const sqrtPrice = Math.sqrt(adjustedPrice);
+  const sqrtPriceX96 = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
+  
+  return sqrtPriceX96;
+}
+
+/**
+ * 计算最接近的可用 tick
+ * @param tick 目标 tick
+ * @param tickSpacing tick 间距
+ * @returns 最接近的可用 tick
+ */
+function nearestUsableTick(tick: number, tickSpacing: number): number {
+  const rounded = Math.round(tick / tickSpacing) * tickSpacing;
+  
+  if (rounded < MIN_TICK) return MIN_TICK;
+  if (rounded > MAX_TICK) return MAX_TICK;
+  return rounded;
+}
+
+/**
+ * 从价格计算 tick
+ * @param price 价格 (token1/token0)
+ * @param token0Decimals token0 的小数位数
+ * @param token1Decimals token1 的小数位数
+ * @returns tick 值
+ */
+function priceToTick(price: number, token0Decimals: number, token1Decimals: number): number {
+  // 调整代币精度差异
+  const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
+  const adjustedPrice = price * decimalAdjustment;
+  
+  // 计算 tick
+  return Math.floor(Math.log(adjustedPrice) / Math.log(1.0001));
 }
 
 /**
@@ -328,9 +398,13 @@ export class PoolManager {
       console.log(`  - 初始价格: ${params.initialPrice}`);
       console.log(`  - sqrtPriceX96: ${params.initialSqrtPrice.toString()}`);
       
+      // 验证 sqrtPriceX96 是否在有效范围内
+      if (params.initialSqrtPrice < MIN_SQRT_RATIO || params.initialSqrtPrice > MAX_SQRT_RATIO) {
+        throw new Error(`初始价格超出有效范围: ${params.initialSqrtPrice.toString()} 不在 [${MIN_SQRT_RATIO.toString()}, ${MAX_SQRT_RATIO.toString()}] 范围内`);
+      }
       
       console.log(`💰 池子价格范围计算:`);
-      // throw new Error('先不初始化池子');
+      
       // 初始化池子
       const initializeHash = await this.walletClient.writeContract({
         address: poolAddress as `0x${string}`,
@@ -342,13 +416,20 @@ export class PoolManager {
       await this.publicClient.waitForTransactionReceipt({ hash: initializeHash });
     } else {
       // 池子已初始化，检查当前价格是否合理
-      const currentPoolPrice = Math.pow(Number(sqrtPriceX96) / Math.pow(2, 96), 2);
-      console.log(`🔍 池子已初始化，当前价格 (token1/token0): ${currentPoolPrice}`);
+      // 使用 BigInt 计算以避免精度损失
+      const sqrtPriceFloat = Number(sqrtPriceX96) / Math.pow(2, 96);
+      const currentPoolPrice = sqrtPriceFloat * sqrtPriceFloat;
+      
+      // 调整价格以考虑代币小数位数差异
+      const decimalAdjustment = Math.pow(10, params.token1Decimals - params.token0Decimals);
+      const adjustedPoolPrice = currentPoolPrice / decimalAdjustment;
+      
+      console.log(`🔍 池子已初始化，当前价格 (token1/token0): ${adjustedPoolPrice}`);
       
       // 与期望价格比较
-      const priceDiffPercentage = Math.abs((currentPoolPrice - params.initialPrice) / params.initialPrice * 100);
+      const priceDiffPercentage = Math.abs((adjustedPoolPrice - params.initialPrice) / params.initialPrice * 100);
       console.log(`📊 价格比较:`);
-      console.log(`  - 池子当前价格: ${currentPoolPrice}`);
+      console.log(`  - 池子当前价格: ${adjustedPoolPrice}`);
       console.log(`  - 期望初始价格: ${params.initialPrice}`);
       console.log(`  - 价格差异: ${priceDiffPercentage.toFixed(2)}%`);
       
@@ -500,9 +581,6 @@ export class PoolManager {
       console.log(`  - 最小价格: ${priceRange.min} (${(priceRange.min / priceRange.initial * 100).toFixed(1)}% of initial)`);
       console.log(`  - 最大价格: ${priceRange.max} (${(priceRange.max / priceRange.initial * 100).toFixed(1)}% of initial)`);
 
-
-      // throw new Error('test');
-
       // 1. 检查余额
       const balanceCheck = await this.checkBalances(tokenAddress, tokenAmount, xaaAmount);
       if (!balanceCheck.tokenSufficient || !balanceCheck.xaaSufficient) {
@@ -569,46 +647,67 @@ export class PoolManager {
     const xaaAmountWei = parseEther(xaaAmount);
     
     // 确定token0和token1的顺序
-    const isToken0 = tokenAddress.toLowerCase() === DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS.toLowerCase();
-    const token0 = isToken0 ? tokenAddress : DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS;
-    const token1 = isToken0 ? DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS : tokenAddress;
-    const amount0Desired = isToken0 ? tokenAmountWei : xaaAmountWei;
-    const amount1Desired = isToken0 ? xaaAmountWei : tokenAmountWei;
+    const token0 = tokenAddress
+    const token1 = DBCSWAP_CONFIG.XAA_TOKEN_ADDRESS
+    const amount0Desired = tokenAmountWei
+    const amount1Desired = xaaAmountWei
     
-    console.log(`📊 Token排序:`);
-    console.log(`  - isToken0: ${isToken0}`);
-    console.log(`  - token0: ${token0}`);
-    console.log(`  - token1: ${token1}`);
     
-    // 设置tick范围（基于提供的价格范围）
-    const tickSpacing = 10; // 0.05%手续费的tick间距
-    const initialTickRaw = Math.floor(Math.log(priceRange.initial) / Math.log(1.0001));
+    // 获取代币小数位数
+    const [token0Decimals, token1Decimals] = await Promise.all([
+      this.publicClient.readContract({
+        address: token0 as `0x${string}`,
+        abi: ABIS.ERC20,
+        functionName: 'decimals',
+      }),
+      this.publicClient.readContract({
+        address: token1 as `0x${string}`,
+        abi: ABIS.ERC20,
+        functionName: 'decimals',
+      }),
+    ]);
     
-    // 计算初始sqrtPriceX96
-    const sqrtPrice = Math.sqrt(Math.pow(1.0001, initialTickRaw));
-    const initialSqrtPrice = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
+    console.log(`📊 代币小数位数:`);
+    console.log(`  - token0是 用户代币 (${token0}): ${token0Decimals}`);
+    console.log(`  - token1是 XAA (${token1}): ${token1Decimals}`);
     
-    console.log(`🏗️ 初始价格参数:`);
-    console.log(`  - 初始价格: ${priceRange.initial}`);
-    console.log(`  - 初始tick: ${initialTickRaw}`);
-    console.log(`  - sqrt价格: ${sqrtPrice}`);
-    console.log(`  - sqrtPriceX96: ${initialSqrtPrice.toString()}`);
+    // 调整价格以考虑代币顺序
+    let initialPrice = priceRange.initial;
+    let minPrice = priceRange.min;
+    let maxPrice = priceRange.max;
     
-    // 计算tick范围
-    let minTick = Math.floor(Math.log(priceRange.min) / Math.log(1.0001) / tickSpacing) * tickSpacing;
-    let maxTick = Math.floor(Math.log(priceRange.max) / Math.log(1.0001) / tickSpacing) * tickSpacing;
     
-    // 确保tick在允许的范围内
-    const MIN_TICK = -887272;
-    const MAX_TICK = 887272;
+
     
-    if (minTick < MIN_TICK) minTick = MIN_TICK;
-    if (maxTick > MAX_TICK) maxTick = MAX_TICK;
+    // 获取正确的 tickSpacing
+    const tickSpacing =  10;
+    console.log(`📊 Tick间距: ${tickSpacing} (手续费: ${this.options.fee/10000}%)`);
     
-    console.log(`📊 价格范围设置:`);
-    console.log(`  - 最小价格: ${priceRange.min} -> tick: ${minTick}`);
-    console.log(`  - 最大价格: ${priceRange.max} -> tick: ${maxTick}`);
-    console.log(`  - tick范围: ${maxTick - minTick} ticks`);
+    // 计算初始 sqrtPriceX96
+    const initialSqrtPrice = encodeSqrtRatioX96(initialPrice, Number(token0Decimals), Number(token1Decimals));
+    console.log(`  - 初始价格: ${initialPrice}`);
+    console.log(`  - 最小价格: ${minPrice}`);
+    console.log(`  - 最大价格: ${maxPrice}`);
+    console.log(`  - initialSqrtPrice（sqrtPriceX96） : ${initialSqrtPrice.toString()}`);
+    
+    // 计算 tick 范围
+    const initialTick = priceToTick(initialPrice, Number(token0Decimals), Number(token1Decimals));
+    let minTick = priceToTick(minPrice, Number(token0Decimals), Number(token1Decimals));
+    let maxTick = priceToTick(maxPrice, Number(token0Decimals), Number(token1Decimals));
+    
+    console.log(`📊 原始Tick计算:`);
+    console.log(`  - 初始Tick: ${initialTick}`);
+    console.log(`  - 最小Tick: ${minTick}`);
+    console.log(`  - 最大Tick: ${maxTick}`);
+    
+    // 应用 tickSpacing
+    minTick = nearestUsableTick(minTick, tickSpacing);
+    maxTick = nearestUsableTick(maxTick, tickSpacing);
+    
+    console.log(`📊 调整后的Tick范围:`);
+    console.log(`  - 最小Tick: ${minTick}`);
+    console.log(`  - 最大Tick: ${maxTick}`);
+    console.log(`  - Tick范围: ${maxTick - minTick} ticks`);
     
     // 尝试获取当前tick
     let currentTick: number | undefined;
@@ -630,12 +729,12 @@ export class PoolManager {
           // 调整范围以包含当前tick
           if (currentTick < minTick) {
             const diff = minTick - currentTick;
-            minTick = Math.floor((currentTick - tickSpacing) / tickSpacing) * tickSpacing;
-            maxTick = Math.max(maxTick - diff, minTick + 10000); // 保持至少10000的范围
+            minTick = nearestUsableTick(currentTick - tickSpacing, tickSpacing);
+            maxTick = Math.max(maxTick - diff, minTick + 10 * tickSpacing); // 保持至少10个tickSpacing的范围
           } else if (currentTick >= maxTick) {
             const diff = currentTick - maxTick + 1;
-            maxTick = Math.floor((currentTick + tickSpacing) / tickSpacing) * tickSpacing;
-            minTick = Math.min(minTick + diff, maxTick - 10000); // 保持至少10000的范围
+            maxTick = nearestUsableTick(currentTick + tickSpacing, tickSpacing);
+            minTick = Math.min(minTick + diff, maxTick - 10 * tickSpacing); // 保持至少10个tickSpacing的范围
           }
           
           console.log(`🔄 调整后的范围:`);
@@ -671,14 +770,13 @@ export class PoolManager {
     console.log(`  - 截止时间: ${new Date(Number(deadline) * 1000).toLocaleString()}`);
     
     return {
-      initialPrice: priceRange.initial,
-      minPrice: priceRange.min,
-      maxPrice: priceRange.max,
+      initialPrice,
+      minPrice,
+      maxPrice,
       initialSqrtPrice,
       minTick,
       maxTick,
       currentTick,
-      isToken0,
       token0,
       token1,
       amount0Desired,
@@ -687,7 +785,9 @@ export class PoolManager {
       amount1Min,
       deadline,
       tokenAmountWei,
-      xaaAmountWei
+      xaaAmountWei,
+      token0Decimals: Number(token0Decimals),
+      token1Decimals: Number(token1Decimals)
     };
   }
 
@@ -717,27 +817,29 @@ export class PoolManager {
     console.log(JSON.stringify(mintParams, (key, value) => 
       typeof value === 'bigint' ? value.toString() : value, 2));
     
-    // 暂时注释掉实际调用
-    throw new Error('test');
-    
-    // const addLiquidityHash = await this.walletClient.writeContract({
-    //   address: DBCSWAP_CONFIG.POSITION_MANAGER,
-    //   abi: ABIS.POSITION_MANAGER,
-    //   functionName: 'mint',
-    //   args: [mintParams],
-    // });
+    // 执行添加流动性操作
+    const addLiquidityHash = await this.walletClient.writeContract({
+      address: DBCSWAP_CONFIG.POSITION_MANAGER,
+      abi: ABIS.POSITION_MANAGER,
+      functionName: 'mint',
+      args: [mintParams],
+    });
 
-    // const receipt = await this.publicClient.waitForTransactionReceipt({ 
-    //   hash: addLiquidityHash 
-    // });
+    console.log(`✅ 添加流动性交易已提交: ${addLiquidityHash}`);
+    console.log('⏳ 等待交易确认...');
 
-    // return {
-    //   txHash: addLiquidityHash,
-    //   tokenAmount: formatEther(params.tokenAmountWei),
-    //   xaaAmount: formatEther(params.xaaAmountWei),
-    //   blockNumber: receipt.blockNumber.toString(),
-    // };
-    
+    const receipt = await this.publicClient.waitForTransactionReceipt({ 
+      hash: addLiquidityHash 
+    });
 
+    console.log(`✅ 流动性添加成功，区块号: ${receipt.blockNumber}`);
+    console.log(`📊 Gas使用: ${receipt.gasUsed}`);
+
+    return {
+      txHash: addLiquidityHash,
+      tokenAmount: formatEther(params.tokenAmountWei),
+      xaaAmount: formatEther(params.xaaAmountWei),
+      blockNumber: receipt.blockNumber.toString(),
+    };
   }
 }
