@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import { prisma } from '@/lib/prisma';
+import { createSuccessResponse } from '@/lib/error';
 
 // 禁用路由缓存
 export const dynamic = 'force-dynamic';
@@ -26,14 +27,10 @@ export async function GET(request: Request) {
       });
       
 
-      return NextResponse.json({
-        code: 200,
-        message: '获取 nonce 成功',
-        data: {
-          nonce,
-          message,
-        },
-      });
+      return createSuccessResponse({
+        nonce,
+        message,
+      }, '获取 nonce 成功');
     } catch (error) {
       console.error('Failed to save nonce:', error);
       return NextResponse.json(

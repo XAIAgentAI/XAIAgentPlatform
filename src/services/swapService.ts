@@ -2,6 +2,7 @@ import { fetchDBCPrice } from '@/services/dbcPrice';
 import { SwapResponse, SwapData, KLineData } from '../types/swap';
 import { TimeInterval } from '@/hooks/useTokenPrice';
 import { calculatePriceChange, calculate24hPriceChange, find24hAgoPrice } from '@/lib/utils';
+import { env } from 'process';
 
 export const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "https://dbcswap.io/subgraph/name/ianlapham/uniswap-v3-test" : 'https://dbcswap.io/subgraph/name/ianlapham/dbcswap-v3-mainnet';
 export const DBC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "" : "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
@@ -910,6 +911,16 @@ interface TokenExchangeRateResponse {
  */
 export const getTokenExchangeRate = async (token0Address: string, token1Address: string): Promise<number> => {
   try {
+    // 如果是测试XAA代币，使用正式XAA地址获取兑换比例
+    let actualToken0Address = token0Address;
+    if (process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" && 
+        token0Address.toLowerCase() === "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a".toLowerCase()) {
+      actualToken0Address = "0x16d83F6B17914a4e88436251589194CA5AC0f452"; // 正式XAA地址
+      console.log(`[兑换比例] 检测到测试XAA代币，使用正式XAA地址: ${actualToken0Address}`);
+    }
+    
+    console.log(`[兑换比例] 开始获取兑换比例 ${actualToken0Address} -> ${token1Address}`);
+    
     const query = `
       query GetTokenExchangeRate($token0Address: String!, $token1Address: String!) {
         swaps(
@@ -947,6 +958,12 @@ export const getTokenExchangeRate = async (token0Address: string, token1Address:
       }
     `;
 
+    console.log(`[兑换比例] 查询参数:`, {
+      token0Address: actualToken0Address.toLowerCase(),
+      token1Address: token1Address.toLowerCase(),
+      SUBGRAPH_URL
+    });
+
     const response = await fetch(SUBGRAPH_URL, {
       method: 'POST',
       headers: {
@@ -955,7 +972,7 @@ export const getTokenExchangeRate = async (token0Address: string, token1Address:
       body: JSON.stringify({
         query,
         variables: {
-          token0Address: token0Address.toLowerCase(),
+          token0Address: actualToken0Address.toLowerCase(),
           token1Address: token1Address.toLowerCase()
         }
       }),
@@ -970,6 +987,7 @@ export const getTokenExchangeRate = async (token0Address: string, token1Address:
     }
 
     const data: TokenExchangeRateResponse = await response.json();
+    console.log(`[兑换比例] API响应数据:`, data);
 
     if (data.errors) {
       console.error('获取代币兑换比例查询错误:', data.errors);
@@ -982,9 +1000,19 @@ export const getTokenExchangeRate = async (token0Address: string, token1Address:
       return 1;
     }
 
+    console.log(`[兑换比例] 最新交易记录:`, latestSwap);
+
     const amount0 = parseFloat(latestSwap.amount0);
     const amount1 = parseFloat(latestSwap.amount1);
-    const isToken0Token0 = latestSwap.token0.id.toLowerCase() === token0Address.toLowerCase();
+    const isToken0Token0 = latestSwap.token0.id.toLowerCase() === actualToken0Address.toLowerCase();
+
+    console.log(`[兑换比例] 交易金额解析:`, {
+      amount0,
+      amount1,
+      isToken0Token0,
+      token0InSwap: latestSwap.token0.id,
+      token1InSwap: latestSwap.token1.id
+    });
 
     if (amount0 === 0 || amount1 === 0) {
       console.warn('代币兑换金额为0');
@@ -993,6 +1021,11 @@ export const getTokenExchangeRate = async (token0Address: string, token1Address:
 
     // 如果 token0 是 token0，则使用 amount0/amount1，否则使用 amount1/amount0
     const rate = isToken0Token0 ? Math.abs(amount1 / amount0) : Math.abs(amount0 / amount1);
+
+    console.log(`[兑换比例] 计算结果:`, {
+      rate,
+      calculation: isToken0Token0 ? `${amount1} / ${amount0} = ${rate}` : `${amount0} / ${amount1} = ${rate}`
+    });
 
     return rate;
   } catch (error) {

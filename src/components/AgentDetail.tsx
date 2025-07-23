@@ -9,6 +9,7 @@ import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
 import { StateDisplay } from "@/components/ui-custom/state-display";
 import { useTranslations } from 'next-intl';
+import { useAppKitAccount } from '@reown/appkit/react';
 
 interface AgentDetailProps {
   id: string;
@@ -22,27 +23,34 @@ interface ApiResponse<T> {
 }
 
 export function AgentDetail({ id }: AgentDetailProps) {
-  const [agent, setAgent] = useState<LocalAgent | null>(null);
+  const [agent, setAgent] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations('agentDetail');
+  const { address } = useAppKitAccount();
+  
+  // 检查当前用户是否是Agent创建者
+  const isAgentCreator = address && agent && (agent as any)?.creator?.address &&
+    address.toLowerCase() === (agent as any).creator.address.toLowerCase();
 
   const fetchAgent = async (showGlobalLoading = true) => {
     try {
       if (showGlobalLoading) {
         setIsLoading(true);
       }
-      const res = await agentAPI.getAgentById((id)) as unknown as ApiResponse<LocalAgent>;
 
-      console.log("fetchAgent res", res);
-      const agent = await agentAPI.getAgentById((id));
+      const res = await agentAPI.getAgentById(id);
+
       if (res.code === 200 && res.data) {
-        console.log("res.data1", res.data);
-
         setAgent(res.data);
+        setError(null);
+      } else {
+        console.error("❌ [ERROR] Invalid response:", res);
+        setError(res.message || t('fetchError'));
       }
 
     } catch (err) {
+      console.error("❌ [ERROR] Exception in fetchAgent:", err);
       setError(err instanceof Error ? err.message : t('fetchError'));
     } finally {
       if (showGlobalLoading) {
@@ -60,6 +68,11 @@ export function AgentDetail({ id }: AgentDetailProps) {
     fetchAgent();
   }, [id, t]);
 
+  // 以小时为单位，确保结果是整数
+  const iaoTimeRemain = agent?.iaoStartTime && agent?.iaoEndTime 
+    ? Math.round((agent?.iaoEndTime - agent?.iaoStartTime) / 3600) 
+    : 72; // 默认为72小时
+
   return (
     <StateDisplay
       isLoading={isLoading}
@@ -74,11 +87,12 @@ export function AgentDetail({ id }: AgentDetailProps) {
           <div className="md:hidden ">
             {agent && <IaoPool agent={agent} onRefreshAgent={refreshAgent} />}
           </div>
+          
           {/* Agent信息卡片 */}
           <AgentInfo agent={agent as any} currentPrice={0} />
 
           {/* 对话启动器 */}
-          {agent && <ConversationStarter agent={agent} />}
+          {agent && <ConversationStarter agent={agent} onRefreshAgent={refreshAgent} />}
         </div>
 
         {/* 右侧区域 */}
@@ -92,7 +106,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
           </div>
 
           {/* 代币信息卡片 */}
-          {agent && <TokenInfoCard projectDescription={agent.projectDescription} />}
+          {agent && <TokenInfoCard projectDescription={agent.projectDescription} symbol={agent.symbol} iaoDurationHours={iaoTimeRemain}/>}
         </div>
       </div>
     </StateDisplay>

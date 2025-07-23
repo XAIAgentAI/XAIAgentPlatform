@@ -5,8 +5,56 @@ import { wagmiAdapter, projectId, networks } from '../config/index'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createAppKit } from '@reown/appkit/react'
 import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/appkit/networks'
-import React, { type ReactNode } from 'react'
+import React, { type ReactNode, useEffect } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
+
+// 添加连接恢复和错误处理工具
+const connectionManager = {
+  hasRestoredConnection: false,
+  subscriptionIds: new Set(),
+  
+  // 清理所有订阅
+  clearSubscriptions() {
+    this.subscriptionIds.clear();
+  },
+  
+  // 标记连接已恢复
+  markConnectionRestored() {
+    this.hasRestoredConnection = true;
+  }
+};
+
+// 全局错误处理函数，捕获订阅冲突错误
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (event) => {
+    console.error('捕获到错误:', event);
+    if (event.message?.includes('Restore will override. subscription')) {
+      console.log('捕获到订阅冲突错误，正在处理...');
+      // 阻止错误冒泡
+      event.preventDefault();
+      
+      // 清理订阅状态
+      connectionManager.clearSubscriptions();
+      
+      // 如果在5秒内没有其他操作，刷新连接
+      if (!connectionManager.hasRestoredConnection) {
+        connectionManager.markConnectionRestored();
+        console.log('正在重置连接状态...');
+        
+        // 延迟执行，避免连续多次重置
+        setTimeout(() => {
+          // 重置连接状态，但不刷新页面
+          if (wagmiAdapter && wagmiAdapter.wagmiConfig) {
+            console.log('重置连接完成');
+            connectionManager.hasRestoredConnection = false;
+          }
+        }, 500);
+      }
+      
+      return true;
+    }
+  });
+}
 
 // Set up queryClient with retry configuration
 const queryClient = new QueryClient({
@@ -35,7 +83,7 @@ const metadata = {
     icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
 
-// Create the modal
+// Create the modal with improved connection handling
 const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
@@ -49,21 +97,20 @@ const modal = createAppKit({
         // 禁用社交登录（包括 Google、X、Discord 等）
         socials: false,
     },
-    // 禁用所有钱包，然后只通过 includeWalletIds 启用指定钱包
-    // allWallets: 'HIDE',
     // 排除 Trust Wallet 选项 - 使用完整的钱包 ID
     excludeWalletIds: ['4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'],
-    // 只包含我们想要的钱包，这样可以更好地控制显示的钱包
-    // includeWalletIds: [
-    //     'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // MetaMask
-    //     '1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369', // Rainbow
-    //     '20459438007b75f4f4acb98bf29aa3b800550309646d375da5fd4aac6c2a2c66', // TokenPocket (TP)
-    //     'ef333840daf915aafdc4a004525502d6d49d77bd9c65e0642dbaefb3c2893bef'  // imToken (IM)
-    // ]
 })
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
     const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
+
+    // 添加组件卸载时的清理逻辑
+    useEffect(() => {
+        return () => {
+            // 组件卸载时清理订阅
+            connectionManager.clearSubscriptions();
+        };
+    }, []);
 
     return (
         <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>

@@ -34,60 +34,76 @@ function isAllowedDomain(origin: string | null): boolean {
   }
 }
 
-// 需要身份验证的路由
-const authRoutes = [
-  '/api/auth/disconnect',
-  '/api/agents/[id]/history',
-  '/api/agents/new',
-  '/api/user/profile',
-  '/api/user/settings',
-  '/api/user/assets',
-  '/api/token/distribute',
-];
+// 需要身份认证的路由列表
+function needsAuth(path: string, method: string): boolean {
+  // 标准化路径（移除末尾斜杠）
+  const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
 
-// 需要根据方法进行身份验证的路由
-const methodAuthRoutes = [
-  { path: '/api/agents/[id]', methods: ['POST', 'PUT', 'DELETE', 'PATCH'] },
-  { path: '/api/agents/[id]/transfer-ownership', methods: ['POST'] },
-  { path: '/api/agents/[id]/burn-tokens', methods: ['POST'] },
-  { path: '/api/agents/[id]/tasks', methods: ['GET'] },
-  { path: '/api/agents/create-token', methods: ['POST'] },
-  { path: '/api/agents/[id]/deploy-payment-contract', methods: ['POST'] },
-  { path: '/api/agents/[id]/add-liquidity', methods: ['POST'] },
-];
+  // 不需要验证的路由列表
+  const publicRoutes = [
+    '/api/health',
+    '/api/chat/translate',
+    '/api/chat/messages',
+    '/api/agents',
+    '/api/image',
+    '/api/stid',
+    '/api/socket',
+    '/api/model-chat',
+    '/api/cron/update-prices',
+    '/api/auth/nonce',
+    '/api/auth/wallet-connect',
+    '/api/auth/wallet-connect-no-sig',
+    '/api/auth/disconnect',
+    '/api/listener-status',
+    '/api/restart-listener',
+    '/api/token/distribute',
+    '/api/user/profile',
+  ];
 
-// 检查路径是否匹配
-function matchPath(path: string, pattern: string): boolean {
-  const patternParts = pattern.split('/');
-  const pathParts = path.split('/');
+  // GET 请求的公共路由
+  const publicGetRoutes = [
+    '/api/users',
+    '/api/tasks',
+  ];
 
-  if (patternParts.length !== pathParts.length) {
+  // 直接对比完整路径
+  if (publicRoutes.includes(normalizedPath)) {
     return false;
   }
 
-  return patternParts.every((part, i) => {
-    if (part.startsWith('[') && part.endsWith(']')) {
-      return true;
-    }
-    return part === pathParts[i];
-  });
-}
-
-// 检查是否需要身份验证
-function needsAuth(path: string, method: string): boolean {
-  // 检查是否在 authRoutes 中
-  if (authRoutes.some(pattern => matchPath(path, pattern))) {
-    return true;
+  // GET 请求特殊处理
+  if (method === 'GET' && publicGetRoutes.some(route => normalizedPath.startsWith(route))) {
+    return false;
   }
-  
-  // 检查是否在 methodAuthRoutes 中且方法匹配
-  return methodAuthRoutes.some(route => 
-    matchPath(path, route.path) && route.methods.includes(method)
-  );
+
+  // 处理动态路由，例如 /api/agents/[id]
+  if (normalizedPath.startsWith('/api/agents/') && normalizedPath !== '/api/agents' && method === 'GET') {
+    return false;
+  }
+
+  if (normalizedPath.startsWith('/api/agents/') && normalizedPath.includes('/reviews') && method === 'GET') {
+    return false;
+  }
+
+  // 根据ID的任务路由
+  if (normalizedPath.startsWith('/api/tasks/') && normalizedPath !== '/api/tasks' && method === 'GET') {
+    return false;
+  }
+
+  // IAO 进度路由
+  if (normalizedPath.startsWith('/api/iao/progress') && method === 'GET') {
+    return false;
+  }
+
+  return true;
 }
 
 // 创建国际化中间件
-const intlMiddleware = createIntlMiddleware(routing);
+const intlMiddleware = createIntlMiddleware({
+  locales: routing.locales,
+  defaultLocale: routing.defaultLocale,
+  localePrefix: routing.localePrefix
+});
 
 // 获取用户首选语言
 function getPreferredLanguage(acceptLanguage: string): string {
@@ -115,10 +131,9 @@ export async function middleware(request: NextRequest) {
   }
 
   // 如果是 API 路由，处理 CORS 和认证
-  if (path.startsWith('/api/')) {
+  if (path.startsWith('/api')) {
     // 获取请求的 origin
     const origin = request.headers.get('origin');
-    console.log('Request origin:', origin);
     
     // 设置基本的 CORS 头
     const headers = new Headers({
@@ -137,7 +152,6 @@ export async function middleware(request: NextRequest) {
 
     // 检查域名是否允许
     if (!isAllowedDomain(origin)) {
-      console.log('Domain not allowed:', origin);
       return new NextResponse(
         JSON.stringify({ code: 403, message: '域名不被允许', origin }),
         {
@@ -162,10 +176,8 @@ export async function middleware(request: NextRequest) {
     if (needsAuth(path, request.method)) {
       // 获取 token
       const authHeader = request.headers.get('authorization');
-      console.log('Authorization header:', authHeader);
 
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        console.log('No valid authorization header found');
         return NextResponse.json(
           { code: 401, message: '未授权' },
           { status: 401 }
@@ -173,12 +185,10 @@ export async function middleware(request: NextRequest) {
       }
 
       const token = authHeader.split(' ')[1];
-      console.log('Extracted token:', token);
 
       try {
         // 验证 token
         const { payload } = await jose.jwtVerify(token, JWT_SECRET);
-        console.log('Decoded token:', payload);
         
         // 创建新的 headers
         const requestHeaders = new Headers(request.headers);
@@ -192,7 +202,6 @@ export async function middleware(request: NextRequest) {
           },
         });
       } catch (error) {
-        console.error('Token verification failed:', error);
         return NextResponse.json(
           { code: 401, message: 'token无效' },
           { status: 401 }

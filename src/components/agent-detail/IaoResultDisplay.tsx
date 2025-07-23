@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+
+// 格式化大数字显示
+const formatLargeNumber = (num: string | number): string => {
+  const numValue = typeof num === 'string' ? parseFloat(num) : num;
+  if (isNaN(numValue)) return '0';
+
+  if (numValue >= 1000000000) {
+    return (numValue / 1000000000).toFixed(1) + 'B';
+  } else if (numValue >= 1000000) {
+    return (numValue / 1000000).toFixed(1) + 'M';
+  } else if (numValue >= 1000) {
+    return (numValue / 1000).toFixed(1) + 'K';
+  } else {
+    return numValue.toFixed(0);
+  }
+};
 
 interface IaoProgressData {
   totalDeposited: string;
   investorCount: number;
   targetAmount: string;
+  targetXaaAmount: string; // 目标金额对应的XAA数量
   progressPercentage: string;
   remainingAmount: string;
+  remainingXaaAmount: string; // 还差多少XAA
   currentUsdValue: string;
 }
 
@@ -16,6 +36,7 @@ interface IaoResultDisplayProps {
   isIaoEnded: boolean;
   isIaoSuccessful: boolean;
   isCreator: boolean;
+  agentId?: string;
   startTime?: number;
   endTime?: number;
   isPoolInfoLoading?: boolean;
@@ -31,6 +52,7 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
   isIaoEnded,
   isIaoSuccessful,
   isCreator,
+  agentId,
   startTime,
   endTime,
   isPoolInfoLoading,
@@ -39,6 +61,8 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const t = useTranslations('iaoPool');
+  const router = useRouter();
+  const locale = useLocale();
 
   // 如果正在加载池信息，不显示
   if (isPoolInfoLoading) {
@@ -55,6 +79,11 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
     return null;
   }
 
+  // 如果 IAO 成功，不显示此组件
+  if (isIaoSuccessful) {
+    return null;
+  }
+
   const handleRefresh = async () => {
     if (onRefreshStatus) {
       setIsRefreshing(true);
@@ -63,6 +92,12 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
       } finally {
         setIsRefreshing(false);
       }
+    }
+  };
+
+  const handleEditPrompt = () => {
+    if (agentId) {
+      router.push(`/${locale}/chat/edit/${agentId}`);
     }
   };
 
@@ -104,21 +139,23 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
           <div className={`font-semibold ${
             isIaoSuccessful ? 'text-green-600' : 'text-red-600'
           }`}>
-            ${iaoProgress.currentUsdValue} USD
+            <div className="text-sm">{formatLargeNumber(iaoProgress.totalDeposited)}$XAA</div>
+            <div className="text-xs text-gray-500">(${iaoProgress.currentUsdValue}USDT)</div>
           </div>
         </div>
         <div>
           <span className="text-gray-600">{t('targetAmount')}:</span>
           <div className="font-semibold text-gray-800">
-            ${iaoProgress.targetAmount} USD
+            <div className="text-sm">{formatLargeNumber(iaoProgress.targetXaaAmount)}$XAA</div>
+            <div className="text-xs text-gray-500">($1500USDT)</div>
           </div>
         </div>
-        <div>
+        {/* <div>
           <span className="text-gray-600">{t('investorCount')}:</span>
           <div className="font-semibold text-blue-600">
             {iaoProgress.investorCount} 人
           </div>
-        </div>
+        </div> */}
         <div>
           <span className="text-gray-600">
             {isIaoSuccessful ? t('overAchieved') : t('underAchieved')}:
@@ -126,7 +163,8 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
           <div className={`font-semibold ${
             isIaoSuccessful ? 'text-green-600' : 'text-red-600'
           }`}>
-            ${Math.abs(Number(iaoProgress.remainingAmount))} USD
+            <div className="text-sm">{formatLargeNumber(iaoProgress.remainingXaaAmount)}$XAA</div>
+            <div className="text-xs text-gray-500">(${Math.abs(Number(iaoProgress.remainingAmount))}USDT)</div>
           </div>
         </div>
       </div>
@@ -154,7 +192,7 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
       )}
 
       {/* IAO 失败状态 */}
-      {!isIaoSuccessful && (
+      {!isIaoSuccessful && isCreator && (
         <div className="p-3 bg-red-100 rounded-lg">
           <div className="flex items-start gap-2">
             <svg className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,8 +210,19 @@ export const IaoResultDisplay: React.FC<IaoResultDisplayProps> = ({
                   <p className="text-xs text-red-700 font-medium">{t('creatorSuggestions')}</p>
                   <ul className="text-xs text-red-700 space-y-1 ml-4">
                     <li>{t('creatorSuggestionsList.analyze')}</li>
-                    <li>{t('creatorSuggestionsList.adjust')}</li>
                     <li>{t('creatorSuggestionsList.community')}</li>
+                    <li>
+                      {agentId ? (
+                        <button
+                          onClick={handleEditPrompt}
+                          className="text-red-700 hover:text-red-800 underline hover:no-underline transition-colors cursor-pointer"
+                        >
+                          {t('creatorSuggestionsList.editPrompt')}
+                        </button>
+                      ) : (
+                        <span>{t('creatorSuggestionsList.editPrompt')}</span>
+                      )}
+                    </li>
                     <li>{t('creatorSuggestionsList.retry')}</li>
                   </ul>
                 </div>

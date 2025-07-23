@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useTranslations } from 'next-intl';
 import {
   Table,
   TableBody,
@@ -13,55 +14,55 @@ import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-// 表格列配置类型
+// Column configuration type
 export type ColumnConfig<T> = {
-  id: string;                    // 列唯一标识
-  header: string;                // 列标题
-  width?: string;                // 列宽度
-  align?: 'left' | 'center' | 'right'; // 对齐方式
-  sortable?: boolean;            // 是否可排序
-  cell: (row: T, index: number) => React.ReactNode; // 单元格渲染函数
-  cellClassName?: string;        // 单元格类名
-  headerClassName?: string;      // 表头类名
+  id: string;                    // Column unique identifier
+  header: string;                // Column header
+  width?: string;                // Column width
+  align?: 'left' | 'center' | 'right'; // Alignment
+  sortable?: boolean;            // Whether sortable
+  cell: (row: T, index: number) => React.ReactNode; // Cell render function
+  cellClassName?: string;        // Cell class name
+  headerClassName?: string;      // Header class name
 };
 
-// 表格配置类型
+// Table configuration type
 export type TableConfig<T> = {
-  columns: ColumnConfig<T>[];    // 表格列配置
-  data: T[];                     // 表格数据
-  rowKey?: keyof T | ((row: T) => string); // 行唯一键
-  emptyText?: string;            // 空数据提示
-  selectable?: boolean;          // 是否可选择
-  loading?: boolean;             // 加载状态
-  height?: string | number;      // 表格高度
-  maxHeight?: string | number;   // 表格最大高度
-  scroll?: {                     // 表格滚动设置
-    x?: boolean | number | string; // 横向滚动
-    y?: boolean | number | string; // 纵向滚动
+  columns: ColumnConfig<T>[];    // Table column configuration
+  data: T[];                     // Table data
+  rowKey?: keyof T | ((row: T) => string); // Row unique key
+  emptyText?: string;            // Empty data message
+  selectable?: boolean;          // Whether selectable
+  loading?: boolean;             // Loading state
+  height?: string | number;      // Table height
+  maxHeight?: string | number;   // Table max height
+  scroll?: {                     // Table scroll settings
+    x?: boolean | number | string; // Horizontal scroll
+    y?: boolean | number | string; // Vertical scroll
   };
-  fixedLeftColumn?: boolean;     // 是否固定左侧列
-  className?: string;            // 表格容器类名
-  tableClassName?: string;       // 表格类名
-  headerClassName?: string;      // 表头类名
-  bodyClassName?: string;        // 表体类名
-  rowClassName?: string | ((row: T, index: number) => string); // 行类名
-  onRowClick?: (row: T, index: number) => void; // 行点击事件
-  onSelectionChange?: (selectedRows: T[]) => void; // 选择变化事件
+  fixedLeftColumn?: boolean;     // Whether to fix left column
+  className?: string;            // Table container class name
+  tableClassName?: string;       // Table class name
+  headerClassName?: string;      // Header class name
+  bodyClassName?: string;        // Body class name
+  rowClassName?: string | ((row: T, index: number) => string); // Row class name
+  onRowClick?: (row: T, index: number) => void; // Row click event
+  onSelectionChange?: (selectedRows: T[]) => void; // Selection change event
 };
 
-// Badge组件支持的变体类型
+// Badge component supported variants
 type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
-// Button组件支持的变体类型
+// Button component supported variants
 type ButtonVariant = "destructive" | "outline" | "secondary" | "ghost" | "link" | "colored" | "primary";
 
-// 列渲染器类型 - 提供一些预定义的单元格渲染函数
+// Column renderer types - provides some predefined cell render functions
 export const ColumnRenderers = {
-  // 文本渲染器
+  // Text renderer
   text: <T extends object>(field: keyof T) => 
     (row: T) => <span>{String(row[field] ?? '')}</span>,
   
-  // 图片渲染器
+  // Image renderer
   image: <T extends object>(
     field: keyof T, 
     options?: { 
@@ -82,7 +83,7 @@ export const ColumnRenderers = {
       />
     ),
   
-  // 头像渲染器
+  // Avatar renderer
   avatar: <T extends object>(
     field: keyof T, 
     nameField?: keyof T, 
@@ -113,7 +114,7 @@ export const ColumnRenderers = {
       );
     },
   
-  // 带头像的名称渲染器  
+  // Avatar with name renderer
   avatarWithName: <T extends object>(
     imageField: keyof T, 
     nameField: keyof T, 
@@ -141,7 +142,7 @@ export const ColumnRenderers = {
       );
     },
   
-  // 徽章渲染器
+  // Badge renderer
   badge: <T extends object>(
     field: keyof T | ((row: T) => string), 
     options?: { 
@@ -168,7 +169,7 @@ export const ColumnRenderers = {
       );
     },
     
-  // 按钮渲染器
+  // Button renderer
   button: <T extends object>(
     label: string | ((row: T) => string),
     onClick: (row: T) => void,
@@ -198,7 +199,7 @@ export const ConfigurableTable = <T extends object>({
   columns,
   data,
   rowKey = 'id' as keyof T,
-  emptyText = "暂无数据",
+  emptyText,
   selectable = false,
   loading = false,
   height,
@@ -213,11 +214,15 @@ export const ConfigurableTable = <T extends object>({
   onRowClick,
   onSelectionChange,
 }: TableConfig<T>) => {
+  const t = useTranslations('common');
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  // 处理行键计算
+  // Use translation or default value
+  const localizedEmptyText = emptyText || t('noData');
+
+  // Handle row key calculation
   const getRowKey = (row: T, index: number): string => {
     if (typeof rowKey === 'function') {
       return rowKey(row);
@@ -227,7 +232,7 @@ export const ConfigurableTable = <T extends object>({
     return String(index);
   };
 
-  // 处理表格数据排序
+  // Handle table data sorting
   const sortedData = useMemo(() => {
     if (!sortColumn) return data;
     
@@ -235,28 +240,28 @@ export const ConfigurableTable = <T extends object>({
       const valueA = sortColumn in a ? a[sortColumn as keyof T] : null;
       const valueB = sortColumn in b ? b[sortColumn as keyof T] : null;
       
-      // 如果值相等，返回0
+      // If values are equal, return 0
       if (valueA === valueB) return 0;
       
-      // 如果值为null或undefined，则排在最后
+      // If value is null or undefined, sort to the end
       if (valueA == null) return 1;
       if (valueB == null) return -1;
       
-      // 如果值是字符串，则按字母顺序排序
+      // If values are strings, sort alphabetically
       if (typeof valueA === 'string' && typeof valueB === 'string') {
         return sortDirection === 'asc'
           ? valueA.localeCompare(valueB)
           : valueB.localeCompare(valueA);
       }
       
-      // 如果值是数字，则按数值大小排序
+      // If values are numbers, sort numerically
       if (typeof valueA === 'number' && typeof valueB === 'number') {
         return sortDirection === 'asc'
           ? valueA - valueB
           : valueB - valueA;
       }
       
-      // 其他情况，尝试转换为字符串比较
+      // Otherwise, try to convert to string and compare
       const strA = String(valueA);
       const strB = String(valueB);
       
@@ -266,7 +271,7 @@ export const ConfigurableTable = <T extends object>({
     });
   }, [data, sortColumn, sortDirection]);
 
-  // 处理列排序
+  // Handle column sorting
   const handleSort = (columnId: string) => {
     if (sortColumn === columnId) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -276,7 +281,7 @@ export const ConfigurableTable = <T extends object>({
     }
   };
 
-  // 处理行选择
+  // Handle row selection
   const handleSelectRow = (rowKey: string, checked: boolean) => {
     const newSelectedKeys = new Set(selectedKeys);
     
@@ -296,7 +301,7 @@ export const ConfigurableTable = <T extends object>({
     }
   };
 
-  // 处理全选/取消全选
+  // Handle select all/deselect all
   const handleSelectAll = (checked: boolean) => {
     const newSelectedKeys = new Set<string>();
     
@@ -314,13 +319,13 @@ export const ConfigurableTable = <T extends object>({
     }
   };
 
-  // 判断是否全选
+  // Check if all rows are selected
   const isAllSelected = useMemo(() => {
     if (data.length === 0) return false;
     return data.length === selectedKeys.size;
   }, [data.length, selectedKeys.size]);
 
-  // 获取行类名
+  // Get row class name
   const getRowClassName = (row: T, index: number) => {
     if (typeof rowClassName === 'function') {
       return rowClassName(row, index);
@@ -328,7 +333,7 @@ export const ConfigurableTable = <T extends object>({
     return rowClassName || '';
   };
 
-  // 创建表格容器样式
+  // Create table container styles
   const tableContainerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
@@ -337,7 +342,7 @@ export const ConfigurableTable = <T extends object>({
     overflow: 'hidden',
   };
 
-  // 创建表格内容样式
+  // Create table content styles
   const tableWrapperStyle: React.CSSProperties = {
     position: 'relative',
     overflowX: scroll?.x ? 'auto' : 'hidden',
@@ -346,15 +351,15 @@ export const ConfigurableTable = <T extends object>({
     width: '100%',
   };
 
-  // 创建表格样式
+  // Create table styles
   const tableStyle: React.CSSProperties = {};
   
-  // 设置表格最小宽度，以支持水平滚动
+  // Set table min-width to support horizontal scrolling
   if (typeof scroll?.x === 'number' || typeof scroll?.x === 'string') {
     tableStyle.minWidth = scroll.x;
   }
 
-  // 判断是否要固定左侧列
+  // Check if left column should be fixed
   const shouldFixColumn = fixedLeftColumn && (scroll?.x || false);
 
   return (
@@ -410,7 +415,7 @@ export const ConfigurableTable = <T extends object>({
           </TableHeader>
           
           <TableBody className={bodyClassName}>
-            {loading ? (
+            {loading && (
               <TableRow>
                 <TableCell 
                   colSpan={selectable ? columns.length + 1 : columns.length} 
@@ -437,16 +442,18 @@ export const ConfigurableTable = <T extends object>({
                   </div>
                 </TableCell>
               </TableRow>
-            ) : sortedData.length === 0 ? (
+            )}
+            {!loading && data.length === 0 && (
               <TableRow>
                 <TableCell 
                   colSpan={selectable ? columns.length + 1 : columns.length} 
                   className="text-center py-6 text-muted-foreground"
                 >
-                  {emptyText}
+                  {localizedEmptyText}
                 </TableCell>
               </TableRow>
-            ) : (
+            )}
+            {!loading && data.length > 0 && (
               sortedData.map((row, index) => {
                 const key = getRowKey(row, index);
                 return (
@@ -499,6 +506,23 @@ export const ConfigurableTable = <T extends object>({
             )}
           </TableBody>
         </Table>
+        
+        {/* Loading state */}
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-black/50 z-50">
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-2"></div>
+              <span>{t('loading')}</span>
+            </div>
+          </div>
+        )}
+        
+        {/* Empty data state */}
+        {!loading && data.length === 0 && (
+          <div className="py-8 flex items-center justify-center text-muted-foreground">
+            {localizedEmptyText}
+          </div>
+        )}
       </div>
     </div>
   );

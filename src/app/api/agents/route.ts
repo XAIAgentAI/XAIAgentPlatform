@@ -5,8 +5,112 @@ import { verify } from 'jsonwebtoken';
 import { getBatchTokenPrices } from '@/services/swapService';
 import { fetchDBCTokens } from '@/services/dbcScan';
 import { getBatchContractTimeInfo } from '@/services/contractService';
+import { createPublicClient, http, formatEther } from 'viem';
+import { dbcMainnet } from '@/config/networks';
+import { getContractABI } from '@/config/contracts';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
+
+// 处理 BigInt 序列化的辅助函数
+function safeJSONStringify(obj: any): string {
+  return JSON.stringify(obj, (key, value) => {
+    // 检测是否为 BigInt 类型
+    if (typeof value === 'bigint') {
+      return Number(value); // 将 BigInt 转换为 Number
+    }
+    return value;
+  });
+}
+
+// 获取IAO合约的募资金额
+async function getIaoFundraisingAmount(iaoContractAddress: string, symbol: string): Promise<number> {
+  try {
+    if (!iaoContractAddress) {
+      console.log('IAO合约地址为空，返回0');
+      return 0;
+    }
+
+    console.log(`开始获取IAO募资金额 - 合约地址: ${iaoContractAddress}, symbol: ${symbol}`);
+
+    const publicClient = createPublicClient({
+      chain: dbcMainnet,
+      transport: http()
+    });
+
+    const contractABI = getContractABI(symbol === 'XAA' ? 'XAAAgent' : 'UserAgent');
+    const functionName = symbol === 'XAA' ? 'totalDepositedDBC' : 'totalDepositedTokenIn';
+
+    console.log(`使用的合约ABI类型: ${symbol === 'XAA' ? 'XAAAgent' : 'UserAgent'}`);
+    console.log(`调用的函数名: ${functionName}`);
+
+    const totalDeposited = await publicClient.readContract({
+      address: iaoContractAddress as `0x${string}`,
+      abi: contractABI,
+      functionName: functionName,
+    });
+
+    console.log(`合约返回的原始数据:`, totalDeposited);
+
+    const totalDepositedNum = Number(formatEther(totalDeposited as bigint));
+    console.log(`格式化后的募资金额:`, totalDepositedNum);
+
+    return totalDepositedNum;
+  } catch (error) {
+    console.error(`获取IAO募资金额失败 - 合约地址: ${iaoContractAddress}, 错误:`, error);
+    return 0;
+  }
+}
+
+// 根据状态筛选生成时间条件
+function getStatusTimeFilter(status?: string | null) {
+  if (!status) return [];
+
+  const now = Math.floor(Date.now() / 1000);
+
+  switch (status) {
+    case 'IAO_ONGOING':
+      // IAO进行中：当前时间在IAO开始时间和结束时间之间
+      return [{
+        AND: [
+          { iaoStartTime: { lte: now } },
+          { iaoEndTime: { gt: now } }
+        ]
+      }];
+
+    case 'TRADABLE':
+      // 可交易：IAO已结束且有代币地址
+      return [{
+        AND: [
+          { iaoEndTime: { lte: now } },
+          {
+            OR: [
+              { tokenAddress: { not: null } },
+              { tokenAddressTestnet: { not: null } }
+            ]
+          }
+        ]
+      }];
+
+    case 'IAO_COMING_SOON':
+      // IAO即将开始：当前时间小于IAO开始时间
+      return [{
+        iaoStartTime: { gt: now }
+      }];
+
+    case 'TBA':
+      // 待公布：IAO已结束但没有代币地址
+      return [{
+        AND: [
+          { iaoEndTime: { lte: now } },
+          { tokenAddress: null },
+          { tokenAddressTestnet: null }
+        ]
+      }];
+
+    default:
+      return [];
+  }
+}
 
 // 定义排序字段接口
 interface AgentWithSortData {
@@ -46,6 +150,8 @@ interface AgentWithSortData {
   _priceChange24h: number;
   startTime?: number;
   endTime?: number;
+  iaoContractAddressTestnet?: string | null;
+  _iaoFundingAmount?: number;
   [key: string]: any; // 添加索引签名
 }
 
@@ -57,14 +163,10 @@ let tokenPriceCache: Record<string, any> = {};
 let dbcTokensCache: any[] = [];
 // 缓存Agent总数
 let agentCountCache: {count: number, timestamp: number, cacheKey: string} = {count: 0, timestamp: 0, cacheKey: ''};
-// 缓存合约时间信息
-let contractTimeCache: {data: Record<string, { startTime: number; endTime: number }>, timestamp: number} = {data: {}, timestamp: 0};
 // 缓存有效期，单位：秒
 const CACHE_TTL = process.env.PRICE_CACHE_TTL ? parseInt(process.env.PRICE_CACHE_TTL) : 120; // 默认2分钟
 // 总数缓存时间
 const COUNT_CACHE_TTL = 120; // 2分钟
-// 合约时间信息缓存时间
-const CONTRACT_TIME_CACHE_TTL = 600; // 10分钟
 
 // Agent数据库记录接口定义
 interface AgentRecord {
@@ -138,8 +240,6 @@ async function fetchExternalData(
   forceRefresh: boolean
 ): Promise<ExternalDataResult> {
   const now = Math.floor(Date.now() / 1000);
-  console.log(`[性能] 开始检查是否需要获取外部数据`);
-  const priceCheckStartTime = Date.now();
 
   // 检查是否需要获取价格和token数据
   let needFetchData = forceRefresh || (dbcTokensCache.length === 0) || tokenInfos.some(info => {
@@ -148,13 +248,10 @@ async function fetchExternalData(
     return now - lastUpdate > CACHE_TTL;
   });
 
-  console.log(`[性能] 检查缓存耗时: ${Date.now() - priceCheckStartTime}ms`);
-  console.log(`[性能] 是否需要获取外部数据: ${needFetchData}`);
-
   // 默认使用缓存数据
   let tokenPrices = {} as Record<string, any>;
   let dbcTokens = dbcTokensCache;
-  
+
   // 创建一个Promise数组来并行获取所有外部数据
   const externalDataPromises: Promise<any>[] = [];
 
@@ -164,22 +261,21 @@ async function fetchExternalData(
     }
     externalDataPromises.push(fetchDBCTokens());
   }
-  
+
   if (externalDataPromises.length > 0) {
-    console.log(`[性能] 开始获取外部数据`);
-    const fetchDataStartTime = Date.now();
-    
     // 并行请求外部API数据
     const results = await Promise.all(externalDataPromises);
-    
+
     // 根据Promise数组的顺序提取结果
     let resultIndex = 0;
-    
+
     if (needFetchData) {
       if (tokenInfos.length > 0) {
         tokenPrices = results[resultIndex++];
+        console.log('获取到的tokenPrices数据:', JSON.stringify(tokenPrices, null, 2));
       }
       dbcTokens = results[resultIndex++];
+      console.log('获取到的dbcTokens数据:', JSON.stringify(dbcTokens, null, 2));
 
       // 更新缓存
       dbcTokensCache = dbcTokens;
@@ -194,17 +290,65 @@ async function fetchExternalData(
         }
       });
     }
-    
-    console.log(`[性能] 获取外部数据完成，总耗时: ${Date.now() - fetchDataStartTime}ms`);
-  } else {
-    console.log(`[性能] 使用缓存数据`);
   }
-  
+
   return {
     tokenPrices,
     dbcTokens,
     needFetchData
   };
+}
+
+// 根据IAO时间动态计算状态
+function calculateDynamicStatus(item: any, now: number): string {
+  const iaoStartTime = item.iaoStartTime ? Number(item.iaoStartTime) : null;
+  const iaoEndTime = item.iaoEndTime ? Number(item.iaoEndTime) : null;
+  const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+    ? item.tokenAddressTestnet
+    : item.tokenAddress;
+
+  // 如果没有IAO时间信息，检查原状态
+  if (!iaoStartTime || !iaoEndTime) {
+    // 如果原状态是FAILED或failed，但没有IAO时间信息，说明是还未设置IAO时间，应该显示TBA
+    if (item.status === 'FAILED' || item.status === 'failed') {
+      console.log(`[状态计算] 没有IAO时间信息且原状态为${item.status}，改为TBA`);
+      return 'TBA';
+    }
+    console.log(`[状态计算] 没有IAO时间信息，返回原状态: ${item.status}`);
+    return item.status;
+  }
+
+  let calculatedStatus: string;
+
+  // 根据当前时间和IAO时间判断状态
+  if (now < iaoStartTime) {
+    // IAO还未开始
+    calculatedStatus = 'IAO_COMING_SOON';
+  } else if (now >= iaoStartTime && now < iaoEndTime) {
+    // IAO进行中
+    calculatedStatus = 'IAO_ONGOING';
+  } else if (now >= iaoEndTime) {
+    // IAO已结束，检查是否有代币地址
+    if (tokenAddress) {
+      // 有代币地址，表示可交易
+      calculatedStatus = 'TRADABLE';
+    } else {
+      // IAO结束但还没有代币地址，检查原状态
+        calculatedStatus = 'TBA';
+    }
+  } else {
+    // 默认返回原状态
+    calculatedStatus = item.status;
+  }
+
+  // 最终检查：如果计算出的状态是FAILED或failed，统一改为TBA
+  if (calculatedStatus === 'FAILED' || calculatedStatus === 'failed') {
+    calculatedStatus = 'TBA';
+    console.log(`[状态计算] 将${item.status}状态改为TBA`);
+  }
+
+  console.log(`[状态计算] Agent ${item.name} 最终状态: ${calculatedStatus}`);
+  return calculatedStatus;
 }
 
 // 格式化Agent数据
@@ -215,41 +359,46 @@ function formatAgentData(
   needFetchData: boolean
 ): { formattedItems: AgentWithSortData[], updateOperations: Promise<void>[] } {
   const now = Math.floor(Date.now() / 1000);
-  console.log(`[性能] 开始处理返回数据`);
-  const processingStartTime = Date.now();
-  
+
   // 异步操作集合，用于等待所有数据库操作完成
   const updateOperations: Promise<void>[] = [];
-  
+
+  console.log('开始格式化Agent数据，原始items数量:', items.length);
+  console.log('dbcTokens数据:', JSON.stringify(dbcTokens, null, 2));
+
   const formattedItems: AgentWithSortData[] = items.map(item => {
-    const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' 
-      ? item.tokenAddressTestnet 
+    const tokenAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+      ? item.tokenAddressTestnet
       : item.tokenAddress;
-    
+
     const contractAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
       ? item.iaoContractAddressTestnet
       : item.iaoContractAddress;
-    
+
     const tokenInfo = dbcTokens.find(token => token.address === tokenAddress);
     let priceInfo = null;
-    
+
+    console.log(`处理Agent: ${item.name} (${item.id})`);
+    console.log(`tokenAddress: ${tokenAddress}`);
+    console.log(`找到的tokenInfo:`, tokenInfo);
+
     // 获取价格信息
     if (item.symbol) {
       const cacheKey = `${item.symbol}-${tokenAddress}`;
-      
+
       // 检查是否有新获取的价格数据
       if (needFetchData && tokenPrices[item.symbol]) {
         priceInfo = tokenPrices[item.symbol];
         lastPriceUpdateTime[item.id] = now;
-        
+
         // 创建异步更新操作但不等待
         const updateOp = updatePriceData(item.id, priceInfo, item);
         updateOperations.push(updateOp);
-      } 
+      }
       // 其次使用缓存数据
       else if (tokenPriceCache[cacheKey]) {
         priceInfo = tokenPriceCache[cacheKey];
-      } 
+      }
       // 最后使用数据库中最近的价格数据
       else if (item.prices?.[0]) {
         const recentPrice = item.prices[0];
@@ -259,26 +408,59 @@ function formatAgentData(
           // 尝试从Agent表已有字段解析历史数据
           tvl: parseFloat(item.tvl?.replace(/[$,]/g, '') || '0'),
           volume24h: parseFloat(item.volume24h?.replace(/[$,]/g, '') || '0'),
-          priceChange24h: typeof item.change24h === 'string' ? 
-            parseFloat(item.change24h.replace(/[%,]/g, '')) : 
+          priceChange24h: typeof item.change24h === 'string' ?
+            parseFloat(item.change24h.replace(/[%,]/g, '')) :
             (typeof item.change24h === 'number' ? item.change24h : 0),
           lp: 0 // 默认值
         };
       }
     }
-    
+
+    console.log(`获取到的priceInfo:`, priceInfo);
+
     // 合约时间信息现在直接从数据库获取（通过事件监听自动同步）
 
     // 使用类型断言确保类型安全
     const agent = item as unknown as AgentRecord;
 
-    return {
+    // 计算动态状态
+    const dynamicStatus = calculateDynamicStatus(item, now);
+
+    // 安全地转换 BigInt 类型
+    const safeConvertBigInt = (value: bigint | null): number | undefined => {
+      if (value === null || value === undefined) return undefined;
+      try {
+        return Number(value);
+      } catch (error) {
+        console.error('转换 BigInt 失败:', error);
+        return undefined;
+      }
+    };
+    
+    // 计算市值 - 优先使用priceInfo和totalSupply计算，如果无法计算则尝试从marketCap字符串提取
+    let calculatedMarketCap = 0;
+    if (priceInfo?.usdPrice && item.totalSupply) {
+      calculatedMarketCap = priceInfo.usdPrice * Number(item.totalSupply);
+    } else if (item.marketCap) {
+      try {
+        const marketCapStr = item.marketCap.replace(/[$,]/g, '');
+        const marketCapNum = parseFloat(marketCapStr);
+        if (!isNaN(marketCapNum)) {
+          calculatedMarketCap = marketCapNum;
+          console.log(`从字符串 ${item.marketCap} 提取市值: ${marketCapNum} 用于项目 ${item.name}`);
+        }
+      } catch (e) {
+        console.error(`无法从 ${item.marketCap} 提取市值用于项目 ${item.name}:`, e);
+      }
+    }
+    
+    const formattedItem = {
       id: item.id,
       name: item.name,
       description: item.description,
       category: item.category,
       avatar: item.avatar,
-      status: item.status,
+      status: dynamicStatus,
       capabilities: JSON.parse(item.capabilities),
       rating: item.rating,
       usageCount: item.usageCount,
@@ -297,41 +479,147 @@ function formatAgentData(
       socialLinks: item.socialLinks,
       tokenAddress,
       iaoContractAddress: contractAddress,
+      iaoContractAddressTestnet: item.iaoContractAddressTestnet,
       iaoTokenAmount: item.iaoTokenAmount ? Number(item.iaoTokenAmount) : null,
       price: priceInfo?.usdPrice ? `$${priceInfo.usdPrice}` : undefined,
       priceChange24h: priceInfo?.priceChange24h,
       lp: priceInfo?.lp,
-      // 合约时间信息 - 直接使用数据库中的时间戳（通过事件监听自动同步）
-      startTime: agent.iaoStartTime ? Number(agent.iaoStartTime) : undefined,
-      endTime: agent.iaoEndTime ? Number(agent.iaoEndTime) : undefined,
+      // 合约时间信息 - 使用安全的 BigInt 转换
+      startTime: safeConvertBigInt(agent.iaoStartTime),
+      endTime: safeConvertBigInt(agent.iaoEndTime),
+      // 管理状态字段
+      tokensDistributed: item.tokensDistributed,
+      liquidityAdded: item.liquidityAdded,
+      tokensBurned: item.tokensBurned,
+      ownerTransferred: item.ownerTransferred,
+      miningOwnerTransferred: item.miningOwnerTransferred,
       // 保存原始数值用于排序
       _usdPrice: priceInfo?.usdPrice || 0,
       _volume24h: priceInfo?.volume24h || 0,
       _tvl: priceInfo?.tvl || 0,
-      _marketCap: priceInfo?.usdPrice && item.totalSupply ? priceInfo.usdPrice * Number(item.totalSupply) : 0,
+      _marketCap: calculatedMarketCap,
       _lp: priceInfo?.lp || 0,
       _priceChange24h: priceInfo?.priceChange24h || 0,
     };
+
+    console.log(`格式化后的item:`, safeJSONStringify(formattedItem));
+
+    return formattedItem;
   });
-    
-  console.log(`[性能] 数据格式化耗时: ${Date.now() - processingStartTime}ms`);
-  
+
+  console.log('格式化完成，formattedItems数量:', formattedItems.length);
+
   return { formattedItems, updateOperations };
 }
 
 // 根据指定字段对数据进行排序
-function sortAgentData(
-  items: AgentWithSortData[], 
-  sortBy: string, 
-  sortOrder: string
-): AgentWithSortData[] {
-  console.log(`[性能] 开始排序数据`);
-  const sortStartTime = Date.now();
-  
+async function sortAgentData(
+  items: AgentWithSortData[],
+  sortBy: string,
+  sortOrder: string,
+  page: number = 1,
+  status?: string | null
+): Promise<AgentWithSortData[]> {
+  console.log('开始排序数据，输入items数量:', items.length);
+  console.log('排序参数 - sortBy:', sortBy, 'sortOrder:', sortOrder, 'page:', page, 'status:', status);
+
+  // 记录排序前的数据情况
+  if (sortBy === 'marketCap') {
+    const marketCapStats = items.reduce((stats, item) => {
+      if (item._marketCap > 0) stats.withValue++;
+      else stats.zeroValue++;
+      return stats;
+    }, { withValue: 0, zeroValue: 0 });
+    
+    console.log(`排序前市值统计 - 有值项目: ${marketCapStats.withValue}, 零值项目: ${marketCapStats.zeroValue}`);
+    
+    // 记录前5个项目的市值情况
+    console.log('排序前前5项的市值情况:', items.slice(0, 5).map(item => ({
+      name: item.name,
+      _marketCap: item._marketCap,
+      marketCap: item.marketCap
+    })));
+  }
+
   let result = [...items]; // 创建副本以避免修改原数组
-  
+
+  // 特殊处理：只在第一页且没有明确状态筛选时，将IAO项目倒计时<24小时且募资金额前三的置顶
+  if (page === 1 && (!status || status === '')) {
+    const now = Math.floor(Date.now() / 1000);
+    const oneDayInSeconds = 24 * 60 * 60;
+
+    // 筛选出IAO进行中且倒计时<24小时的项目
+    const iaoOngoingItems = result.filter(item => {
+      const endTime = item.endTime;
+      if (!endTime) return false;
+
+      const isIaoOngoing = now >= (item.startTime || 0) && now < endTime;
+      const isWithin24Hours = endTime - now < oneDayInSeconds;
+
+      return isIaoOngoing && isWithin24Hours;
+    });
+
+    console.log('找到IAO进行中且倒计时<24小时的项目数量:', iaoOngoingItems.length);
+
+    // 获取这些项目的募资金额并排序
+    const iaoItemsWithFunding = await Promise.all(
+      iaoOngoingItems.map(async (item) => {
+        const iaoContractAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+          ? item.iaoContractAddressTestnet
+          : item.iaoContractAddress;
+
+        if (!iaoContractAddress) {
+          return { ...item, _iaoFundingAmount: 0 };
+        }
+
+        const fundingAmount = await getIaoFundraisingAmount(iaoContractAddress, item.symbol || '');
+        console.log(`项目 ${item.name} 的募资金额:`, fundingAmount);
+        return { ...item, _iaoFundingAmount: fundingAmount };
+      })
+    );
+
+    // 按募资金额排序，取前三名
+    const topThreeIaoItems = iaoItemsWithFunding
+      .sort((a, b) => (b._iaoFundingAmount || 0) - (a._iaoFundingAmount || 0))
+      .slice(0, 3);
+
+    console.log('置顶的前三个IAO项目:', topThreeIaoItems.map(item => ({ name: item.name, funding: item._iaoFundingAmount })));
+
+    // 从原数组中移除这些置顶项目
+    const remainingItems = result.filter(item =>
+      !topThreeIaoItems.some(topItem => topItem.id === item.id)
+    );
+
+    // 将置顶项目放在最前面
+    result = [...topThreeIaoItems, ...remainingItems];
+  } else {
+    console.log(`不执行置顶逻辑，因为page=${page}或status=${status}`);
+  }
+
   if (['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h'].includes(sortBy)) {
     const sortField = `_${sortBy}`;
+    console.log(`按字段 ${sortField} 排序`);
+    
+    // 确保所有项目都有有效的排序字段值
+    // 对于marketCap字段，如果_marketCap为0但marketCap字符串存在，尝试从字符串中提取数值
+    if (sortBy === 'marketCap') {
+      result.forEach(item => {
+        if (item._marketCap === 0 && item.marketCap) {
+          try {
+            // 从字符串中提取数值，例如从"$1,000,000"提取1000000
+            const marketCapStr = item.marketCap.replace(/[$,]/g, '');
+            const marketCapNum = parseFloat(marketCapStr);
+            if (!isNaN(marketCapNum)) {
+              item._marketCap = marketCapNum;
+              console.log(`从字符串 ${item.marketCap} 提取市值: ${marketCapNum} 用于项目 ${item.name}`);
+            }
+          } catch (e) {
+            console.error(`无法从 ${item.marketCap} 提取市值用于项目 ${item.name}:`, e);
+          }
+        }
+      });
+    }
+    
     result = result.sort((a, b) => {
       if (sortOrder === 'desc') {
         return (b[sortField] || 0) - (a[sortField] || 0);
@@ -339,17 +627,26 @@ function sortAgentData(
         return (a[sortField] || 0) - (b[sortField] || 0);
       }
     });
-  } 
+    
+    // 在排序完成后，记录排序结果的前几项，帮助调试
+    console.log(`排序后前5项的${sortField}值:`, result.slice(0, 5).map(item => ({
+      name: item.name,
+      [sortField]: item[sortField],
+      originalField: item[sortBy]
+    })));
+  }
   // 支持更复杂的排序组合
   else if (sortBy === 'hot') {
+    console.log('按热门排序');
     // "热门"排序：结合市值、交易量和使用次数
     result = result.sort((a, b) => {
       const scoreA = (a._marketCap || 0) * 0.5 + (a._volume24h || 0) * 0.3 + (a.usageCount || 0) * 0.2;
       const scoreB = (b._marketCap || 0) * 0.5 + (b._volume24h || 0) * 0.3 + (b.usageCount || 0) * 0.2;
       return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
     });
-  } 
+  }
   else if (sortBy === 'trending') {
+    console.log('按趋势排序');
     // "趋势"排序：主要看价格变化和交易量
     result = result.sort((a, b) => {
       // 价格变化的绝对值乘以交易量
@@ -358,31 +655,27 @@ function sortAgentData(
       return sortOrder === 'desc' ? scoreB - scoreA : scoreA - scoreB;
     });
   }
-  
-  console.log(`[性能] 排序数据耗时: ${Date.now() - sortStartTime}ms`);
-  
+
+  console.log('排序完成，输出items数量:', result.length);
+
   return result;
 }
 
 // 清理过期缓存
 function cleanExpiredCache(): void {
   const now = Math.floor(Date.now() / 1000);
-  const cacheCleanStartTime = Date.now();
-  
+
   Object.keys(tokenPriceCache).forEach(key => {
     if (now - tokenPriceCache[key].timestamp > CACHE_TTL * 2) {
       delete tokenPriceCache[key];
     }
   });
-  
-  console.log(`[性能] 清理缓存耗时: ${Date.now() - cacheCleanStartTime}ms`);
 }
 
 // 获取 Agent 列表
 export async function GET(request: Request) {
-  const startTime = Date.now();
-  console.log(`[性能] API请求开始`);
-  
+  console.log('=== API请求开始 ===');
+
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -390,7 +683,7 @@ export async function GET(request: Request) {
     const searchKeyword = searchParams.get('searchKeyword') || '';
     const category = searchParams.get('category');
     const status = searchParams.get('status');
-    
+
     /**
      * 排序参数支持以下字段:
      * - createdAt: 创建时间（默认）
@@ -402,19 +695,18 @@ export async function GET(request: Request) {
      * - priceChange24h: 24小时价格变化
      * - rating: 评分
      * - usageCount: 使用次数
-     * 
+     *
      * 复合排序字段:
      * - hot: 热门排序 (综合市值、交易量和使用次数)
      * - trending: 热度排序 (基于价格变化和交易量)
      */
     const sortBy = searchParams.get('sortBy') || 'createdAt';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
-    
+
     // 是否强制刷新价格数据，忽略缓存
     const forceRefresh = searchParams.get('forceRefresh') === 'true';
 
-    const paramsTime = Date.now();
-    console.log(`[性能] 参数处理耗时: ${paramsTime - startTime}ms`);
+    console.log('请求参数:', { page, pageSize, searchKeyword, category, status, sortBy, sortOrder, forceRefresh });
 
     // 构建查询条件
     const where = {
@@ -428,17 +720,19 @@ export async function GET(request: Request) {
         } : {},
         // 分类筛选
         category ? { category } : {},
-        // 状态筛选
-        status ? { status } : {},
+        // 状态筛选 - 根据时间动态筛选
+        ...getStatusTimeFilter(status),
       ],
     };
 
+    console.log('查询条件where:', JSON.stringify(where, null, 2));
+
     // 构建排序条件
     let orderBy: any = {};
-    
+
     // 处理特殊排序方式
     const specialSortFields = ['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h', 'hot', 'trending'];
-    
+
     // 根据价格等字段排序时使用不同的查询策略
     if (specialSortFields.includes(sortBy)) {
       // 默认使用创建时间排序，后续通过程序处理排序
@@ -451,21 +745,19 @@ export async function GET(request: Request) {
     // 生成缓存键，用于缓存查询总数
     const countCacheKey = JSON.stringify({where});
     const now = Math.floor(Date.now() / 1000);
-    
+
     // 查询总数（使用缓存）
-    console.log(`[性能] 开始查询总数`);
-    const countStartTime = Date.now();
-    
     let total;
     // 如果缓存有效，直接使用缓存的总数
-    if (agentCountCache.cacheKey === countCacheKey && 
-        now - agentCountCache.timestamp < COUNT_CACHE_TTL && 
+    if (agentCountCache.cacheKey === countCacheKey &&
+        now - agentCountCache.timestamp < COUNT_CACHE_TTL &&
         !forceRefresh) {
       total = agentCountCache.count;
-      console.log(`[性能] 使用缓存的查询总数`);
+      console.log('使用缓存的查询总数:', total);
     } else {
       // 缓存无效，执行查询
       total = await prisma.agent.count({ where });
+      console.log('查询到的总数:', total);
       // 更新缓存
       agentCountCache = {
         count: total,
@@ -473,13 +765,10 @@ export async function GET(request: Request) {
         cacheKey: countCacheKey
       };
     }
-    
-    console.log(`[性能] 查询总数耗时: ${Date.now() - countStartTime}ms`);
 
     // 查询数据
-    console.log(`[性能] 开始查询数据`);
-    const queryStartTime = Date.now();
-    
+    console.log('开始查询Agent数据...');
+
     const items = await prisma.agent.findMany({
       where,
       skip: (page - 1) * pageSize,
@@ -505,40 +794,76 @@ export async function GET(request: Request) {
       },
       orderBy,
     });
-    
-    console.log(`[性能] 查询数据耗时: ${Date.now() - queryStartTime}ms`);
+
+    console.log('查询到的Agent数据数量:', items.length);
+    // 使用安全的JSON序列化方法
+    console.log('查询到的原始items数据:', safeJSONStringify(items));
 
     // 组装token信息
-    const tokenAssemblyStartTime = Date.now();
-    
     const tokenInfos = items
       .filter(item => (process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress) && item.symbol)
       .map(item => ({
         address: (process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? item.tokenAddressTestnet : item.tokenAddress) || '',
         symbol: item.symbol || '',
       }));
-    
-    console.log(`[性能] 组装token信息耗时: ${Date.now() - tokenAssemblyStartTime}ms`);
-    
+
+    console.log('组装的tokenInfos:', JSON.stringify(tokenInfos, null, 2));
+
     // 获取外部数据（不再需要获取合约时间，通过事件监听自动同步）
     const externalData = await fetchExternalData(tokenInfos, forceRefresh);
     const { tokenPrices, dbcTokens, needFetchData } = externalData;
-    
+
     // 格式化数据
-    const { formattedItems, updateOperations } = formatAgentData(
+    const { formattedItems } = formatAgentData(
       items,
       dbcTokens,
       tokenPrices,
       needFetchData
     );
-    
+
     // 排序数据
-    const sortedItems = sortAgentData(formattedItems, sortBy, sortOrder);
-    
+    const sortedItems = await sortAgentData(formattedItems, sortBy, sortOrder, page, status);
+
     // 清理过期缓存
     cleanExpiredCache();
-    
-    console.log(`[性能] API请求总耗时: ${Date.now() - startTime}ms`);
+
+
+    // 在返回前测试数据是否可以被安全序列化
+    try {
+      // 尝试序列化结果数据
+      const testData = {
+        items: sortedItems,
+        total,
+        page,
+        pageSize,
+        priceDataFreshness: needFetchData ? 'fresh' : 'cached',
+        timeDataSource: 'database_synced_by_events',
+      };
+
+      // 测试序列化
+      const testJson = safeJSONStringify(testData);
+      console.log('数据序列化测试成功');
+    } catch (serializeError) {
+      console.error('数据序列化测试失败:', serializeError);
+      // 进行更深层次的错误诊断
+      try {
+        // 尝试识别问题数据
+        const problemItems = sortedItems.filter(item => {
+          try {
+            JSON.stringify(item);
+            return false; // 可以序列化，没有问题
+          } catch (err) {
+            return true; // 序列化失败，发现问题项
+          }
+        });
+        
+        if (problemItems.length > 0) {
+          console.error('发现无法序列化的项目:', problemItems.map(item => item.id));
+        }
+      } catch (diagError) {
+        console.error('诊断过程也失败:', diagError);
+      }
+    }
 
     return createSuccessResponse({
       items: sortedItems,
@@ -549,7 +874,7 @@ export async function GET(request: Request) {
       timeDataSource: 'database_synced_by_events', // 说明时间数据来源
     });
   } catch (error) {
-    console.log(`[性能] API请求异常，总耗时: ${Date.now() - startTime}ms`);
+    console.error('API请求异常:', error);
     return handleError(error);
   }
 }

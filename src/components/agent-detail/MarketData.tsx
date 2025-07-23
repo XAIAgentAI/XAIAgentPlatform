@@ -54,20 +54,28 @@ export function MarketData({
   };
 
   const formatTotalSupply = (supply: string | undefined) => {
-    if (!supply) return t('tba');
     // Convert string to number, considering decimals is 18
-    const value = Number(supply) / Math.pow(10, 18);
+    const value = Number(supply) / Math.pow(10, 18) || 100000000000;
 
-    if (value >= 1e9) {
-      return `${(value / 1e9).toFixed(2)}B`;
+    // 智能决定小数位数：整数不显示小数点，有小数时显示
+    const formatNumber = (num: number) => {
+      return num % 1 === 0 ? num.toString() : num.toFixed(2);
+    };
+
+    // 中文习惯：亿(1e8)、万(1e4)、千(1e3)
+    if (value >= 1e8) {
+      const formatted = formatNumber(value / 1e8);
+      return `${formatted}${t('units.billionShort')}`;
     }
-    if (value >= 1e6) {
-      return `${(value / 1e6).toFixed(2)}M`;
+    if (value >= 1e4) {
+      const formatted = formatNumber(value / 1e4);
+      return `${formatted}${t('units.millionShort')}`;
     }
     if (value >= 1e3) {
-      return `${(value / 1e3).toFixed(2)}K`;
+      const formatted = formatNumber(value / 1e3);
+      return `${formatted}${t('units.thousandShort')}`;
     }
-    return value.toFixed(2);
+    return formatNumber(value);
   };
 
   const getTokenPrice = async () => {

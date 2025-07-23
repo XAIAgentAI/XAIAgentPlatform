@@ -12,24 +12,15 @@ import { useDBCToken } from "@/hooks/useDBCToken";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSwapKLineData } from '@/hooks/useSwapKLineData';
 import { TimeInterval } from '@/hooks/useTokenPrice';
-import { useRouter } from 'next/navigation';
 import { useAppKitAccount } from '@reown/appkit/react';
-import {
-  agentAPI
-} from '@/services/api'
 import { useState, useEffect } from "react";
 import { LocalAgent } from "@/types/agent";
 import { Button } from "@/components/ui/button";
-import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getBatchTokenPrices, getTokenExchangeRate } from "@/services/swapService";
+import { DBC_TOKEN_ADDRESS, XAA_TOKEN_ADDRESS, getTokenExchangeRate } from "@/services/swapService";
 import { useDBCPrice } from '@/hooks/useDBCPrice';
 import { formatPrice } from '@/lib/format';
 import { API_CONFIG } from '@/config/api';
-
-interface ApiResponse<T> {
-  code: number;
-  message: string;
-  data: T;
-}
+import { ContainerLinkManager } from './ContainerLinkManager';
 
 interface AgentInfoProps {
   agent: LocalAgent;
@@ -59,7 +50,6 @@ export function AgentInfo({ agent }: AgentInfoProps) {
   }, [agent?.tokenAddress, agent?.symbol]);
 
   const { tokenData, loading: tokenLoading, error: tokenError } = useDBCToken(agent?.tokenAddress || null);
-  const chatEntry = agent?.chatEntry || "";
   const locale = useLocale();
   const t = useTranslations('agent');
   const tAgentDetail = useTranslations('agentDetail');
@@ -108,13 +98,6 @@ export function AgentInfo({ agent }: AgentInfoProps) {
     return agent.description;
   };
 
-  // 根据当前语言获取对应的状态
-  const getLocalizedStatus = () => {
-    if (!agent) return "";
-    return agent.status;
-  };
-
-  const router = useRouter();
   const address = useAppKitAccount()?.address;
 
   if (tokenLoading) {
@@ -184,14 +167,14 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
             {tokenData && (
               <>
-                <div className="flex  items-start md:items-center gap-2 mt-1">
+                <div className="flex items-start md:items-center gap-1.5 mt-0.5">
                   <>
-                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px] pt-[3px] md:pt-0">${tokenData?.symbol}</div>
-                    <div className="flex flex-col  md:flex-row  md:items-center  md:gap-1 min-w-[80px] max-w-full p-0 md:px-3 md:py-2 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg">
+                    <div className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px] pt-[2px] md:pt-0">${tokenData?.symbol}</div>
+                    <div className="flex flex-col md:flex-row md:items-center md:gap-1 min-w-[80px] max-w-full p-0 md:px-2 md:py-1 bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-md">
                       <span className="text-muted-foreground text-xs whitespace-nowrap">
                         {tAgentDetail('contract')}:
                       </span>
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
                         <a
                           href={`${API_CONFIG.DBCSCAN.BASE_URL.replace('/api/v2', '')}/token/${tokenData?.address}`}
                           target="_blank"
@@ -203,7 +186,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                         </a>
                         <button
                           type="button"
-                          className="p-1.5 rounded-md hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
+                          className="p-1 rounded-md hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
                           onClick={() => {
                             navigator.clipboard.writeText(tokenData?.address || "");
                             toast({
@@ -214,7 +197,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
+                            className="h-3.5 w-3.5"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -255,16 +238,9 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
         <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground whitespace-nowrap">{t('createdBy')}:</span>
-            <Avatar className="h-7 w-7">
-              <img
-                src={agent.avatar || ''}
-                alt={t('accessibility.creatorAvatar')}
-                className="h-full w-full object-cover rounded-full"
-              />
-            </Avatar>
-            {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
-              <CustomButton
+                    {/* {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
+              <Button
+                variant="outline"
                 className="flex items-center gap-2 ml-2 text-xs py-1 px-2"
                 onClick={() => {
                   window.open(`/${locale}/chat/edit/${agent.id}`, '_blank')
@@ -274,8 +250,18 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 {t('edit')}
-              </CustomButton>
+              </Button>
             )}
+             */}
+            <span className="text-xs text-muted-foreground whitespace-nowrap">{t('createdBy')}:</span>
+            <Avatar className="h-7 w-7">
+              <img
+                src={agent.avatar || ''}
+                alt={t('accessibility.creatorAvatar')}
+                className="h-full w-full object-cover rounded-full"
+              />
+            </Avatar>
+    
           </div>
         </div>
       </div>
@@ -325,10 +311,20 @@ export function AgentInfo({ agent }: AgentInfoProps) {
           </TabsContent>
 
           <TabsContent value="holders">
-            <HoldersList tokenAddress={tokenData?.address || ""} holders={tokenData?.holders || ""} />
+            <HoldersList
+              tokenAddress={tokenData?.address || ""}
+              holders={tokenData?.holders || ""}
+              hasTokenAddress={!!agent?.tokenAddress}
+            />
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Container Link Manager */}
+      <ContainerLinkManager
+        agent={agent}
+        isCreator={address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase()}
+      />
 
       {/* Description */}
       <div className="mt-6">

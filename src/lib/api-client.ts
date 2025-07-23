@@ -23,13 +23,19 @@ class ApiClient {
     options: RequestInit & { noAuth?: boolean; maxRetries?: number } = {}
   ): Promise<T> {
     const { noAuth, maxRetries = 0, ...requestOptions } = options;
+    
+    // 确保endpoint不以斜杠结尾，除非是根路径
+    const normalizedEndpoint = endpoint !== '/' && endpoint.endsWith('/') 
+      ? endpoint.slice(0, -1) 
+      : endpoint;
+      
     const headers = new Headers({
       'Content-Type': 'application/json',
       ...(!noAuth && this.token ? { 'Authorization': `Bearer ${this.token}` } : {}),
       ...requestOptions.headers,
     });
 
-    console.log(`Making request to ${endpoint}:`, {
+    console.log(`Making request to ${normalizedEndpoint}:`, {
       headers: Object.fromEntries(headers.entries()),
       method: requestOptions.method || 'GET',
     });
@@ -37,16 +43,16 @@ class ApiClient {
     let lastError: any;
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
-        const response = await fetch(`/api${endpoint}`, {
+        const response = await fetch(`/api${normalizedEndpoint}`, {
           ...requestOptions,
           headers,
         });
 
         const data: ApiResponse<T> = await response.json();
-        console.log(`Response from ${endpoint}:`, data);
+        console.log(`Response from ${normalizedEndpoint}:`, data);
 
         if (!response.ok) {
-          console.error(`Request to ${endpoint} failed:`, data);
+          console.error(`Request to ${normalizedEndpoint} failed:`, data);
           if (response.status === 401) {
             // 清除无效的 token
             this.clearToken();
@@ -87,6 +93,16 @@ class ApiClient {
     });
   }
 
+  async connectWalletNoSig(params: { address: string }) {
+    // 无需签名的钱包连接，直接使用地址登录
+    return this.request<{ token: string; address: string }>('/auth/wallet-connect-no-sig', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      noAuth: true,
+      maxRetries: 0
+    });
+  }
+  
   async disconnect() {
     return this.request('/auth/disconnect', {
       method: 'POST',

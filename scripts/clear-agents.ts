@@ -12,7 +12,7 @@ async function main() {
     console.log('已清空 AgentPrice 表');
     
     // 删除 History 数据
-    await prisma.history.deleteMany();
+    // History table has been removed
     console.log('已清空 History 表');
     
     // 删除 Review 数据

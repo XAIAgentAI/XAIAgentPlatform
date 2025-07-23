@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button";
 import { useTranslations } from 'next-intl';
 import AgentSelector from './AgentSelector'; 
@@ -149,6 +149,11 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
     setInput(input);
   }
 
+  const agentInfo = useMemo(()=>{
+    const agentInfo = agentMarket.find((item:any)=>item.name === agent);
+    return agentInfo;
+  },[agent]);
+
   return (
     <div className="fixed top-28 lg:top-32 left-[10vw] flex flex-col items-center justify-center h-[70vh] md:h-[78vh] space-y-2 md:justify-start">
       <div className="w-[80vw] mx-auto lg:ml-[10vw] flex flex-row justify-center h-[70vh] lg:h-[78vh]">
@@ -222,18 +227,18 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           </div>
           <div className="text-md text-center flex flex-row items-center justify-center gap-1">
             <p>{symbol}</p>
-            <p className={agentMarket[index]?.priceChange24h < 0 ? "text-red-500" : agentMarket[index]?.priceChange24h > 0 ? "text-green-500" : ""}>
-              {agentMarket[index]?.priceChange24h < 0 ? "" : "+"}
-              {agentMarket[index]?.priceChange24h || "0.00"}%
+            <p className={agentInfo?.priceChange24h < 0 ? "text-red-500" : agentInfo?.priceChange24h > 0 ? "text-green-500" : ""}>
+              {agentInfo?.priceChange24h < 0 ? "" : "+"}
+              {agentInfo?.priceChange24h || "0.00"}%
             </p>
             <p>|</p>
-            <p>{t("marketCap")}: {agentMarket[index]?.marketCap || "$0"}</p>
+            <p>{t("marketCap")}: {agentInfo?.marketCap || "$0"}</p>
             <p className="hidden lg:block">|</p>
             <p className="hidden lg:block">
-              {t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}
+              {t("tvl")}: {agentInfo?.marketCap? `$${Number(agentInfo?.marketCap.substring(1))/(Number(agentInfo?.marketCapTokenNumber)||100000000000)}` : "$0"}
             </p>
           </div>
-          <div className="flex flex-row justify-center lg:hidden text-sm"><p>{t("tvl")}: {agentMarket[index]?.marketCap? `$${Number(agentMarket[index]?.marketCap.substring(1))/(Number(agentMarket[index]?.marketCapTokenNumber)||100000000000)}` : "$0"}</p></div>
+          <div className="flex flex-row justify-center lg:hidden text-sm"><p>{t("tvl")}: {agentInfo?.marketCap? `$${Number(agentInfo?.marketCap.substring(1))/(Number(agentInfo?.marketCapTokenNumber)||100000000000)}` : "$0"}</p></div>
           <div className="lg:flex w-full flex-row justify-center hidden"> 
             <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
               {tl("bottom.rule1")} |

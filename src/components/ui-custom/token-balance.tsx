@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { CONTRACTS } from "@/config/contracts";
 import { useWalletClient } from 'wagmi';
 
-// ERC20 的 ABI
+// ERC20 Token ABI
 const ERC20_ABI = [
   {
     "constant": true,
@@ -36,8 +36,9 @@ export const TokenBalance = () => {
   const { address, isConnected } = useAppKitAccount();
   const { data: walletClient } = useWalletClient();
   const t = useTranslations('common');
+  const tErrors = useTranslations('errors');
 
-  // 获取DBC余额
+  // Fetch DBC balance
   const fetchDBCBalance = async () => {
     if (!address || !isConnected) {
       setDbcBalance("0");
@@ -58,7 +59,7 @@ export const TokenBalance = () => {
       console.log('DBC balance:', formatEther(balance));
       setDbcBalance(formatEther(balance));
     } catch (error) {
-      console.error('获取DBC余额失败:', error);
+      console.error(tErrors('fetchDBCBalanceFailed'), error);
       if (error instanceof Error) {
         console.error('Error details:', error.message);
         console.error('Error stack:', error.stack);
@@ -67,7 +68,7 @@ export const TokenBalance = () => {
     }
   };
 
-  // 获取XAA余额
+  // Fetch XAA balance
   const fetchXAABalance = async () => {
     if (!address || !isConnected) {
       setXaaBalance("0");
@@ -91,7 +92,7 @@ export const TokenBalance = () => {
       console.log('XAA balance:', formatEther(balance));
       setXaaBalance(formatEther(balance));
     } catch (error) {
-      console.error('获取XAA余额失败:', error);
+      console.error(tErrors('fetchXAABalanceFailed'), error);
       if (error instanceof Error) {
         console.error('Error details:', error.message);
         console.error('Error stack:', error.stack);
@@ -100,7 +101,7 @@ export const TokenBalance = () => {
     }
   };
 
-  // 获取SIC余额
+  // Fetch SIC balance
   const fetchSICBalance = async () => {
     if (!address || !isConnected) {
       setSicBalance("0");
@@ -123,7 +124,7 @@ export const TokenBalance = () => {
       console.log('SIC balance:', formatEther(balance));
       setSicBalance(formatEther(balance));
     } catch (error) {
-      console.error('获取SIC余额失败:', error);
+      console.error(tErrors('fetchSICBalanceFailed'), error);
       if (error instanceof Error) {
         console.error('Error details:', error.message);
         console.error('Error stack:', error.stack);
@@ -137,7 +138,7 @@ export const TokenBalance = () => {
     fetchXAABalance();
     fetchSICBalance();
     
-    // 设置定时器，每30秒更新一次余额
+    // Set timer to update balances every 30 seconds
     const timer = setInterval(() => {
       fetchDBCBalance();
       fetchXAABalance();

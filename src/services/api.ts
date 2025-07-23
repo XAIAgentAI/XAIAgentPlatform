@@ -2,14 +2,35 @@ import axios from 'axios';
 import { LocalAgent } from '@/types/agent';
 import { getBatchTokenPrices } from './swapService';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_HOST_URL + '/api' || 'http://localhost:3000/api';
+// 确保API_BASE_URL末尾没有斜杠
+const API_BASE_URL = (process.env.NEXT_PUBLIC_HOST_URL || 'http://localhost:3000') + '/api';
 
+// 修复URL路径的函数
+function normalizeURL(url: string): string {
+  // 确保URL不以斜杠结尾，除非是根路径
+  if (url !== '/' && url.endsWith('/')) {
+    return url.slice(0, -1);
+  }
+  return url;
+}
+
+// 创建axios实例
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // 增加超时时间到30秒
   headers: {
     'Content-Type': 'application/json',
-  },
+  }
+});
+
+// 添加请求拦截器确保URL格式一致
+api.interceptors.request.use(config => {
+  if (config.url) {
+    config.url = normalizeURL(config.url);
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });
 
 interface ApiResponse<T> {
@@ -76,34 +97,110 @@ export const agentAPI = {
 
 
   // 获取单个 agent
-  getAgentById: async (id: string): Promise<LocalAgent> => {
-    const { data } = await api.get(`/agents/${id}`);
-    console.log("response1", data);
+  getAgentById: async (id: string): Promise<ApiResponse<LocalAgent>> => {
+    console.log("🔍 [DEBUG] getAgentById called with id:", id);
 
-    // 获取池子数据
-    const poolsResponse = await getBatchTokenPrices([{
-      symbol: data.data.symbol,
-      address: data.data.tokenAddress,
-    }]);
+    const response = await api.get(`/agents/${id}`);
+    console.log("🔍 [DEBUG] API response:", response);
+    console.log("🔍 [DEBUG] Response data:", response.data);
 
-    const poolData = poolsResponse[data.data.symbol];
-
-    const res = {
-      data: {
-        ...data.data,
-        targetTokenAmountLp: poolData?.targetTokenAmountLp || 0,
-        baseTokenAmountLp: poolData?.baseTokenAmountLp || 0,
-      }
+    // 检查响应数据
+    if (!response.data) {
+      console.error("❌ [ERROR] No response data");
+      throw new Error('No response data');
     }
 
-    console.log("poolResponse", poolData, "res", res);
+    if (response.data.code !== 200) {
+      console.error("❌ [ERROR] API returned error code:", response.data.code, response.data.message);
+      throw new Error(response.data?.message || 'API returned error');
+    }
 
-    return {
-      ...data,
+    if (!response.data.data) {
+      console.error("❌ [ERROR] No agent data in response");
+      throw new Error('No agent data in response');
+    }
+
+    const agentData = response.data.data;
+    console.log("🔍 [DEBUG] Agent data:", agentData);
+
+    let poolData = {};
+
+    // 只有当agent有symbol和tokenAddress时才获取池子数据
+    if (agentData.symbol && agentData.tokenAddress) {
+      try {
+        console.log("🔍 [DEBUG] Fetching pool data for:", agentData.symbol, agentData.tokenAddress);
+        const poolsResponse = await getBatchTokenPrices([{
+          symbol: agentData.symbol,
+          address: agentData.tokenAddress,
+        }]);
+        poolData = poolsResponse[agentData.symbol] || {};
+        console.log("🔍 [DEBUG] Pool data fetched:", poolData);
+      } catch (error) {
+        console.warn("⚠️ [WARN] Failed to fetch pool data:", error);
+        // 继续执行，不让池子数据获取失败影响整个请求
+      }
+    } else {
+      console.log("🔍 [DEBUG] Skipping pool data fetch - missing symbol or tokenAddress");
+    }
+
+    const result = {
+      ...response.data,
       data: {
-        ...data.data,
+        ...agentData,
         ...poolData,
       }
+    };
+
+    console.log("🔍 [DEBUG] Final result:", result);
+    return result;
+  },
+
+  // 更新 agent
+  updateAgent: async (id: string, data: {
+    name: string;
+    description: string;
+    longDescription?: string;
+    category: string;
+    avatar?: string;
+    capabilities: string[];
+    containerLink?: string;
+    useCases?: string;
+    useCasesJA?: string;
+    useCasesKO?: string;
+    useCasesZH?: string;
+    examples?: Array<{
+      title: string;
+      description: string;
+      prompt: string;
+    }>;
+  }): Promise<ApiResponse<LocalAgent>> => {
+    // 打印更新数据
+    console.log('Updating agent with data:', JSON.stringify(data, null, 2));
+    
+    // 获取认证信息
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    const walletAddress = localStorage.getItem('walletAddress');
+    
+    // 构建请求头
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (userId) headers['x-user-id'] = userId;
+    if (walletAddress) headers['x-user-address'] = walletAddress;
+    
+    console.log('Request headers:', headers);
+    
+    try {
+      const response = await api.put(`/agents/${id}`, data, { headers });
+      console.log('API response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('Error updating agent:', error);
+      console.error('Error details:', error.response?.data || error.message);
+      throw error;
     }
   },
 

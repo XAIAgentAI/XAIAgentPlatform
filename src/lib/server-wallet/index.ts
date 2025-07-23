@@ -93,6 +93,13 @@ function initializeClients() {
 }
 
 /**
+ * 获取服务端钱包客户端
+ */
+export function getServerWalletClients() {
+  return initializeClients();
+}
+
+/**
  * 检查代币余额
  */
 async function checkTokenBalance(tokenAddress: string): Promise<{ balance: string; formatted: string }> {
@@ -149,6 +156,127 @@ async function getAgentInfo(agentId: string) {
     iaoContractAddress: agent.iaoContractAddress || undefined,
     tokenAddress: agent.tokenAddress,
   };
+}
+
+/**
+ * 批量执行transferAndLock操作
+ * @param tokenAddress 代币地址
+ * @param recipientAddress 接收者地址
+ * @param amount 每次转账金额
+ * @param lockTime 锁定时间（秒）
+ * @param count 执行次数
+ * @param concurrency 并发数，默认为5
+ * @param maxRetries 最大重试次数，默认为3
+ * @returns 执行结果
+ */
+export async function batchTransferAndLock(
+  tokenAddress: string,
+  recipientAddress: string,
+  amount: string,
+  lockTime: number,
+  count: number,
+  concurrency: number = 5,
+  maxRetries: number = 3
+): Promise<{
+  success: boolean;
+  completedCount: number;
+  failedCount: number;
+  transactions: Array<{
+    index: number;
+    txHash: string;
+    status: 'success' | 'failed';
+    error?: string;
+  }>;
+}> {
+  console.log(`🔄 开始批量执行transferAndLock - 总数: ${count}, 锁定时间: ${lockTime}秒`);
+  console.log(`📝 参数详情:`);
+  console.log(`  - 代币地址: ${tokenAddress}`);
+  console.log(`  - 接收者: ${recipientAddress}`);
+  console.log(`  - 每次金额: ${amount}`);
+
+  // 初始化客户端
+  const { walletClient, publicClient } = initializeClients();
+  
+  // 导入XAA合约ABI
+  const xaaAbiModule = await import('@/config/xaa-abi.json');
+  const xaaAbi = xaaAbiModule.default;
+  
+  // 转换为Wei
+  const amountWei = parseEther(amount);
+  
+  try {
+    console.log(`🔄 调用合约的批量transferAndLock功能`);
+    
+    // 创建50个相同锁定时间的锁定信息数组
+    const lockInfos = Array.from({ length: count }, (_, i) => ({
+      to: recipientAddress as `0x${string}`,
+      amount: amountWei,
+      lockSeconds: BigInt(lockTime * (i+1)) // 固定锁定时间
+    }));
+    
+    console.log(`📊 生成了${count}个锁定信息，每个锁定${lockTime}秒（${lockTime / 86400}天）`);
+    
+    // 执行批量transferAndLock
+    const hash = await walletClient.writeContract({
+      address: tokenAddress as `0x${string}`,
+      abi: xaaAbi,
+      functionName: 'batchTransferAndLock',
+      args: [
+        lockInfos
+      ],
+    });
+    
+    console.log(`📤 批量transferAndLock交易已发送: ${hash}`);
+    
+    // 等待交易确认
+    const receipt = await publicClient.waitForTransactionReceipt({ 
+      hash,
+      timeout: 120000 // 120秒超时
+    });
+    
+    if (receipt.status === 'success') {
+      console.log(`✅ 批量transferAndLock成功 - Hash: ${hash}`);
+      
+      return {
+        success: true,
+        completedCount: count,
+        failedCount: 0,
+        transactions: [{
+          index: 0,
+          txHash: hash,
+          status: 'success'
+        }]
+      };
+    } else {
+      console.error(`❌ 批量transferAndLock失败 - Hash: ${hash}`);
+      
+      return {
+        success: false,
+        completedCount: 0,
+        failedCount: count,
+        transactions: [{
+          index: 0,
+          txHash: hash,
+          status: 'failed',
+          error: 'Transaction failed'
+        }]
+      };
+    }
+  } catch (error) {
+    console.error(`❌ 批量transferAndLock异常:`, error);
+    
+    return {
+      success: false,
+      completedCount: 0,
+      failedCount: count,
+      transactions: [{
+        index: 0,
+        txHash: '',
+        status: 'failed',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }]
+    };
+  }
 }
 
 /**
@@ -213,46 +341,63 @@ async function addLiquidityToPool(
 }
 
 /**
- * 创建分配任务记录（使用现有的history表）
+ * 创建分配任务记录（使用 Task 表）
  */
 async function createDistributionTask(agentId: string, totalSupply: string, tokenAddress: string, userAddress: string) {
-  return await prisma.history.create({
+  console.log(`📝 创建分发任务记录 - Agent: ${agentId}, 总供应量: ${totalSupply}`);
+
+  const task = await prisma.task.create({
     data: {
-      action: 'token_distribution_start',
-      result: 'pending',
+      type: 'DISTRIBUTE_TOKENS',
+      status: 'PENDING',
       agentId,
-      error: JSON.stringify({
-        totalSupply,
-        tokenAddress,
-        createdBy: userAddress,
-        status: 'PENDING',
+      createdBy: userAddress,
+      result: JSON.stringify({
+        metadata: {
+          totalSupply,
+          tokenAddress,
+          createdBy: userAddress,
+        }
       }),
     },
   });
+
+  console.log(`✅ 分发任务创建成功 - Task ID: ${task.id}`);
+
+
+
+  return task;
 }
 
 /**
- * 更新分配任务状态（使用现有的history表）
+ * 更新分配任务状态（更新 Task 表）
  */
 async function updateDistributionTask(taskId: string, status: string, transactions: TransactionResult[]) {
-  await prisma.history.update({
+  console.log(`🔍 [DEBUG] 更新任务状态 - ID: ${taskId}, Status: ${status}`);
+
+  const taskResult = {
+    status,
+    completedAt: status === 'COMPLETED' ? new Date().toISOString() : null,
+    transactions: transactions.map(tx => ({
+      type: tx.type,
+      amount: tx.amount,
+      txHash: tx.txHash,
+      status: tx.status,
+      toAddress: tx.toAddress,
+      error: tx.error,
+    })),
+  };
+
+  await prisma.task.update({
     where: { id: taskId },
     data: {
-      result: status.toLowerCase(),
-      error: JSON.stringify({
-        status,
-        completedAt: status === 'COMPLETED' ? new Date().toISOString() : null,
-        transactions: transactions.map(tx => ({
-          type: tx.type,
-          amount: tx.amount,
-          txHash: tx.txHash,
-          status: tx.status,
-          toAddress: tx.toAddress,
-          error: tx.error,
-        })),
-      }),
+      status,
+      result: JSON.stringify(taskResult),
+      completedAt: status === 'COMPLETED' ? new Date() : null,
     },
   });
+
+  console.log(`✅ 任务状态已更新: ${taskId} -> ${status}`);
 }
 
 /**
@@ -314,41 +459,53 @@ async function verifyTaskByTransactions(taskData: any, agentInfo: any, tokenAddr
 }
 
 /**
- * 查找已有的分配任务（多层智能匹配策略）
+ * 合并历史分配任务，获取已完成的步骤列表
  */
-async function findExistingDistributionTask(agentId: string, tokenAddress: string) {
+async function getCompletedStepsFromHistory(agentId: string, tokenAddress: string): Promise<string[]> {
   console.log(`🔍 查找已有分配任务 - agentId: ${agentId}, tokenAddress: ${tokenAddress}`);
 
-  // 查询所有相关的任务记录
-  const allTasks = await prisma.history.findMany({
+  // 查询所有相关的分发任务记录
+  const allTasks = await prisma.task.findMany({
     where: {
       agentId,
-      action: 'token_distribution_start'
+      type: 'DISTRIBUTE_TOKENS'
     },
-    orderBy: { timestamp: 'desc' }, // 按时间倒序，最新的在前面
+    orderBy: { createdAt: 'desc' }, // 按时间倒序，最新的在前面
   });
 
-  console.log(`📋 找到 ${allTasks.length} 条相关任务记录，开始多层智能匹配...`);
+  console.log(`🔍 [DEBUG] 数据库查询结果:`);
+  console.log(`  - 找到任务数量: ${allTasks.length}`);
+  allTasks.forEach((task, index) => {
+    console.log(`  - 任务${index + 1}: ID=${task.id}, Status=${task.status}, CreatedAt=${task.createdAt}`);
+    console.log(`    - result字段类型: ${typeof task.result}`);
+    const resultData = task.result as any;
+    const hasTransactions = resultData?.transactions && Array.isArray(resultData.transactions) && resultData.transactions.length > 0;
+    console.log(`    - 是否有transactions: ${hasTransactions}`);
+    if (hasTransactions) {
+      console.log(`    - transactions数量: ${resultData.transactions.length}`);
+      resultData.transactions.forEach((tx: any, txIndex: number) => {
+        console.log(`      - 交易${txIndex + 1}: ${tx.type} - ${tx.status}`);
+      });
+    }
+    console.log(`    - result字段内容: ${task.result ? JSON.stringify(task.result).substring(0, 200) + '...' : 'null'}`);
+  });
 
-  // 获取 agent 信息用于验证
-  let agentInfo = null;
-  try {
-    agentInfo = await getAgentInfo(agentId);
-    console.log(`📋 Agent 信息获取成功: creator=${agentInfo.creator.address}`);
-  } catch (error) {
-    console.log(`⚠️  获取 Agent 信息失败: ${error}`);
-  }
+  console.log(`📋 找到 ${allTasks.length} 条相关分发任务记录，开始合并所有交易记录...`);
 
-  // 遍历所有任务，使用多层匹配策略
+  // 合并所有任务中的交易记录
+  const mergedTransactions: { [key: string]: any } = {};
+  let latestMetadata: any = null;
+  let hasMatchingTasks = false;
+
   for (let i = 0; i < allTasks.length; i++) {
     const task = allTasks[i];
-    console.log(`  检查任务 ${i + 1}/${allTasks.length}: ID=${task.id}, Result=${task.result}, Timestamp=${task.timestamp}`);
+    console.log(`  处理任务 ${i + 1}/${allTasks.length}: ID=${task.id}, Status=${task.status}, CreatedAt=${task.createdAt}`);
 
     // 解析任务数据
     let taskData = null;
-    if (task.error) {
+    if (task.result) {
       try {
-        taskData = JSON.parse(task.error);
+        taskData = task.result as any;
         console.log(`     ✅ 成功解析任务数据`);
       } catch (e) {
         console.log(`     ❌ 解析任务数据失败: ${e}`);
@@ -359,53 +516,65 @@ async function findExistingDistributionTask(agentId: string, tokenAddress: strin
       continue;
     }
 
-    // 第一层：直接 tokenAddress 匹配（新数据格式）
-    if (taskData.tokenAddress) {
-      console.log(`     🎯 第一层匹配：直接 tokenAddress 比较`);
-      console.log(`       - 任务中的 tokenAddress: ${taskData.tokenAddress}`);
-      console.log(`       - 查找的 tokenAddress: ${tokenAddress}`);
+    // 检查是否匹配当前tokenAddress
+    const metadata = taskData.metadata || taskData;
+    if (metadata.tokenAddress && metadata.tokenAddress.toLowerCase() === tokenAddress.toLowerCase()) {
+      console.log(`     ✅ 任务匹配当前tokenAddress`);
+      hasMatchingTasks = true;
 
-      if (taskData.tokenAddress === tokenAddress) {
-        console.log(`     ✅ 第一层匹配成功 - 直接 tokenAddress 匹配`);
-        return task;
-      } else {
-        console.log(`     ❌ 第一层匹配失败 - tokenAddress 不匹配`);
-        continue;
+      // 保存最新的metadata
+      if (!latestMetadata) {
+        latestMetadata = metadata;
       }
-    }
 
-    // 第二层：通过交易记录推断匹配（历史数据兼容）
-    console.log(`     🎯 第二层匹配：通过交易记录推断`);
-    if (taskData.transactions && agentInfo) {
-      const isVerified = await verifyTaskByTransactions(taskData, agentInfo, tokenAddress);
-      if (isVerified) {
-        console.log(`     ✅ 第二层匹配成功 - 交易记录验证通过`);
-        console.log(`🔍 匹配任务详情:`);
-        console.log(`  - 任务ID: ${task.id}`);
-        console.log(`  - 任务状态: ${taskData.status}`);
-        console.log(`  - 创建时间: ${task.timestamp}`);
-        console.log(`  - 交易数量: ${taskData.transactions?.length || 0}`);
-        console.log(`  - 匹配方式: 交易记录验证`);
+      // 合并transactions
+      if (taskData.transactions && Array.isArray(taskData.transactions)) {
+        console.log(`     🔄 合并 ${taskData.transactions.length} 个交易记录`);
 
-        // 显示交易详情
-        if (taskData.transactions && taskData.transactions.length > 0) {
-          console.log(`  - 交易详情:`);
-          taskData.transactions.forEach((tx: any, txIndex: number) => {
-            console.log(`    ${txIndex + 1}. ${tx.type}: ${tx.status} (${tx.amount}) -> ${tx.toAddress}`);
-          });
-        }
+        taskData.transactions.forEach((tx: any) => {
+          const txType = tx.type;
+          console.log(`       - 处理交易: ${txType} - ${tx.status}`);
 
-        return task;
+          // 如果还没有这种类型的交易，或者当前是成功的交易，则更新
+          if (!mergedTransactions[txType] || tx.status === 'confirmed') {
+            if (mergedTransactions[txType] && tx.status === 'confirmed') {
+              console.log(`         ⭐ 用成功交易覆盖之前的记录: ${txType}`);
+            } else if (!mergedTransactions[txType]) {
+              console.log(`         📝 记录新交易: ${txType} - ${tx.status}`);
+            }
+            mergedTransactions[txType] = { ...tx };
+          } else {
+            console.log(`         ⏭️  跳过交易（已有更好的记录）: ${txType}`);
+          }
+        });
       } else {
-        console.log(`     ❌ 第二层匹配失败 - 交易记录验证不通过`);
+        console.log(`     ⚠️  任务无交易记录`);
       }
     } else {
-      console.log(`     ⚠️  第二层匹配跳过 - 缺少交易记录或 agent 信息`);
+      console.log(`     ❌ 任务不匹配当前tokenAddress`);
     }
   }
 
-  console.log(`❌ 所有匹配层级都失败，未找到匹配的分配任务`);
-  return null;
+  if (!hasMatchingTasks) {
+    console.log(`❌ 未找到匹配的分配任务`);
+    return [];
+  }
+
+  // 获取已完成的步骤列表
+  const completedSteps = Object.values(mergedTransactions)
+    .filter((tx: any) => tx.status === 'confirmed')
+    .map((tx: any) => tx.type);
+
+  console.log(`🎯 合并完成，已完成的步骤:`);
+  console.log(`  - 总交易数量: ${Object.keys(mergedTransactions).length}`);
+  console.log(`  - 已完成步骤: ${completedSteps.join(', ') || '无'}`);
+
+  Object.values(mergedTransactions).forEach((tx: any, index: number) => {
+    console.log(`    ${index + 1}. ${tx.type}: ${tx.status} (${tx.amount}) -> ${tx.toAddress || 'N/A'}`);
+  });
+
+  // 返回已完成的步骤列表
+  return completedSteps;
 }
 
 /**
@@ -475,7 +644,7 @@ async function executeTransfer(
   const { walletClient, publicClient } = initializeClients();
 
   try {
-    console.log(`📤 开始 ${type} 转账: ${amount} tokens -> ${toAddress}`);
+    console.log(`🔍 [DEBUG] 📤 开始 ${type} 转账: ${amount} tokens -> ${toAddress}`);
 
     // ERC20 transfer 函数
     const hash = await walletClient.writeContract({
@@ -496,31 +665,35 @@ async function executeTransfer(
       args: [toAddress as `0x${string}`, parseEther(amount)],
     });
 
-    console.log(`📤 ${type} 转账已发送: ${hash}`);
+    console.log(`🔍 [DEBUG] 📤 ${type} 转账已发送: ${hash}`);
 
     // 等待交易确认
     const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
-    const status = receipt.status === 'success' ? 'confirmed' : 'failed';
-    console.log(`${status === 'confirmed' ? '✅' : '❌'} ${type} 转账${status}: ${hash}`);
+    const status = receipt.status === 'success' ? 'confirmed' as const : 'failed' as const;
+    console.log(`🔍 [DEBUG] ${status === 'confirmed' ? '✅' : '❌'} ${type} 转账${status}: ${hash}`);
 
-    return {
+    const result: TransactionResult = {
       type,
       amount,
       txHash: hash,
       status,
       toAddress,
     };
+    console.log(`🔍 [DEBUG] ${type} 转账最终结果:`, result);
+    return result;
   } catch (error) {
-    console.error(`❌ ${type} 转账失败:`, error);
-    return {
+    console.error(`🔍 [DEBUG] ❌ ${type} 转账失败:`, error);
+    const result = {
       type,
       amount,
       txHash: '',
-      status: 'failed',
+      status: 'failed' as const,
       toAddress,
       error: error instanceof Error ? error.message : 'Unknown error',
     };
+    console.log(`🔍 [DEBUG] ${type} 转账失败结果:`, result);
+    return result;
   }
 }
 
@@ -569,16 +742,19 @@ export async function distributeTokens(
   const { includeBurn = false, burnPercentage = 5, skipSuccessful = true } = options || {}; // 默认启用跳过成功步骤
 
   try {
-    console.log(`🚀 开始代币分配 - Agent: ${agentId}, 总供应量: ${totalSupply}`);
+    console.log('🔍 [DEBUG] 🚀 开始代币分配');
+    console.log(`🔍 [DEBUG] Agent: ${agentId}, 总供应量: ${totalSupply}`);
     if (includeBurn) {
-      console.log(`🔥 包含销毁步骤 - 销毁比例: ${burnPercentage}%`);
+      console.log(`🔍 [DEBUG] 🔥 包含销毁步骤 - 销毁比例: ${burnPercentage}%`);
     }
     if (skipSuccessful) {
-      console.log(`⏭️ 启用容错模式 - 跳过已成功的步骤`);
+      console.log('🔍 [DEBUG] ⏭️ 启用容错模式 - 跳过已成功的步骤');
     }
 
     // 获取 Agent 信息
+    console.log('🔍 [DEBUG] 获取 Agent 信息...');
     const agentInfo = await getAgentInfo(agentId);
+    console.log('🔍 [DEBUG] Agent 信息:', agentInfo);
 
     // 验证 Agent 是否有有效的代币地址
     if (!agentInfo.tokenAddress) {
@@ -596,54 +772,28 @@ export async function distributeTokens(
       throw new Error('Invalid total supply');
     }
 
-    // 检查是否有未完成的分配任务
-    let existingTask = null;
+    // 获取已完成的步骤
     let completedSteps: string[] = [];
 
     console.log(`🔍 开始查找已有任务 - skipSuccessful: ${skipSuccessful}`);
 
     if (skipSuccessful) {
-      existingTask = await findExistingDistributionTask(agentId, tokenAddress);
-      if (existingTask) {
-        console.log(`📋 发现已有分配任务: ${existingTask.id}`);
-        console.log(`📋 任务详情:`);
-        console.log(`  - ID: ${existingTask.id}`);
-        console.log(`  - Result: ${existingTask.result}`);
-        console.log(`  - Timestamp: ${existingTask.timestamp}`);
+      completedSteps = await getCompletedStepsFromHistory(agentId, tokenAddress);
+      console.log(`📋 从历史记录中获取已完成步骤: ${completedSteps.join(', ') || '无'}`);
 
-        const taskData = JSON.parse(existingTask.error || '{}');
-        const transactions = taskData.transactions || [];
-
-        console.log(`📋 任务数据解析:`);
-        console.log(`  - 状态: ${taskData.status}`);
-        console.log(`  - 交易总数: ${transactions.length}`);
-
-        // 详细显示每个交易的状态
-        transactions.forEach((tx: any, index: number) => {
-          console.log(`  - 交易 ${index + 1}: ${tx.type} - ${tx.status} (${tx.amount})`);
-        });
-
-        // 获取已成功的步骤
-        completedSteps = transactions
-          .filter((tx: any) => tx.status === 'confirmed')
-          .map((tx: any) => tx.type);
-
-        console.log(`✅ 已完成步骤: ${completedSteps.join(', ') || '无'}`);
-        console.log(`🔄 将跳过已成功的步骤，继续执行剩余步骤`);
-        task = existingTask;
+      if (completedSteps.length > 0) {
+        console.log(`🎯 找到已完成的步骤，将跳过这些步骤继续分发`);
       } else {
-        console.log(`❌ 未找到已有分配任务，将创建新任务`);
+        console.log(`📝 没有找到已完成的步骤，将执行完整分发流程`);
       }
     } else {
       console.log(`⏭️ 跳过已有任务检查 (skipSuccessful=false)`);
     }
 
-    // 如果没有已有任务，创建新的分配任务记录
-    if (!existingTask) {
-      console.log(`📝 创建新的分配任务记录...`);
-      task = await createDistributionTask(agentId, totalSupply, tokenAddress, userAddress);
-      console.log(`📝 分配任务创建成功: ${task.id}`);
-    }
+    // 创建新的分配任务记录
+    console.log(`📝 创建新的分配任务记录...`);
+    task = await createDistributionTask(agentId, totalSupply, tokenAddress, userAddress);
+    console.log(`📝 分配任务创建成功: ${task.id}`);
 
     // 计算分配数量
     const distributions = calculateDistributions(totalSupply);
@@ -654,42 +804,109 @@ export async function distributeTokens(
     // 执行分配
     console.log(`🚀 开始执行代币分配交易...`);
 
-    // 如果是继续已有任务，先加载已有的交易记录
+    // 初始化交易记录数组
     let transactions: TransactionResult[] = [];
-    if (existingTask && existingTask.error) {
-      try {
-        const taskData = JSON.parse(existingTask.error);
-        transactions = taskData.transactions || [];
-        console.log(`📋 加载已有交易记录: ${transactions.length} 笔`);
-      } catch (error) {
-        console.warn('解析已有交易记录失败:', error);
-      }
-    }
 
-    // 1. 分配给创建者 (33%)
+    // 1. 分配给创建者 (33%)，使用批量transferAndLock锁定50次
     if (!completedSteps.includes('creator')) {
-      console.log(`👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}`);
-      const creatorTx = await executeTransfer(
-        tokenAddress,
-        agentInfo.creator.address,
-        distributions.creator,
-        'creator'
-      );
-      transactions.push(creatorTx);
-      console.log(`👤 创建者分配结果: ${creatorTx.status === 'confirmed' ? '✅ 成功' : creatorTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${creatorTx.txHash || 'N/A'}`);
+      console.log(`🔍 [DEBUG] 👤 [1/3] 分配给创建者 (${DISTRIBUTION_RATIOS.CREATOR * 100}%): ${distributions.creator} -> ${agentInfo.creator.address}，批量锁定50次`);
+      
+      try {
+        // 计算每次锁定的金额（总金额除以50）
+        const totalAmount = parseFloat(distributions.creator);
+        const perLockAmount = (totalAmount / 50).toFixed(18); // 保留18位小数
+        console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${distributions.creator})`);
+        
+        // 使用批量transferAndLock函数，一次性锁定50次，每次都是40天
+        const batchResult = await batchTransferAndLock(
+          tokenAddress,
+          agentInfo.creator.address,
+          perLockAmount,
+          40 * 24 * 60 * 60, // 锁定40天
+          50, // 执行50次
+          5, // 并发数参数（已不再使用）
+          3  // 最大重试次数参数（已不再使用）
+        );
+        
+        console.log(`🔍 [DEBUG] 👤 批量锁定结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
+        
+        // 创建交易结果
+        const creatorTx: TransactionResult = {
+          type: 'creator',
+          amount: distributions.creator,
+          txHash: batchResult.transactions.length > 0 ? batchResult.transactions[0].txHash : '',
+          status: batchResult.success ? 'confirmed' as const : 'failed' as const,
+          toAddress: agentInfo.creator.address,
+          error: batchResult.success ? undefined : `Failed to complete all transfers: ${batchResult.failedCount} failed out of 50`,
+          batchResult: {
+            completedCount: batchResult.completedCount,
+            failedCount: batchResult.failedCount,
+            transactions: batchResult.transactions.map(tx => ({
+              txHash: tx.txHash,
+              status: tx.status,
+              error: tx.error
+            }))
+          }
+        };
+        
+        transactions.push(creatorTx);
+        console.log(`🔍 [DEBUG] 👤 创建者批量分配结果: ${batchResult.success ? '✅ 全部成功' : '⚠️ 部分失败'}`);
+      } catch (error) {
+        console.error(`🔍 [DEBUG] ❌ 创建者分配失败(批量transferAndLock):`, error);
+        const creatorTx: TransactionResult = {
+          type: 'creator',
+          amount: distributions.creator,
+          txHash: '',
+          status: 'failed' as const,
+          toAddress: agentInfo.creator.address,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+        transactions.push(creatorTx);
+      }
     } else {
-      console.log(`👤 [1/3] 跳过创建者分配 - 已完成 ✅`);
+      console.log(`🔍 [DEBUG] 👤 [1/3] 跳过创建者分配 - 已完成 ✅`);
     }
 
-    // 2. IAO合约分配 (15%) - 已由恒源自动完成，无需手动分配
+    // 2. IAO合约分配 (15%) - 已由合约自动完成，无需手动分配。但是要调用一下 setRewardToken
     console.log(`🏦 跳过IAO合约分配 (${DISTRIBUTION_RATIOS.IAO * 100}%) - 恒源已自动完成此分配`);
     if (agentInfo.iaoContractAddress) {
       console.log(`🏦 IAO合约地址: ${agentInfo.iaoContractAddress} (已自动分配)`);
+      
+      // 调用setRewardToken设置奖励代币
+      try {
+        console.log(`🔄 调用IAO合约的setRewardToken方法 - 设置奖励代币: ${tokenAddress}`);
+        
+        // 获取合约ABI
+        const { getContractABI } = await import('@/config/contracts');
+        const contractABI = getContractABI('UserAgent'); // 非XAA代币使用UserAgent IAO ABI
+        
+        // 调用setRewardToken方法
+        const hash = await walletClient.writeContract({
+          address: agentInfo.iaoContractAddress as `0x${string}`,
+          abi: contractABI,
+          functionName: 'setRewardToken',
+          args: [tokenAddress as `0x${string}`],
+        });
+        
+        console.log(`✅ setRewardToken交易已提交: ${hash}`);
+        
+        // 等待交易确认
+        const receipt = await publicClient.waitForTransactionReceipt({ hash });
+        
+        if (receipt.status === 'success') {
+          console.log(`✅ 奖励代币设置成功 - Token: ${tokenAddress}`);
+        } else {
+          console.warn(`⚠️ 奖励代币设置交易状态异常: ${receipt.status}`);
+        }
+      } catch (error) {
+        console.error('❌ 设置奖励代币失败:', error);
+        // 继续执行其他分配步骤，不中断流程
+      }
     }
 
     // 3. 分配给空投钱包 (2%)
     if (!completedSteps.includes('airdrop')) {
-      console.log(`🎁 [2/${includeBurn ? '5' : '4'}] 分配给空投钱包 (${DISTRIBUTION_RATIOS.AIRDROP * 100}%): ${distributions.airdrop} -> ${DISTRIBUTION_ADDRESSES.AIRDROP}`);
+      console.log(`🔍 [DEBUG] 🎁 [2/${includeBurn ? '5' : '4'}] 分配给空投钱包 (${DISTRIBUTION_RATIOS.AIRDROP * 100}%): ${distributions.airdrop} -> ${DISTRIBUTION_ADDRESSES.AIRDROP}`);
       const airdropTx = await executeTransfer(
         tokenAddress,
         DISTRIBUTION_ADDRESSES.AIRDROP,
@@ -697,9 +914,9 @@ export async function distributeTokens(
         'airdrop'
       );
       transactions.push(airdropTx);
-      console.log(`🎁 空投钱包分配结果: ${airdropTx.status === 'confirmed' ? '✅ 成功' : airdropTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${airdropTx.txHash || 'N/A'}`);
+      console.log(`🔍 [DEBUG] 🎁 空投钱包分配结果: ${airdropTx.status === 'confirmed' ? '✅ 成功' : airdropTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${airdropTx.txHash || 'N/A'}`);
     } else {
-      console.log(`🎁 [2/${includeBurn ? '5' : '4'}] 跳过空投钱包分配 - 已完成 ✅`);
+      console.log(`🔍 [DEBUG] 🎁 [2/${includeBurn ? '5' : '4'}] 跳过空投钱包分配 - 已完成 ✅`);
     }
 
     // 4. 分配给AI挖矿合约 (40%)
@@ -733,7 +950,7 @@ export async function distributeTokens(
           amount: distributions.liquidity,
           txHash: liquidityResult.txHash || 'N/A',
           status: liquidityResult.success ? 'confirmed' : 'failed',
-          toAddress: liquidityResult.poolAddress || 'DBCSwap Pool',
+          toAddress: liquidityResult.poolAddress || null, // 使用 null 表示池子地址未知
           error: liquidityResult.error
         };
 
@@ -746,12 +963,25 @@ export async function distributeTokens(
 
       } catch (error) {
         console.error('❌ 流动性添加失败:', error);
+
+        // 尝试从数据库获取池子地址用于记录
+        let poolAddress: string | null = null;
+        try {
+          const agent = await prisma.agent.findUnique({
+            where: { id: agentId },
+            select: { poolAddress: true }
+          });
+          poolAddress = agent?.poolAddress || null; // 如果没有池子地址，使用 null
+        } catch (dbError) {
+          console.warn('获取池子地址失败:', dbError);
+        }
+
         const liquidityTx: TransactionResult = {
           type: 'liquidity',
           amount: distributions.liquidity,
           txHash: 'N/A',
           status: 'failed',
-          toAddress: 'DBCSwap Pool',
+          toAddress: poolAddress, // 可能是 null，表示池子地址未知
           error: error instanceof Error ? error.message : 'Unknown error'
         };
         transactions.push(liquidityTx);
@@ -784,32 +1014,41 @@ export async function distributeTokens(
     console.log(`📊 所有${includeBurn ? '分配和销毁' : '分配'}交易执行完成，共 ${transactions.length} 笔交易`);
 
     // 检查是否有失败的交易
+    console.log('🔍 [DEBUG] 检查交易结果...');
     const failedTxs = transactions.filter(tx => tx.status === 'failed');
     const confirmedTxs = transactions.filter(tx => tx.status === 'confirmed');
     const pendingTxs = transactions.filter(tx => tx.status === 'pending');
     const status = failedTxs.length === 0 ? 'COMPLETED' : 'PARTIAL_FAILED';
 
-    console.log(`📊 分配结果汇总:`);
-    console.log(`  - 总交易数: ${transactions.length}`);
-    console.log(`  - 成功交易: ${confirmedTxs.length} ✅`);
-    console.log(`  - 待确认交易: ${pendingTxs.length} ⏳`);
-    console.log(`  - 失败交易: ${failedTxs.length} ❌`);
+    console.log('🔍 [DEBUG] 📊 分配结果汇总:');
+    console.log(`🔍 [DEBUG]   - 总交易数: ${transactions.length}`);
+    console.log(`🔍 [DEBUG]   - 成功交易: ${confirmedTxs.length} ✅`);
+    console.log(`🔍 [DEBUG]   - 待确认交易: ${pendingTxs.length} ⏳`);
+    console.log(`🔍 [DEBUG]   - 失败交易: ${failedTxs.length} ❌`);
+    console.log(`🔍 [DEBUG]   - 最终状态: ${status}`);
+
+    console.log('🔍 [DEBUG] 所有交易详情:');
+    transactions.forEach((tx, index) => {
+      console.log(`🔍 [DEBUG]   ${index + 1}. ${tx.type} - ${tx.status} - ${tx.amount} -> ${tx.toAddress}`);
+      if (tx.txHash) console.log(`🔍 [DEBUG]      Hash: ${tx.txHash}`);
+      if (tx.error) console.log(`🔍 [DEBUG]      错误: ${tx.error}`);
+    });
 
     if (failedTxs.length > 0) {
-      console.log(`❌ 失败交易详情:`);
+      // console.log('🔍 [DEBUG] ❌ 失败交易详情:');
       failedTxs.forEach((tx, index) => {
-        console.log(`  ${index + 1}. ${tx.type} - ${tx.amount} -> ${tx.toAddress}`);
-        console.log(`     错误: ${tx.error || '未知错误'}`);
+        console.log(`🔍 [DEBUG]   ${index + 1}. ${tx.type} - ${tx.amount} -> ${tx.toAddress}`);
+        console.log(`🔍 [DEBUG]      错误: ${tx.error || '未知错误'}`);
       });
     }
 
     // 更新数据库状态
-    console.log(`💾 更新数据库任务状态: ${status}`);
+    console.log(`🔍 [DEBUG] 💾 更新数据库任务状态: ${status}`);
     await updateDistributionTask(task.id, status, transactions);
 
-    console.log(`${status === 'COMPLETED' ? '✅' : '⚠️'} 代币分配${status === 'COMPLETED' ? '完成' : '部分失败'} - 共执行 ${transactions.length} 笔交易，${failedTxs.length} 笔失败`);
+    console.log(`🔍 [DEBUG] ${status === 'COMPLETED' ? '✅' : '⚠️'} 代币分配${status === 'COMPLETED' ? '完成' : '部分失败'} - 共执行 ${transactions.length} 笔交易，${failedTxs.length} 笔失败`);
 
-    return {
+    const result = {
       success: status === 'COMPLETED',
       taskId: task.id,
       data: {
@@ -818,6 +1057,8 @@ export async function distributeTokens(
       },
       error: failedTxs.length > 0 ? `${failedTxs.length} transactions failed` : undefined,
     };
+    console.log('🔍 [DEBUG] 最终返回结果:', result);
+    return result;
   } catch (error) {
     console.error('❌ 代币分配失败:', error);
 
@@ -835,21 +1076,122 @@ export async function distributeTokens(
 }
 
 /**
+ * 重试批量transferAndLock操作
+ * 专门用于重试creator类型交易中的批量transferAndLock操作
+ */
+async function retryCreatorBatchTransferAndLock(
+  tokenAddress: string,
+  recipientAddress: string,
+  totalAmount: string,
+  failedCount: number
+): Promise<TransactionResult> {
+  console.log(`🔄 开始重试creator的批量transferAndLock操作 - 总金额: ${totalAmount}, 预计失败数: ${failedCount}`);
+  
+  try {
+    // 计算每次锁定的金额（总金额除以50）
+    const amount = parseFloat(totalAmount);
+    const perLockAmount = (amount / 50).toFixed(18); // 保留18位小数
+    console.log(`🔍 [DEBUG] 👤 每次锁定金额: ${perLockAmount} (总计: ${totalAmount})`);
+    
+    // 使用新的批量transferAndLock方法，固定40天锁定时间
+    const batchResult = await batchTransferAndLock(
+      tokenAddress,
+      recipientAddress,
+      perLockAmount,
+      40 * 24 * 60 * 60, // 锁定40天
+      failedCount, // 只执行之前失败的次数
+      5, // 并发数参数（已不再使用）
+      3  // 最大重试次数参数（已不再使用）
+    );
+    
+    console.log(`🔍 [DEBUG] 👤 批量锁定重试结果: 成功=${batchResult.completedCount}, 失败=${batchResult.failedCount}`);
+    
+    // 创建交易结果
+    return {
+      type: 'creator',
+      amount: totalAmount,
+      txHash: batchResult.transactions.length > 0 ? batchResult.transactions[0].txHash : '',
+      status: batchResult.failedCount === 0 ? 'confirmed' as const : 'failed' as const,
+      toAddress: recipientAddress,
+      error: batchResult.failedCount > 0 ? `Failed to complete all transfers: ${batchResult.failedCount} failed out of ${failedCount}` : undefined,
+      batchResult: {
+        completedCount: batchResult.completedCount,
+        failedCount: batchResult.failedCount,
+        transactions: batchResult.transactions.map(tx => ({
+          txHash: tx.txHash,
+          status: tx.status,
+          error: tx.error
+        }))
+      }
+    };
+  } catch (error) {
+    console.error('❌ 重试批量transferAndLock失败:', error);
+    return {
+      type: 'creator',
+      amount: totalAmount,
+      txHash: '',
+      status: 'failed' as const,
+      toAddress: recipientAddress,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+}
+
+/**
  * 重试失败的交易（智能跳过已成功的步骤）
  */
 export async function retryFailedTransactions(taskId: string): Promise<DistributionResult> {
   try {
-    // 获取任务信息
-    const task = await prisma.history.findUnique({
+    console.log(`🔄 开始重试任务: ${taskId}`);
+
+    // 获取任务信息 - 从 Task 表查找
+    const task = await prisma.task.findUnique({
       where: { id: taskId },
     });
 
-    if (!task || !task.error) {
+    if (!task) {
+      console.log(`❌ 任务未找到 - Task ID: ${taskId}`);
       throw new Error('Task not found');
     }
 
-    const taskData = JSON.parse(task.error);
-    const transactions = taskData.transactions || [];
+    console.log(`✅ 找到任务:`, {
+      id: task.id,
+      type: task.type,
+      status: task.status,
+      agentId: task.agentId
+    });
+
+    // 获取Agent信息和代币地址
+    const agent = await prisma.agent.findUnique({
+      where: { id: task.agentId },
+      select: { tokenAddress: true }
+    });
+
+    const tokenAddress = agent?.tokenAddress;
+    console.log(`🪙 从 Agent 表获取代币地址: ${tokenAddress}`);
+
+    if (!tokenAddress) {
+      throw new Error(`Agent ${task.agentId} 没有代币地址`);
+    }
+
+    // 使用统一的合并逻辑获取完整交易历史
+    console.log(`🔄 应用合并逻辑获取完整交易历史...`);
+    const { getMergedDistributionTasksFromDB } = await import('@/lib/task-utils');
+    const mergedResult = await getMergedDistributionTasksFromDB(task.agentId);
+
+    if (!mergedResult || mergedResult.transactions.length === 0) {
+      console.log(`⚠️ 没有找到任何交易记录`);
+      throw new Error('No transaction records found for retry');
+    }
+
+    const transactions = mergedResult.transactions;
+    console.log(`📋 合并后获得 ${transactions.length} 个交易记录`);
+    console.log(`🪙 任务代币地址: ${tokenAddress}`);
+    console.log(`📋 交易详情:`, transactions.map((tx: any) => ({
+      type: tx.type,
+      status: tx.status,
+      amount: tx.amount
+    })));
 
     // 获取失败的交易
     const failedTransactions = transactions.filter((tx: any) => tx.status === 'failed');
@@ -859,8 +1201,8 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
         success: true,
         taskId,
         data: {
-          transactions,
-          totalDistributed: taskData.totalSupply,
+          transactions: transactions as any,
+          totalDistributed: mergedResult.task.result?.metadata?.totalSupply || '0',
         },
       };
     }
@@ -878,7 +1220,7 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
       // 根据交易类型选择重试方法
       if (failedTx.type === 'burn' || (failedTx.toAddress === '0x0000000000000000000000000000000000000000' || failedTx.toAddress === '0x000000000000000000000000000000000000dEaD')) {
         // 销毁交易重试
-        const burnResult = await burnTokens(taskData.tokenAddress as `0x${string}`, failedTx.amount);
+        const burnResult = await burnTokens(tokenAddress as `0x${string}`, failedTx.amount);
         result = {
           type: failedTx.type,
           amount: failedTx.amount,
@@ -887,10 +1229,124 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
           toAddress: burnResult.toAddress,
           error: burnResult.error
         };
+      } else if (failedTx.type === 'liquidity' || failedTx.toAddress === null) {
+        // 流动性添加重试 - 使用专门的流动性添加函数
+        console.log(`🔄 重试流动性添加: ${failedTx.amount} 代币`);
+        try {
+          // 先从数据库获取池子地址
+          const agent = await prisma.agent.findUnique({
+            where: { id: task.agentId },
+            select: { poolAddress: true }
+          });
+
+          const liquidityResult = await addLiquidityToPool(
+            tokenAddress,
+            failedTx.amount,
+            task.agentId
+          );
+
+          result = {
+            type: 'liquidity',
+            amount: failedTx.amount,
+            txHash: liquidityResult.txHash || 'N/A',
+            status: liquidityResult.success ? 'confirmed' : 'failed',
+            toAddress: liquidityResult.poolAddress || agent?.poolAddress || null, // 使用 null 表示池子地址未知
+            error: liquidityResult.error
+          };
+        } catch (error) {
+          // 如果重试失败，也尝试从数据库获取池子地址用于记录
+          let poolAddress: string | null = null;
+          try {
+            const agent = await prisma.agent.findUnique({
+              where: { id: task.agentId },
+              select: { poolAddress: true }
+            });
+            poolAddress = agent?.poolAddress || null; // 如果没有池子地址，使用 null
+          } catch (dbError) {
+            console.warn('获取池子地址失败:', dbError);
+          }
+
+          result = {
+            type: 'liquidity',
+            amount: failedTx.amount,
+            txHash: 'N/A',
+            status: 'failed',
+            toAddress: poolAddress, // 可能是 null，表示池子地址未知
+            error: error instanceof Error ? error.message : 'Unknown error'
+          };
+        }
+      } else if (failedTx.type === 'creator') {
+        // 检查交易对象中是否直接包含batchResult
+        let failedBatchCount = 0;
+        
+        // 首先检查交易对象本身
+        if (failedTx.batchResult && typeof failedTx.batchResult === 'object') {
+          console.log(`🔍 在交易对象中找到批量操作信息: 失败=${failedTx.batchResult.failedCount}次`);
+          failedBatchCount = failedTx.batchResult.failedCount || 0;
+        } else {
+          // 如果交易对象中没有，尝试从数据库获取
+          console.log(`🔍 交易对象中没有批量操作信息，尝试从数据库获取`);
+          const taskDetail = await prisma.task.findUnique({
+            where: { id: taskId }
+          });
+          
+          // 尝试从任务结果中获取批量操作信息
+          if (taskDetail?.result) {
+            try {
+              const resultData = typeof taskDetail.result === 'string' 
+                ? JSON.parse(taskDetail.result) 
+                : taskDetail.result;
+                
+              // 查找creator交易的批量结果
+              if (resultData.transactions) {
+                const creatorTx = resultData.transactions.find((tx: any) => tx.type === 'creator');
+                if (creatorTx?.batchResult) {
+                  console.log(`🔍 在数据库中找到批量操作信息: 失败=${creatorTx.batchResult.failedCount}次`);
+                  failedBatchCount = creatorTx.batchResult.failedCount || 0;
+                }
+              }
+            } catch (e) {
+              console.error('解析任务结果失败:', e);
+            }
+          }
+        }
+        
+        if (failedBatchCount > 0) {
+          // 使用批量transferAndLock重试
+          console.log(`🔄 发现creator批量操作失败记录: ${failedBatchCount}次，使用批量重试`);
+          result = await retryCreatorBatchTransferAndLock(
+            tokenAddress,
+            failedTx.toAddress,
+            failedTx.amount,
+            failedBatchCount
+          );
+        } else {
+          // 如果没有找到失败记录但状态是失败，假设全部失败
+          if (failedTx.status === 'failed') {
+            console.log(`⚠️ 未找到具体失败记录，但状态为失败，假设需要全部重试`);
+            // 使用批量transferAndLock重试，但只执行2次（保守估计）
+            result = await retryCreatorBatchTransferAndLock(
+              tokenAddress,
+              failedTx.toAddress,
+              failedTx.amount,
+              2 // 保守估计失败次数为2
+            );
+          } else {
+            // 使用普通转账方式重试
+            console.log(`🔄 未找到批量操作失败记录，使用普通转账重试`);
+            result = await executeTransfer(
+              tokenAddress,
+              failedTx.toAddress,
+              failedTx.amount,
+              failedTx.type
+            );
+            console.log(`⚠️ 注意: 使用单笔转账替代批量transferAndLock进行重试，无法保证锁定功能`);
+          }
+        }
       } else {
         // 普通转账交易重试
         result = await executeTransfer(
-          taskData.tokenAddress,
+          tokenAddress,
           failedTx.toAddress,
           failedTx.amount,
           failedTx.type
@@ -919,12 +1375,20 @@ export async function retryFailedTransactions(taskId: string): Promise<Distribut
     // 更新数据库
     await updateDistributionTask(taskId, newStatus, allTransactions);
 
+    // 如果重试后任务完成，更新Agent的tokensDistributed状态
+    if (newStatus === 'COMPLETED') {
+      await prisma.agent.update({
+        where: { id: task.agentId },
+        data: { tokensDistributed: true } as any
+      });
+    }
+
     return {
       success: newStatus === 'COMPLETED',
       taskId,
       data: {
         transactions: allTransactions,
-        totalDistributed: taskData.totalSupply,
+        totalDistributed: mergedResult.task.result?.metadata?.totalSupply || '0',
       },
       error: stillFailed.length > 0 ? `${stillFailed.length} transactions still failed after retry` : undefined,
     };
@@ -950,6 +1414,37 @@ export async function claimDepositedTokenFromIAO(agentId: string): Promise<{
 }> {
   try {
     console.log(`🏦 开始提取IPO中的代币 - Agent ID: ${agentId}`);
+
+    // 检查是否已经执行过 claimDepositedToken
+    // 通过查找相关的分发任务来判断是否已经执行过
+    const existingDistributionTask = await prisma.task.findFirst({
+      where: {
+        agentId,
+        type: 'DISTRIBUTE_TOKENS',
+        status: 'COMPLETED'
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    if (existingDistributionTask && existingDistributionTask.result) {
+      try {
+        const taskData = JSON.parse(existingDistributionTask.result);
+        const claimTransaction = taskData.transactions?.find((tx: any) => tx.type === 'claim');
+
+        if (claimTransaction && claimTransaction.status === 'confirmed') {
+          console.log('✅ claimDepositedToken 已经成功执行过，跳过重复执行');
+          return {
+            success: true,
+            txHash: claimTransaction.txHash || 'already_executed',
+            error: 'Already executed successfully'
+          };
+        }
+      } catch (e) {
+        console.warn('解析任务数据失败:', e);
+      }
+    }
 
     // 获取Agent信息
     const agentInfo = await getAgentInfo(agentId);
@@ -1049,7 +1544,7 @@ export async function claimDepositedTokenFromIAO(agentId: string): Promise<{
 
           console.log('✅ 服务端钱包已设置为管理员');
         } catch (setAdminError) {
-          console.log('⚠️ 设置管理员失败:', setAdminError);
+          console.log('⚠️ 设置管理员失败:', (setAdminError as any)?.message || (setAdminError as any)?.shortMessage || 'Unknown error');
         }
       }
 
@@ -1057,12 +1552,42 @@ export async function claimDepositedTokenFromIAO(agentId: string): Promise<{
         console.log('⚠️ IAO尚未成功，可能无法提取代币');
       }
 
-      if (totalDeposited === 0n) {
+      if (totalDeposited === BigInt(0)) {
         console.log('⚠️ 没有用户投入代币，无需提取');
         return {
           success: false,
           error: '没有用户投入代币，无需提取'
         };
+      }
+
+      // 检查合约中是否有可提取的余额
+      try {
+        const tokenBalance = await publicClient.readContract({
+          address: agentInfo.tokenAddress as `0x${string}`,
+          abi: [
+            {
+              "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
+              "name": "balanceOf",
+              "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+              "stateMutability": "view",
+              "type": "function"
+            }
+          ],
+          functionName: 'balanceOf',
+          args: [agentInfo.iaoContractAddress],
+        });
+
+        console.log(`🔍 IAO合约中的代币余额: ${tokenBalance}`);
+
+        if (tokenBalance === BigInt(0)) {
+          console.log('⚠️ IAO合约中没有代币余额，无需提取');
+          return {
+            success: false,
+            error: 'IAO合约中没有代币余额，无需提取'
+          };
+        }
+      } catch (balanceError) {
+        console.log('⚠️ 检查代币余额失败:', balanceError);
       }
 
     } catch (error) {
@@ -1101,7 +1626,7 @@ export async function claimDepositedTokenFromIAO(agentId: string): Promise<{
     }
 
   } catch (error: any) {
-    console.error('❌ claimDepositedToken执行失败:', error);
+    console.error('❌ claimDepositedToken执行失败:', error?.message || error?.shortMessage || 'Unknown error');
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error'
@@ -1123,27 +1648,39 @@ export async function distributeTokensWithOptions(
     retryTaskId?: string; // 如果提供，则重试指定任务的失败步骤
   }
 ): Promise<DistributionResult> {
+  console.log('🔍 [DEBUG] distributeTokensWithOptions 开始执行');
+  console.log('🔍 [DEBUG] 参数:', {
+    agentId,
+    totalSupply,
+    tokenAddress,
+    userAddress,
+    options
+  });
+
   // 如果是重试模式
   if (options.retryTaskId) {
-    console.log(`🔄 重试模式 - 任务ID: ${options.retryTaskId}`);
+    console.log(`🔍 [DEBUG] 🔄 重试模式 - 任务ID: ${options.retryTaskId}`);
     return await retryFailedTransactions(options.retryTaskId);
   }
 
   // 在分发之前，先执行管理员提取IPO中的代币
-  console.log(`🏦 分发前预处理 - 提取IPO中的代币`);
+  console.log('🔍 [DEBUG] 🏦 分发前预处理 - 提取IPO中的代币');
   const claimResult = await claimDepositedTokenFromIAO(agentId);
 
   if (claimResult.success) {
-    console.log(`✅ IPO代币提取成功 - TxHash: ${claimResult.txHash}`);
+    console.log(`🔍 [DEBUG] ✅ IPO代币提取成功 - TxHash: ${claimResult.txHash}`);
   } else {
-    console.log(`⚠️ IPO代币提取失败或跳过: ${claimResult.error}`);
+    console.log(`🔍 [DEBUG] ⚠️ IPO代币提取失败或跳过: ${claimResult.error}`);
     // 注意：这里不中断分发流程，因为可能IAO合约没有代币需要提取
   }
 
   // 正常分配模式（默认启用智能跳过）
-  return await distributeTokens(agentId, totalSupply, tokenAddress, userAddress, {
+  console.log('🔍 [DEBUG] 调用 distributeTokens...');
+  const result = await distributeTokens(agentId, totalSupply, tokenAddress, userAddress, {
     includeBurn: options.includeBurn,
     burnPercentage: options.burnPercentage,
     skipSuccessful: true // 默认启用智能跳过已成功的步骤
   });
+  console.log('🔍 [DEBUG] distributeTokens 返回结果:', result);
+  return result;
 }

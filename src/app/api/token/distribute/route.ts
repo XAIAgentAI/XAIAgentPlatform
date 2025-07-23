@@ -8,6 +8,7 @@ import { verifyAgentCreator } from '@/lib/auth-middleware';
 import { distributeTokensWithOptions, retryFailedTransactions } from '@/lib/server-wallet';
 import { createSuccessResponse, handleError } from '@/lib/error';
 import { z } from 'zod';
+import { prisma } from '@/lib/prisma';
 
 // 请求参数验证schema
 const DistributeRequestSchema = z.object({
@@ -77,53 +78,40 @@ export async function POST(request: NextRequest) {
     console.log('✅ 代币地址验证通过');
 
     // 执行代币分配
-    console.log('💰 开始执行代币分配流程...');
-    console.log(`📊 分配参数:`);
-    console.log(`  - Agent ID: ${agentId}`);
-    console.log(`  - 总供应量: ${totalSupply}`);
-    console.log(`  - 代币地址: ${tokenAddress}`);
-    console.log(`  - 用户地址: ${user.address}`);
-    console.log(`  - 包含销毁: ${includeBurn}`);
-    if (includeBurn) {
-      console.log(`  - 销毁比例: ${burnPercentage}%`);
-    }
-    if (retryTaskId) {
-      console.log(`  - 重试任务: ${retryTaskId}`);
-    }
-
-    const result = await distributeTokensWithOptions(agentId, totalSupply, tokenAddress, user.address, {
-      includeBurn,
-      burnPercentage,
-      retryTaskId
+    // 创建分发任务记录
+    console.log('📝 创建代币分发任务记录...');
+    const task = await prisma.task.create({
+      data: {
+        type: 'DISTRIBUTE_TOKENS',
+        status: 'PENDING',
+        agentId,
+        createdBy: user.address,
+        result: JSON.stringify({
+          metadata: {
+            totalSupply,
+            tokenAddress,
+            includeBurn,
+            burnPercentage,
+            retryTaskId
+          }
+        })
+      },
     });
 
-    if (!result.success) {
-      console.log('❌ 代币分配执行失败:', result.error);
-      return NextResponse.json(
-        {
-          code: 500,
-          message: '代币分配失败',
-          error: result.error,
-        },
-        { status: 500 }
-      );
-    }
+    console.log(`✅ 任务创建成功，任务ID: ${task.id}`);
 
-    const endTime = Date.now();
-    const duration = endTime - startTime;
-    console.log('✅ 代币分配成功完成');
-    console.log(`⏱️ 总耗时: ${duration}ms`);
-    console.log(`📊 分配结果摘要:`);
-    console.log(`  - 任务ID: ${result.taskId}`);
-    console.log(`  - 交易数量: ${result.data?.transactions?.length || 0}`);
-    console.log(`  - 分配总量: ${result.data?.totalDistributed || '未知'}`);
 
-    // 返回成功响应
+
+    // 在后台执行代币分发任务
+    console.log('🚀 启动后台代币分发任务...');
+    processTokenDistributionTask(task.id).catch(error => {
+      console.error(`[后台任务失败] 代币分发任务 ${task.id} 失败:`, error);
+    });
+
+    // 立即返回成功响应
     return createSuccessResponse({
-      code: 200,
-      message: '代币分配成功',
-      data: result.data,
-    });
+      taskId: task.id,
+    }, '已成功提交代币分发任务，请稍后查询结果');
 
   } catch (error: any) {
     const endTime = Date.now();
@@ -132,6 +120,152 @@ export async function POST(request: NextRequest) {
     console.error(`⏱️ 失败耗时: ${duration}ms`);
     console.error(`📍 错误堆栈:`, error.stack);
     return handleError(error);
+  }
+}
+
+/**
+ * 后台处理代币分发任务
+ */
+async function processTokenDistributionTask(taskId: string) {
+  console.log(`🔄 开始处理代币分发任务 ${taskId}`);
+
+  try {
+    // 获取任务信息
+    const task = await prisma.task.findUnique({
+      where: { id: taskId },
+      include: { agent: true }
+    });
+
+    if (!task) {
+      throw new Error(`任务 ${taskId} 不存在`);
+    }
+
+    // 解析任务参数
+    let metadata: any = {};
+    if (task.result) {
+      try {
+        const taskData = JSON.parse(task.result);
+        metadata = taskData.metadata || {};
+      } catch (error) {
+        console.error('解析任务参数失败:', error);
+      }
+    }
+
+    const {
+      totalSupply,
+      tokenAddress,
+      includeBurn = false,
+      burnPercentage = 5,
+      retryTaskId
+    } = metadata;
+
+    const agentId = task.agentId;
+    const userAddress = task.createdBy;
+
+    // 更新任务状态为处理中
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'PROCESSING',
+        startedAt: new Date()
+      }
+    });
+
+    console.log('💰 开始执行代币分配流程...');
+    const result = await distributeTokensWithOptions(agentId, totalSupply, tokenAddress, userAddress, {
+      includeBurn,
+      burnPercentage,
+      retryTaskId
+    });
+    // 检查交易结果
+    const hasFailedTransactions = result.data?.transactions?.some(tx => tx.status === 'failed') || false;
+    const hasSuccessfulTransactions = result.data?.transactions?.some(tx => tx.status === 'confirmed') || false;
+
+    let taskStatus: 'COMPLETED' | 'FAILED' | 'PARTIAL_FAILED';
+
+    if (!result.success && !hasSuccessfulTransactions) {
+      taskStatus = 'FAILED';
+    } else if (hasFailedTransactions && hasSuccessfulTransactions) {
+      taskStatus = 'PARTIAL_FAILED';
+    } else if (result.success && !hasFailedTransactions) {
+      taskStatus = 'COMPLETED';
+    } else {
+      taskStatus = result.success ? 'COMPLETED' : 'FAILED';
+    }
+
+    console.log('📊 代币分发任务完成，状态:', taskStatus);
+
+    // 更新任务状态
+    const originalTaskData = JSON.parse(task.result || '{}');
+    const originalMetadata = originalTaskData.metadata || {};
+
+    const taskResult = {
+      metadata: originalMetadata,
+      ...result.data,
+      error: result.error,
+      status: taskStatus
+    };
+
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: taskStatus,
+        completedAt: new Date(),
+        result: JSON.stringify(taskResult)
+      }
+    });
+
+    // 如果任务完成，更新Agent的tokensDistributed状态
+    if (taskStatus === 'COMPLETED') {
+      await prisma.agent.update({
+        where: { id: agentId },
+        data: { tokensDistributed: true } as any
+      });
+    }
+
+    // 如果完全失败，直接返回
+    if (taskStatus === 'FAILED') {
+      return;
+    }
+
+    console.log('🔍 [DEBUG] ✅ 代币分配流程完成');
+    console.log('� [DEBUG] �📊 分配结果摘要:');
+    console.log(`🔍 [DEBUG]   - 任务ID: ${result.taskId || taskId}`);
+    console.log(`🔍 [DEBUG]   - 交易数量: ${result.data?.transactions?.length || 0}`);
+    console.log(`🔍 [DEBUG]   - 分配总量: ${result.data?.totalDistributed || '未知'}`);
+    console.log(`🔍 [DEBUG]   - 最终状态: ${taskStatus}`);
+
+  } catch (error: any) {
+    console.error(`❌ 代币分发任务 ${taskId} 处理失败:`, error);
+
+    try {
+
+
+      // 更新任务状态为失败，保留原来的 metadata
+      // 重新获取任务数据以获取原来的 metadata
+      const currentTask = await prisma.task.findUnique({
+        where: { id: taskId }
+      });
+
+      const originalTaskData = JSON.parse(currentTask?.result || '{}');
+      const originalMetadata = originalTaskData.metadata || {};
+
+      await prisma.task.update({
+        where: { id: taskId },
+        data: {
+          status: 'FAILED',
+          completedAt: new Date(),
+          result: JSON.stringify({
+            metadata: originalMetadata, // 保留原来的 metadata
+            error: error.message || '未知错误'
+          })
+        }
+      });
+
+
+    } catch (dbError) {
+      console.error('更新任务状态或记录历史失败:', dbError);
+    }
   }
 }
 
@@ -151,35 +285,32 @@ export async function GET(request: NextRequest) {
     // 验证用户权限
     await verifyAgentCreator(request, agentId);
 
-    // 查询分配任务记录
+    // 查询分配任务记录（从 Task 表）
     const { prisma } = await import('@/lib/prisma');
-    const tasks = await prisma.history.findMany({
+    const tasks = await prisma.task.findMany({
       where: {
         agentId,
-        action: 'token_distribution_start',
+        type: 'DISTRIBUTE_TOKENS',
       },
-      orderBy: { timestamp: 'desc' },
+      orderBy: { createdAt: 'desc' },
       take: 10,
     });
 
     return createSuccessResponse({
-      code: 200,
-      message: '查询成功',
-      data: {
-        distributions: tasks.map(task => {
-          const taskData = task.error ? JSON.parse(task.error) : {};
-          return {
-            id: task.id,
-            status: taskData.status || task.result,
-            totalSupply: taskData.totalSupply,
-            tokenAddress: taskData.tokenAddress,
-            createdAt: task.timestamp,
-            completedAt: taskData.completedAt,
-            transactions: taskData.transactions || [],
-          };
-        }),
-      },
-    });
+      distributions: tasks.map(task => {
+        const taskData = task.result ? JSON.parse(task.result) : {};
+        const metadata = taskData.metadata || taskData;
+        return {
+          id: task.id,
+          status: task.status,
+          totalSupply: metadata.totalSupply,
+          tokenAddress: metadata.tokenAddress,
+          createdAt: task.createdAt,
+          completedAt: task.completedAt,
+          transactions: taskData.transactions || [],
+        };
+      }),
+    }, '查询成功');
 
   } catch (error: any) {
     console.error('❌ 查询分配状态错误:', error);
@@ -219,11 +350,7 @@ export async function PATCH(request: NextRequest) {
 
     console.log('✅ 重试完成');
 
-    return createSuccessResponse({
-      code: 200,
-      message: '重试成功',
-      data: result.data,
-    });
+    return createSuccessResponse(result.data, '重试成功');
 
   } catch (error: any) {
     console.error('❌ 重试错误:', error);

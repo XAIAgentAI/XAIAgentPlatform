@@ -166,7 +166,7 @@ export async function testDuplicateAgentCreation(token: string) {
   
   console.log('\n第一次创建 agent（应该成功）');
   const firstResult = await agentAPI.create(token, testName);
-  console.log('第一次创建的 agent ID:', firstResult.data.data.agentId);
+  console.log('第一次创建的 agent ID:', firstResult.data.agentId);
   
   console.log('\n第二次创建同名 agent（应该失败）');
   try {

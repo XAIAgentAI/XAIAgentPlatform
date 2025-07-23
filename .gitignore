@@ -45,9 +45,11 @@ next-env.d.ts
 
 
 .specstory/*
+.augment/*
 .cursor/*
 
 
 提示音.mp3
 docs
 docs-html
+output.log

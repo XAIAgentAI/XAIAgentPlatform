@@ -95,10 +95,10 @@ export default function TokenBurnModal({ agent, onStatusUpdate }: TokenBurnModal
           },
         });
 
-        const data = await response.json();
-        
-        if (data.code === 200) {
-          const task = data.data;
+        const response_data = await response.json();
+
+        if (response_data.code === 200) {
+          const task = response_data.data;
           setTaskStatus(task);
 
           if (task.status === 'COMPLETED') {
@@ -133,28 +133,27 @@ export default function TokenBurnModal({ agent, onStatusUpdate }: TokenBurnModal
 
   // 获取状态显示
   const getStatusDisplay = () => {
-    // 暂时注释掉，等Prisma类型更新
-    // if (agent.tokensBurned) {
-    //   return (
-    //     <Badge variant="default" className="flex items-center gap-1">
-    //       <CheckCircle className="w-3 h-3" />
-    //       已销毁代币
-    //     </Badge>
-    //   );
-    // }
+    if (agent.tokensBurned) {
+      return (
+        <Badge variant="default" className="flex items-center gap-1">
+          <CheckCircle className="w-3 h-3" />
+          已销毁代币
+        </Badge>
+      );
+    }
 
     if (taskStatus) {
       switch (taskStatus.status) {
         case 'PENDING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" />
               等待中
             </Badge>
           );
         case 'PROCESSING':
           return (
-            <Badge variant="warning" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" />
               销毁中
             </Badge>

@@ -100,15 +100,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // 记录开始创建Token的历史
-    await prisma.history.create({
-      data: {
-        action: 'create_token_submit',
-        result: 'pending',
-        agentId,
-        taskId: task.id,
-      },
-    });
+
 
     // 在后台执行Token创建和IAO设置任务
     processTokenCreationTask(task.id, agentId, agent).catch(error => {
@@ -117,12 +109,8 @@ export async function POST(request: Request) {
 
     // 立即返回成功响应
     return createSuccessResponse({
-      code: 200,
-      message: '已成功提交Token创建任务，请稍后查询结果',
-      data: {
-        taskId: task.id,
-      },
-    });
+      taskId: task.id,
+    }, '已成功提交Token创建任务，请稍后查询结果');
   } catch (error) {
     console.error('提交Token创建任务过程中发生错误:', error);
     return handleError(error);
@@ -145,7 +133,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     const amountToIAO = (totalSupplyInWei * BigInt(iaoPercentage) / BigInt(100)).toString();
 
     // 计算每年可挖矿的代币数量：总供应量 × 挖矿速率
-    const miningRateFromDB = agent.miningRate ? parseFloat(agent.miningRate.toString()) : 6; // 默认6%
+    const miningRateFromDB = agent.miningRate ? parseFloat(agent.miningRate.toString()) : 5; // 默认5%
     const tokenAmountCanMintPerYear = (totalSupplyInWei * BigInt(Math.floor(miningRateFromDB * 100)) / BigInt(10000)).toString();
 
     console.log(`[Token创建] 开始为Agent ${agentId} 部署Token...`);
@@ -187,7 +175,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     console.log(`[Token创建] 请求体:`, JSON.stringify(requestBody, null, 2));
 
     // 部署Token
-    const tokenResponse = await fetch("http://3.0.25.131:8070/deploy/token", {
+    const tokenResponse = await fetch("http://54.179.233.88:8070/deploy/token", {
       method: "POST",
       headers: {
         "accept": "application/json",
@@ -223,16 +211,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
     
     if (tokenResult.code !== 200 || !tokenResult.data?.proxy_address) {
       console.error(`[Token创建] 失败原因: ${tokenResult.message || '未知错误'}`);
-      // 记录Token创建失败历史
-      await prisma.history.create({
-        data: {
-          action: 'create_token',
-          result: 'failed',
-          agentId,
-          taskId,
-          error: `Token部署失败: ${tokenResult.message || '未知错误'}`
-        },
-      });
+
 
       // 更新任务状态为失败
       await prisma.task.update({
@@ -249,15 +228,7 @@ async function processTokenCreationTask(taskId: string, agentId: string, agent: 
       return;
     }
 
-    // 记录Token创建成功历史
-    await prisma.history.create({
-      data: {
-        action: 'create_token',
-        result: 'success',
-        agentId,
-        taskId,
-      },
-    });
+
 
     // 更新Agent记录 - Token创建成功后直接完成
     console.log(`[完成] Token创建完成`);

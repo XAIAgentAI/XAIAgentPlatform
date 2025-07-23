@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
@@ -19,7 +19,8 @@ interface IaoActiveViewProps {
   userStakeInfo: any;
   dbcAmount: string;
   setDbcAmount: (amount: string) => void;
-  maxAmount: string;
+  maxDbcAmount: string;
+  maxXaaAmount: string;
   xaaBalance: string;
   isCreator: boolean;
   isIaoSuccessful: boolean;
@@ -41,7 +42,8 @@ export const IaoActiveView = ({
   userStakeInfo,
   dbcAmount,
   setDbcAmount,
-  maxAmount,
+  maxDbcAmount,
+  maxXaaAmount,
   xaaBalance,
   isCreator,
   isIaoSuccessful,
@@ -89,6 +91,9 @@ export const IaoActiveView = ({
   // 检查IAO是否活跃
   const isIaoActive = isIaoStarted && !isIaoEnded;
 
+  // 根据代理符号获取当前使用的最大金额
+  const currentMaxAmount = agent.symbol === 'XAA' ? maxDbcAmount : maxXaaAmount;
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // 简单的输入验证
@@ -121,15 +126,31 @@ export const IaoActiveView = ({
     return t('send');
   };
 
-  const isButtonDisabled = (): boolean => {
-    return !isAuthenticated || 
-           !isIaoActive || 
-           isStakeLoading || 
-           !isIaoStarted ||
-           !dbcAmount ||
-           Number(dbcAmount) <= 0 ||
-           Number(dbcAmount) > Number(maxAmount);
-  };
+  const isButtonDisabled = useMemo((): boolean => {
+    const buttonState = {
+      isAuthenticated,
+      isIaoActive,
+      isStakeLoading,
+      isIaoStarted,
+      dbcAmount,
+      dbcAmountNumber: Number(dbcAmount),
+      currentMaxAmount,
+      currentMaxAmountNumber: Number(currentMaxAmount),
+      isAmountValid: Number(dbcAmount) > 0,
+      isAmountWithinLimit: Number(dbcAmount) <= Number(currentMaxAmount),
+      disabled: !isAuthenticated ||
+                !isIaoActive ||
+                isStakeLoading ||
+                !isIaoStarted ||
+                !dbcAmount ||
+                Number(dbcAmount) <= 0 ||
+                Number(dbcAmount) > Number(currentMaxAmount)
+    };
+
+    console.warn("投资按钮状态:", buttonState);
+
+    return buttonState.disabled;
+  }, [isAuthenticated, isIaoActive, isStakeLoading, isIaoStarted, dbcAmount, currentMaxAmount]);
 
   const renderPoolInfo = () => (
     <div className="relative space-y-3 sm:space-y-4">
@@ -166,7 +187,7 @@ export const IaoActiveView = ({
       <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
         <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
         <span className="font-semibold text-[#F47521] break-all">
-          {isPoolInfoLoading ? "--" : `${formatNumber(poolInfo?.totalReward || '0')} ${agent.symbol}`}
+          {isPoolInfoLoading ? "--" : `${formatNumber((agent.totalSupply || 0) * 0.15)} ${agent.symbol}`}
         </span>
       </div>
 
@@ -177,7 +198,7 @@ export const IaoActiveView = ({
         </span>
         <span className="font-semibold text-[#F47521] break-all">
           {poolInfo?.startTime ? (
-            isPoolInfoLoading ? "--" : formatNumber(iaoProgress.totalDeposited)
+            isPoolInfoLoading ? "--" : formatNumber(poolInfo.totalDeposited)
           ) : "0"}
         </span>
       </div>
@@ -241,7 +262,7 @@ export const IaoActiveView = ({
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               min="0"
-              max={maxAmount}
+              max={currentMaxAmount}
               step="any"
               className="pr-12 sm:pr-16 text-sm sm:text-base"
               placeholder="00.00"
@@ -259,14 +280,14 @@ export const IaoActiveView = ({
         </div>
 
         <div className="text-xs text-gray-500 mt-1">
-          {t('availableBalance')}: {`${formatNumber(agent.symbol === 'XAA' ? maxAmount : xaaBalance)} ${agent.symbol === 'XAA' ? 'DBC' : 'XAA'}`}
+          {t('availableBalance')}: {`${formatNumber(currentMaxAmount)} ${agent.symbol === 'XAA' ? 'DBC' : 'XAA'}`}
         </div>
 
         <Button
           className="w-full text-sm sm:text-base py-2 sm:py-3 mt-4"
           style={{ backgroundColor: '#F47521', borderColor: '#F47521' }}
           onClick={onStake}
-          disabled={isButtonDisabled()}
+          disabled={isButtonDisabled}
         >
           {getButtonText()}
         </Button>
@@ -306,36 +327,6 @@ export const IaoActiveView = ({
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-2 sm:mb-4 justify-between items-start sm:items-center">
-        <h2 className="text-xl sm:text-2xl font-bold mb-0">{t('title')}</h2>
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full sm:w-fit text-sm sm:text-base flex items-center justify-center gap-2"
-          onClick={handleRefresh}
-          disabled={isRefreshing}
-        >
-          {isRefreshing ? (
-            <>
-              <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span>{t('refreshing')}</span>
-            </>
-          ) : (
-            <>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-              </svg>
-              <span>{t('refresh')}</span>
-            </>
-          )}
-        </Button>
-      </div>
-
-
-
       {renderPoolInfo()}
 
       {/* IAO进度显示 - 仅创建者可见 */}

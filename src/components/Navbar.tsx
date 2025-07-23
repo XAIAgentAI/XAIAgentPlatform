@@ -50,15 +50,15 @@ const Navbar = () => {
       href: "/agents",
       label: t('navigation.explore')
     },
-    {
-      id: "creating",
-      href: "/create",
-      label: t('navigation.creating'),
-      comingSoon: false
-    },
+    // {
+    //   id: "creating",
+    //   href: "/create-guide",
+    //   label: t('navigation.creating'),
+    //   comingSoon: false
+    // },
     {
       id: "model",
-      href: "/chat/create",
+      href: "/create",
       label: t('navigation.model'),
       comingSoon: false
     }
@@ -173,7 +173,13 @@ const Navbar = () => {
     if (href === '/') {
       return pathname === `/${locale}`;
     }
-    return pathname?.startsWith(`/${locale}${href}`);
+    // 精确匹配路径，避免 /create 匹配到 /create-guide
+    const currentPath = pathname?.replace(`/${locale}`, '') || '';
+    if (href === currentPath) {
+      return true;
+    }
+    // 对于子路径，确保是完整的路径段匹配
+    return currentPath.startsWith(href + '/');
   };
 
   // 在UI中显示钱包状态
@@ -426,4 +432,4 @@ const Navbar = () => {
   );
 }
 
-export default Navbar; 
+export default Navbar;

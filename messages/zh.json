@@ -31,7 +31,10 @@
     "social": "社交",
     "noData": "暂无数据",
     "status": "状态",
-    "view": "查看"
+    "view": "查看",
+    "save": "保存",
+    "saving": "保存中...",
+    "cancel": "取消"
   },
   "navigation": {
     "home": "首页",
@@ -70,7 +73,13 @@
       "contractLink": "查看合约详情",
       "copyContractAddress": "复制合约地址"
     },
-    "edit": "修改Agent信息"
+    "edit": "修改Agent信息",
+    "editPromptExamples": "编辑提示词示例",
+    "noExamplesYet": "暂无对话示例",
+    "clickEditToAdd": "点击\"编辑提示词示例\"添加示例",
+    "examplePrompt": "示例",
+    "examplePlaceholder": "在此输入对话示例...",
+    "examplesUpdateNotice": "这些示例将帮助用户开始与AI模型的对话。"
   },
   "wallet": {
     "connect": "连接钱包",
@@ -118,7 +127,17 @@
     "transactionConfirmationTimeout": "交易确认超时",
     "stakeSuccessWithAmount": "成功质押 {amount} DBC",
     "contractTimeUpdateFailed": "更新合约时间失败",
-    "contractTimeUpdateError": "更新合约时间发生错误"
+    "contractTimeUpdateError": "更新合约时间发生错误",
+    "missingRequiredFields": "缺少必填字段",
+    "agentNameExists": "Agent 名称已存在",
+    "agentSymbolExists": "Agent Symbol 已存在",
+    "invalidStartTimestamp": "startTimestamp 必须是正整数",
+    "invalidDurationHours": "durationHours 必须是正数",
+    "invalidToken": "无效的 token",
+    "unauthorizedAccess": "未授权访问",
+    "updateSuccess": "更新成功",
+    "updateFailed": "更新失败",
+    "walletLimitOneAgent": "每个钱包地址只能创建一个 Agent"
   },
   "agentList": {
     "sortBy": "排序方式",
@@ -134,7 +153,13 @@
     "24hChange": "24小时涨跌",
     "social": "社交",
     "lp": "流动性池",
-    "chat": "对话"
+    "chat": "对话",
+    "filterBy": "筛选",
+    "all": "全部",
+    "iaoOngoing": "IAO进行中",
+    "tradable": "可交易",
+    "iaoComingSoon": "IAO即将开始",
+    "noDataAvailable": "暂无数据"
   },
   "agentDetail": {
     "overview": "概览",
@@ -156,6 +181,7 @@
     "agentNotFound": "未找到该 Agent"
   },
   "iaoPool": {
+    "remainingTime": "剩余时间",
     "title": "IAO 池",
     "totalInPool": "IAO 池中的总 {symbol}",
     "currentTotal": "当前 IAO 池中的总 {symbol}",
@@ -173,12 +199,15 @@
     "buyFailed": "购买失败，请重试",
     "buyNotStarted": "购买未开始",
     "processing": "处理中，请等待确认...",
+    "waitingForTokenCreation": "等待创建者创建代币，即可领取奖励",
     "send": "发送",
     "loadingData": "加载数据中...",
     "loading": "加载中...",
     "claimAfterCountdown": "倒计时结束后可领取",
     "claim": "领取奖励",
     "claimSuccess": "领取成功",
+    "claimFailed": "领取失败，请重试",
+    "claimRewards": "领取奖励",
     "tokenSentToWallet": "代币已发送到您的钱包",
     "importTokenAddress": "请使用以下地址将代币添加到您的钱包：",
     "poolDynamicTip": "随着IAO池子中的{investSymbol}数量增加，对应获得{symbol}数量在减少",
@@ -217,7 +246,7 @@
         "startBeforeEnd": "开始时间必须早于结束时间",
         "endAfterNow": "结束时间必须晚于当前时间",
         "startAfter24h": "开始时间必须至少为24小时后",
-        "durationRange": "持续时间必须在72-240小时之间",
+        "durationRange": "持续时间必须在指定范围内",
         "endAfterStart": "结束时间必须晚于开始时间"
       },
       "previewInfo": {
@@ -225,10 +254,16 @@
         "endTimeOnly": "IAO将在 {endHours} 小时后结束，持续 {durationHours} 小时"
       },
       "successMessage": "IAO时间已更新",
-      "errorMessage": "更新IAO时间失败"
+      "successDetails": "IAO时间已成功更新，新的时间设置已生效",
+      "errorMessage": "更新IAO时间失败",
+      "errorDetails": "更新IAO时间时发生错误，请稍后重试",
+      "error": "错误",
+      "connectWalletFirst": "请先连接钱包"
     },
     "maxButton": "最大",
     "insufficientBalance": "余额不足，最大可用金额: {amount} {symbol}",
+    "notEnoughBalance": "余额不足",
+    "stakeSuccess": "成功购买 {amount} {symbol}",
     "stakedAmount": "已支付的 {symbol} 数量",
     "stakeSuccessful": "购买成功！",
     "stakeFailed": "购买失败，请重试",
@@ -274,8 +309,10 @@
     "createToken": "创建Token",
     "creatingToken": "正在创建Token...",
     "operationFailed": "操作失败",
+    "notAuthorized": "您没有执行此操作的权限",
     "onlyCreatorAfterSuccess": "只有创建者在IAO成功后才能创建Token",
     "tokenCreationSuccess": "Token创建成功",
+    "tokenCreationInitiated": "Token创建任务已启动",
     "tokenCreationSubmitted": "Token创建任务已提交",
     "tokenCreating": "Token创建中...",
     "tokenCreated": "Token已创建",
@@ -299,7 +336,7 @@
     "remaining": "还需",
     "progressTip": "筹资进度每30秒自动更新，目标金额为 $1500 USD",
     "updatePaymentContract": "部署支付合约",
-    "iaoStatusTitle": "最终筹资结果",
+    "iaoStatusTitle": "最终IAO结果",
     "iaoSuccessful": "成功",
     "iaoFailed": "失败",
     "finalAmount": "最终金额",
@@ -310,22 +347,111 @@
     "iaoSuccessTitle": "🎉 IAO 成功完成！",
     "iaoSuccessMessage": "恭喜！筹资目标已达成。{isCreator, select, true {您可以开始创建代币并部署支付合约。} other {代币将在创建者完成相关操作后分发给投资者。}}",
     "iaoSuccessCreatorTip": "💡 请耐心等待代币创建完成，届时您可以领取您的代币奖励。",
-    "iaoFailedTitle": "⚠️ IAO 未达成功标准",
-    "iaoFailedMessage": "筹资金额未达到 $1500 USD 的最低要求。根据智能合约规则，投资者的资金将自动退还，代币不会被创建。",
-    "creatorSuggestions": "📊 创建者建议：",
+    "iaoFailedTitle": "⚠️ IAO 未达标",
+    "iaoFailedMessage": "筹资未达 $1500 USD 最低要求。投资者需手动领取$XAA，7天后可再次发起IAO。",
+    "creatorSuggestions": "📊 建议：",
     "creatorSuggestionsList": {
-      "analyze": "• 分析失败原因，优化项目方案",
-      "adjust": "• 考虑调整代币经济模型",
-      "community": "• 加强社区建设和营销推广",
-      "retry": "• 可以重新发起 IAO"
+      "analyze": "• 分析失败原因，优化方案",
+      "community": "• 加强社区建设和营销",
+      "editPrompt": "• 优化提示词和示例",
+      "retry": "• 7天后可重新发起"
     },
-    "investmentRefund": "💰 您的投资处理：",
-    "refundAutomatic": "✅ 您的投资金额将自动退还到您的钱包",
-    "checkWallet": "📋 请查收钱包余额变化",
-    "refreshIfNeeded": "🔄 如未收到退款，请点击下方刷新按钮",
-    "thankYouMessage": "💡 感谢您的关注，期待项目方的下一次尝试。",
+    "investmentRefund": "💰 投资处理：",
+    "refundAutomatic": "✅ 点击下方按钮领取投资金额",
+    "checkWallet": "📋 领取后查看钱包余额",
+    "refreshIfNeeded": "🔄 如未到账，请刷新状态",
+    "thankYouMessage": "💡 感谢关注，期待下次尝试",
     "refreshingStatus": "刷新中...",
-    "refreshStatusButton": "刷新状态"
+    "refreshStatusButton": "刷新状态",
+    "claimRefund": "领取退款",
+    "refundSentToWallet": "退款已发送到您的钱包",
+    "yourStakeInfo": "您的质押信息",
+    "yourStake": "您质押的{symbol}",
+    "waitingForRefund": "退款将在IAO结束后10分钟可领取",
+    "waitingToClaimRefund": "等待可领取",
+    "alreadyClaimed": "已领取",
+    "rewardClaimed": "奖励已领取",
+    "refundClaimed": "退款已领取",
+    "refundWaitingTime": "IAO结束后需等待10分钟才能领取退款。结束时间: {time}",
+    "loadingWaitingTime": "正在加载等待时间信息...",
+    "iaoDeploying": "IAO正在部署中",
+    "iaoDeployingDescCreator": "系统正在部署您的IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。",
+    "iaoDeployingDescUser": "系统正在部署IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。",
+    "iaoDeployFailed": "IAO部署失败",
+    "iaoDeployFailedDescCreator": "您的IAO合约部署失败，请点击下方按钮重新尝试部署。",
+    "iaoDeployFailedDescUser": "IAO合约部署失败，请等待创作者重新部署IAO合约。",
+    "redeployIaoFailed": "重新部署IAO (上次失败)",
+    "iaoNotReached": "IAO未达标",
+    "iaoNotReachedWaitDescCreator": "您的IAO未达成目标。为确保所有参与者有足够时间领取退款，需要等待IAO结束后7天才能重新部署新的IAO合约 {remainingTime}。",
+    "iaoNotReachedWaitDescUser": "此IAO未达成目标，所有参与者可以领取退款。创作者需要等待IAO结束后7天才能重新部署新的IAO合约 {remainingTime}。",
+    "waitForRedeployAfter7Days": "等待7天后可重新部署",
+    "iaoNotReachedCanRedeployDescCreator": "您的IAO未达成目标。已经过了7天等待期，请先确认所有参与者都已有足够时间领取退款，然后点击下方\"确认准备重新部署\"按钮。确认后，您将能够部署新的IAO合约，不会影响老用户的退币操作。",
+    "iaoNotReachedCanRedeployDescUser": "此IAO未达成目标，所有参与者可以领取退款。已经过了7天等待期，创作者现在可以重新部署新的IAO合约。",
+    "deployNewIaoContract": "部署新的IAO合约",
+    "confirmReadyToRedeploy": "确认准备重新部署",
+    "iaoDeployNotCompleted": "IAO部署未完成",
+    "iaoDeployNotCompletedDescCreator": "您的IAO合约尚未成功部署，请点击下方按钮重新尝试部署。",
+    "iaoDeployNotCompletedDescUser": "IAO合约尚未成功部署，请等待创作者完成部署。",
+    "redeployIao": "重新部署IAO",
+    "cannotRedeploy": "无法重新部署",
+    "waitSevenDaysAfterIaoEnd": "需要等待IAO结束后7天才能重新部署新的IAO合约 {remainingTime}。",
+    "confirmed": "已确认",
+    "confirmedReadyToRedeploy": "您已确认准备重新部署。现在您可以点击绿色按钮部署新的IAO合约。",
+    "redeployIaoConfirmation": "重新部署IAO将创建一个全新的IAO合约，之前的所有质押数据将会被重置。老用户仍然可以从旧合约中领取退款，不会受到影响。是否确定继续？",
+    "deploying": "部署中",
+    "deployingNewIaoContract": "正在部署新的IAO合约，请稍候...",
+    "iaoRedeploySuccess": "已成功部署新的IAO合约。所有质押数据已重置，页面将在3秒后刷新。老用户仍可从旧合约中领取退款。",
+    "redeployIaoFailedLog": "重新部署IAO失败:",
+    "remainingWaitTime": "（还需等待 {days} 天 {hours} 小时）",
+    "redeployNotAffectRefunds": "注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。"
+  },
+  "tokenDistribution": {
+    "iaoManagement": "IAO 管理流程",
+    "iaoSuccessful": "IAO 成功",
+    "createToken": "创建代币",
+    "deployDrc20Contract": "部署Drc20代币合约",
+    "completed": "已完成",
+    "creating": "创建中...",
+    "retryCreation": "重试创建",
+    "tokenDistribution": "代币分发",
+    "distributeTokensAddLiquidity": "分发代币、添加流动性",
+    "distributing": "分发中...",
+    "distributionFailed": "分发失败",
+    "waiting": "等待中",
+    "burnTokens": "销毁代币",
+    "burnXaaTokens": "销毁IAO中5%的XAA代币",
+    "burning": "销毁中...",
+    "tokenAddress": "代币地址:",
+    "managementCompleted": "所有管理步骤已完成！项目已完全去中心化。",
+    "remainingTime": "剩余时间:",
+    "error": "错误",
+    "walletAuthRequired": "请先连接钱包并完成认证",
+    "burnTaskSubmitted": "XAA销毁任务已提交",
+    "taskSubmitted": "任务已提交，正在后台处理...",
+    "burnFailed": "销毁失败",
+    "unknownError": "未知错误",
+    "ownershipTransferSuccess": "所有权转移成功",
+    "ownershipTransferredToCreator": "代币所有权已成功转移给创建者",
+    "ownershipTransferFailed": "所有权转移失败",
+    "transferError": "转移过程中发生错误",
+    "queryTimeout": "查询超时",
+    "taskStillProcessing": "任务仍在处理中，请稍后手动刷新查看结果",
+    "queryFailed": "查询失败",
+    "cannotGetTaskStatus": "无法获取任务状态，请稍后手动刷新",
+    "ownershipTransferTaskSubmitted": "代币所有权转移任务已提交",
+    "iaoCompletedData": "IAO已结束，完成的数据",
+    "iaoReleasedAmount": "IAO 释放的 {symbol} 数量",
+    "iaoParticipatedAmount": "参与 IAO 的 {symbol} 数量",
+    "lpPoolData": "流动性池数据",
+    "lpPoolTokenAmount": "LP 池中的 {symbol} 数量",
+    "lpPoolBaseAmount": "LP 池中的 {symbol} 数量",
+    "copy": "复制",
+    "copied": "已复制",
+    "claimSuccess": "领取成功",
+    "refundSentToWallet": "退款已发送到您的钱包",
+    "claimFailed": "领取失败",
+    "waitingForRefund": "退款将在IAO结束后10分钟可领取",
+    "connectWalletFirst": "请先连接钱包"
   },
   "paymentContract": {
     "title": "部署支付合约",
@@ -351,10 +477,10 @@
     "deployFailed": "部署支付合约失败"
   },
   "tokenInfo": {
-    "totalSupply": "XAA 总供应量：1000亿",
-    "iaoAllocation": "20% 的代币将通过 IAO 销售，仅接受 $DBC。投资者将根据其 $DBC 投资比例获得 $XAA。",
-    "iaoDuration": "在为期14天的 IAO 期间，50% 的 $DBC 将分配给项目团队的生态系统开发，其余 50% 将分配给链上流动性池，且永不撤销。",
-    "tradingPair": "IAO 结束后，$XAA 和 $DBC 将立即在 DBCSwap 上建立交易对，实现 $XAA 的自由交易。"
+    "totalSupply": "前8年总供应量：1000亿，以后每年挖矿产生50亿",
+    "iaoAllocation": "15% 的代币将通过 IAO 销售，仅接受 $XAA。投资者将根据其 $XAA 投资比例获得代币。",
+    "iaoDuration": "在IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。",
+    "tradingPair": "IAO 结束后，10%的代币和$XAA将立即在DBCSwap上建立流动性池，实现自由交易。"
   },
   "agents": {
     "infrastructure": "基础设施",
@@ -378,7 +504,15 @@
     "totalSupply": "总供应量",
     "holders": "持有者",
     "tba": "待公布",
-    "zero": "0"
+    "zero": "0",
+    "units": {
+      "billion": "亿",
+      "million": "万",
+      "thousand": "千",
+      "billionShort": "亿",
+      "millionShort": "万",
+      "thousandShort": "千"
+    }
   },
   "holderDistribution": {
     "title": "持有者分布 ({count} 个持有者)",
@@ -386,7 +520,8 @@
     "percentage": "百分比",
     "previous": "上一页",
     "next": "下一页",
-    "loading": "加载中..."
+    "loading": "加载中...",
+    "tokenNotCreated": "当前代币尚未创建，IAO成功后将会自动创建代币"
   },
   "agentDescription": {
     "title": "描述",
@@ -473,7 +608,7 @@
     "PicSpan": "扩展图片，可以按照想要的比例进行任意的图片扩展",
     "selectagent": "选择一个智能体",
     "inputHolder": "上传一张照片",
-    "inputInfo": "AI智能体可能会出错。请检查重要信息。",
+    "inputInfo": "AI模型可能会出错。请检查重要信息。",
     "Data": {
       "Scholar GPT": {
         "metrics": "DATA +45.67% | 市值: $222M",
@@ -539,7 +674,7 @@
         "description": "标志生成，可以通过文本对话生成各种风格的标志。",
         "prompts": [
           "我想要一个科技感强的标志，主要以蓝色和紫色为主，带有未来感。你能帮我设计一个吗？",
-          "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链项目。",
+          "请为我设计一个极简风格的标志，采用黑白配色和抽象的字母'X'，适合区块链AI模型。",
           "我希望标志能体现去中心化和人工智能的概念。我们可以尝试几种不同的设计风格吗？",
           "你能生成一个适合社交媒体头像的动态视觉效果标志吗？"
         ]
@@ -554,8 +689,8 @@
         ]
       }
     },
-    "explore": "探索AI智能体",
-    "trade": "交易AI智能体",
+    "explore": "探索AI模型",
+    "trade": "交易AI模型",
     "signup": "注册",
     "login": "登录",
     "username": "用户名",
@@ -724,20 +859,36 @@
   },
   "create": {
     "title": "创建指南",
-    "time_setting_requirements": {
-      "title": "设置时间要求",
-      "description": "必须在计划启动时间的24小时前完成所有配置。",
-      "example": "若计划周一10:00启动，需在周日10:00前完成设置。"
+    "iaoDescription": {
+      "title": "IAO说明",
+      "point1": "IAO最短持续时间是72小时，最长是240小时",
+      "point2": "IAO成功的标准：募集的$XAA不低于1500美金",
+      "point3": "IAO失败后，$XAA会自动返还给投资者，7天后可以重新发起IAO",
+      "point4": "IAO成功后，5-20分钟后AI代币和$XAA将会在DBCSwap自动建立交易对，默认AI代币的价格和IAO结束的时候价格接近"
     },
-    "runtime_duration_range": {
-      "title": "运行时长范围",
-      "description": "单次运行时长仅限72小时（3天）至720小时（30天）之间。",
-      "note": "超出此范围的设置将无法生效。"
-    },
-    "start_time_restrictions": {
-      "title": "启动时间限制",
-      "description": "完成设置后，至少需等待24小时才能启动，无法提前开始。",
-      "note": "即使提前完成配置，最早启动时间仍为设置时间+24小时。"
+    "decentralizedAI": {
+      "title": "去中心化AI模型服务说明",
+      "intro": "这是一个由开发者与矿工（GPU提供商）共同参与的AI服务生态，其运作方式如下：",
+      "point1": {
+        "title": "开发者上传AI模型",
+        "content": "开发者无需自行部署GPU服务器，只需将训练好的AI模型打包成标准化容器（如Docker），并公开下载链接。容器需附带清晰的部署文档，说明硬件要求（如GPU显存、算力等）和运行方式。"
+      },
+      "point2": {
+        "title": "矿工提供算力服务",
+        "content": "矿工（GPU提供商）根据开发者的文档下载并部署AI容器，用自己的GPU服务器运行模型，对外提供推理/训练服务。矿工通过贡献算力获得Token奖励，收益与服务质量、算力规模挂钩。"
+      },
+      "point3": {
+        "title": "明确硬件要求",
+        "content": "开发者必须标注模型容器的最低硬件配置（如显存、CPU、内存等），确保矿工能匹配需求。例如：\"最低要求：NVIDIA GPU（16GB显存）、CUDA 11.4\"。"
+      },
+      "point4": {
+        "title": "去中心化协作优势",
+        "content": "开发者无需维护硬件，专注模型优化；矿工闲置GPU可变现，按需选择高收益模型部署；用户获得更开放、低成本的AI服务。"
+      },
+      "point5": {
+        "title": "流程总结",
+        "content": "开发者打包模型 → 矿工部署运行 → 用户调用服务 → 矿工赚取Token。"
+      }
     },
     "mining_requirements": {
       "title": "挖掘要求",
@@ -751,20 +902,20 @@
     },
     "requirements": {
       "title": "代币创建经济模型",
-      "supply": "$XXX 代币供应: 前8年总供应量1000亿，之后每年挖矿产生60亿",
-      "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA，持有XAA NFT可提升投资额度",
+      "supply": "{symbol} 代币供应: 前8年总供应量1000亿，之后每年挖矿产生50亿",
+      "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA",
       "iaoAllocation": {
         "title": "IAO分配:",
         "pool": "95% $XAA分配给流动性池(永久锁定)",
-        "burn": "5% $XAA打入黑洞地址"
+        "burn": "5% $XAA会被销毁"
       },
-      "liquidity": "流动性池: IAO结束后，3% $XXX和$XAA自动在DBCSwap建立流动性",
-      "team": "团队分配: 32% $XXX，分2000天线性解锁",
+      "liquidity": "流动性池: IAO结束后，10% {symbol}和$XAA自动在DBCSwap建立流动性",
+      "team": "团队分配: 33% {symbol}，分2000天线性解锁，每40天解锁一次",
       "mining": {
         "title": "挖矿机制:",
-        "output": "每年60亿$XXX产出",
+        "output": "每年50亿{symbol}产出",
         "unlock": "10%立即获得，90%分180天解锁",
-        "requirement": "需持有XAA节点(每个机器质押10个XAA节点)"
+        "requirement": "需持有XAA挖矿NFT(每个机器质押最少1个，最多10个XAA挖矿NFT)"
       },
       "airdrop": {
         "title": "空投分配:",
@@ -772,52 +923,17 @@
         "nft": "1%给XAA节点NFT持有者"
       }
     },
-    "process": {
-      "error": "请先连接钱包",
-      "title": "创建流程",
-      "title2": "创建地址",
-      "href": "前往",
-      "hrefc": "页面创建你的agent",
-      "steps": {
-        "name": "请给你的AI币/项目进行命名",
-        "description": "请描述你的AI币/项目功能",
-        "examples": "描述你的AI项目可以和用户进行什么内容的对话(请举出几个对话案例)"
-      }
-    },
-    "iao": {
-      "title": "IAO设置",
-      "time": {
-        "title": "IAO时间设置",
-        "duration": "设置IAO持续时间(72-720小时)",
-        "start": "IAO将在设置后24小时启动"
-      },
-      "mining": {
-        "title": "挖矿要求",
-        "gpu": "设置GPU显存最低要求",
-        "container": "设置AI容器下载链接"
-      }
-    },
-    "examples": {
-      "title": "示例对话",
-      "user": "用户:",
-      "ai": "AI:",
-      "example1": {
-        "user": "帮我创建一个AI代币",
-        "ai": "好的，请输入您的AI代币名称"
-      },
-      "example2": {
-        "user": "用户输入文字，生成一张图片",
-        "ai": "该需求已加入您的AI模型"
-      }
-    },
     "createAgent": {
-      "createAIProject": "创建AI代币项目",
-      "projectName": "项目名称",
+      "freeCreationNotice": "创建AI模型不需要任何费用，代币将会在IAO成功后自动生成",
+      "createAIProject": "创建AI代币AI模型",
+      "createAIModelProject": "创建AI模型代币AI模型",
+      "editAIModelProject": "编辑AI模型AI模型",
+      "projectName": "AI模型项目名称",
       "projectNamePlaceholder": "1-20个字母",
       "createSymbol": "代币名",
       "symbolRule": "3-5个大写英文字母",
-      "projectDescription": "项目描述",
-      "projectDescriptionPlaceholder": "描述你的AI项目功能",
+      "projectDescription": "AI模型描述",
+      "projectDescriptionPlaceholder": "描述你的AI模型功能",
       "tokenSupply": "代币总量",
       "iaoPercentage": "IAO比例",
       "mining": "60亿/年",
@@ -828,8 +944,8 @@
       "userQuestion": "用户提问",
       "agentResponse": "Agent回复",
       "createSuccess": "创建成功!",
-      "created": "AI代币项目已成功创建,您的Agent ID为 ",
-      "viewProject": "查看项目",
+      "created": "AI代币AI模型已成功创建,您的AI模型ID为 ",
+      "viewProject": "查看AI模型",
       "creating": "创建中...",
       "createNow": "立即创建",
       "nameExists": "Agent 名称已存在",
@@ -840,7 +956,7 @@
       "socialLink": "社交链接",
       "socialExists": "链接应以'https'开头",
       "container": "容器链接",
-      "provideDescriptionFirst": "请先提供项目描述",
+      "provideDescriptionFirst": "请先提供AI模型描述",
       "generateExamples": "生成示例",
       "startTime": "开始时间",
       "endTime": "结束时间",
@@ -848,46 +964,57 @@
       "eg1": "示例1",
       "required": "必填",
       "optional": "可选",
-      "nameRequired": "项目名称为必填项",
+      "nameRequired": "AI模型项目名称为必填项",
       "symbolRequired": "代币符号为必填项",
-      "descriptionRequired": "项目描述为必填项",
-      "descriptionLimit": "项目描述建议100-500字，详细说明您的AI智能体功能和特色",
+      "descriptionRequired": "AI模型描述为必填项",
+      "descriptionLimit": "AI模型描述建议100-500字，详细说明您的AI模型功能和特色",
       "descriptionExample": "示例：基于深度学习的音色识别系统，使用TensorFlow实现，区分乐器及人声，应用于音乐分类与语音识别",
       "logoSizeHint": "建议尺寸：100×100像素，支持PNG、JPG格式",
-      "containerLinkHint": "AI容器的Docker镜像下载链接，用于部署您的智能体",
+      "containerLinkHint": "AI模型容器的Docker镜像下载链接，用于部署您的AI模型",
       "containerLinkExample": "例如：https://hub.docker.com/r/username/image",
-      "socialLinkHint": "您的项目社交媒体链接",
+      "socialLinkHint": "您的AI模型社交媒体链接",
       "twitterLink": "推特链接",
       "telegramLink": "Telegram链接",
-      "twitterPlaceholder": "https://x.com/your_project",
+      "twitterPlaceholder": "https://x.com/your_ai_model",
+      "containerLink": "容器链接",
+      "containerLinkLabel": "Docker镜像",
+      "containerLinkCopied": "容器链接已复制到剪贴板",
+      "copyContainerLink": "复制容器链接",
+      "containerLinkRequired": "请输入容器链接",
+      "containerLinkUpdated": "容器链接更新成功",
+      "containerLinkUpdateFailed": "容器链接更新失败",
+      "noContainerLink": "暂未设置容器链接",
+      "edit": "编辑",
+      "add": "添加",
+      "save": "保存",
+      "saving": "保存中...",
+      "cancel": "取消",
       "telegramPlaceholder": "https://t.me/your_project",
       "linkFormatError": "链接格式不正确，请以https://开头",
       "logoRequired": "请上传代币Logo",
       "startTimeRequired": "请选择开始时间",
       "endTimeRequired": "请选择结束时间",
-      "eg2": "示例2",
-      "eg3": "示例3",
-      "creationProcessMessage": "正在创建您的AI智能体，这可能需要一些时间...",
+      "viewGuide": "创建指南",
+      "creationProcessMessage": "正在创建您的AI模型，这可能需要一些时间...",
       "agentDetails": "代理详情",
       "useCases": "用例",
       "TokenDistribution": {
-        "title": "代币分配详情",
+        "title": "代币经济模型",
         "points": {
           "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿",
           "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
-          "3": "在为期72小时的IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁",
-          "4": "IAO 结束后，10%的{symbol}和95%的$XAA将立即在DBCSwap上建立流动性池，实现{symbol}的自由交易",
-          "5": "团队持有33%的{symbol}，IAO结束后第40天开始解锁，在2000天内线性释放，每40天解锁一次",
-          "6": "2%的{symbol}用来进行Token Sale,IAO结束后开始解锁，分400天线性解锁",
-          "7": "{symbol}挖矿每年产生50亿，挖矿产生的{symbol}，10%立刻获得，90%分180天线性解锁",
-          "8": "需要持有XAA挖矿节点才能参与挖矿，每个机器需要质押最少1个XAA挖矿节点，最多质押10个XAA挖矿节点",
-          "9": "1%的{symbol}空投给$XAA和$DBC前10000名持有者，1%{symbol}空投给XAA的节点NFT持有者"
+          "3": "在{hours}小时的IAO期间结束后，95%的$XAA将分配到链上流动性池，永不撤销，LP代币将发送到黑洞地址。5%的$XAA将被销毁",
+          "4": "IAO结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",
+          "5": "团队持有33%的{symbol}，IAO结束后开始解锁，在2000天内线性释放，每40天解锁一次",
+          "6": "{symbol}挖矿每年产生50亿，其中10%的挖矿{symbol}立即可用，90%在180天内线性释放",
+          "7": "参与挖矿需要XAA挖矿NFT。每台机器必须质押至少1个XAA挖矿NFT，最多10个XAA挖矿NFT",
+          "8": "1%的{symbol}空投给前10,000名$XAA和$DBC持有者，1%的{symbol}空投给XAA节点NFT持有者"
         }
       },
       "price": "价格",
-      "editAIProject": "编辑 AI 项目",
+      "editAIProject": "编辑 AI 模型",
       "update": "更新",
-      "fetchError": "获取项目数据失败",
+      "fetchError": "获取AI模型数据失败",
       "updateFailed": "更新失败",
       "createFailed": "创建失败",
       "timeNotEditable": "请前往区块链浏览器修改",
@@ -898,10 +1025,12 @@
       "hours": "小时",
       "startTimeHint": "* 开始时间至少为24小时后（1天0小时）",
       "startTimeError": "开始时间必须至少为24小时后",
-      "durationHint": "* 持续时间范围：72-240小时（3-10天）",
-      "durationError": "持续时间必须在72-240小时之间（3-10天）",
+      "durationHint": "* 持续时间范围：{min}-{max}小时（{minDays}-{maxDays}天）",
+      "durationError": "持续时间必须在{min}-{max}小时之间（{minDays}-{maxDays}天）",
       "iaoScheduleInfo": "IAO将在 {startHours} 小时后开始，持续 {durationHours} 小时，预计 {endTime} 结束",
-      "calculating": "计算中..."
+      "calculating": "计算中...",
+      "additionalSettingsAfterCreation": "创建AI模型后，您可以设置IAO时间、容器链接和对话示例",
+      "miningRateFormula": "每年可挖矿的代币数量 = 总供应量 × {rate}%"
     },
     "datePicker": {
       "selectDateTime": "选择日期和时间",
@@ -923,5 +1052,42 @@
         "utc": "协调世界时"
       }
     }
+  },
+  "containerLinkManager": {
+    "containerLink": "容器链接",
+    "optional": "可选",
+    "saving": "保存中...",
+    "save": "保存",
+    "cancel": "取消",
+    "edit": "编辑",
+    "example": "例如：hub.docker.com/r/username/image 或其他容器镜像链接",
+    "pleaseEnterContainerLink": "请输入容器链接",
+    "mustUseHttps": "容器链接必须使用HTTPS协议",
+    "enterValidLinkFormat": "请输入有效的链接格式",
+    "updateSuccess": "容器链接更新成功",
+    "updateFailed": "容器链接更新失败",
+    "copied": "容器链接已复制到剪贴板",
+    "copyContainerLink": "复制容器链接"
+  },
+  "errors": {
+    "error": "错误",
+    "success": "成功",
+    "unknownError": "未知错误",
+    "networkError": "网络错误，请检查您的连接",
+    "unauthorized": "未授权操作，请先登录",
+    "serverError": "服务器错误，请稍后重试",
+    "invalidInput": "输入无效，请重试",
+    "connectWalletFirst": "请先连接钱包",
+    "walletAuthRequired": "请先连接钱包并完成认证",
+    "operationFailed": "操作失败",
+    "notAuthorized": "您没有执行此操作的权限",
+    "queryTimeout": "查询超时",
+    "queryFailed": "查询失败",
+    "taskStillProcessing": "任务仍在处理中，请稍后手动刷新查看结果",
+    "cannotGetTaskStatus": "无法获取任务状态，请稍后手动刷新",
+    "invalidToken": "无效的 token",
+    "unauthorizedAccess": "未授权访问",
+    "updateSuccess": "更新成功",
+    "updateFailed": "更新失败"
   }
 }

@@ -84,14 +84,7 @@ export async function POST(
     console.log('[事件监听] 支付合约地址已更新，触发监听器重新加载...');
     await reloadContractListeners();
 
-    // 记录历史
-    await prisma.history.create({
-      data: {
-        action: 'update_payment_contract',
-        result: 'success',
-        agentId: agentId,
-      },
-    });
+
 
     return createSuccessResponse({
       code: 200,

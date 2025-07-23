@@ -31,7 +31,10 @@
     "social": "소셜",
     "noData": "데이터 없음",
     "status": "상태",
-    "view": "보기"
+    "view": "보기",
+    "save": "저장",
+    "saving": "저장 중...",
+    "cancel": "취소"
   },
   "navigation": {
     "home": "홈",
@@ -70,7 +73,13 @@
       "contractLink": "컨트랙트 상세 보기",
       "copyContractAddress": "컨트랙트 주소 복사"
     },
-    "edit": "[ko] 修改Agent信息"
+    "edit": "에이전트 정보 편집",
+    "editPromptExamples": "프롬프트 예시 편집",
+    "noExamplesYet": "아직 대화 예시가 없습니다",
+    "clickEditToAdd": "'프롬프트 예시 편집'을 클릭하여 예시를 추가하세요",
+    "examplePrompt": "예시",
+    "examplePlaceholder": "여기에 대화 예시를 입력하세요...",
+    "examplesUpdateNotice": "예시는 사용자가 이 AI 모델과 대화를 시작하는 데 도움이 됩니다."
   },
   "wallet": {
     "connect": "지갑 연결",
@@ -118,8 +127,16 @@
     "waitForConfirmation": "확인을 기다려주세요",
     "transactionConfirmationTimeout": "거래 확인 시간이 초과되었습니다",
     "stakeSuccessWithAmount": "{amount} DBC 스테이킹 성공",
-    "contractTimeUpdateFailed": "[ko] 更新合约时间失败",
-    "contractTimeUpdateError": "[ko] 更新合约时间发生错误"
+    "contractTimeUpdateFailed": "컨트랙트 시간 업데이트 실패",
+    "contractTimeUpdateError": "컨트랙트 시간 업데이트 중 오류 발생",
+    "missingRequiredFields": "필수 필드가 누락되었습니다",
+    "agentNameExists": "에이전트 이름이 이미 존재합니다",
+    "agentSymbolExists": "에이전트 심볼이 이미 존재합니다",
+    "invalidStartTimestamp": "startTimestamp는 양의 정수여야 합니다",
+    "invalidDurationHours": "durationHours는 양수여야 합니다",
+    "invalidToken": "유효하지 않은 토큰입니다",
+    "unauthorizedAccess": "권한이 없는 접근입니다",
+    "walletLimitOneAgent": "각 지갑 주소는 하나의 에이전트만 생성할 수 있습니다"
   },
   "agentList": {
     "sortBy": "정렬 기준",
@@ -135,7 +152,13 @@
     "loading": "로딩 중...",
     "social": "소셜",
     "lp": "유동성 풀",
-    "chat": "채팅"
+    "chat": "채팅",
+    "filterBy": "필터",
+    "all": "전체",
+    "iaoOngoing": "IAO 진행중",
+    "tradable": "거래 가능",
+    "iaoComingSoon": "IAO 시작 예정",
+    "noDataAvailable": "데이터가 없습니다"
   },
   "agentDetail": {
     "overview": "개요",
@@ -157,6 +180,7 @@
     "agentNotFound": "에이전트를 찾을 수 없습니다"
   },
   "iaoPool": {
+    "remainingTime": "남은 시간",
     "title": "IAO 풀",
     "totalInPool": "IAO 풀의 총 {symbol} 수량",
     "currentTotal": "IAO 풀의 현재 총 {symbol} 수량",
@@ -174,6 +198,7 @@
     "buyFailed": "구매 실패, 다시 시도해주세요",
     "buyNotStarted": "구매가 시작되지 않았습니다",
     "processing": "처리 중...",
+    "waitingForTokenCreation": "생성자가 토큰을 생성하기를 기다리는 중, 이후 보상을 청구할 수 있습니다",
     "send": "전송",
     "loadingData": "데이터 로딩 중...",
     "loading": "로딩 중...",
@@ -182,6 +207,8 @@
     "claiming": "청구 중...",
     "claimed": "청구됨",
     "claimSuccess": "청구 성공",
+    "claimFailed": "청구 실패, 다시 시도해주세요",
+    "claimRewards": "보상 청구",
     "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
     "updateTimeModal": {
       "title": "IAO 시간 수정",
@@ -205,25 +232,42 @@
         "startIn": "{days}일 {hours}시간 후 시작",
         "endIn": "{days}일 {hours}시간 남음",
         "started": "시작됨",
-        "ended": "종료됨"
+        "ended": "종료됨",
+        "startedDaysAgo": "[ko] {days}天{hours}小时前开始",
+        "startedHoursAgo": "[ko] {hours}小时前开始",
+        "startedMinutesAgo": "[ko] {minutes}分钟前开始",
+        "startedJustNow": "[ko] 刚刚开始"
       },
-      "previewInfo": "IAO는 {startHours}시간 후에 시작하여 {durationHours}시간 동안 지속되며, {endTime}에 종료될 예정입니다",
+      "previewInfo": {
+        "full": "[ko] IAO将在 {startHours} 小时后开始，在 {endHours} 小时后结束，持续 {durationHours} 小时",
+        "endTimeOnly": "[ko] IAO将在 {endHours} 小时后结束，持续 {durationHours} 小时"
+      },
       "calculating": "계산 중...",
       "validationErrors": {
         "selectValidTime": "유효한 시간을 선택해주세요",
         "startBeforeEnd": "시작 시간은 종료 시간보다 빨라야 합니다",
         "endAfterNow": "종료 시간은 현재 시간보다 늦어야 합니다",
         "startAfter24h": "시작 시간은 최소 24시간 후여야 합니다",
-        "durationRange": "지속 시간은 72-240시간 사이여야 합니다"
+        "durationRange": "지속 시간은 지정된 범위 내여야 합니다",
+        "endAfterStart": "[ko] 结束时间必须晚于开始时间"
       },
       "successMessage": "IAO 시간이 업데이트되었습니다",
-      "errorMessage": "IAO 시간 업데이트에 실패했습니다"
+      "successDetails": "IAO 시간이 성공적으로 업데이트되었으며 새 설정이 적용되었습니다",
+      "errorMessage": "IAO 시간 업데이트에 실패했습니다",
+      "errorDetails": "IAO 시간을 업데이트하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요",
+      "error": "오류",
+      "connectWalletFirst": "먼저 지갑을 연결해주세요",
+      "endTimeHint": "[ko] * 结束时间必须晚于开始时间，持续时间72-240小时",
+      "endTimeError": "[ko] 结束时间设置有误，请检查时间设置",
+      "loading": "로딩 중..."
     },
     "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
     "poolDynamicTip": "IAO 풀의 {investSymbol} 수량이 증가함에 따라 해당하는 {symbol} 수량은 감소합니다",
     "maxButton": "최대",
     "insufficientBalance": "잔액 부족, 최대 사용 가능 금액: {amount} {symbol}",
-    "stakedAmount": "지불한 {symbol} 수량",
+    "notEnoughBalance": "잔액 부족",
+    "stakeSuccess": "{amount} {symbol} 구매 성공",
+    "stakedAmount": "지불한 {symbol} 금액",
     "stakeSuccessful": "구매 성공!",
     "stakeFailed": "구매 실패, 다시 시도해주세요",
     "claimableAmount": "청구 가능한 {symbol} 수량",
@@ -266,8 +310,10 @@
     "createToken": "토큰 생성",
     "creatingToken": "토큰 생성 중...",
     "operationFailed": "작업 실패",
+    "notAuthorized": "이 작업을 수행할 권한이 없습니다",
     "onlyCreatorAfterSuccess": "IAO 성공 후 생성자만 토큰을 생성할 수 있습니다",
-    "tokenCreationSuccess": "토큰이 성공적으로 생성되었습니다",
+    "tokenCreationSuccess": "토큰 생성 성공",
+    "tokenCreationInitiated": "토큰 생성 작업이 시작되었습니다",
     "tokenCreationSubmitted": "토큰 생성 작업이 제출되었습니다",
     "tokenCreating": "토큰 생성 중...",
     "tokenCreated": "토큰이 생성되었습니다",
@@ -290,7 +336,75 @@
     "people": "명",
     "remaining": "남은 금액",
     "progressTip": "펀딩 진행률은 30초마다 자동 업데이트됩니다. 목표 금액은 $1500 USD입니다",
-    "updatePaymentContract": "결제 계약 배포"
+    "updatePaymentContract": "결제 계약 배포",
+    "iaoStatusTitle": "최종 IAO 결과",
+    "iaoSuccessful": "성공",
+    "iaoFailed": "실패",
+    "finalAmount": "최종 금액",
+    "targetAmount": "목표 금액",
+    "investorCount": "투자자 수",
+    "overAchieved": "초과 달성",
+    "underAchieved": "미달성",
+    "iaoSuccessTitle": "🎉 IAO 성공 완료!",
+    "iaoSuccessMessage": "축하합니다! 모금 목표가 달성되었습니다. {isCreator, select, true {토큰 생성 및 결제 계약 배포를 시작할 수 있습니다.} other {토큰은 생성자가 관련 작업을 완료한 후 투자자에게 분배됩니다.}}",
+    "iaoSuccessCreatorTip": "💡 토큰 생성이 완료될 때까지 기다려주세요. 완료되면 토큰 보상을 받으실 수 있습니다.",
+    "iaoFailedTitle": "⚠️ IAO 실패",
+    "iaoFailedMessage": "모금액이 $1500 USD 최소 요건에 미달. 투자자는 수동으로 $XAA를 청구해야 함. 7일 후 재시작 가능.",
+    "creatorSuggestions": "📊 제안:",
+    "creatorSuggestionsList": {
+      "analyze": "• 실패 원인 분석, 계획 최적화",
+      "community": "• 커뮤니티 및 마케팅 강화",
+      "editPrompt": "• 프롬프트와 예시 개선",
+      "retry": "• 7일 후 재시작 가능"
+    },
+    "investmentRefund": "💰 투자 처리:",
+    "refundAutomatic": "✅ 아래 버튼으로 투자금 청구",
+    "checkWallet": "📋 청구 후 잔액 확인",
+    "refreshIfNeeded": "🔄 미수령 시 상태 새로고침",
+    "thankYouMessage": "💡 관심에 감사, 다음 시도 기대",
+    "refreshingStatus": "새로고침 중...",
+    "refreshStatusButton": "상태 새로고침",
+    "claimRefund": "환불 받기",
+    "refundSentToWallet": "환불이 지갑으로 전송되었습니다",
+    "yourStakeInfo": "스테이킹 정보",
+    "yourStake": "스테이킹한 {symbol}",
+    "waitingForRefund": "환불은 IAO 종료 10분 후 가능",
+    "waitingToClaimRefund": "청구 대기 중",
+    "alreadyClaimed": "청구 완료",
+    "rewardClaimed": "보상 청구 완료",
+    "refundClaimed": "환불 청구 완료",
+    "refundWaitingTime": "환불은 IAO 종료 후 10분 후에 청구할 수 있습니다. 종료 시간: {time}",
+    "loadingWaitingTime": "대기 시간 정보 로딩 중...",
+    "iaoDeploying": "IAO 배포 중",
+    "iaoDeployingDescCreator": "시스템이 귀하의 IAO 계약을 배포하고 있습니다. 배포 과정은 몇 분 정도 소요될 수 있으며, 결과를 확인하려면 페이지를 새로고침해야 합니다. 나중에 돌아와서 이 페이지를 새로고침해 주세요.",
+    "iaoDeployingDescUser": "시스템이 IAO 계약을 배포하고 있습니다. 배포 과정은 몇 분 정도 소요될 수 있으며, 결과를 확인하려면 페이지를 새로고침해야 합니다. 나중에 돌아와서 이 페이지를 새로고침해 주세요.",
+    "iaoDeployFailed": "IAO 배포 실패",
+    "iaoDeployFailedDescCreator": "귀하의 IAO 계약 배포에 실패했습니다. 아래 버튼을 클릭하여 다시 배포를 시도해 주세요.",
+    "iaoDeployFailedDescUser": "IAO 계약 배포에 실패했습니다. 제작자가 IAO 계약을 다시 배포할 때까지 기다려 주세요.",
+    "redeployIaoFailed": "IAO 재배포 (이전 실패)",
+    "iaoNotReached": "IAO 목표 미달성",
+    "iaoNotReachedWaitDescCreator": "귀하의 IAO가 목표에 도달하지 못했습니다. 모든 참여자가 환불을 청구할 충분한 시간을 확보하기 위해, IAO 종료 후 7일을 기다린 후에 새로운 IAO 계약을 재배포해야 합니다 {remainingTime}.",
+    "iaoNotReachedWaitDescUser": "이 IAO는 목표에 도달하지 못했습니다. 모든 참여자는 환불을 청구할 수 있습니다. 제작자는 IAO 종료 후 7일을 기다린 후에 새로운 IAO 계약을 재배포해야 합니다 {remainingTime}.",
+    "waitForRedeployAfter7Days": "재배포까지 7일 대기",
+    "iaoNotReachedCanRedeployDescCreator": "귀하의 IAO가 목표에 도달하지 못했습니다. 7일 대기 기간이 지났습니다. 모든 참여자가 환불을 청구할 충분한 시간이 있었는지 확인한 후, 아래의 \"재배포 준비 확인\" 버튼을 클릭해 주세요. 확인 후, 새로운 IAO 계약을 배포할 수 있으며, 이는 기존 사용자의 환불 작업에 영향을 미치지 않습니다.",
+    "iaoNotReachedCanRedeployDescUser": "이 IAO는 목표에 도달하지 못했습니다. 모든 참여자는 환불을 청구할 수 있습니다. 7일 대기 기간이 지났으며, 제작자는 이제 새로운 IAO 계약을 재배포할 수 있습니다.",
+    "deployNewIaoContract": "새 IAO 계약 배포",
+    "confirmReadyToRedeploy": "재배포 준비 확인",
+    "iaoDeployNotCompleted": "IAO 배포 미완료",
+    "iaoDeployNotCompletedDescCreator": "귀하의 IAO 계약이 성공적으로 배포되지 않았습니다. 아래 버튼을 클릭하여 다시 배포를 시도해 주세요.",
+    "iaoDeployNotCompletedDescUser": "IAO 계약이 성공적으로 배포되지 않았습니다. 제작자가 배포를 완료할 때까지 기다려 주세요.",
+    "redeployIao": "IAO 재배포",
+    "cannotRedeploy": "재배포 불가",
+    "waitSevenDaysAfterIaoEnd": "새로운 IAO 계약을 재배포하기 전에 IAO 종료 후 7일을 기다려야 합니다 {remainingTime}.",
+    "confirmed": "확인됨",
+    "confirmedReadyToRedeploy": "재배포 준비가 확인되었습니다. 이제 녹색 버튼을 클릭하여 새로운 IAO 계약을 배포할 수 있습니다.",
+    "redeployIaoConfirmation": "IAO를 재배포하면 완전히 새로운 IAO 계약이 생성되고 이전의 모든 스테이킹 데이터가 재설정됩니다. 기존 사용자는 여전히 이전 계약에서 환불을 청구할 수 있으며 영향을 받지 않습니다. 계속하시겠습니까?",
+    "deploying": "배포 중",
+    "deployingNewIaoContract": "새로운 IAO 계약을 배포 중입니다. 잠시만 기다려 주세요...",
+    "iaoRedeploySuccess": "새로운 IAO 계약이 성공적으로 배포되었습니다. 모든 스테이킹 데이터가 재설정되었으며, 페이지는 3초 후에 새로고침됩니다. 기존 사용자는 여전히 이전 계약에서 환불을 청구할 수 있습니다.",
+    "redeployIaoFailedLog": "IAO 재배포 실패:",
+    "remainingWaitTime": "(아직 {days}일 {hours}시간 기다려야 함)",
+    "redeployNotAffectRefunds": "참고: 새 계약을 배포해도 기존 사용자의 환불 작업에는 영향을 미치지 않습니다. 그들은 여전히 이전 계약에서 환불을 청구할 수 있습니다."
   },
   "paymentContract": {
     "title": "결제 계약 배포",
@@ -316,10 +430,10 @@
     "deployFailed": "결제 계약 배포에 실패했습니다"
   },
   "tokenInfo": {
-    "totalSupply": "XAA의 총 공급량: 100B",
-    "iaoAllocation": "토큰의 20%가 IAO를 통해 판매되며, 투자는 오직 $DBC로만 가능합니다. 투자자는 $DBC 투자액에 비례하여 $XAA를 받게 됩니다.",
-    "iaoDuration": "14일 동안의 IAO 기간 동안, $DBC의 50%는 프로젝트 팀의 생태계 개발에, 나머지 50%는 온체인 유동성 풀에 할당되며, 이는 절대 철회되지 않습니다.",
-    "tradingPair": "IAO 종료 후, $XAA와 $DBC는 즉시 DBCSwap에서 거래 페어를 형성하여 $XAA의 자유로운 거래가 가능해집니다."
+    "totalSupply": "처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성",
+    "iaoAllocation": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 토큰을 받게 됩니다.",
+    "iaoDuration": "IAO 종료 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다.",
+    "tradingPair": "IAO 종료 후, 토큰과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 자유로운 거래를 가능하게 합니다."
   },
   "agents": {
     "infrastructure": "인프라스트럭처",
@@ -343,7 +457,15 @@
     "totalSupply": "총 공급량",
     "holders": "보유자 수",
     "tba": "추후 공개",
-    "zero": "0"
+    "zero": "0",
+    "units": {
+      "billion": "십억",
+      "million": "백만",
+      "thousand": "천",
+      "billionShort": "B",
+      "millionShort": "M",
+      "thousandShort": "K"
+    }
   },
   "holderDistribution": {
     "title": "보유자 분포 ({count}명의 보유자)",
@@ -351,7 +473,8 @@
     "percentage": "비율",
     "previous": "이전",
     "next": "다음",
-    "loading": "로딩 중..."
+    "loading": "로딩 중...",
+    "tokenNotCreated": "현재 토큰이 아직 생성되지 않았습니다. IAO 성공 후 자동으로 토큰이 생성됩니다"
   },
   "agentDescription": {
     "title": "설명",
@@ -697,6 +820,37 @@
   },
   "create": {
     "title": "토큰 경제 모델 생성",
+    "iaoDescription": {
+      "title": "IAO 설명",
+      "point1": "IAO 최소 지속 시간은 72시간, 최대는 240시간입니다",
+      "point2": "IAO 성공 기준: 모금된 $XAA가 1500달러 이상",
+      "point3": "IAO 실패 후, $XAA는 자동으로 투자자에게 반환되며, 7일 후 IAO를 다시 시작할 수 있습니다",
+      "point4": "IAO 성공 후, 5-20분 후에 AI 토큰과 $XAA가 DBCSwap에서 자동으로 거래 쌍을 설정하며, 기본적으로 AI 토큰 가격은 IAO 종료 시 가격과 비슷합니다"
+    },
+    "decentralizedAI": {
+      "title": "분산형 AI 모델 서비스 설명",
+      "intro": "이것은 개발자와 마이너(GPU 제공업체)가 공동으로 참여하는 AI 서비스 생태계로, 다음과 같이 작동합니다:",
+      "point1": {
+        "title": "개발자가 AI 모델 업로드",
+        "content": "개발자는 직접 GPU 서버를 배포할 필요 없이, 훈련된 AI 모델을 표준화된 컨테이너(Docker 등)로 패키징하고 공개 다운로드 링크를 제공하기만 하면 됩니다. 컨테이너에는 명확한 배포 문서가 첨부되어야 하며, 하드웨어 요구사항(GPU 메모리, 컴퓨팅 파워 등)과 실행 방법을 설명해야 합니다."
+      },
+      "point2": {
+        "title": "마이너가 컴퓨팅 서비스 제공",
+        "content": "마이너(GPU 제공업체)는 개발자의 문서에 따라 AI 컨테이너를 다운로드하고 배포하며, 자신의 GPU 서버를 사용하여 모델을 실행하고 외부에 추론/훈련 서비스를 제공합니다. 마이너는 컴퓨팅 파워를 기여함으로써 토큰 보상을 얻으며, 수익은 서비스 품질과 컴퓨팅 규모와 연관됩니다."
+      },
+      "point3": {
+        "title": "명확한 하드웨어 요구사항",
+        "content": "개발자는 모델 컨테이너의 최소 하드웨어 구성(메모리, CPU, RAM 등)을 명시하여 마이너가 요구사항에 맞출 수 있도록 해야 합니다. 예: \"최소 요구사항: NVIDIA GPU(16GB 메모리), CUDA 11.4\"."
+      },
+      "point4": {
+        "title": "분산형 협력의 장점",
+        "content": "개발자는 하드웨어를 유지할 필요 없이 모델 최적화에 집중할 수 있고; 마이너는 유휴 GPU를 수익화할 수 있으며 필요에 따라 고수익 모델 배포를 선택할 수 있고; 사용자는 더 개방적이고 저비용의 AI 서비스를 얻을 수 있습니다."
+      },
+      "point5": {
+        "title": "프로세스 요약",
+        "content": "개발자가 모델 패키징 → 마이너가 배포 및 실행 → 사용자가 서비스 호출 → 마이너가 토큰 획득."
+      }
+    },
     "time_setting_requirements": {
       "title": "시간 설정 요구사항",
       "description": "계획된 시작 시간 24시간 전에 모든 설정을 완료해야 합니다.",
@@ -767,23 +921,12 @@
       "mining": {
         "title": "채굴 요구사항",
         "gpu": "GPU 메모리 최소 요구사항 설정",
-        "container": "AI 컨테이너 다운로드 링크 설정"
+        "container": "AI 모델 컨테이너 다운로드 링크 설정"
       }
     },
-    "examples": {
-      "title": "예시 대화",
-      "user": "사용자:",
-      "ai": "AI:",
-      "example1": {
-        "user": "AI 토큰을 생성해 주세요",
-        "ai": "네, AI 토큰 이름을 입력해 주세요"
-      },
-      "example2": {
-        "user": "사용자가 입력한 텍스트로 이미지 생성",
-        "ai": "이 요구사항은 AI 모델에 추가되었습니다"
-      }
-    },
+
     "createAgent": {
+      "freeCreationNotice": "프로젝트 생성은 무료이며, 토큰은 IAO 성공 후 자동으로 생성됩니다",
       "socialLink": "소셜 링크",
       "container": "컨테이너 링크",
       "socialExists": "링크는 'https'로 시작해야 합니다",
@@ -807,6 +950,8 @@
       "useCases": "사용 사례",
       "creationProcessMessage": "AI 에이전트를 생성하고 있습니다. 잠시만 기다려주세요...",
       "createAIProject": "AI 토큰 프로젝트 생성",
+      "createAIModelProject": "AI 모델 토큰 프로젝트 생성",
+      "editAIModelProject": "AI 모델 프로젝트 편집",
       "projectName": "프로젝트 이름",
       "projectNamePlaceholder": "1-20 글자",
       "projectDescription": "프로젝트 설명",
@@ -821,7 +966,7 @@
       "userQuestion": "사용자 질문",
       "agentResponse": "에이전트 응답",
       "createSuccess": "생성 성공!",
-      "created": "AI 토큰 프로젝트가 성공적으로 생성되었습니다. 에이전트 ID는 ",
+      "created": "AI 토큰 프로젝트가 성공적으로 생성되었습니다. AI 모델 ID는 ",
       "viewProject": "프로젝트 보기",
       "creating": "생성 중...",
       "createNow": "지금 생성",
@@ -839,29 +984,43 @@
       "descriptionLimit": "프로젝트 설명은 100-500자로, AI 에이전트의 기능과 특징을 자세히 설명해주세요",
       "descriptionExample": "예시: TensorFlow를 사용한 딥러닝 기반 음색 인식 시스템, 악기와 인성을 구분하여 음악 분류 및 음성 인식에 적용",
       "logoSizeHint": "권장 크기: 100×100픽셀, PNG, JPG 형식 지원",
-      "containerLinkHint": "AI 컨테이너의 Docker 이미지 다운로드 링크, 에이전트 배포에 사용",
+      "containerLinkHint": "AI 모델 컨테이너의 Docker 이미지 다운로드 링크, AI 모델 배포에 사용",
       "containerLinkExample": "예: https://hub.docker.com/r/username/image",
       "socialLinkHint": "프로젝트의 소셜 미디어 링크",
       "twitterLink": "트위터 링크",
       "telegramLink": "텔레그램 링크",
       "twitterPlaceholder": "https://x.com/your_project",
+      "containerLink": "컨테이너 링크",
+      "containerLinkLabel": "Docker 이미지",
+      "containerLinkCopied": "컨테이너 링크가 클립보드에 복사되었습니다",
+      "copyContainerLink": "컨테이너 링크 복사",
+      "containerLinkRequired": "컨테이너 링크를 입력해주세요",
+      "containerLinkUpdated": "컨테이너 링크가 성공적으로 업데이트되었습니다",
+      "containerLinkUpdateFailed": "컨테이너 링크 업데이트에 실패했습니다",
+      "noContainerLink": "컨테이너 링크가 설정되지 않았습니다",
+      "edit": "편집",
+      "add": "추가",
+      "save": "저장",
+      "saving": "저장 중...",
+      "cancel": "취소",
       "telegramPlaceholder": "https://t.me/your_project",
       "linkFormatError": "링크 형식이 올바르지 않습니다. https://로 시작해야 합니다",
       "logoRequired": "토큰 로고를 업로드해주세요",
       "startTimeRequired": "시작 시간을 선택해주세요",
       "endTimeRequired": "종료 시간을 선택해주세요",
+      "viewGuide": "생성 가이드",
+      
       "TokenDistribution": {
-        "title": "토큰 분배 세부사항",
+        "title": "토큰 경제 모델",
         "points": {
-          "1": "{symbol} 처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성",
-          "2": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
-          "3": "72시간의 IAO 기간이 끝난 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
-          "4": "IAO 종료 후, {symbol}과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 {symbol}의 자유로운 거래를 가능하게 합니다",
-          "5": "팀은 {symbol}의 33%를 보유하며, IAO 종료 후 40일째부터 2000일 동안 선형적으로 잠금 해제됩니다. 40일마다 잠금 해제됩니다",
-          "6": "{symbol}의 2%는 토큰 세일에 사용되며, IAO 종료 후 400일 동안 선형적으로 잠금 해제됩니다",
-          "7": "{symbol} 채굴은 매년 50억을 생성하며, 채굴된 {symbol}의 10%는 즉시 획득하고, 90%는 180일 동안 선형적으로 잠금 해제됩니다",
-          "8": "채굴에 참여하려면 XAA 채굴 노드를 보유해야 합니다. 각 기계는 최소 1개, 최대 10개의 XAA 채굴 노드를 스테이킹해야 합니다",
-          "9": "{symbol}의 1%는 $XAA와 $DBC 상위 10,000명의 보유자에게, 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
+          "1": "{symbol}의 첫 8년 총 공급량: 1000억, 이후 매년 50억이 채굴됨",
+          "2": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
+          "3": "{hours}시간의 IAO 기간 이후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 취소되지 않으며, LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
+          "4": "IAO 종료 후, {symbol}과 $XAA의 10%는 즉시 DBCSwap에서 유동성 풀을 설립하여 {symbol}의 자유로운 거래를 가능하게 합니다",
+          "5": "팀은 {symbol}의 33%를 보유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 해제되며, 40일마다 잠금 해제됩니다",
+          "6": "{symbol} 채굴은 연간 50억을 생산하며, 채굴된 {symbol}의 10%는 즉시 사용 가능하고 90%는 180일 동안 선형적으로 해제됩니다",
+          "7": "채굴에 참여하려면 XAA 채굴 NFT가 필요합니다. 각 기계는 최소 1개의 XAA 채굴 NFT를 스테이킹해야 하며, 최대 10개의 XAA 채굴 NFT가 가능합니다",
+          "8": "{symbol}의 1%는 상위 10,000명의 $XAA 및 $DBC 보유자에게 에어드롭되며, {symbol}의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
         }
       },
       "price": "가격",
@@ -878,10 +1037,12 @@
       "hours": "시간",
       "startTimeHint": "* 시작 시간은 최소 24시간 후여야 합니다 (1일 0시간)",
       "startTimeError": "시작 시간은 최소 24시간 후여야 합니다",
-      "durationHint": "* 지속 시간 범위: 72-240시간 (3-10일)",
-      "durationError": "지속 시간은 72-240시간 (3-10일) 사이여야 합니다",
-      "iaoScheduleInfo": "IAO는 {startHours}시간 후에 시작하여 {durationHours}시간 동안 지속되며, {endTime}에 종료될 예정입니다",
-      "calculating": "계산 중..."
+      "durationHint": "* 지속 시간 범위: {min}-{max}시간 ({minDays}-{maxDays}일)",
+      "durationError": "지속 시간은 {min}-{max}시간 ({minDays}-{maxDays}일) 사이여야 합니다",
+      "iaoScheduleInfo": "IAO는 {startHours}시간 후에 시작하여 {durationHours}시간 동안 지속되며 {endTime}에 종료될 예정입니다",
+      "calculating": "계산 중...",
+      "additionalSettingsAfterCreation": "모델 생성 후 IAO 시간, 컨테이너 링크, 대화 예시를 설정할 수 있습니다",
+      "miningRateFormula": "연간 채굴 가능 토큰 = 총 공급량 × {rate}%"
     },
     "datePicker": {
       "selectDateTime": "날짜 및 시간 선택",
@@ -903,5 +1064,90 @@
         "utc": "협정 세계시"
       }
     }
+  },
+  "tokenDistribution": {
+    "iaoManagement": "IAO 관리 프로세스",
+    "iaoSuccessful": "IAO 성공",
+    "createToken": "토큰 생성",
+    "deployDrc20Contract": "Drc20 토큰 계약 배포",
+    "completed": "완료됨",
+    "creating": "생성 중...",
+    "retryCreation": "생성 재시도",
+    "tokenDistribution": "토큰 배포",
+    "distributeTokensAddLiquidity": "토큰 배포 및 유동성 추가",
+    "distributing": "배포 중...",
+    "distributionFailed": "배포 실패",
+    "waiting": "대기 중",
+    "burnTokens": "토큰 소각",
+    "burnXaaTokens": "IAO에서 5% XAA 토큰 소각",
+    "burning": "소각 중...",
+    "tokenAddress": "토큰 주소:",
+    "managementCompleted": "모든 관리 단계가 완료되었습니다! 프로젝트가 이제 완전히 분산화되었습니다.",
+    "remainingTime": "남은 시간:",
+    "error": "오류",
+    "walletAuthRequired": "지갑을 연결하고 인증을 완료해주세요",
+    "burnTaskSubmitted": "XAA 소각 작업 제출됨",
+    "taskSubmitted": "작업이 제출되었으며, 백그라운드에서 처리 중입니다...",
+    "burnFailed": "소각 실패",
+    "unknownError": "알 수 없는 오류",
+    "ownershipTransferSuccess": "소유권 이전 성공",
+    "ownershipTransferredToCreator": "토큰 소유권이 생성자에게 성공적으로 이전되었습니다",
+    "ownershipTransferFailed": "소유권 이전 실패",
+    "transferError": "이전 중 오류 발생",
+    "queryTimeout": "쿼리 시간 초과",
+    "taskStillProcessing": "작업이 여전히 처리 중입니다. 나중에 수동으로 새로고침해주세요",
+    "queryFailed": "쿼리 실패",
+    "cannotGetTaskStatus": "작업 상태를 가져올 수 없습니다. 나중에 수동으로 새로고침해주세요",
+    "ownershipTransferTaskSubmitted": "토큰 소유권 이전 작업이 제출되었습니다",
+    "iaoCompletedData": "IAO가 종료되었습니다, 완료된 데이터",
+    "iaoReleasedAmount": "IAO 출시된 {symbol} 수량",
+    "iaoParticipatedAmount": "IAO 참여한 {symbol} 수량",
+    "lpPoolData": "유동성 풀 데이터",
+    "lpPoolTokenAmount": "LP 풀 {symbol} 수량",
+    "lpPoolBaseAmount": "LP 풀 {symbol} 수량",
+    "copy": "복사",
+    "copied": "복사됨",
+    "claimSuccess": "청구 성공",
+    "refundSentToWallet": "환불이 지갑으로 전송되었습니다",
+    "claimFailed": "청구 실패",
+    "waitingForRefund": "IAO 종료 후 10분 후에 환불을 받을 수 있습니다",
+    "connectWalletFirst": "먼저 지갑을 연결해주세요"
+  },
+  "containerLinkManager": {
+    "containerLink": "컨테이너 링크",
+    "optional": "선택 사항",
+    "saving": "저장 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "edit": "편집",
+    "example": "예: hub.docker.com/r/username/image 또는 다른 컨테이너 이미지 링크",
+    "pleaseEnterContainerLink": "컨테이너 링크를 입력하세요",
+    "mustUseHttps": "컨테이너 링크는 HTTPS 프로토콜을 사용해야 합니다",
+    "enterValidLinkFormat": "유효한 링크 형식을 입력하세요",
+    "updateSuccess": "컨테이너 링크가 성공적으로 업데이트되었습니다",
+    "updateFailed": "컨테이너 링크 업데이트 실패",
+    "copied": "컨테이너 링크가 클립보드에 복사되었습니다",
+    "copyContainerLink": "컨테이너 링크 복사"
+  },
+  "errors": {
+    "error": "오류",
+    "success": "성공",
+    "unknownError": "알 수 없는 오류",
+    "networkError": "네트워크 오류, 연결을 확인해주세요",
+    "unauthorized": "인증되지 않은 작업입니다. 로그인해주세요",
+    "serverError": "서버 오류, 나중에 다시 시도해주세요",
+    "invalidInput": "잘못된 입력입니다. 다시 시도해주세요",
+    "connectWalletFirst": "먼저 지갑을 연결해주세요",
+    "walletAuthRequired": "지갑을 연결하고 인증을 완료해주세요",
+    "operationFailed": "작업 실패",
+    "notAuthorized": "이 작업을 수행할 권한이 없습니다",
+    "queryTimeout": "쿼리 시간 초과",
+    "queryFailed": "쿼리 실패",
+    "taskStillProcessing": "작업이 여전히 처리 중입니다. 나중에 수동으로 새로고침해주세요",
+    "cannotGetTaskStatus": "작업 상태를 가져올 수 없습니다. 나중에 수동으로 새로고침해주세요",
+    "invalidToken": "유효하지 않은 토큰",
+    "unauthorizedAccess": "인증되지 않은 접근",
+    "updateSuccess": "업데이트 성공",
+    "updateFailed": "업데이트 실패"
   }
 }

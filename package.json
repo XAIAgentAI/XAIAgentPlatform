@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev 2>&1 | tee logs/dev-$(date +%Y%m%d-%H%M%S).log",
     "build:dev": "next build ",
     "build:prod": "next build",
     "start:dev": "NODE_ENV=development node server.js",
@@ -20,7 +20,12 @@
     "clear-agents": "ts-node -P scripts/tsconfig.json scripts/clear-agents.ts",
     "prisma:seed": "ts-node -P scripts/tsconfig.json prisma/seed.ts",
     "test:agent-api": "tsx scripts/test-agent-api.ts",
-    "delete:test-agents": "tsx scripts/delete-test-agents.ts"
+    "delete:test-agents": "tsx scripts/delete-test-agents.ts",
+    "memory:monitor": "node scripts/memory-monitor.js",
+    "memory:monitor:continuous": "node scripts/memory-monitor.js --continuous",
+    "memory:monitor:save": "node scripts/memory-monitor.js --continuous --save",
+    "build:debug": "next build --experimental-debug-memory-usage",
+    "build:profile": "node --heap-prof node_modules/next/dist/bin/next build"
   },
   "dependencies": {
 

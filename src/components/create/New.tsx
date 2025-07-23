@@ -6,6 +6,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { authAPI, } from '@/services/createAgent';
+import { config } from '@/lib/config';
+import { TokenDistributionInfo } from '@/components/ui-custom/token-distribution-info';
 
 import { toast } from '@/components/ui/use-toast';
 import { getExplorerUrl } from '@/config/networks';
@@ -49,16 +51,40 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     const [iaoDurationError, setIaoDurationError] = useState(false);
     const locale = useLocale();
     const t = useTranslations("create.createAgent");
+    const tMessages = useTranslations('messages');
     const [creating, setCreating] = useState(false);
+
+    // 错误消息映射函数
+    const getLocalizedErrorMessage = (serverMessage: string) => {
+        const errorMappings: { [key: string]: string } = {
+            '缺少必填字段': tMessages('missingRequiredFields'),
+            'Agent 名称已存在': tMessages('agentNameExists'),
+            'Agent Symbol 已存在': tMessages('agentSymbolExists'),
+            'startTimestamp 必须是正整数': tMessages('invalidStartTimestamp'),
+            'durationHours 必须是正数': tMessages('invalidDurationHours'),
+            '无效的 token': tMessages('invalidToken'),
+            '未授权访问': tMessages('unauthorizedAccess'),
+            '每个钱包地址只能创建一个 Agent': tMessages('walletLimitOneAgent'),
+            // 英文错误消息映射
+            'Missing required fields': tMessages('missingRequiredFields'),
+            'Agent name already exists': tMessages('agentNameExists'),
+            'Agent symbol already exists': tMessages('agentSymbolExists'),
+            'Invalid token': tMessages('invalidToken'),
+            'Unauthorized access': tMessages('unauthorizedAccess'),
+            'Each wallet address can only create one Agent': tMessages('walletLimitOneAgent'),
+        };
+
+        return errorMappings[serverMessage] || serverMessage;
+    };
     const [creationProgress, setCreationProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0); // Separate state for smooth display
     const [success, setSuccess] = useState(false);
 
     // IAO 时间输入状态
-    const [iaoStartDays, setIaoStartDays] = useState(1);
-    const [iaoStartHours, setIaoStartHours] = useState(0);
-    const [iaoDurationDays, setIaoDurationDays] = useState(3);
-    const [iaoDurationHours, setIaoDurationHours] = useState(0);
+    const [iaoStartDays, setIaoStartDays] = useState<number>(config.iao.defaultStartDays);
+    const [iaoStartHours, setIaoStartHours] = useState<number>(config.iao.defaultStartHours);
+    const [iaoDurationDays, setIaoDurationDays] = useState<number>(config.iao.defaultDurationDays);
+    const [iaoDurationHours, setIaoDurationHours] = useState<number>(config.iao.defaultDurationHours);
     const [dateRange, setDateRange] = useState<{
         range: {
             from: Date;
@@ -70,11 +96,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     }>(() => {
         const now = new Date();
-        // 设置开始时间为当前时间+24小时
-        const startDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        // 设置开始时间为当前时间+最小延迟时间
+        const startDate = new Date(now.getTime() + config.iao.minStartDelayHours * 60 * 60 * 1000);
 
-        // 计算结束日期（开始时间+72小时，默认持续时间）
-        const endDate = new Date(startDate.getTime() + 72 * 60 * 60 * 1000);
+        // 计算结束日期（开始时间+默认持续时间）
+        const defaultDurationHours = config.iao.defaultDurationDays * 24 + config.iao.defaultDurationHours;
+        const endDate = new Date(startDate.getTime() + defaultDurationHours * 60 * 60 * 1000);
 
         return {
             range: {
@@ -118,11 +145,16 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         telegramLink: '',
         tokenSupply: '100000000000',
         iaoPercentage: '15%',
-        miningRate: '6', // 默认每年可挖矿6%的总供应量
+        miningRate: '5', // 默认每年可挖矿5%的总供应量
         userFirst: '',
         userSecond: '',
         userThird: '',
     });
+
+    // 添加一个用于防抖的ref
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // 移除直接保存表单数据的函数，只使用防抖保存
 
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
@@ -144,6 +176,89 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }));
     }, [iaoStartDays, iaoStartHours, iaoDurationDays, iaoDurationHours]);
 
+    // 从localStorage加载表单数据
+    useEffect(() => {
+        // 只有在创建模式下才从localStorage加载数据
+        if (mode === 'create') {
+            try {
+                const savedFormData = localStorage.getItem('ai_model_form_data');
+                if (savedFormData) {
+                    const parsedData = JSON.parse(savedFormData);
+                    setFormData(parsedData);
+                    
+                    // 如果有图片URL，也恢复它
+                    if (parsedData.imageUrl) {
+                        setImageUrl(parsedData.imageUrl);
+                    }
+                    
+                    // 恢复日期范围
+                    if (parsedData.dateRange) {
+                        const savedRange = parsedData.dateRange;
+                        setDateRange({
+                            range: {
+                                from: new Date(savedRange.from),
+                                to: savedRange.to ? new Date(savedRange.to) : undefined
+                            }
+                        });
+                    }
+                    
+                    // 恢复用例数据
+                    if (parsedData.useCases) {
+                        setUseCases(parsedData.useCases);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading form data from localStorage:', error);
+            }
+        }
+    }, [mode]);
+
+    // 当表单数据变化时保存到localStorage (防抖处理)
+    useEffect(() => {
+        // 只有在创建模式下才保存到localStorage
+        if (mode === 'create') {
+            // 清除之前的计时器
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+            
+            // 设置新的防抖计时器，延迟300ms保存数据
+            debounceTimerRef.current = setTimeout(() => {
+                try {
+                    const dataToSave = {
+                        ...formData,
+                        imageUrl,
+                        dateRange: {
+                            from: dateRange.range.from?.toISOString(),
+                            to: dateRange.range.to?.toISOString()
+                        },
+                        useCases
+                    };
+                    console.log('保存表单数据到localStorage:', formData.name, formData.symbol);
+                    localStorage.setItem('ai_model_form_data', JSON.stringify(dataToSave));
+                } catch (error) {
+                    console.error('Error saving form data to localStorage:', error);
+                }
+            }, 300); // 改为300ms的防抖时间，提供更好的响应性
+        }
+        
+        return () => {
+            // 组件卸载时清除计时器
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+        };
+    }, [formData, imageUrl, dateRange, useCases, mode]);
+
+    // 修改 useEffect，确保只在真正成功后才清除localStorage
+    useEffect(() => {
+        // 只有在创建成功后才清除localStorage，而不是每次刷新页面
+        if (success && mode === 'create') {
+            localStorage.removeItem('ai_model_form_data');
+            console.log('创建成功，已清除表单缓存数据');
+        }
+    }, [success, mode]);
+
     const CheckWallet = () => {
         if (localStorage.getItem("@appkit/connection_status") === "connected") {
             return true;
@@ -162,9 +277,9 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         setStartTimeError(false);
         setIaoDurationError(false);
 
-        // 按顺序验证字段：项目名称 → 代币符号 → 项目描述 → 代币Logo → 开始时间 → IAO持续时间
+        // 按顺序验证字段：AI模型项目名称 → 代币符号 → AI模型描述 → 代币Logo → 开始时间 → IAO持续时间
 
-        // 1. 项目名称
+        // 1. AI模型项目名称
         if (!formData.name.trim()) {
             setNameError(true);
             nameInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -180,7 +295,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             return false;
         }
 
-        // 3. 项目描述
+        // 3. AI模型描述
         if (!formData.description.trim()) {
             setDescriptionError(true);
             descriptionInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -215,14 +330,16 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         // 7. IAO持续时间验证 (仅在创建模式下验证)
         if (mode !== 'edit') {
             const totalDurationHours = iaoDurationDays * 24 + iaoDurationHours;
-            // 持续时间必须在72-240小时之间
-            if (totalDurationHours < 72 || totalDurationHours > 240) {
+            // 持续时间必须在配置的最小和最大值之间
+            if (totalDurationHours < config.iao.minDurationHours || totalDurationHours > config.iao.maxDurationHours) {
                 setIaoDurationError(true);
                 iaoDurationInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
             }
-            // 特殊情况：如果是3天，必须至少3天0小时（72小时）
-            if (iaoDurationDays === 3 && iaoDurationHours === 0 && totalDurationHours < 72) {
+            // 特殊情况：如果是最小天数，必须至少达到最小小时数
+            if (iaoDurationDays === Math.floor(config.iao.minDurationHours / 24) && 
+                iaoDurationHours === 0 && 
+                totalDurationHours < config.iao.minDurationHours) {
                 setIaoDurationError(true);
                 iaoDurationInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
@@ -271,7 +388,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         "새로운 생산성 시스템 설정을 안내해 주세요"
                     ],
                     zh: [
-                        "帮我为项目进行创意头脑风暴",
+                        "帮我为AI模型进行创意头脑风暴",
                         "协助我分析业务的市场趋势",
                         "指导我建立新的效率系统"
                     ]
@@ -346,21 +463,35 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         return token;
     }
 
+    // 修改handleNameChange，移除直接保存逻辑
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const validateValue = value.replace(/[^A-Za-z ]/g, '').slice(0, 20);
-        setFormData(prev => ({ ...prev, name: validateValue }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, name: validateValue };
+            return updated;
+        });
+        
         // 清除错误状态
         if (nameError && validateValue.trim()) {
             setNameError(false);
         }
     };
 
+    // 修改handleSymbolChange，移除直接保存逻辑
     const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         const uppercaseValue = value.toUpperCase().replace(/[^A-Z]/g, '');
         const validatedValue = uppercaseValue.slice(0, 6);
-        setFormData(prev => ({ ...prev, symbol: validatedValue }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, symbol: validatedValue };
+            return updated;
+        });
+        
         // 清除错误状态
         if (symbolError && validatedValue.trim()) {
             setSymbolError(false);
@@ -381,55 +512,21 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     };
 
     const handleCreate = async () => {
-        //检查是否需要连接钱包
-        if (!CheckWallet()) {
-            return;
-        }
-
-        // 验证必填字段
+        // 检查必填字段
         if (!validateRequiredFields()) {
             return;
         }
 
-        //检查https满足否
-        const twitterLink = formData.twitterLink;
-        const telegramLink = formData.telegramLink;
-        const containerLink = formData.containerLink;
-
-        // 检查推特链接
-        if (twitterLink && !twitterLink.startsWith('https://')) {
-            setTwitterError(true);
-            twitterRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        // 检查钱包连接
+        if (!CheckWallet()) {
             return;
         }
 
-        // 检查Telegram链接
-        if (telegramLink && !telegramLink.startsWith('https://')) {
-            setTelegramError(true);
-            telegramRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-            return;
-        }
-
-        // 检查容器链接
-        if (containerLink) {
-            // 容器链接现在自动添加https://前缀，所以不需要检查
-            // 但我们可以检查是否是有效的URL格式
-            const fullUrl = `https://${containerLink}`;
-            try {
-                new URL(fullUrl);
-            } catch {
-                setContainerShow(true);
-                containerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-                return;
-            }
-        }
-
-        // 重置错误状态
-        setTwitterError(false);
-        setTelegramError(false);
-        setContainerShow(false);
-
+        // 设置创建中状态
         setCreating(true);
+        setCreationProgress(0);
+        setDisplayProgress(0);
+
         try {
             // 重置状态
             setNameExists(false);
@@ -493,7 +590,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             // 准备完整数据
             const agentData = {
                 name: formData.name,
-                containerLink: formData.containerLink ? `https://${formData.containerLink}` : '',
+                containerLink: '', // 容器链接在创建时不填写，后续在详情页面由创建者添加
                 description: formData.description || "An Agent",
                 category: 'AI Agent',
                 capabilities: ['chat', 'information'],
@@ -515,29 +612,24 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 statusZH: '可交易',
                 descriptionJA: formData.description || 'AIエージェントの説明',
                 descriptionKO: formData.description || 'AI 에이전트 설명',
-                descriptionZH: formData.description || 'AI智能体描述',
-                detailDescription: formData.description || 'Detailed description of the AI agent',
-                lifetime: '',
-                totalSupply: 100000000000,
-                marketCapTokenNumber: 100000000000,
-                useCases: finalUseCases.en,
-                useCasesJA: finalUseCases.ja,
-                useCasesKO: finalUseCases.ko,
-                useCasesZH: finalUseCases.zh,
-                socialLinks: [formData.twitterLink, formData.telegramLink].filter(link => link).join(', ') || 'https://x.com/test, https://t.me/test',
-                chatEntry: null,
-                projectDescription: JSON.stringify({
-                    en: `1. Total Supply: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} of tokens will be sold through IAO\n3. Project Duration: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} days\n4. Trading pairs will be established on DBCSwap`,
-                    zh: `1. 总供应量: ${formData.tokenSupply}\n2. ${formData.iaoPercentage} 的代币将通过 IAO 销售\n3. 项目持续时间: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 天\n4. 将在 DBCSwap 上建立交易对`,
-                    ja: `1. 総供給量: ${formData.tokenSupply}\n2. トークンの${formData.iaoPercentage}は IAO を通じて販売\n3. プロジェクト期間: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 日間\n4. DBCSwap に取引ペアを設立`,
-                    ko: `1. 総供給量: ${formData.tokenSupply}\n2. 토큰의 ${formData.iaoPercentage}는 IAO를 통해 판매\n3. 프로젝트 기간: ${Math.floor((dateRange.range.to?.getTime() || (dateRange.range.from.getTime() + 24 * 60 * 60 * 7 * 1000)) - dateRange.range.from.getTime()) / (24 * 60 * 60 * 1000)} 일\n4. DBCSwap에 거래쌍 설립`
-                }),
-                iaoTokenAmount: 20000000000,
-                miningRate: parseFloat(formData.miningRate) || 6 // 转换为数字，默认6%
+                descriptionZH: formData.description || 'AI代理描述',
+                // 添加社交链接
+                socialLinks: [
+                    formData.twitterLink ? formData.twitterLink : '',
+                    formData.telegramLink ? formData.telegramLink : '',
+                ].filter(Boolean).join(','),
+                totalSupply: formData.tokenSupply 
             };
 
-            // 如果是编辑模式，添加时间更新信息
+            // 仅在编辑模式下添加对话示例字段
             if (mode === 'edit') {
+                // 添加对话示例字段
+                (agentData as any).useCases = finalUseCases.en;
+                (agentData as any).useCasesJA = finalUseCases.ja;
+                (agentData as any).useCasesKO = finalUseCases.ko;
+                (agentData as any).useCasesZH = finalUseCases.zh;
+                
+                // 添加时间更新信息
                 console.log('[时间更新] 添加时间更新信息到请求...');
                 console.log(`[时间更新] 开始时间: ${Math.floor(dateRange.range.from.getTime() / 1000)}`);
                 console.log(`[时间更新] 结束时间: ${Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000)}`);
@@ -566,18 +658,40 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             setCreationProgress(80);
             setDisplayProgress(80);
 
+            // 解析响应
+            const result = await createResponse.json();
+
             if (!createResponse.ok) {
-                throw new Error(mode === 'edit' ? t("updateFailed") : t("createFailed"));
+                console.error("API错误:", result);
+
+                // 获取本地化的错误消息
+                let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
+                
+                // 特殊处理错误代码 4001 - 一个钱包只能创建一个 agent
+                if (result.code === 4001) {
+                    errorMessage = tMessages('walletLimitOneAgent');
+                } else if (result.message) {
+                    errorMessage = getLocalizedErrorMessage(result.message);
+                }
+
+                toast({
+                    variant: "destructive",
+                    description: errorMessage,
+                });
+
+                setCreating(false);
+                setCreationProgress(0);
+                setDisplayProgress(0);
+                return;
             }
 
-            const result = await createResponse.json();
+            // 成功处理
             if (result.code === 200) {
                 setCreationProgress(100);
                 setDisplayProgress(100);
 
-
                 // 如果是创建模式，更新data状态中的agent ID
-                if (mode === 'create' && result.data?.data?.agentId) {
+                if (mode === 'create' && result.data?.agentId) {
                     setData(prev => ({
                         ...(prev || {
                             name: formData.name,
@@ -585,8 +699,10 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             description: formData.description,
                             useCases: { zh: [], en: [], ko: [], ja: [] }
                         }),
-                        id: result.data?.data?.agentId
+                        id: result.data?.agentId
                     }));
+                    
+
                 }
 
                 // 更新成功后，如果是编辑模式，可以直接跳转回详情页
@@ -601,13 +717,30 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
             setCreating(false);
             setCreationProgress(0);
             setDisplayProgress(0);
+
+            // 显示本地化的错误toast
+            let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
+            if (error instanceof Error) {
+                errorMessage = getLocalizedErrorMessage(error.message);
+            }
+
+            toast({
+                variant: "destructive",
+                description: errorMessage,
+            });
         } finally {
         }
     };
 
+    // 修改handleChange，移除直接保存逻辑
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        
+        // 使用函数式更新确保是新的引用对象
+        setFormData(prev => {
+            const updated = { ...prev, [name]: value };
+            return updated;
+        });
 
         // 清除对应字段的错误状态
         if (name === 'description' && descriptionError && value.trim()) {
@@ -615,6 +748,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     };
 
+    // 修改handleExChange，移除直接保存逻辑
     const handleExChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, name, value } = e.target;
 
@@ -636,9 +770,13 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         });
 
         // Update formData as before
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => {
+            const updated = { ...prev, [name]: value };
+            return updated;
+        });
     };
 
+    // 修改handleImageUpload，移除直接保存逻辑
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -727,7 +865,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div className="grid grid-cols-1  gap-6 mb-8">
                     <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-semibold mb-4 flex items-center">
                             <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -735,7 +873,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             </svg>
                             {t("agentDetails")}
                         </h3>
-                        <div className="space-y-3">
+                        <div className=" grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
                             <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">{t("projectName")}</p>
                                 <p className="font-medium">{data.name}</p>
@@ -751,52 +889,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            {t("useCases")}
-                        </h3>
-
-                        <div className="space-y-4">
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">English</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.en.map((useCase, index) => (
-                                        <li key={`en-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">日本語</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.ja.map((useCase, index) => (
-                                        <li key={`ja-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">한국어</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.ko.map((useCase, index) => (
-                                        <li key={`ko-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">中文</p>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    {data.useCases.zh.map((useCase, index) => (
-                                        <li key={`zh-${index}`} className="text-sm">{useCase}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+               
                 </div>
 
                 <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-8">
@@ -806,14 +899,14 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         </svg>
                         {t('TokenDistribution.title')}
                     </h3>
-                    <div className="space-y-3 text-sm">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((point) => (
-                            <p key={point}>
-                                {point}. {t(`TokenDistribution.points.${point}`, { symbol: data.symbol })}
-                            </p>
-                        ))}
-                    </div>
+                    <TokenDistributionInfo 
+                        symbol={formData.symbol} 
+                        hours={iaoDurationDays * 24 + iaoDurationHours} 
+                        textSize="sm"
+                    />
                 </div>
+
+
 
                 <div className="flex justify-center">
                     <button
@@ -865,7 +958,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         telegramLink: telegramLink,
                         tokenSupply: agentData.totalSupply?.toString() || '100000000000',
                         iaoPercentage: '15%',
-                        miningRate: '6', // 默认每年可挖矿6%的总供应量
+                        miningRate: '5', // 默认每年可挖矿5%的总供应量
                         userFirst: '',
                         userSecond: '',
                         userThird: '',
@@ -932,8 +1025,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
     };
 
     return (
-        <div className="fixed rounded-md inset-0 max-lg:max-h-[calc(100vh-130px)] lg:max-h-[calc(100vh-170px)] top-[70px] lg:top-[100px] flex justify-center items-start overflow-y-auto">
-            <div className="w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
+        <div className="rounded-md inset-0 flex justify-center items-start px-4 sm:px-0">
+            <div className="w-full sm:w-[80vw] lg:w-[66vw] max-w-4xl rounded-md">
                 {creating && !success ? (
                     <div className="bg-white dark:bg-[#161616] rounded-xl p-8 border border-black dark:border-white border-opacity-10 dark:border-opacity-10 flex flex-col items-center justify-center h-96">
                         <CreationAnimation />
@@ -941,10 +1034,63 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 ) : success ? (
                     <SuccessDisplay />
                 ) : (
-                    <div className="bg-white dark:bg-[#161616] rounded-xl p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
-                        <h1 className="text-2xl font-bold mb-6">
-                            {mode === 'edit' ? t("editAIProject") : t("createAIProject")}
-                        </h1>
+                    <div className="bg-white dark:bg-[#161616] rounded-xl p-4 sm:p-6 border border-black dark:border-white border-opacity-10 dark:border-opacity-10">
+                        <div className="mb-6">
+                            {/* 桌面端：水平布局 */}
+                            <div className="hidden sm:flex sm:items-center sm:justify-between mb-2">
+                                <h1 className="text-2xl font-bold">
+                                    {mode === 'edit' ? t("editAIModelProject") : t("createAIModelProject")}
+                                </h1>
+                                <button
+                                    onClick={() => window.open(`/${locale}/create-guide`, '_blank')}
+                                    className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center gap-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    {t("viewGuide")}
+                                </button>
+                            </div>
+
+                            {/* 移动端：垂直布局 */}
+                            <div className="sm:hidden">
+                                <h1 className="text-xl font-bold mb-2">
+                                    {mode === 'edit' ? t("editAIModelProject") : t("createAIModelProject")}
+                                </h1>
+
+                                {/* 免费创建提示 - 移动端 */}
+                                {mode === 'create' && (
+                                    <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center mb-3">
+                                        <svg className="w-4 h-4 text-gray-500 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {t("freeCreationNotice")}
+                                    </p>
+                                )}
+
+                                <div className="flex justify-end">
+                                    <button
+                                        onClick={() => window.open(`/${locale}/create-guide`, '_blank')}
+                                        className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2 w-fit"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                        {t("viewGuide")}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* 免费创建提示 - 桌面端 */}
+                            {mode === 'create' && (
+                                <p className="hidden sm:flex text-sm text-gray-500 dark:text-gray-500 items-center">
+                                    <svg className="w-4 h-4 text-gray-500 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {t("freeCreationNotice")}
+                                </p>
+                            )}
+                        </div>
 
                         <div className="space-y-4">
                             {/* 必填字段部分 */}
@@ -1081,8 +1227,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 5. IAO时间设置 (必填，仅在创建模式显示) */}
-                            {mode !== 'edit' && (
+                            {/* 仅在编辑模式下显示IAO时间设置 */}
+                            {mode === 'edit' && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     {/* IAO开始时间 */}
                                     <div ref={startTimeInputRef}>
@@ -1098,7 +1244,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoStartDays}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 1;
-                                                        // 确保至少1天，最多30天
                                                         const clampedValue = Math.max(1, Math.min(30, value));
                                                         setIaoStartDays(clampedValue);
                                                         if (startTimeError) setStartTimeError(false);
@@ -1116,7 +1261,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoStartHours}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 0;
-                                                        // 确保0-23小时范围
                                                         const clampedValue = Math.max(0, Math.min(23, value));
                                                         setIaoStartHours(clampedValue);
                                                         if (startTimeError) setStartTimeError(false);
@@ -1142,17 +1286,19 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                             <div className="flex items-center gap-1">
                                                 <input
                                                     type="number"
-                                                    min="3"
-                                                    max="10"
+                                                    min={Math.floor(config.iao.minDurationHours / 24)}
+                                                    max={Math.floor(config.iao.maxDurationHours / 24)}
                                                     value={iaoDurationDays}
                                                     onChange={(e) => {
-                                                        const value = parseInt(e.target.value) || 3;
-                                                        // 确保3-10天范围（对应72-240小时）
-                                                        const clampedValue = Math.max(3, Math.min(10, value));
+                                                        const value = parseInt(e.target.value) || config.iao.defaultDurationDays;
+                                                        const clampedValue = Math.max(
+                                                            Math.floor(config.iao.minDurationHours / 24), 
+                                                            Math.min(Math.floor(config.iao.maxDurationHours / 24), value)
+                                                        );
                                                         setIaoDurationDays(clampedValue);
                                                         if (iaoDurationError) setIaoDurationError(false);
                                                     }}
-                                                    placeholder="3"
+                                                    placeholder={config.iao.defaultDurationDays.toString()}
                                                     className="w-16 bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 text-center"
                                                 />
                                                 <span className="text-gray-500 text-sm">{t("days")}</span>
@@ -1165,7 +1311,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                     value={iaoDurationHours}
                                                     onChange={(e) => {
                                                         const value = parseInt(e.target.value) || 0;
-                                                        // 确保0-23小时范围
                                                         const clampedValue = Math.max(0, Math.min(23, value));
                                                         setIaoDurationHours(clampedValue);
                                                         if (iaoDurationError) setIaoDurationError(false);
@@ -1176,7 +1321,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                                 <span className="text-gray-500 text-sm">{t("hours")}</span>
                                             </div>
                                         </div>
-                                        <div className="text-gray-500 text-xs mt-1">{t("durationHint")}</div>
+                                        <div className="text-gray-500 text-xs mt-1">{t("durationHint", {
+                                            min: config.iao.minDurationHours,
+                                            max: config.iao.maxDurationHours,
+                                            minDays: Math.floor(config.iao.minDurationHours / 24),
+                                            maxDays: Math.floor(config.iao.maxDurationHours / 24)
+                                        })}</div>
                                         {iaoDurationError && (
                                             <div className="text-red-500 text-xs mt-1">{t("durationError")}</div>
                                         )}
@@ -1184,8 +1334,8 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             )}
 
-                            {/* 6. IAO时间信息显示 (仅在创建模式显示) */}
-                            {mode !== 'edit' && (
+                            {/* 6. IAO时间信息显示 (仅在编辑模式显示) */}
+                            {mode === 'edit' && (
                                 <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg mb-2">
                                     <div className="text-red-500 text-xs">
                                         {t("iaoScheduleInfo", {
@@ -1203,82 +1353,31 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 </div>
                             )}
 
-                            {/* 可选字段部分 */}
-
-                            {/* 1. 代币供应量、挖矿率、IAO比例 (三列网格布局) */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label className="block mb-2">{t("tokenSupply")}</label>
-                                    <input
-                                        name="tokenSupply"
-                                        value={formData.tokenSupply}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                        disabled
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block mb-2">{t("miningRate")} (%)</label>
-                                    <input
-                                        name="miningRate"
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        step="0.1"
-                                        value={formData.miningRate}
-                                        disabled
-                                        onChange={handleChange}
-                                        placeholder="每年可挖矿的代币比例 (如: 6 表示6%)"
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                    />
-                                    <div className="text-xs text-gray-500 mt-1">
-                                        每年可挖矿的代币数量 = 总供应量 × {formData.miningRate}%
+                            {/* 代币信息展示 */}
+                            <div className="bg-gray-50 p-3 rounded-lg">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-sm">
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("tokenSupply")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.tokenSupply}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("miningRate")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.miningRate}%</span>
+                                        </div>
+                                        <div className="text-xs text-gray-500 mt-1">
+                                            {t("miningRateFormula", {rate: formData.miningRate})}
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col items-start">
+                                        <div>
+                                            <span className="text-gray-600">{t("iaoPercentage")}: </span>
+                                            <span className="font-medium text-gray-800">{formData.iaoPercentage}</span>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div>
-                                    <label className="block mb-2">{t("iaoPercentage")}</label>
-                                    <input
-                                        name="iaoPercentage"
-                                        value={formData.iaoPercentage}
-                                        onChange={handleChange}
-                                        className="w-full bg-card-inner p-1.5 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10 disabled:opacity-75 disabled:cursor-not-allowed"
-                                        disabled
-                                    />
-                                </div>
-                            </div>
-
-                            {/* 2. 容器链接 (可选) */}
-                            <div>
-                                <label className="block mb-2">
-                                    {t("container")} <span className="text-gray-500 text-sm">({t("optional")})</span>
-                                </label>
-                                <div className="text-gray-500 text-sm mb-2">{t("containerLinkHint")}</div>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span className="text-gray-500 text-sm">https://</span>
-                                    </div>
-                                    <input
-                                        name="containerLink"
-                                        ref={containerRef}
-                                        value={formData.containerLink}
-                                        onChange={(e) => {
-                                            let value = e.target.value;
-                                            // Remove https:// if user types it
-                                            if (value.startsWith('https://')) {
-                                                value = value.substring(8);
-                                            }
-                                            setFormData(prev => ({ ...prev, containerLink: value }));
-                                        }}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 pl-20 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder="hub.docker.com/r/username/image"
-                                    />
-                                </div>
-                                <div className="text-gray-400 text-sm mt-1">{t("containerLinkExample")}</div>
-                                {containerShow && (
-                                    <div className="text-red-500 text-sm mt-1">{t("linkFormatError")}</div>
-                                )}
                             </div>
 
                             {/* 3. 推特链接 (可选) */}
@@ -1317,76 +1416,72 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                 )}
                             </div>
 
-                            {/* 对话示例部分 */}
-                            <div className="mt-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <div className="flex items-center gap-2">
-                                        <h2 className="text-xl font-bold">{t("dialogExample")}</h2>
-                                        <span className="text-gray-500 text-sm">({t("optional")})</span>
-                                    </div>
-                                    <button
-                                        onClick={generateUseCases}
-                                        disabled={generatingUseCases || !formData.description}
-                                        className="flex items-center space-x-2 bg-primary text-white bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        <span>{t("generateExamples")}</span>
-                                    </button>
-                                </div>
-
-                                {/* Example 1 */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            1
+                            {/* 对话示例部分 - 仅在编辑模式下显示 */}
+                            {mode === 'edit' && (
+                                <div className="mt-6">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="flex items-center gap-2">
+                                            <h2 className="text-xl font-bold" id="examples">{t("dialogExample")}</h2>
+                                            <span className="text-gray-500 text-sm">({t("optional")})</span>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg1")}</h3>
                                     </div>
-                                    <textarea
-                                        id="11111"
-                                        name="userFirst"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[0] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
-                                </div>
 
-                                {/* Example 2 */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            2
+                                    {/* Example 1 */}
+                                    <div id="examples" className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                1
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg1")}</h3>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg2")}</h3>
+                                        <textarea
+                                            id="11111"
+                                            name="userFirst"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[0] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
                                     </div>
-                                    <textarea
-                                        id="22222"
-                                        name="userSecond"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[1] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
-                                </div>
 
-                                {/* Example 3 */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
-                                            3
+                                    {/* Example 2 */}
+                                    <div className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                2
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg2")}</h3>
                                         </div>
-                                        <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                                        <textarea
+                                            id="22222"
+                                            name="userSecond"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[1] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
                                     </div>
-                                    <textarea
-                                        id="33333"
-                                        name="userThird"
-                                        onChange={handleExChange}
-                                        value={currentLangUseCases[2] || ''}
-                                        className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
-                                        placeholder=""
-                                    />
+
+                                    {/* Example 3 */}
+                                    <div className="relative mb-6">
+                                        <div className="flex items-center mb-2">
+                                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-2">
+                                                3
+                                            </div>
+                                            <h3 className="text-lg font-medium">{t("eg3")}</h3>
+                                        </div>
+                                        <textarea
+                                            id="33333"
+                                            name="userThird"
+                                            onChange={handleExChange}
+                                            value={currentLangUseCases[2] || ''}
+                                            className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+                                            placeholder=""
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+
                             <button
                                 onClick={handleCreate}
                                 disabled={creating || !formData.name}
@@ -1394,6 +1489,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             >
                                 {creating ? t("creating") : mode === 'edit' ? t("update") : t("createNow")}
                             </button>
+                            
+                            {mode === 'create' && (
+                                <div className="text-gray-500 text-sm mt-2 text-center">
+                                    {t("additionalSettingsAfterCreation")}
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}

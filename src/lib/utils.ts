@@ -329,3 +329,40 @@ export const find24hAgoPrice = (params: {
     return result;
   }
 };
+
+/**
+ * 计算IAO的奖励数量（代币总供应量的15%，转换为Wei格式）
+ * @param totalSupply 代币总供应量
+ * @returns Wei格式的奖励数量字符串
+ */
+export function calculateRewardAmount(totalSupply: any): string {
+  if (!totalSupply) {
+    console.log('[警告] totalSupply为空，使用默认值');
+    return '15000000000000000000000000000'; // 默认值
+  }
+
+  try {
+    // 确保totalSupply是数值
+    const supply = typeof totalSupply === 'object' && totalSupply !== null ? 
+      Number(totalSupply.toString()) : 
+      Number(totalSupply);
+    
+    if (isNaN(supply)) {
+      console.log('[警告] totalSupply无法转换为数字，使用默认值');
+      return '15000000000000000000000000000';
+    }
+
+    // 计算15%的totalSupply
+    const rewardAmount = supply * 0.15;
+    
+    // 转换为Wei格式（乘以10^18）
+    const rewardAmountInWei = BigInt(Math.floor(rewardAmount * 10**18)).toString();
+    
+    console.log(`[IAO部署] 计算的奖励数量: ${rewardAmount} (${rewardAmountInWei} Wei)`);
+    
+    return rewardAmountInWei;
+  } catch (error) {
+    console.error('[错误] 计算奖励数量时出错:', error);
+    return '15000000000000000000000000000'; // 出错时使用默认值
+  }
+}

@@ -3,7 +3,7 @@
  */
 
 import { createPublicClient, createWalletClient, http, parseEther, formatEther } from 'viem';
-import { currentChain } from '@/config/chain';
+import { currentChain } from '@/config/networks';
 import { getServerWalletClients } from './index';
 import { getMiningContractAddress } from './config';
 import type { TransactionResult } from './types';
@@ -64,9 +64,11 @@ export async function allocateTokensToMining(
     if (receipt.status === 'success') {
       console.log(`✅ 代币分配成功 - 已分配 ${formatEther(amountWei)} 代币到挖矿合约`);
       return {
-        success: true,
-        hash,
-        message: `成功分配 ${formatEther(amountWei)} 代币到挖矿合约`
+        type: 'mining',
+        amount: formatEther(amountWei),
+        txHash: hash,
+        status: 'confirmed',
+        toAddress: miningContractAddress
       };
     } else {
       throw new Error('Transaction failed');
@@ -75,9 +77,12 @@ export async function allocateTokensToMining(
   } catch (error) {
     console.error('❌ 代币分配失败:', error);
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      message: '代币分配失败'
+      type: 'mining',
+      amount: '0',
+      txHash: '',
+      status: 'failed',
+      toAddress: getMiningContractAddress(),
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -167,9 +172,11 @@ export async function setMiningRewardToken(
     if (receipt.status === 'success') {
       console.log(`✅ 奖励代币设置成功 - Token: ${rewardTokenAddress}`);
       return {
-        success: true,
-        hash,
-        message: `奖励代币已设置为 ${rewardTokenAddress}`
+        type: 'mining',
+        amount: '0',
+        txHash: hash,
+        status: 'confirmed',
+        toAddress: rewardTokenAddress
       };
     } else {
       throw new Error('Transaction failed');
@@ -178,9 +185,12 @@ export async function setMiningRewardToken(
   } catch (error) {
     console.error('❌ 设置奖励代币失败:', error);
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      message: '设置奖励代币失败'
+      type: 'mining',
+      amount: '0',
+      txHash: '',
+      status: 'failed',
+      toAddress: rewardTokenAddress,
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -291,9 +301,11 @@ export async function startMining(): Promise<TransactionResult> {
     if (receipt.status === 'success') {
       console.log(`✅ 挖矿启动成功`);
       return {
-        success: true,
-        hash,
-        message: '挖矿已成功启动'
+        type: 'mining',
+        amount: '0',
+        txHash: hash,
+        status: 'confirmed',
+        toAddress: getMiningContractAddress()
       };
     } else {
       throw new Error('Transaction failed');
@@ -302,9 +314,12 @@ export async function startMining(): Promise<TransactionResult> {
   } catch (error) {
     console.error('❌ 启动挖矿失败:', error);
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      message: '启动挖矿失败'
+      type: 'mining',
+      amount: '0',
+      txHash: '',
+      status: 'failed',
+      toAddress: getMiningContractAddress(),
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }

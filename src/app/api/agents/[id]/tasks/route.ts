@@ -5,6 +5,8 @@ import { verify } from 'jsonwebtoken';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
+
+
 // 获取Agent所有任务
 export async function GET(
   request: Request,
@@ -64,13 +66,6 @@ export async function GET(
     const tasks = await prisma.task.findMany({
       where: { agentId },
       orderBy: { createdAt: 'desc' },
-      include: {
-        _count: {
-          select: {
-            history: true
-          }
-        }
-      }
     });
 
     // 处理任务结果
@@ -93,20 +88,15 @@ export async function GET(
         startedAt: task.startedAt,
         completedAt: task.completedAt,
         agentId: task.agentId,
-        result: resultData,
-        historyCount: task._count.history
+        result: resultData
       };
     });
 
     return createSuccessResponse({
-      code: 200,
-      message: '查询Agent任务列表成功',
-      data: {
-        agentId,
-        agentName: agent.name,
-        tasks: formattedTasks
-      },
-    });
+      agentId,
+      agentName: agent.name,
+      tasks: formattedTasks
+    }, '查询Agent任务列表成功');
   } catch (error) {
     console.error('查询Agent任务列表过程中发生错误:', error);
     return handleError(error);

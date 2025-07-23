@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken';
 import { Decimal } from '@prisma/client/runtime/library';
 import { v4 as uuidv4 } from 'uuid';
 import { reloadContractListeners } from '@/services/contractEventListener';
+import { calculateRewardAmount } from '@/lib/utils';
 
 const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
@@ -144,6 +145,24 @@ export async function POST(request: Request) {
       }
     }
 
+    // 检查环境变量 LIMIT_ONEPWALLET_ONEAGENT，如果为 true，限制一个钱包地址只能创建一个 agent
+    if (process.env.LIMIT_ONEPWALLET_ONEAGENT === 'true') {
+      // 查找该钱包地址是否已创建过 agent
+      const user = await prisma.user.findUnique({
+        where: { address: decoded.address },
+        include: {
+          agents: true
+        }
+      });
+
+      if (user && user.agents.length > 0) {
+        return NextResponse.json(
+          { code: 4001, message: '每个钱包地址只能创建一个 Agent' },
+          { status: 400 }
+        );
+      }
+    }
+
     // 查找或创建用户
     const user = await prisma.user.upsert({
       where: { address: decoded.address },
@@ -205,14 +224,7 @@ export async function POST(request: Request) {
       await prisma.$executeRaw`UPDATE "Agent" SET "containerLink" = ${containerLink} WHERE id = ${newId}`;
     }
 
-    // 创建任务历史记录
-    await prisma.history.create({
-      data: {
-        action: 'create',
-        result: 'CREATING',
-        agentId: agent.id,
-      },
-    });
+
 
     // 异步处理任务
     processTask(agent.id, {
@@ -224,13 +236,9 @@ export async function POST(request: Request) {
     }).catch(console.error);
 
     return createSuccessResponse({
-      code: 200,
-      message: '任务已创建',
-      data: {
-        agentId: agent.id,
-        status: 'CREATING',
-      },
-    });
+      agentId: agent.id,
+      status: 'CREATING',
+    }, '任务已创建');
   } catch (error) {
     return handleError(error);
   }
@@ -295,7 +303,7 @@ async function processTask(
     console.log(`[IAO部署] - 所有者地址: ${agent.creator.address}`);
 
     const iaoResult = await retry(async () => {
-      const iaoResponse = await fetch("http://3.0.25.131:8070/deploy/IAO", {
+      const iaoResponse = await fetch("http://54.179.233.88:8070/deploy/IAO", {
         method: "POST",
         headers: {
           "accept": "application/json",
@@ -305,7 +313,7 @@ async function processTask(
         body: JSON.stringify({
           duration_hours: taskData.durationHours || 72,
           owner: process.env.SERVER_WALLET_ADDRESS,
-          reward_amount: taskData.rewardAmount || '2000000000000000000000000000',
+          reward_amount: calculateRewardAmount(agent.totalSupply),
           // 不传递 reward_token 参数，或传递 null
           reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: taskData.startTimestamp || Math.floor(Date.now() / 1000) + 3600,
@@ -369,15 +377,8 @@ async function processTask(
     console.log('[事件监听] 触发监听器重新加载...');
     await reloadContractListeners();
 
-    // 更新任务历史记录
+    // Agent创建流程完成
     console.log(`[完成] Agent创建流程完成`);
-    await prisma.history.create({
-      data: {
-        action: 'process',
-        result: 'success',
-        agentId,
-      },
-    });
   } catch (error) {
     // 处理错误
     console.error('[错误] 任务处理失败:', error);
@@ -395,18 +396,10 @@ async function processTask(
     await prisma.agent.update({
       where: { id: agentId },
       data: {
-        status: 'failed',
+        status: 'FAILED',
       },
     });
 
-    // 记录失败历史
-    await prisma.history.create({
-      data: {
-        action: 'process',
-        result: 'failed',
-        agentId,
-        //error: error instanceof Error ? error.message : 'Unknown error'
-      },
-    });
+
   }
 }
