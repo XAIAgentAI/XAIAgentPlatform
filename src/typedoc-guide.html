@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeDoc 使用指南</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #0366d6;
+    }
+    h1 {
+      border-bottom: 1px solid #eaecef;
+      padding-bottom: 10px;
+    }
+    code {
+      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+      background-color: #f6f8fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    pre {
+      background-color: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow: auto;
+    }
+    pre code {
+      background-color: transparent;
+      padding: 0;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .tip {
+      background-color: #f8f9fa;
+      border-left: 4px solid #0366d6;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+    .warning {
+      background-color: #fff8db;
+      border-left: 4px solid #f0ad4e;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>TypeDoc 使用指南</h1>
+  
+  <p>本指南介绍如何在XAIAgentPlatform项目中使用TypeDoc生成API文档。</p>
+  
+  <h2>基本概念</h2>
+  
+  <p>TypeDoc是一个为TypeScript项目生成文档的工具，它可以从TypeScript源代码中提取注释和类型信息，生成HTML格式的文档。</p>
+  
+  <h2>安装和配置</h2>
+  
+  <p>项目已经配置好了TypeDoc，你可以通过以下命令生成文档：</p>
+  
+  <pre><code># 生成Markdown文档
+pnpm docs
+
+# 监视模式（文件变更时自动重新生成）
+pnpm docs:watch
+
+# 生成HTML文档
+pnpm docs:html
+
+# 生成HTML文档并启动服务器
+pnpm docs:html-serve
+
+# 修复TypeDoc错误
+pnpm docs:fix-errors</code></pre>
+  
+  <p>生成的文档将保存在<code>docs</code>或<code>docs-html</code>目录下。</p>
+  
+  <h2>注释规范</h2>
+  
+  <h3>基本注释格式</h3>
+  
+  <p>TypeDoc使用JSDoc风格的注释，以<code>/**</code>开始，以<code>*/</code>结束。</p>
+  
+  <pre><code>/**
+ * 函数描述
+ * 
+ * @param paramName - 参数描述
+ * @returns 返回值描述
+ */
+function example(paramName: string): number {
+  return 0;
+}</code></pre>
+  
+  <h3>常用标签</h3>
+  
+  <ul>
+    <li><code>@param</code> - 描述函数参数</li>
+    <li><code>@returns</code> - 描述函数返回值</li>
+    <li><code>@example</code> - 提供使用示例</li>
+    <li><code>@deprecated</code> - 标记已弃用的API</li>
+    <li><code>@see</code> - 引用相关内容</li>
+    <li><code>@category</code> - 分类（用于组织文档结构）</li>
+    <li><code>@module</code> - 定义模块</li>
+    <li><code>@interface</code> - 描述接口</li>
+    <li><code>@type</code> - 描述类型</li>
+    <li><code>@throws</code> - 描述可能抛出的异常</li>
+  </ul>
+  
+  <h3>分类和模块</h3>
+  
+  <p>为了更好地组织文档，我们使用<code>@category</code>和<code>@module</code>标签：</p>
+  
+  <pre><code>/**
+ * @module Auth
+ * @category 核心
+ */
+
+/**
+ * 用户认证服务
+ * @category 服务
+ */
+export class AuthService {
+  // ...
+}</code></pre>
+  
+  <h3>代码示例</h3>
+  
+  <p>在注释中添加代码示例可以帮助其他开发者理解如何使用API：</p>
+  
+  <pre><code>/**
+ * 格式化金额
+ * 
+ * @param amount - 要格式化的金额
+ * @param currency - 货币代码，默认为'USD'
+ * @returns 格式化后的金额字符串
+ * 
+ * @example
+ * ```ts
+ * // 格式化为美元
+ * formatCurrency(1000); // "$1,000.00"
+ * 
+ * // 格式化为欧元
+ * formatCurrency(1000, 'EUR'); // "€1,000.00"
+ * ```
+ */
+function formatCurrency(amount: number, currency: string = 'USD'): string {
+  // 实现...
+}</code></pre>
+  
+  <h2>最佳实践</h2>
+  
+  <ol>
+    <li><strong>为公共API添加文档</strong>：所有公共函数、类、接口和类型都应该有文档注释。</li>
+    <li><strong>保持简洁</strong>：注释应该简洁明了，避免不必要的冗长。</li>
+    <li><strong>使用示例</strong>：尽可能提供使用示例，特别是对于复杂的API。</li>
+    <li><strong>保持文档更新</strong>：当代码变更时，确保更新相关文档。</li>
+    <li><strong>使用分类</strong>：使用<code>@category</code>标签对API进行分类，使文档结构更清晰。</li>
+  </ol>
+  
+  <h2>文档结构</h2>
+  
+  <p>我们的文档结构按以下分类组织：</p>
+  
+  <ul>
+    <li><strong>核心</strong> - 核心功能和基础设施</li>
+    <li><strong>组件</strong> - UI组件</li>
+    <li><strong>服务</strong> - 业务服务和API</li>
+    <li><strong>工具</strong> - 实用工具和辅助函数</li>
+  </ul>
+  
+  <h2>处理警告和错误</h2>
+  
+  <p>TypeDoc在生成文档时可能会产生一些警告，这些警告通常不会阻止文档生成，但可能会影响文档的完整性。常见的警告包括：</p>
+  
+  <ol>
+    <li><strong>未引用的入口点</strong>：某些文件未被tsconfig中的'files'或'include'选项引用</li>
+    <li><strong>未包含在文档中的引用类型</strong>：某些类型被引用但未包含在文档中</li>
+  </ol>
+  
+  <p>要减少这些警告：</p>
+  
+  <ol>
+    <li>使用<code>--skipErrorChecking</code>选项忽略错误（已在脚本中配置）</li>
+    <li>运行<code>pnpm docs:fix-errors</code>尝试自动修复一些常见错误</li>
+    <li>确保所有公共API都有适当的文档注释</li>
+    <li>检查并更新tsconfig.typedoc.json文件，确保包含所有需要文档化的源文件</li>
+  </ol>
+  
+  <div class="tip">
+    <p><strong>提示：</strong> 使用HTML格式的文档（<code>pnpm docs:html</code>）可以获得更好的阅读体验，包括搜索功能和更美观的布局。</p>
+  </div>
+  
+  <div class="warning">
+    <p><strong>注意：</strong> 私有方法和属性默认不会出现在生成的文档中。确保你的注释是有意义的，避免仅仅重复函数名或参数类型。对于复杂的类型或接口，添加详细的描述有助于其他开发者理解其用途。</p>
+  </div>
+  
+  <h2>参考资料</h2>
+  
+  <ul>
+    <li><a href="https://typedoc.org/guides/overview/" target="_blank">TypeDoc官方文档</a></li>
+    <li><a href="https://jsdoc.app/" target="_blank">JSDoc参考</a></li>
+  </ul>
+</body>
+</html> 

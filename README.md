@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## 项目文档
+
+本项目使用TypeDoc生成API文档。要生成和查看文档，请运行以下命令：
+
+```bash
+# 生成文档
+pnpm docs
+
+# 生成并自动打开文档
+pnpm docs:build-open
+
+# 监视模式（文件变更时自动重新生成）
+pnpm docs:watch
+```
+
+有关如何编写TypeDoc文档的指南，请参阅 `docs/typedoc-guide.md`。
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

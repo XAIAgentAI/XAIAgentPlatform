@@ -20,10 +20,18 @@
     "clear-agents": "ts-node -P scripts/tsconfig.json scripts/clear-agents.ts",
     "prisma:seed": "ts-node -P scripts/tsconfig.json prisma/seed.ts",
     "test:agent-api": "tsx scripts/test-agent-api.ts",
-    "delete:test-agents": "tsx scripts/delete-test-agents.ts"
+    "delete:test-agents": "tsx scripts/delete-test-agents.ts",
+    "docs": "typedoc --skipErrorChecking",
+    "docs:watch": "typedoc --watch --skipErrorChecking",
+    "docs:html": "typedoc --skipErrorChecking --out docs-html",
+    "docs:serve": "node scripts/serve-docs.js",
+    "docs:html-serve": "typedoc --skipErrorChecking --out docs-html && node scripts/serve-docs.js",
+    "docs:open": "node scripts/open-docs.js",
+    "docs:index": "node scripts/generate-docs-index.js",
+    "docs:build-open": "typedoc --skipErrorChecking && node scripts/generate-docs-index.js && node scripts/open-docs.js",
+    "docs:fix-errors": "node scripts/fix-typedoc-errors.js"
   },
   "dependencies": {
-
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@neondatabase/serverless": "^0.10.4",
@@ -95,9 +103,12 @@
     "@typescript-eslint/parser": "^8.19.1",
     "@wagmi/core": "^2.16.3",
     "autoprefixer": "^10.4.20",
+    "docdash": "^2.0.2",
     "eslint": "^9.18.0",
     "eslint-config-next": "15.1.4",
     "eslint-plugin-react": "^7.37.3",
+    "jsdoc": "^4.0.4",
+    "jsdoc-tsimport-plugin": "^1.0.5",
     "pino-pretty": "^13.0.0",
     "postcss": "^8.4.49",
     "prisma": "^6.2.1",
@@ -105,6 +116,9 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
+    "typedoc-theme-hierarchy": "^6.0.0",
     "typescript": "^5.7.3"
   }
 }

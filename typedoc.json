@@ -1,0 +1,31 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["核心", "组件", "服务", "工具", "*"],
+  "readme": "README.md",
+  "name": "XAIAgentPlatform API文档",
+  "theme": "default",
+  "tsconfig": "./tsconfig.typedoc.json",
+  "sort": ["alphabetical"],
+  "skipErrorChecking": true,
+  "hideGenerator": true,
+  "searchInComments": true,
+  "visibilityFilters": {
+    "protected": true,
+    "private": false,
+    "inherited": true,
+    "external": false
+  },
+  "navigationLinks": {
+    "GitHub": "https://github.com/your-org/XAIAgentPlatform",
+    "文档指南": "typedoc-guide.html"
+  },
+  "exclude": ["**/node_modules/**", "**/*.test.ts", "**/*.spec.ts"]
+} 

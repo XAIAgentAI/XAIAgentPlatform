@@ -2,21 +2,57 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 /**
- * Utility function to merge Tailwind CSS classes with proper precedence
+ * 工具模块
+ * @module Utils
+ * @category 工具
+ */
+
+/**
+ * 合并Tailwind CSS类，保持正确的优先级顺序
+ * 
+ * @param inputs - 要合并的CSS类数组
+ * @returns 合并后的CSS类字符串
+ * @example
+ * ```tsx
+ * // 在组件中使用
+ * <div className={cn("base-style", isActive && "active-style", className)}>
+ *   内容
+ * </div>
+ * ```
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 /**
- * Format a date string to a localized date and time
+ * 将日期字符串格式化为本地化的日期和时间
+ * 
+ * @param date - 要格式化的日期字符串或Date对象
+ * @returns 格式化后的日期时间字符串
+ * @example
+ * ```ts
+ * // 格式化当前日期
+ * const formattedDate = formatDate(new Date());
+ * // 格式化ISO日期字符串
+ * const formattedDate = formatDate("2023-01-01T12:00:00Z");
+ * ```
  */
 export function formatDate(date: string | Date) {
   return new Date(date).toLocaleString()
 }
 
 /**
- * Generate a random string of specified length
+ * 生成指定长度的随机字符串ID
+ * 
+ * @param length - 生成的ID长度，默认为8
+ * @returns 随机生成的字符串ID
+ * @example
+ * ```ts
+ * // 生成默认长度(8)的ID
+ * const id = generateId();
+ * // 生成12位长度的ID
+ * const longerId = generateId(12);
+ * ```
  */
 export function generateId(length: number = 8) {
   return Math.random().toString(36).substring(2, length + 2)

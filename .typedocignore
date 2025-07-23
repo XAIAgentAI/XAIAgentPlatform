@@ -1,0 +1,10 @@
+node_modules/
+**/*.test.ts
+**/*.spec.ts
+scripts/
+src/lib/server-wallet/
+src/app/api/agents/
+src/app/api/tasks/
+src/app/api/token/
+src/lib/token-distribution/
+src/services/contractEventListener.ts 
