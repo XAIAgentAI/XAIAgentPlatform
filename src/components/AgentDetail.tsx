@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { AgentInfo } from "@/components/agent-detail/AgentInfo";
 import { TokenInfoCard } from "@/components/agent-detail/TokenInfoCard";
 import ConversationStarter from "@/components/agent-detail/ConversationStarter";
-import { IaoPool } from "@/components/agent-detail/IaoPool";
+import IaoPool from "@/components/agent-detail/IaoPool";
 import { agentAPI } from "@/services/api";
 import { LocalAgent } from "@/types/agent";
 import { StateDisplay } from "@/components/ui-custom/state-display";

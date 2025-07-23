@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import BigNumber from "bignumber.js"
+import { ethers } from "ethers"
 
 /**
  * Utility function to merge Tailwind CSS classes with proper precedence
@@ -354,12 +355,12 @@ export function calculateRewardAmount(totalSupply: any): string {
     }
 
     const rewardAmount = new BigNumber(supply).times(15).div(100);
-    const rewardAmountInWei = rewardAmount.times(new BigNumber(10).pow(18)).toString();
+    const rewardAmountInWei = ethers.parseUnits(rewardAmount.toString(), "ether").toString();
     
     
     console.log(`[IAO部署] 计算的奖励数量: ${rewardAmount} (${rewardAmountInWei} Wei)`);
     
-    return rewardAmountInWei;
+    return rewardAmountInWei.toString();
   } catch (error) {
     console.error('[错误] 计算奖励数量时出错:', error);
     return '15000000000000000000000000000'; // 出错时使用默认值

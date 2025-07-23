@@ -135,6 +135,17 @@ export async function POST(
         console.log('[IAO重新部署] 部署请求已接受，继续处理...');
         return result;
       } else if (result.code !== 200 || !result.data?.proxy_address) {
+        console.error('[IAO重新部署] 部署失败请求参数', JSON.stringify({
+          duration_hours: durationHours,
+          owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
+          reward_amount: calculateRewardAmount(agent.totalSupply),
+          reward_token: "0x0000000000000000000000000000000000000000",
+          start_timestamp: startTimestamp,
+          token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
+            ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
+            : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
+      })
+    );
         throw new Error(`IAO重新部署失败: ${result.message || '未知错误'}`);
       }
       
