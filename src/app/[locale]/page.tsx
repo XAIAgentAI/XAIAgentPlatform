@@ -21,19 +21,14 @@ export default function Home() {
   const fetchAgentsData = async () => {
     try {
       setLoading(true)
-      // 创建选项对象，只有当参数存在时才添加
-      const options: {
-        pageSize: number;
-        sortBy?: string;
-        sortOrder?: "asc" | "desc";
-      } = {
-        pageSize: 30
+      // 使用当前排序参数和筛选参数
+      const options = {
+        pageSize: 30,
+        sortBy: sortBy as string,
+        sortOrder: sortOrder as "asc" | "desc",
+        status: statusFilter === "" ? undefined : statusFilter,
       };
-      
-      // 只有当参数存在时才添加到选项中
-      if (sortBy) options.sortBy = sortBy;
-      if (sortOrder) options.sortOrder = sortOrder as "asc" | "desc";
-      
+
       console.log('Fetching agents with options:', options);
 
       // 获取agents数据
