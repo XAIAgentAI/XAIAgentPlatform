@@ -58,11 +58,19 @@ export class LiquidityDistributionManager {
    */
   private priceToTick(price: number): number {
     try {
-      // 计算tick
+      // 计算tick值
       const tick = Math.log(price) / Math.log(1.0001);
+      
+      console.log(`🧮 tick计算过程:`);
+      console.log(`  - 价格: ${price}`);
+      console.log(`  - 计算公式: log(价格)/log(1.0001)`);
+      console.log(`  - 计算结果: ${tick}`);
+      console.log(`  - 取整结果: ${Math.floor(tick)}`);
+      
+      // 向下取整，因为tick必须是整数
       return Math.floor(tick);
     } catch (error) {
-      console.warn('计算tick失败:', error);
+      console.error('❌ 计算tick失败:', error);
       throw error;
     }
   }
@@ -87,6 +95,7 @@ export class LiquidityDistributionManager {
     initialTick: number;
     minTick: number;
     maxTick: number;
+    isTokenAddressSmaller?: boolean; // 添加标志来指示代币地址顺序
   }> {
     console.log(`🧮 计算流动性参数 - 总供应量: ${totalSupply}, IAO合约: ${iaoContractAddress || '未提供'}`);
 
@@ -100,10 +109,13 @@ export class LiquidityDistributionManager {
     // 2. 从IAO合约获取原始XAA数量
     const rawXaaAmount = await this.getTotalDepositedTokenIn(iaoContractAddress);
     
-    // 3. 计算初始价格（使用IAO的数量计算）
+    // 3. 计算初始价格
     const fullXaaAmount = parseFloat(rawXaaAmount);
-    const baseInitialPrice = fullXaaAmount / liquidityTokenAmount;  // 基础初始价格 = IAO的XAA数量 / 流通池中的代币数量（即 供应量的10%）
-    const initialPrice = baseInitialPrice * 1.1;  // 实际使用的初始价格（1.1倍）
+    
+    // 价格计算 - 默认情况下，我们计算 XAA/用户代币 的比率
+    // 注意：在实际添加流动性时，将根据地址大小决定是否需要调整这个价格
+    let baseInitialPrice = fullXaaAmount / liquidityTokenAmount;  // 基础初始价格 = IAO的XAA数量 / 流通池中的代币数量
+    let initialPrice = baseInitialPrice * 1.1;  // 实际使用的初始价格（1.1倍）
     
     // 4. 计算初始tick - 使用SDK方法
     const initialTickRaw = this.priceToTick(initialPrice);
@@ -112,7 +124,7 @@ export class LiquidityDistributionManager {
     
     // 5. 计算最低价格（初始价格的0.2倍）
     const minPriceRatio = 0.2;
-    const minPrice = initialPrice * minPriceRatio;  // 基于调整后的初始价格计算
+    let minPrice = initialPrice * minPriceRatio;  // 基于调整后的初始价格计算
     // 计算最低价格对应的tick - 使用SDK方法
     const minTickRaw = this.priceToTick(minPrice);
     const minTick = this.getUsableTick(Math.floor(minTickRaw / tickSpacing) * tickSpacing, tickSpacing);
@@ -123,8 +135,15 @@ export class LiquidityDistributionManager {
     
     // 7. 计算最高价格 - 使用对称价格范围
     const priceRatio = initialPrice / minPrice;
-    const maxPrice = initialPrice * priceRatio;
+    let maxPrice = initialPrice * priceRatio;
     const calculationMethod = 'Uniswap SDK - 对称价格范围';
+    
+    // 8. 检查价格表示方式的正确性
+    // 在Uniswap V3中价格是token1/token0，但我们需要知道哪个是token0，哪个是token1
+    console.log(`\n💰 重要提示: 当前价格计算是以 XAA/用户代币 表示的`);
+    console.log(`  实际交易中，Uniswap会根据代币地址大小重新确定token0和token1，并调整价格方向`);
+    console.log(`  如果用户代币地址 < XAA地址: token0=用户代币, token1=XAA, 价格=XAA/用户代币`);
+    console.log(`  如果用户代币地址 > XAA地址: token0=XAA, token1=用户代币, 价格=用户代币/XAA (需要取倒数)`);
     
     // 计算最高价格对应的tick - 使用SDK方法
     const maxTickRaw = this.priceToTick(maxPrice);
@@ -147,12 +166,12 @@ export class LiquidityDistributionManager {
     console.log(`  - 实际使用XAA数量(95%): ${actualXaaAmount}`);
 
     console.log(`\n💰 价格计算:`);
-    console.log(`  - 计算公式: XAA数量 / IAO代币数量`);
-    console.log(`  - 基础价格 = ${fullXaaAmount} / ${iaoTokenAmount} = ${baseInitialPrice}`);
+    console.log(`  - 计算公式: XAA数量 / 流动性代币数量`);
+    console.log(`  - 基础价格 = ${fullXaaAmount} / ${liquidityTokenAmount} = ${baseInitialPrice}`);
     console.log(`  - 调整价格 = ${baseInitialPrice} * 1.1 = ${initialPrice}`);
 
     console.log(`\n💰 价格和Tick设置:`);
-    console.log(`  - 基础初始价格: ${baseInitialPrice.toFixed(8)}`);
+    console.log(`  - 基础初始价格(XAA/用户代币): ${baseInitialPrice.toFixed(8)}`);
     console.log(`  - 调整后初始价格: ${initialPrice.toFixed(8)} (1.1x of base)`);
     console.log(`    • 原始tick: ${initialTickRaw}`);
     console.log(`    • 对齐后tick: ${initialTick} (spacing: ${tickSpacing})`);
@@ -184,7 +203,7 @@ export class LiquidityDistributionManager {
       maxPrice,
       initialTick,
       minTick,
-      maxTick
+      maxTick,
     };
   }
 
@@ -272,6 +291,12 @@ export class LiquidityDistributionManager {
         params.totalSupply,
         params.iaoContractAddress
       );
+
+      console.log(`\n📊 价格参数 - 这里表示的价格是XAA/用户代币的比率`);
+      console.log(`  - 初始价格: ${distributionParams.initialPrice}`);
+      console.log(`  - 最小价格: ${distributionParams.minPrice}`);
+      console.log(`  - 最大价格: ${distributionParams.maxPrice}`);
+      console.log(`  - 注意: PoolManager会根据代币地址大小自动调整价格方向`);
 
       // 3. 准备添加流动性的参数
       const addLiquidityParams: AddLiquidityParams = {
@@ -372,7 +397,13 @@ export class LiquidityDistributionManager {
   /**
    * 检查流动性分发状态
    */
-  async checkDistributionStatus(agentId: string) {
+  async checkDistributionStatus(agentId: string): Promise<{
+    agentId: string;
+    liquidityAdded: boolean | null;
+    tokenAddress: string | null;
+    calculatedTokenAmount: string;
+    calculatedXaaAmount: string;
+  }> {
     const agent = await prisma.agent.findUnique({
       where: { id: agentId },
       select: {
