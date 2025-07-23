@@ -209,7 +209,7 @@
     "claimSuccess": "청구 성공",
     "claimFailed": "청구 실패, 다시 시도해주세요",
     "claimRewards": "보상 청구",
-    "tokenSentToWallet": "XAA 토큰이 지갑으로 전송되었습니다",
+    "tokenSentToWallet": "토큰이 지갑으로 전송되었습니다",
     "updateTimeModal": {
       "title": "IAO 시간 수정",
       "description": "IAO의 시작 시간과 종료 시간을 수정합니다. 컨트랙트 소유자만 이 작업을 수행할 수 있습니다.",
@@ -233,14 +233,14 @@
         "endIn": "{days}일 {hours}시간 남음",
         "started": "시작됨",
         "ended": "종료됨",
-        "startedDaysAgo": "[ko] {days}天{hours}小时前开始",
-        "startedHoursAgo": "[ko] {hours}小时前开始",
-        "startedMinutesAgo": "[ko] {minutes}分钟前开始",
-        "startedJustNow": "[ko] 刚刚开始"
+        "startedDaysAgo": "{days}일 {hours}시간 전에 시작",
+        "startedHoursAgo": "{hours}시간 전에 시작",
+        "startedMinutesAgo": "{minutes}분 전에 시작",
+        "startedJustNow": "방금 시작"
       },
       "previewInfo": {
-        "full": "[ko] IAO将在 {startHours} 小时后开始，在 {endHours} 小时后结束，持续 {durationHours} 小时",
-        "endTimeOnly": "[ko] IAO将在 {endHours} 小时后结束，持续 {durationHours} 小时"
+        "full": "IAO는 {startHours} 시간 후에 시작되고, {endHours} 시간 후에 종료되며, {durationHours} 시간 동안 지속됩니다",
+        "endTimeOnly": "IAO는 {endHours} 시간 후에 종료되며, {durationHours} 시간 동안 지속됩니다"
       },
       "calculating": "계산 중...",
       "validationErrors": {
@@ -249,7 +249,7 @@
         "endAfterNow": "종료 시간은 현재 시간보다 늦어야 합니다",
         "startAfter24h": "시작 시간은 최소 24시간 후여야 합니다",
         "durationRange": "지속 시간은 지정된 범위 내여야 합니다",
-        "endAfterStart": "[ko] 结束时间必须晚于开始时间"
+        "endAfterStart": "종료 시간은 시작 시간보다 늦어야 합니다"
       },
       "successMessage": "IAO 시간이 업데이트되었습니다",
       "successDetails": "IAO 시간이 성공적으로 업데이트되었으며 새 설정이 적용되었습니다",
@@ -257,8 +257,8 @@
       "errorDetails": "IAO 시간을 업데이트하는 동안 오류가 발생했습니다. 나중에 다시 시도해주세요",
       "error": "오류",
       "connectWalletFirst": "먼저 지갑을 연결해주세요",
-      "endTimeHint": "[ko] * 结束时间必须晚于开始时间，持续时间72-240小时",
-      "endTimeError": "[ko] 结束时间设置有误，请检查时间设置",
+      "endTimeHint": "* 종료 시간은 시작 시간보다 늦어야 합니다, 지속 시간은 72-240시간",
+      "endTimeError": "종료 시간 설정이 잘못되었습니다, 시간 설정을 확인해주세요",
       "loading": "로딩 중..."
     },
     "importTokenAddress": "MetaMask에서 토큰 주소를 가져와 확인하세요:",
@@ -272,7 +272,7 @@
     "stakeFailed": "구매 실패, 다시 시도해주세요",
     "claimableAmount": "청구 가능한 {symbol} 수량",
     "claimedAmount": "청구된 {symbol} 수량",
-    "claimSuccessWithAmount": "{amount} XAA 청구 성공",
+    "claimSuccessWithAmount": "{amount} 토큰 청구 성공",
     "stakeNotStarted": "구매가 시작되지 않았습니다",
     "sendSuccess": "{amount} {symbol} 전송 성공",
     "transactionSent": "거래가 전송되었습니다",

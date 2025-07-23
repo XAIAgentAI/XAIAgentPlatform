@@ -270,7 +270,7 @@
     "claimableAmount": "可领取的 {symbol} 数量",
     "claimedAmount": "已领取的 {symbol} 数量",
     "claimed": "已领取",
-    "claimSuccessWithAmount": "成功领取 {amount} XAA",
+    "claimSuccessWithAmount": "成功领取 {amount} 代币",
     "stakeNotStarted": "购买未开始",
     "sendSuccess": "成功发送 {amount} {symbol}",
     "transactionSent": "交易已发送",

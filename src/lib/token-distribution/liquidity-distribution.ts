@@ -202,7 +202,7 @@ export class LiquidityDistributionManager {
     
     // 价格计算 - 默认情况下，我们计算 XAA/用户代币 的比率
     // 注意：在实际添加流动性时，将根据地址大小决定是否需要调整这个价格
-    let baseInitialPrice = fullXaaAmount / liquidityTokenAmount;  // 基础初始价格 = IAO的XAA数量 / 流通池中的代币数量
+    let baseInitialPrice = fullXaaAmount / iaoTokenAmount;  // 基础初始价格 = IAO的XAA数量 / 流通池中的代币数量
     let initialPrice = baseInitialPrice * 1.1;  // 实际使用的初始价格（1.1倍）
     
     // 4. 计算初始tick - 使用SDK方法

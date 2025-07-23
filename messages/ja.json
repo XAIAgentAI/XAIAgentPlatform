@@ -230,14 +230,14 @@
         "endIn": "あと{days}日{hours}時間で終了",
         "started": "開始済み",
         "ended": "終了済み",
-        "startedDaysAgo": "[ja] {days}天{hours}小时前开始",
-        "startedHoursAgo": "[ja] {hours}小时前开始",
-        "startedMinutesAgo": "[ja] {minutes}分钟前开始",
-        "startedJustNow": "[ja] 刚刚开始"
+        "startedDaysAgo": "{days}日{hours}時間前に開始",
+        "startedHoursAgo": "{hours}時間前に開始",
+        "startedMinutesAgo": "{minutes}分前に開始",
+        "startedJustNow": "たった今開始"
       },
       "previewInfo": {
-        "full": "[ja] IAO将在 {startHours} 小时后开始，在 {endHours} 小时后结束，持续 {durationHours} 小时",
-        "endTimeOnly": "[ja] IAO将在 {endHours} 小时后结束，持续 {durationHours} 小时"
+        "full": "IAOは{startHours}時間後に開始し、{endHours}時間後に終了し、{durationHours}時間続きます",
+        "endTimeOnly": "IAOは{endHours}時間後に終了し、{durationHours}時間続きます"
       },
       "calculating": "計算中...",
       "validationErrors": {
@@ -246,7 +246,7 @@
         "endAfterNow": "終了時間は現在時刻より後である必要があります",
         "startAfter24h": "開始時間は少なくとも24時間後である必要があります",
         "durationRange": "期間は指定された範囲内である必要があります",
-        "endAfterStart": "[ja] 结束时间必须晚于开始时间"
+        "endAfterStart": "終了時間は開始時間より後である必要があります"
       },
       "successMessage": "IAO時間が更新されました",
       "successDetails": "IAO時間が正常に更新され、新しい設定が有効になりました",
@@ -254,11 +254,11 @@
       "errorDetails": "IAO時間の更新中にエラーが発生しました。後でもう一度お試しください",
       "error": "エラー",
       "connectWalletFirst": "まず、ウォレットを接続してください",
-      "endTimeHint": "[ja] * 结束时间必须晚于开始时间，持续时间72-240小时",
-      "endTimeError": "[ja] 结束时间设置有误，请检查时间设置",
+      "endTimeHint": "* 終了時間は開始時間より後である必要があります、期間は72-240時間",
+      "endTimeError": "終了時間の設定が間違っています、時間設定を確認してください",
       "loading": "読み込み中..."
     },
-    "tokenSentToWallet": "XAAトークンがウォレットに送信されました",
+    "tokenSentToWallet": "トークンがウォレットに送信されました",
     "importTokenAddress": "MetaMaskでトークンアドレスをインポートして確認してください：",
     "poolDynamicTip": "IAOプール内の{investSymbol}の量が増えるにつれて、対応する{symbol}の量は減少します",
     "maxButton": "最大",
@@ -270,7 +270,7 @@
     "stakeFailed": "購入に失敗しました。もう一度お試しください",
     "claimableAmount": "請求可能な {symbol} 数量",
     "claimedAmount": "請求済みの {symbol} 数量",
-    "claimSuccessWithAmount": "{amount} XAAの請求に成功しました",
+    "claimSuccessWithAmount": "{amount} トークンの請求に成功しました",
     "stakeNotStarted": "購入はまだ開始されていません",
     "sendSuccess": "{amount} {symbol}の送信に成功しました",
     "transactionSent": "取引を送信しました",
