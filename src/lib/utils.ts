@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import BigNumber from "bignumber.js"
 
 /**
  * Utility function to merge Tailwind CSS classes with proper precedence
@@ -352,11 +353,9 @@ export function calculateRewardAmount(totalSupply: any): string {
       return '15000000000000000000000000000';
     }
 
-    // 计算15%的totalSupply
-    const rewardAmount = supply * 0.15;
+    const rewardAmount = new BigNumber(supply).times(15).div(100);
+    const rewardAmountInWei = rewardAmount.times(new BigNumber(10).pow(18)).toString();
     
-    // 转换为Wei格式（乘以10^18）
-    const rewardAmountInWei = BigInt(Math.floor(rewardAmount * 10**18)).toString();
     
     console.log(`[IAO部署] 计算的奖励数量: ${rewardAmount} (${rewardAmountInWei} Wei)`);
     
