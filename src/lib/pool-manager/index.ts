@@ -543,7 +543,10 @@ export class PoolManager {
       return {
         success: true,
         poolAddress,
-        ...result
+        txHash: result?.txHash,
+        tokenAmount: result?.tokenAmount,
+        xaaAmount: result?.xaaAmount,
+        blockNumber: result?.blockNumber
       };
   
     } catch (error) {
@@ -696,7 +699,12 @@ export class PoolManager {
     tokenAmount: string, 
     xaaAmount: string, 
     params: CalculatedPoolParams
-  ) {
+  ): Promise<{
+    txHash?: string;
+    tokenAmount?: string;
+    xaaAmount?: string;
+    blockNumber?: string;
+  }> {
     console.log(`\n========== 开始添加流动性 ==========`);
     
     const mintParams = {
@@ -717,27 +725,24 @@ export class PoolManager {
     console.log(JSON.stringify(mintParams, (key, value) => 
       typeof value === 'bigint' ? value.toString() : value, 2));
     
-    // 暂时注释掉实际调用
-    throw new Error('test');
+
     
-    // const addLiquidityHash = await this.walletClient.writeContract({
-    //   address: DBCSWAP_CONFIG.POSITION_MANAGER,
-    //   abi: ABIS.POSITION_MANAGER,
-    //   functionName: 'mint',
-    //   args: [mintParams],
-    // });
+  const addLiquidityHash = await this.walletClient.writeContract({
+      address: DBCSWAP_CONFIG.POSITION_MANAGER,
+      abi: ABIS.POSITION_MANAGER,
+      functionName: 'mint',
+      args: [mintParams],
+    });
 
-    // const receipt = await this.publicClient.waitForTransactionReceipt({ 
-    //   hash: addLiquidityHash 
-    // });
+    const receipt = await this.publicClient.waitForTransactionReceipt({ 
+      hash: addLiquidityHash 
+    });
 
-    // return {
-    //   txHash: addLiquidityHash,
-    //   tokenAmount: formatEther(params.tokenAmountWei),
-    //   xaaAmount: formatEther(params.xaaAmountWei),
-    //   blockNumber: receipt.blockNumber.toString(),
-    // };
-    
-
+    return {
+      txHash: addLiquidityHash,
+      tokenAmount: formatEther(params.tokenAmountWei),
+      xaaAmount: formatEther(params.xaaAmountWei),
+      blockNumber: receipt.blockNumber.toString(),
+    };
   }
 }
