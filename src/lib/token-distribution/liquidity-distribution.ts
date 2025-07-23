@@ -1,10 +1,14 @@
 /**
  * IAO后代币分发 - 流动性部分
  * 用于将10%的代币添加到DBCSwap流动性池
+ * 
+ * 使用Uniswap SDK进行价格和tick计算
  */
 
-import { PoolManager, type AddLiquidityParams } from '@/lib/pool-manager';
+import { PoolManager, type AddLiquidityParams, DBCSWAP_CONFIG } from '@/lib/pool-manager';
 import { prisma } from '@/lib/db';
+import { TickMath, nearestUsableTick } from '@uniswap/v3-sdk';
+import JSBI from 'jsbi';
 
 // 分配比例配置
 export const DISTRIBUTION_RATIOS = {
@@ -50,69 +54,24 @@ export class LiquidityDistributionManager {
   }
 
   /**
-   * 根据 XAA 数量和其他参数计算 high price
-   * @param params 计算参数
-   * @returns 计算出的最高价格
-   */
-  private calculateHighPriceFromXAA(params: {
-    xaaAmount: number,
-    tokenAmount: number,
-    lowPrice: number,
-    currentPrice: number
-  }): number {
-    const { xaaAmount, tokenAmount, lowPrice, currentPrice } = params;
-    
-    // 计算 sqrt 价格
-    const sqrtPriceCurrent = Math.sqrt(currentPrice);
-    const sqrtPriceLower = Math.sqrt(lowPrice);
-    
-    // 从 XAA 数量计算流动性
-    const L = xaaAmount / (sqrtPriceCurrent - sqrtPriceLower);
-    
-    // 从代币数量和流动性计算 sqrt_price_upper
-    const invSqrtPriceUpper = 1/sqrtPriceCurrent - tokenAmount/L;
-    
-    if (invSqrtPriceUpper <= 0) {
-      throw new Error('参数不合理：代币数量相对于XAA数量过大');
-    }
-    
-    const sqrtPriceUpper = 1 / invSqrtPriceUpper;
-    const highPrice = Math.pow(sqrtPriceUpper, 2);
-    
-    return highPrice;
-  }
-  
-  /**
-   * 验证计算的准确性
-   */
-  private verifyCalculation(tokenAmount: number, xaaAmount: number, lowPrice: number, highPrice: number, currentPrice: number) {
-    const sqrtPriceCurrent = Math.sqrt(currentPrice);
-    const sqrtPriceLower = Math.sqrt(lowPrice);
-    const sqrtPriceUpper = Math.sqrt(highPrice);
-    
-    // 计算流动性
-    const L_from_xaa = xaaAmount / (sqrtPriceCurrent - sqrtPriceLower);
-    const L_from_token = tokenAmount / (1/sqrtPriceCurrent - 1/sqrtPriceUpper);
-    
-    // 反算代币数量
-    const calc_xaa = L_from_token * (sqrtPriceCurrent - sqrtPriceLower);
-    const calc_token = L_from_xaa * (1/sqrtPriceCurrent - 1/sqrtPriceUpper);
-    
-    return {
-      L_from_xaa: L_from_xaa,
-      L_from_token: L_from_token,
-      calculated_xaa: calc_xaa,
-      calculated_token: calc_token,
-      xaa_error: Math.abs(calc_xaa - xaaAmount) / xaaAmount * 100,
-      token_error: Math.abs(calc_token - tokenAmount) / tokenAmount * 100
-    };
-  }
-  
-  /**
-   * 价格转换为 tick
+   * 价格转换为 tick，使用Uniswap SDK的方法
    */
   private priceToTick(price: number): number {
-    return Math.floor(Math.log(price) / Math.log(1.0001));
+    try {
+      // 计算tick
+      const tick = Math.log(price) / Math.log(1.0001);
+      return Math.floor(tick);
+    } catch (error) {
+      console.warn('计算tick失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取最接近的可用tick
+   */
+  private getUsableTick(tick: number, tickSpacing: number): number {
+    return nearestUsableTick(tick, tickSpacing);
   }
 
   /**
@@ -146,87 +105,35 @@ export class LiquidityDistributionManager {
     const baseInitialPrice = fullXaaAmount / liquidityTokenAmount;  // 基础初始价格 = IAO的XAA数量 / 流通池中的代币数量（即 供应量的10%）
     const initialPrice = baseInitialPrice * 1.1;  // 实际使用的初始价格（1.1倍）
     
-    // 4. 计算初始tick
-    const initialTickRaw = Math.floor(Math.log(initialPrice) / Math.log(1.0001));
+    // 4. 计算初始tick - 使用SDK方法
+    const initialTickRaw = this.priceToTick(initialPrice);
     // 确保tick对齐到spacing
     const initialTick = Math.floor(initialTickRaw / tickSpacing) * tickSpacing;
     
     // 5. 计算最低价格（初始价格的0.2倍）
     const minPriceRatio = 0.2;
     const minPrice = initialPrice * minPriceRatio;  // 基于调整后的初始价格计算
-    // 计算最低价格对应的tick
-    const minTickRaw = Math.floor(Math.log(minPrice) / Math.log(1.0001));
-    const minTick = Math.floor(minTickRaw / tickSpacing) * tickSpacing;
+    // 计算最低价格对应的tick - 使用SDK方法
+    const minTickRaw = this.priceToTick(minPrice);
+    const minTick = this.getUsableTick(Math.floor(minTickRaw / tickSpacing) * tickSpacing, tickSpacing);
     
     // 6. 计算实际用于流动性的XAA数量（95%）
     const actualXaaAmountNum = fullXaaAmount * 0.95;
     const actualXaaAmount = actualXaaAmountNum.toString();
     
-    // 7. 使用新的计算方法计算最高价格
-    let maxPrice: number;
-    let calculationMethod = '';
+    // 7. 计算最高价格 - 使用对称价格范围
+    const priceRatio = initialPrice / minPrice;
+    const maxPrice = initialPrice * priceRatio;
+    const calculationMethod = 'Uniswap SDK - 对称价格范围';
     
-    try {
-      // 使用新的计算方法计算高价格
-      const params = {
-        xaaAmount: actualXaaAmountNum,
-        tokenAmount: liquidityTokenAmount,
-        lowPrice: minPrice,
-        currentPrice: initialPrice
-      };
-      
-      maxPrice = this.calculateHighPriceFromXAA(params);
-      calculationMethod = '新的Uniswap V3公式';
-      
-      // 验证计算结果
-      const verification = this.verifyCalculation(
-        liquidityTokenAmount,
-        actualXaaAmountNum,
-        minPrice,
-        maxPrice,
-        initialPrice
-      );
-      
-      console.log(`\n✅ 验证计算结果:`);
-      console.log(`  - 从XAA计算的流动性L: ${verification.L_from_xaa.toLocaleString()}`);
-      console.log(`  - 从代币计算的流动性L: ${verification.L_from_token.toLocaleString()}`);
-      console.log(`  - XAA误差: ${verification.xaa_error.toFixed(6)}%`);
-      console.log(`  - 代币误差: ${verification.token_error.toFixed(6)}%`);
-      
-      // 计算价格倍数
-      const priceMultiple = maxPrice / initialPrice;
-      console.log(`  - 价格倍数: ${priceMultiple.toFixed(2)}x (相对于初始价格)`);
-      console.log(`  - 总价格范围: ${(maxPrice / minPrice).toFixed(2)}x`);
-      
-      // 检查计算出的价格是否合理（至少是初始价格的1.1倍）
-      if (maxPrice < initialPrice * 1.1) {
-        console.log(`\n⚠️ 警告: 计算出的最高价格 (${maxPrice}) 过低，小于初始价格的1.1倍`);
-        // 使用对称价格范围作为替代
-        const priceRatio = initialPrice / minPrice;
-        maxPrice = initialPrice * priceRatio;
-        calculationMethod = '对称价格范围 (计算值过低)';
-        console.log(`✅ 解决方案: 改用对称价格范围，最高价格 = 初始价格 * ${priceRatio.toFixed(2)}`);
-      }
-      
-    } catch (error) {
-      // 如果计算出错，使用对称价格范围
-      const priceRatio = initialPrice / minPrice;
-      maxPrice = initialPrice * priceRatio;
-      calculationMethod = '对称价格范围 (计算出错)';
-      console.log(`\n⚠️ 警告: 使用新的计算方法出错: ${error instanceof Error ? error.message : '未知错误'}`);
-      console.log(`✅ 解决方案: 使用对称价格范围，最高价格 = 初始价格 * ${priceRatio.toFixed(2)}`);
-    }
-    
-    // 计算最高价格对应的tick
-    const maxTickRaw = Math.floor(Math.log(maxPrice) / Math.log(1.0001));
-    const maxTick = Math.floor(maxTickRaw / tickSpacing) * tickSpacing;
+    // 计算最高价格对应的tick - 使用SDK方法
+    const maxTickRaw = this.priceToTick(maxPrice);
+    const maxTick = this.getUsableTick(Math.floor(maxTickRaw / tickSpacing) * tickSpacing, tickSpacing);
 
     // 验证tick是否在Uniswap V3允许的范围内
-    const MIN_TICK = -887272;
-    const MAX_TICK = 887272;
-    if (minTick < MIN_TICK || maxTick > MAX_TICK) {
+    if (minTick < TickMath.MIN_TICK || maxTick > TickMath.MAX_TICK) {
       console.log(`\n⚠️  警告：Tick超出Uniswap V3允许范围：`);
-      console.log(`  - 允许范围: [${MIN_TICK}, ${MAX_TICK}]`);
+      console.log(`  - 允许范围: [${TickMath.MIN_TICK}, ${TickMath.MAX_TICK}]`);
       console.log(`  - 当前范围: [${minTick}, ${maxTick}]`);
     }
 
@@ -280,8 +187,6 @@ export class LiquidityDistributionManager {
       maxTick
     };
   }
-
-
 
   /**
    * 从IAO合约查询总投入的XAA数量
@@ -380,7 +285,7 @@ export class LiquidityDistributionManager {
         }
       };
 
-      console.log(`�� 准备添加流动性:`, addLiquidityParams);
+      console.log(`📊 准备添加流动性:`, addLiquidityParams);
 
       // 4. 执行流动性添加
       const result = await this.poolManager.addLiquidity(addLiquidityParams);

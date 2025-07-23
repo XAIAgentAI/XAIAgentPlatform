@@ -6,6 +6,9 @@
 import { createPublicClient, createWalletClient, http, parseEther, formatEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { currentChain } from '@/config/networks';
+import { TickMath, nearestUsableTick } from '@uniswap/v3-sdk';
+import { Token, CurrencyAmount } from '@uniswap/sdk-core';
+import JSBI from 'jsbi';
 
 // DBCSwap V3 合约地址配置
 export const DBCSWAP_CONFIG = {
@@ -24,10 +27,11 @@ const TICK_SPACINGS = {
   10000: 200 // 1%
 };
 
-const MIN_TICK = -887272;
-const MAX_TICK = 887272;
-const MIN_SQRT_RATIO = BigInt('4295128739');
-const MAX_SQRT_RATIO = BigInt('1461446703485210103287273052203988822378723970342');
+// 使用SDK常量
+const MIN_TICK = TickMath.MIN_TICK;
+const MAX_TICK = TickMath.MAX_TICK;
+const MIN_SQRT_RATIO = BigInt(TickMath.MIN_SQRT_RATIO.toString());
+const MAX_SQRT_RATIO = BigInt(TickMath.MAX_SQRT_RATIO.toString());
 
 // 合约 ABI
 export const ABIS = {
@@ -213,29 +217,26 @@ interface CalculatedPoolParams {
  * @returns sqrtPriceX96 值
  */
 function encodeSqrtRatioX96(price: number, token0Decimals: number, token1Decimals: number): bigint {
-  // 调整代币精度差异
-  const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
-  const adjustedPrice = price * decimalAdjustment;
-  
-  // 计算价格的平方根并乘以 2^96
-  const sqrtPrice = Math.sqrt(adjustedPrice);
-  const sqrtPriceX96 = BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
-  
-  return sqrtPriceX96;
-}
-
-/**
- * 计算最接近的可用 tick
- * @param tick 目标 tick
- * @param tickSpacing tick 间距
- * @returns 最接近的可用 tick
- */
-function nearestUsableTick(tick: number, tickSpacing: number): number {
-  const rounded = Math.round(tick / tickSpacing) * tickSpacing;
-  
-  if (rounded < MIN_TICK) return MIN_TICK;
-  if (rounded > MAX_TICK) return MAX_TICK;
-  return rounded;
+  try {
+    // 调整代币精度差异
+    const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
+    const adjustedPrice = price * decimalAdjustment;
+    
+    // 计算tick
+    const tick = Math.log(adjustedPrice) / Math.log(1.0001);
+    const nearestTick = Math.round(tick);
+    
+    // 使用TickMath计算sqrtPriceX96
+    return BigInt(TickMath.getSqrtRatioAtTick(nearestTick).toString());
+  } catch (error) {
+    console.warn('使用SDK计算sqrtPriceX96失败，回退到自定义方法:', error);
+    
+    // 回退到自定义方法
+    const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
+    const adjustedPrice = price * decimalAdjustment;
+    const sqrtPrice = Math.sqrt(adjustedPrice);
+    return BigInt(Math.floor(sqrtPrice * Math.pow(2, 96)));
+  }
 }
 
 /**
@@ -246,12 +247,27 @@ function nearestUsableTick(tick: number, tickSpacing: number): number {
  * @returns tick 值
  */
 function priceToTick(price: number, token0Decimals: number, token1Decimals: number): number {
-  // 调整代币精度差异
-  const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
-  const adjustedPrice = price * decimalAdjustment;
-  
-  // 计算 tick
-  return Math.floor(Math.log(adjustedPrice) / Math.log(1.0001));
+  try {
+    // 调整代币精度差异
+    const decimalAdjustment = Math.pow(10, token0Decimals - token1Decimals);
+    const adjustedPrice = price * decimalAdjustment;
+    
+    // 计算tick
+    return Math.floor(Math.log(adjustedPrice) / Math.log(1.0001));
+  } catch (error) {
+    console.warn('计算tick失败:', error);
+    throw error;
+  }
+}
+
+/**
+ * 计算最接近的可用 tick
+ * @param tick 目标 tick
+ * @param tickSpacing tick 间距
+ * @returns 最接近的可用 tick
+ */
+function getUsableTick(tick: number, tickSpacing: number): number {
+  return nearestUsableTick(tick, tickSpacing);
 }
 
 /**
@@ -701,8 +717,8 @@ export class PoolManager {
     console.log(`  - 最大Tick: ${maxTick}`);
     
     // 应用 tickSpacing
-    minTick = nearestUsableTick(minTick, tickSpacing);
-    maxTick = nearestUsableTick(maxTick, tickSpacing);
+    minTick = getUsableTick(minTick, tickSpacing);
+    maxTick = getUsableTick(maxTick, tickSpacing);
     
     console.log(`📊 调整后的Tick范围:`);
     console.log(`  - 最小Tick: ${minTick}`);
@@ -729,11 +745,11 @@ export class PoolManager {
           // 调整范围以包含当前tick
           if (currentTick < minTick) {
             const diff = minTick - currentTick;
-            minTick = nearestUsableTick(currentTick - tickSpacing, tickSpacing);
+            minTick = getUsableTick(currentTick - tickSpacing, tickSpacing);
             maxTick = Math.max(maxTick - diff, minTick + 10 * tickSpacing); // 保持至少10个tickSpacing的范围
           } else if (currentTick >= maxTick) {
             const diff = currentTick - maxTick + 1;
-            maxTick = nearestUsableTick(currentTick + tickSpacing, tickSpacing);
+            maxTick = getUsableTick(currentTick + tickSpacing, tickSpacing);
             minTick = Math.min(minTick + diff, maxTick - 10 * tickSpacing); // 保持至少10个tickSpacing的范围
           }
           
