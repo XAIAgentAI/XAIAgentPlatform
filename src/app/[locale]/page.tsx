@@ -12,20 +12,26 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
   
-  // 从URL参数中获取排序方式
-  const sortBy = searchParams?.get('sortBy') || "marketCap"
-  const sortOrder = searchParams?.get('sortOrder') || "desc"
+  // 从URL参数中获取排序方式，不设置默认值
+  const sortBy = searchParams?.get('sortBy')
+  const sortOrder = searchParams?.get('sortOrder')
 
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {
       setLoading(true)
-      // 使用当前URL中的排序参数
-      const options = {
-        pageSize: 30,
-        sortBy: sortBy as string,
-        sortOrder: sortOrder as "asc" | "desc"
+      // 创建选项对象，只有当参数存在时才添加
+      const options: {
+        pageSize: number;
+        sortBy?: string;
+        sortOrder?: "asc" | "desc";
+      } = {
+        pageSize: 30
       };
+      
+      // 只有当参数存在时才添加到选项中
+      if (sortBy) options.sortBy = sortBy;
+      if (sortOrder) options.sortOrder = sortOrder as "asc" | "desc";
       
       console.log('Fetching agents with options:', options);
       
