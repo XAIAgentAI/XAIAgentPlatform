@@ -423,7 +423,7 @@
     "burnTokens": "销毁代币",
     "burnXaaTokens": "销毁IAO中5%的XAA代币",
     "burning": "销毁中...",
-    "tokenAddress": "代币地址",
+    "tokenAddress": "代币合约地址",
     "managementCompleted": "所有管理步骤已完成！项目已完全去中心化。",
     "remainingTime": "剩余时间:",
     "error": "错误",

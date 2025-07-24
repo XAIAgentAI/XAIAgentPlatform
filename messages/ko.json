@@ -1082,7 +1082,7 @@
     "burnTokens": "토큰 소각",
     "burnXaaTokens": "IAO에서 5% XAA 토큰 소각",
     "burning": "소각 중...",
-    "tokenAddress": "토큰 주소",
+    "tokenAddress": "토큰 컨트랙트 주소",
     "managementCompleted": "모든 관리 단계가 완료되었습니다! 프로젝트가 이제 완전히 분산화되었습니다.",
     "remainingTime": "남은 시간:",
     "error": "오류",

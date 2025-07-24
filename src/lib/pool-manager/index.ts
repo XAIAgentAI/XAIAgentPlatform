@@ -185,6 +185,7 @@ export interface PoolManagerResult {
   tokenAmount?: string;
   xaaAmount?: string;
   blockNumber?: string;
+  tokenId?: string; // 添加 NFT token ID 到接口
   error?: string;
 }
 
@@ -920,6 +921,19 @@ export class PoolManager {
       hash: addLiquidityHash 
     });
 
+    // 从交易日志中解析 NFT token ID
+    let tokenId: string | undefined;
+    if (receipt.logs && receipt.logs.length > 0) {
+      // IncreaseLiquidity 事件的 topics[1] 包含 tokenId
+      const increaseLiquidityEvent = receipt.logs.find(log => 
+        log.topics[0] === '0x3067048beee31b25b2f1681f88dac838c8bba36af25bfb2b7cf7473a5847e35f'
+      );
+      if (increaseLiquidityEvent && increaseLiquidityEvent.topics[1]) {
+        tokenId = BigInt(increaseLiquidityEvent.topics[1]).toString();
+        console.log(`✅ NFT Token ID: ${tokenId}`);
+      }
+    }
+
     console.log(`✅ 流动性添加成功，区块号: ${receipt.blockNumber}`);
     console.log(`📊 Gas使用: ${receipt.gasUsed}`);
 
@@ -928,6 +942,7 @@ export class PoolManager {
       tokenAmount: formatEther(params.tokenAmountWei),
       xaaAmount: formatEther(params.xaaAmountWei),
       blockNumber: receipt.blockNumber.toString(),
+      tokenId // 添加 NFT token ID 到返回值
     };
   }
 }

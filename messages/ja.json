@@ -1070,7 +1070,7 @@
     "burnTokens": "トークン焼却",
     "burnXaaTokens": "IAOから5% XAAトークンを焼却",
     "burning": "焼却中...",
-    "tokenAddress": "トークンアドレス",
+    "tokenAddress": "トークン契約アドレス",
     "managementCompleted": "すべての管理ステップが完了しました！プロジェクトは完全に分散化されました。",
     "remainingTime": "残り時間:",
     "error": "エラー",

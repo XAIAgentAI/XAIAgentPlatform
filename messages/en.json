@@ -1034,7 +1034,7 @@
     "burnTokens": "Burn Tokens",
     "burnXaaTokens": "Burn 5% XAA Tokens from IAO",
     "burning": "Burning...",
-    "tokenAddress": "Token Address",
+    "tokenAddress": "Token Contract Address",
     "managementCompleted": "All management steps completed! Project is now fully decentralized.",
     "remainingTime": "Remaining Time:",
     "error": "Error",

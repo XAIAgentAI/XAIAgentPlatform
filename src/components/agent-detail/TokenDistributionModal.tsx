@@ -537,98 +537,98 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
             <h4 className="font-medium">{t('distributionPlan')}</h4>
             <div className="space-y-2 text-sm">
               {/* IAO合约分发 */}
-              <div className="flex justify-between items-center p-2 bg-green-50 rounded border border-green-200">
+              <div className="flex justify-between items-center p-2 bg-green-50 dark:bg-green-900/20 rounded border border-green-200 dark:border-green-700">
                 <div className="flex items-center gap-2">
-                  <span className="text-white dark:text-black">🏦 {t('iaoContract')} ({DISTRIBUTION_RATIOS.IAO}%)</span>
-                  <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
+                  <span className="text-gray-800 dark:text-gray-200">🏦 {t('iaoContract')} ({DISTRIBUTION_RATIOS.IAO}%)</span>
+                  <span className="text-xs px-2 py-1 rounded bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
                     {t('autoCompleted')}
                   </span>
                 </div>
-                <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.IAO)}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{calculateAmount(DISTRIBUTION_RATIOS.IAO)}</span>
               </div>
 
               {/* 创建者分发 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
-                getDistributionStepStatus('creator').completed ? 'bg-green-50 border-green-200' :
-                getDistributionStepStatus('creator').inProgress ? 'bg-blue-50 border-blue-200' :
-                getDistributionStepStatus('creator').failed ? 'bg-red-50 border-red-200' :
-                'bg-gray-50 border-gray-200'
+                getDistributionStepStatus('creator').completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                getDistributionStepStatus('creator').inProgress ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' :
+                getDistributionStepStatus('creator').failed ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700' :
+                'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span className="text-white dark:text-black">👤 {t('creator')} ({DISTRIBUTION_RATIOS.CREATOR}%)</span>
+                  <span className="text-gray-800 dark:text-gray-200">👤 {t('creator')} ({DISTRIBUTION_RATIOS.CREATOR}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    getDistributionStepStatus('creator').completed ? 'bg-green-100 text-green-800' :
-                    getDistributionStepStatus('creator').inProgress ? 'bg-blue-100 text-blue-800' :
-                    getDistributionStepStatus('creator').failed ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-600'
+                    getDistributionStepStatus('creator').completed ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200' :
+                    getDistributionStepStatus('creator').inProgress ? 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200' :
+                    getDistributionStepStatus('creator').failed ? 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200' :
+                    'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
                   }`}>
                     {getDistributionStepStatus('creator').text}
                   </span>
                 </div>
-                <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.CREATOR)}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{calculateAmount(DISTRIBUTION_RATIOS.CREATOR)}</span>
               </div>
 
               {/* 空投分发 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
-                getDistributionStepStatus('airdrop').completed ? 'bg-green-50 border-green-200' :
-                getDistributionStepStatus('airdrop').inProgress ? 'bg-blue-50 border-blue-200' :
-                getDistributionStepStatus('airdrop').failed ? 'bg-red-50 border-red-200' :
-                'bg-gray-50 border-gray-200'
+                getDistributionStepStatus('airdrop').completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                getDistributionStepStatus('airdrop').inProgress ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' :
+                getDistributionStepStatus('airdrop').failed ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700' :
+                'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span className="text-white dark:text-black">🎁 {t('airdropWallet')} ({DISTRIBUTION_RATIOS.AIRDROP}%)</span>
+                  <span className="text-gray-800 dark:text-gray-200">🎁 {t('airdropWallet')} ({DISTRIBUTION_RATIOS.AIRDROP}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    getDistributionStepStatus('airdrop').completed ? 'bg-green-100 text-green-800' :
-                    getDistributionStepStatus('airdrop').inProgress ? 'bg-blue-100 text-blue-800' :
-                    getDistributionStepStatus('airdrop').failed ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-600'
+                    getDistributionStepStatus('airdrop').completed ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200' :
+                    getDistributionStepStatus('airdrop').inProgress ? 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200' :
+                    getDistributionStepStatus('airdrop').failed ? 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200' :
+                    'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
                   }`}>
                     {getDistributionStepStatus('airdrop').text}
                   </span>
                 </div>
-                <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.AIRDROP)}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{calculateAmount(DISTRIBUTION_RATIOS.AIRDROP)}</span>
               </div>
 
               {/* AI挖矿分发 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
-                getDistributionStepStatus('mining').completed ? 'bg-green-50 border-green-200' :
-                getDistributionStepStatus('mining').inProgress ? 'bg-blue-50 border-blue-200' :
-                getDistributionStepStatus('mining').failed ? 'bg-red-50 border-red-200' :
-                'bg-gray-50 border-gray-200'
+                getDistributionStepStatus('mining').completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                getDistributionStepStatus('mining').inProgress ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' :
+                getDistributionStepStatus('mining').failed ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700' :
+                'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span className="text-white dark:text-black">⛏️ {t('aiMiningContract')} ({DISTRIBUTION_RATIOS.MINING}%)</span>
+                  <span className="text-gray-800 dark:text-gray-200">⛏️ {t('aiMiningContract')} ({DISTRIBUTION_RATIOS.MINING}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    getDistributionStepStatus('mining').completed ? 'bg-green-100 text-green-800' :
-                    getDistributionStepStatus('mining').inProgress ? 'bg-blue-100 text-blue-800' :
-                    getDistributionStepStatus('mining').failed ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-600'
+                    getDistributionStepStatus('mining').completed ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200' :
+                    getDistributionStepStatus('mining').inProgress ? 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200' :
+                    getDistributionStepStatus('mining').failed ? 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200' :
+                    'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
                   }`}>
                     {getDistributionStepStatus('mining').text}
                   </span>
                 </div>
-                <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.MINING)}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{calculateAmount(DISTRIBUTION_RATIOS.MINING)}</span>
               </div>
 
               {/* 流动性添加 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
-                getDistributionStepStatus('liquidity').completed ? 'bg-green-50 border-green-200' :
-                getDistributionStepStatus('liquidity').inProgress ? 'bg-blue-50 border-blue-200' :
-                getDistributionStepStatus('liquidity').failed ? 'bg-red-50 border-red-200' :
-                'bg-gray-50 border-gray-200'
+                getDistributionStepStatus('liquidity').completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                getDistributionStepStatus('liquidity').inProgress ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' :
+                getDistributionStepStatus('liquidity').failed ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700' :
+                'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span className="text-white dark:text-black">💧 {t('liquidity')} ({DISTRIBUTION_RATIOS.LIQUIDITY}%)</span>
+                  <span className="text-gray-800 dark:text-gray-200">💧 {t('liquidity')} ({DISTRIBUTION_RATIOS.LIQUIDITY}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
-                    getDistributionStepStatus('liquidity').completed ? 'bg-green-100 text-green-800' :
-                    getDistributionStepStatus('liquidity').inProgress ? 'bg-blue-100 text-blue-800' :
-                    getDistributionStepStatus('liquidity').failed ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-600'
+                    getDistributionStepStatus('liquidity').completed ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200' :
+                    getDistributionStepStatus('liquidity').inProgress ? 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200' :
+                    getDistributionStepStatus('liquidity').failed ? 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200' :
+                    'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
                   }`}>
                     {getDistributionStepStatus('liquidity').text}
                   </span>
                 </div>
-                <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.LIQUIDITY)}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{calculateAmount(DISTRIBUTION_RATIOS.LIQUIDITY)}</span>
               </div>
             </div>
           </div>
@@ -657,131 +657,94 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
               {/* 简化状态摘要 - 折叠时显示 */}
               {!isResultExpanded && distributionResult && (
                 <div className={`p-3 rounded-lg ${
-                  distributionResult.code === 200 ? 'bg-green-50 border border-green-200' :
-                  distributionResult.code === 206 ? 'bg-yellow-50 border border-yellow-200' :
-                  'bg-red-50 border border-red-200'
+                  distributionResult.code === 200 ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700' :
+                  distributionResult.code === 206 ? 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700' :
+                  'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700'
                 }`}>
                   <div className="flex items-center gap-2">
                     <span className={`text-lg ${
-                      distributionResult.code === 200 ? 'text-green-600' :
-                      distributionResult.code === 206 ? 'text-yellow-600' :
-                      'text-red-600'
+                      distributionResult.code === 200 ? 'text-green-600 dark:text-green-400' :
+                      distributionResult.code === 206 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-red-600 dark:text-red-400'
                     }`}>
                       {distributionResult.code === 200 ? '✅' :
                        distributionResult.code === 206 ? '⚠️' : '❌'}
                     </span>
-                    <span className="font-medium text-sm text-white dark:text-black">{distributionResult.message}</span>
+                    <span className="font-medium text-sm text-gray-800 dark:text-gray-200">{distributionResult.message}</span>
                   </div>
                 </div>
               )}
 
-              {/* 可折叠的分发详情 */}
-              {isResultExpanded && (
-                <div className="space-y-4 animate-in slide-in-from-top-2 duration-200">
-                  {/* 分发进度指示器 */}
-                  {isDistributing && (
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                        <span className="text-sm font-medium text-blue-600">{t('distributingTokens')}</span>
-                      </div>
+              {/* 分发详情 */}
+              {distributionResult && (
+                <div className={`p-4 rounded-lg ${
+                  distributionResult.code === 200 ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700' :
+                  distributionResult.code === 206 ? 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700' :
+                  'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700'
+                }`}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`text-lg ${
+                      distributionResult.code === 200 ? 'text-green-600 dark:text-green-400' :
+                      distributionResult.code === 206 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-red-600 dark:text-red-400'
+                    }`}>
+                      {distributionResult.code === 200 ? '✅' :
+                       distributionResult.code === 206 ? '⚠️' : '❌'}
+                    </span>
+                    <span className="font-medium text-gray-800 dark:text-gray-200">{distributionResult.message}</span>
+                  </div>
 
-                      {distributionResult?.data?.currentStep && distributionResult?.data?.totalSteps && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span>{t('progress')}</span>
-                            <span>{distributionResult.data.currentStep} / {distributionResult.data.totalSteps}</span>
+                  {distributionResult.data?.transactions && (
+                    <div className="space-y-3 w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                      <div className="text-sm font-medium text-gray-800 dark:text-gray-200">{t('distributionDetails')}:</div>
+                      {distributionResult.data.transactions.map((tx, index) => (
+                        <div key={index} className="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700 w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1" style={{minWidth: 0, maxWidth: '100%'}}>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-medium text-sm text-gray-800 dark:text-gray-200">{tx.type}</span>
+                                {tx.percentage && (
+                                  <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">
+                                    {tx.percentage}%
+                                  </span>
+                                )}
+                              </div>
+                              {tx.description && (
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">{tx.description}</div>
+                              )}
+                              <div className="text-xs text-gray-600 dark:text-gray-400">
+                                {t('amount')}: {formatNumber(tx.amount)}
+                              </div>
+                              <div className="text-xs text-gray-600 dark:text-gray-400" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
+                                {t('address')}: <span className="font-mono">{tx.toAddress}</span>
+                              </div>
+                              <div className="text-xs text-gray-600 dark:text-gray-400" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
+                                Hash: <span className="font-mono">{tx.txHash}</span>
+                              </div>
+                            </div>
+                            <span className={`px-2 py-1 rounded text-xs whitespace-nowrap ${
+                              tx.status === 'confirmed' ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200' :
+                              tx.status === 'failed' ? 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200' :
+                              'bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200'
+                            }`}>
+                              {tx.status === 'confirmed' ? t('confirmed') :
+                               tx.status === 'failed' ? t('failed') : t('processing')}
+                            </span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                              style={{
-                                width: `${(distributionResult.data.currentStep / distributionResult.data.totalSteps) * 100}%`
-                              }}
-                            ></div>
-                          </div>
-                          {distributionResult.data.stepName && (
-                            <div className="text-xs text-gray-600">
-                              {t('currentStep')}: {distributionResult.data.stepName}
+                          {tx.error && (
+                            <div className="text-xs text-red-600 dark:text-red-400 p-2 bg-red-50 dark:bg-red-900/20 rounded w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                              <div style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>❌ {tx.error}</div>
                             </div>
                           )}
                         </div>
-                      )}
-                    </div>
-                  )}
+                      ))}
 
-                  {/* 分发结果 */}
-                  {distributionResult && (
-                    <div className={`p-4 rounded-lg ${
-                      distributionResult.code === 200 ? 'bg-green-50 border border-green-200' :
-                      distributionResult.code === 206 ? 'bg-yellow-50 border border-yellow-200' :
-                      'bg-red-50 border border-red-200'
-                    }`}>
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className={`text-lg ${
-                          distributionResult.code === 200 ? 'text-green-600' :
-                          distributionResult.code === 206 ? 'text-yellow-600' :
-                          'text-red-600'
-                        }`}>
-                          {distributionResult.code === 200 ? '✅' :
-                           distributionResult.code === 206 ? '⚠️' : '❌'}
-                        </span>
-                        <span className="font-medium">{distributionResult.message}</span>
-                      </div>
-
-                      {distributionResult.data?.transactions && (
-                        <div className="space-y-3 w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                          <div className="text-sm font-medium">{t('distributionDetails')}:</div>
-                          {distributionResult.data.transactions.map((tx, index) => (
-                            <div key={index} className="bg-white p-3 rounded border w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                              <div className="flex justify-between items-start mb-2">
-                                <div className="flex-1" style={{minWidth: 0, maxWidth: '100%'}}>
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-medium text-sm">{tx.type}</span>
-                                    {tx.percentage && (
-                                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">
-                                        {tx.percentage}%
-                                      </span>
-                                    )}
-                                  </div>
-                                  {tx.description && (
-                                    <div className="text-xs text-gray-600 mb-2">{tx.description}</div>
-                                  )}
-                                  <div className="text-xs text-gray-600">
-                                    {t('amount')}: {formatNumber(tx.amount)}
-                                  </div>
-                                  <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
-                                    {t('address')}: <span className="font-mono">{tx.toAddress}</span>
-                                  </div>
-                                  <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
-                                    Hash: <span className="font-mono">{tx.txHash}</span>
-                                  </div>
-                                </div>
-                                <span className={`px-2 py-1 rounded text-xs whitespace-nowrap ${
-                                  tx.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                                  tx.status === 'failed' ? 'bg-red-100 text-red-800' :
-                                  'bg-yellow-100 text-yellow-800'
-                                }`}>
-                                  {tx.status === 'confirmed' ? t('confirmed') :
-                                   tx.status === 'failed' ? t('failed') : t('processing')}
-                                </span>
-                              </div>
-                              {tx.error && (
-                                <div className="text-xs text-red-600 p-2 bg-red-50 rounded w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                                  <div style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>❌ {tx.error}</div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-
-                          {/* 分发汇总 */}
-                          {distributionResult.data.totalDistributed && (
-                            <div className="border-t pt-3 mt-3">
-                              <div className="text-sm font-medium text-gray-700">
-                                {t('totalDistributed')}: {formatNumber(distributionResult.data.totalDistributed)}
-                              </div>
-                            </div>
-                          )}
+                      {/* 分发汇总 */}
+                      {distributionResult.data.totalDistributed && (
+                        <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
+                          <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {t('totalDistributed')}: {formatNumber(distributionResult.data.totalDistributed)}
+                          </div>
                         </div>
                       )}
                     </div>
