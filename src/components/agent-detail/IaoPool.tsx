@@ -3,8 +3,7 @@
  * 只拆分了3个文件，保持简洁易维护
  */
 
-'use client';
-
+import React from 'react';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +40,7 @@ interface IaoPoolProps {
   onRefreshAgent?: () => void | Promise<void>;
 }
 
-export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
+const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
   const t = useTranslations('iaoPool');
   const { toast } = useToast();
   const { ensureCorrectNetwork } = useNetwork();
@@ -676,30 +675,30 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
 
   return (
     <Card className="p-4 sm:p-6">
+      {renderTitleBar()}
+      
+      {/* 显示DBCSwap链接按钮 */}
       {renderDbcSwapButton()}
       
-      {/* IAO重新部署按钮 */}
+      {/* IAO重新部署提示区域 */}
       {renderIaoRedeploySection()}
-
-      {/* 标题栏 */}
-      {renderTitleBar()}
-
-      {/* 根据IAO状态渲染不同视图 */}
+      
+      {/* 根据IAO状态显示不同的视图 */}
       {isIAOEnded ? (
         <IaoEndedView
           agent={agent}
           poolInfo={poolInfo}
-          iaoProgress={iaoProgress}
           userStakeInfo={userStakeInfo}
+          iaoProgress={iaoProgress}
           isIaoSuccessful={isIaoSuccessful}
           isCreator={isCreator}
           tokenCreationTask={tokenCreationTask}
           distributionTask={distributionTask}
           isPoolInfoLoading={isPoolInfoLoading}
           onCreateToken={handleCreateToken}
-          onPaymentModalOpen={handlePaymentModalOpen}
           onClaimRewards={handleClaimRewards}
           onRefreshStatus={handleRefreshData}
+          onPaymentModalOpen={handlePaymentModalOpen}
           isCreating={isCreating}
           isClaiming={isClaiming}
           canClaim={canClaim}
@@ -708,8 +707,8 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
         <IaoActiveView
           agent={agent}
           poolInfo={poolInfo}
-          iaoProgress={iaoProgress}
           userStakeInfo={userStakeInfo}
+          iaoProgress={iaoProgress}
           dbcAmount={dbcAmount}
           setDbcAmount={setDbcAmount}
           maxDbcAmount={maxDbcAmount}
@@ -728,9 +727,11 @@ export const IaoPool = ({ agent, onRefreshAgent }: IaoPoolProps) => {
           isContractOwner={isContractOwner}
         />
       )}
-
-      {/* 渲染模态框 */}
+      
+      {/* 模态框组件 */}
       {renderModals()}
     </Card>
   );
-};
+});
+
+export default IaoPool;

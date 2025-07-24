@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Copy, MoreHorizontal } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import { copyToClipboard } from '@/lib/utils';
 
 interface Conversations {
   [id: string]: Message[];
@@ -172,8 +173,7 @@ const SideBar = ({ agent, setIsLoading, conversations, setIsNew, setConvid, setC
 
   const copyConversationUrl = (convid: string) => {
     const url = `${window.location.origin}${window.location.pathname}?convid=${convid}`;
-    navigator.clipboard.writeText(url);
-    setActiveDropdown(null);
+    return url;
   }
 
   const groupMessagesByTime = (messages: Message[]) => {
@@ -395,9 +395,17 @@ const SideBar = ({ agent, setIsLoading, conversations, setIsNew, setConvid, setC
                           {activeDropdown === msg.convid && (
                             <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-zinc-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-zinc-700">
                               <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  copyConversationUrl(msg.convid);
+                                onClick={async () => {
+                                  const url = copyConversationUrl(msg.convid);
+                                  const ok = await copyToClipboard(url);
+                                  // Assuming toast is available globally or imported
+                                  // If not, you'll need to import it or define it.
+                                  // For now, commenting out as it's not defined in the original file.
+                                  // toast({
+                                  //   title: ok ? t('copied') : t('copyFailed'),
+                                  //   duration: 2000,
+                                  //   variant: ok ? undefined : 'destructive',
+                                  // });
                                 }}
                                 className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
                               >

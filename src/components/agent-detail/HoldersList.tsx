@@ -58,9 +58,9 @@ export function HoldersList({ tokenAddress, holders, hasTokenAddress }: HoldersL
 
   // Format percentage with 2 decimal places
   const formatPercentage = (value: string) => {
-    if (!value || !totalSupply) return '0.00';
-    const percentage = (Number(BigInt(value) * BigInt(10000) / totalSupply) / 100).toFixed(2);
-    return percentage;
+    if (!value || !totalSupply) return '0';
+    const percentage = Number(BigInt(value) * BigInt(10000) / totalSupply) / 100;
+    return Math.round(percentage).toString();
   };
 
   if (loading) {

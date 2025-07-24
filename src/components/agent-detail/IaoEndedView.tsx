@@ -14,6 +14,7 @@ import { IaoResultDisplay } from './IaoResultDisplay';
 import { TokenDistributionModal } from './TokenDistributionModal';
 import type { LocalAgent } from "@/types/agent";
 import { Countdown } from "@/components/ui-custom/countdown";
+import { copyToClipboard } from '@/lib/utils';
 
 interface IaoEndedViewProps {
   agent: LocalAgent;
@@ -324,17 +325,17 @@ export const IaoEndedView = ({
     <div className="mt-6 sm:mt-8">
       <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('iaoCompletedData')}</h2>
       <div className="space-y-3 sm:space-y-4">
-        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{tIaoPool('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">
+        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+          <span className="text-black dark:text-white font-medium">{tIaoPool('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
+          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent.totalSupply || 0) * 0.15)}
           </span>
         </div>
-        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
-          <span className="text-black font-medium">
+        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+          <span className="text-black dark:text-white font-medium">
             {tIaoPool('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
           </span>
-          <span className="font-semibold text-[#F47521] break-all">
+          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
             {isPoolInfoLoading ? "--" : formatNumber(poolInfo?.totalDeposited || '0')}
           </span>
         </div>
@@ -347,15 +348,15 @@ export const IaoEndedView = ({
     <div className="mt-6 sm:mt-8">
       <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{tIaoPool('lpPoolData')}</h3>
       <div className="space-y-3 sm:space-y-4">
-        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{tIaoPool('lpPoolTokenAmount', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">
+        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+          <span className="text-black dark:text-white font-medium">{tIaoPool('lpPoolTokenAmount', { symbol: agent.symbol })}:</span>
+          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent as any).targetTokenAmountLp || 0)}
           </span>
         </div>
-        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 p-3 rounded-lg">
-          <span className="text-black font-medium">{tIaoPool('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
-          <span className="font-semibold text-[#F47521] break-all">
+        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+          <span className="text-black dark:text-white font-medium">{tIaoPool('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent as any).baseTokenAmountLp || 0)}
           </span>
         </div>
@@ -378,21 +379,21 @@ export const IaoEndedView = ({
       <div className="mt-6 sm:mt-8">
         <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('yourStakeInfo')}</h2>
         <div className="space-y-3 sm:space-y-4">
-          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
-            <span className="text-black font-medium">{tIaoPool('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
-            <span className="font-semibold text-[#F47521] break-all">
+          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+            <span className="text-black dark:text-white font-medium">{tIaoPool('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+            <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
               {formatNumber(userStakeInfo.userDeposited)}
             </span>
           </div>
           
           {/* 添加可领取/已领取金额显示 */}
-          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 p-3 rounded-lg">
-            <span className="text-black font-medium">
+          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+            <span className="text-black dark:text-white font-medium">
               {userStakeInfo.hasClaimed ? 
                 tIaoPool('claimedAmount', { symbol: agent.symbol }) : 
                 tIaoPool('claimableAmount', { symbol: agent.symbol })}:
             </span>
-            <span className="font-semibold text-[#F47521] break-all">
+            <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
               {formatNumber(userStakeInfo.hasClaimed ? 
                 userStakeInfo.claimedAmount || '0' : 
                 totalClaimable.toString())}
@@ -445,18 +446,19 @@ export const IaoEndedView = ({
                     <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                       <p className="text-sm text-gray-700 mb-2">{tIaoPool('importTokenAddress')}</p>
                       <div className="relative">
-                        <code className="block p-2 bg-black/10 rounded text-xs break-all pr-24">
+                        <code className="block p-2 bg-black/10 dark:bg-white/10 rounded text-xs break-all pr-24">
                           {agent.tokenAddress}
                         </code>
                         <Button
                           variant="outline"
                           size="sm"
                           className="absolute right-2 top-1/2 -translate-y-1/2"
-                          onClick={() => {
-                            navigator.clipboard.writeText(agent.tokenAddress || '');
+                          onClick={async () => {
+                            const ok = await copyToClipboard(agent.tokenAddress || '');
                             toast({
-                              title: tIaoPool('copied'),
+                              title: ok ? tIaoPool('copied') : tIaoPool('copyFailed'),
                               duration: 2000,
+                              variant: ok ? undefined : 'destructive',
                             });
                           }}
                         >
@@ -477,12 +479,12 @@ export const IaoEndedView = ({
             <div className="flex flex-col items-center"> 
               {/* 如果无法领取且未领取过，显示等待提示 */}
               {!canClaim && !userStakeInfo.hasClaimed && Number(userStakeInfo.userDeposited) > 0 && !isClaiming && poolInfo?.endTime && (
-                <div className="mb-3 w-full p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="mb-3 w-full p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900 rounded-lg">
                   <div className="flex items-center mb-1">
-                    <svg className="w-4 h-4 mr-1 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 mr-1 text-yellow-500 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span className="text-sm font-medium text-yellow-700">
+                    <span className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
                       {tIaoPool('waitingForRefund')}
                     </span>
                   </div>
@@ -539,12 +541,12 @@ export const IaoEndedView = ({
       <div className="space-y-4">
         {/* IAO管理面板 - 简化版本直接集成 */}
         {isCreator && isIaoSuccessful && (
-          <div className="bg-white rounded-lg border p-4 mb-4">
+          <div className="bg-background/5 dark:bg-[#161616] rounded-lg border border-border/10 dark:border-white/[0.1] p-4 mb-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">{tTokenDistribution('iaoManagement')}</h3>
+              <h3 className="text-lg font-semibold text-foreground">{tTokenDistribution('iaoManagement')}</h3>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-green-600 font-medium">{tTokenDistribution('iaoSuccessful')}</span>
+                <div className="w-2 h-2 bg-green-500/80 rounded-full"></div>
+                <span className="text-sm text-green-500/90 font-medium">{tTokenDistribution('iaoSuccessful')}</span>
               </div>
             </div>
 
@@ -552,10 +554,10 @@ export const IaoEndedView = ({
             <div className="space-y-3">
               {/* 步骤1: 创建代币 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokenAddress ? 'bg-green-50 border-green-200' :
-                isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
-                tokenCreationTask?.status === 'FAILED' ? 'bg-red-50 border-red-200' :
-                'bg-orange-50 border-orange-200'
+                agent.tokenAddress ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                tokenCreationTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
+                'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20'
               }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🪙</span>
@@ -583,10 +585,10 @@ export const IaoEndedView = ({
 
               {/* 步骤2: 代币分发 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-50 border-green-200' :
-                distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-50 border-blue-200' :
-                distributionTask?.status === 'FAILED' ? 'bg-red-50 border-red-200' :
-                agent.tokenAddress ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
+                agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                distributionTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
+                agent.tokenAddress ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
               }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">📤</span>
@@ -620,9 +622,9 @@ export const IaoEndedView = ({
 
               {/* 步骤3: 销毁代币 */}
               <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokensBurned ? 'bg-green-50 border-green-200' :
-                isBurning ? 'bg-blue-50 border-blue-200' :
-                agent.tokensDistributed && agent.liquidityAdded ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-200'
+                agent.tokensBurned ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                isBurning ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                agent.tokensDistributed && agent.liquidityAdded ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
               }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🔥</span>
@@ -676,18 +678,19 @@ export const IaoEndedView = ({
               {/* 代币地址显示 */}
               {agent.tokenAddress && (
                 <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 text-sm">
-                  <span className="font-medium">{tTokenDistribution('tokenAddress')}:</span>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs break-all flex-1">
+                  <span className="font-medium text-foreground/80">{tTokenDistribution('tokenAddress')}:</span>
+                  <code className="bg-background/10 dark:bg-white/[0.05] px-2 py-1 rounded text-xs break-all flex-1 text-foreground/90">
                     {agent.tokenAddress}
                   </code>
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => {
-                      navigator.clipboard.writeText(agent.tokenAddress || '');
+                    onClick={async () => {
+                      const ok = await copyToClipboard(agent.tokenAddress || '');
                       toast({
-                        title: tIaoPool('copied'),
+                        title: ok ? tIaoPool('copied') : tIaoPool('copyFailed'),
                         duration: 2000,
+                        variant: ok ? undefined : 'destructive',
                       });
                     }}
                   >
@@ -702,15 +705,16 @@ export const IaoEndedView = ({
 
               {/* 全部完成提示 */}
               {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned && agent.ownerTransferred && (
-                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
+                <div className="mt-4 p-3 bg-green-500/[0.08] dark:bg-green-500/[0.03] border border-green-500/20 rounded-lg text-sm">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 mr-2 text-green-500/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>{tTokenDistribution('managementCompleted')}</span>
+                    <span className="text-foreground/90">{tTokenDistribution('managementCompleted')}</span>
                   </div>
                 </div>
               )}
+
             </div>
           </div>
         )}

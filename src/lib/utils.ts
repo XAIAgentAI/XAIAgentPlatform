@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import BigNumber from "bignumber.js"
+import { ethers } from "ethers"
 
 /**
  * Utility function to merge Tailwind CSS classes with proper precedence
@@ -352,17 +354,53 @@ export function calculateRewardAmount(totalSupply: any): string {
       return '15000000000000000000000000000';
     }
 
-    // 计算15%的totalSupply
-    const rewardAmount = supply * 0.15;
+    const rewardAmount = new BigNumber(supply).times(15).div(100);
+    const rewardAmountInWei = ethers.parseUnits(rewardAmount.toString(), "ether").toString();
     
-    // 转换为Wei格式（乘以10^18）
-    const rewardAmountInWei = BigInt(Math.floor(rewardAmount * 10**18)).toString();
     
     console.log(`[IAO部署] 计算的奖励数量: ${rewardAmount} (${rewardAmountInWei} Wei)`);
     
-    return rewardAmountInWei;
+    return rewardAmountInWei.toString();
   } catch (error) {
     console.error('[错误] 计算奖励数量时出错:', error);
     return '15000000000000000000000000000'; // 出错时使用默认值
+  }
+}
+
+/**
+ * 兼容性复制到剪贴板
+ * @param text 要复制的文本
+ * @returns Promise<boolean> 是否成功
+ */
+export async function copyToClipboard(text: string): Promise<boolean> {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // 失败则降级
+    }
+  }
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.top = '0';
+    textarea.style.left = '0';
+    textarea.style.width = '2em';
+    textarea.style.height = '2em';
+    textarea.style.padding = '0';
+    textarea.style.border = 'none';
+    textarea.style.outline = 'none';
+    textarea.style.boxShadow = 'none';
+    textarea.style.background = 'transparent';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const successful = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return successful;
+  } catch (e) {
+    return false;
   }
 }

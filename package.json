@@ -28,7 +28,6 @@
     "build:profile": "node --heap-prof node_modules/next/dist/bin/next build"
   },
   "dependencies": {
-
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@neondatabase/serverless": "^0.10.4",
@@ -52,6 +51,8 @@
     "@types/ali-oss": "^6.16.11",
     "@types/dotenv": "^8.2.3",
     "@types/uuid": "^10.0.0",
+    "@uniswap/sdk-core": "^7.7.2",
+    "@uniswap/v3-sdk": "^3.25.2",
     "ali-oss": "^6.22.0",
     "axios": "^1.7.9",
     "bignumber.js": "^9.1.2",
@@ -64,6 +65,7 @@
     "ethers": "^6.13.5",
     "framer-motion": "^12.0.3",
     "jose": "^5.9.6",
+    "jsbi": "^4.3.2",
     "jsonwebtoken": "^9.0.2",
     "lightweight-charts": "^4.2.2",
     "lodash.clamp": "^4.0.3",

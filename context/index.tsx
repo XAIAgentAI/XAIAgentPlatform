@@ -75,12 +75,20 @@ if (!projectId) {
     throw new Error('Project ID is not defined')
 }
 
+// 获取当前网站的域名和协议
+const getOrigin = () => {
+    if (typeof window !== 'undefined') {
+        return window.location.origin;
+    }
+    return 'https://app.xaiagent.io'; // 默认值，服务器端渲染时使用
+}
+
 // Set up metadata
 const metadata = {
     name: 'xaiagent',
     description: 'xaiagent',
-    url: 'https://app.xaiagent.io', // origin must match your domain & subdomain
-    icons: ['https://assets.reown.com/reown-profile-pic.png']
+    url: getOrigin(), // 动态使用当前网站的域名
+    icons: [`${getOrigin()}/logo.png`] // 动态构建图标URL
 }
 
 // Create the modal with improved connection handling

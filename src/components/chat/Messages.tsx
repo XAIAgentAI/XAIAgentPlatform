@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
+import { copyToClipboard } from '@/lib/utils';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Message {
   id: string;
@@ -56,6 +58,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   const [dislikedMessages, setDislikedMessages] = useState<Record<string, boolean>>({});
   const expandedImageRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("chat");
+  const { toast } = useToast();
 
   useEffect(() => {
     setMessages(conversations["1"] || []);
@@ -100,7 +103,13 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   function shareToWeChat(message: string) {
     // 直接尝试 weixin://dl/moments（朋友圈协议）
     if (!document.hidden) { 
-      navigator.clipboard.writeText(message);
+      copyToClipboard(message).then(ok => {
+        toast({
+          title: ok ? t('copied') : t('copyFailed'),
+          duration: 2000,
+          variant: ok ? undefined : 'destructive',
+        });
+      });
       setCopiedMessageId("wechat-share");
       setTimeout(()=>{
         setCopiedMessageId(null);
@@ -155,7 +164,13 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   };
 
   const handleCopyText = (text: string, messageId: string) => {
-    navigator.clipboard.writeText(text);
+    copyToClipboard(text).then(ok => {
+      toast({
+        title: ok ? t('copied') : t('copyFailed'),
+        duration: 2000,
+        variant: ok ? undefined : 'destructive',
+      });
+    });
     setCopiedMessageId(messageId);
     setTimeout(() => setCopiedMessageId(null), 2000); // Reset after 2 seconds
   };  
