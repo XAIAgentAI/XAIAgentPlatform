@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { agentAPI } from '@/services/api';
 import { LocalAgent } from "@/types/agent";
+import { copyToClipboard } from '@/lib/utils';
 
 interface ContainerLinkManagerProps {
   agent: LocalAgent;
@@ -171,7 +172,14 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
               {(agent as any).containerLink}
             </a>
             <button
-              onClick={handleCopyLink}
+              onClick={async () => {
+                const ok = await copyToClipboard((agent as any).containerLink);
+                toast({
+                  title: ok ? t('copied') : t('copyFailed'),
+                  duration: 2000,
+                  variant: ok ? undefined : 'destructive',
+                });
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors p-1"
               aria-label={t('copyContainerLink')}
             >

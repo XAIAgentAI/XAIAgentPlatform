@@ -14,6 +14,7 @@ import { IaoResultDisplay } from './IaoResultDisplay';
 import { TokenDistributionModal } from './TokenDistributionModal';
 import type { LocalAgent } from "@/types/agent";
 import { Countdown } from "@/components/ui-custom/countdown";
+import { copyToClipboard } from '@/lib/utils';
 
 interface IaoEndedViewProps {
   agent: LocalAgent;
@@ -452,11 +453,12 @@ export const IaoEndedView = ({
                           variant="outline"
                           size="sm"
                           className="absolute right-2 top-1/2 -translate-y-1/2"
-                          onClick={() => {
-                            navigator.clipboard.writeText(agent.tokenAddress || '');
+                          onClick={async () => {
+                            const ok = await copyToClipboard(agent.tokenAddress || '');
                             toast({
-                              title: tIaoPool('copied'),
+                              title: ok ? tIaoPool('copied') : tIaoPool('copyFailed'),
                               duration: 2000,
+                              variant: ok ? undefined : 'destructive',
                             });
                           }}
                         >
@@ -683,11 +685,12 @@ export const IaoEndedView = ({
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => {
-                      navigator.clipboard.writeText(agent.tokenAddress || '');
+                    onClick={async () => {
+                      const ok = await copyToClipboard(agent.tokenAddress || '');
                       toast({
-                        title: tIaoPool('copied'),
+                        title: ok ? tIaoPool('copied') : tIaoPool('copyFailed'),
                         duration: 2000,
+                        variant: ok ? undefined : 'destructive',
                       });
                     }}
                   >

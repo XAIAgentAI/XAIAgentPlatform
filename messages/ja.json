@@ -285,6 +285,7 @@
     "approveFailed": "承認に失敗しました。もう一度お試しください",
     "copy": "コピー",
     "copied": "コピーしました",
+    "copyFailed": "コピーに失敗しました。手動でコピーしてください",
     "lpPoolData": "流動性プールデータ",
     "iaoCompletedData": "IAOが終了しました。完了データ",
     "iaoReleasedAmount": "IAOで配布された{symbol}の数量",

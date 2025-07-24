@@ -21,6 +21,7 @@ import { useDBCPrice } from '@/hooks/useDBCPrice';
 import { formatPrice } from '@/lib/format';
 import { API_CONFIG } from '@/config/api';
 import { ContainerLinkManager } from './ContainerLinkManager';
+import { copyToClipboard } from '@/lib/utils';
 
 interface AgentInfoProps {
   agent: LocalAgent;
@@ -187,10 +188,12 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                         <button
                           type="button"
                           className="p-1 rounded-md hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
-                          onClick={() => {
-                            navigator.clipboard.writeText(tokenData?.address || "");
+                          onClick={async () => {
+                            const ok = await copyToClipboard(tokenData?.address || "");
                             toast({
-                              description: t('addressCopied'),
+                              title: ok ? t('copied') : t('copyFailed'),
+                              duration: 2000,
+                              variant: ok ? undefined : 'destructive',
                             });
                           }}
                           aria-label={t('accessibility.copyContractAddress')}

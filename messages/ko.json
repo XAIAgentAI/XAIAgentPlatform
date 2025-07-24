@@ -287,6 +287,7 @@
     "approveFailed": "승인에 실패했습니다. 다시 시도해주세요",
     "copy": "복사",
     "copied": "복사됨",
+    "copyFailed": "복사 실패, 수동으로 복사해 주세요",
     "lpPoolData": "유동성 풀 데이터",
     "iaoCompletedData": "IAO가 종료되었습니다. 완료된 데이터",
     "iaoReleasedAmount": "IAO 배포된 {symbol} 수량",
