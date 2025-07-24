@@ -1354,27 +1354,27 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                             )}
 
                             {/* 代币信息展示 */}
-                            <div className="bg-gray-50 p-3 rounded-lg">
+                            <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-sm">
                                     <div className="flex flex-col items-start">
                                         <div>
-                                            <span className="text-gray-600">{t("tokenSupply")}: </span>
-                                            <span className="font-medium text-gray-800">{formData.tokenSupply}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">{t("tokenSupply")}: </span>
+                                            <span className="font-medium text-gray-800 dark:text-gray-200">{formData.tokenSupply}</span>
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-start">
                                         <div>
-                                            <span className="text-gray-600">{t("miningRate")}: </span>
-                                            <span className="font-medium text-gray-800">{formData.miningRate}%</span>
+                                            <span className="text-gray-600 dark:text-gray-400">{t("miningRate")}: </span>
+                                            <span className="font-medium text-gray-800 dark:text-gray-200">{formData.miningRate}%</span>
                                         </div>
-                                        <div className="text-xs text-gray-500 mt-1">
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                             {t("miningRateFormula", {rate: formData.miningRate})}
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-start">
                                         <div>
-                                            <span className="text-gray-600">{t("iaoPercentage")}: </span>
-                                            <span className="font-medium text-gray-800">{formData.iaoPercentage}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">{t("iaoPercentage")}: </span>
+                                            <span className="font-medium text-gray-800 dark:text-gray-200">{formData.iaoPercentage}</span>
                                         </div>
                                     </div>
                                 </div>

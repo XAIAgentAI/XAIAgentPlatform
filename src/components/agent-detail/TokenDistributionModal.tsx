@@ -14,6 +14,7 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { LocalAgent } from '@/types/agent';
 import { mergeDistributionTasks, filterDistributionTasks } from '@/lib/task-utils';
+import { useTranslations } from 'next-intl'; // 添加翻译支持
 
 interface TokenDistributionModalProps {
   agent: LocalAgent;
@@ -44,6 +45,7 @@ interface DistributionResult {
 }
 
 export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistributionModalProps) => {
+  const t = useTranslations('tokenDistribution'); // 使用韩语翻译
   const [isOpen, setIsOpen] = useState(false);
   const [isDistributing, setIsDistributing] = useState(false);
   const [distributionResult, setDistributionResult] = useState<DistributionResult | null>(null);
@@ -103,7 +105,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
               if (mergedResult.task.status === 'COMPLETED') {
                 const resultToSet = {
                   code: 200,
-                  message: '代币分发完成',
+                  message: t('distributionCompleted'),
                   data: parsedResult
                 };
                 console.log('🔍 [DEBUG] 即将设置的 distributionResult (COMPLETED):', resultToSet);
@@ -111,7 +113,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
               } else if (mergedResult.task.status === 'FAILED') {
                 const resultToSet = {
                   code: 500,
-                  message: '代币分发失败',
+                  message: t('distributionFailed'),
                   data: parsedResult
                 };
                 console.log('🔍 [DEBUG] 即将设置的 distributionResult (FAILED):', resultToSet);
@@ -119,7 +121,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
               } else if (mergedResult.task.status === 'PARTIAL_FAILED') {
                 const resultToSet = {
                   code: 206, // 206 Partial Content
-                  message: '代币分发部分成功',
+                  message: t('distributionPartialSuccess'),
                   data: parsedResult
                 };
                 console.log('🔍 [DEBUG] 即将设置的 distributionResult (PARTIAL_FAILED):', resultToSet);
@@ -199,9 +201,9 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           completed: hasConfirmed && !hasFailed,
           inProgress: isProcessing ? (!hasConfirmed && !hasFailed) || hasPending : hasPending,
           failed: hasFailed,
-          text: hasConfirmed && !hasFailed ? '已完成' :
-                hasFailed ? '失败' :
-                (isProcessing || hasPending) ? '处理中' : '未执行'
+          text: hasConfirmed && !hasFailed ? t('completed') :
+                hasFailed ? t('failed') :
+                (isProcessing || hasPending) ? t('processing') : t('waiting')
         };
         console.log(`🔍 [DEBUG] ${step} - 流动性状态汇总:`, status);
         return status;
@@ -215,9 +217,9 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           completed: transaction.status === 'confirmed',
           inProgress: isProcessing ? transaction.status === 'pending' : transaction.status === 'pending',
           failed: transaction.status === 'failed',
-          text: transaction.status === 'confirmed' ? '已完成' :
-                transaction.status === 'failed' ? '失败' :
-                (isProcessing || transaction.status === 'pending') ? '处理中' : '未执行'
+          text: transaction.status === 'confirmed' ? t('completed') :
+                transaction.status === 'failed' ? t('failed') :
+                (isProcessing || transaction.status === 'pending') ? t('processing') : t('waiting')
         };
         console.log(`🔍 [DEBUG] ${step} - 返回状态:`, status);
         return status;
@@ -261,7 +263,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           completed: false,
           inProgress: true,
           failed: false,
-          text: '处理中'
+          text: t('processing')
         };
       }
 
@@ -280,14 +282,14 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
             completed: false,
             inProgress: false,
             failed: false, // 部分失败时不全部标记为失败
-            text: '待确认'
+            text: t('waiting')
           };
         } else {
           return {
             completed: false,
             inProgress: false,
             failed: true,
-            text: '失败'
+            text: t('failed')
           };
         }
       }
@@ -307,9 +309,9 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
             completed: transaction.status === 'confirmed',
             inProgress: transaction.status === 'pending',
             failed: transaction.status === 'failed',
-            text: transaction.status === 'confirmed' ? '已完成' :
-                  transaction.status === 'pending' ? '处理中' :
-                  transaction.status === 'failed' ? '失败' : '等待中'
+            text: transaction.status === 'confirmed' ? t('completed') :
+                  transaction.status === 'pending' ? t('processing') :
+                  transaction.status === 'failed' ? t('failed') : t('waiting')
           };
           console.log(`🔍 [DEBUG] ${step} - 返回状态:`, status);
           return status;
@@ -325,8 +327,8 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
         completed: !!agent.tokensDistributed,
         inProgress: isDistributing && !distributionTask,
         failed: false,
-        text: agent.tokensDistributed ? '已完成' :
-              (isDistributing && !distributionTask) ? '处理中' : '等待中'
+        text: agent.tokensDistributed ? t('completed') :
+              (isDistributing && !distributionTask) ? t('processing') : t('waiting')
       };
     }
 
@@ -335,7 +337,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
         completed: !!agent.liquidityAdded,
         inProgress: false,
         failed: false,
-        text: agent.liquidityAdded ? '已完成' : '等待中'
+        text: agent.liquidityAdded ? t('completed') : t('waiting')
       };
     }
 
@@ -345,7 +347,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
       completed: false,
       inProgress: false,
       failed: false,
-      text: '等待中'
+      text: t('waiting')
     };
   };
 
@@ -373,8 +375,8 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
     if (!agent.tokenAddress || !agent.totalSupply) {
       console.log('🔍 [DEBUG] 代币地址或总供应量未设置');
       toast({
-        title: '错误',
-        description: '代币地址或总供应量未设置',
+        title: t('error'),
+        description: t('tokenOrSupplyNotSet'),
         variant: 'destructive',
       });
       return;
@@ -390,8 +392,8 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
       if (!token) {
         console.log('🔍 [DEBUG] 未找到认证 token');
         toast({
-          title: '错误',
-          description: '请先连接钱包并完成认证',
+          title: t('error'),
+          description: t('walletAuthRequired'),
           variant: 'destructive',
         });
         return;
@@ -442,8 +444,8 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
       if (result.code === 200) {
         console.log('🔍 [DEBUG] ✅ 代币分发任务提交成功');
         toast({
-          title: '代币分发任务已提交',
-          description: '任务已提交，正在后台处理...',
+          title: t('distributionTaskSubmitted'),
+          description: t('taskProcessingInBackground'),
         });
 
         // 重置提交状态，让任务状态接管UI控制
@@ -455,13 +457,13 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
         console.log('🔍 [DEBUG] 📝 任务提交完成，开始轮询任务状态');
       } else {
         console.log('🔍 [DEBUG] ❌ 任务提交失败:', result);
-        throw new Error(result.message || '任务提交失败');
+        throw new Error(result.message || t('taskSubmissionFailed'));
       }
     } catch (error: any) {
       console.error('🔍 [DEBUG] ❌ 代币分发任务提交错误:', error);
       toast({
-        title: '代币分发任务提交失败',
-        description: error.message || '网络错误，请稍后重试',
+        title: t('distributionTaskSubmissionFailed'),
+        description: error.message || t('networkError'),
         variant: 'destructive',
       });
       // 只有在出错时才设置 isDistributing 为 false
@@ -493,38 +495,38 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           className="w-full bg-orange-500 hover:bg-orange-600 text-white"
           disabled={!agent.tokenAddress || !agent.totalSupply}
         >
-          代币分发
+          {t('tokenDistribution')}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto overflow-x-hidden w-full">
         <DialogHeader>
-          <DialogTitle>代币分发</DialogTitle>
+          <DialogTitle>{t('tokenDistribution')}</DialogTitle>
           <DialogDescription>
-            将代币按照预设比例分发给各个地址
+            {t('distributeTokensAddLiquidity')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* 基本信息 */}
           <div className="space-y-2">
-            <h4 className="font-medium">基本信息</h4>
+            <h4 className="font-medium">{t('basicInfo')}</h4>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-600">Agent名称:</span>
+                <span className="text-gray-600">{t('agentName')}:</span>
                 <span className="ml-2 font-medium">{agent.name}</span>
               </div>
               <div>
-                <span className="text-gray-600">代币符号:</span>
+                <span className="text-gray-600">{t('tokenSymbol')}:</span>
                 <span className="ml-2 font-medium">{agent.symbol}</span>
               </div>
               <div className="col-span-2">
-                <span className="text-gray-600">代币地址:</span>
-                <code className="ml-2 text-xs bg-gray-100 px-2 py-1 rounded break-all">
+                <span className="text-gray-600">{t('tokenAddress')}:</span>
+                <code className="ml-2 text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded break-all">
                   {agent.tokenAddress}
                 </code>
               </div>
               <div>
-                <span className="text-gray-600">总供应量:</span>
+                <span className="text-gray-600">{t('totalSupply')}:</span>
                 <span className="ml-2 font-medium">{formatNumber(agent.totalSupply || 0)}</span>
               </div>
             </div>
@@ -532,19 +534,18 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
 
           {/* 分发计划和进度 */}
           <div className="space-y-2">
-            <h4 className="font-medium">分发计划和进度</h4>
+            <h4 className="font-medium">{t('distributionPlan')}</h4>
             <div className="space-y-2 text-sm">
               {/* IAO合约分发 */}
               <div className="flex justify-between items-center p-2 bg-green-50 rounded border border-green-200">
                 <div className="flex items-center gap-2">
-                  <span>🏦 IAO合约 ({DISTRIBUTION_RATIOS.IAO}%)</span>
+                  <span className="text-white dark:text-black">🏦 {t('iaoContract')} ({DISTRIBUTION_RATIOS.IAO}%)</span>
                   <span className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
-                    已自动完成
+                    {t('autoCompleted')}
                   </span>
                 </div>
                 <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.IAO)}</span>
               </div>
-
 
               {/* 创建者分发 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
@@ -554,7 +555,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span>👤 创建者 ({DISTRIBUTION_RATIOS.CREATOR}%)</span>
+                  <span className="text-white dark:text-black">👤 {t('creator')} ({DISTRIBUTION_RATIOS.CREATOR}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
                     getDistributionStepStatus('creator').completed ? 'bg-green-100 text-green-800' :
                     getDistributionStepStatus('creator').inProgress ? 'bg-blue-100 text-blue-800' :
@@ -567,7 +568,6 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.CREATOR)}</span>
               </div>
 
-          
               {/* 空投分发 */}
               <div className={`flex justify-between items-center p-2 rounded border ${
                 getDistributionStepStatus('airdrop').completed ? 'bg-green-50 border-green-200' :
@@ -576,7 +576,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span>🎁 空投钱包 ({DISTRIBUTION_RATIOS.AIRDROP}%)</span>
+                  <span className="text-white dark:text-black">🎁 {t('airdropWallet')} ({DISTRIBUTION_RATIOS.AIRDROP}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
                     getDistributionStepStatus('airdrop').completed ? 'bg-green-100 text-green-800' :
                     getDistributionStepStatus('airdrop').inProgress ? 'bg-blue-100 text-blue-800' :
@@ -597,7 +597,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span>⛏️ AI挖矿合约 ({DISTRIBUTION_RATIOS.MINING}%)</span>
+                  <span className="text-white dark:text-black">⛏️ {t('aiMiningContract')} ({DISTRIBUTION_RATIOS.MINING}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
                     getDistributionStepStatus('mining').completed ? 'bg-green-100 text-green-800' :
                     getDistributionStepStatus('mining').inProgress ? 'bg-blue-100 text-blue-800' :
@@ -618,7 +618,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="flex items-center gap-2">
-                  <span>💧 流动性 ({DISTRIBUTION_RATIOS.LIQUIDITY}%)</span>
+                  <span className="text-white dark:text-black">💧 {t('liquidity')} ({DISTRIBUTION_RATIOS.LIQUIDITY}%)</span>
                   <span className={`text-xs px-2 py-1 rounded ${
                     getDistributionStepStatus('liquidity').completed ? 'bg-green-100 text-green-800' :
                     getDistributionStepStatus('liquidity').inProgress ? 'bg-blue-100 text-blue-800' :
@@ -630,8 +630,6 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 </div>
                 <span className="font-medium">{calculateAmount(DISTRIBUTION_RATIOS.LIQUIDITY)}</span>
               </div>
-
-
             </div>
           </div>
 
@@ -639,12 +637,12 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
           {(isDistributing || distributionResult) && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium">分发状态</h4>
+                <h4 className="font-medium">{t('distributionStatus')}</h4>
                 <button
                   onClick={() => setIsResultExpanded(!isResultExpanded)}
                   className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors"
                 >
-                  <span>{isResultExpanded ? '收起' : '展开'}</span>
+                  <span>{isResultExpanded ? t('collapse') : t('expand')}</span>
                   <svg
                     className={`w-4 h-4 transition-transform ${isResultExpanded ? 'rotate-180' : ''}`}
                     fill="none"
@@ -672,7 +670,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                       {distributionResult.code === 200 ? '✅' :
                        distributionResult.code === 206 ? '⚠️' : '❌'}
                     </span>
-                    <span className="font-medium text-sm">{distributionResult.message}</span>
+                    <span className="font-medium text-sm text-white dark:text-black">{distributionResult.message}</span>
                   </div>
                 </div>
               )}
@@ -682,112 +680,112 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
                 <div className="space-y-4 animate-in slide-in-from-top-2 duration-200">
                   {/* 分发进度指示器 */}
                   {isDistributing && (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span className="text-sm font-medium text-blue-600">正在分发代币...</span>
-                  </div>
-
-                  {distributionResult?.data?.currentStep && distributionResult?.data?.totalSteps && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>进度</span>
-                        <span>{distributionResult.data.currentStep} / {distributionResult.data.totalSteps}</span>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span className="text-sm font-medium text-blue-600">{t('distributingTokens')}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                          style={{
-                            width: `${(distributionResult.data.currentStep / distributionResult.data.totalSteps) * 100}%`
-                          }}
-                        ></div>
-                      </div>
-                      {distributionResult.data.stepName && (
-                        <div className="text-xs text-gray-600">
-                          当前步骤: {distributionResult.data.stepName}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
 
-              {/* 分发结果 */}
-              {distributionResult && (
-                <div className={`p-4 rounded-lg ${
-                  distributionResult.code === 200 ? 'bg-green-50 border border-green-200' :
-                  distributionResult.code === 206 ? 'bg-yellow-50 border border-yellow-200' :
-                  'bg-red-50 border border-red-200'
-                }`}>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`text-lg ${
-                      distributionResult.code === 200 ? 'text-green-600' :
-                      distributionResult.code === 206 ? 'text-yellow-600' :
-                      'text-red-600'
-                    }`}>
-                      {distributionResult.code === 200 ? '✅' :
-                       distributionResult.code === 206 ? '⚠️' : '❌'}
-                    </span>
-                    <span className="font-medium">{distributionResult.message}</span>
-                  </div>
-
-                  {distributionResult.data?.transactions && (
-                    <div className="space-y-3 w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                      <div className="text-sm font-medium">分发详情:</div>
-                      {distributionResult.data.transactions.map((tx, index) => (
-                        <div key={index} className="bg-white p-3 rounded border w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                          <div className="flex justify-between items-start mb-2">
-                            <div className="flex-1" style={{minWidth: 0, maxWidth: '100%'}}>
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-medium text-sm">{tx.type}</span>
-                                {tx.percentage && (
-                                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">
-                                    {tx.percentage}%
-                                  </span>
-                                )}
-                              </div>
-                              {tx.description && (
-                                <div className="text-xs text-gray-600 mb-2">{tx.description}</div>
-                              )}
-                              <div className="text-xs text-gray-600">
-                                数量: {formatNumber(tx.amount)}
-                              </div>
-                              <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
-                                地址: <span className="font-mono">{tx.toAddress}</span>
-                              </div>
-                              <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
-                                Hash: <span className="font-mono">{tx.txHash}</span>
-                              </div>
-                            </div>
-                            <span className={`px-2 py-1 rounded text-xs whitespace-nowrap ${
-                              tx.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                              tx.status === 'failed' ? 'bg-red-100 text-red-800' :
-                              'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {tx.status === 'confirmed' ? '已确认' :
-                               tx.status === 'failed' ? '失败' : '处理中'}
-                            </span>
+                      {distributionResult?.data?.currentStep && distributionResult?.data?.totalSteps && (
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span>{t('progress')}</span>
+                            <span>{distributionResult.data.currentStep} / {distributionResult.data.totalSteps}</span>
                           </div>
-                          {tx.error && (
-                            <div className="text-xs text-red-600 p-2 bg-red-50 rounded w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
-                              <div style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>❌ {tx.error}</div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                              style={{
+                                width: `${(distributionResult.data.currentStep / distributionResult.data.totalSteps) * 100}%`
+                              }}
+                            ></div>
+                          </div>
+                          {distributionResult.data.stepName && (
+                            <div className="text-xs text-gray-600">
+                              {t('currentStep')}: {distributionResult.data.stepName}
                             </div>
                           )}
                         </div>
-                      ))}
+                      )}
+                    </div>
+                  )}
 
-                      {/* 分发汇总 */}
-                      {distributionResult.data.totalDistributed && (
-                        <div className="border-t pt-3 mt-3">
-                          <div className="text-sm font-medium text-gray-700">
-                            总分发量: {formatNumber(distributionResult.data.totalDistributed)}
-                          </div>
+                  {/* 分发结果 */}
+                  {distributionResult && (
+                    <div className={`p-4 rounded-lg ${
+                      distributionResult.code === 200 ? 'bg-green-50 border border-green-200' :
+                      distributionResult.code === 206 ? 'bg-yellow-50 border border-yellow-200' :
+                      'bg-red-50 border border-red-200'
+                    }`}>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className={`text-lg ${
+                          distributionResult.code === 200 ? 'text-green-600' :
+                          distributionResult.code === 206 ? 'text-yellow-600' :
+                          'text-red-600'
+                        }`}>
+                          {distributionResult.code === 200 ? '✅' :
+                           distributionResult.code === 206 ? '⚠️' : '❌'}
+                        </span>
+                        <span className="font-medium">{distributionResult.message}</span>
+                      </div>
+
+                      {distributionResult.data?.transactions && (
+                        <div className="space-y-3 w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                          <div className="text-sm font-medium">{t('distributionDetails')}:</div>
+                          {distributionResult.data.transactions.map((tx, index) => (
+                            <div key={index} className="bg-white p-3 rounded border w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                              <div className="flex justify-between items-start mb-2">
+                                <div className="flex-1" style={{minWidth: 0, maxWidth: '100%'}}>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-medium text-sm">{tx.type}</span>
+                                    {tx.percentage && (
+                                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                                        {tx.percentage}%
+                                      </span>
+                                    )}
+                                  </div>
+                                  {tx.description && (
+                                    <div className="text-xs text-gray-600 mb-2">{tx.description}</div>
+                                  )}
+                                  <div className="text-xs text-gray-600">
+                                    {t('amount')}: {formatNumber(tx.amount)}
+                                  </div>
+                                  <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
+                                    {t('address')}: <span className="font-mono">{tx.toAddress}</span>
+                                  </div>
+                                  <div className="text-xs text-gray-600" style={{wordBreak: 'break-all', maxWidth: '100%'}}>
+                                    Hash: <span className="font-mono">{tx.txHash}</span>
+                                  </div>
+                                </div>
+                                <span className={`px-2 py-1 rounded text-xs whitespace-nowrap ${
+                                  tx.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                                  tx.status === 'failed' ? 'bg-red-100 text-red-800' :
+                                  'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                  {tx.status === 'confirmed' ? t('confirmed') :
+                                   tx.status === 'failed' ? t('failed') : t('processing')}
+                                </span>
+                              </div>
+                              {tx.error && (
+                                <div className="text-xs text-red-600 p-2 bg-red-50 rounded w-full" style={{maxWidth: '100%', overflow: 'hidden'}}>
+                                  <div style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>❌ {tx.error}</div>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+
+                          {/* 分发汇总 */}
+                          {distributionResult.data.totalDistributed && (
+                            <div className="border-t pt-3 mt-3">
+                              <div className="text-sm font-medium text-gray-700">
+                                {t('totalDistributed')}: {formatNumber(distributionResult.data.totalDistributed)}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
                   )}
-                </div>
-              )}
                 </div>
               )}
             </div>
@@ -796,7 +794,7 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setIsOpen(false)}>
-            关闭
+            {t('close')}
           </Button>
 
           <Button
@@ -811,16 +809,16 @@ export const TokenDistributionModal = ({ agent, onStatusUpdate }: TokenDistribut
             className="bg-orange-500 hover:bg-orange-600"
           >
             {isDistributing
-              ? '提交中...'
+              ? t('submitting')
               : distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING'
-              ? '分发中...'
+              ? t('distributing')
               : distributionTask?.status === 'COMPLETED'
-              ? '已完成'
+              ? t('completed')
               : distributionTask?.status === 'FAILED'
-              ? '重新分发'
+              ? t('retryDistribution')
               : distributionTask?.status === 'PARTIAL_FAILED'
-              ? '重试失败步骤'
-              : '开始分发'}
+              ? t('retryFailedSteps')
+              : t('startDistribution')}
           </Button>
         </DialogFooter>
       </DialogContent>

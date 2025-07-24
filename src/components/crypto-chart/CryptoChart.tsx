@@ -67,6 +67,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   onLoadMore
 }) => {
   const t = useTranslations('cryptoChart');
+  const tcommon = useTranslations('common');
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chart = useRef<IChartApi | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
@@ -556,15 +557,15 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <Skeleton className="h-8 w-32" />
-          <div className="flex gap-2">
-            {TIME_INTERVALS.map((_, index) => (
-              <Skeleton key={index} className="h-8 w-12" />
-            ))}
+        <div className="relative">
+          <Skeleton className="w-full h-[200px]" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              <span className="text-sm text-gray-600 dark:text-gray-300">{tcommon('loading')}</span>
+            </div>
           </div>
         </div>
-        <Skeleton className="w-full h-[500px]" />
       </div>
     );
   }

@@ -61,6 +61,12 @@ const Navbar = () => {
       href: "/create",
       label: t('navigation.model'),
       comingSoon: false
+    },
+    {
+      id: "about",
+      href: "https://xaiagent.io/",
+      label: t('navigation.about'),
+      isExternal: true
     }
   ];
 
@@ -214,21 +220,38 @@ const Navbar = () => {
           </Link>
           <div className="hidden lg:flex items-center gap-8">
             {navigationLinks.map((link) => (
-              <Link
-                key={link.id}
-                href={link.href}
-                className={cn(
-                  "text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap",
-                  "transition-colors hover:text-primary",
-                  "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary",
-                  isCurrentPath(link.href)
-                    ? "text-primary after:w-full"
-                    : "after:w-0 hover:after:w-full after:transition-all",
-                )}
-                onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
-              >
-                {link.label}
-              </Link>
+              link.isExternal ? (
+                <a
+                  key={link.id}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap",
+                    "transition-colors hover:text-primary",
+                    "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary",
+                    "after:w-0 hover:after:w-full after:transition-all"
+                  )}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.id}
+                  href={link.href}
+                  className={cn(
+                    "text-text-primary text-xs font-normal font-['Sora'] leading-7 whitespace-nowrap",
+                    "transition-colors hover:text-primary",
+                    "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary",
+                    isCurrentPath(link.href)
+                      ? "text-primary after:w-full"
+                      : "after:w-0 hover:after:w-full after:transition-all",
+                  )}
+                  onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
         </div>
@@ -392,18 +415,35 @@ const Navbar = () => {
             >
               <div className="container mx-auto p-4 space-y-4 flex flex-col items-center">
                 {navigationLinks.map((link) => (
-                  <Link
-                    key={link.id}
-                    href={link.href}
-                    className={cn(
-                      "w-full block text-center",
-                      "text-text-primary text-base lg:text-sm font-normal font-['Sora']",
-                      isCurrentPath(link.href) && "text-primary"
-                    )}
-                    onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
-                  >
-                    {link.label}
-                  </Link>
+                  link.isExternal ? (
+                    <a
+                      key={link.id}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "w-full block text-center",
+                        "text-text-primary text-base lg:text-sm font-normal font-['Sora']",
+                        "hover:text-primary"
+                      )}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.id}
+                      href={link.href}
+                      className={cn(
+                        "w-full block text-center",
+                        "text-text-primary text-base lg:text-sm font-normal font-['Sora']",
+                        isCurrentPath(link.href) && "text-primary"
+                      )}
+                      onClick={(e) => handleComingSoonClick(e, link.comingSoon)}
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ))}
 
                 <GradientBorderButton

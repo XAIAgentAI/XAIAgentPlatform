@@ -296,11 +296,15 @@ export const useIaoPoolData = (agent: LocalAgent) => {
 
   // 获取IAO进度
   const fetchIaoProgress = useCallback(async () => {
+    console.log("fetchIaoProgress中", getIaoProgress);
+    
     if (fetchInProgress.current.iaoProgress || !getIaoProgress) return;
     fetchInProgress.current.iaoProgress = true;
     
     try {
       const progress = await getIaoProgress();
+      console.log("fetchIaoProgress后数据", progress);
+      
       updateState(() => ({ iaoProgress: progress }));
     } catch (error) {
       console.error('Failed to fetch IAO progress:', error);
@@ -368,17 +372,17 @@ export const useIaoPoolData = (agent: LocalAgent) => {
 
   // 初始化数据 - 只在组件首次挂载时执行一次
   useEffect(() => {
-    if (isInitialized.current) return;
-    isInitialized.current = true;
+    // if (isInitialized.current) return;
+    // isInitialized.current = true;
     
-    // 检查此代理是否已经初始化
-    if (initializedAgents.has(agent.id)) return;
-    initializedAgents.set(agent.id, true);
+    // // 检查此代理是否已经初始化
+    // if (initializedAgents.has(agent.id)) return;
+    // initializedAgents.set(agent.id, true);
 
-    // 初始化用户引用值
-    prevAddress.current = address;
-    prevConnected.current = isConnected;
-    prevAuthenticated.current = isAuthenticated;
+    // // 初始化用户引用值
+    // prevAddress.current = address;
+    // prevConnected.current = isConnected;
+    // prevAuthenticated.current = isAuthenticated;
     
     // 只有在合约地址存在时才加载数据
     if (iaoContractAddress) {
@@ -390,27 +394,27 @@ export const useIaoPoolData = (agent: LocalAgent) => {
       checkIaoStatus();
     }
     
-    // 清理函数
-    return () => {
-      // 当组件卸载时，从缓存中删除此代理
-      initializedAgents.delete(agent.id);
+    // // 清理函数
+    // return () => {
+    //   // 当组件卸载时，从缓存中删除此代理
+    //   initializedAgents.delete(agent.id);
       
-      // 清除防抖定时器
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
+    //   // 清除防抖定时器
+    //   if (debounceTimerRef.current) {
+    //     clearTimeout(debounceTimerRef.current);
+    //   }
+    // };
   }, [
-    agent.id,
-    address, 
-    isConnected, 
-    isAuthenticated,
-    iaoContractAddress,
-    fetchUserBalance, 
-    fetchTokenCreationTask, 
-    fetchUserStakeInfo, 
-    fetchIaoProgress, 
-    checkIaoStatus
+    // agent.id,
+    // address, 
+    // isConnected, 
+    // isAuthenticated,
+    // iaoContractAddress,
+    // fetchUserBalance, 
+    // fetchTokenCreationTask, 
+    // fetchUserStakeInfo, 
+    // fetchIaoProgress, 
+    // checkIaoStatus
   ]);
 
   // 设置定时刷新 - 使用单一 useEffect 管理所有定时器
