@@ -13,10 +13,10 @@ export default function Home() {
   const searchParams = useSearchParams()
   const [statusFilter, setStatusFilter] = useState<string>("")
   
-  // 从URL参数中获取排序方式
-  const sortBy = searchParams?.get('sortBy') || "marketCap"
-  const sortOrder = searchParams?.get('sortOrder') || "desc"
-  
+  // 从URL参数中获取排序方式，不设置默认值
+  const sortBy = searchParams?.get('sortBy')
+  const sortOrder = searchParams?.get('sortOrder')
+
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {

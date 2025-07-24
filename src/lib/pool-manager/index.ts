@@ -683,7 +683,10 @@ export class PoolManager {
       return {
         success: true,
         poolAddress,
-        ...result
+        txHash: result?.txHash,
+        tokenAmount: result?.tokenAmount,
+        xaaAmount: result?.xaaAmount,
+        blockNumber: result?.blockNumber
       };
   
     } catch (error) {
@@ -885,7 +888,13 @@ export class PoolManager {
     tokenAmount: string, 
     xaaAmount: string, 
     params: CalculatedPoolParams
-  ) {
+  ): Promise<{
+    txHash?: string;
+    tokenAmount?: string;
+    xaaAmount?: string;
+    blockNumber?: string;
+    tokenId?: string;
+  }> {
     console.log(`\n========== 开始添加流动性 ==========`);
     
     const mintParams = {

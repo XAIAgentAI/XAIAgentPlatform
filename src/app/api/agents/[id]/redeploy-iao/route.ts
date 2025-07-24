@@ -184,7 +184,7 @@ export async function POST(
         liquidityAdded: false,
         tokensBurned: false,
         ownerTransferred: false,
-      },
+      } as any,
     });
 
     console.log(`[IAO重新部署] 数据库记录已更新，所有状态已重置`);
