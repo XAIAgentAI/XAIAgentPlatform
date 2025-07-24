@@ -6,7 +6,7 @@ import { env } from 'process';
 
 export const SUBGRAPH_URL = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "https://dbcswap.io/subgraph/name/ianlapham/uniswap-v3-test" : 'https://dbcswap.io/subgraph/name/ianlapham/dbcswap-v3-mainnet';
 export const DBC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true" ? "" : "0xd7ea4da7794c7d09bceab4a21a6910d9114bc936";
-export const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83f6b17914a4e88436251589194ca5ac0f452";
+export const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83F6B17914a4e88436251589194CA5AC0f452";
 
 
 export interface FetchSwapDataParams {
