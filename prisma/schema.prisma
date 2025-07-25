@@ -85,6 +85,7 @@ model Agent {
   poolCreated               Boolean      @default(false) // 池子是否已创建
   initialLiquidityAmount    Decimal? // 初始流动性代币数量
   initialXaaAmount          Decimal? // 初始流动性XAA数量
+  tokenList                 TokenList? // 一对一关系
 }
 
 model Example {
@@ -157,4 +158,23 @@ model AgentPrice {
   agent     Agent    @relation(fields: [agentId], references: [id])
 
   @@index([agentId, timestamp])
+}
+
+model TokenList {
+  id          String   @id @default(uuid())
+  address     String   @unique
+  name        String
+  symbol      String
+  chainId     Int
+  decimals    Int      @default(18)
+  logoURI     String
+  agent       Agent    @relation(fields: [agentId], references: [id])
+  agentId     String   @unique
+  isActive    Boolean  @default(false)  // 只有当池子创建且添加流动性后才设为true
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  keywords    String?  // JSON string array
+  version     Json     // { major: number, minor: number, patch: number }
+
+  @@index([isActive])
 }

@@ -48,6 +48,7 @@ function needsAuth(path: string, method: string): boolean {
     '/api/image',
     '/api/stid',
     '/api/socket',
+    '/api/tokens',
     '/api/model-chat',
     '/api/cron/update-prices',
     '/api/auth/nonce',
