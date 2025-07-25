@@ -87,10 +87,13 @@ export async function POST(
         status: 'PENDING',
         agentId,
         createdBy: user.address,
-        metadata: {
-          nfcTokenAddress,
-          nfcAmount
-        }
+        result: JSON.stringify({
+          metadata: {
+            iaoContractAddress,
+            nfcTokenAddress,
+            nfcAmount
+          }
+        })
       },
     });
 
