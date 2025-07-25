@@ -140,25 +140,48 @@
   },
   "agentList": {
     "sortBy": "並び替え",
-    "marketCap": "時価総額",
     "latest": "最新",
     "aiAgents": "AIエージェント",
-    "24h": "24時間",
-    "24hChange": "24時間変動",
-    "tvl": "トークン価格",
+    "investedXAA": "投資済みXAA",
     "holdersCount": "保有者数",
-    "24hVol": "24時間取引量",
+    "iaoEndCountdown": "IAO終了カウントダウン",
+    "iaoStartCountdown": "IAO開始カウントダウン",
     "status": "ステータス",
     "loading": "読み込み中...",
     "social": "ソーシャル",
-    "lp": "流動性プール",
     "chat": "チャット",
     "filterBy": "フィルター",
     "all": "すべて",
     "iaoOngoing": "IAO進行中",
     "tradable": "取引可能",
     "iaoComingSoon": "IAO開始予定",
-    "noDataAvailable": "データがありません"
+    "noDataAvailable": "データなし",
+    "marketCap": "時価総額",
+    "change24h": "24時間変動",
+    "tokenPrice": "トークン価格",
+    "volume24h": "24時間取引高",
+    "liquidityPool": "流動性プール",
+    "agentInfo": "エージェント情報",
+    "symbol": "シンボル",
+    "type": "タイプ",
+    "accessibility": {
+      "avatarImage": "アバター画像",
+      "sortIcon": "ソートアイコン",
+      "chatIcon": "チャットアイコン",
+      "noDataImage": "データなし画像",
+      "openChat": "チャットを開く"
+    },
+    "chatButton": {
+      "game": "ゲーム",
+      "chat": "チャット"
+    },
+    "socialLinks": {
+      "twitter": "Twitter",
+      "telegram": "Telegram",
+      "medium": "Medium",
+      "github": "GitHub",
+      "youtube": "YouTube"
+    }
   },
   "agentDetail": {
     "overview": "概要",
@@ -436,15 +459,15 @@
     "tradingPair": "IAO終了後、トークンと$XAAの10％はDBCSwap上で即座に流動性プールを形成し、自由な取引を可能にします。"
   },
   "agents": {
-    "infrastructure": "インフラストラクチャー",
+    "infrastructure": "インフラストラクチャ",
     "aiAgent": "AIエージェント",
     "featuredAgents": "注目のエージェント",
     "noAgentsFound": "エージェントが見つかりません",
     "noAgentsFoundDesc": "最初のエージェントを作成するか、注目のエージェントを探索してください。",
-    "prototype": "プロトタイプエージェント",
+    "prototype": "プロトタイプ",
     "writing": "ライティング",
     "productivity": "生産性",
-    "research": "研究と分析",
+    "research": "研究・分析",
     "education": "教育",
     "lifestyle": "ライフスタイル",
     "programming": "プログラミング",
@@ -453,10 +476,10 @@
   },
   "marketData": {
     "marketCap": "時価総額",
-    "volume24h": "24時間取引量",
+    "volume24h": "24時間取引高",
     "totalSupply": "総供給量",
-    "holders": "保有者数",
-    "tba": "近日発表",
+    "holders": "保有者",
+    "tba": "未定",
     "zero": "0",
     "units": {
       "billion": "十億",

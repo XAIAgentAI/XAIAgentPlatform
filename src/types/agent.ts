@@ -10,6 +10,95 @@ export enum AgentStatus {
   FAILED = 'FAILED',
 }
 
+// 列字段枚举
+export enum AgentColumnField {
+  AGENT_INFO = 'agentInfo',           // Agent名称/图标/简介
+  SYMBOL = 'symbol',                  // 代币符号
+  TYPE = 'type',                      // 类型标签
+  HOLDERS_COUNT = 'holdersCount',     // 持有人数
+  STATUS = 'status',                  // 状态标签
+  INVESTED_XAA = 'investedXAA',       // 已投入XAA
+  IAO_END_COUNTDOWN = 'iaoEndCountdown', // IAO结束倒计时
+  IAO_START_COUNTDOWN = 'iaoStartCountdown', // IAO开始倒计时
+  MARKET_CAP = 'marketCap',           // 市值
+  CHANGE_24H = 'change24h',           // 24小时涨跌
+  TOKEN_PRICE = 'price',              // Token价格
+  VOLUME_24H = 'volume24h',           // 24小时交易量
+  LIQUIDITY_POOL = 'lp',              // 流动性池
+  CHAT = 'chat'                       // 聊天功能
+}
+
+// 定义每个状态下显示的列
+export const STATUS_COLUMNS_MAP: Record<string, AgentColumnField[]> = {
+  'ALL': [
+    AgentColumnField.AGENT_INFO,
+    AgentColumnField.SYMBOL,
+    AgentColumnField.TYPE,
+    AgentColumnField.HOLDERS_COUNT,
+    AgentColumnField.STATUS,
+    AgentColumnField.INVESTED_XAA,
+    AgentColumnField.IAO_END_COUNTDOWN,
+    AgentColumnField.IAO_START_COUNTDOWN,
+    AgentColumnField.MARKET_CAP,
+    AgentColumnField.CHANGE_24H,
+    AgentColumnField.TOKEN_PRICE,
+    AgentColumnField.VOLUME_24H,
+    AgentColumnField.LIQUIDITY_POOL,
+    AgentColumnField.CHAT
+  ],
+  'IAO_ONGOING': [
+    AgentColumnField.AGENT_INFO,
+    AgentColumnField.SYMBOL,
+    AgentColumnField.TYPE,
+    AgentColumnField.HOLDERS_COUNT,
+    AgentColumnField.STATUS,
+    AgentColumnField.INVESTED_XAA,
+    AgentColumnField.IAO_END_COUNTDOWN,
+    AgentColumnField.CHAT
+  ],
+  'TRADABLE': [
+    AgentColumnField.AGENT_INFO,
+    AgentColumnField.SYMBOL,
+    AgentColumnField.TYPE,
+    AgentColumnField.HOLDERS_COUNT,
+    AgentColumnField.STATUS,
+    AgentColumnField.INVESTED_XAA,
+    AgentColumnField.MARKET_CAP,
+    AgentColumnField.CHANGE_24H,
+    AgentColumnField.TOKEN_PRICE,
+    AgentColumnField.VOLUME_24H,
+    AgentColumnField.LIQUIDITY_POOL,
+    AgentColumnField.CHAT
+  ],
+  'IAO_COMING_SOON': [
+    AgentColumnField.AGENT_INFO,
+    AgentColumnField.SYMBOL,
+    AgentColumnField.TYPE,
+    AgentColumnField.STATUS,
+    AgentColumnField.IAO_START_COUNTDOWN,  // 替换为开始倒计时
+    AgentColumnField.CHAT
+  ]
+}
+
+// 判断某个字段在当前状态下是否应该显示
+export const shouldShowColumn = (status: string, field: AgentColumnField): boolean => {
+  if (!field) return false;
+  
+  // 当status为空字符串时，表示"全部"状态
+  const effectiveStatus = status === '' ? 'ALL' : status;
+  const columns = STATUS_COLUMNS_MAP[effectiveStatus] || STATUS_COLUMNS_MAP['ALL'];
+  
+  console.log('Status Check:', {
+    originalStatus: status,
+    effectiveStatus,
+    field,
+    hasColumns: !!columns,
+    isShown: columns.includes(field)
+  });
+  
+  return columns.includes(field);
+}
+
 // 状态到颜色变体的映射
 export const STATUS_VARIANT_MAP: Record<string, BadgeVariant> = {
   'TRADABLE': 'success',        // 深绿色
@@ -48,6 +137,48 @@ export const getStatusVariant = (status: string): BadgeVariant => {
 // 获取标准化的状态显示文本
 export const getStatusDisplayText = (status: string): string => {
   return STATUS_DISPLAY_MAP[status] || status;
+};
+
+// 排序字段枚举
+export enum AgentSortField {
+  INVESTED_XAA = 'investedXAA',
+  HOLDERS_COUNT = 'holdersCount',
+  MARKET_CAP = 'marketCap',
+  LATEST = 'createdAt', // 最新，实际使用 createdAt 字段
+}
+
+// 每个筛选项下可用的排序方式和默认值
+export const STATUS_SORT_OPTIONS_MAP: Record<string, { 
+  options: { value: AgentSortField, label: string }[], 
+  default: AgentSortField 
+}> = {
+  '': {  // 全部状态
+    options: [
+      { value: AgentSortField.MARKET_CAP, label: 'marketCap' },
+      { value: AgentSortField.LATEST, label: 'latest' },
+    ],
+    default: AgentSortField.MARKET_CAP,
+  },
+  'IAO_ONGOING': {
+    options: [
+      { value: AgentSortField.INVESTED_XAA, label: 'investedXAA' },
+      { value: AgentSortField.LATEST, label: 'latest' },
+    ],
+    default: AgentSortField.INVESTED_XAA,
+  },
+  'TRADABLE': {
+    options: [
+      { value: AgentSortField.MARKET_CAP, label: 'marketCap' },
+      { value: AgentSortField.LATEST, label: 'latest' },
+    ],
+    default: AgentSortField.MARKET_CAP,
+  },
+  'IAO_COMING_SOON': {
+    options: [
+      { value: AgentSortField.LATEST, label: 'latest' },
+    ],
+    default: AgentSortField.LATEST,
+  },
 };
 
 export interface LocalAgent {
@@ -120,16 +251,18 @@ export interface Agent {
   avatar?: string;
   symbol: string;
   type: string;
-  marketCap: string;
-  change24h: string;
-  tvl: string;
+  investedXAA?: number;
   holdersCount: number;
-  volume24h: string;
+  iaoEndTime?: string;
+  iaoEndCountdown?: string;
+  iaoStartTime?: string;
+  iaoStartCountdown?: string;  // 添加开始倒计时字段
   socialLinks?: string;
-  priceChange24h?: string;
+  marketCap?: string;
+  change24h?: string;
   price?: string;
+  volume24h?: string;
   lp?: string;
-  iaoTokenAmount?: number;
 }
 
 export interface AgentListProps {

@@ -141,26 +141,49 @@
     "walletLimitOneAgent": "Each wallet address can only create one Agent"
   },
   "agentList": {
-    "sortBy": "Sort by",
-    "marketCap": "FDV",
+    "sortBy": "Sort By",
     "latest": "Latest",
-    "aiAgents": "AI Models",
-    "24h": "24h",
-    "tvl": "Token Price",
-    "holdersCount": "Holders",
-    "24hVol": "24h Volume",
+    "aiAgents": "AI Agents",
+    "investedXAA": "Invested XAA",
+    "holdersCount": "Holders Count",
+    "iaoEndCountdown": "IAO End Countdown",
+    "iaoStartCountdown": "IAO Start Countdown",
     "status": "Status",
     "loading": "Loading...",
-    "24hChange": "24h Change",
     "social": "Social",
-    "lp": "LP",
     "chat": "Chat",
-    "filterBy": "Filter",
+    "filterBy": "Filter By",
     "all": "All",
     "iaoOngoing": "IAO Ongoing",
     "tradable": "Tradable",
     "iaoComingSoon": "IAO Coming Soon",
-    "noDataAvailable": "No data available"
+    "noDataAvailable": "No Data Available",
+    "marketCap": "Market Cap",
+    "change24h": "24h Change",
+    "tokenPrice": "Token Price",
+    "volume24h": "24h Volume",
+    "liquidityPool": "Liquidity Pool",
+    "agentInfo": "Agent Info",
+    "symbol": "Symbol",
+    "type": "Type",
+    "accessibility": {
+      "avatarImage": "Avatar Image",
+      "sortIcon": "Sort Icon",
+      "chatIcon": "Chat Icon",
+      "noDataImage": "No Data Image",
+      "openChat": "Open Chat"
+    },
+    "chatButton": {
+      "game": "Game",
+      "chat": "Chat"
+    },
+    "socialLinks": {
+      "twitter": "Twitter",
+      "telegram": "Telegram",
+      "medium": "Medium",
+      "github": "GitHub",
+      "youtube": "YouTube"
+    }
   },
   "agentDetail": {
     "overview": "Overview",

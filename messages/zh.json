@@ -160,7 +160,36 @@
     "iaoOngoing": "IAO进行中",
     "tradable": "可交易",
     "iaoComingSoon": "IAO即将开始",
-    "noDataAvailable": "暂无数据"
+    "noDataAvailable": "暂无数据",
+    "change24h": "24小时涨跌",
+    "tokenPrice": "Token价格",
+    "volume24h": "24小时交易量",
+    "liquidityPool": "流动性池",
+    "agentInfo": "Agent信息",
+    "symbol": "代币符号",
+    "type": "类型",
+    "accessibility": {
+      "avatarImage": "头像图片",
+      "sortIcon": "排序图标",
+      "chatIcon": "聊天图标",
+      "noDataImage": "无数据图片",
+      "openChat": "打开聊天"
+    },
+    "chatButton": {
+      "game": "游戏",
+      "chat": "聊天"
+    },
+    "socialLinks": {
+      "twitter": "推特",
+      "telegram": "电报",
+      "medium": "Medium",
+      "github": "GitHub",
+      "youtube": "YouTube"
+    },
+    "filter": "筛选方式",
+    "investedXAA": "已投入XAA",
+    "iaoEndCountdown": "IAO结束倒计时",
+    "iaoStartCountdown": "IAO开始倒计时"
   },
   "agentDetail": {
     "overview": "概览",
@@ -522,20 +551,39 @@
     "tradingPair": "IAO 结束后，10%的代币和$XAA将立即在DBCSwap上建立流动性池，实现自由交易。"
   },
   "agents": {
-    "infrastructure": "基础设施",
-    "aiAgent": "AI 智能体",
-    "featuredAgents": "精选智能体",
-    "noAgentsFound": "未找到智能体",
-    "noAgentsFoundDesc": "创建您的第一个智能体或探索精选智能体。",
-    "prototype": "原型智能体",
-    "writing": "写作",
-    "productivity": "生产力",
-    "research": "研究与分析",
-    "education": "教育",
-    "lifestyle": "生活方式",
-    "programming": "编程",
+    "filter": "筛选方式",
+    "sortBy": "排序方式",
+    "all": "全部",
+    "iaoOngoing": "IAO进行中",
+    "tradable": "可交易",
+    "iaoComingSoon": "IAO即将开始",
+    "marketCap": "市值",
+    "latest": "最新",
+    "investedXAA": "已投入XAA",
+    "holdersCount": "持有人数",
+    "iaoEndCountdown": "IAO结束倒计时",
+    "iaoStartCountdown": "IAO开始倒计时",
+    "tokenPrice": "Token价格",
+    "volume24h": "24小时交易量",
+    "liquidityPool": "流动性池",
+    "change24h": "24小时涨跌",
     "status": "状态",
-    "marketCap": "市值"
+    "agentInfo": "Agent信息",
+    "symbol": "代币符号",
+    "type": "类型",
+    "chat": "聊天",
+    "noDataAvailable": "暂无数据",
+    "accessibility": {
+      "avatarImage": "头像图片",
+      "sortIcon": "排序图标",
+      "chatIcon": "聊天图标",
+      "noDataImage": "无数据图片",
+      "openChat": "打开聊天"
+    },
+    "chatButton": {
+      "game": "游戏",
+      "chat": "聊天"
+    }
   },
   "marketData": {
     "marketCap": "市值",
@@ -551,8 +599,7 @@
       "billionShort": "亿",
       "millionShort": "万",
       "thousandShort": "千"
-    }
-  },
+    }  },
   "holderDistribution": {
     "title": "持有者分布 ({count} 个持有者)",
     "address": "地址",

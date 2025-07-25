@@ -9,7 +9,7 @@ import { Loading } from "@/components/ui-custom/loading"
 import { SocialLinks } from "@/components/ui/social-links"
 import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { useTranslations, useLocale } from 'next-intl';
-import { getStatusVariant, getStatusDisplayText, type AgentListProps } from "@/types/agent"
+import { getStatusVariant, getStatusDisplayText, type AgentListProps, AgentColumnField, shouldShowColumn, AgentSortField, STATUS_SORT_OPTIONS_MAP } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { useSearchParams } from "next/navigation"
@@ -35,7 +35,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
-  const router = useRouter()
+  const router = useRouter();
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
@@ -45,8 +45,36 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
   const { open } = useAppKit();
   const { toast } = useToast();
 
+  // 获取URL中的排序参数
+  const urlSortBy = searchParams.get('sortBy');
+  const urlSortOrder = searchParams.get('sortOrder') as "asc" | "desc" | null;
+  
   // 使用传入的currentStatusFilter
-  const [currentFilter, setCurrentFilter] = useState(currentStatusFilter);
+  const [currentFilter, setCurrentFilter] = useState<string>(currentStatusFilter);
+  
+  // 获取当前状态下可用的排序选项
+  const currentSortOptions = STATUS_SORT_OPTIONS_MAP[currentFilter] || STATUS_SORT_OPTIONS_MAP[''];
+  
+  // 使用URL参数或默认排序
+  const [sortField, setSortField] = useState<AgentSortField>(() => {
+    if (urlSortBy && Object.values(AgentSortField).includes(urlSortBy as AgentSortField)) {
+      return urlSortBy as AgentSortField;
+    }
+    return currentSortOptions.default;
+  });
+  
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(() => 
+    urlSortOrder || "desc"
+  );
+
+  // 当筛选状态改变时更新排序
+  useEffect(() => {
+    const newSortOptions = STATUS_SORT_OPTIONS_MAP[currentFilter] || STATUS_SORT_OPTIONS_MAP[''];
+    setSortField(newSortOptions.default);
+    setSortDirection("desc");
+    // 更新URL
+    router.push(`?sortBy=${newSortOptions.default}&sortOrder=desc`);
+  }, [currentFilter, router]);
 
   // 当父组件的currentStatusFilter变化时更新本地状态
   useEffect(() => {
@@ -142,27 +170,22 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
             {/* 排序选项 */}
             <div className="flex items-center gap-2">
               <span className="text-muted-color text-xs whitespace-nowrap">{t('sortBy')}</span>
-              <Tabs defaultValue="marketCap" className="w-auto" onValueChange={(value) => {
-                console.log('Mobile sortBy change:', value);
-                if (value === "marketCap") {
-                  router.push(`?sortBy=marketCap&sortOrder=desc`);
-                } else if (value === "latest") {
-                  router.push(`?sortBy=createdAt&sortOrder=desc`);
-                }
+              <Tabs value={sortField} className="w-auto" onValueChange={(value) => {
+                const newSortField = value as AgentSortField;
+                setSortField(newSortField);
+                setSortDirection("desc");
+                router.push(`?sortBy=${newSortField}&sortOrder=desc`);
               }}>
                 <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
-                  <TabsTrigger
-                    value="marketCap"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 py-1 text-xs"
-                  >
-                    {t('marketCap')}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="latest"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 py-1 text-xs"
-                  >
-                    {t('latest')}
-                  </TabsTrigger>
+                  {currentSortOptions.options.map((option) => (
+                    <TabsTrigger
+                      key={option.value}
+                      value={option.value}
+                      className="data-[state=active]:bg-foreground data-[state=active]:text-background px-3 py-1 text-xs"
+                    >
+                      {t(option.label)}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
               </Tabs>
             </div>
@@ -277,7 +300,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <Avatar className="w-14 h-14 rounded-full">
-                      <img src={agent.avatar} alt={agent.name} className="object-cover" />
+                      <img src={agent.avatar} alt={t('accessibility.avatarImage')} className="object-cover" />
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
@@ -293,66 +316,111 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                   </div>
 
                   <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('marketCap')}</span>
-                      <p className="text-secondary-color text-sm font-medium">
-                        {agent.marketCap && !isNaN(parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")))
-                          ? parseFloat(agent.marketCap.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
-                          : agent.marketCap}
-                      </p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('24h')}</span>
-                      <p className={`text-sm font-medium ${agent.priceChange24h && parseFloat(agent.priceChange24h) !== 0 ? (parseFloat(agent.priceChange24h) > 0 ? "text-green-500" : "text-red-500") : ""}`}>
-                        {formatPriceChange(agent.priceChange24h)}
-                      </p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('tvl')}</span>
-                      <p className="text-secondary-color text-sm font-medium">
-                        {agent.price || '$0'}
-                      </p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('holdersCount')}</span>
-                      <p className="text-secondary-color text-sm font-medium">{agent.holdersCount.toLocaleString()}</p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('24hVol')}</span>
-                      <p className="text-secondary-color text-sm font-medium">
-                        {agent.volume24h && !isNaN(parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")))
-                          ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
-                          : agent.volume24h}
-                      </p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('lp')}</span>
-                      <p className="text-secondary-color text-sm font-medium">
-                        {agent.lp !== undefined && !isNaN(Number(agent.lp))
-                          ? Number(agent.lp).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            maximumFractionDigits: 0
-                          })
-                          : '$0'}
-                      </p>
-                    </div>
-                    <div className="space-y-1">
-                      <span className="text-muted-color text-xs block">{t('status')}</span>
-                      <div className="text-secondary-color text-sm font-medium">
-                        <CustomBadge variant={getStatusVariant(agent.status)}>
-                          {getStatusDisplayText(agent.status)}
-                        </CustomBadge>
+                    {shouldShowColumn(currentFilter, AgentColumnField.INVESTED_XAA) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('investedXAA')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.investedXAA ? `${agent.investedXAA.toLocaleString()} XAA` : '0 XAA'}
+                        </p>
                       </div>
-                    </div>
+                    )}
+                    
+                    {shouldShowColumn(currentFilter, AgentColumnField.HOLDERS_COUNT) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('holdersCount')}</span>
+                        <p className="text-secondary-color text-sm font-medium">{agent.holdersCount.toLocaleString()}</p>
+                      </div>
+                    )}
+                    
+                    {shouldShowColumn(currentFilter, AgentColumnField.IAO_END_COUNTDOWN) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('iaoEndCountdown')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.iaoEndTime ? (
+                            <div className="countdown">
+                              {agent.iaoEndCountdown}
+                            </div>
+                          ) : '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.IAO_START_COUNTDOWN) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('iaoStartCountdown')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.iaoStartTime ? (
+                            <div className="countdown">
+                              {agent.iaoStartCountdown}
+                            </div>
+                          ) : '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.MARKET_CAP) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('marketCap')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.marketCap || '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.CHANGE_24H) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('change24h')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.change24h || '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.TOKEN_PRICE) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('tokenPrice')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.price || '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.VOLUME_24H) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('volume24h')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.volume24h ? parseFloat(agent.volume24h.replace(/[^0-9.-]+/g, "")).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          }) : '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.LIQUIDITY_POOL) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('liquidityPool')}</span>
+                        <p className="text-secondary-color text-sm font-medium">
+                          {agent.lp ? Number(agent.lp).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          }) : '-'}
+                        </p>
+                      </div>
+                    )}
+
+                    {shouldShowColumn(currentFilter, AgentColumnField.STATUS) && (
+                      <div className="space-y-1">
+                        <span className="text-muted-color text-xs block">{t('status')}</span>
+                        <div className="text-secondary-color text-sm font-medium">
+                          <CustomBadge variant={getStatusVariant(agent.status)}>
+                            {getStatusDisplayText(agent.status)}
+                          </CustomBadge>
+                        </div>
+                      </div>
+                    )}
                     {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
                       <div className="flex flex-col items-start">
                           <span className="text-muted-color text-xs block h-[15px]"></span>
@@ -370,7 +438,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                               }
                             }}
                             className="text-secondary-color hover:text-primary-color transition-colors duration-200"
-                            aria-label="Open chat"
+                            aria-label={t('accessibility.openChat')}
                           >
                             <div 
                               className={`
@@ -381,8 +449,10 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                                 text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
                                 `}
                             >
-                              <img alt="聊天图标" aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2"></img>
-                              <span className="mt-[2px]">{agent.symbol==="DLC" ? "Game" : "Chat"}</span>                         
+                              <img alt={t('accessibility.chatIcon')} aria-hidden="true" loading="lazy" width="12" height="12" decoding="async" data-nimg="1" src="/images/chat.svg" className="-ml-1 mr-2"></img>
+                              <span className="mt-[2px]">
+                                {agent.symbol === "DLC" ? t('chatButton.game') : t('chatButton.chat')}
+                              </span>                         
                             </div>
                           </button>
                         </div>
@@ -414,7 +484,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
             <div className="flex flex-col items-center justify-center py-20 px-4 bg-white dark:bg-card">
               <img 
                 src="/logo.png" 
-                alt="No data" 
+                alt={t('accessibility.noDataImage')} 
                 width={60} 
                 height={60} 
                 className="opacity-30 mb-4" 
