@@ -473,6 +473,8 @@ function formatAgentData(
       _marketCap: calculatedMarketCap,
       _lp: priceInfo?.lp || 0,
       _priceChange24h: priceInfo?.priceChange24h || 0,
+      // 默认的 investedXAA 字段，将在排序时被实际值覆盖
+      investedXAA: 0,
     };
 
     return formattedItem;
@@ -569,6 +571,36 @@ async function sortAgentData(
       }
     });
     
+  }
+  // 处理 investedXAA 排序
+  else if (sortBy === 'investedXAA') {
+    // 首先需要为所有项目获取募资金额
+    const itemsWithFunding = await Promise.all(
+      result.map(async (item) => {
+        const iaoContractAddress = process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true'
+          ? item.iaoContractAddressTestnet
+          : item.iaoContractAddress;
+
+        if (!iaoContractAddress) {
+          return { ...item, _iaoFundingAmount: 0 };
+        }
+
+        const fundingAmount = await getIaoFundraisingAmount(iaoContractAddress, item.symbol || '');
+        return { ...item, _iaoFundingAmount: fundingAmount };
+      })
+    );
+
+    // 按募资金额排序
+    result = itemsWithFunding.sort((a, b) => {
+      if (sortOrder === 'desc') {
+        return (b._iaoFundingAmount || 0) - (a._iaoFundingAmount || 0);
+      } else {
+        return (a._iaoFundingAmount || 0) - (b._iaoFundingAmount || 0);
+      }
+    });
+
+    // 更新 iaoItemsWithFunding 以便后续处理
+    iaoItemsWithFunding = itemsWithFunding;
   }
   // 支持更复杂的排序组合
   else if (sortBy === 'hot') {
@@ -669,7 +701,7 @@ export async function GET(request: Request) {
     let orderBy: any = {};
 
     // 处理特殊排序方式
-    const specialSortFields = ['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h', 'hot', 'trending'];
+    const specialSortFields = ['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h', 'hot', 'trending', 'investedXAA'];
 
     // 根据价格等字段排序时使用不同的查询策略
     if (specialSortFields.includes(sortBy)) {
