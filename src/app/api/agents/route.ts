@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError, ApiError } from '@/lib/error';
+import { createCorsPreflightResponse } from '@/lib/cors';
 import { verify } from 'jsonwebtoken';
 import { getBatchTokenPrices } from '@/services/swapService';
 import { fetchDBCTokens } from '@/services/dbcScan';
@@ -832,11 +833,17 @@ export async function GET(request: Request) {
       pageSize,
       priceDataFreshness: needFetchData ? 'fresh' : 'cached',
       timeDataSource: 'database_synced_by_events', // 说明时间数据来源
-    });
+    }, '操作成功', request);
   } catch (error) {
     console.error('API请求异常:', error);
-    return handleError(error);
+    return handleError(error, request);
   }
+}
+
+// 处理OPTIONS请求（预检请求）
+export async function OPTIONS(request: Request) {
+  const origin = request.headers.get('origin');
+  return createCorsPreflightResponse(origin);
 }
 
 // 创建新的 Agent

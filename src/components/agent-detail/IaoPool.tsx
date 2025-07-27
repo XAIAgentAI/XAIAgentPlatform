@@ -418,40 +418,58 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
   /**
    * 渲染DBCSwap跳转按钮
    */
-  const renderDbcSwapButton = () => (
-    <div className="flex justify-end items-center mb-4">
-      <Button
-        variant="outline"
-        className="relative flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce text-sm sm:text-base"
-        onClick={() => window.open('https://dbcswap.io/#/swap', '_blank')}
-        aria-label={t('goToDbcswap', { symbol: agent.symbol })}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 animate-wave" />
-        <span className="relative z-10 font-medium">
-          {t('goToDbcswap', { symbol: agent.symbol })}
-        </span>
-        <div className="relative z-10 flex items-center animate-arrow-move">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="ml-1 sm:w-4 sm:h-4"
-          >
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
-          <div className="absolute left-0 w-5 h-5 bg-white/30 rounded-full blur-sm -z-10 animate-ping" />
-        </div>
-      </Button>
-    </div>
-  );
+  const renderDbcSwapButton = () => {
+    // 导入XAA地址
+    const XAA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
+      ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
+      : "0x16d83F6B17914a4e88436251589194CA5AC0f452";
+    
+    // 构建dbcswap URL，自动填入代币地址
+    const buildDbcSwapUrl = () => {
+      const baseUrl = 'https://dbcswap.io/swap';
+      const params = new URLSearchParams({
+        chain: 'dbc',
+        inputCurrency: XAA_TOKEN_ADDRESS,
+        outputCurrency: agent.tokenAddress || ''
+      });
+      return `${baseUrl}?${params.toString()}`;
+    };
+
+    return (
+      <div className="flex justify-end items-center mb-4">
+        <Button
+          variant="outline"
+          className="relative flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-[#F47521] via-[#F47521]/90 to-[#F47521] text-white rounded-lg overflow-hidden transform hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(244,117,33,0.5)] transition-all duration-300 group animate-subtle-bounce text-sm sm:text-base"
+          onClick={() => window.open(buildDbcSwapUrl(), '_blank')}
+          aria-label={t('goToDbcswap', { symbol: agent.symbol })}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 animate-wave" />
+          <span className="relative z-10 font-medium">
+            {t('goToDbcswap', { symbol: agent.symbol })}
+          </span>
+          <div className="relative z-10 flex items-center animate-arrow-move">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="ml-1 sm:w-4 sm:h-4"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            <div className="absolute left-0 w-5 h-5 bg-white/30 rounded-full blur-sm -z-10 animate-ping" />
+          </div>
+        </Button>
+      </div>
+    );
+  };
 
   /**
    * 渲染IAO重新部署按钮（当IAO未部署成功时显示）

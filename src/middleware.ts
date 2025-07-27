@@ -6,30 +6,36 @@ import {routing} from './i18n/routing';
 
 const JWT_SECRET = new TextEncoder().encode('xaiagent-jwt-secret-2024');
 
-// 允许的域名列表
-const ALLOWED_DOMAINS = [
-  '*.xaiagent.io',
-  'localhost',
-];
+import { getAllowedOrigins } from '@/lib/cors';
 
 // 检查域名是否允许
 function isAllowedDomain(origin: string | null): boolean {
   if (!origin) return true; // 允许没有origin的请求
   
   try {
+    const allowedOrigins = getAllowedOrigins();
+    
+    // 使用与CORS工具函数相同的逻辑
     const url = new URL(origin);
     const hostname = url.hostname;
     
-    // 检查是否是允许的域名
-    return ALLOWED_DOMAINS.some(domain => {
-      if (domain.startsWith('*.')) {
-        const baseDomain = domain.slice(2);
-        return hostname.endsWith(baseDomain);
+    return allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.startsWith('https://*.')) {
+        // 处理通配符域名，如 https://*.xaiagent.io
+        const baseDomain = allowedOrigin.replace('https://*.', '');
+        return hostname.endsWith('.' + baseDomain) || hostname === baseDomain;
+      } else if (allowedOrigin.startsWith('http://*.')) {
+        // 处理HTTP通配符域名
+        const baseDomain = allowedOrigin.replace('http://*.', '');
+        return hostname.endsWith('.' + baseDomain) || hostname === baseDomain;
+      } else {
+        // 精确匹配
+        const allowedUrl = new URL(allowedOrigin);
+        return hostname === allowedUrl.hostname;
       }
-      return hostname === domain || hostname.endsWith(domain);
     });
   } catch (error) {
-    console.error('URL parsing error:', error);
+    console.error('Domain check error:', error);
     return false;
   }
 }
@@ -49,6 +55,7 @@ function needsAuth(path: string, method: string): boolean {
     '/api/stid',
     '/api/socket',
     '/api/tokens',
+    '/api/cors',
     '/api/model-chat',
     '/api/cron/update-prices',
     '/api/auth/nonce',
@@ -140,7 +147,8 @@ export async function middleware(request: NextRequest) {
     const headers = new Headers({
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Allow-Methods': 'GET,DELETE,PATCH,POST,PUT,OPTIONS',
-      'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
+      'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, Origin, If-None-Match, If-Modified-Since, Cache-Control, Pragma, DNT, User-Agent, If-Match, If-Range, Range, Accept-Encoding, Accept-Language, Referer, Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-Fetch-User, Sec-CH-UA, Sec-CH-UA-Mobile, Sec-CH-UA-Platform, Accept-Language',
+      'Access-Control-Max-Age': '86400',
     });
 
     // 设置 Access-Control-Allow-Origin

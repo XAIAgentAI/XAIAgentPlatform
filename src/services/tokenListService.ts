@@ -24,6 +24,23 @@ interface AgentToken {
 }
 
 export class TokenListService {
+  // 生成基于时间戳的版本号
+  private static generateVersion(): TokenListVersion {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    
+    // 使用年月日作为 major.minor，时分作为 patch
+    return {
+      major: year,
+      minor: month * 100 + day,
+      patch: hour * 100 + minute
+    };
+  }
+
   // 获取所有可交易的代币列表
   static async getActiveTokens() {
     const now = Math.floor(Date.now() / 1000);
@@ -69,11 +86,7 @@ export class TokenListService {
         decimals: 18, // 使用固定的精度
         logoURI: token.avatar || `https://app.xaiagent.io/logo/${token.name}.png`
       })),
-      version: {
-        major: 4,
-        minor: 2,
-        patch: 0
-      }
+      version: this.generateVersion()
     };
   }
 

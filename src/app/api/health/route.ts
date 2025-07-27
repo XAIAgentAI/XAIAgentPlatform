@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server';
 import { contractEventListener } from '@/services/contractEventListener';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const isListening = contractEventListener.isActive();
 
@@ -31,4 +31,9 @@ export async function GET() {
       timestamp: new Date().toISOString()
     }, { status: 500 });
   }
+}
+
+// 处理OPTIONS请求（预检请求）
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, { status: 204 });
 }
