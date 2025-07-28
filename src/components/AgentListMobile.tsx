@@ -17,6 +17,7 @@ import { useAccount } from 'wagmi';
 import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 import { useAppKit } from '@reown/appkit/react'
 import { useToast } from '@/components/ui/use-toast'
+import { Countdown } from "@/components/ui-custom/countdown";
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -336,11 +337,13 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                       <div className="space-y-1">
                         <span className="text-muted-color text-xs block">{t('iaoEndCountdown')}</span>
                         <p className="text-secondary-color text-sm font-medium">
-                          {agent.iaoEndTime ? (
-                            <div className="countdown">
-                              {agent.iaoEndCountdown}
+                          {agent.iaoEndTime && Number(agent.iaoEndTime) > 0 ? (
+                            <div className="whitespace-nowrap">
+                              <Countdown remainingTime={Number(agent.iaoEndTime) * 1000 - Date.now()} mode="compact" alwaysShowMinutes={false} alwaysShowSeconds={false} />
                             </div>
-                          ) : '-'}
+                          ) : (
+                            "-"
+                          )}
                         </p>
                       </div>
                     )}
@@ -370,8 +373,8 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                     {shouldShowColumn(currentFilter, AgentColumnField.CHANGE_24H) && (
                       <div className="space-y-1">
                         <span className="text-muted-color text-xs block">{t('change24h')}</span>
-                        <p className="text-secondary-color text-sm font-medium">
-                          {agent.change24h || '-'}
+                        <p className={` text-sm font-medium ${agent.change24h && parseFloat(agent.change24h) !== 0 ? (parseFloat(agent.change24h) > 0 ? 'text-green-500' : 'text-red-500') : ''}`}>
+                          {formatPriceChange(agent.change24h)}
                         </p>
                       </div>
                     )}

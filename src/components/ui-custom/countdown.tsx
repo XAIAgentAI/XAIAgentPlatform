@@ -11,6 +11,7 @@ interface CountdownProps {
   mode?: 'full' | 'compact' | 'minimal'; // Display mode: full, compact, or minimal
   hideZeroUnits?: boolean; // Whether to hide units with zero values
   alwaysShowSeconds?: boolean; // Whether to always show seconds
+  alwaysShowMinutes?: boolean; 
   color?: 'default' | 'warning' | 'danger' | 'success'; // Color theme
   // Note: The waiting period in IaoEndedView.tsx has been removed, no longer using 10 or 100 minute waiting periods
 }
@@ -22,6 +23,7 @@ export function Countdown({
   mode = 'full',
   hideZeroUnits = true, 
   alwaysShowSeconds = true,
+  alwaysShowMinutes = true,
   color = 'default'
 }: CountdownProps) {
   const t = useTranslations('common.timeUnits');
@@ -122,12 +124,12 @@ export function Countdown({
     const parts: string[] = [];
     if (timeLeft.days > 0 || !hideZeroUnits) parts.push(`${timeLeft.days}${t('days')}`);
     if (timeLeft.hours > 0 || !hideZeroUnits) parts.push(`${String(timeLeft.hours).padStart(2, '0')}${t('hours')}`);
-    if (timeLeft.minutes > 0 || !hideZeroUnits) parts.push(`${String(timeLeft.minutes).padStart(2, '0')}${t('minutes')}`);
-    if (timeLeft.seconds > 0 || alwaysShowSeconds || !hideZeroUnits) parts.push(`${String(timeLeft.seconds).padStart(2, '0')}${t('seconds')}`);
+    if ((timeLeft.minutes > 0 || !hideZeroUnits) && alwaysShowMinutes) parts.push(`${String(timeLeft.minutes).padStart(2, '0')}${t('minutes')}`);
+    if ((timeLeft.seconds > 0 || alwaysShowSeconds || !hideZeroUnits) && alwaysShowSeconds) parts.push(`${String(timeLeft.seconds).padStart(2, '0')}${t('seconds')}`);
     
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        <span className={colorStyles.number}>{parts.join(' ')}</span>
+        <span className={colorStyles.number}>{parts.length > 0 ? parts.join(' ') : '-'}</span>
       </div>
     );
   }

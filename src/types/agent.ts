@@ -50,8 +50,6 @@ export const STATUS_COLUMNS_MAP: Record<string, AgentColumnField[]> = {
     AgentColumnField.AGENT_INFO,
     AgentColumnField.SYMBOL,
     AgentColumnField.TYPE,
-    AgentColumnField.HOLDERS_COUNT,
-    AgentColumnField.STATUS,
     AgentColumnField.INVESTED_XAA,
     AgentColumnField.IAO_END_COUNTDOWN,
     AgentColumnField.CHAT
@@ -61,8 +59,6 @@ export const STATUS_COLUMNS_MAP: Record<string, AgentColumnField[]> = {
     AgentColumnField.SYMBOL,
     AgentColumnField.TYPE,
     AgentColumnField.HOLDERS_COUNT,
-    AgentColumnField.STATUS,
-    AgentColumnField.INVESTED_XAA,
     AgentColumnField.MARKET_CAP,
     AgentColumnField.CHANGE_24H,
     AgentColumnField.TOKEN_PRICE,
@@ -74,7 +70,6 @@ export const STATUS_COLUMNS_MAP: Record<string, AgentColumnField[]> = {
     AgentColumnField.AGENT_INFO,
     AgentColumnField.SYMBOL,
     AgentColumnField.TYPE,
-    AgentColumnField.STATUS,
     AgentColumnField.IAO_START_COUNTDOWN,  // 替换为开始倒计时
     AgentColumnField.CHAT
   ]

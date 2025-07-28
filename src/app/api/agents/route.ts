@@ -459,8 +459,8 @@ function formatAgentData(
       priceChange24h: priceInfo?.priceChange24h,
       lp: priceInfo?.lp,
       // 合约时间信息 - 使用安全的 BigInt 转换
-      startTime: safeConvertBigInt(agent.iaoStartTime),
-      endTime: safeConvertBigInt(agent.iaoEndTime),
+      iaoStartTime: safeConvertBigInt(agent.iaoStartTime),
+      iaoEndTime: safeConvertBigInt(agent.iaoEndTime),
       // 管理状态字段
       tokensDistributed: item.tokensDistributed,
       liquidityAdded: item.liquidityAdded,

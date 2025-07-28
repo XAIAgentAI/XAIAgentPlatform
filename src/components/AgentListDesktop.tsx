@@ -18,6 +18,8 @@ import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 import { useAppKit } from '@reown/appkit/react'
 import { useToast } from '@/components/ui/use-toast'
 import { useSearchParams } from "next/navigation"
+import { formatPriceChange } from '@/lib/utils';
+import { Countdown } from "@/components/ui-custom/countdown";
 
 // 修改类型定义
 type SortField = AgentSortField | null;
@@ -34,6 +36,7 @@ const parseSocialLinks = (socialLinks?: string) => {
     github: links.filter(link => link.includes("github.com")),
   };
 };
+
 
 const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatusFilter }: AgentListProps) => {
   const t = useTranslations('agentList');
@@ -272,11 +275,6 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                     </div>
                   </TableHead>
                 )}
-                <TableHead className="w-[100px]">
-                  <div className="opacity-80 text-[#222222] dark:text-white text-[10px] font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
-                    {t('status')}
-                  </div>
-                </TableHead>
                 {shouldShowColumn(currentFilter, AgentColumnField.INVESTED_XAA) && (
                   <TableHead className="w-[150px]">
                     <div
@@ -428,13 +426,6 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                             </div>
                           </TableCell>
                         )}
-                        <TableCell>
-                          <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
-                            <CustomBadge variant={getStatusVariant(agent.status)}>
-                              {getStatusDisplayText(agent.status)}
-                            </CustomBadge>
-                          </div>
-                        </TableCell>
                         {shouldShowColumn(currentFilter, AgentColumnField.INVESTED_XAA) && (
                           <TableCell>
                             <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
@@ -451,21 +442,21 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                         )}
                         {shouldShowColumn(currentFilter, AgentColumnField.IAO_END_COUNTDOWN) && (
                           <TableCell>
-                            <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
-                              {agent.iaoEndTime ? (
-                                <div className="countdown">
-                                  {agent.iaoEndCountdown}
-                                </div>
-                              ) : '-'}
-                            </div>
+                            {agent.iaoEndTime ? (
+                              <div className="whitespace-nowrap">
+                                <Countdown remainingTime={Number(agent.iaoEndTime) * 1000 - Date.now()} mode="compact" alwaysShowMinutes={false} alwaysShowSeconds={false} />
+                              </div>
+                            ) : (
+                              <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">-</div>
+                            )}
                           </TableCell>
                         )}
                         {shouldShowColumn(currentFilter, AgentColumnField.IAO_START_COUNTDOWN) && (
                           <TableCell>
                             <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
                               {agent.iaoStartTime ? (
-                                <div className="countdown">
-                                  {agent.iaoStartCountdown}
+                                <div className="whitespace-nowrap">
+                                  <Countdown remainingTime={Number(agent.iaoStartTime) * 1000 - Date.now()} mode="compact" alwaysShowMinutes={false} alwaysShowSeconds={false} />
                                 </div>
                               ) : '-'}
                             </div>
@@ -473,8 +464,8 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                         )}
                         {shouldShowColumn(currentFilter, AgentColumnField.CHANGE_24H) && (
                           <TableCell>
-                            <div className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap">
-                              {agent.change24h || '-'}
+                            <div className={`text-sm font-normal font-['Sora'] leading-[10px] whitespace-nowrap ${agent.change24h && parseFloat(agent.change24h) !== 0 ? (parseFloat(agent.change24h) > 0 ? 'text-green-500' : 'text-red-500') : ''}`}>
+                              {formatPriceChange(agent.change24h)}
                             </div>
                           </TableCell>
                         )}
