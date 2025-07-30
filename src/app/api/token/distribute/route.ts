@@ -180,6 +180,10 @@ async function processTokenDistributionTask(taskId: string) {
     // 检查交易结果
     const hasFailedTransactions = result.data?.transactions?.some(tx => tx.status === 'failed') || false;
     const hasSuccessfulTransactions = result.data?.transactions?.some(tx => tx.status === 'confirmed') || false;
+    
+    // 从交易结果中查找流动性交易的NFT Token ID
+    const liquidityTransaction = result.data?.transactions?.find(tx => tx.type === 'liquidity');
+    const nftTokenId = liquidityTransaction?.nftTokenId;
 
     let taskStatus: 'COMPLETED' | 'FAILED' | 'PARTIAL_FAILED';
 
@@ -215,11 +219,19 @@ async function processTokenDistributionTask(taskId: string) {
       }
     });
 
-    // 如果任务完成，更新Agent的tokensDistributed状态
+    // 如果任务完成，更新Agent的tokensDistributed状态和NFT Token ID
     if (taskStatus === 'COMPLETED') {
+      const updateData: any = { tokensDistributed: true };
+      
+      // 如果有NFT Token ID，也更新到Agent记录中
+      if (nftTokenId) {
+        updateData.nftTokenId = nftTokenId;
+        console.log(`🔍 [DEBUG] 更新Agent NFT Token ID: ${nftTokenId}`);
+      }
+      
       await prisma.agent.update({
         where: { id: agentId },
-        data: { tokensDistributed: true } as any
+        data: updateData
       });
     }
 

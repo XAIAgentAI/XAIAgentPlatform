@@ -10,14 +10,13 @@ import { createSuccessResponse, handleError } from '@/lib/error';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { burnXAAFromServerWallet } from '@/lib/server-wallet/burn-xaa';
-import { transferNFCToDeadAddress } from '@/lib/server-wallet/burn-nfc';
+import { DISTRIBUTION_ADDRESSES } from '@/lib/server-wallet/config';
+import { transferNFTToDeadAddress } from '@/lib/server-wallet/burn-nft';
 
 // 请求参数验证schema
 const BurnXAARequestSchema = z.object({
   agentId: z.string().min(1, 'Agent ID is required'),
   iaoContractAddress: z.string().min(1, 'IAO contract address is required'),
-  nfcTokenAddress: z.string().min(1, 'NFC token address is required'),
-  nfcAmount: z.string().min(1, 'NFC amount is required'),
 });
 
 // 死亡地址 - 用于代币销毁
@@ -28,7 +27,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    console.log('🔥 收到XAA和NFC销毁请求...');
+    console.log('🔥 收到XAA和NFT销毁请求...');
 
     // 解析请求体
     const body = await request.json();
@@ -52,7 +51,7 @@ export async function POST(
       );
     }
 
-    const { iaoContractAddress, nfcTokenAddress, nfcAmount } = validationResult.data;
+    const { iaoContractAddress } = validationResult.data;
 
     // 验证用户身份和权限
     console.log('🔐 验证用户权限...');
@@ -69,7 +68,6 @@ export async function POST(
         { status: 400 }
       );
     }
-
     if (!agent.iaoContractAddress) {
       return NextResponse.json(
         {
@@ -79,11 +77,24 @@ export async function POST(
         { status: 400 }
       );
     }
+    if (!agent.nftTokenId) {
+      return NextResponse.json(
+        {
+          code: 400,
+          message: 'NFT tokenId 未设置，无法销毁NFT',
+        },
+        { status: 400 }
+      );
+    }
+
+    // 获取NFT合约地址和tokenId
+    const nfcTokenAddress = DISTRIBUTION_ADDRESSES.LIQUIDITY;
+    const nftTokenId = agent.nftTokenId;
 
     // 创建任务记录
     const task = await prisma.task.create({
       data: {
-        type: 'BURN_XAA_AND_NFC',
+        type: 'BURN_XAA_AND_NFT',
         status: 'PENDING',
         agentId,
         createdBy: user.address,
@@ -91,7 +102,7 @@ export async function POST(
           metadata: {
             iaoContractAddress,
             nfcTokenAddress,
-            nfcAmount
+            nftTokenId
           }
         })
       },
@@ -105,7 +116,7 @@ export async function POST(
       agentId,
       iaoContractAddress,
       nfcTokenAddress,
-      nfcAmount,
+      nftTokenId,
       user.address
     ).catch(error => {
       console.error(`[后台任务失败] 代币销毁任务 ${task.id} 失败:`, error);
@@ -114,12 +125,11 @@ export async function POST(
     // 立即返回成功响应
     return createSuccessResponse({
       code: 200,
-      message: 'XAA和NFC销毁任务已提交，请稍后查询结果',
+      message: 'XAA和NFT销毁任务已提交，请稍后查询结果',
       data: {
         taskId: task.id,
       },
     });
-
   } catch (error) {
     console.error('提交销毁任务过程中发生错误:', error);
     return handleError(error);
@@ -132,44 +142,40 @@ async function processBurnTask(
   agentId: string,
   iaoContractAddress: string,
   nfcTokenAddress: string,
-  nfcAmount: string,
+  nftTokenId: string,
   userAddress: string
 ) {
   try {
-    console.log(`[代币销毁] 开始为Agent ${agentId} 销毁XAA和NFC...`);
+    console.log(`[代币销毁] 开始为Agent ${agentId} 销毁XAA和NFT...`);
     console.log(`[代币销毁] IAO合约地址: ${iaoContractAddress}`);
-    console.log(`[代币销毁] NFC代币地址: ${nfcTokenAddress}`);
-    console.log(`[代币销毁] NFC销毁数量: ${nfcAmount}`);
+    console.log(`[代币销毁] NFT合约地址: ${nfcTokenAddress}`);
+    console.log(`[代币销毁] NFT tokenId: ${nftTokenId}`);
 
-    // 开始处理，更新任务状态
+    // 更新任务状态
     await prisma.task.update({
       where: { id: taskId },
-      data: { 
+      data: {
         status: 'PROCESSING',
         startedAt: new Date()
       }
     });
 
-    console.log('🔥 开始执行代币销毁...');
-
     // 执行XAA销毁
     const xaaResult = await burnXAAFromServerWallet(iaoContractAddress as `0x${string}`);
 
-    // 执行NFC转移到死亡地址
-    const nfcResult = await transferNFCToDeadAddress(
+    // 执行NFT转移到黑洞地址
+    const DEAD_ADDRESS = '0x000000000000000000000000000000000000dEaD';
+    const nftResult = await transferNFTToDeadAddress(
       nfcTokenAddress as `0x${string}`,
-      nfcAmount,
+      nftTokenId,
       DEAD_ADDRESS as `0x${string}`
     );
 
-    if (xaaResult.success && nfcResult.success) {
-      // 更新Agent状态 - 标记代币已销毁
+    if (xaaResult.success && nftResult.success) {
       await prisma.agent.update({
         where: { id: agentId },
         data: { tokensBurned: true }
       });
-
-      // 更新任务状态为完成
       await prisma.task.update({
         where: { id: taskId },
         data: {
@@ -177,43 +183,13 @@ async function processBurnTask(
           completedAt: new Date(),
           result: JSON.stringify({
             success: true,
-            xaa: {
-              txHash: xaaResult.txHash,
-              burnAmount: xaaResult.burnAmount,
-              iaoXAAAmount: xaaResult.iaoXAAAmount,
-            },
-            nfc: {
-              txHash: nfcResult.txHash,
-              burnAmount: nfcAmount,
-            },
-            transactions: [
-              {
-                type: 'burn_xaa',
-                amount: xaaResult.burnAmount,
-                txHash: xaaResult.txHash,
-                status: 'confirmed',
-                toAddress: '0x0000000000000000000000000000000000000000',
-                description: `销毁IAO中${xaaResult.burnAmount}个XAA (总量的5%)`
-              },
-              {
-                type: 'burn_nfc',
-                amount: nfcAmount,
-                txHash: nfcResult.txHash,
-                status: 'confirmed',
-                toAddress: DEAD_ADDRESS,
-                description: `销毁${nfcAmount}个NFC代币`
-              }
-            ]
+            xaa: xaaResult,
+            nft: nftResult
           })
         }
       });
-
       console.log(`✅ 代币销毁任务 ${taskId} 完成成功`);
-      console.log(`🔥 XAA销毁数量: ${xaaResult.burnAmount} XAA`);
-      console.log(`🔥 NFC销毁数量: ${nfcAmount} NFC`);
-
     } else {
-      // 更新任务状态为失败
       await prisma.task.update({
         where: { id: taskId },
         data: {
@@ -221,39 +197,19 @@ async function processBurnTask(
           completedAt: new Date(),
           result: JSON.stringify({
             success: false,
-            error: xaaResult.error || nfcResult.error || '代币销毁失败',
-            transactions: [
-              {
-                type: 'burn_xaa',
-                amount: xaaResult.success ? xaaResult.burnAmount : '0',
-                txHash: xaaResult.txHash || '',
-                status: xaaResult.success ? 'confirmed' : 'failed',
-                toAddress: '0x0000000000000000000000000000000000000000',
-                error: xaaResult.error
-              },
-              {
-                type: 'burn_nfc',
-                amount: nfcResult.success ? nfcAmount : '0',
-                txHash: nfcResult.txHash || '',
-                status: nfcResult.success ? 'confirmed' : 'failed',
-                toAddress: DEAD_ADDRESS,
-                error: nfcResult.error
-              }
-            ]
+            error: xaaResult.error || nftResult.error || '代币销毁失败',
+            xaa: xaaResult,
+            nft: nftResult
           })
         }
       });
-
-      console.error(`❌ 代币销毁任务 ${taskId} 失败:`, xaaResult.error || nfcResult.error);
+      console.error(`❌ 代币销毁任务 ${taskId} 失败:`, xaaResult.error || nftResult.error);
     }
-
   } catch (error) {
     console.error(`❌ 代币销毁任务 ${taskId} 处理过程中发生错误:`, error);
-
-    // 更新任务状态为失败
     await prisma.task.update({
       where: { id: taskId },
-      data: { 
+      data: {
         status: 'FAILED',
         completedAt: new Date(),
         result: JSON.stringify({

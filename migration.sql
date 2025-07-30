@@ -154,3 +154,9 @@ ALTER TABLE "History" ADD CONSTRAINT "History_agentId_fkey" FOREIGN KEY ("agentI
 -- AddForeignKey
 ALTER TABLE "AgentPrice" ADD CONSTRAINT "AgentPrice_agentId_fkey" FOREIGN KEY ("agentId") REFERENCES "Agent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
+-- 添加 nftTokenId 字段到 Agent 表
+ALTER TABLE "Agent" ADD COLUMN "nftTokenId" TEXT;
+
+-- 添加注释
+COMMENT ON COLUMN "Agent"."nftTokenId" IS 'NFT Token ID for liquidity position';
+

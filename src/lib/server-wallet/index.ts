@@ -290,6 +290,7 @@ async function addLiquidityToPool(
   success: boolean;
   txHash?: string;
   poolAddress?: string;
+  nftTokenId?: string;
   error?: string;
 }> {
   try {
@@ -317,11 +318,12 @@ async function addLiquidityToPool(
     );
 
     if (result.success) {
-      console.log(`✅ 流动性添加成功 - 池子: ${result.poolAddress}, 交易: ${result.txHash}`);
+      console.log(`✅ 流动性添加成功 - 池子: ${result.poolAddress}, 交易: ${result.txHash}, NFT Token ID: ${result.nftTokenId}`);
       return {
         success: true,
         txHash: result.txHash,
-        poolAddress: result.poolAddress
+        poolAddress: result.poolAddress,
+        nftTokenId: result.nftTokenId
       };
     } else {
       console.error(`❌ 流动性添加失败: ${result.error}`);
@@ -951,7 +953,8 @@ export async function distributeTokens(
           txHash: liquidityResult.txHash || 'N/A',
           status: liquidityResult.success ? 'confirmed' : 'failed',
           toAddress: liquidityResult.poolAddress || null, // 使用 null 表示池子地址未知
-          error: liquidityResult.error
+          error: liquidityResult.error,
+          nftTokenId: liquidityResult.nftTokenId
         };
 
         transactions.push(liquidityTx);

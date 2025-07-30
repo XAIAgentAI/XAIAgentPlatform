@@ -1,0 +1,1174 @@
+   ▲ Next.js 14.0.4
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use at your own risk):
+     · instrumentationHook
+     · outputFileTracingRoot
+
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     "env._next_intl_trailing_slash" is missing, expected string
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ✓ Ready in 3.3s
+ ○ Compiling /src/middleware ...
+ ✓ Compiled /src/middleware in 660ms (242 modules)
+ ○ Compiling /[locale] ...
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled /[locale] in 13.9s (10608 modules)
+Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+(node:5347) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+sortedAgents []
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /api/agents in 2.9s (5398 modules)
+ ✓ Compiled (6032 modules)
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+sortedAgents []
+getBatchTokenPrices-tokens [
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  }
+]
+getBatchTokenPrices-tokens [
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: { dbc_price: 0.000611, update_time: null, percent_change_24h: -7.63 }
+}
+[DBC价格] 解析结果: { priceUsd: '0.000611', percentChange24h: -7.63 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (452876 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000295 dbcPriceUsd 0.000611
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (450200 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000429 dbcPriceUsd 0.000611
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (520514 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 6.1e-7 dbcPriceUsd 0.000611
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: { dbc_price: 0.000611, update_time: null, percent_change_24h: -7.63 }
+}
+[DBC价格] 解析结果: { priceUsd: '0.000611', percentChange24h: -7.63 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (452875 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000295 dbcPriceUsd 0.000611
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (450199 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000429 dbcPriceUsd 0.000611
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (520513 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 6.1e-7 dbcPriceUsd 0.000611
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 2000ms (5504 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+ ○ Compiling /[locale]/agent-detail/[id] ...
+ ✓ Compiled /api/user/profile in 6.3s (10926 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 710ms (5641 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753862932 (2025-07-30T08:08:52.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753862932 (2025-07-30T08:08:52.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 978ms (5643 modules)
+ ○ Compiling /not-found ...
+ ✓ Compiled /not-found in 1944ms (10896 modules)
+ ○ Compiling /api/token/distribute ...
+ ✓ Compiled /api/token/distribute in 5.1s (6230 modules)
+🚀 收到代币分配请求
+⏰ 请求时间: 2025-07-30T08:09:26.624Z
+📝 请求参数详情:
+  - Agent ID: ce0076a1-3eaf-440c-81e5-741f00bf1736
+  - 总供应量: 100000000000
+  - 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+🔍 验证请求参数格式...
+✅ 参数验证通过
+🔐 验证用户身份和权限...
+✅ 权限验证通过:
+  - 用户地址: 0xde184a6809898d81186def5c0823d2107c001da2
+  - Agent名称: za
+  - Agent符号: ZA
+  - Agent代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+🔍 验证代币地址匹配...
+✅ 代币地址验证通过
+📝 创建代币分发任务记录...
+✅ 任务创建成功，任务ID: b6523248-66d0-4323-b05d-f49d51f8f3e3
+🚀 启动后台代币分发任务...
+🔄 开始处理代币分发任务 b6523248-66d0-4323-b05d-f49d51f8f3e3
+💰 开始执行代币分配流程...
+🔍 [DEBUG] distributeTokensWithOptions 开始执行
+🔍 [DEBUG] 参数: {
+  agentId: 'ce0076a1-3eaf-440c-81e5-741f00bf1736',
+  totalSupply: '100000000000',
+  tokenAddress: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+  userAddress: '0xde184a6809898d81186def5c0823d2107c001da2',
+  options: { includeBurn: false, burnPercentage: 5, retryTaskId: undefined }
+}
+🔍 [DEBUG] 🏦 分发前预处理 - 提取IPO中的代币
+🏦 开始提取IPO中的代币 - Agent ID: ce0076a1-3eaf-440c-81e5-741f00bf1736
+🏦 IAO合约地址: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+📝 执行claimDepositedToken - 合约: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+🔍 开始权限检查...
+🔍 服务端钱包是否为管理员: false
+🔍 合约所有者: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+🔍 服务端钱包: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+🔍 是否为所有者: true
+🔍 IAO是否成功: true
+🔍 总投入金额: 100000000000000000000000
+🔍 Oracle地址: 0x4bb48d5821cb668B663f74111D06D6B0060d2950
+🔍 Oracle是否为服务端钱包: false
+🔧 尝试设置服务端钱包为管理员...
+⚠️ 设置管理员失败: The contract function "setAdmin" reverted with the following reason:
+no signer available
+
+Contract Call:
+  address:   0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+  function:  setAdmin(address _admin, bool _isAdmin)
+  args:              (0x417Dd0DDAA54E651e304A12c9810173F57876159, true)
+  sender:    0x417Dd0DDAA54E651e304A12c9810173F57876159
+
+Docs: https://viem.sh/docs/contract/writeContract
+Version: viem@2.22.13
+🔍 IAO合约中的代币余额: 15000000000000000000000000000
+� 直接执行claimDepositedToken...
+✅ claimDepositedToken交易已提交: 0x28d7ed989d0b8e27c8d932ab2491469ca87a218324081bf2243fe6e391ad2d53
+⏳ 等待交易确认...
+✅ claimDepositedToken执行成功 - Gas Used: 1187200
+🔍 [DEBUG] ✅ IPO代币提取成功 - TxHash: 0x28d7ed989d0b8e27c8d932ab2491469ca87a218324081bf2243fe6e391ad2d53
+🔍 [DEBUG] 调用 distributeTokens...
+🔍 [DEBUG] 🚀 开始代币分配
+🔍 [DEBUG] Agent: ce0076a1-3eaf-440c-81e5-741f00bf1736, 总供应量: 100000000000
+🔍 [DEBUG] ⏭️ 启用容错模式 - 跳过已成功的步骤
+🔍 [DEBUG] 获取 Agent 信息...
+🔍 [DEBUG] Agent 信息: {
+  id: 'ce0076a1-3eaf-440c-81e5-741f00bf1736',
+  creator: { address: '0xde184a6809898d81186def5c0823d2107c001da2' },
+  iaoContractAddress: '0x28B638f2afbd33428dAD1919Aefa51A0016231Ab',
+  tokenAddress: '0x2237b9FF464906a0424a558302F5Ec50195F49C7'
+}
+🔍 开始查找已有任务 - skipSuccessful: true
+🔍 查找已有分配任务 - agentId: ce0076a1-3eaf-440c-81e5-741f00bf1736, tokenAddress: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+🔍 [DEBUG] 数据库查询结果:
+  - 找到任务数量: 1
+  - 任务1: ID=b6523248-66d0-4323-b05d-f49d51f8f3e3, Status=PROCESSING, CreatedAt=Wed Jul 30 2025 16:09:26 GMT+0800 (中国标准时间)
+    - result字段类型: string
+    - 是否有transactions: undefined
+    - result字段内容: "{\"metadata\":{\"totalSupply\":\"100000000000\",\"tokenAddress\":\"0x2237b9FF464906a0424a558302F5Ec50195F49C7\",\"includeBurn\":false,\"burnPercentage\":5}}"...
+📋 找到 1 条相关分发任务记录，开始合并所有交易记录...
+  处理任务 1/1: ID=b6523248-66d0-4323-b05d-f49d51f8f3e3, Status=PROCESSING, CreatedAt=Wed Jul 30 2025 16:09:26 GMT+0800 (中国标准时间)
+     ✅ 成功解析任务数据
+     ❌ 任务不匹配当前tokenAddress
+❌ 未找到匹配的分配任务
+📋 从历史记录中获取已完成步骤: 无
+📝 没有找到已完成的步骤，将执行完整分发流程
+📝 创建新的分配任务记录...
+📝 创建分发任务记录 - Agent: ce0076a1-3eaf-440c-81e5-741f00bf1736, 总供应量: 100000000000
+✅ 分发任务创建成功 - Task ID: 98b2cfcd-c33c-448f-9507-3f2f659faf85
+📝 分配任务创建成功: 98b2cfcd-c33c-448f-9507-3f2f659faf85
+📊 开始计算分配数量 - 总供应量: 100000000000
+📊 分配数量计算完成:
+  - 创建者 (33%): 33000000000
+  - IAO合约 (15%): 15000000000 [已由恒源自动分配]
+  - 流动性 (10%): 10000000000 [暂时禁用]
+  - 空投 (2%): 2000000000
+  - AI挖矿 (40%): 40000000000
+💰 智能余额检查 - 只检查未完成步骤...
+💰 余额检查结果:
+  - 当前余额: 85000000000
+  - 需要余额: 75000000000
+  - 待执行步骤: 创建者 (33000000000), 空投 (2000000000), 挖矿 (40000000000)
+  - 已完成步骤: 无
+  - 余额充足: ✅
+✅ 余额检查通过，可以执行剩余 3 个步骤
+🚀 开始执行代币分配交易...
+🔍 [DEBUG] 👤 [1/3] 分配给创建者 (33%): 33000000000 -> 0xde184a6809898d81186def5c0823d2107c001da2，批量锁定50次
+🔍 [DEBUG] 👤 每次锁定金额: 660000000.000000000000000000 (总计: 33000000000)
+🔄 开始批量执行transferAndLock - 总数: 50, 锁定时间: 3456000秒
+📝 参数详情:
+  - 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+  - 接收者: 0xde184a6809898d81186def5c0823d2107c001da2
+  - 每次金额: 660000000.000000000000000000
+🔄 调用合约的批量transferAndLock功能
+📊 生成了50个锁定信息，每个锁定3456000秒（40天）
+📤 批量transferAndLock交易已发送: 0x0062063264a62242b5d0c7ac21b0c94a602eebda5eb299b659b627a41c9f7178
+✅ 批量transferAndLock成功 - Hash: 0x0062063264a62242b5d0c7ac21b0c94a602eebda5eb299b659b627a41c9f7178
+🔍 [DEBUG] 👤 批量锁定结果: 成功=50, 失败=0
+🔍 [DEBUG] 👤 创建者批量分配结果: ✅ 全部成功
+🏦 跳过IAO合约分配 (15%) - 恒源已自动完成此分配
+🏦 IAO合约地址: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab (已自动分配)
+🔄 调用IAO合约的setRewardToken方法 - 设置奖励代币: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+✅ setRewardToken交易已提交: 0xec75e950fc3e841940572f697eb5d64574895cd8008bb34be7f9a1094c516e20
+✅ 奖励代币设置成功 - Token: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+🔍 [DEBUG] 🎁 [2/4] 分配给空投钱包 (2%): 2000000000 -> 0x8ef54e57dFB0b84Eb909072B699057Ef9517704a
+🔍 [DEBUG] 📤 开始 airdrop 转账: 2000000000 tokens -> 0x8ef54e57dFB0b84Eb909072B699057Ef9517704a
+🔍 [DEBUG] 📤 airdrop 转账已发送: 0x81ad436869431d920373819c774de99af0f2fcab7d2dc5f887f895ee7caaf847
+🔍 [DEBUG] ✅ airdrop 转账confirmed: 0x81ad436869431d920373819c774de99af0f2fcab7d2dc5f887f895ee7caaf847
+🔍 [DEBUG] airdrop 转账最终结果: {
+  type: 'airdrop',
+  amount: '2000000000',
+  txHash: '0x81ad436869431d920373819c774de99af0f2fcab7d2dc5f887f895ee7caaf847',
+  status: 'confirmed',
+  toAddress: '0x8ef54e57dFB0b84Eb909072B699057Ef9517704a'
+}
+🔍 [DEBUG] 🎁 空投钱包分配结果: ✅ 成功 - Hash: 0x81ad436869431d920373819c774de99af0f2fcab7d2dc5f887f895ee7caaf847
+⛏️ [3/4] 分配给AI挖矿合约 (40%): 40000000000 -> 0x6B0B8F74aaCe9731a2f5fc45c64bbd72075dBfDB
+🔍 [DEBUG] 📤 开始 mining 转账: 40000000000 tokens -> 0x6B0B8F74aaCe9731a2f5fc45c64bbd72075dBfDB
+🔍 [DEBUG] 📤 mining 转账已发送: 0xc6f6bca6a10a7b28bbeeefe0a108a2cced7a0aadb1a8677894ce0fcd4cdbbd48
+🔍 [DEBUG] ✅ mining 转账confirmed: 0xc6f6bca6a10a7b28bbeeefe0a108a2cced7a0aadb1a8677894ce0fcd4cdbbd48
+🔍 [DEBUG] mining 转账最终结果: {
+  type: 'mining',
+  amount: '40000000000',
+  txHash: '0xc6f6bca6a10a7b28bbeeefe0a108a2cced7a0aadb1a8677894ce0fcd4cdbbd48',
+  status: 'confirmed',
+  toAddress: '0x6B0B8F74aaCe9731a2f5fc45c64bbd72075dBfDB'
+}
+⛏️ AI挖矿合约分配结果: ✅ 成功 - Hash: 0xc6f6bca6a10a7b28bbeeefe0a108a2cced7a0aadb1a8677894ce0fcd4cdbbd48
+💧 [4/4] 添加DBCSwap流动性 (10%): 10000000000 代币
+🏊 开始添加流动性 - 代币: 0x2237b9FF464906a0424a558302F5Ec50195F49C7, 数量: 10000000000
+🚀 开始流动性分发...
+📊 Agent ID: ce0076a1-3eaf-440c-81e5-741f00bf1736
+🪙 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+📈 总供应量: 100000000000
+🧮 计算流动性参数 - 总供应量: 100000000000, IAO合约: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+🔍 查询IAO合约中的总投入XAA数量 - 合约地址: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+🏦 IAO合约地址: 0x28B638f2afbd33428dAD1919Aefa51A0016231Ab
+✅ 查询到总投入XAA数量: 99999.99999999999 XAA (100000000000000000000000 wei)
+🔧 四舍五入后的XAA数量: 100000 XAA
+🧮 tick计算过程:
+  - 价格: 0.000007333333333333334
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -118236.7153744296
+  - 取整结果: -118237
+🧮 tick计算过程:
+  - 价格: 0.0000014666666666666669
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -134331.89920431728
+  - 取整结果: -134332
+
+🧮 从XAA计算最高价格 (新公式):
+  - XAA数量: 95000
+  - 代币数量: 10000000000
+  - 低价: 0.0000014666666666666669
+  - 当前价格: 0.000007333333333333334
+  - sqrt(当前价格): 0.0027080128015453202
+  - sqrt(低价): 0.0012110601416389967
+  - 计算的流动性L: 63,462,260.728
+  - invSqrtPriceUpper: 211.70050873733257
+  - sqrtPriceUpper: 0.004723654213040887
+  - 计算的高价: 0.00002231290912437892
+
+✅ 验证计算结果:
+  - 从XAA计算的流动性L: 47,131,399.195
+  - 从代币计算的流动性L: 21,908,283.774
+  - XAA误差: 115.130494%
+  - 代币误差: -53.516585%
+  - 价格倍数: 3.04x (相对于初始价格)
+  - 总价格范围: 15.21x
+
+💰 重要提示: 当前价格计算是以 XAA/用户代币 表示的
+  实际交易中，Uniswap会根据代币地址大小重新确定token0和token1，并调整价格方向
+  如果用户代币地址 < XAA地址: token0=用户代币, token1=XAA, 价格=XAA/用户代币
+  如果用户代币地址 > XAA地址: token0=XAA, token1=用户代币, 价格=用户代币/XAA (需要取倒数)
+🧮 tick计算过程:
+  - 价格: 0.00002231290912437892
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -107108.80670820364
+  - 取整结果: -107109
+
+========== 流动性价格配置 ==========
+💰 代币数量:
+  - 总供应量: 100000000000
+  - IAO代币数量(15%): 15000000000
+  - 流动性代币数量(10%): 10000000000
+  - 原始XAA数量: 100000
+  - 价格计算用XAA数量(100%): 100000
+  - 实际使用XAA数量(95%): 95000
+
+💰 价格计算:
+  - 计算公式: XAA数量 / 流动性代币数量
+  - 基础价格 = 100000 / 10000000000 = 0.000006666666666666667
+  - 调整价格 = 0.000006666666666666667 * 1.1 = 0.000007333333333333334
+
+💰 价格和Tick设置:
+  - 基础初始价格(XAA/用户代币): 0.00000667
+  - 调整后初始价格: 0.00000733 (1.1x of base)
+    • 原始tick: -118237
+    • 对齐后tick: -118240 (spacing: 10)
+  - 最低价格: 0.00000147 (20.0% of initial)
+    • 原始tick: -134332
+    • 对齐后tick: -134340 (spacing: 10)
+  - 最高价格: 0.00002231 (3.04x of initial)
+    • 原始tick: -107109
+    • 对齐后tick: -107110 (spacing: 10)
+  - 计算方法: 新的Uniswap V3公式
+
+📏 Tick配置:
+  - Fee: 0.05% (tickSpacing: 10)
+  - 初始tick到最低tick的距离: 16100
+  - 初始tick到最高tick的距离: 11130
+  - 总tick范围: 27230
+  - 验证价格:
+    • 最低价格 = 1.0001^-134340 = 0.00000147
+    • 初始价格 = 1.0001^-118240 = 0.00000733
+    • 最高价格 = 1.0001^-107110 = 0.00002231
+===================================
+
+
+📊 价格参数 - 这里表示的价格是XAA/用户代币的比率
+  - 初始价格: 0.000007333333333333334
+  - 最小价格: 0.0000014666666666666669
+  - 最大价格: 0.00002231290912437892
+  - 注意: PoolManager会根据代币地址大小自动调整价格方向
+📊 准备添加流动性: {
+  tokenAddress: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+  tokenAmount: '10000000000',
+  xaaAmount: '95000',
+  priceRange: {
+    initial: 0.000007333333333333334,
+    min: 0.0000014666666666666669,
+    max: 0.00002231290912437892
+  }
+}
+
+========== 流动性参数验证 ==========
+📊 代币信息:
+  - 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+  - 代币数量: 10000000000
+  - XAA数量: 95000
+
+💰 价格设置:
+  - 初始价格: 0.000007333333333333334
+  - 最小价格: 0.0000014666666666666669 (20.0% of initial)
+  - 最大价格: 0.00002231290912437892 (304.3% of initial)
+💰 开始检查余额...
+  - 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+  - 需要代币数量: 10000000000
+  - 需要XAA数量: 95000
+  - 钱包地址: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+💰 余额检查结果:
+  - 代币余额: 10000000000 (需要: 10000000000) ✅
+  - XAA余额: 222182403.506461848404575264 (需要: 95000) ✅
+✅ 池子地址: 0x440F49D80E69D17a01EB755f8b0fefDD795c5031
+
+========== 开始计算池子参数 ==========
+🧮 代币顺序确定:
+  - token0: 0x2237b9FF464906a0424a558302F5Ec50195F49C7 (用户代币)
+  - token1: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a (XAA)
+📊 代币小数位数:
+  - token0 (0x2237b9FF464906a0424a558302F5Ec50195F49C7): 18
+  - token1 (0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a): 18
+💰 价格表示: XAA/用户代币
+📊 Tick间距: 10 (手续费: 0.05%)
+🧮 sqrtPriceX96计算过程:
+  - 原始价格: 0.000007333333333333334
+  - 代币精度调整: 10^(18 - 18) = 1
+  - 调整后价格: 0.000007333333333333334
+  - 计算tick: log(0.000007333333333333334)/log(1.0001) = -118236.7153744296
+  - 最接近的整数tick: -118237
+  - sqrtPriceX96 (JSBI): 214547825172475522467699678
+📊 价格计算:
+  - 初始价格 (token1/token0): 0.000007333333333333334
+  - 最小价格 (token1/token0): 0.0000014666666666666669
+  - 最大价格 (token1/token0): 0.00002231290912437892
+  - initialSqrtPrice（sqrtPriceX96）: 214547825172475522467699678
+🧮 tick计算过程:
+  - 原始价格: 0.000007333333333333334
+  - 代币精度调整: 10^(18 - 18) = 1
+  - 调整后价格: 0.000007333333333333334
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -118236.7153744296
+  - 取整结果: -118237
+🧮 tick计算过程:
+  - 原始价格: 0.0000014666666666666669
+  - 代币精度调整: 10^(18 - 18) = 1
+  - 调整后价格: 0.0000014666666666666669
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -134331.89920431728
+  - 取整结果: -134332
+🧮 tick计算过程:
+  - 原始价格: 0.00002231290912437892
+  - 代币精度调整: 10^(18 - 18) = 1
+  - 调整后价格: 0.00002231290912437892
+  - 计算公式: log(价格)/log(1.0001)
+  - 计算结果: -107108.80670820364
+  - 取整结果: -107109
+📊 原始Tick计算:
+  - 初始Tick: -118237
+  - 最小Tick: -134332
+  - 最大Tick: -107109
+📊 调整后的Tick范围:
+  - 最小Tick: -134330
+  - 最大Tick: -107110
+  - Tick范围: 27220 ticks
+🔍 池子未初始化，将使用计算的初始价格
+💰 流动性参数:
+  - amount0Desired: 10000000000
+  - amount1Desired: 95000
+  - amount0Min: 9950000000.000000036003905536
+  - amount1Min: 94524.999999999986106368
+  - 截止时间: 2025/7/30 16:30:05
+
+========== 计算参数结果 ==========
+{
+  initialPrice: 0.000007333333333333334,
+  minPrice: 0.0000014666666666666669,
+  maxPrice: 0.00002231290912437892,
+  initialSqrtPrice: 214547825172475522467699678n,
+  minTick: -134330,
+  maxTick: -107110,
+  currentTick: undefined,
+  token0: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+  token1: '0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a',
+  amount0Desired: 10000000000000000000000000000n,
+  amount1Desired: 95000000000000000000000n,
+  amount0Min: 9950000000000000036003905536n,
+  amount1Min: 94524999999999986106368n,
+  deadline: 1753864205n,
+  tokenAmountWei: 10000000000000000000000000000n,
+  xaaAmountWei: 95000000000000000000000n,
+  token0Decimals: 18,
+  token1Decimals: 18
+}
+🔍 检查池子状态: 0x440F49D80E69D17a01EB755f8b0fefDD795c5031
+🏗️ 池子未初始化，使用计算的初始价格进行初始化:
+  - 初始价格 (token1/token0): 0.000007333333333333334
+  - sqrtPriceX96: 214547825172475522467699678
+🚀 正在初始化池子...
+⏳ 等待池子初始化交易确认...
+✅ 池子初始化成功，区块号: 3277395
+✅ 池子初始化完成
+📝 开始授权代币给Position Manager...
+✅ 代币授权交易已提交: 0x7f94a49882a931d2119303c486464ae29e9b14433cb52efbca4c43adb81ff53d
+⏳ 等待代币授权交易确认...
+✅ 代币授权确认完成
+📊 代币授权区块号: 3277396
+📊 代币授权Gas使用: 189126
+🔍 检查XAA授权前状态...
+💰 当前XAA授权额度: 0
+📝 开始授权XAA代币...
+🔍 XAA代币地址: 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔍 Position Manager地址: 0xfCE792dd602fA70143e43e7556e8a92D762bA9FC
+🔍 授权数量: 95000 XAA
+🔍 钱包地址: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+✅ XAA授权交易已提交: 0xa5634dd5d3c5b3933dec94b22ddd510a7897635a6696c8fad241da27508d3041
+⏳ 等待XAA授权交易确认...
+⏳ 等待XAA授权交易确认...
+✅ XAA授权确认完成
+📊 XAA授权区块号: 3277398
+📊 XAA授权Gas使用: 203882
+✅ 代币授权完成
+
+========== 开始添加流动性 ==========
+📊 添加流动性参数:
+{
+  "token0": "0x2237b9FF464906a0424a558302F5Ec50195F49C7",
+  "token1": "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a",
+  "fee": 500,
+  "tickLower": -134330,
+  "tickUpper": -107110,
+  "amount0Desired": "10000000000000000000000000000",
+  "amount1Desired": "95000000000000000000000",
+  "amount0Min": "9950000000000000036003905536",
+  "amount1Min": "94524999999999986106368",
+  "recipient": "0x417Dd0DDAA54E651e304A12c9810173F57876159",
+  "deadline": "1753864205"
+}
+✅ 添加流动性交易已提交: 0x23f87fffba882b06509c507e0c782c84258ab3674e831e4ddfaff7d43d1c653a
+⏳ 等待交易确认...
+✅ NFT Token ID: 79
+✅ 流动性添加成功，区块号: 3277399
+📊 Gas使用: 1140188
+✅ 流动性添加完成
+✅ 流动性分发完成
+🏊 池子地址: 0x440F49D80E69D17a01EB755f8b0fefDD795c5031
+📝 交易哈希: 0x23f87fffba882b06509c507e0c782c84258ab3674e831e4ddfaff7d43d1c653a
+✅ 流动性添加成功 - 池子: 0x440F49D80E69D17a01EB755f8b0fefDD795c5031, 交易: 0x23f87fffba882b06509c507e0c782c84258ab3674e831e4ddfaff7d43d1c653a, NFT Token ID: undefined
+💧 流动性添加结果: ✅ 成功 - Hash: 0x23f87fffba882b06509c507e0c782c84258ab3674e831e4ddfaff7d43d1c653a
+🏊 池子地址: 0x440F49D80E69D17a01EB755f8b0fefDD795c5031
+📊 所有分配交易执行完成，共 4 笔交易
+🔍 [DEBUG] 检查交易结果...
+🔍 [DEBUG] 📊 分配结果汇总:
+🔍 [DEBUG]   - 总交易数: 4
+🔍 [DEBUG]   - 成功交易: 4 ✅
+🔍 [DEBUG]   - 待确认交易: 0 ⏳
+🔍 [DEBUG]   - 失败交易: 0 ❌
+🔍 [DEBUG]   - 最终状态: COMPLETED
+🔍 [DEBUG] 所有交易详情:
+🔍 [DEBUG]   1. creator - confirmed - 33000000000 -> 0xde184a6809898d81186def5c0823d2107c001da2
+🔍 [DEBUG]      Hash: 0x0062063264a62242b5d0c7ac21b0c94a602eebda5eb299b659b627a41c9f7178
+🔍 [DEBUG]   2. airdrop - confirmed - 2000000000 -> 0x8ef54e57dFB0b84Eb909072B699057Ef9517704a
+🔍 [DEBUG]      Hash: 0x81ad436869431d920373819c774de99af0f2fcab7d2dc5f887f895ee7caaf847
+🔍 [DEBUG]   3. mining - confirmed - 40000000000 -> 0x6B0B8F74aaCe9731a2f5fc45c64bbd72075dBfDB
+🔍 [DEBUG]      Hash: 0xc6f6bca6a10a7b28bbeeefe0a108a2cced7a0aadb1a8677894ce0fcd4cdbbd48
+🔍 [DEBUG]   4. liquidity - confirmed - 10000000000 -> 0x440F49D80E69D17a01EB755f8b0fefDD795c5031
+🔍 [DEBUG]      Hash: 0x23f87fffba882b06509c507e0c782c84258ab3674e831e4ddfaff7d43d1c653a
+🔍 [DEBUG] 💾 更新数据库任务状态: COMPLETED
+🔍 [DEBUG] 更新任务状态 - ID: 98b2cfcd-c33c-448f-9507-3f2f659faf85, Status: COMPLETED
+✅ 任务状态已更新: 98b2cfcd-c33c-448f-9507-3f2f659faf85 -> COMPLETED
+🔍 [DEBUG] ✅ 代币分配完成 - 共执行 4 笔交易，0 笔失败
+🔍 [DEBUG] 最终返回结果: {
+  success: true,
+  taskId: '98b2cfcd-c33c-448f-9507-3f2f659faf85',
+  data: {
+    transactions: [ [Object], [Object], [Object], [Object] ],
+    totalDistributed: '100000000000'
+  },
+  error: undefined
+}
+🔍 [DEBUG] distributeTokens 返回结果: {
+  success: true,
+  taskId: '98b2cfcd-c33c-448f-9507-3f2f659faf85',
+  data: {
+    transactions: [ [Object], [Object], [Object], [Object] ],
+    totalDistributed: '100000000000'
+  },
+  error: undefined
+}
+📊 代币分发任务完成，状态: COMPLETED
+🔍 [DEBUG] ✅ 代币分配流程完成
+� [DEBUG] �📊 分配结果摘要:
+🔍 [DEBUG]   - 任务ID: 98b2cfcd-c33c-448f-9507-3f2f659faf85
+🔍 [DEBUG]   - 交易数量: 4
+🔍 [DEBUG]   - 分配总量: 100000000000
+🔍 [DEBUG]   - 最终状态: COMPLETED
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863096 (2025-07-30T08:11:36.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 3.4s (10713 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 716ms (5448 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863467 (2025-07-30T08:17:47.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 1459ms (5525 modules)
+ ✓ Compiled in 789ms (5525 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863523 (2025-07-30T08:18:43.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 3.1s (10813 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863540 (2025-07-30T08:19:00.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1603ms (10813 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863548 (2025-07-30T08:19:08.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 1655ms (5527 modules)
+ ✓ Compiled in 909ms (5527 modules)
+ ✓ Compiled in 693ms (5527 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863578 (2025-07-30T08:19:38.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 832ms (5527 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863592 (2025-07-30T08:19:52.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 875ms (5527 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753863611 (2025-07-30T08:20:11.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/burn-xaa ...
+ ✓ Compiled /api/agents/[id]/burn-xaa in 3.4s (6197 modules)
+🔥 收到XAA和NFC销毁请求...
+❌ 参数验证失败: [
+  {
+    code: 'invalid_type',
+    expected: 'string',
+    received: 'undefined',
+    path: [ 'nfcTokenAddress' ],
+    message: 'Required'
+  },
+  {
+    code: 'invalid_type',
+    expected: 'string',
+    received: 'undefined',
+    path: [ 'nfcAmount' ],
+    message: 'Required'
+  }
+]
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1933ms (5548 modules)
+ ✓ Compiled in 4.3s (5288 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 3.6s (5448 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865178 (2025-07-30T08:46:18.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 2.7s (5525 modules)
+ ✓ Compiled in 5.1s (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865438 (2025-07-30T08:50:38.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 785ms (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865459 (2025-07-30T08:50:59.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1610ms (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865473 (2025-07-30T08:51:13.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 774ms (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865524 (2025-07-30T08:52:04.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 4.6s (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865832 (2025-07-30T08:57:12.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 739ms (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865839 (2025-07-30T08:57:19.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 2.4s (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865861 (2025-07-30T08:57:41.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 2.3s (5288 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865882 (2025-07-30T08:58:02.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 2.2s (5527 modules)
+ ○ Compiling /[locale]/create ...
+ ✓ Compiled /[locale]/create in 4.9s (10853 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: za (ce0076a1-3eaf-440c-81e5-741f00bf1736)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753865930 (2025-07-30T08:58:50.000Z)
+[Agent详情状态计算] IAO开始时间: 1753784724 (2025-07-29T10:25:24.000Z)
+[Agent详情状态计算] IAO结束时间: 1754216724 (2025-08-03T10:25:24.000Z)
+[Agent详情状态计算] 代币地址: 0x2237b9FF464906a0424a558302F5Ec50195F49C7
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO进行中，状态: IAO_ONGOING
+[Agent详情状态计算] 最终状态: IAO_ONGOING
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/image ...
+ ✓ Compiled /api/image in 2.8s (5871 modules)
+Success: https://xaiagent.oss-ap-northeast-2.aliyuncs.com/chat/1753865977130_2hw2y2f.png
+ ○ Compiling /not-found ...
+ ✓ Compiled /favicon.ico in 3.9s (11125 modules)
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 3.4s (5909 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 1372ms (5987 modules)
+ ○ Compiling /api/agents/new ...

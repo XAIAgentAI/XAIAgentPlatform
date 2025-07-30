@@ -82,6 +82,7 @@ model Agent {
   miningOwnerTransferred    Boolean      @default(false) // 挖矿合约owner是否已转移
   // 池子相关字段
   poolAddress               String? // 流动性池地址
+  nftTokenId                String? // NFT Token ID
   poolCreated               Boolean      @default(false) // 池子是否已创建
   initialLiquidityAmount    Decimal? // 初始流动性代币数量
   initialXaaAmount          Decimal? // 初始流动性XAA数量

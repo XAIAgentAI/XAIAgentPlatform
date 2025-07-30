@@ -31,6 +31,7 @@ export interface LiquidityDistributionParams {
 export interface LiquidityDistributionResult {
   success: boolean;
   poolAddress?: string;
+  nftTokenId?: string;
   txHash?: string;
   tokenAmount?: string;
   xaaAmount?: string;
@@ -455,6 +456,8 @@ export class LiquidityDistributionManager {
       // 4. 执行流动性添加
       const result = await this.poolManager.addLiquidity(addLiquidityParams);
 
+      console.log(`🚀 流动性添加结果:`, result);
+      
       if (!result.success) {
         throw new Error(result.error || '流动性添加失败');
       }
@@ -464,8 +467,9 @@ export class LiquidityDistributionManager {
         where: { id: params.agentId },
         data: {
           liquidityAdded: true,
-          poolAddress: result.poolAddress
-        }
+          poolAddress: result.poolAddress,
+          nftTokenId: result.nftTokenId // 使用tokenId字段
+        } as any // 临时使用any类型，直到数据库迁移完成
       });
 
       console.log('✅ 流动性分发完成');
@@ -475,6 +479,7 @@ export class LiquidityDistributionManager {
       return {
         success: true,
         poolAddress: result.poolAddress,
+        nftTokenId: result.nftTokenId,
         txHash: result.txHash,
         tokenAmount: result.tokenAmount,
         xaaAmount: result.xaaAmount,

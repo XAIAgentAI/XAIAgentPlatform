@@ -415,16 +415,44 @@ export const IaoEndedView = ({
                     </span>
                   </div>
                 </div>
+              ) : !agent.tokensDistributed || !agent.liquidityAdded ? (
+                <div className="w-full p-3 bg-orange-50 border border-orange-200 rounded-lg mb-3">
+                  <div className="flex items-center mb-1">
+                    <svg className="w-4 h-4 mr-1 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span className="text-sm font-medium text-orange-700">
+                      {tIaoPool('waitingForTokenDistribution')}
+                    </span>
+                  </div>
+                  <div className="text-xs text-orange-600">
+                    {tIaoPool('creatorIncompleteProcess')}
+                  </div>
+                </div>
+              ) : !agent.tokensBurned ? (
+                <div className="w-full p-3 bg-red-50 border border-red-200 rounded-lg mb-3">
+                  <div className="flex items-center mb-1">
+                    <svg className="w-4 h-4 mr-1 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span className="text-sm font-medium text-red-700">
+                      {tIaoPool('waitingForTokenBurn')}
+                    </span>
+                  </div>
+                  <div className="text-xs text-red-600">
+                    {tIaoPool('creatorIncompleteBurnProcess')}
+                  </div>
+                </div>
               ) : (
                 <>
                   <Button
                     className={`w-full sm:w-auto px-8 ${
-                      userStakeInfo.hasClaimed || !canClaim
+                      userStakeInfo.hasClaimed || !canClaim || !agent.tokensDistributed || !agent.liquidityAdded || !agent.tokensBurned
                         ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
                         : 'bg-[#F47521] hover:bg-[#E56411]'
                     }`}
                     onClick={onClaimRewards}
-                    disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim || !agent.tokenAddress}
+                    disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim || !agent.tokenAddress || !agent.tokensDistributed || !agent.liquidityAdded || !agent.tokensBurned}
                   >
                     {isClaiming ? (
                       <>
@@ -436,6 +464,10 @@ export const IaoEndedView = ({
                       </>
                     ) : userStakeInfo.hasClaimed ? (
                       tIaoPool('rewardClaimed')
+                    ) : !agent.tokensDistributed || !agent.liquidityAdded ? (
+                      tIaoPool('waitingForTokenDistribution')
+                    ) : !agent.tokensBurned ? (
+                      tIaoPool('waitingForTokenBurn')
                     ) : (
                       tIaoPool('claimRewards')
                     )}

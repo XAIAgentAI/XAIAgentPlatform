@@ -185,7 +185,7 @@ export interface PoolManagerResult {
   tokenAmount?: string;
   xaaAmount?: string;
   blockNumber?: string;
-  tokenId?: string; // 添加 NFT token ID 到接口
+  nftTokenId?: string; // 添加 NFT token ID 到接口
   error?: string;
 }
 
@@ -686,7 +686,8 @@ export class PoolManager {
         txHash: result?.txHash,
         tokenAmount: result?.tokenAmount,
         xaaAmount: result?.xaaAmount,
-        blockNumber: result?.blockNumber
+        blockNumber: result?.blockNumber,
+        nftTokenId: result?.tokenId
       };
   
     } catch (error) {
