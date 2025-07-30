@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { getServerWalletPrivateKey } from './config';
+import { getServerWalletClients } from './index';
 
 export interface BurnNFCResult {
   success: boolean;
@@ -24,11 +25,9 @@ export async function transferNFTToDeadAddress(
     console.log(`tokenId: ${tokenId}`);
     console.log(`黑洞地址: ${deadAddress}`);
 
-    // 获取服务端钱包私钥并创建钱包实例
-    const privateKey = getServerWalletPrivateKey();
-    const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-    const wallet = new ethers.Wallet(privateKey, provider);
-    const fromAddress = await wallet.getAddress();
+    // 统一获取服务端钱包client
+    const { walletClient, publicClient, serverAccount } = await getServerWalletClients();
+    const fromAddress = serverAccount.address;
 
     // ERC721 ABI
     const ERC721_ABI = [
@@ -47,24 +46,22 @@ export async function transferNFTToDeadAddress(
       }
     ];
 
-    // 创建NFT合约实例
-    const nftContract = new ethers.Contract(
-      nftTokenAddress,
-      ERC721_ABI,
-      wallet
-    );
-
     // 发送transferFrom交易
-    const tx = await nftContract.transferFrom(fromAddress, deadAddress, tokenId);
+    const hash = await walletClient.writeContract({
+      address: nftTokenAddress,
+      abi: ERC721_ABI,
+      functionName: 'transferFrom',
+      args: [fromAddress, deadAddress, tokenId],
+    });
     console.log('NFT销毁交易已发送，等待确认...');
 
     // 等待交易确认
-    const receipt = await tx.wait();
+    const receipt = await publicClient.waitForTransactionReceipt({ hash });
     console.log('NFT销毁交易已确认');
 
     return {
       success: true,
-      txHash: receipt.hash,
+      txHash: receipt.transactionHash || hash,
     };
   } catch (error) {
     console.error('NFT销毁失败:', error);
