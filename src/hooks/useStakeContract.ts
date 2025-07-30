@@ -593,7 +593,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       console.error('Stake failed:', error);
       toast(createToastMessage({
         title: t('error'),
-        description: error?.message || t('stakeFailed'),
+        description: error?.message || t('investFailed'),
       }));
       throw error;
     } finally {
@@ -674,11 +674,11 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
       console.error('Claim rewards failed:', error);
       toast(createToastMessage({
         title: t('error'),
-        description: error?.message || t('stakeFailed'),
+        description: error?.message || t('investFailed'),
       }));
       return {
         success: false,
-        error: error?.message || t('stakeFailed')
+        error: error?.message || t('investFailed')
       };
     } finally {
       setIsLoading(false);

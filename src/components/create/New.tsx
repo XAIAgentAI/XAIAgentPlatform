@@ -511,224 +511,261 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         };
     };
 
+    const [isTranslationLoading, setIsTranslationLoading] = useState(false);
+    const [translatedDescription, setTranslatedDescription] = useState<{ zh?: string; en?: string; jp?: string }>({});
+    const [translationError, setTranslationError] = useState<string | null>(null);
+
+    // 修改描述输入处理，自动请求翻译
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { value } = e.target;
+        setFormData(prev => ({ ...prev, description: value }));
+    };
+
+    // 修改handleCreate，创建时校验翻译状态
     const handleCreate = async () => {
-        // 检查必填字段
-        if (!validateRequiredFields()) {
-            return;
-        }
-
-        // 检查钱包连接
-        if (!CheckWallet()) {
-            return;
-        }
-
-        // 设置创建中状态
-        setCreating(true);
-        setCreationProgress(0);
-        setDisplayProgress(0);
-
+        setIsTranslationLoading(true);
+        setTranslationError(null);
         try {
-            // 重置状态
-            setNameExists(false);
-            setSymbolExists(false);
-            setCreationProgress(20);
-            setDisplayProgress(20);
-
-            // 初始化数据
-            const initialData: AgentData = {
-                id: "1",
-                name: formData.name,
-                symbol: formData.symbol,
-                description: formData.description || "",
-                useCases: { zh: [], en: [], ko: [], ja: [] }
-            };
-            setData(initialData);
-
-            // 获取token
-            const token = await getRealToken();
-            setCreationProgress(40);
-            setDisplayProgress(40);
-
-            const finalUseCases = currentLangUseCases.length > 0 ? useCases : {
-                en: [
-                    "Help me brainstorm creative ideas for my project",
-                    "Assist me in analyzing market trends for my business",
-                    "Guide me through setting up a new productivity system"
-                ],
-                ja: [
-                    "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
-                    "ビジネスのための市場動向を分析するのを支援してください",
-                    "新しい生産性システムの設定を案内してください"
-                ],
-                ko: [
-                    "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
-                    "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
-                    "새로운 생산성 시스템 설정을 안내해 주세요"
-                ],
-                zh: [
-                    "帮我为项目进行创意头脑风暴",
-                    "协助我分析业务的市场趋势",
-                    "指导我建立新的效率系统"
-                ]
-            };
-
-            // 更新数据
-            setData(prev => ({
-                ...(prev || initialData),
-                // id: agentId || '',
-                useCases: {
-                    zh: useCases.zh || (prev?.useCases.zh || []),
-                    ja: useCases.ja || (prev?.useCases.ja || []),
-                    ko: useCases.ko || (prev?.useCases.ko || []),
-                    en: useCases.en || (prev?.useCases.en || [])
-                }
-            }));
-
-            setCreationProgress(60);
-            setDisplayProgress(60);
-
-            // 准备完整数据
-            const agentData = {
-                name: formData.name,
-                containerLink: '', // 容器链接在创建时不填写，后续在详情页面由创建者添加
-                description: formData.description || "An Agent",
-                category: 'AI Agent',
-                capabilities: ['chat', 'information'],
-                tokenAmount: '1000000000000000000',
-                startTimestamp: Math.floor(dateRange.range.from.getTime() / 1000),
-                durationHours: dateRange.range.to ? Math.floor((dateRange.range.to.getTime() - dateRange.range.from.getTime()) / (1000 * 60 * 60)) : 24 * 3,
-                rewardAmount: '2000000000000000000000000000',
-                rewardToken: '0xabcdef123',
-                symbol: formData.symbol || 'AGT',
-                avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
-                type: 'AI Agent',
-                marketCap: '$0',
-                change24h: '0',
-                tvl: '$0',
-                holdersCount: 0,
-                volume24h: '$0',
-                statusJA: 'トランザクション可能',
-                statusKO: '거래 가능',
-                statusZH: '可交易',
-                descriptionJA: formData.description || 'AIエージェントの説明',
-                descriptionKO: formData.description || 'AI 에이전트 설명',
-                descriptionZH: formData.description || 'AI代理描述',
-                // 添加社交链接
-                socialLinks: [
-                    formData.twitterLink ? formData.twitterLink : '',
-                    formData.telegramLink ? formData.telegramLink : '',
-                ].filter(Boolean).join(','),
-                totalSupply: formData.tokenSupply 
-            };
-
-            // 仅在编辑模式下添加对话示例字段
-            if (mode === 'edit') {
-                // 添加对话示例字段
-                (agentData as any).useCases = finalUseCases.en;
-                (agentData as any).useCasesJA = finalUseCases.ja;
-                (agentData as any).useCasesKO = finalUseCases.ko;
-                (agentData as any).useCasesZH = finalUseCases.zh;
-                
-                // 添加时间更新信息
-                console.log('[时间更新] 添加时间更新信息到请求...');
-                console.log(`[时间更新] 开始时间: ${Math.floor(dateRange.range.from.getTime() / 1000)}`);
-                console.log(`[时间更新] 结束时间: ${Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000)}`);
-
-                // 使用as any类型断言解决TypeScript错误
-                (agentData as any).updateStartTime = Math.floor(dateRange.range.from.getTime() / 1000);
-                (agentData as any).updateEndTime = Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000);
-            }
-
-            // 根据模式选择不同的 API 端点
-            const endpoint = mode === 'edit'
-                ? `/api/agents/${agentId}`
-                : '/api/agents/new';
-
-            const method = mode === 'edit' ? 'PUT' : 'POST';
-
-            const createResponse = await fetch(`${API_BASE_URL}${endpoint}`, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(agentData)
+            // 1. 请求翻译接口
+            const res = await fetch('/api/chat/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: formData.description,
+                    targetLanguages: ['zh', 'en', 'ja', 'ko']
+                })
             });
+            if (!res.ok) {
+                setIsTranslationLoading(false);
+                setTranslationError('翻译失败，请稍后重试');
+                toast({ variant: 'destructive', description: '翻译失败，请稍后重试' });
+                return;
+            }
+            const data = await res.json();
+            setTranslatedDescription(data);
+            setIsTranslationLoading(false);
+            // 2. 翻译成功后，继续后续创建流程
+            // 检查必填字段
+            if (!validateRequiredFields()) {
+                return;
+            }
+            // 检查钱包连接
+            if (!CheckWallet()) {
+                return;
+            }
+            // 设置创建中状态
+            setCreating(true);
+            setCreationProgress(0);
+            setDisplayProgress(0);
 
-            setCreationProgress(80);
-            setDisplayProgress(80);
+            try {
+                // 重置状态
+                setNameExists(false);
+                setSymbolExists(false);
+                setCreationProgress(20);
+                setDisplayProgress(20);
 
-            // 解析响应
-            const result = await createResponse.json();
+                // 初始化数据
+                const initialData: AgentData = {
+                    id: "1",
+                    name: formData.name,
+                    symbol: formData.symbol,
+                    description: formData.description || "",
+                    useCases: { zh: [], en: [], ko: [], ja: [] }
+                };
+                setData(initialData);
 
-            if (!createResponse.ok) {
-                console.error("API错误:", result);
+                // 获取token
+                const token = await getRealToken();
+                setCreationProgress(40);
+                setDisplayProgress(40);
 
-                // 获取本地化的错误消息
+                const finalUseCases = currentLangUseCases.length > 0 ? useCases : {
+                    en: [
+                        "Help me brainstorm creative ideas for my project",
+                        "Assist me in analyzing market trends for my business",
+                        "Guide me through setting up a new productivity system"
+                    ],
+                    ja: [
+                        "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
+                        "ビジネスのための市場動向を分析するのを支援してください",
+                        "新しい生産性システムの設定を案内してください"
+                    ],
+                    ko: [
+                        "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
+                        "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
+                        "새로운 생산성 시스템 설정을 안내해 주세요"
+                    ],
+                    zh: [
+                        "帮我为项目进行创意头脑风暴",
+                        "协助我分析业务的市场趋势",
+                        "指导我建立新的效率系统"
+                    ]
+                };
+
+                // 更新数据
+                setData(prev => ({
+                    ...(prev || initialData),
+                    // id: agentId || '',
+                    useCases: {
+                        zh: useCases.zh || (prev?.useCases.zh || []),
+                        ja: useCases.ja || (prev?.useCases.ja || []),
+                        ko: useCases.ko || (prev?.useCases.ko || []),
+                        en: useCases.en || (prev?.useCases.en || [])
+                    }
+                }));
+
+                setCreationProgress(60);
+                setDisplayProgress(60);
+
+                // 准备完整数据
+                const agentData = {
+                    name: formData.name,
+                    containerLink: '', // 容器链接在创建时不填写，后续在详情页面由创建者添加
+                    description: translatedDescription.zh || "An Agent", // 使用翻译后的描述
+                    category: 'AI Agent',
+                    capabilities: ['chat', 'information'],
+                    tokenAmount: '1000000000000000000',
+                    startTimestamp: Math.floor(dateRange.range.from.getTime() / 1000),
+                    durationHours: dateRange.range.to ? Math.floor((dateRange.range.to.getTime() - dateRange.range.from.getTime()) / (1000 * 60 * 60)) : 24 * 3,
+                    rewardAmount: '2000000000000000000000000000',
+                    rewardToken: '0xabcdef123',
+                    symbol: formData.symbol || 'AGT',
+                    avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
+                    type: 'AI Agent',
+                    marketCap: '$0',
+                    change24h: '0',
+                    tvl: '$0',
+                    holdersCount: 0,
+                    volume24h: '$0',
+                    statusJA: 'トランザクション可能',
+                    statusKO: '거래 가능',
+                    statusZH: '可交易',
+                    descriptionJA: translatedDescription.jp || 'AIエージェントの説明',
+                    descriptionKO: translatedDescription.zh || 'AI 에이전트 설명',
+                    descriptionZH: translatedDescription.zh || 'AI代理描述',
+                    // 添加社交链接
+                    socialLinks: [
+                        formData.twitterLink ? formData.twitterLink : '',
+                        formData.telegramLink ? formData.telegramLink : '',
+                    ].filter(Boolean).join(','),
+                    totalSupply: formData.tokenSupply 
+                };
+
+                // 仅在编辑模式下添加对话示例字段
+                if (mode === 'edit') {
+                    // 添加对话示例字段
+                    (agentData as any).useCases = finalUseCases.en;
+                    (agentData as any).useCasesJA = finalUseCases.ja;
+                    (agentData as any).useCasesKO = finalUseCases.ko;
+                    (agentData as any).useCasesZH = finalUseCases.zh;
+                    
+                    // 添加时间更新信息
+                    console.log('[时间更新] 添加时间更新信息到请求...');
+                    console.log(`[时间更新] 开始时间: ${Math.floor(dateRange.range.from.getTime() / 1000)}`);
+                    console.log(`[时间更新] 结束时间: ${Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000)}`);
+
+                    // 使用as any类型断言解决TypeScript错误
+                    (agentData as any).updateStartTime = Math.floor(dateRange.range.from.getTime() / 1000);
+                    (agentData as any).updateEndTime = Math.floor((dateRange.range.to?.getTime() || dateRange.range.from.getTime() + 24 * 60 * 60 * 3 * 1000) / 1000);
+                }
+
+                // 根据模式选择不同的 API 端点
+                const endpoint = mode === 'edit'
+                    ? `/api/agents/${agentId}`
+                    : '/api/agents/new';
+
+                const method = mode === 'edit' ? 'PUT' : 'POST';
+
+                const createResponse = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(agentData)
+                });
+
+                setCreationProgress(80);
+                setDisplayProgress(80);
+
+                // 解析响应
+                const result = await createResponse.json();
+
+                if (!createResponse.ok) {
+                    console.error("API错误:", result);
+
+                    // 获取本地化的错误消息
+                    let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
+                    
+                    // 特殊处理错误代码 4001 - 一个钱包只能创建一个 agent
+                    if (result.code === 4001) {
+                        errorMessage = tMessages('walletLimitOneAgent');
+                    } else if (result.message) {
+                        errorMessage = getLocalizedErrorMessage(result.message);
+                    }
+
+                    toast({
+                        variant: "destructive",
+                        description: errorMessage,
+                    });
+
+                    setCreating(false);
+                    setCreationProgress(0);
+                    setDisplayProgress(0);
+                    return;
+                }
+
+                // 成功处理
+                if (result.code === 200) {
+                    setCreationProgress(100);
+                    setDisplayProgress(100);
+
+                    // 如果是创建模式，更新data状态中的agent ID
+                    if (mode === 'create' && result.data?.agentId) {
+                        setData(prev => ({
+                            ...(prev || {
+                                name: formData.name,
+                                symbol: formData.symbol,
+                                description: formData.description,
+                                useCases: { zh: [], en: [], ko: [], ja: [] }
+                            }),
+                            id: result.data?.agentId
+                        }));
+                        
+
+                    }
+
+                    // 更新成功后，如果是编辑模式，可以直接跳转回详情页
+                    if (mode === 'edit') {
+                        setTimeout(() => {
+                            router.push(`/${locale}/agent-detail/${agentId}`);
+                        }, 2000);
+                    }
+                }
+            } catch (error) {
+                console.error(mode === 'edit' ? '更新失败:' : '创建失败:', error);
+                setCreating(false);
+                setCreationProgress(0);
+                setDisplayProgress(0);
+
+                // 显示本地化的错误toast
                 let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
-                
-                // 特殊处理错误代码 4001 - 一个钱包只能创建一个 agent
-                if (result.code === 4001) {
-                    errorMessage = tMessages('walletLimitOneAgent');
-                } else if (result.message) {
-                    errorMessage = getLocalizedErrorMessage(result.message);
+                if (error instanceof Error) {
+                    errorMessage = getLocalizedErrorMessage(error.message);
                 }
 
                 toast({
                     variant: "destructive",
                     description: errorMessage,
                 });
-
-                setCreating(false);
-                setCreationProgress(0);
-                setDisplayProgress(0);
-                return;
-            }
-
-            // 成功处理
-            if (result.code === 200) {
-                setCreationProgress(100);
-                setDisplayProgress(100);
-
-                // 如果是创建模式，更新data状态中的agent ID
-                if (mode === 'create' && result.data?.agentId) {
-                    setData(prev => ({
-                        ...(prev || {
-                            name: formData.name,
-                            symbol: formData.symbol,
-                            description: formData.description,
-                            useCases: { zh: [], en: [], ko: [], ja: [] }
-                        }),
-                        id: result.data?.agentId
-                    }));
-                    
-
-                }
-
-                // 更新成功后，如果是编辑模式，可以直接跳转回详情页
-                if (mode === 'edit') {
-                    setTimeout(() => {
-                        router.push(`/${locale}/agent-detail/${agentId}`);
-                    }, 2000);
-                }
+            } finally {
             }
         } catch (error) {
-            console.error(mode === 'edit' ? '更新失败:' : '创建失败:', error);
-            setCreating(false);
-            setCreationProgress(0);
-            setDisplayProgress(0);
-
-            // 显示本地化的错误toast
-            let errorMessage = mode === 'edit' ? t("updateFailed") : t("createFailed");
-            if (error instanceof Error) {
-                errorMessage = getLocalizedErrorMessage(error.message);
-            }
-
-            toast({
-                variant: "destructive",
-                description: errorMessage,
-            });
-        } finally {
+            setIsTranslationLoading(false);
+            setTranslationError('翻译失败，请稍后重试');
+            toast({ variant: 'destructive', description: '翻译失败，请稍后重试' });
+            return;
         }
     };
 
@@ -1151,7 +1188,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                     name="description"
                                     ref={descriptionInputRef}
                                     value={formData.description}
-                                    onChange={handleChange}
+                                    onChange={handleDescriptionChange}
                                     className={`w-full bg-white dark:bg-[#1a1a1a] p-1.5 rounded-lg h-16 focus:outline-none border ${descriptionError ? 'border-red-500' : 'border-black dark:border-white border-opacity-10 dark:border-opacity-10'}`}
                                     placeholder={t("projectDescriptionPlaceholder")}
                                     maxLength={500}
@@ -1484,11 +1521,26 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
 
                             <button
                                 onClick={handleCreate}
-                                disabled={creating || !formData.name}
+                                disabled={creating || !formData.name || isTranslationLoading}
                                 className="mt-6 w-full opacity-90 hover:opacity-100 bg-primary text-white font-medium py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {creating ? t("creating") : mode === 'edit' ? t("update") : t("createNow")}
+                                {isTranslationLoading ? (
+                                    <>
+                                        <svg className="inline mr-2 w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                        </svg>
+                                        {t("translatingMultiLang")}
+                                    </>
+                                ) : (
+                                    creating ? t("creating") : mode === 'edit' ? t("update") : t("createNow")
+                                )}
                             </button>
+                            {isTranslationLoading && (
+                                <div className="text-gray-500 text-xs mt-2 text-center">
+                                    {t("translatingMultiLangTip")}
+                                </div>
+                            )}
                             
                             {mode === 'create' && (
                                 <div className="text-gray-500 text-sm mt-2 text-center">

@@ -122,7 +122,7 @@ export const IaoActiveView = ({
     if (!isIaoStarted) return t('iaoNotStarted');
     if (!isAuthenticated) return t('connectWalletFirst');
     if (isStakeLoading) return t('processing');
-    if (!isIaoActive) return t('stakeNotStarted');
+    if (!isIaoActive) return t('investNotStarted');
     return t('send');
   };
 
@@ -315,7 +315,7 @@ export const IaoActiveView = ({
 
         <div>
           <p className="text-sm text-muted-foreground">
-            {t('stakedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
+            {t('investedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
             <span className="text-[#F47521] ml-1">
               {isUserStakeInfoLoading ? "--" : formatNumber(userStakeInfo.userDeposited)}
             </span>

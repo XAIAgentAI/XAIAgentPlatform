@@ -58,14 +58,14 @@ const DEFAULT_TRANSLATIONS = {
       poolDynamicTip: "As the amount of $DBC in the IAO pool increases, the corresponding amount of $XAA decreases",
       maxButton: "Max",
       insufficientBalance: "Insufficient balance, maximum available amount: {amount} DBC",
-      stakedAmount: "Purchased {symbol} Amount",
-      stakeSuccessful: "Purchase successful!",
-      stakeFailed: "Purchase failed, please try again",
+      investedAmount: "Purchased {symbol} Amount",
+      investSuccessful: "Purchase successful!",
+      investFailed: "Purchase failed, please try again",
       claimableAmount: "Claimable XAA Amount",
       claimedAmount: "Claimed XAA Amount",
       claimed: "Claimed",
       claimSuccessWithAmount: "Successfully claimed {amount} XAA",
-      stakeNotStarted: "Purchase not started"
+      investNotStarted: "Purchase not started"
     },
     datePicker: {
       selectDateTime: "Select Date and Time",
@@ -138,14 +138,14 @@ const DEFAULT_TRANSLATIONS = {
       poolDynamicTip: "IAOプール内の$DBCの量が増えるにつれて、対応する$XAAの量は減少します",
       maxButton: "最大",
       insufficientBalance: "残高不足、利用可能な最大額：{amount} DBC",
-      stakedAmount: "購入済みの{symbol}量",
-      stakeSuccessful: "購入が成功しました！",
-      stakeFailed: "購入に失敗しました。もう一度お試しください",
+      investedAmount: "購入済みの{symbol}量",
+      investSuccessful: "購入が成功しました！",
+      investFailed: "購入に失敗しました。もう一度お試しください",
       claimableAmount: "請求可能なXAA数量",
       claimedAmount: "請求済みのXAA数量",
       claimed: "請求済み",
       claimSuccessWithAmount: "{amount} XAAの請求に成功しました",
-      stakeNotStarted: "購入はまだ開始されていません"
+      investNotStarted: "購入はまだ開始されていません"
     },
     datePicker: {
       selectDateTime: "日付と時刻を選択",
@@ -218,14 +218,14 @@ const DEFAULT_TRANSLATIONS = {
       poolDynamicTip: "IAO 풀의 $DBC 수량이 증가함에 따라 해당하는 $XAA 수량은 감소합니다",
       maxButton: "최대",
       insufficientBalance: "잔액 부족, 최대 사용 가능 금액: {amount} DBC",
-      stakedAmount: "구매한 {symbol} 수량",
-      stakeSuccessful: "구매 성공!",
-      stakeFailed: "구매 실패, 다시 시도해주세요",
+      investedAmount: "구매한 {symbol} 수량",
+      investSuccessful: "구매 성공!",
+      investFailed: "구매 실패, 다시 시도해주세요",
       claimableAmount: "청구 가능한 XAA 수량",
       claimedAmount: "청구된 XAA 수량",
       claimed: "청구됨",
       claimSuccessWithAmount: "{amount} XAA 청구 성공",
-      stakeNotStarted: "구매가 시작되지 않았습니다"
+      investNotStarted: "구매가 시작되지 않았습니다"
     },
     datePicker: {
       selectDateTime: "날짜 및 시간 선택",
@@ -472,6 +472,82 @@ function displayTranslationReport(report) {
   }
 }
 
+// 递归收集所有 value 为“需要配置”的字段，结构和zh一致
+function collectPendingTranslations(zhObj, langObj) {
+  if (Array.isArray(zhObj)) return undefined;
+  if (typeof zhObj !== 'object' || zhObj === null) return undefined;
+  const result = {};
+  for (const key of Object.keys(zhObj)) {
+    if (langObj && langObj[key] === '需要配置') {
+      result[key] = '需要配置';
+    } else if (typeof zhObj[key] === 'object' && zhObj[key] !== null) {
+      const child = collectPendingTranslations(zhObj[key], langObj ? langObj[key] : undefined);
+      if (child && Object.keys(child).length > 0) result[key] = child;
+    }
+  }
+  return result;
+}
+
+// 递归批量写回翻译
+function applyTranslations(langObj, pendingObj, translatedObj) {
+  if (Array.isArray(langObj)) return langObj;
+  if (typeof langObj !== 'object' || langObj === null) return langObj;
+  const result = { ...langObj };
+  for (const key of Object.keys(langObj)) {
+    // 只要 pendingObj 有该 key，并且 translatedObj 有内容，就写回
+    if (pendingObj && typeof pendingObj[key] !== 'undefined' && typeof translatedObj?.[key] !== 'undefined') {
+      result[key] = translatedObj[key];
+    } else if (typeof langObj[key] === 'object' && langObj[key] !== null) {
+      result[key] = applyTranslations(langObj[key], pendingObj ? pendingObj[key] : undefined, translatedObj ? translatedObj[key] : undefined);
+    }
+  }
+  return result;
+}
+
+// 导出所有待翻译对象
+function exportPendingTranslations() {
+  const zhPath = path.join(MESSAGES_DIR, `${BASE_LANGUAGE}.json`);
+  const zh = JSON.parse(fs.readFileSync(zhPath, 'utf8'));
+  SUPPORTED_LANGUAGES.forEach(lang => {
+    const langPath = path.join(MESSAGES_DIR, `${lang}.json`);
+    if (!fs.existsSync(langPath)) {
+      console.warn(`文件不存在: ${langPath}，跳过`);
+      return;
+    }
+    const langJson = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+    const pending = collectPendingTranslations(zh, langJson);
+    const outPath = path.join(MESSAGES_DIR, `pending-translation.${lang}.json`);
+    fs.writeFileSync(outPath, JSON.stringify(pending, null, 2) + '\n', 'utf8');
+    console.log(`已导出待翻译对象: ${outPath}`);
+  });
+}
+
+// 导入翻译并批量写回
+function importPendingTranslations() {
+  const zhPath = path.join(MESSAGES_DIR, `${BASE_LANGUAGE}.json`);
+  const zh = JSON.parse(fs.readFileSync(zhPath, 'utf8'));
+  SUPPORTED_LANGUAGES.forEach(lang => {
+    const langPath = path.join(MESSAGES_DIR, `${lang}.json`);
+    const pendingPath = path.join(MESSAGES_DIR, `pending-translation.${lang}.json`);
+    const translatedPath = path.join(MESSAGES_DIR, `pending-translation.${lang}.translated.json`);
+    // 优先用 translated.json，没有就用 pending-translation.xx.json
+    let translatedFileToUse = translatedPath;
+    if (!fs.existsSync(translatedFileToUse) && fs.existsSync(pendingPath)) {
+      translatedFileToUse = pendingPath;
+    }
+    if (!fs.existsSync(langPath) || !fs.existsSync(pendingPath) || !fs.existsSync(translatedFileToUse)) {
+      console.warn(`缺少 ${lang}.json 或 pending-translation 文件，跳过`);
+      return;
+    }
+    const langJson = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+    const pending = JSON.parse(fs.readFileSync(pendingPath, 'utf8'));
+    const translated = JSON.parse(fs.readFileSync(translatedFileToUse, 'utf8'));
+    const updated = applyTranslations(langJson, pending, translated);
+    fs.writeFileSync(langPath, JSON.stringify(updated, null, 2) + '\n', 'utf8');
+    console.log(`已批量写回翻译到: ${langPath}`);
+  });
+}
+
 async function syncTranslations() {
   try {
     console.log('🔄 Starting translation synchronization...\n');
@@ -547,7 +623,9 @@ function parseArguments() {
   const args = process.argv.slice(2);
   const options = {
     checkOnly: false,
-    verbose: false
+    verbose: false,
+    exportPending: false,
+    importPending: false
   };
 
   for (const arg of args) {
@@ -560,6 +638,12 @@ function parseArguments() {
       case '-v':
         options.verbose = true;
         break;
+      case '--export-pending':
+        options.exportPending = true;
+        break;
+      case '--import-pending':
+        options.importPending = true;
+        break;
       case '--help':
       case '-h':
         console.log(`
@@ -568,11 +652,15 @@ Translation Sync Tool
 Usage: node sync-translations.js [options]
 
 Options:
-  -c, --check     Only check translation completeness, don't sync
-  -v, --verbose   Show detailed information
-  -h, --help      Show this help message
+  -c, --check           Only check translation completeness, don't sync
+  -v, --verbose         Show detailed information
+  --export-pending      Export all fields that need translation to pending-translation.xx.json
+  --import-pending      Import translated fields from pending-translation.xx.translated.json and write back
+  -h, --help            Show this help message
 
 Examples:
+  node sync-translations.js --export-pending
+  node sync-translations.js --import-pending
   node sync-translations.js           # Sync all translations
   node sync-translations.js --check   # Only check completeness
         `);
@@ -620,7 +708,14 @@ async function checkTranslations() {
 // 主执行函数
 async function main() {
   const options = parseArguments();
-
+  if (options.exportPending) {
+    exportPendingTranslations();
+    return;
+  }
+  if (options.importPending) {
+    importPendingTranslations();
+    return;
+  }
   if (options.checkOnly) {
     await checkTranslations();
   } else {

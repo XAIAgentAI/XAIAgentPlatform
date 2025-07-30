@@ -9,254 +9,257 @@
  ⚠     "env._next_intl_trailing_slash" is missing, expected string
  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
  ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
- ✓ Ready in 2.5s
- ✓ Compiled /src/middleware in 148ms (241 modules)
- ○ Compiling /[locale] ...
- ✓ Compiled /[locale] in 4.5s (10590 modules)
- ○ Compiling /api/tokens ...
+ ✓ Ready in 2.4s
+ ○ Compiling /src/middleware ...
+ ✓ Compiled /src/middleware in 4.5s (637 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ○ Compiling /[locale]/agent-detail/[id] ...
+ ✓ Compiled /[locale]/agent-detail/[id] in 10.3s (10720 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
 Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
-sortedAgents []
- ✓ Compiled /favicon.ico in 2.7s (10642 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 980ms (6035 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 2.2s (10748 modules)
 Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 921ms (5570 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 596ms (5575 modules)
+ ✓ Compiled in 0ms (5575 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+ ✓ Compiled in 0ms (5575 modules)
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
+ ✓ Compiled in 0ms (5575 modules)
+ ✓ Compiled in 1ms (5575 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753751911 (2025-07-29T01:18:31.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1ms (5575 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753751912 (2025-07-29T01:18:32.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 601ms (5652 modules)
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 1751ms (10974 modules)
 sortedAgents []
+ ○ Compiling /api/agents ...
+ ✓ Compiled /api/agents in 1441ms (6213 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+sortedAgents []
+sortedAgents []
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
   },
   {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
   },
   {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
   },
   {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
   },
   {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
   },
   {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
   },
   {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
   },
   {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
   },
   {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
   },
   {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
   },
   {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
   },
   {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
   },
   {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
   },
   {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
   },
   {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
   },
   {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
   },
   {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  }
+]
+getBatchTokenPrices-tokens [
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
   }
 ]
 [DBC价格] 开始获取DBC价格...
@@ -265,2845 +268,1548 @@ getBatchTokenPrices-tokens [
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000716, update_time: null, percent_change_24h: 3.67 }
+  content: { dbc_price: 0.000652, update_time: null, percent_change_24h: 0.83 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000716', percentChange24h: 3.67 }
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
+[DBC价格] 解析结果: { priceUsd: '0.000652', percentChange24h: 0.83 }
 [DBC价格] 开始获取DBC价格...
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000716, update_time: null, percent_change_24h: 3.63 }
+  content: { dbc_price: 0.000652, update_time: null, percent_change_24h: 0.83 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000716', percentChange24h: 3.63 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (599989 秒)
-token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000716
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000715, update_time: null, percent_change_24h: 3.55 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000715', percentChange24h: 3.55 }
+[DBC价格] 解析结果: { priceUsd: '0.000652', percentChange24h: 0.83 }
 Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
   npx update-browserslist-db@latest
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
- ✓ Compiled in 2.5s (11239 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: 3.83 }
+ ✓ Compiled in 2.2s (5314 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: 3.83 }
- ✓ Compiled in 1307ms (10604 modules)
- ✓ Compiled in 747ms (5236 modules)
- ✓ Compiled in 416ms (5236 modules)
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752029 (2025-07-29T01:20:29.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 1424ms (10867 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752032 (2025-07-29T01:20:32.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1306ms (10867 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752037 (2025-07-29T01:20:37.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1988ms (10869 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 sortedAgents []
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752053 (2025-07-29T01:20:53.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1846ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752056 (2025-07-29T01:20:56.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1270ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752061 (2025-07-29T01:21:01.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 917ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752069 (2025-07-29T01:21:09.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 957ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752079 (2025-07-29T01:21:19.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 938ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752088 (2025-07-29T01:21:28.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 929ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752100 (2025-07-29T01:21:40.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1265ms (10895 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752109 (2025-07-29T01:21:49.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 941ms (5556 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 1379ms (10866 modules)
+ ✓ Compiled in 0ms (5551 modules)
+ ✓ Compiled in 0ms (5551 modules)
+ ✓ Compiled in 0ms (5551 modules)
  ○ Compiling /not-found ...
- ✓ Compiled /favicon.ico in 1691ms (10595 modules)
- ✓ Compiled (10623 modules)
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
+ ✓ Compiled /not-found in 1347ms (10868 modules)
+ ✓ Compiled /favicon.ico in 1ms (5554 modules)
+ ✓ Compiled (5580 modules)
+ ✓ Compiled in 2.8s (10897 modules)
+ ✓ Compiled in 1056ms (10897 modules)
+ ✓ Compiled in 918ms (10897 modules)
+ ✓ Compiled in 1781ms (10897 modules)
+ ✓ Compiled in 1617ms (10897 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 778ms (5583 modules)
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 0ms (5583 modules)
+ ✓ Compiled in 0ms (5673 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752234 (2025-07-29T01:23:54.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752234 (2025-07-29T01:23:54.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 1009ms (5675 modules)
+Updating agent with data: {
+  name: undefined,
+  description: undefined,
+  category: undefined,
+  containerLink: undefined,
+  updateStartTime: undefined,
+  updateEndTime: undefined,
+  useCases: undefined,
+  useCasesJA: undefined,
+  useCasesKO: undefined,
+  useCasesZH: undefined,
+  body: '{\n' +
+    '  "socialLinks": "https://x.com/testaccount123,https://t.me/testchannel456,https://github.com/testuser789,https://youtube.com/@testchannel101"\n' +
+    '}'
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752619 (2025-07-29T01:30:19.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752619 (2025-07-29T01:30:19.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
+ ✓ Compiled in 1695ms (10866 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 529ms (5554 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752711 (2025-07-29T01:31:51.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 566ms (5556 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752844 (2025-07-29T01:34:04.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752844 (2025-07-29T01:34:04.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 777ms (5644 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
-sortedAgents []
  ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 1770ms (6032 modules)
+ ✓ Compiled /api/agents in 1115ms (6185 modules)
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
   },
   {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
   },
   {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
   },
   {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
   },
   {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
   },
   {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
   },
   {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
   },
   {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
   },
   {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
   },
   {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
   },
   {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
   },
   {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
   },
   {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
   },
   {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
   },
   {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
   },
   {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
   },
   {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
   }
 ]
+getBatchTokenPrices-tokens [
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  }
+]
+getBatchTokenPrices-tokens [
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] 开始获取DBC价格...
 [DBC价格] 开始获取DBC价格...
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.92 }
+  content: { dbc_price: 0.000652, update_time: null, percent_change_24h: 0.55 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.92 }
- ✓ Compiled in 1336ms (10604 modules)
- ✓ Compiled in 603ms (5236 modules)
- ✓ Compiled in 1880ms (10604 modules)
- ✓ Compiled in 901ms (10604 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 687ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
+[DBC价格] 解析结果: { priceUsd: '0.000652', percentChange24h: 0.55 }
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: -1.27 }
+  content: { dbc_price: 0.000652, update_time: null, percent_change_24h: 0.55 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: -1.27 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (601373 秒)
-token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000718
- ✓ Compiled in 1449ms (10604 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 608ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
+[DBC价格] 解析结果: { priceUsd: '0.000652', percentChange24h: 0.55 }
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: -0.02 }
+  content: { dbc_price: 0.000652, update_time: null, percent_change_24h: 0.55 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: -0.02 }
- ✓ Compiled in 1409ms (10604 modules)
- ✓ Compiled /api/agents in 418ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: 3.84 }
+[DBC价格] 解析结果: { priceUsd: '0.000652', percentChange24h: 0.55 }
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: 3.84 }
- ✓ Compiled in 926ms (11239 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435791
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435791
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752876 (2025-07-29T01:34:36.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752877 (2025-07-29T01:34:37.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 514ms (6187 modules)
+ ✓ Compiled in 1025ms (5554 modules)
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 823ms (5556 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435791
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435791
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752944 (2025-07-29T01:35:44.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752945 (2025-07-29T01:35:45.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 889ms (5556 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.57 }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752950 (2025-07-29T01:35:50.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.57 }
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753435792
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752950 (2025-07-29T01:35:50.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 821ms (5556 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752958 (2025-07-29T01:35:58.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753435792
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753752958 (2025-07-29T01:35:58.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1630ms (10866 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 512ms (5554 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753066 (2025-07-29T01:37:46.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.57 }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753066 (2025-07-29T01:37:46.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled /api/agents/[id]/tasks in 482ms (5556 modules)
+ ✓ Compiled in 469ms (5556 modules)
+ ✓ Compiled in 1001ms (5556 modules)
+ ✓ Compiled in 788ms (5556 modules)
+ ✓ Compiled in 764ms (5556 modules)
+ ✓ Compiled in 1511ms (10769 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 764ms (5477 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.57 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (601976 秒)
-token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000717
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435803
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435803
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753221 (2025-07-29T01:40:21.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753221 (2025-07-29T01:40:21.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435803
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435803
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753221 (2025-07-29T01:40:21.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753222 (2025-07-29T01:40:22.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/agents/[id]/tasks ...
+ ✓ Compiled /api/agents/[id]/tasks in 1413ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {}
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753223 (2025-07-29T01:40:23.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753223 (2025-07-29T01:40:23.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 912ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {}
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753226 (2025-07-29T01:40:26.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753226 (2025-07-29T01:40:26.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1045ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435852
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435852
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753231 (2025-07-29T01:40:31.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753231 (2025-07-29T01:40:31.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 933ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435852
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435852
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753236 (2025-07-29T01:40:36.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753236 (2025-07-29T01:40:36.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 903ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
- ✓ Compiled in 1414ms (11239 modules)
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435862
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435862
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753240 (2025-07-29T01:40:40.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753240 (2025-07-29T01:40:40.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 904ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435862
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435862
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753244 (2025-07-29T01:40:44.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753244 (2025-07-29T01:40:44.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1079ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
- ✓ Compiled in 795ms (11239 modules)
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753436029
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753248 (2025-07-29T01:40:48.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753249 (2025-07-29T01:40:49.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1238ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753436029
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753252 (2025-07-29T01:40:52.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753252 (2025-07-29T01:40:52.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 885ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753257 (2025-07-29T01:40:57.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (602211 秒)
-token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000717
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753257 (2025-07-29T01:40:57.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 918ms (10869 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753260 (2025-07-29T01:41:00.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
 }
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
- ✓ Compiled in 703ms (5368 modules)
- ✓ Compiled in 1191ms (10604 modules)
- ✓ Compiled in 1443ms (10604 modules)
- ✓ Compiled in 529ms (5236 modules)
- ✓ Compiled in 471ms (5236 modules)
- ✓ Compiled in 1729ms (10604 modules)
- ✓ Compiled in 343ms (5368 modules)
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Unexpected non-whitespace character after JSON at position 5351 (line 209 column 4) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Unexpected non-whitespace character after JSON at position 5351 (line 209 column 4) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ✓ Compiled in 384ms (5368 modules)
- ✓ Compiled in 554ms (5368 modules)
- ✓ Compiled in 544ms (5368 modules)
- ✓ Compiled in 583ms (5368 modules)
- ✓ Compiled in 341ms (5368 modules)
- ✓ Compiled in 386ms (5368 modules)
- ✓ Compiled in 558ms (5368 modules)
- ✓ Compiled in 335ms (5368 modules)
- ✓ Compiled in 387ms (5368 modules)
- ✓ Compiled in 565ms (5368 modules)
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753260 (2025-07-29T01:41:00.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 902ms (10869 modules)
+ ○ Compiling /api/user/profile ...
+ ✓ Compiled /api/user/profile in 870ms (5556 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753267 (2025-07-29T01:41:07.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753267 (2025-07-29T01:41:07.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 897ms (10871 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753271 (2025-07-29T01:41:11.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: dya (2e71ca92-ec3e-4588-9330-1bb8ed3c6fed)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753271 (2025-07-29T01:41:11.000Z)
+[Agent详情状态计算] IAO开始时间: 1752732289 (2025-07-17T06:04:49.000Z)
+[Agent详情状态计算] IAO结束时间: 1752991489 (2025-07-20T06:04:49.000Z)
+[Agent详情状态计算] 代币地址: null
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束但无代币地址，状态: TBA
+[Agent详情状态计算] 最终状态: TBA
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 1592ms (10871 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753276 (2025-07-29T01:41:16.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /not-found ...
+ ✓ Compiled /not-found in 3.1s (10876 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753281 (2025-07-29T01:41:21.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 955ms (5559 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753283 (2025-07-29T01:41:23.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 990ms (5585 modules)
+ ✓ Compiled in 801ms (5585 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753289 (2025-07-29T01:41:29.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 1556ms (5675 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+ ✓ Compiled in 798ms (5675 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753297 (2025-07-29T01:41:37.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+ ✓ Compiled in 767ms (5675 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: true,
+  liquidityAdded: true,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: true
+[Agent详情状态计算] Agent: ba (dfc48f52-1741-4ab8-a29c-9d04cd491b4d)
+[Agent详情状态计算] 原始状态: TBA
+[Agent详情状态计算] 当前时间戳: 1753753304 (2025-07-29T01:41:44.000Z)
+[Agent详情状态计算] IAO开始时间: 1753254798 (2025-07-23T07:13:18.000Z)
+[Agent详情状态计算] IAO结束时间: 1753686798 (2025-07-28T07:13:18.000Z)
+[Agent详情状态计算] 代币地址: 0x0202595c815C1bDFA369946eb2CC446532993B54
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] IAO已结束且有代币地址，状态: TRADABLE
+[Agent详情状态计算] 最终状态: TRADABLE
+[Agent详情状态计算] ==========================================
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+User: {
+  id: '01d65e42-9592-422f-bae8-9b1144e460aa',
+  address: '0xde184a6809898d81186def5c0823d2107c001da2',
+  nickname: null,
+  avatar: null,
+  createdAt: 2025-01-20T07:40:37.134Z,
+  updatedAt: 2025-01-20T07:40:37.134Z,
+  preferences: null
+}
