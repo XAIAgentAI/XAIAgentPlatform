@@ -104,7 +104,7 @@ export async function GET(
     });
 
     if (!agent) {
-      throw new ApiError(404, 'Agent不存在');
+      throw new ApiError(404, 'Agent not found');
     }
 
     // 检查是否已有token地址
@@ -211,7 +211,7 @@ export async function PUT(
   try {
     const userId = getUserId();
     if (!userId) {
-      throw new ApiError(401, '未授权');
+      throw new ApiError(401, 'Unauthorized');
     }
 
     const agent = await prisma.agent.findUnique({
@@ -220,11 +220,11 @@ export async function PUT(
     });
 
     if (!agent) {
-      throw new ApiError(404, 'Agent不存在');
+      throw new ApiError(404, 'Agent not found');
     }
 
     if (agent.creatorId !== userId) {
-      throw new ApiError(403, '无权限修改');
+      throw new ApiError(403, 'No permission to modify');
     }
 
     const body = await request.json();
@@ -243,7 +243,9 @@ export async function PUT(
       useCases,
       useCasesJA,
       useCasesKO,
-      useCasesZH
+      useCasesZH,
+      // 添加社交媒体链接字段
+      socialLinks
     } = body;
 
     console.log('Updating agent with data:', { 
@@ -260,12 +262,13 @@ export async function PUT(
       body: JSON.stringify(body, null, 2)
     });
 
-    // 如果只是更新IAO时间，不需要验证其他必填字段
+    // 如果只是更新IAO时间或社交媒体链接，不需要验证其他必填字段
     const isTimeUpdateOnly = updateStartTime && updateEndTime && !name && !description && !category && !capabilities;
+    const isSocialLinksUpdateOnly = socialLinks && !name && !description && !category && !capabilities && !updateStartTime && !updateEndTime;
 
-    // 验证必填字段（除非只是更新时间）
-    if (!isTimeUpdateOnly && (!name || !description || !category || !capabilities)) {
-      throw new ApiError(400, '缺少必要参数');
+    // 验证必填字段（除非只是更新时间或社交媒体链接）
+    if (!isTimeUpdateOnly && !isSocialLinksUpdateOnly && (!name || !description || !category || !capabilities)) {
+      throw new ApiError(400, 'Missing required parameters');
     }
 
     // 获取完整的Agent信息，包括合约地址和创建者地址
@@ -281,7 +284,7 @@ export async function PUT(
     });
 
     if (!fullAgent) {
-      throw new ApiError(404, 'Agent不存在');
+      throw new ApiError(404, 'Agent not found');
     }
 
     // 如果提供了时间更新参数，直接更新数据库中的IAO时间
@@ -306,16 +309,35 @@ export async function PUT(
 
         // 如果只是更新时间，直接返回成功响应
         if (isTimeUpdateOnly) {
-          return createSuccessResponse(null, 'IAO时间更新成功');
+          return createSuccessResponse(null, 'IAO time updated successfully');
         }
       } catch (error) {
         console.error(`[时间更新] 数据库更新失败:`, error);
 
-
-
         return NextResponse.json({
           code: 500,
-          message: `更新IAO时间失败: ${error instanceof Error ? error.message : '未知错误'}`,
+          message: `Failed to update IAO time: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          data: null
+        });
+      }
+    }
+
+    // 如果只是更新社交媒体链接
+    if (isSocialLinksUpdateOnly) {
+      try {
+        await prisma.agent.update({
+          where: { id: params.id },
+          data: {
+            socialLinks,
+          },
+        });
+
+        return createSuccessResponse(null, 'Social media links updated successfully');
+      } catch (error) {
+        console.error('更新社交媒体链接失败:', error);
+        return NextResponse.json({
+          code: 500,
+          message: `Failed to update social media links: ${error instanceof Error ? error.message : 'Unknown error'}`,
           data: null
         });
       }
@@ -376,7 +398,7 @@ export async function PUT(
         ...updatedAgent,
         capabilities: JSON.parse(updatedAgent.capabilities),
         creatorAddress: updatedAgent.creator.address,
-      }, '更新成功');
+      }, 'Updated successfully');
     }
   } catch (error) {
     console.error('更新Agent失败:', error);
@@ -392,7 +414,7 @@ export async function PATCH(
   try {
     const userId = getUserId();
     if (!userId) {
-      throw new ApiError(401, '未授权');
+      throw new ApiError(401, 'Unauthorized');
     }
 
     const agent = await prisma.agent.findUnique({
@@ -401,11 +423,11 @@ export async function PATCH(
     });
 
     if (!agent) {
-      throw new ApiError(404, 'Agent不存在');
+      throw new ApiError(404, 'Agent not found');
     }
 
     if (agent.creatorId !== userId) {
-      throw new ApiError(403, '无权限更新');
+      throw new ApiError(403, 'No permission to update');
     }
 
     const data = await request.json();
@@ -418,7 +440,7 @@ export async function PATCH(
       } as any,
     });
 
-    return createSuccessResponse(updatedAgent, '更新成功');
+    return createSuccessResponse(updatedAgent, 'Updated successfully');
   } catch (error) {
     return handleError(error);
   }
@@ -432,7 +454,7 @@ export async function DELETE(
   try {
     const userId = getUserId();
     if (!userId) {
-      throw new ApiError(401, '未授权');
+      throw new ApiError(401, 'Unauthorized');
     }
 
     const agent = await prisma.agent.findUnique({
@@ -441,11 +463,11 @@ export async function DELETE(
     });
 
     if (!agent) {
-      throw new ApiError(404, 'Agent不存在');
+      throw new ApiError(404, 'Agent not found');
     }
 
     if (agent.creatorId !== userId) {
-      throw new ApiError(403, '无权限删除');
+      throw new ApiError(403, 'No permission to delete');
     }
 
     // 删除 Agent
@@ -453,7 +475,7 @@ export async function DELETE(
       where: { id: params.id },
     });
 
-    return createSuccessResponse(null, '删除成功');
+    return createSuccessResponse(null, 'Deleted successfully');
   } catch (error) {
     return handleError(error);
   }

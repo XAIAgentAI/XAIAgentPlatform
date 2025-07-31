@@ -377,10 +377,10 @@ export const IaoEndedView = ({
 
     return (
       <div className="mt-6 sm:mt-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('yourStakeInfo')}</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('yourInvestInfo')}</h2>
         <div className="space-y-3 sm:space-y-4">
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-            <span className="text-black dark:text-white font-medium">{tIaoPool('yourStake', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
+            <span className="text-black dark:text-white font-medium">{tIaoPool('yourInvest', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
             <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
               {formatNumber(userStakeInfo.userDeposited)}
             </span>

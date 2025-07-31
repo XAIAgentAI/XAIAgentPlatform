@@ -25,7 +25,9 @@
     "memory:monitor:continuous": "node scripts/memory-monitor.js --continuous",
     "memory:monitor:save": "node scripts/memory-monitor.js --continuous --save",
     "build:debug": "next build --experimental-debug-memory-usage",
-    "build:profile": "node --heap-prof node_modules/next/dist/bin/next build"
+    "build:profile": "node --heap-prof node_modules/next/dist/bin/next build",
+    "sync-translations": "node sync-keys-with-zh.js && node scripts/sync-translations.js --export-pending && echo \"\" && echo \"@pending-translation.en.json @pending-translation.ja.json @pending-translation.ko.json\" && echo \"\" && echo \"我希望你帮我做翻译工作。你根据zh.json这里面对应这里面的key对应的value值，去对每一个key进行翻译，然后的然后更新这三个pending文件。\" && echo \"\"",
+    "apply-translations": "node scripts/sync-translations.js --import-pending && echo \"\" &&  rm -f messages/pending-translation.en.json messages/pending-translation.ja.json messages/pending-translation.ko.json " 
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

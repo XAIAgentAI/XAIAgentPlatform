@@ -164,7 +164,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
       if (result &&( (result as any)?.hash || result?.receipt?.status === 'success')) {
         toast({
           title: t('success'),
-          description: t('stakeSuccess', {
+          description: t('investSuccess', {
             amount: dbcAmount,
             symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA'
           }),
@@ -176,13 +176,13 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
         // 清空输入
         setDbcAmount("");
       } else {
-        throw new Error((result as any)?.error || t('stakeFailed'));
+        throw new Error((result as any)?.error || t('investFailed'));
       }
     } catch (error: any) {
       console.error('质押失败:', error);
       toast({
         title: t('error'),
-        description: error.message || t('stakeFailed'),
+        description: error.message || t('investFailed'),
       });
     }
   }, [isAuthenticated, dbcAmount, maxDbcAmount, maxXaaAmount, ensureCorrectNetwork, stake, agent.symbol, toast, t, fetchUserStakeInfo]);

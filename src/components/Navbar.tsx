@@ -13,16 +13,16 @@ import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from '@/hooks/useAuth'
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Link } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
 import { TokenBalance } from "./ui-custom/token-balance"
 import { useDisconnect } from 'wagmi';
 
-
 const Navbar = () => {
   const locale = useLocale();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { disconnect } = useDisconnect();
 
   const t = useTranslations();
@@ -38,6 +38,10 @@ const Navbar = () => {
   const [connectingTimeout, setConnectingTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isTimeout, setIsTimeout] = useState(false);
   const [isManualConnecting, setIsManualConnecting] = useState(false);
+
+  // 搜索相关状态
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [isSearching, setIsSearching] = useState(false)
 
   const navigationLinks = [
     {
@@ -74,6 +78,12 @@ const Navbar = () => {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // 监听 URL 参数变化，自动同步搜索关键词到输入框
+  useEffect(() => {
+    const keyword = searchParams.get('searchKeyword') || '';
+    setSearchKeyword(keyword);
+  }, [searchParams]);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -134,6 +144,60 @@ const Navbar = () => {
       authenticate();
     }
   }, [address, connectingTimeout, authenticate]);
+
+  // 处理搜索功能
+  const handleSearch = async (keyword: string) => {
+    setIsSearching(true);
+    try {
+      // 跳转到首页并传递搜索参数，保持当前的排序参数
+      const currentParams = new URLSearchParams(window.location.search);
+      
+      if (keyword.trim()) {
+        // 有搜索关键词时，设置搜索参数
+        currentParams.set('searchKeyword', keyword.trim());
+      } else {
+        // 没有搜索关键词时，删除搜索参数，显示全部结果
+        currentParams.delete('searchKeyword');
+      }
+      
+      router.push(`/${locale}?${currentParams.toString()}`);
+      
+      // 关闭搜索框，但不清空搜索关键词
+      setIsSearchExpanded(false);
+    } catch (error) {
+      console.error('搜索失败:', error);
+      toast({
+        description: t('common.searchFailed'),
+        variant: "destructive"
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // 处理搜索框回车事件
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch(searchKeyword);
+    }
+  };
+
+  // 处理搜索框输入变化
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  // 处理清除搜索
+  const handleClearSearch = () => {
+    setSearchKeyword('');
+    // 跳转到没有搜索关键词的 URL
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.delete('searchKeyword');
+    router.push(`/${locale}?${currentParams.toString()}`);
+    // 自动收起搜索框
+    setIsSearchExpanded(false);
+  };
 
   const handleWalletClick = () => {
     // 使用 address 判断是否已连接
@@ -305,10 +369,13 @@ const Navbar = () => {
               "hidden xl:block"
             )}>
               <Input
-                type="search"
+                type="text"
                 placeholder={t('common.search')}
+                value={searchKeyword}
+                onChange={handleSearchInputChange}
+                onKeyPress={handleSearchKeyPress}
                 className={cn(
-                  "w-[250px] pl-[15px] pr-[30px] py-2.5 bg-transparent",
+                  "w-[250px] pl-[15px] pr-[70px] py-2.5 bg-transparent",
                   "border-text-primary/30 rounded-[100px]",
                   "text-text-primary text-xs font-normal font-['Sora'] leading-10",
                   "placeholder:text-text-secondary focus-visible:ring-0",
@@ -316,10 +383,29 @@ const Navbar = () => {
                   "focus:border-primary focus:ring-1 focus:ring-primary/30"
                 )}
               />
-              <Search
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary"
-                aria-label={t('accessibility.searchIcon')}
-              />
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
+                {searchKeyword && (
+                  <button
+                    onClick={handleClearSearch}
+                    className="p-1 hover:bg-primary/10 rounded-full transition-colors"
+                    aria-label={t('accessibility.clearSearch')}
+                  >
+                    <X className="w-3 h-3 text-text-secondary" />
+                  </button>
+                )}
+                <button
+                  onClick={() => handleSearch(searchKeyword)}
+                  disabled={isSearching}
+                  className="p-1 hover:bg-primary/10 rounded-full transition-colors disabled:opacity-50"
+                  aria-label={t('accessibility.searchIcon')}
+                >
+                  {isSearching ? (
+                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Search className="w-4 h-4 text-text-secondary" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* 搜索图标和展开搜索框 */}
@@ -351,8 +437,14 @@ const Navbar = () => {
                   >
                     <div className="relative flex items-center bg-background rounded-[100px] border border-border-color">
                       <Input
-                        type="search"
+                        type="text"
                         placeholder={t('common.search')}
+                        value={searchKeyword}
+                        onChange={handleSearchInputChange}
+                        onKeyPress={handleSearchKeyPress}
+                        onBlur={() => {
+                          setTimeout(() => setIsSearchExpanded(false), 100);
+                        }}
                         className={cn(
                           "w-full pl-4 pr-[70px] py-2.5 bg-transparent",
                           "border-none rounded-[100px]",
@@ -362,14 +454,30 @@ const Navbar = () => {
                         )}
                         autoFocus
                       />
-                      <div className="absolute right-2 flex items-center gap-2">
-                        <Search className="w-4 h-4 text-text-secondary" />
+                      <div className="absolute right-2 flex items-center gap-1">
+                        {searchKeyword && (
+                          <button
+                            onClick={handleClearSearch}
+                            className="p-1.5 hover:bg-primary/10 rounded-full transition-colors"
+                            aria-label={t('accessibility.clearSearch')}
+                          >
+                            <X className="w-3 h-3 text-text-secondary" />
+                          </button>
+                        )}
                         <button
-                          onClick={() => setIsSearchExpanded(false)}
-                          className="p-1.5 hover:bg-primary/10 rounded-full transition-colors"
-                          aria-label={t('accessibility.closeSearch')}
+                          onClick={() => {
+                            handleSearch(searchKeyword);
+                            setIsSearchExpanded(false); // 搜索后自动收起
+                          }}
+                          disabled={isSearching}
+                          className="p-1.5 hover:bg-primary/10 rounded-full transition-colors disabled:opacity-50"
+                          aria-label={t('accessibility.searchIcon')}
                         >
-                          <X className="w-4 h-4" />
+                          {isSearching ? (
+                            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <Search className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
                     </div>

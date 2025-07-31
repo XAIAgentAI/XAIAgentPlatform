@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { agentAPI } from '@/services/api'
 import { fetchDBCTokens } from "@/services/dbcScan"
 import { LocalAgent } from '@/types/agent'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
 import { format } from 'date-fns'
@@ -33,18 +33,29 @@ const tabs = [
 
 export default function AgentsPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [tab, setTab] = useState<"Infrastructure" | "AIAgent">("Infrastructure")
   const [agents, setAgents] = useState<LocalizedAgent[]>([])
   const [loading, setLoading] = useState(true)
   const t = useTranslations()
   const locale = useLocale()
   
+  // 获取搜索参数
+  const searchKeyword = searchParams.get('searchKeyword') || ''
+  
   useEffect(() => {
     const fetchAgents = async () => {
       try {
         setLoading(true);
+        
+        // 构建API参数，包含搜索关键词
+        const apiParams: any = { pageSize: 30 };
+        if (searchKeyword) {
+          apiParams.searchKeyword = searchKeyword;
+        }
+        
         const [response, tokens] = await Promise.all([
-          agentAPI.getAllAgents({ pageSize: 30 }),
+          agentAPI.getAllAgents(apiParams),
           fetchDBCTokens()
         ]);
   
@@ -85,7 +96,7 @@ export default function AgentsPage() {
     };
   
     fetchAgents();
-  }, []);
+  }, [searchKeyword]); // 当搜索关键词变化时重新获取数据
 
   // 根据选择的标签过滤代理
   const filteredAgents = tab === "AIAgent" 
@@ -104,6 +115,26 @@ export default function AgentsPage() {
     <div className="min-h-screen bg-background">
       <main className="container mx-auto py-4 px-4 lg:py-8 lg:px-0">
         <div className="w-full max-w-[1400px] mx-auto bg-card rounded-[15px] p-4 lg:p-6">
+          {/* 搜索结果显示 */}
+          {searchKeyword && (
+            <div className="mb-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span className="text-sm font-medium text-primary">
+                  {t('common.searchResults')}: "{searchKeyword}"
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {filteredAgents.length > 0 
+                  ? t('common.foundResults', { count: filteredAgents.length })
+                  : t('common.noResultsFound')
+                }
+              </p>
+            </div>
+          )}
+
           <div className="flex items-center gap-4 mb-6 overflow-x-auto hide-scrollbar">
             <Tabs defaultValue="Infrastructure" className="w-auto">
               <TabsList className="bg-transparent border border-border">
@@ -198,9 +229,14 @@ export default function AgentsPage() {
                           />
                         </svg>
                       </div>
-                      <h3 className="mt-4 text-sm font-semibold text-foreground">{t('agents.noAgentsFound')}</h3>
+                      <h3 className="mt-4 text-sm font-semibold text-foreground">
+                        {searchKeyword ? t('common.noSearchResults') : t('agents.noAgentsFound')}
+                      </h3>
                       <p className="mt-2 text-sm text-muted-foreground">
-                        {t('agents.noAgentsFoundDesc')}
+                        {searchKeyword 
+                          ? t('common.noSearchResultsDesc', { keyword: searchKeyword })
+                          : t('agents.noAgentsFoundDesc')
+                        }
                       </p>
                     </div>
                   </div>

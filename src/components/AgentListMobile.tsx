@@ -32,7 +32,7 @@ const parseSocialLinks = (socialLinks?: string) => {
   };
 };
 
-const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusFilter }: AgentListProps) => {
+const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusFilter, searchKeyword }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -126,6 +126,26 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
 
   return (
     <div className="w-full flex-1 flex flex-col">
+      {/* 搜索结果显示 */}
+      {searchKeyword && (
+        <div className="p-4 bg-primary/5 border-b border-primary/20">
+          <div className="flex items-center gap-2 mb-2">
+            <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span className="text-sm font-medium text-primary">
+              {t('searchResults')}: "{searchKeyword}"
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {agents.length > 0 
+              ? t('foundResults', { count: agents.length })
+              : t('noResultsFound')
+            }
+          </p>
+        </div>
+      )}
+
       <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-card border-b border-[#E5E5E5] dark:border-white/10">
         <div className="flex flex-col p-4 gap-3">
           {/* 第一行：状态筛选 */}

@@ -38,7 +38,7 @@ const parseSocialLinks = (socialLinks?: string) => {
 };
 
 
-const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatusFilter }: AgentListProps) => {
+const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatusFilter, searchKeyword }: AgentListProps) => {
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
@@ -150,6 +150,26 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
+      {/* 搜索结果显示 */}
+      {searchKeyword && (
+        <div className="mb-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+          <div className="flex items-center gap-2 mb-2">
+            <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span className="text-sm font-medium text-primary">
+              {t('searchResults')}: "{searchKeyword}"
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {agents.length > 0 
+              ? t('foundResults', { count: agents.length })
+              : t('noResultsFound')
+            }
+          </p>
+        </div>
+      )}
+
       <div className="flex flex-col gap-4 mb-6">
         {/* 第一行：排序 + 筛选 */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-8">

@@ -265,4 +265,5 @@ export interface AgentListProps {
   loading?: boolean;
   onStatusFilterChange: (newStatus: string) => void;
   currentStatusFilter: string;
+  searchKeyword?: string;
 } 

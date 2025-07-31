@@ -13,20 +13,22 @@ export default function Home() {
   const searchParams = useSearchParams()
   const [statusFilter, setStatusFilter] = useState<string>("")
   
-  // 从URL参数中获取排序方式，不设置默认值
+  // 从URL参数中获取排序方式和搜索关键词
   const sortBy = searchParams?.get('sortBy')
   const sortOrder = searchParams?.get('sortOrder')
+  const searchKeyword = searchParams?.get('searchKeyword') || ''
 
   // 获取代理列表
   const fetchAgentsData = async () => {
     try {
       setLoading(true)
-      // 使用当前排序参数和筛选参数
+      // 使用当前排序参数、筛选参数和搜索参数
       const options = {
         pageSize: 1000,
         sortBy: sortBy as string,
         sortOrder: sortOrder as "asc" | "desc",
         status: statusFilter === "" ? undefined : statusFilter,
+        searchKeyword: searchKeyword || undefined,
       };
 
       console.log('Fetching agents with options:', options);
@@ -44,10 +46,10 @@ export default function Home() {
     }
   };
 
-  // 当排序或状态筛选变化时重新获取数据
+  // 当排序、状态筛选或搜索关键词变化时重新获取数据
   useEffect(() => {
     fetchAgentsData();
-  }, [sortBy, sortOrder, statusFilter]); 
+  }, [sortBy, sortOrder, statusFilter, searchKeyword]); 
   
   // 更新状态筛选器的处理函数
   const handleStatusFilterChange = (newStatus: string) => {
@@ -62,6 +64,7 @@ export default function Home() {
           loading={loading}
           onStatusFilterChange={handleStatusFilterChange}
           currentStatusFilter={statusFilter}
+          searchKeyword={searchKeyword}
         />
       </div>
       <div className="container flex-1 flex flex-col container mx-auto px-4 py-2 md:hidden">
@@ -70,6 +73,7 @@ export default function Home() {
           loading={loading}
           onStatusFilterChange={handleStatusFilterChange}
           currentStatusFilter={statusFilter}
+          searchKeyword={searchKeyword}
         />
       </div>
     </>

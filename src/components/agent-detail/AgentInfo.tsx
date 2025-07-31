@@ -21,6 +21,7 @@ import { useDBCPrice } from '@/hooks/useDBCPrice';
 import { formatPrice } from '@/lib/format';
 import { API_CONFIG } from '@/config/api';
 import { ContainerLinkManager } from './ContainerLinkManager';
+import { SocialMediaManager } from './SocialMediaManager';
 import { copyToClipboard } from '@/lib/utils';
 
 interface AgentInfoProps {
@@ -31,6 +32,11 @@ interface AgentInfoProps {
 export function AgentInfo({ agent }: AgentInfoProps) {
   const { dbcPriceUsd } = useDBCPrice();
   const [baseTokenXaaRate, setBaseTokenXaaRate] = useState<number>(1);
+  const { address } = useAppKitAccount();
+
+  // 检查当前用户是否是Agent创建者
+  const isCreator = address && (agent as any)?.creator?.address &&
+    address.toLowerCase() === (agent as any).creator.address.toLowerCase();
 
   useEffect(() => {
     console.log("agent", agent);
@@ -99,8 +105,6 @@ export function AgentInfo({ agent }: AgentInfoProps) {
     return agent.description;
   };
 
-  const address = useAppKitAccount()?.address;
-
   if (tokenLoading) {
     return (
       <Card className="p-6 bg-card">
@@ -155,15 +159,25 @@ export function AgentInfo({ agent }: AgentInfoProps) {
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <div className="flex justify-start items-center flex-wrap">
+            <div className="flex justify-start items-center flex-wrap gap-2">
               <h1 className="text-xl font-semibold">{agent?.name}</h1>
-              <div className="flex items-baseline text-xl font-medium ml-3">
+
+
+
+              <div className="flex items-baseline text-xl font-medium ">
                 <span className="text-primary">$</span>
                 <span className="text-primary">
                   {formatPrice(currentPrice * Number(dbcPriceUsd || 0) * (agent?.symbol === "XAA" ? 1 : baseTokenXaaRate), 8).value}
                 </span>
                 <span className="text-muted-foreground ml-1">USDT</span>
               </div>
+
+              {/* 社交媒体管理组件 */}
+              <SocialMediaManager
+                agent={agent}
+                isCreator={isCreator}
+                onRefresh={() => window.location.reload()}
+              />
             </div>
 
             {tokenData && (
@@ -241,7 +255,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
         <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
           <div className="flex items-center gap-2">
-                    {/* {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
+            {/* {address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase() && (
               <Button
                 variant="outline"
                 className="flex items-center gap-2 ml-2 text-xs py-1 px-2"
@@ -264,7 +278,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
                 className="h-full w-full object-cover rounded-full"
               />
             </Avatar>
-    
+
           </div>
         </div>
       </div>

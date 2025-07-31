@@ -684,13 +684,10 @@ export async function GET(request: Request) {
     // 构建查询条件
     const where = {
       AND: [
-        // 搜索关键词
-        searchKeyword ? {
-          OR: [
-            { name: { contains: searchKeyword } },
-            { description: { contains: searchKeyword } },
-          ],
-        } : {},
+            // 搜索关键词 - 只匹配名字字段，不区分大小写
+    searchKeyword ? {
+      name: { contains: searchKeyword, mode: 'insensitive' as any }
+    } : {},
         // 分类筛选
         category ? { category } : {},
         // 状态筛选 - 根据时间动态筛选

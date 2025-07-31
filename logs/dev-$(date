@@ -9,416 +9,250 @@
  ⚠     "env._next_intl_trailing_slash" is missing, expected string
  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
  ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
- ✓ Ready in 2.5s
- ✓ Compiled /src/middleware in 148ms (241 modules)
+ ✓ Ready in 2.9s
+ ✓ Compiled /src/middleware in 253ms (242 modules)
  ○ Compiling /[locale] ...
- ✓ Compiled /[locale] in 4.5s (10590 modules)
- ○ Compiling /api/tokens ...
+ ✓ Compiled /[locale] in 14s (10596 modules)
 Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
 sortedAgents []
- ✓ Compiled /favicon.ico in 2.7s (10642 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 980ms (6035 modules)
-Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
+ ○ Compiling /not-found ...
 sortedAgents []
+ ✓ Compiled /api/agents in 10.1s (11263 modules)
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
   },
   {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
   },
   {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
   },
   {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
   },
   {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
   },
   {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
   },
   {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
   },
   {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
   },
   {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
   },
   {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
   },
   {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
   },
   {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
   },
   {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
   },
   {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
   },
   {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
   },
   {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
   },
   {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
   }
 ]
+getBatchTokenPrices-tokens [
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
 [DBC价格] 开始获取DBC价格...
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000716, update_time: null, percent_change_24h: 3.67 }
+  content: { dbc_price: 0.000569, update_time: null, percent_change_24h: -9.64 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000716', percentChange24h: 3.67 }
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000716, update_time: null, percent_change_24h: 3.63 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000716', percentChange24h: 3.63 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (599989 秒)
+[DBC价格] 解析结果: { priceUsd: '0.000569', percentChange24h: -9.64 }
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (5443 秒)
 token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000716
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.026593171099789103 usdPrice 0.00001513 dbcPriceUsd 0.000569
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: { dbc_price: 0.000569, update_time: null, percent_change_24h: -9.64 }
+}
+[DBC价格] 解析结果: { priceUsd: '0.000569', percentChange24h: -9.64 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (533743 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000275 dbcPriceUsd 0.000569
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (531067 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.000004 dbcPriceUsd 0.000569
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (601381 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000569
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (5443 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.026593171099789103 usdPrice 0.00001513 dbcPriceUsd 0.000569
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
   },
   {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
   },
   {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
   },
   {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
   },
   {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
   },
   {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
   }
 ]
 [DBC价格] 开始获取DBC价格...
@@ -427,69 +261,184 @@ getBatchTokenPrices-tokens [
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000715, update_time: null, percent_change_24h: 3.55 }
+  content: { dbc_price: 0.000569, update_time: null, percent_change_24h: -9.7 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000715', percentChange24h: 3.55 }
+[DBC价格] 解析结果: { priceUsd: '0.000569', percentChange24h: -9.7 }
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (6765 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.026593171099789103 usdPrice 0.00001513 dbcPriceUsd 0.000569
+ ○ Compiling /[locale]/agent-detail/[id] ...
 Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
   npx update-browserslist-db@latest
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
- ✓ Compiled in 2.5s (11239 modules)
+ ✓ Compiled /[locale]/agent-detail/[id] in 8.6s (11353 modules)
+ ○ Compiling /api/agents/[id] ...
+ ✓ Compiled /api/agents/[id] in 588ms (6066 modules)
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: SuperImage (4)
+[Agent详情状态计算] 原始状态: CREATING
+[Agent详情状态计算] 当前时间戳: 1753944930 (2025-07-31T06:55:30.000Z)
+[Agent详情状态计算] IAO开始时间: null (null)
+[Agent详情状态计算] IAO结束时间: null (null)
+[Agent详情状态计算] 代币地址: 0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] 没有IAO时间信息，返回原状态: CREATING
+[Agent详情API] 管理状态字段: {
+  tokensDistributed: false,
+  liquidityAdded: false,
+  tokensBurned: false,
+  ownerTransferred: false,
+  miningOwnerTransferred: false
+}
+[Agent详情API] tokensDistributed类型: boolean, 值: false
+[Agent详情状态计算] Agent: SuperImage (4)
+[Agent详情状态计算] 原始状态: CREATING
+[Agent详情状态计算] 当前时间戳: 1753944931 (2025-07-31T06:55:31.000Z)
+[Agent详情状态计算] IAO开始时间: null (null)
+[Agent详情状态计算] IAO结束时间: null (null)
+[Agent详情状态计算] 代币地址: 0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45
+[Agent详情状态计算] 测试环境: false
+[Agent详情状态计算] 没有IAO时间信息，返回原状态: CREATING
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
   },
   {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
   },
   {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
   },
   {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
   },
   {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
   },
   {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
   },
   {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
   },
   {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
   },
   {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
   },
   {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
   },
   {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
   },
   {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
   },
   {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
   },
   {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
   }
 ]
 [DBC价格] 开始获取DBC价格...
@@ -498,2612 +447,1366 @@ getBatchTokenPrices-tokens [
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: 3.83 }
+  content: { dbc_price: 0.000569, update_time: null, percent_change_24h: -9.68 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: 3.83 }
- ✓ Compiled in 1307ms (10604 modules)
- ✓ Compiled in 747ms (5236 modules)
- ✓ Compiled in 416ms (5236 modules)
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000569', percentChange24h: -9.68 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (535153 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000275 dbcPriceUsd 0.000569
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (532477 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.000004 dbcPriceUsd 0.000569
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (602791 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000569
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (6853 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.026593171099789103 usdPrice 0.00001513 dbcPriceUsd 0.000569
+ ✓ Compiled in 1710ms (10717 modules)
+ ○ Compiling /api/agents ...
+ ✓ Compiled /api/agents in 982ms (6063 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000566,
+    update_time: null,
+    percent_change_24h: -10.06
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000566', percentChange24h: -10.06 }
+ ✓ Compiled in 1484ms (11353 modules)
+ ✓ Compiled in 1134ms (11353 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000566,
+    update_time: null,
+    percent_change_24h: -10.05
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000566', percentChange24h: -10.05 }
+ ✓ Compiled in 3s (10717 modules)
+ ✓ Compiled in 1141ms (10717 modules)
+ ✓ Compiled in 860ms (5427 modules)
+ ✓ Compiled in 541ms (5427 modules)
+ ✓ Compiled in 1962ms (10717 modules)
+ ✓ Compiled in 1126ms (10717 modules)
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+sortedAgents []
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /api/agents in 3.2s (10736 modules)
+ ✓ Compiled (11370 modules)
+sortedAgents []
+API请求异常: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
+API请求异常: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
+API请求异常: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
+API Error: PrismaClientKnownRequestError: 
+Invalid `prisma.agent.count()` invocation:
+
+
+Can't reach database server at `52.78.26.103:5432`
+
+Please make sure your database server is running at `52.78.26.103:5432`.
+    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
+    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:616:21)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
+  code: 'P1001',
+  clientVersion: '6.2.1',
+  meta: {
+    modelName: 'Agent',
+    database_host: '52.78.26.103',
+    database_port: 5432
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
-}
+ ✓ Compiled in 1326ms (11384 modules)
+ ✓ Compiled in 1121ms (11384 modules)
+ ✓ Compiled in 1164ms (11384 modules)
+ ✓ Compiled in 1115ms (11353 modules)
+ ✓ Compiled in 1144ms (10717 modules)
+ ✓ Compiled in 1011ms (10717 modules)
+ ✓ Compiled in 1270ms (10717 modules)
+ ✓ Compiled in 1059ms (10717 modules)
 sortedAgents []
  ○ Compiling /not-found ...
- ✓ Compiled /favicon.ico in 1691ms (10595 modules)
- ✓ Compiled (10623 modules)
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'agentInfo',
-  hasColumns: true,
-  isShown: true
+ ✓ Compiled /api/agents in 3.2s (10736 modules)
+ ✓ Compiled (11370 modules)
+sortedAgents []
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000566,
+    update_time: null,
+    percent_change_24h: -10.07
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'investedXAA',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000566', percentChange24h: -10.07 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (536704 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000274 dbcPriceUsd 0.000566
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534028 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000398 dbcPriceUsd 0.000566
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (604342 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000566
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (8404 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.00001504 dbcPriceUsd 0.000566
+ ✓ Compiled in 1881ms (10717 modules)
+ ○ Compiling /api/agents ...
+ ✓ Compiled /api/agents in 888ms (6063 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000566,
+    update_time: null,
+    percent_change_24h: -10.06
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'holdersCount',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000566', percentChange24h: -10.06 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (537247 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000274 dbcPriceUsd 0.000566
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534571 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000398 dbcPriceUsd 0.000566
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (604885 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000566
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (8947 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.00001504 dbcPriceUsd 0.000566
+ ✓ Compiled in 2s (11353 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.86
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoEndCountdown',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.86 }
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.92
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'iaoStartCountdown',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.92 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (537378 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000271 dbcPriceUsd 0.000561
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534702 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000394 dbcPriceUsd 0.000561
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (605016 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000561
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (9078 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.0000149 dbcPriceUsd 0.000561
+ ✓ Compiled in 1927ms (11353 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.86
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'marketCap',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.86 }
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.86
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'change24h',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.86 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (537438 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000271 dbcPriceUsd 0.000561
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534762 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000394 dbcPriceUsd 0.000561
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (605076 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000561
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (9138 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.0000149 dbcPriceUsd 0.000561
+ ✓ Compiled in 2.1s (10717 modules)
+ ○ Compiling /api/agents ...
+ ✓ Compiled /api/agents in 647ms (6063 modules)
+getBatchTokenPrices-tokens [
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] 开始获取DBC价格...
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.92
+  }
 }
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'price',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'volume24h',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'lp',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'status',
-  hasColumns: true,
-  isShown: true
-}
-Status Check: {
-  originalStatus: '',
-  effectiveStatus: 'ALL',
-  field: 'chat',
-  hasColumns: true,
-  isShown: true
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.92 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (537563 秒)
+token {
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000271 dbcPriceUsd 0.000561
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534887 秒)
+token {
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000394 dbcPriceUsd 0.000561
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (605201 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000561
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (9263 秒)
+token {
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.0000149 dbcPriceUsd 0.000561
+获取 DBC 价格失败: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted address: dbchaininfo.congtu.cloud:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2602:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2568:35)
+      at process.processImmediate (node:internal/timers:485:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
 }
 sortedAgents []
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 1770ms (6032 modules)
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1647ms (11370 modules)
 getBatchTokenPrices-tokens [
   {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
   }
 ]
+sortedAgents []
+[DBC价格] 开始获取DBC价格...
+getBatchTokenPrices-tokens [
+  {
+    address: '0xf8e95447112BaB3092b871c61E81f56065f8C9B6',
+    symbol: 'ZC'
+  },
+  {
+    address: '0x2a19aD8D575bFd434B9434A4B08cc59973E6F091',
+    symbol: 'ZB'
+  },
+  {
+    address: '0x2237b9FF464906a0424a558302F5Ec50195F49C7',
+    symbol: 'ZA'
+  },
+  {
+    address: '0xAE99a92f6A16a7932211205Bf938324Bbf850c66',
+    symbol: 'WUDI'
+  },
+  {
+    address: '0xf66B9e97966DB04fEDdaD4DBf18645C7c5aaAC8D',
+    symbol: 'PERFEC'
+  },
+  {
+    address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+    symbol: 'ZZBBB'
+  },
+  {
+    address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+    symbol: 'DPC'
+  },
+  {
+    address: '0x0202595c815C1bDFA369946eb2CC446532993B54',
+    symbol: 'BA'
+  },
+  {
+    address: '0xe53bC5e811c6AcEF1c365e6aF95A076FaB6e0ee5',
+    symbol: 'BBBBB'
+  },
+  {
+    address: '0xd90e44Ea4Dd0d264E9DBeF3e0D84b8C21eCa93f6',
+    symbol: 'XXXXX'
+  },
+  {
+    address: '0xAcaff9b34E6fF0dac6DFdB5A83E4Be25761E9B3a',
+    symbol: 'GGGA'
+  },
+  {
+    address: '0x3FAD16A3fBe6BBCDce58Bf99ab27d4432B64baf0',
+    symbol: 'BIBIG'
+  },
+  {
+    address: '0x390eebf97e5430Ad6488Ca8C1Eb1922407632a81',
+    symbol: 'XDD'
+  },
+  {
+    address: '0xdfCdF69Bd3aC9A5C639301b665ECbBbe26f8158B',
+    symbol: 'DADIDI'
+  },
+  {
+    address: '0x3756BE260c0cc036Cc0a6A0db3B134e32533DBfb',
+    symbol: 'OO'
+  },
+  {
+    address: '0x650291f193CceeB5aFfB83f252f08227e7EF9bDb',
+    symbol: 'AIFACE'
+  },
+  {
+    address: '0xef5de4CAc1F858d3Bf84f5C9d9978221bc177b51',
+    symbol: 'XTEST'
+  },
+  {
+    address: '0x33894E58eF46FA4Ce78827D090BDa3C796738dBA',
+    symbol: 'TSTEAT'
+  },
+  {
+    address: '0x3320748C3663f3E93d847Ea8b07d2E2da9DC87Da',
+    symbol: 'XTRST'
+  },
+  {
+    address: '0xd1274e54E778372C4028ef1220c63e8D9fE05440',
+    symbol: 'STS'
+  },
+  {
+    address: '0x85cA1F692de3191a75E35B238D861CCb9eDd4517',
+    symbol: 'PID'
+  },
+  {
+    address: '0x3CDbDcaa3cB517F4ef6ab673a4CdffAc3A6f3972',
+    symbol: 'CICT'
+  },
+  {
+    address: '0x507EaF7A8C2133eAAa70Fe897008cA3C3B838db9',
+    symbol: 'TEST'
+  },
+  {
+    address: '0x914A3E7aF21C9C619bDe34688d8C412ABC7728F7',
+    symbol: 'VICTOR'
+  },
+  {
+    address: '0xaFAF698814c807D487eF6686A5E2E9FB2f23DDcD',
+    symbol: 'TEDGG'
+  },
+  {
+    address: '0x8832571B7a666358F41e1bf74f53ea36d4904Ff2',
+    symbol: 'AAABBB'
+  },
+  {
+    address: '0x6f8F70C74FE7d7a61C8EAC0f35A4Ba39a51E1BEe',
+    symbol: 'DLC'
+  },
+  {
+    address: '0x18386F368e7C211E84324337fA8f62d5093272E1',
+    symbol: 'DGC'
+  },
+  {
+    address: '0xD78F268291f3fe244CB965C768EDb515b529eD02',
+    symbol: 'LOGO'
+  },
+  {
+    address: '0x07D325030dA1A8c1f96C414BFFbe4fBD539CED45',
+    symbol: 'SIC'
+  },
+  {
+    address: '0x2282D5DA5f39Bb7B90cef532341FBB998A1d0965',
+    symbol: 'STID'
+  },
+  {
+    address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+    symbol: 'XAA'
+  }
+]
+[DBC价格] API响应状态: true 200
+[DBC价格] API响应数据: {
+  status: 1,
+  code: '10502',
+  msg: 'dbc价格获取成功',
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.86
+  }
+}
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.86 }
 [DBC价格] 开始获取DBC价格...
 [DBC价格] API响应状态: true 200
 [DBC价格] API响应数据: {
   status: 1,
   code: '10502',
   msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.92 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.92 }
- ✓ Compiled in 1336ms (10604 modules)
- ✓ Compiled in 603ms (5236 modules)
- ✓ Compiled in 1880ms (10604 modules)
- ✓ Compiled in 901ms (10604 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 687ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
+  content: {
+    dbc_price: 0.000561,
+    update_time: null,
+    percent_change_24h: -10.86
   }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: -1.27 }
 }
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: -1.27 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (601373 秒)
+[DBC价格] 解析结果: { priceUsd: '0.000561', percentChange24h: -10.86 }
+111 amount0 -65241928.138752356 amount1 13500000000
+222 24h ago price前 0.00483273541768536
+222 24h ago price 0.00483273541768536
+警告: 24小时前价格数据时间差较大 (537607 秒)
 token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000718
- ✓ Compiled in 1449ms (10604 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 608ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: -0.02 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: -0.02 }
- ✓ Compiled in 1409ms (10604 modules)
- ✓ Compiled /api/agents in 418ms (6003 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000718, update_time: null, percent_change_24h: 3.84 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000718', percentChange24h: 3.84 }
- ✓ Compiled in 926ms (11239 modules)
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435791
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435791
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435791
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435791
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.57 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.57 }
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753435792
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753435792
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.57 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.57 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (601976 秒)
+  address: '0xe6A985E8c3Ee3DE00Fae47D2d443De642f8B55b6',
+  symbol: 'ZZBBB'
+} currentPrice 0.00483273541768536 usdPrice 0.00000271 dbcPriceUsd 0.000561
+111 amount0 -7029074.670054603 amount1 1000000000
+222 24h ago price前 0.0070290746700546036
+222 24h ago price 0.0070290746700546036
+警告: 24小时前价格数据时间差较大 (534931 秒)
 token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000717
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435803
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435803
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435803
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435803
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {}
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {}
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435852
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435852
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435852
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435852
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
- ✓ Compiled in 1414ms (11239 modules)
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435862
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435862
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoStartTime: {
-              lte: 1753435862
-            }
-          },
-          {
-            iaoEndTime: {
-              gt: 1753435862
-            }
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
- ✓ Compiled in 795ms (11239 modules)
-API请求异常: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753436029
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-API Error: PrismaClientValidationError: 
-Invalid `prisma.agent.findMany()` invocation:
-
-{
-  where: {
-    AND: [
-      {},
-      {},
-      {
-        AND: [
-          {
-            iaoEndTime: {
-              lte: 1753436029
-            }
-          },
-          {
-            OR: [
-              {
-                tokenAddress: {
-                  not: null
-                }
-              },
-              {
-                tokenAddressTestnet: {
-                  not: null
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  skip: 0,
-  take: 30,
-  include: {
-    creator: {
-      select: {
-        address: true
-      }
-    },
-    _count: {
-      select: {
-        reviews: true
-      }
-    },
-    prices: false
-  },
-  orderBy: {
-    investedXAA: "desc",
-    ~~~~~~~~~~~
-?   id?: SortOrder,
-?   name?: SortOrder,
-?   description?: SortOrder,
-?   longDescription?: SortOrder | SortOrderInput,
-?   category?: SortOrder,
-?   avatar?: SortOrder | SortOrderInput,
-?   status?: SortOrder,
-?   capabilities?: SortOrder,
-?   rating?: SortOrder,
-?   usageCount?: SortOrder,
-?   marketCap?: SortOrder,
-?   change24h?: SortOrder,
-?   volume24h?: SortOrder,
-?   creatorId?: SortOrder,
-?   createdAt?: SortOrder,
-?   updatedAt?: SortOrder,
-?   type?: SortOrder | SortOrderInput,
-?   tvl?: SortOrder | SortOrderInput,
-?   holdersCount?: SortOrder | SortOrderInput,
-?   socialLinks?: SortOrder | SortOrderInput,
-?   containerLink?: SortOrder | SortOrderInput,
-?   totalSupply?: SortOrder | SortOrderInput,
-?   marketCapTokenNumber?: SortOrder | SortOrderInput,
-?   symbol?: SortOrder | SortOrderInput,
-?   chatEntry?: SortOrder | SortOrderInput,
-?   useCases?: SortOrder | SortOrderInput,
-?   useCasesJA?: SortOrder | SortOrderInput,
-?   useCasesKO?: SortOrder | SortOrderInput,
-?   useCasesZH?: SortOrder | SortOrderInput,
-?   statusJA?: SortOrder | SortOrderInput,
-?   statusKO?: SortOrder | SortOrderInput,
-?   statusZH?: SortOrder | SortOrderInput,
-?   descriptionJA?: SortOrder | SortOrderInput,
-?   descriptionKO?: SortOrder | SortOrderInput,
-?   descriptionZH?: SortOrder | SortOrderInput,
-?   lifetime?: SortOrder | SortOrderInput,
-?   tokenAddress?: SortOrder | SortOrderInput,
-?   iaoContractAddress?: SortOrder | SortOrderInput,
-?   tokenAddressTestnet?: SortOrder | SortOrderInput,
-?   iaoContractAddressTestnet?: SortOrder | SortOrderInput,
-?   paymentContractAddress?: SortOrder | SortOrderInput,
-?   projectDescription?: SortOrder | SortOrderInput,
-?   iaoTokenAmount?: SortOrder | SortOrderInput,
-?   iaoStartTime?: SortOrder | SortOrderInput,
-?   iaoEndTime?: SortOrder | SortOrderInput,
-?   miningRate?: SortOrder | SortOrderInput,
-?   ownerTransferred?: SortOrder,
-?   liquidityAdded?: SortOrder,
-?   tokensDistributed?: SortOrder,
-?   tokensBurned?: SortOrder,
-?   miningOwnerTransferred?: SortOrder,
-?   poolAddress?: SortOrder | SortOrderInput,
-?   poolCreated?: SortOrder,
-?   initialLiquidityAmount?: SortOrder | SortOrderInput,
-?   initialXaaAmount?: SortOrder | SortOrderInput,
-?   creator?: UserOrderByWithRelationInput,
-?   examples?: ExampleOrderByRelationAggregateInput,
-?   reviews?: ReviewOrderByRelationAggregateInput,
-?   prices?: AgentPriceOrderByRelationAggregateInput,
-?   tasks?: TaskOrderByRelationAggregateInput,
-?   tokenList?: TokenListOrderByWithRelationInput
-  }
-}
-
-Unknown argument `investedXAA`. Available options are marked with ?.
-    at wn (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:29:1363)
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6982)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:603:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1'
-}
-getBatchTokenPrices-tokens [
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  },
-  {
-    address: '0x05c192e9e7F6B4eBB9186b9186051C56d3C9bDfF',
-    symbol: 'TESTM'
-  },
-  {
-    address: '0x7d3849337f9caD57841bE0231344666cFfdD6944',
-    symbol: 'TESTK'
-  },
-  {
-    address: '0x83C58C9eEDB651c0C8e8Cf458d70DC2B24fec69f',
-    symbol: 'TESTJ'
-  },
-  {
-    address: '0x8E29C766C477aE1D97058B15ee5B1A5fdF7860da',
-    symbol: 'TESTI'
-  },
-  {
-    address: '0xD70Bc8bAe5CCa346ebA2E31302986855d0330c9A',
-    symbol: 'TESTH'
-  },
-  {
-    address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-    symbol: 'TESTG'
-  },
-  {
-    address: '0xfD0eF629e27110DAd2938Affe6cce391d50a9Ac3',
-    symbol: 'TESTF'
-  },
-  {
-    address: '0x6ea8bB921825F705B84249E9137Bcfe6E7F8EfaB',
-    symbol: 'DEMOS'
-  },
-  {
-    address: '0x0b95e7252485be23A3b9947200752b5CdCd54995',
-    symbol: 'DEMOJ'
-  },
-  {
-    address: '0xc182ce5305681BbE4Ec90Feb3ECE5C9f476e46a1',
-    symbol: 'DEMOI'
-  },
-  {
-    address: '0x4beaBad211A47516433cA4d0974EcF68a57bb18d',
-    symbol: 'DEMOH'
-  },
-  {
-    address: '0xF3BC544503537f5E22Cdc2444ae599cf97e6A0E2',
-    symbol: 'DEMOG'
-  },
-  {
-    address: '0x80122dBaB24574E625A07d4DFAF90ff96d917363',
-    symbol: 'DEMOF'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
-111 amount0 10 amount1 -999422.392797295
-222 24h ago price前 0.000010005779410256042
-222 24h ago price 0.000010005779410256042
-警告: 24小时前价格数据时间差较大 (602211 秒)
+  address: '0x9c546C845D0b432CC1bd94DBE89dEf55d3d89f49',
+  symbol: 'DPC'
+} currentPrice 0.0070290746700546036 usdPrice 0.00000394 dbcPriceUsd 0.000561
+111 amount0 -100963.83989263781 amount1 100
+222 24h ago price前 0.000990453612960217
+222 24h ago price 0.000990453612960217
+警告: 24小时前价格数据时间差较大 (605245 秒)
+token { address: '0x0202595c815C1bDFA369946eb2CC446532993B54', symbol: 'BA' } currentPrice 0.000990453612960217 usdPrice 5.6e-7 dbcPriceUsd 0.000561
+111 amount0 10000000 amount1 -264808.81238704163
+222 24h ago price前 0.026480881238704162
+222 24h ago price 0.026480881238704162
+警告: 24小时前价格数据时间差较大 (9307 秒)
 token {
-  address: '0xc8878eB60aD9375D2Eec8443727947665A831dD9',
-  symbol: 'TESTG'
-} currentPrice 0.000010005779410256042 usdPrice 1e-8 dbcPriceUsd 0.000717
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] 开始获取DBC价格...
-getBatchTokenPrices-tokens [
-  {
-    address: '0x871045A1e7353db2466987FE2d492BA46197eE07',
-    symbol: 'AD'
-  },
-  {
-    address: '0xb1bD64C4b04eCe6C6742868bae4A976f9AaC7d7c',
-    symbol: 'AA'
-  },
-  {
-    address: '0x8738c41eeDeabCfF0741Ffd05f7d2359E0C8c30f',
-    symbol: 'CYQH'
-  },
-  {
-    address: '0x617dbCF03dB6AB975D457031FE218dAD01f98750',
-    symbol: 'CYQG'
-  },
-  {
-    address: '0x3b90ec15D965316a71F60523A14F153Efa750123',
-    symbol: 'CYQF'
-  },
-  {
-    address: '0x7B9c59343A4f25d8E0Abd8e4979FD85A843C0b34',
-    symbol: 'CYQE'
-  },
-  {
-    address: '0x3567234a9eE7ba0B742f4945973a09Def8bBdD89',
-    symbol: 'CYQC'
-  },
-  {
-    address: '0xd65861f8eFe71AC31E907E286ab6D374Efd8284C',
-    symbol: 'JDLB'
-  },
-  {
-    address: '0xb600E59DF2Fa62d3E2eB2c0b36965aFA15D6C861',
-    symbol: 'SWAPG'
-  },
-  {
-    address: '0xd2AD50e6b6Be57a86fD3665D7A7ce0160AC64191',
-    symbol: 'SWAPF'
-  },
-  {
-    address: '0xC40b3797e217A9bAd9C8A0e79Dd083bFd883ff86',
-    symbol: 'SWAPE'
-  },
-  {
-    address: '0xf661E71418AB3745e5AaEb350113ec5032ab3E68',
-    symbol: 'SWAPD'
-  },
-  {
-    address: '0x06CF85132A59e9936acF1b7153357d7F854C8faD',
-    symbol: 'SWAPB'
-  },
-  {
-    address: '0xA8d82C249f4Bab379999b0ec17d2173f482c616E',
-    symbol: 'DBCSWA'
-  },
-  {
-    address: '0xA1605A5427312440419a447Bd1B7107E61CDA052',
-    symbol: 'TESTP'
-  },
-  {
-    address: '0xE9AC9E67Ab2b9B6606f2f2f0b095060aA503002d',
-    symbol: 'TESTO'
-  },
-  {
-    address: '0x225278f3e11FD66E6f43e3d91d2cbC3238879669',
-    symbol: 'TESTN'
-  }
-]
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
-[DBC价格] 开始获取DBC价格...
-[DBC价格] API响应状态: true 200
-[DBC价格] API响应数据: {
-  status: 1,
-  code: '10502',
-  msg: 'dbc价格获取成功',
-  content: { dbc_price: 0.000717, update_time: null, percent_change_24h: 3.69 }
-}
-[DBC价格] 解析结果: { priceUsd: '0.000717', percentChange24h: 3.69 }
- ✓ Compiled in 703ms (5368 modules)
- ✓ Compiled in 1191ms (10604 modules)
- ✓ Compiled in 1443ms (10604 modules)
- ✓ Compiled in 529ms (5236 modules)
- ✓ Compiled in 471ms (5236 modules)
- ✓ Compiled in 1729ms (10604 modules)
- ✓ Compiled in 343ms (5368 modules)
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Unexpected non-whitespace character after JSON at position 5351 (line 209 column 4) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Unexpected non-whitespace character after JSON at position 5351 (line 209 column 4) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ⨯ ./messages/zh.json
-Module parse failed: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
-Error: Cannot parse JSON: Expected double-quoted property name in JSON at position 18111 (line 566 column 3) while parsing '{
-  "common": {
-    "connect": "连接钱包",
- '
-Import trace for requested module:
-./messages/zh.json
-./messages/ lazy ^\.\/.*\.json$ namespace object
-./src/i18n/request.ts
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getConfig.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server/react-server/getFormatter.js
-./node_modules/.pnpm/next-intl@3.26.3_next@14.0._25068300326f51cffccef8b4ad859ef0/node_modules/next-intl/dist/esm/server.react-server.js
-./src/app/[locale]/layout.tsx
- ✓ Compiled in 384ms (5368 modules)
- ✓ Compiled in 554ms (5368 modules)
- ✓ Compiled in 544ms (5368 modules)
- ✓ Compiled in 583ms (5368 modules)
- ✓ Compiled in 341ms (5368 modules)
- ✓ Compiled in 386ms (5368 modules)
- ✓ Compiled in 558ms (5368 modules)
- ✓ Compiled in 335ms (5368 modules)
- ✓ Compiled in 387ms (5368 modules)
- ✓ Compiled in 565ms (5368 modules)
+  address: '0x16d83F6B17914a4e88436251589194CA5AC0f452',
+  symbol: 'XAA'
+} currentPrice 0.02656517429035532 usdPrice 0.0000149 dbcPriceUsd 0.000561
+sortedAgents []
+sortedAgents []
+ ✓ Compiled in 930ms (6092 modules)
+ ✓ Compiled in 585ms (6095 modules)
+ ✓ Compiled in 575ms (5429 modules)
+ ✓ Compiled in 657ms (5428 modules)
+ ✓ Compiled in 558ms (5427 modules)
+ ✓ Compiled in 538ms (5427 modules)
+ ✓ Compiled in 519ms (5427 modules)
+ ✓ Compiled in 495ms (5427 modules)
+ ✓ Compiled in 499ms (5427 modules)
+ ✓ Compiled in 972ms (5427 modules)
+ ✓ Compiled in 562ms (5427 modules)
+ ✓ Compiled in 546ms (5427 modules)
+ ✓ Compiled in 960ms (5427 modules)
+ ✓ Compiled in 540ms (5427 modules)
+ ✓ Compiled in 515ms (5427 modules)
+ ✓ Compiled in 874ms (5427 modules)
