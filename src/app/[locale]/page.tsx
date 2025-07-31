@@ -23,7 +23,7 @@ export default function Home() {
       setLoading(true)
       // 使用当前排序参数和筛选参数
       const options = {
-        pageSize: 30,
+        pageSize: 1000,
         sortBy: sortBy as string,
         sortOrder: sortOrder as "asc" | "desc",
         status: statusFilter === "" ? undefined : statusFilter,
