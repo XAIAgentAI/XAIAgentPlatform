@@ -357,18 +357,22 @@ export const useIaoPoolData = (agent: LocalAgent) => {
         prevConnected.current = isConnected;
         prevAuthenticated.current = isAuthenticated;
         
-        // 只获取用户相关数据，不触发余额更新
+        // 获取用户相关数据，包括余额更新
         if (address && isConnected && isAuthenticated) {
+          fetchUserBalance(); // 添加余额更新
           fetchUserStakeInfo();
         } else {
-          // 重置用户状态
+          // 重置用户状态，包括余额
           updateState(() => ({ 
-            userStakeInfo: initialState.userStakeInfo 
+            userStakeInfo: initialState.userStakeInfo,
+            maxDbcAmount: "0",
+            xaaBalance: "0", 
+            maxXaaAmount: "0"
           }));
         }
       }
     }, 100);
-  }, [address, isConnected, isAuthenticated, fetchUserStakeInfo, updateState]);
+  }, [address, isConnected, isAuthenticated, fetchUserBalance, fetchUserStakeInfo, updateState]);
 
   // 初始化数据 - 只在组件首次挂载时执行一次
   useEffect(() => {
@@ -439,6 +443,9 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     };
   }, [
     iaoContractAddress, 
+    address, // 添加钱包地址作为依赖项
+    isConnected, // 添加连接状态作为依赖项
+    isAuthenticated, // 添加认证状态作为依赖项
     fetchUserBalance, 
     fetchIaoProgress, 
     checkIaoStatus

@@ -535,12 +535,12 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     targetLanguages: ['zh', 'en', 'ja', 'ko']
                 })
             });
-            if (!res.ok) {
+            // if (!res.ok) {
                 setIsTranslationLoading(false);
-                setTranslationError('翻译失败，请稍后重试');
-                toast({ variant: 'destructive', description: '翻译失败，请稍后重试' });
-                return;
-            }
+                // setTranslationError('翻译失败，请稍后重试');
+                // toast({ variant: 'destructive', description: '翻译失败，请稍后重试' });
+                // return;
+            // }
             const data = await res.json();
             setTranslatedDescription(data);
             setIsTranslationLoading(false);

@@ -159,6 +159,18 @@ export function useAuth() {
   // 使用防抖动的认证函数
   const debouncedAuthenticate = useMemo(() => debounce(authenticate, 300), [authenticate]);
 
+  // 监听网络变化，当chainId变化时重新获取token
+  useEffect(() => {
+    if (isAuthenticated && address && isConnected) {
+      console.log('检测到网络变化，重新获取token');
+      // 清除旧的token
+      localStorage.removeItem('token');
+      apiClient.clearToken();
+      // 重新认证
+      debouncedAuthenticate();
+    }
+  }, [ address]);
+
   // 添加连接状态监听
   useEffect(() => {
     // 页面可见性变化时检查连接
