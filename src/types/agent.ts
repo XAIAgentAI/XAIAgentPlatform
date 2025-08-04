@@ -72,6 +72,14 @@ export const STATUS_COLUMNS_MAP: Record<string, AgentColumnField[]> = {
     AgentColumnField.TYPE,
     AgentColumnField.IAO_START_COUNTDOWN,  // 替换为开始倒计时
     AgentColumnField.CHAT
+  ],
+  'FAILED': [
+    AgentColumnField.AGENT_INFO,
+    AgentColumnField.SYMBOL,
+    AgentColumnField.TYPE,
+    AgentColumnField.INVESTED_XAA,
+    AgentColumnField.STATUS,
+    AgentColumnField.CHAT
   ]
 }
 
@@ -174,6 +182,13 @@ export const STATUS_SORT_OPTIONS_MAP: Record<string, {
     ],
     default: AgentSortField.LATEST,
   },
+  'FAILED': {
+    options: [
+      { value: AgentSortField.INVESTED_XAA, label: 'investedXAA' },
+      { value: AgentSortField.LATEST, label: 'latest' },
+    ],
+    default: AgentSortField.INVESTED_XAA,
+  }
 };
 
 export interface LocalAgent {

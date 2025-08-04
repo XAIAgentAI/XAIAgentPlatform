@@ -965,7 +965,7 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
 
   // 获取筹资进度信息
   const getIaoProgress = useCallback(async () => {
-    if (!iaoContractAddress || !walletClient) {
+    if (!iaoContractAddress) {
       return {
         totalDeposited: '0',
         investorCount: 0,
@@ -979,9 +979,10 @@ export const useStakeContract = (tokenAddress: `0x${string}`, iaoContractAddress
     }
 
     try {
+      // 创建公共客户端，不需要钱包登录
       const publicClient = createPublicClient({
         chain: currentChain,
-        transport: custom(walletClient.transport),
+        transport: http(),
       });
 
       const contractABI = getContractABI(symbol);

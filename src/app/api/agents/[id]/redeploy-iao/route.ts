@@ -184,6 +184,10 @@ export async function POST(
         liquidityAdded: false,
         tokensBurned: false,
         ownerTransferred: false,
+        // 重置IAO成功状态相关字段
+        iaoSuccessful: null,
+        iaoSuccessChecked: false,
+        iaoSuccessCheckTime: null,
       } as any,
     });
 

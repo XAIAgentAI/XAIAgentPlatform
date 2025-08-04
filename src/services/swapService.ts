@@ -448,7 +448,6 @@ interface PoolData {
 
 // 批量获取代币价格
 export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbol: string]: TokenPriceInfo }> => {
-  console.log("getBatchTokenPrices-tokens", tokens);
 
   try {
     // 获取24小时前的时间戳

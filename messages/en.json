@@ -183,6 +183,7 @@
     "iaoOngoing": "IAO Ongoing",
     "tradable": "Tradable",
     "iaoComingSoon": "IAO Coming Soon",
+    "iaoFailed": "IAO Failed",
     "noDataAvailable": "No data available",
     "change24h": "24h Change",
     "tokenPrice": "Token Price",

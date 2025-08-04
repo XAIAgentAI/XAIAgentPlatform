@@ -206,6 +206,12 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                 >
                   {t('iaoComingSoon')}
                 </TabsTrigger>
+                <TabsTrigger
+                  value="FAILED"
+                  className="data-[state=active]:bg-foreground data-[state=active]:text-background px-2 lg:px-4 py-1 text-xs lg:text-sm whitespace-nowrap"
+                >
+                  {t('iaoFailed')}
+                </TabsTrigger>
               </TabsList>
             </Tabs>
           </div>

@@ -181,6 +181,12 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                   >
                     {t('iaoComingSoon')}
                   </TabsTrigger>
+                  <TabsTrigger
+                    value="FAILED"
+                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
+                  >
+                    {t('iaoFailed')}
+                  </TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>

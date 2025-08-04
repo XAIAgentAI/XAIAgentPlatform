@@ -183,6 +183,7 @@
     "iaoOngoing": "IAO 진행 중",
     "tradable": "거래 가능",
     "iaoComingSoon": "IAO 시작 예정",
+    "iaoFailed": "IAO 실패",
     "noDataAvailable": "데이터가 없습니다",
     "change24h": "24시간 변동",
     "tokenPrice": "토큰 가격",
