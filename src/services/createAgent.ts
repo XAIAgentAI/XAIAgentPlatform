@@ -22,55 +22,6 @@ async function retry<T>(fn: () => Promise<T>, retries = MAX_RETRIES, delay = RET
   }
 }
 
-export const authAPI = {
-  async getNonce() {
-    try {
-      const response = await retry(() => 
-        axios.get(`${API_BASE_URL}/api/auth/nonce`)
-      );
-      console.log('获取 nonce 成功:', response.data);
-      return response.data.data;
-    } catch (error) {
-      console.error('获取 nonce 失败:', error);
-      throw error;
-    }
-  },
-
-  async generateSignature(message: string) {
-    // 创建一个随机钱包
-    const wallet = ethers.Wallet.createRandom();
-    console.log('测试钱包地址:', wallet.address);
-    console.log('测试钱包私钥:', wallet.privateKey);
-
-    // 签名消息
-    const signature = await wallet.signMessage(message);
-    console.log('生成的签名:', signature);
-
-    // 验证签名
-    const recoveredAddress = ethers.verifyMessage(message, signature);
-    console.log('恢复的地址:', recoveredAddress);
-    console.log('地址匹配:', recoveredAddress.toLowerCase() === wallet.address.toLowerCase());
-
-    return {
-      address: wallet.address,
-      signature,
-      message
-    };
-  },
-
-  async getToken(authData: { address: string; signature: string; message: string }) {
-    try {
-      const response = await retry(() => 
-        axios.post(`${API_BASE_URL}/api/auth/wallet-connect`, authData)
-      );
-      console.log('获取 token 成功:', response.data);
-      return response.data.data.token;
-    } catch (error) {
-      console.error('获取 token 失败:', error);
-      throw error;
-    }
-  }
-};
 
 export const agentAPI = {
   async create(token: string, name?: string, symbol?: string) {

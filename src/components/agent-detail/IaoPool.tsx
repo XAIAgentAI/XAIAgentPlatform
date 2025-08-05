@@ -485,7 +485,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     if (!shouldShowDeployInfo) return null;
 
     // 部署状态相关判断 
-    const isDeploying = agent.status === 'CREATING'; // 创建中
+    const isDeploying = agent.status === 'CREATING' || agent.status === 'TBA'; // 创建中
     const isDeployFailed = agent.status === 'FAILED'; // 部署失败
     const isIaoFailed = isIAOEnded && !isIaoSuccessful; // IAO结束且失败
     

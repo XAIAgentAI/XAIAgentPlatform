@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar } from "@/components/ui/avatar"
 import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
@@ -50,8 +51,8 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
   const urlSortBy = searchParams.get('sortBy');
   const urlSortOrder = searchParams.get('sortOrder') as "asc" | "desc" | null;
   
-  // 使用传入的currentStatusFilter
-  const [currentFilter, setCurrentFilter] = useState<string>(currentStatusFilter);
+  // 使用传入的currentStatusFilter，空字符串转换为"ALL"
+  const [currentFilter, setCurrentFilter] = useState<string>(currentStatusFilter || "ALL");
   
   // 获取当前状态下可用的排序选项
   const currentSortOptions = STATUS_SORT_OPTIONS_MAP[currentFilter] || STATUS_SORT_OPTIONS_MAP[''];
@@ -79,7 +80,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
 
   // 当父组件的currentStatusFilter变化时更新本地状态
   useEffect(() => {
-    setCurrentFilter(currentStatusFilter);
+    setCurrentFilter(currentStatusFilter || "ALL");
   }, [currentStatusFilter]);
 
   const fetchStakedInfo = async () => {
@@ -146,49 +147,32 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
         </div>
       )}
 
-      <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-card border-b border-[#E5E5E5] dark:border-white/10">
+      <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-gray-900 border-b border-[#E5E5E5] dark:border-white/10">
         <div className="flex flex-col p-4 gap-3">
           {/* 第一行：状态筛选 */}
           <div className="flex items-center gap-2 w-full">
-            <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
-            <div className="flex-1 overflow-x-auto hide-scrollbar">
-              <Tabs value={currentFilter} onValueChange={(value) => {
-                setCurrentFilter(value);
-                onStatusFilterChange(value);
-              }}>
-                <TabsList className="bg-transparent p-0 inline-flex gap-1 w-auto">
-                  <TabsTrigger
-                    value=""
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
-                  >
-                    {t('all')}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="IAO_ONGOING"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
-                  >
-                    {t('iaoOngoing')}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="TRADABLE"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
-                  >
-                    {t('tradable')}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="IAO_COMING_SOON"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
-                  >
-                    {t('iaoComingSoon')}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="FAILED"
-                    className="data-[state=active]:bg-foreground data-[state=active]:text-background bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs whitespace-nowrap rounded-full border-0 h-auto"
-                  >
-                    {t('iaoFailed')}
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
+            <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')} &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            <div className="flex-1">
+              <Select
+                value={currentFilter}
+                onValueChange={(value) => {
+                  setCurrentFilter(value);
+                  // 将 "ALL" 转换为空字符串传递给父组件
+                  const filterValue = value === "ALL" ? "" : value;
+                  onStatusFilterChange(filterValue);
+                }}
+              >
+                <SelectTrigger className="w-36 h-8 text-xs bg-white dark:bg-gray-800">
+                  <SelectValue placeholder={t('filterBy')} />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-gray-800">
+                  <SelectItem value="ALL">{t('all')}</SelectItem>
+                  <SelectItem value="IAO_ONGOING">{t('iaoOngoing')}</SelectItem>
+                  <SelectItem value="TRADABLE">{t('tradable')}</SelectItem>
+                  <SelectItem value="IAO_COMING_SOON">{t('iaoComingSoon')}</SelectItem>
+                  <SelectItem value="FAILED">{t('iaoFailed')}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -203,7 +187,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                 setSortDirection("desc");
                 router.push(`?sortBy=${newSortField}&sortOrder=desc`);
               }}>
-                <TabsList className="bg-transparent border border-[#E5E5E5] dark:border-white/30 p-1">
+                <TabsList className="bg-white dark:bg-gray-800 border border-[#E5E5E5] dark:border-white/30 p-1">
                   {currentSortOptions.options.map((option) => (
                     <TabsTrigger
                       key={option.value}
@@ -310,7 +294,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
         onSuccess={fetchStakedInfo}
       />}
       {loading ? (
-        <div className="flex items-center justify-center flex-1 bg-white dark:bg-card py-32">
+        <div className="flex items-center justify-center flex-1 bg-white dark:bg-gray-900 py-32">
           <Loading />
         </div>
       ) : (
@@ -322,7 +306,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
               return (
                 <div
                   key={`${agent.id}-${agent.symbol}`}
-                  className="p-4 bg-white dark:bg-card cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
+                  className="p-4 bg-white dark:bg-gray-900 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
                   onClick={() => handleRowClick(agent.id)}
                 >
                   <div className="flex items-center gap-4 mb-4">
@@ -510,7 +494,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
               );
             })
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 px-4 bg-white dark:bg-card">
+                         <div className="flex flex-col items-center justify-center py-20 px-4 bg-white dark:bg-gray-900">
               <img 
                 src="/logo.png" 
                 alt={t('accessibility.noDataImage')} 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { apiClient } from '@/lib/api-client';
 import { useAuthStore } from '@/stores/auth';
@@ -24,6 +24,9 @@ export function useAuth() {
   // 添加连接尝试次数跟踪
   const [connectAttempts, setConnectAttempts] = useState(0);
   const maxConnectAttempts = 3;
+  
+  // 使用ref跟踪前一个地址，避免undefined到有效地址的误触发
+  const prevAddressRef = useRef<string | undefined>(undefined);
   
   // 添加防抖动函数，避免短时间内多次连接请求
   const debounce = (func: Function, wait: number) => {
@@ -159,17 +162,32 @@ export function useAuth() {
   // 使用防抖动的认证函数
   const debouncedAuthenticate = useMemo(() => debounce(authenticate, 300), [authenticate]);
 
-  // 监听网络变化，当chainId变化时重新获取token
+  // 监听网络变化，当address变化时重新获取token
   useEffect(() => {
-    if (isAuthenticated && address && isConnected) {
-      console.log('检测到网络变化，重新获取token');
+    console.log("检测到网络变化，重新获取token: ", isAuthenticated, address, isConnected, "前一个地址:", prevAddressRef.current);
+    
+    // 只有当以下条件都满足时才重新认证：
+    // 1. 已经认证过
+    // 2. 当前有有效地址（不是undefined）
+    // 3. 钱包已连接
+    // 4. 前一个地址也存在（不是从undefined开始）
+    // 5. 地址确实发生了变化
+    if (isAuthenticated && 
+        address && 
+        isConnected && 
+        prevAddressRef.current && 
+        address.toLowerCase() !== prevAddressRef.current.toLowerCase()) {
+      console.log('检测到真实的网络变化，重新获取token');
       // 清除旧的token
       localStorage.removeItem('token');
       apiClient.clearToken();
       // 重新认证
       debouncedAuthenticate();
     }
-  }, [ address]);
+    
+    // 更新前一个地址的引用
+    prevAddressRef.current = address;
+  }, [address, isAuthenticated, isConnected, debouncedAuthenticate]);
 
   // 添加连接状态监听
   useEffect(() => {

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
-import { authAPI, } from '@/services/createAgent';
 import { config } from '@/lib/config';
 import { TokenDistributionInfo } from '@/components/ui-custom/token-distribution-info';
 
@@ -349,57 +348,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         return true;
     }
 
-    // Function to generate use cases
-    const generateUseCases = async () => {
-        if (!formData.description) {
-            alert(t("provideDescriptionFirst"));
-            return;
-        }
-
-        setGeneratingUseCases(true);
-        try {
-            const response = await fetch('/api/chat/translate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    description: formData.description || "An Agent"
-                })
-            });
-
-            if (response.ok) {
-                const translatedCases = await response.json();
-                setUseCases(translatedCases);
-            } else {
-                // Fallback to default cases if API fails
-                setUseCases({
-                    en: [
-                        "Help me brainstorm creative ideas for my project",
-                        "Assist me in analyzing market trends for my business",
-                        "Guide me through setting up a new productivity system"
-                    ],
-                    ja: [
-                        "プロジェクトの創造的なアイデアをブレインストーミングするのを手伝ってください",
-                        "ビジネスのための市場動向を分析するのを支援してください",
-                        "新しい生産性システムの設定を案内してください"
-                    ],
-                    ko: [
-                        "프로젝트를 위한 창의적인 아이디어를 브레인스토밍하는 것을 도와주세요",
-                        "비즈니스를 위한 시장 동향 분석을 지원해 주세요",
-                        "새로운 생산성 시스템 설정을 안내해 주세요"
-                    ],
-                    zh: [
-                        "帮我为AI模型进行创意头脑风暴",
-                        "协助我分析业务的市场趋势",
-                        "指导我建立新的效率系统"
-                    ]
-                });
-            }
-        } catch (error) {
-            console.error('Error generating use cases:', error);
-        } finally {
-            setGeneratingUseCases(false);
-        }
-    };
 
     const currentLangUseCases = useCases[locale as keyof typeof useCases] || useCases.en;
 
@@ -448,20 +396,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
         }
     }, [displayProgress, creationProgress]);
 
-    const getRealToken = async () => {
-        // 检查是否有token
-        if (localStorage.getItem("token")) {
-            return localStorage.getItem("token");
-        }
-        // 认证流程
-        const nonceData = await authAPI.getNonce();
-        setCreationProgress(20);
-        const authData = await authAPI.generateSignature(nonceData.message);
-        setCreationProgress(40);
-        const token = await authAPI.getToken(authData);
-        setCreationProgress(60);
-        return token;
-    }
+
 
     // 修改handleNameChange，移除直接保存逻辑
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -575,8 +510,6 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                 };
                 setData(initialData);
 
-                // 获取token
-                const token = await getRealToken();
                 setCreationProgress(40);
                 setDisplayProgress(40);
 
@@ -681,7 +614,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     method,
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${localStorage.getItem("token")}`
                     },
                     body: JSON.stringify(agentData)
                 });

@@ -91,14 +91,6 @@ export const shouldShowColumn = (status: string, field: AgentColumnField): boole
   const effectiveStatus = status === '' ? 'ALL' : status;
   const columns = STATUS_COLUMNS_MAP[effectiveStatus] || STATUS_COLUMNS_MAP['ALL'];
   
-  console.log('Status Check:', {
-    originalStatus: status,
-    effectiveStatus,
-    field,
-    hasColumns: !!columns,
-    isShown: columns.includes(field)
-  });
-  
   return columns.includes(field);
 }
 

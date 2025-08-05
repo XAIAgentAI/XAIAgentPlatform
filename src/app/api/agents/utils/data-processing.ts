@@ -263,7 +263,7 @@ export async function formatAgentData(
       // 默认的 investedXAA 字段，将在排序时被实际值覆盖
       investedXAA: 0,
       // IAO成功状态
-      iaoSuccessful: iaoSuccessStatus.isSuccessful,
+      iaoSuccessful: iaoSuccessStatus.isSuccessful ?? undefined,
     };
 
     return formattedItem;
