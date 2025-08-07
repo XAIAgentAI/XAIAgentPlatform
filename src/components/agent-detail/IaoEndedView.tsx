@@ -15,6 +15,7 @@ import { TokenDistributionModal } from './TokenDistributionModal';
 import type { LocalAgent } from "@/types/agent";
 import { Countdown } from "@/components/ui-custom/countdown";
 import { copyToClipboard } from '@/lib/utils';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 
 interface IaoEndedViewProps {
   agent: LocalAgent;
@@ -59,6 +60,7 @@ export const IaoEndedView = ({
   const [isTransferringOwnership, setIsTransferringOwnership] = useState(false);
   const [ownershipTaskId, setOwnershipTaskId] = useState<string | null>(null);
   const [ownershipTaskStatus, setOwnershipTaskStatus] = useState<'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | null>(null);
+  const { address, isConnected, status } = useAppKitAccount()
 
   // 添加shouldShowClaimButton函数
   const shouldShowClaimButton = () => {
@@ -77,11 +79,8 @@ export const IaoEndedView = ({
 
   // 处理手动领取退款（IAO失败时）
   const handleClaimRefund = async () => {
-    // Assuming isAuthenticated is available in the context or passed as a prop
-    // For now, we'll assume it's true for demonstration purposes
-    const isAuthenticated = true; // Placeholder for actual authentication check
 
-    if (!isAuthenticated) {
+    if (!address) {
       toast({
         title: tIaoPool('error'),
         description: tIaoPool('connectWalletFirst'),
@@ -94,14 +93,11 @@ export const IaoEndedView = ({
       // 直接调用传入的onClaimRewards函数，它会处理设置isClaiming的逻辑
       const result: any = await onClaimRewards();
 
-      if (result?.success) {
-        toast({
-          title: tIaoPool('claimSuccess'),
-          description: tIaoPool('refundSentToWallet'),
-        });
-      } else {
-        throw new Error(result?.error || tIaoPool('claimFailed'));
-      }
+      toast({
+        title: tIaoPool('claimSuccess'),
+        description: tIaoPool('refundSentToWallet'),
+      });
+
     } catch (error: any) {
       const errorMessage = error.message || tIaoPool('claimFailed');
       toast({
@@ -372,8 +368,8 @@ export const IaoEndedView = ({
     }
 
     // 计算总可领取金额
-    const totalClaimable = (parseFloat(userStakeInfo.rewardForOrigin || '0') || 0) + 
-                          (parseFloat(userStakeInfo.rewardForNFT || '0') || 0);
+    const totalClaimable = (parseFloat(userStakeInfo.rewardForOrigin || '0') || 0) +
+      (parseFloat(userStakeInfo.rewardForNFT || '0') || 0);
 
     return (
       <div className="mt-6 sm:mt-8">
@@ -385,17 +381,17 @@ export const IaoEndedView = ({
               {formatNumber(userStakeInfo.userDeposited)}
             </span>
           </div>
-          
+
           {/* 添加可领取/已领取金额显示 */}
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
             <span className="text-black dark:text-white font-medium">
-              {userStakeInfo.hasClaimed ? 
-                tIaoPool('claimedAmount', { symbol: agent.symbol }) : 
+              {userStakeInfo.hasClaimed ?
+                tIaoPool('claimedAmount', { symbol: agent.symbol }) :
                 tIaoPool('claimableAmount', { symbol: agent.symbol })}:
             </span>
             <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
-              {formatNumber(userStakeInfo.hasClaimed ? 
-                userStakeInfo.claimedAmount || '0' : 
+              {formatNumber(userStakeInfo.hasClaimed ?
+                userStakeInfo.claimedAmount || '0' :
                 totalClaimable.toString())}
             </span>
           </div>
@@ -446,11 +442,10 @@ export const IaoEndedView = ({
               ) : (
                 <>
                   <Button
-                    className={`w-full sm:w-auto px-8 ${
-                      userStakeInfo.hasClaimed || !canClaim || !agent.tokensDistributed || !agent.liquidityAdded || !agent.tokensBurned
+                    className={`w-full sm:w-auto px-8 ${userStakeInfo.hasClaimed || !canClaim || !agent.tokensDistributed || !agent.liquidityAdded || !agent.tokensBurned
                         ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
                         : 'bg-[#F47521] hover:bg-[#E56411]'
-                    }`}
+                      }`}
                     onClick={onClaimRewards}
                     disabled={isClaiming || userStakeInfo.hasClaimed || !canClaim || !agent.tokenAddress || !agent.tokensDistributed || !agent.liquidityAdded || !agent.tokensBurned}
                   >
@@ -508,7 +503,7 @@ export const IaoEndedView = ({
             </div>
           ) : (
             // 失败的IAO，显示领取退款按钮
-            <div className="flex flex-col items-center"> 
+            <div className="flex flex-col items-center">
               {/* 如果无法领取且未领取过，显示等待提示 */}
               {!canClaim && !userStakeInfo.hasClaimed && Number(userStakeInfo.userDeposited) > 0 && !isClaiming && poolInfo?.endTime && (
                 <div className="mb-3 w-full p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900 rounded-lg">
@@ -523,7 +518,7 @@ export const IaoEndedView = ({
                   <div className="flex items-center text-yellow-600">
                     <span className="text-xs mr-1">{tIaoPool('remainingTime')}:</span>
                     {poolInfo?.endTime && (
-                      <Countdown 
+                      <Countdown
                         remainingTime={(poolInfo.endTime * 1000) + (10 * 60 * 1000) - Date.now()}
                         mode="compact"
                         color="warning"
@@ -534,13 +529,12 @@ export const IaoEndedView = ({
                   </div>
                 </div>
               )}
-                          
+
               <Button
-                className={`w-full sm:w-auto px-8 ${
-                  userStakeInfo.hasClaimed || (!canClaim && !isClaiming)
+                className={`w-full sm:w-auto px-8 ${userStakeInfo.hasClaimed || (!canClaim && !isClaiming)
                     ? 'bg-gray-500 hover:bg-gray-500 cursor-not-allowed'
                     : 'bg-[#F47521] hover:bg-[#E56411]'
-                }`}
+                  }`}
                 onClick={handleClaimRefund}
                 disabled={isClaiming || userStakeInfo.hasClaimed || (!canClaim && !isClaiming)}
               >
@@ -585,12 +579,11 @@ export const IaoEndedView = ({
             {/* 简化的步骤进度 - 正确的3步流程 */}
             <div className="space-y-3">
               {/* 步骤1: 创建代币 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokenAddress ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                tokenCreationTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
-                'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20'
-              }`}>
+              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokenAddress ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                  isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                    tokenCreationTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
+                      'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20'
+                }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🪙</span>
                   <div>
@@ -616,12 +609,11 @@ export const IaoEndedView = ({
               </div>
 
               {/* 步骤2: 代币分发 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                distributionTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
-                agent.tokenAddress ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
-              }`}>
+              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                  distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                    distributionTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
+                      agent.tokenAddress ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
+                }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">📤</span>
                   <div>
@@ -653,11 +645,10 @@ export const IaoEndedView = ({
               </div>
 
               {/* 步骤3: 销毁代币 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                agent.tokensBurned ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                isBurning ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                agent.tokensDistributed && agent.liquidityAdded ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
-              }`}>
+              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokensBurned ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
+                  isBurning ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
+                    agent.tokensDistributed && agent.liquidityAdded ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
+                }`}>
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🔥</span>
                   <div>
@@ -714,8 +705,8 @@ export const IaoEndedView = ({
                   <code className="bg-background/10 dark:bg-white/[0.05] px-2 py-1 rounded text-xs break-all flex-1 text-foreground/90">
                     {agent.tokenAddress}
                   </code>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={async () => {
                       const ok = await copyToClipboard(agent.tokenAddress || '');
@@ -754,17 +745,17 @@ export const IaoEndedView = ({
         {/* 筹资结果展示 */}
         <FundraisingResults />
 
-  
+
       </div>
 
-            {/* IAO完成数据展示 */}
-            {isIaoSuccessful && <IaoCompletedData />}
+      {/* IAO完成数据展示 */}
+      {isIaoSuccessful && <IaoCompletedData />}
 
-{/* LP池数据展示 */}
-{isIaoSuccessful && agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && <LpPoolData />}
+      {/* LP池数据展示 */}
+      {isIaoSuccessful && agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && <LpPoolData />}
 
-{/* 用户质押信息 */}
-<UserStakeInfo />
+      {/* 用户质押信息 */}
+      <UserStakeInfo />
     </>
   );
 };
