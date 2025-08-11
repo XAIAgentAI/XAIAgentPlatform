@@ -134,6 +134,25 @@ export const getStatusDisplayText = (status: string): string => {
   return STATUS_DISPLAY_MAP[status] || status;
 };
 
+// 基于状态返回 agentList 命名空间下的多语言键
+export const getStatusI18nKey = (status: string): string => {
+  const keyMap: Record<string, string> = {
+    'TRADABLE': 'statusLabels.tradable',
+    'Tradable': 'statusLabels.tradable',
+    'IAO_ONGOING': 'statusLabels.iaoOngoing',
+    'IAO_COMING_SOON': 'statusLabels.iaoComingSoon',
+    'TBA': 'statusLabels.tba',
+    'CREATING': 'statusLabels.creating',
+    'ACTIVE': 'statusLabels.active',
+    'FAILED': 'statusLabels.failed',
+    'failed': 'statusLabels.failed',
+    'PENDING': 'statusLabels.pending',
+    'pending': 'statusLabels.pending',
+  };
+
+  return keyMap[status] || 'statusLabels.pending';
+};
+
 // 排序字段枚举
 export enum AgentSortField {
   INVESTED_XAA = 'investedXAA',

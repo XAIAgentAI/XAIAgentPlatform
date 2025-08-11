@@ -215,9 +215,19 @@
     "iaoEndCountdown": "IAO 종료 카운트다운",
     "iaoStartCountdown": "IAO 시작 카운트다운",
     "searchResults": "검색 결과",
-    "foundResults": "{count}개의 결과를 찾았습니다",
-    "noResultsFound": "결과를 찾을 수 없습니다"
-  },
+          "foundResults": "{count}개의 결과를 찾았습니다",
+      "noResultsFound": "결과를 찾을 수 없습니다",
+      "statusLabels": {
+        "tradable": "거래 가능",
+        "iaoOngoing": "진행 중",
+        "iaoComingSoon": "예정",
+        "tba": "미정",
+        "creating": "생성 중",
+        "active": "활성",
+        "failed": "실패",
+        "pending": "대기 중"
+      }
+    },
   "agentDetail": {
     "overview": "개요",
     "analytics": "분석",
@@ -604,6 +614,10 @@
     "type": "유형",
     "chat": "채팅",
     "noDataAvailable": "데이터를 사용할 수 없습니다",
+    "infrastructure": "인프라",
+    "aiAgent": "AI 에이전트",
+    "noAgentsFound": "에이전트를 찾을 수 없습니다",
+    "noAgentsFoundDesc": "현재 사용 가능한 에이전트가 없습니다. 나중에 다시 시도하거나 새로운 에이전트를 생성해 주세요.",
     "accessibility": {
       "avatarImage": "아바타 이미지",
       "sortIcon": "정렬 아이콘",

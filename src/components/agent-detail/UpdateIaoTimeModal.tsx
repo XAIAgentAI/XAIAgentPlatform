@@ -40,6 +40,20 @@ export const UpdateIaoTimeModal = ({
   const t = useTranslations('iaoPool.updateTimeModal');
   const [isLoading, setIsLoading] = useState(externalLoading);
 
+  // 统一规范开始时间（根源修复）：按最小开始延迟（小时）规范化天/小时
+  const normalizeStartDelay = (days: number, hours: number) => {
+    const minHours = config.iao.minStartDelayHours; // 24
+    const clampedDays = Math.max(0, Math.min(30, Math.floor(days || 0)));
+    const clampedHours = Math.max(0, Math.min(23, Math.floor(hours || 0)));
+
+    let totalHours = clampedDays * 24 + clampedHours;
+    if (totalHours < minHours) totalHours = minHours;
+
+    const normalizedDays = Math.floor(totalHours / 24);
+    const normalizedHours = totalHours % 24;
+    return { days: normalizedDays, hours: normalizedHours };
+  };
+
   // 开始时间设置（从现在开始的天数和小时数）
   const [iaoStartDays, setIaoStartDays] = useState<number>(config.iao.defaultStartDays);
   const [iaoStartHours, setIaoStartHours] = useState<number>(config.iao.defaultStartHours);
@@ -77,13 +91,15 @@ export const UpdateIaoTimeModal = ({
         const startDays = Math.floor(startDiff / (24 * 3600));
         const startHours = Math.floor((startDiff % (24 * 3600)) / 3600);
 
-
-        setIaoStartDays(0);
-        setIaoStartHours(0);
+        // 通过规范化函数，确保至少 24 小时（1 天 0 小时）
+        const n = normalizeStartDelay(startDays, startHours);
+        setIaoStartDays(n.days);
+        setIaoStartHours(n.hours);
       } else {
-        // 如果已经开始，设置为默认值
-        setIaoStartDays(0);
-        setIaoStartHours(0);
+        // 如果已经开始，设置为默认值（同样规范化一次，以适配未来最小值调整）
+        const n = normalizeStartDelay(config.iao.defaultStartDays, config.iao.defaultStartHours);
+        setIaoStartDays(n.days);
+        setIaoStartHours(n.hours);
       }
 
       // 初始化持续时间
@@ -184,7 +200,20 @@ export const UpdateIaoTimeModal = ({
 
     let hasError = false;
 
-    // 移除了开始时间最少需要24小时的限制
+    // 校验开始时间：未开始情况下，必须至少为24小时后
+    if (!isIaoStarted) {
+      const startDelayHours = iaoStartDays * 24 + iaoStartHours;
+      if (startDelayHours < config.iao.minStartDelayHours) {
+        setStartTimeError(true);
+        hasError = true;
+        toast({
+          title: t('error'),
+          description: t('validationErrors.startAfter24h'),
+          variant: "destructive"
+        });
+        startTimeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
 
     // 验证持续时间（使用配置的最小和最大值）
     if (durationSeconds < config.iao.minDurationHours * 3600 || durationSeconds > config.iao.maxDurationHours * 3600) {
@@ -325,8 +354,9 @@ export const UpdateIaoTimeModal = ({
                       value={iaoStartDays}
                       onChange={(e) => {
                         const value = parseInt(e.target.value) || 0;
-                        const clampedValue = Math.max(0, Math.min(30, value));
-                        setIaoStartDays(clampedValue);
+                        const n = normalizeStartDelay(value, iaoStartHours);
+                        setIaoStartDays(n.days);
+                        setIaoStartHours(n.hours);
                         if (startTimeError) setStartTimeError(false);
                       }}
                       placeholder="0"
@@ -343,8 +373,9 @@ export const UpdateIaoTimeModal = ({
                       value={iaoStartHours}
                       onChange={(e) => {
                         const value = parseInt(e.target.value) || 0;
-                        const clampedValue = Math.max(0, Math.min(23, value));
-                        setIaoStartHours(clampedValue);
+                        const n = normalizeStartDelay(iaoStartDays, value);
+                        setIaoStartDays(n.days);
+                        setIaoStartHours(n.hours);
                         if (startTimeError) setStartTimeError(false);
                       }}
                       placeholder="0"

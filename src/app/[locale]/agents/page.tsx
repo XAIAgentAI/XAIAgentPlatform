@@ -41,7 +41,7 @@ export default function AgentsPage() {
   const locale = useLocale()
   
   // 获取搜索参数
-  const searchKeyword = searchParams.get('searchKeyword') || ''
+  const searchKeyword = searchParams?.get('searchKeyword') || ''
   
   useEffect(() => {
     const fetchAgents = async () => {
@@ -191,13 +191,7 @@ export default function AgentsPage() {
                           <p className="text-[10px] lg:text-xs text-primary mt-1 truncate">
                             {agent.symbol} | {t('agents.marketCap')}: {agent.marketCap}
                           </p>
-                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">{t('agents.status')}: {
-                            locale === 'en' ? agent.status :
-                            locale === 'ja' ? agent.statusJA :
-                            locale === 'ko' ? agent.statusKO :
-                            locale === 'zh' ? agent.statusZH :
-                            agent.status
-                          }</p>
+                          <p className="text-[10px] lg:text-xs text-muted-foreground mt-1">{t('agents.status')}: {agent.status}</p>
                           <p className="text-foreground/50 text-[10px] lg:text-xs font-normal font-['Sora'] leading-[14px] mt-4 line-clamp-2 group-hover:text-primary/90 transition-colors">
                             {locale === 'en' && agent.description}
                             {locale === 'ja' && agent.descriptionJA}

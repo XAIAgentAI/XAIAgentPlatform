@@ -10,7 +10,7 @@ import { Loading } from "@/components/ui-custom/loading"
 import { SocialLinks } from "@/components/ui/social-links"
 import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { useTranslations, useLocale } from 'next-intl';
-import { getStatusVariant, getStatusDisplayText, type AgentListProps, AgentColumnField, shouldShowColumn, AgentSortField, STATUS_SORT_OPTIONS_MAP } from "@/types/agent"
+import { getStatusVariant, getStatusI18nKey, type AgentListProps, AgentColumnField, shouldShowColumn, AgentSortField, STATUS_SORT_OPTIONS_MAP } from "@/types/agent"
 import { formatPriceChange } from '@/lib/utils';
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
 import { useSearchParams } from "next/navigation"
@@ -48,8 +48,8 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
   const { toast } = useToast();
 
   // 获取URL中的排序参数
-  const urlSortBy = searchParams.get('sortBy');
-  const urlSortOrder = searchParams.get('sortOrder') as "asc" | "desc" | null;
+  const urlSortBy = searchParams?.get('sortBy');
+  const urlSortOrder = searchParams?.get('sortOrder') as "asc" | "desc" | null;
   
   // 使用传入的currentStatusFilter，空字符串转换为"ALL"
   const [currentFilter, setCurrentFilter] = useState<string>(currentStatusFilter || "ALL");
@@ -429,7 +429,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                         <span className="text-muted-color text-xs block">{t('status')}</span>
                         <div className="text-secondary-color text-sm font-medium">
                           <CustomBadge variant={getStatusVariant(agent.status)}>
-                            {getStatusDisplayText(agent.status)}
+                            {t(getStatusI18nKey(agent.status))}
                           </CustomBadge>
                         </div>
                       </div>

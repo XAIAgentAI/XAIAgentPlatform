@@ -81,7 +81,7 @@ const Navbar = () => {
 
   // 监听 URL 参数变化，自动同步搜索关键词到输入框
   useEffect(() => {
-    const keyword = searchParams.get('searchKeyword') || '';
+    const keyword = searchParams?.get('searchKeyword') || '';
     setSearchKeyword(keyword);
   }, [searchParams]);
 

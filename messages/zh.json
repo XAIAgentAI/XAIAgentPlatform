@@ -215,9 +215,19 @@
     "iaoEndCountdown": "IAO结束倒计时",
     "iaoStartCountdown": "IAO开始倒计时",
     "searchResults": "搜索结果",
-    "foundResults": "找到 {count} 个结果",
-    "noResultsFound": "未找到结果"
-  },
+          "foundResults": "找到 {count} 个结果",
+      "noResultsFound": "未找到结果",
+      "statusLabels": {
+        "tradable": "可交易",
+        "iaoOngoing": "IAO进行中",
+        "iaoComingSoon": "IAO即将开始",
+        "tba": "待公布",
+        "creating": "创建中",
+        "active": "已激活",
+        "failed": "失败",
+        "pending": "处理中"
+      }
+    },
   "agentDetail": {
     "overview": "概览",
     "analytics": "分析",
@@ -604,6 +614,10 @@
     "type": "类型",
     "chat": "聊天",
     "noDataAvailable": "暂无数据",
+    "infrastructure": "基础设施",
+    "aiAgent": "AI智能体",
+    "noAgentsFound": "未找到智能体",
+    "noAgentsFoundDesc": "当前没有可用的智能体，请稍后再试或创建新的智能体",
     "accessibility": {
       "avatarImage": "头像图片",
       "sortIcon": "排序图标",

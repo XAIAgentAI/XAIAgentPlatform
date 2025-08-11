@@ -215,9 +215,19 @@
     "iaoEndCountdown": "IAO End Countdown",
     "iaoStartCountdown": "IAO Start Countdown",
     "searchResults": "Search results",
-    "foundResults": "Found {count} results",
-    "noResultsFound": "No results found"
-  },
+          "foundResults": "Found {count} results",
+      "noResultsFound": "No results found",
+      "statusLabels": {
+        "tradable": "Tradable",
+        "iaoOngoing": "IAO Ongoing",
+        "iaoComingSoon": "IAO Coming Soon",
+        "tba": "TBA",
+        "creating": "Creating",
+        "active": "Active",
+        "failed": "Failed",
+        "pending": "Pending"
+      }
+    },
   "agentDetail": {
     "overview": "Overview",
     "analytics": "Analytics",
@@ -604,6 +614,10 @@
     "type": "Type",
     "chat": "Chat",
     "noDataAvailable": "No Data Available",
+    "infrastructure": "Infrastructure",
+    "aiAgent": "AI Agent",
+    "noAgentsFound": "No Agents Found",
+    "noAgentsFoundDesc": "No agents are currently available. Please try again later or create a new agent.",
     "accessibility": {
       "avatarImage": "Avatar Image",
       "sortIcon": "Sort Icon",

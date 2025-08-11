@@ -9,7 +9,7 @@ import { CustomBadge } from "@/components/ui-custom/custom-badge"
 import { useRouter } from "next/navigation"
 import { Loading } from "@/components/ui-custom/loading"
 import { useTranslations, useLocale } from 'next-intl';
-import { getStatusVariant, getStatusDisplayText, type AgentListProps, AgentColumnField, shouldShowColumn, AgentSortField, STATUS_SORT_OPTIONS_MAP } from "@/types/agent"
+import { getStatusVariant, getStatusI18nKey, type AgentListProps, AgentColumnField, shouldShowColumn, AgentSortField, STATUS_SORT_OPTIONS_MAP } from "@/types/agent"
 import { SocialLinks } from "@/components/ui/social-links"
 import { StakeNFTsDialog } from "@/components/agent-list/stake-nfts-dialog"
 import { GradientBorderButton } from "@/components/ui-custom/gradient-border-button"
@@ -53,8 +53,8 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
   const { toast } = useToast();
   
   // 获取URL中的排序参数
-  const urlSortBy = searchParams.get('sortBy');
-  const urlSortOrder = searchParams.get('sortOrder') as "asc" | "desc" | null;
+  const urlSortBy = searchParams?.get('sortBy');
+  const urlSortOrder = searchParams?.get('sortOrder') as "asc" | "desc" | null;
   
   // 使用传入的currentStatusFilter
   const [currentFilter, setCurrentFilter] = useState(currentStatusFilter);
@@ -414,7 +414,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                                 {
                                   agent.status === 'PENDING' && (
                                     <CustomBadge variant={getStatusVariant(agent.status)}>
-                                      {getStatusDisplayText(agent.status)}
+                                      {t(getStatusI18nKey(agent.status))}
                                     </CustomBadge>
                                   )
                                 }

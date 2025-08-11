@@ -214,10 +214,20 @@
     "investedXAA": "投資済みXAA",
     "iaoEndCountdown": "IAO終了カウントダウン",
     "iaoStartCountdown": "IAO開始カウントダウン",
-    "searchResults": "検索結果",
-    "foundResults": "{count} 件の結果が見つかりました",
-    "noResultsFound": "結果が見つかりませんでした"
-  },
+          "searchResults": "検索結果",
+      "foundResults": "{count} 件の結果が見つかりました",
+      "noResultsFound": "結果が見つかりませんでした",
+      "statusLabels": {
+        "tradable": "取引可能",
+        "iaoOngoing": "IAO進行中",
+        "iaoComingSoon": "IAO予定",
+        "tba": "未定",
+        "creating": "作成中",
+        "active": "アクティブ",
+        "failed": "失敗",
+        "pending": "保留中"
+      }
+    },
   "agentDetail": {
     "overview": "概要",
     "analytics": "分析",
@@ -604,6 +614,10 @@
     "type": "タイプ",
     "chat": "チャット",
     "noDataAvailable": "データがありません",
+    "infrastructure": "インフラストラクチャ",
+    "aiAgent": "AIエージェント",
+    "noAgentsFound": "エージェントが見つかりません",
+    "noAgentsFoundDesc": "現在利用可能なエージェントがありません。後でもう一度お試しいただくか、新しいエージェントを作成してください。",
     "accessibility": {
       "avatarImage": "アバター画像",
       "sortIcon": "ソートアイコン",
