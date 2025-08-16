@@ -9,689 +9,2057 @@
  ⚠     "env._next_intl_trailing_slash" is missing, expected string
  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
  ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
- ✓ Ready in 13.7s
- ✓ Compiled /src/middleware in 573ms
+ ✓ Ready in 11.8s
+ ✓ Compiled /src/middleware in 580ms
  ✓ Compiled (242 modules)
- ○ Compiling /[locale]/agent-detail/[id] ...
-Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
-  npx update-browserslist-db@latest
-  Why you should do it regularly: https://github.com/browserslist/update-db#readme
- ✓ Compiled /[locale]/agent-detail/[id] in 32.3s (10692 modules)
-Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
- ○ Compiling /not-found ...
- ✓ Compiled /api/auth/wallet-connect-no-sig in 3.3s (10684 modules)
- ✓ Compiled (11191 modules)
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-钱包连接失败: PrismaClientInitializationError: 
-Invalid `prisma.user.findUnique()` invocation:
+ ○ Compiling /api/airdrop/dev-send ...
+ ✓ Compiled /api/airdrop/dev-send in 1615ms (664 modules)
+🚀 Development airdrop request: 0xf3851DE68b2Ac824B1D4c85878df76e7cE2bD808 -> 25 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+💰 Server wallet balance: 92.1574 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477730.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-API Error: PrismaClientInitializationError: 
-Invalid `prisma.agent.findUnique()` invocation:
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:23:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-API Error: PrismaClientInitializationError: 
-Invalid `prisma.agent.findUnique()` invocation:
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:23:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-钱包连接失败: PrismaClientInitializationError: 
-Invalid `prisma.user.findUnique()` invocation:
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-API Error: PrismaClientInitializationError: 
-Invalid `prisma.agent.findUnique()` invocation:
-
-
-Can't reach database server at `52.78.26.103:5432`
-
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:23:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-钱包连接失败: PrismaClientInitializationError: 
-Invalid `prisma.user.findUnique()` invocation:
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:298:17)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0xf3851DE68b2Ac824B1D4c85878df76e7cE2bD808 -> 25 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1574 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477730.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7640)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  clientVersion: '6.2.1',
-  errorCode: undefined
-}
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ○ Compiling /[locale] ...
- ✓ Compiled /[locale] in 1882ms (11139 modules)
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 1017ms (6101 modules)
-当前时间戳: 1754363159
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754363159
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:05:59.480Z
-}
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:05:59.481Z
-}
-所有IAO状态检查完成
-所有IAO状态检查完成
-当前时间戳: 1754363159
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:05:59.694Z
-}
-所有IAO状态检查完成
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-当前时间戳: 1754363297
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754363297
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:08:22.836Z
-}
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:08:22.847Z
-}
-所有IAO状态检查完成
-所有IAO状态检查完成
-获取DBC tokens失败 (尝试 1/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
-    at runNextTicks (node:internal/process/task_queues:65:5)
-    at listOnTimeout (node:internal/timers:549:9)
-    at process.processTimers (node:internal/timers:523:7)
-获取DBC tokens失败 (尝试 1/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
-sortedAgents []
-sortedAgents []
-当前时间戳: 1754363308
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754363308
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-获取DBC tokens失败 (尝试 2/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:08:33.632Z
-}
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:08:33.634Z
-}
-所有IAO状态检查完成
-所有IAO状态检查完成
-获取DBC tokens失败 (尝试 1/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ○ Compiling /api/auth/wallet-connect-no-sig ...
- ✓ Compiled /api/auth/wallet-connect-no-sig in 857ms (6191 modules)
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-User: {
-  id: 'a7df5851-9277-4446-b7de-5a3a6ea31781',
-  address: '0xde184a6809898d81186def5c0823d2107c001da2',
-  nickname: null,
-  avatar: null,
-  createdAt: 2025-08-04T08:26:39.112Z,
-  updatedAt: 2025-08-04T08:26:39.112Z,
-  preferences: null
-}
-当前时间戳: 1754363408
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754363408
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:10:14.177Z
-}
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
-}
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:10:14.178Z
-}
-所有IAO状态检查完成
-所有IAO状态检查完成
-获取DBC tokens失败 (尝试 1/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
-    at runNextTicks (node:internal/process/task_queues:65:5)
-    at listOnTimeout (node:internal/timers:549:9)
-    at process.processTimers (node:internal/timers:523:7)
-获取DBC tokens失败 (尝试 1/3): DOMException [AbortError]: This operation was aborted
-    at node:internal/deps/undici/undici:13510:13
- ✓ Compiled in 3.6s (11385 modules)
- ○ Compiling /api/agents/[id] ...
- ✓ Compiled /api/agents/[id] in 738ms (6072 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
-}
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ○ Compiling /[locale]/create ...
- ✓ Compiled /[locale]/create in 1116ms (11400 modules)
-API Error: PrismaClientKnownRequestError: 
-Invalid `prisma.agent.findUnique()` invocation:
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
 
 
-Can't reach database server at `52.78.26.103:5432`
+Can't reach database server at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`
 
-Please make sure your database server is running at `52.78.26.103:5432`.
-    at Vn.handleRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:7339)
-    at Vn.handleAndLogRequestError (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6663)
-    at Vn.request (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:121:6370)
-    at async l (E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\@prisma+client@6.2.1_prisma@6.2.1\node_modules\@prisma\client\runtime\library.js:130:9617)
-    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/[id]/route.ts:23:23)
-    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251 {
-  code: 'P1001',
-  clientVersion: '6.2.1',
-  meta: {
-    modelName: 'Agent',
-    database_host: '52.78.26.103',
-    database_port: 5432
-  }
+Please make sure your database server is running at `ep-damp-forest-a8znwyum-pooler.eastus2.azure.neon.tech:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async E:\BeepBrainChain\XAIAgentPlatform\node_modules\.pnpm\next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0xf3851DE68b2Ac824B1D4c85878df76e7cE2bD808 -> 25 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1574 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477730.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 3188ed75-fe1d-4a24-a2d1-ea51aebda474
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x0bf2ae2a56cb2247752e5dd672f65a8323dee701ee9b9fa233db267607befc3c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506134n,
+  gasUsed: '208306',
+  logs: 1
 }
- ○ Compiling /api/image ...
- ✓ Compiled /api/image in 2s (6165 modules)
-Success: https://xaiagent.oss-ap-northeast-2.aliyuncs.com/chat/1754363484778_4mq5eh4.png
- ○ Compiling /api/chat/translate ...
- ✓ Compiled /api/chat/translate in 512ms (6167 modules)
-llmRes Response {
-  status: 200,
-  statusText: 'OK',
-  headers: Headers {
-    server: 'openresty',
-    date: 'Tue, 05 Aug 2025 03:11:30 GMT',
-    'content-type': 'application/json',
-    'content-length': '624',
-    connection: 'keep-alive',
-    'x-process-time': '1.4807257652282715',
-    'strict-transport-security': 'max-age=31536000'
-  },
-  body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true },
-  bodyUsed: false,
-  ok: true,
-  redirected: false,
-  type: 'basic',
-  url: 'https://www.degpt.ai/api/v1/chat/completion/proxy'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+ ✓ Compiled in 93ms (242 modules)
+ ✓ Compiled in 15ms
+ ✓ Compiled /api/airdrop/dev-send in 245ms (664 modules)
+🚀 Development airdrop request: 0xf3851DE68b2Ac824B1D4c85878df76e7cE2bD808 -> 25 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+💰 Server wallet balance: 92.1554 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477705.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 916ee395-09c2-4949-8f41-0c141986f058
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x80e068b3eeffc11efa79f968e4084ebb24dbe3c5a2684a2d0d5c50fbd6c5ade0
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506221n,
+  gasUsed: '208306',
+  logs: 1
 }
-llmRes Response {
-  status: 200,
-  statusText: 'OK',
-  headers: Headers {
-    server: 'openresty',
-    date: 'Tue, 05 Aug 2025 03:11:33 GMT',
-    'content-type': 'application/json',
-    'content-length': '624',
-    connection: 'keep-alive',
-    'x-process-time': '1.1008026599884033',
-    'strict-transport-security': 'max-age=31536000'
-  },
-  body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true },
-  bodyUsed: false,
-  ok: true,
-  redirected: false,
-  type: 'basic',
-  url: 'https://www.degpt.ai/api/v1/chat/completion/proxy'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+ ✓ Compiled /api/airdrop/dev-send/reconcile in 182ms (666 modules)
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+🚀 Development airdrop request: 0xf3851DE68b2Ac824B1D4c85878df76e7cE2bD808 -> 25 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1533 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477680.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 6fc4e7be-7774-420a-a95e-b9a469f4b61f
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x54b1ca5f8fbd423622285a27617cb99b9bbc0d44a2b4f9c252b7df8bdcdf2a13
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506293n,
+  gasUsed: '208306',
+  logs: 1
 }
- ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 948ms (11473 modules)
- ✓ Compiled (11499 modules)
- ○ Compiling /api/auth/wallet-connect-no-sig ...
- ✓ Compiled /api/auth/wallet-connect-no-sig in 604ms (6286 modules)
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-User: {
-  id: 'a7df5851-9277-4446-b7de-5a3a6ea31781',
-  address: '0xde184a6809898d81186def5c0823d2107c001da2',
-  nickname: null,
-  avatar: null,
-  createdAt: 2025-08-04T08:26:39.112Z,
-  updatedAt: 2025-08-04T08:26:39.112Z,
-  preferences: null
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 2 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1512 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477655.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 1e329870-8eae-497d-8399-f439e0da7e7f
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x663f1d01d9dc80a0adf517fc567c55d8d8babcf09bf19d1dd2227c2747dd4c40
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506622n,
+  gasUsed: '208306',
+  logs: 1
 }
-llmRes Response {
-  status: 200,
-  statusText: 'OK',
-  headers: Headers {
-    server: 'openresty',
-    date: 'Tue, 05 Aug 2025 03:11:53 GMT',
-    'content-type': 'application/json',
-    'content-length': '621',
-    connection: 'keep-alive',
-    'x-process-time': '1.5971734523773193',
-    'strict-transport-security': 'max-age=31536000'
-  },
-  body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true },
-  bodyUsed: false,
-  ok: true,
-  redirected: false,
-  type: 'basic',
-  url: 'https://www.degpt.ai/api/v1/chat/completion/proxy'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 2 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1491 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477653.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 1e0fc682-afb5-43b4-a96d-2f8c1f6d2f16
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xd6ffc46d8f90f55da981c925f7831f2f1c75d4fa21caea5c46fdc48dd8d8752a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506623n,
+  gasUsed: '208306',
+  logs: 1
 }
- ○ Compiling /api/agents/new ...
- ✓ Compiled /api/agents/new in 766ms (6554 modules)
-🔧 事件监听器配置: {
-  environment: 'development',
-  chainId: 19880818,
-  chainName: 'DeepBrainChain Mainnet',
-  rpcUrl: 'https://rpc2.dbcwallet.io...'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 2 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1470 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477651.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f21565e5-c9e1-49bd-9446-62ab083eaae8
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x6430b933c8c8946f97a7284feefddbdaa0e5bde9bdedcf67269259d9cff48fc2
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506658n,
+  gasUsed: '208306',
+  logs: 1
 }
-📅 接收到的时间参数: {
-  startTimestamp: 1754449862,
-  durationHours: 120,
-  startTimestampType: 'number',
-  durationHoursType: 'number',
-  startTimestampDate: '2025-08-06T03:11:02.000Z',
-  calculatedEndTime: '2025-08-11T03:11:02.000Z'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 2 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 92.1449 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477649.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 62d73b05-40f9-4e0c-a171-342e0b8715ef
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x493bec956b20c149849fbbf9519ad84ad9b21895f13c96e9986ca34850fba0ac
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506661n,
+  gasUsed: '208306',
+  logs: 1
 }
-[Agent创建] 开始处理Agent 2b71dc78-32c0-4810-94b4-099093a82771 的创建任务...
-[Agent创建] 找到Agent信息:
-[Agent创建] - 名称: ac
-[Agent创建] - 创建者: 0xde184a6809898d81186def5c0823d2107c001da2
-[Agent创建] - Symbol: AC
-[IAO部署] 开始部署IAO合约...
-[IAO部署] 参数信息:
-[IAO部署] - 持续时间: 120小时
-[IAO部署] - 开始时间: 1754449862
-[IAO部署] - 奖励数量: 2000000000000000000000000000
-[IAO部署] - 所有者地址: 0xde184a6809898d81186def5c0823d2107c001da2
-[IAO部署] 计算的奖励数量: 15000000000 (15000000000000000000000000000 Wei)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1429 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000692550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5874d206-350b-4866-9a57-de08cd663854
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xd3a8b40eea26fd9122a7b19730325ba570c20493a5f48d9b5850579bc66ac533
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506747n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1409 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000682550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: bac6375c-6aff-4cc4-b7db-42b2de5edd14
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x972f6d61c5bcfa4ca894add5ecdb3e61bb32935c2576557aff6b7e3d25d0a4cb
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506748n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ✓ Compiled in 2.9s (10769 modules)
- ○ Compiling /api/agents/[id] ...
- ✓ Compiled /api/agents/[id] in 883ms (5845 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1390 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000672550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 82c3c359-e60d-4741-ad67-5aa68289bfc5
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xa290b5d849f22f6e35f3992662d2ff821310a747698f8b576f57dc4273bc461d
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506749n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-IAO deployment response: {
-  code: 200,
-  message: 'Deployment successful',
-  data: { proxy_address: '0x0fc17dC76F7116482237b70303d251286cA5e1BC' }
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1371 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000662550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: ad865324-6374-47af-a727-316b33ef5ff8
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x70dcb5f0fcc33b7b60e26abf2ca9f5dc20d81729ef26e6b5bd9f7818d51b93e1
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506750n,
+  gasUsed: '193550',
+  logs: 1
 }
-[IAO部署] 部署成功:
-[IAO部署] - IAO合约地址: 0x0fc17dC76F7116482237b70303d251286cA5e1BC
-[时间计算] 详细信息:
-[时间计算] - 客户端传入 startTimestamp: 1754449862 (2025-08-06T03:11:02.000Z)
-[时间计算] - 客户端传入 durationHours: 120
-[时间计算] - 实际使用 startTimestamp: 1754449862 (2025-08-06T03:11:02.000Z)
-[时间计算] - 实际使用 durationHours: 120
-[时间计算] - 计算出的 endTimestamp: 1754881862 (2025-08-11T03:11:02.000Z)
-[Agent更新] 开始更新Agent状态...
-[Agent更新] IAO时间: 2025-08-06T03:11:02.000Z 到 2025-08-11T03:11:02.000Z
-[Agent更新] Agent状态已更新为TBA，IAO时间已保存
-[事件监听] 触发监听器重新加载...
-🔄 手动触发: 重新加载合约监听器...
-所有事件监听已停止
-事件监听器正在重启中，跳过重复启动
-✅ 事件监听器已成功重启
-[完成] Agent创建流程完成
- ○ Compiling /api/agents ...
- ✓ Compiled /api/agents in 1464ms (6096 modules)
-当前时间戳: 1754364819
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754364819
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-当前时间戳: 1754364819
-查询到的待检查Agent数量: 1
-发现 1 个需要检查IAO成功状态的Agent
-开始检查Agent aa (ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656) 的IAO状态...
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x6160F7414855Be6B660315ec9DE74b257FE0ED3b -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1351 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000652550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 665cce59-c080-4b91-b51f-d081b90eac63
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9ec76fcf4a402e15eff63a8a7536730e5b75366f542efee1a1087ab76067ab70
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506751n,
+  gasUsed: '193550',
+  logs: 1
 }
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:33:39.639Z
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1332 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000642550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 401676d6-e786-45aa-93cb-e05cd38522c7
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9fb42f4b5e67c2e65a925ef72bbf60175e24624c0b355c5def306467eb35da47
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506753n,
+  gasUsed: '193550',
+  logs: 1
 }
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1313 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000632550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0b28b1b7-0658-4b7e-8d72-03e0543e5dbb
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x85a59b97c5c01e939fefc5b6ca2243b242119ddd06018a0947c54f8d04421b93
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506755n,
+  gasUsed: '193550',
+  logs: 1
 }
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:33:39.640Z
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xc511B17533893cFd9E88F96202cE4De89792Aa20 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1293 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000622550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: be446021-fbb6-4ffc-9eed-8642b6699cdb
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc2998afbbc722e8d035e51930e382beea0d3a11674a304904f7850b90d489c4a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506756n,
+  gasUsed: '193550',
+  logs: 1
 }
-所有IAO状态检查完成
-所有IAO状态检查完成
-Agent aa 检查结果: {
-  agentId: 'd03b2ad3-8aed-4112-8c96-2ca4ad018656',
-  agentName: 'aa',
-  isSuccessful: false,
-  error: undefined,
-  iaoEndTime: 1754296472,
-  iaoContractAddress: '0x4AdfE87B44fAe8c4e0077F947A2c7765abc6a9b6'
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xf68Ea3a2cA521614eD233C0322eeD3287b818606 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1274 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000612550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 99ea0162-448c-4bb3-9f1e-530129f88b18
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x542be9d919fc272073950a282f3644903af84288023589f5e3123f9e04ca31da
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506757n,
+  gasUsed: '193550',
+  logs: 1
 }
-准备更新数据库，Agent ID: d03b2ad3-8aed-4112-8c96-2ca4ad018656 aa, 更新数据: {
-  iaoSuccessful: false,
-  iaoSuccessChecked: true,
-  iaoSuccessCheckTime: 2025-08-05T03:33:39.768Z
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1254 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000602550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5520e3a3-30b4-4345-bb88-3cb5f100d19d
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x4bdaebc5a4786be05ecab81fe22dfe94daee00a41e94b1a112c5c8f59d352641
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506758n,
+  gasUsed: '193550',
+  logs: 1
 }
-所有IAO状态检查完成
- ○ Compiling /api/agents/[id] ...
- ✓ Compiled /api/agents/[id] in 521ms (6099 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x3459f7a8D5EC8b2596C70344325Df5667b4C7351 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1235 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000592550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0b97e696-3f56-49c4-ab59-0cfb8fb73f55
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xb2b3d231db7620d2eb00dee60cbdd1ce1bbb48ab427ff25a16d21ac97ffc561e
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506760n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xb4150742Bb85858Bb0556031B412a0AB62F288b8 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1216 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000582550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 03df578b-7ee2-4ece-bb73-7393ed8e2d09
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x19241d92b25dbdf93773f3a34696a95141e26697627d1b95e9f5c18e8149594b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506761n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ○ Compiling /not-found ...
- ✓ Compiled /favicon.ico in 1572ms (11405 modules)
- ✓ Compiled (11431 modules)
- ○ Compiling /api/auth/wallet-connect-no-sig ...
- ✓ Compiled /api/auth/wallet-connect-no-sig in 755ms (6218 modules)
-Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
-User: {
-  id: 'a7df5851-9277-4446-b7de-5a3a6ea31781',
-  address: '0xde184a6809898d81186def5c0823d2107c001da2',
-  nickname: null,
-  avatar: null,
-  createdAt: 2025-08-04T08:26:39.112Z,
-  updatedAt: 2025-08-04T08:26:39.112Z,
-  preferences: null
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x978C3941a7EeC916d73B613FE1C28c2fdE048Df5 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1196 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000572550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: de40f093-4864-47e6-9d3c-b1adecd731ac
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x89ebe6f3eb4d29e91e9d5502417183902e96dbea416628eb4464ce10d8f4c7c1
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506762n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xDA8b5DD88E9d68fB16BB2165F341954Ac1E778d6 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1177 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000562550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: dc10f5ef-dffa-4a61-b18d-b8d8e3c27641
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xede4b7e8caac500e332419b5006206d4401d0e99773b7b4de0690bafbf021994
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506763n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xA25B6B907CAc5e1C27925f9b38CFA0403A3ABe3E -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1158 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000552550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: faef40e1-8a6d-4b94-a1c8-696c054e9c70
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc91719323b096ff86e404ec4cf225282b8596624d642b6577d2260c2f7b7d294
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506764n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ✓ Compiled in 955ms (5315 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x60AF5184E7978b8aF77d65e8Cf16E291bd963b1F -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1138 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000542550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 2ebe09d3-73f5-48be-bb2b-befba7297395
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xe649c49eb227b6719df4f1ba6e8ee0e2cf7b59c98dd6b28f9055f2a6babe3d09
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506766n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ✓ Compiled in 499ms (5315 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x828DcFF3f87fE1a24528925dd716C09D180ec528 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1119 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000532550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 3fb869be-69ed-4d69-b81c-4665771a4fbe
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x115bf81174da72935417d9325fcfdc0799b2f31865d74419a3997dfffd28074c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506767n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
- ✓ Compiled in 624ms (5315 modules)
-[Agent详情API] 管理状态字段: {
-  tokensDistributed: false,
-  liquidityAdded: false,
-  tokensBurned: false,
-  ownerTransferred: false,
-  miningOwnerTransferred: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x817899d3Ae6D15AA03E8548a35A2B75d7E1E578D -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1100 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000522550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 97529b12-e2dd-4078-8a33-8c99ae42847c
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x545c045a0dd0904107cce0035c3ef458acc17a4cd034e8411c10ca968205670b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506768n,
+  gasUsed: '193550',
+  logs: 1
 }
-[Agent详情API] tokensDistributed类型: boolean, 值: false
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9D603291Cc29B3FD27cf16A6424d4cF2813542D8 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1080 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000512550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: e5609176-aef6-42b6-95d2-98f980f8294d
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x7a23c493ab939f75b2c4efe83980a30aee4109e5d2b9fb7f3409408f3f394349
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506769n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xF2626e445F037F56365d99D96B81ac6754e19f13 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1061 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000502550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 8733bdbb-b538-43f5-8f1d-132e1debae28
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xb6c0bf8ea8b4637c5fde1eb71186316b5c57cbd1a4f943e500252f7969bcdaa8
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506770n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x290e6Af907069D59Ea7434B9D26A8F430A73c245 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1042 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000492550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0db76690-7535-4a84-986d-900e8e0ea5db
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x1ccae344bf07ad866fdb2b7cced1d2f39756f3269362693fcb9a535529f2c84a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506772n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xc9AB21b1effece82D09F9A0411718C76c900F6BF -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1022 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000482550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 75962b45-822b-41d9-b5dd-41bad61cbab3
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x280505348528d7d4e9179da13fa9e08e402a15e2594f955557607b7358265447
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506774n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x2b3bf74B29f59fb8dDA41Cf3d6A8DA28CF8e7921 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.1003 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000472550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 8c55aa67-d2f1-4a76-ab21-c04bddcdde62
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x1535cfd824904d2e26e39af88fc9b82123deca73d6518598e5877acfe6c53475
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506775n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xde184A6809898D81186DeF5C0823d2107c001Da2 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0983 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000462550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 4e08b99d-dfa0-44ec-bfeb-94e40933e8ce
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x897154b66bc4ccc50fbcff9f9fd35d8de83b7ca7694f229c73a7bf135ce609b7
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506777n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xc7c2741441cE9A995e6845F6Cf70cfeb7A4C2B6F -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0964 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000452550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 1b4ad098-c86a-4e5a-97db-73c3ca8671ad
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc9b99af6f3323638de7da3cf8a28e52a1729bceb935f678ba155cb0871edd9f5
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506778n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9D63Fc5026F592F8B5376E9DFD89D2274e983a8d -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0945 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000442550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 779ad58d-6a8c-44c7-85bf-e65b758e6624
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x1c2fa92ead535ab51c507138aec1bdfc22a8fe3b5b19f7d6ffe6b17d9886e4dd
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506780n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xFfEF993f21f9850d4d5F0F3f3bFe4Cb4B8410453 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0925 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000432550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: c6cf678d-74e5-4506-806d-2b944f70d8e8
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x184b27c0ac56780859ee00ffc9e97af1b151f0892eb19a9c1e49425931792646
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506781n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xB11814c71F244a9Fcad9c57cc4aa49C7633894F9 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0906 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000422550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 251d56d0-1349-4f56-929c-f4dbfb42cbfc
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9661da7d7cb6d7bcc02756d72fa6c0bb4ad609146688a1a8a7ac5c4179d9fb3c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506783n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xb2283796C65f7059B2E6349777A781DF7A6F75B1 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0887 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000412550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 67d38cc6-728f-4a61-a39b-d4a2806a010f
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x5af3ceeed0d0ec5e97307f4aada53cd0c06ad09a81fa960dbabdc5163a86a1e9
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506784n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x5Ee6284F9bc35F68e30cB4FC98d7963b4161C551 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0867 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000402550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 376f894e-8313-4c21-b6db-2d64718cd6ab
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xf11c30a7b41c225d896d2d344f264c60222193890bd2c92d0581de0fbf612f38
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506786n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x546AbbB9DA33Dc2bA2FDA48b74951aaFD20191d7 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0848 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000392550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5f4a81e3-1e86-49ae-9937-beb561c6425d
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x319c0f516035cfa635e361b8e53ac37dca46aef56a414c4ecedf30e34c76866a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506789n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xAD5b0Ed5Db3CDe2AA846538394037a4010550DF0 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0829 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000382550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 2285d1f7-3af3-4a8f-80de-fb760e3481f0
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x98c3ccc1f63afed599ee258e4c89ca8e153244c95dd99bc98a9d67bba206d04c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506790n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x3a9ED4dC94fd09087B66DFC4b3E64D22D5887C50 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0809 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000372550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: d418d436-aa61-4df6-97d6-b9fe46801064
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x82c76fc535bff548c3fe6758cf7df0549d8719eec3e07e5693c095f903d63eb9
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506792n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9e5d3Ae1f3884eE749AB1cFff6580a26d7207349 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0790 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000362550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: a755b92f-63f8-4612-88e7-d080eb725e5d
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x209745f4988abf63d2a29d0aafb90ef563b0295ccf1efb13139037aabbe36c39
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506793n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xb28b18729A845d152Ef1b2955a4BCDE78899F77e -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0771 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000352550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 275cb3b5-987f-4900-8f47-9e9c244f6fe4
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x55f3c01f3669aa5944ddc5a6da303891a7ce9ad68af673f874c2610a7102f873
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506794n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x76305c24c305Dc7C9834893621C4f813EF94ef57 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0751 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000342550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 09b223a7-f098-4ae4-adcb-aab29dabd3c0
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc81e8c936a346d5fbbd46c8c332f137eca5b29ee8958089551c25bd9060b81ab
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506796n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x6F4284981e5a5795bA23788D01687E0bc383BC03 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0732 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000332550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 52fc0944-4c87-4110-acb4-fdd27d0b43e9
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x430521cdc90da1b6301e74600f19d8007632d26c57e9f938a69b1778f0e7e59c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506797n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x4Aa8a867B61a05933ac8A01fF078a06661d55C1B -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0713 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000322550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 90c86b73-0842-4f0a-adf2-203fbdab3c78
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xebd74e78ceb9750c6a68b35229628159d0a755211d1840a0c00c52ce87f31507
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506798n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xE88C7362C6Ae8E1881753F13038C5a226A901A43 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0693 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000312550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 587fb8a5-1cd5-4f31-82c9-9d19d5d93813
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x8d7707971c41a3a19212bc3a105c7822a534aa4605cd74b96ed5a27fab142078
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506799n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x8CF21134b7cAf6B87b8fb574647A5Fe0E2bc9CB9 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0674 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000302550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 20916a36-e7bf-4b5c-ac2f-fbc5b08305d0
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x0e02b28c4692d95e9f0a01610ca521467970ed70e3c4126c8130f682ce4728a6
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506800n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xAF1e33f8153f25e304dEC5Cb544b5B6CcC5520eD -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0654 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000292550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: e0281a54-a03e-40b2-823b-8004957e95a9
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc821ddc0794aa9e2a7aaa7edda374dd6fa7882ef1cbe76288c9c27ee251ab97b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506803n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x29431cD35eb463276AE69F531df5CF304aD710aD -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0635 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000282550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f7b66b45-9576-477a-8e32-a8d778c80fbf
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x838226a08d921bced361355745bc064e769a344433c3ceec9e4fadc19fc7ac26
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506804n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x76998C0B24F3f96063c48e635bFdf8312Cf1e311 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0616 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000272550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f0e1d373-06a0-463d-bb94-6f9e4a4aad17
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x0a1690bcc472ef5778737e9375236bd4583de531379fec6e46813bcfe250f722
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506805n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x48262D646091D2c7A33444DF2ba4EE12ABDE0c2D -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0596 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000262550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0ed4dfa1-5d0b-4633-8601-39fd854414f8
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x2306dea873cde52c3bc765c4eeb74e70576e9943685089651441f6113e4c4928
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506806n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xA9228b632C9b3c1b4fafB1bB8C3681fFaE65262e -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0577 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000252550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: a3be0476-0826-4f8f-9c55-468e6a45b685
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x585894d5060472eeadc0b8e1c2adab4eee08e8725728501e4388e7f1423011df
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506807n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xD65804FD34984E05554c760245a33EF635cE7bEF -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0558 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000242550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0643cdf3-ce68-4414-b34f-d0004b639833
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9ddd5c0c95949a804405782286cea49d09fcca3306a5ac23ea657c0e76809afc
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506809n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xF0994D74fd393A89D344A8B670e63c888BD77988 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0538 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000232550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 616840de-741f-42f6-a148-7a4392e97e53
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x357613ac7f8dc2dbe7c262b3b82928ba8b04231e0a6a3b44c6a92dbd5b35de67
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506810n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xE4Cc7a988cDee2c72b9A198bC9471373140B056D -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0519 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000222550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0b6b69e5-cf7d-48d1-bbb5-ef6096da2e29
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x15b3ef4c157f7613420461adb4b27e05d3695cb73157de3777a31e0448124285
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506811n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x3048064F0e4E0D206F20aEFAeb1C8EEd8DC3d1cd -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0500 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000212550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 67d13657-69d9-4a76-93d6-12d9e8885095
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x4ba83be787cce1b208f13f780742ab42419c3bd7e38195523e50d22be9c3a48a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506812n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x231bbDEA724885763339554a6f1084647fA4d5D0 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0480 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000202550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: aa9b8ac1-6c2e-43cf-9277-012b01943c13
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x551ff02a316626089d5fa4f75330c5e631136ff9de7c1ae843fa8931cbcff04c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506814n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x3d5d47CC81CA7222119e4Baa686880803b2010A8 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0461 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000192550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 7fd2e179-d1d4-4160-96bf-58d398dd15b4
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x76bb30f421a1db7224dc763db4b5b57e2aa7cefc174bd041cd110625fdcfc307
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506816n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x775ce214145f1808C736931420d0627960941fd9 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0442 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000182550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 0215ebae-1e98-43e3-9a8e-5cca1ae0515b
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x507bc2b4ae191ad141ae07d9e776fcbadff3f194fe64f8bf8da19193f159e5df
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506817n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x7B8B6111B234ba73be4ED0E58e1F2B67a32F6E10 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0422 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000172550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: c128d1a9-0277-4c1e-82f7-c683e7a2c114
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x962d04717a63a96fe685da49575f50da7919fa34f1fc649dfa08ed2d73553c5c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506818n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x450FFb75321e911593339b2Ad4CE03658da98dba -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0403 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000162550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 2ea783cb-290e-432f-ad7e-68689556cef9
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x1cd23fb38327b305bfc48baa7b6fa8c61198a54db35d8321f081bc2c5825237b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506819n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xDC8f3430e118a08bc3E945710BF372abbB3eed0d -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0383 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000152550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 9c6e18a5-d1cf-4004-aba9-d44b51c00808
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x8d03d06298d0698818b2b12040fbbc75d9853c9171bda98f06f6913684e604dd
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506820n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xcDB3Aa520e1a3bC420cf8e2461375FA930A50170 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0364 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000142550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 80e20266-c2f1-43af-8739-b21bd2a3fb81
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x267f5d11f50fbe3496120773e96dbb945337f2c47ba2a40bc1eed26412f2f824
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506822n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x641d1FB83F523165C3C60Ade37E5d337A1d3BE1d -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0345 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000132550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 452081fc-4cd3-41d5-9fe7-e0fe7d4a25a6
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x53918478fef9ff782ca950ab7a34b2da71dc90b8201e2be5eff55e53e18c5e19
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506824n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xF4861254545eF36599B52452D63689F93ADE236D -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0325 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000122550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 6ba2a2bb-98eb-4555-a658-d043c8bf9c83
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xb03b1fc41131427ed9e8291e576a79e88584282497536983f86e9c763e876912
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506825n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x6f57f9C176B90A656cf9F6C1EFaabae2F9983302 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0306 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000112550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 8b588e17-fb38-4f31-8fcc-ecf9a50bf619
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x29038b75f7ba965b46be13567d77314584105cfcad4a084c24cff2af97f7ad6d
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506826n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x24541ca3c7bfC8AA01D22387f8A2200CfB2Db925 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0287 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000102550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 9ddb807c-1d29-4106-9a2d-0d503166cac8
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x63d8a46f2966aab0881938756c1ac35f6213bc8d07076dd34ea7e6fe6c73bbc8
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506827n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x1f741Dc89B07FBf8c0C49CbaB87DF68e42cE505b -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0267 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000092550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 553b035b-175f-44d3-85e3-2fe1838956dd
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x4d25c453bb5ce3c8bbc54dd0d96ed76f42756ddee691fe42d57c579f03da29bf
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506829n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x7da37cfED938B69D7a811C804ADFe236fC1126a8 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0248 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000082550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 3fdd41be-5293-4698-9c75-41ece9e242bf
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x0347ca1a547a44eebcb46acf26ee68dcc07e7136a191662dedf24ae10c0fdbfe
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506830n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x6bAEa04B46Be3208B5488a432f2249eC42212743 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0229 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000072550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: fc30b83d-5ff8-4601-89bc-22453f6d0ff0
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x5b4e5b651367d04990c4f1d509959b256bf4c80c8676656eccc0634af5aadc98
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506832n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9bd03b77a78F3f1c580A16FF9dd0f7c8a54ee040 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0209 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000062550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 594ea019-ceb4-4cad-87ac-4d2f739b218c
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x384288cf341c9c25d1704101cc287400f93926940c1511e3ee0c3ba0847ac8ed
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506833n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xbD8915446a591be9e218eF25A7eded83D0eEEc3A -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0190 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000052550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 7e71c829-9417-4991-909e-727e4f34ff8a
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xaeab9d0123e7e35e940234c34be2a1805d1d369ba89515d11249d5382352dc5d
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506834n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x4CCDCb5e77080B0AA65aa3D5E7F511eAE4a3Ad5C -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0171 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000042550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 4552d499-c3f8-415c-9f1f-211fe0d2949d
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x527ebfd483258a3b27e6f2fc0db61b6028353b772ee1b79e5d0c844632ce75d3
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506836n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x05F8f0Ab6BeBcF84953e9dF09F4952975Eb79cb4 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0151 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000032550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 1570fa1b-9009-4791-b352-e0b7e1825897
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xf2ed4bacb28e79c711f5f6f41eae5a45e2f70f93bbbcb50da5beabd8af52870a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506837n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x5aF31B1E5BF12BF8a807b46e85b108b3e36dA2ef -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0132 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000022550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: b6b88088-5203-49dc-b92c-a948efe03989
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x0e4f7d1d855078918d1c59453d8af8e915aff5f2f6441a2bbdd72898c17b3fd0
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506838n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9eA98d75AEF6b8933b6FE5e0A1db27b691B7FFA3 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0112 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000012550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 843dde5e-967f-42bc-8d3f-9fdf4d5c779a
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xb6d7c5debc33ea66f5f4b4244ac23fd69c0ebd04892f65b9eb104654bb347d27
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506839n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x7D757f62334d511103cC569c2BECEA6d18Ae3801 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0093 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 1000002550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 3c50d251-c710-40e1-a968-1bd2144f74db
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x45e598146b629caaaa74e2eeb6d1d86ef08c70a66f692f8f62074920c8740b49
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506840n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xbeA8d86CcEe39126F3C62a01A57D6d65108E7175 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0074 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999992550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 54576e02-0e08-4a43-a173-97e7cf613907
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x8833772d286ae7ad5bfe783c3c6f62d24735b257c810418f4045b28e4b0120b5
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506843n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x7C44f255b1cdb323221644178B5F982112Ae8112 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0054 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999982550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 18f6f970-1d78-4175-ac21-8e4e51168ea1
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x959ffe3cf3a59200ace130ceacfb1a52cfce93a667c7802f6bbdd7d75b098db8
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506844n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x43f19575b3300d6D4F7D5FF66b0154459c348d7e -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0035 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999972550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: fce6bc50-bd93-484c-8c3f-9278823eaa2f
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x3f700f882abbbc0dfc2ec7941615ff422a668ccd6fcca5b7f1cd4667c1ee83d3
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506846n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x776339C8800FF6612d8b993Ff62b8039B98a4173 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 92.0016 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999962550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 67a0dbc9-84eb-49ab-a9e2-b8c9fc696bf2
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x99f6db44dfb00f4f9485f2a49b4e13aae1fd9eab65104ab1a8f0d30e0c571d03
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506848n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xf36e9fac1aFd2D6273eEDa666482605241180477 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9996 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999952550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 74305af4-ff11-4b36-b8e6-4457eb92b071
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xbff1721c74026710a9770ce5f31c43a4ae7b6ec39f2c54bdc3a2aad6a9d7b086
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506849n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xC1158CbE7D4d64FF5278C2e6760c7265Cd0cf9Ba -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9977 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999942550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5b3f4c17-efae-4c80-b2f1-c4e8a7344e25
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x6159664c32c5e85676ab8262b18998bf1461ba141148d44d7a41344e54fe3a0a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506851n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x64799d378853BdB6C2B2B1Cb967f56F85C185a03 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9958 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999932550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: ed3b1e41-2423-4592-826f-89417991d330
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xfbf700eb0ba34834e35862a0eb6582102ebf637607be90d8837c0682303e5fb2
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506853n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x5605f09fB7363B2D221BFa2eB4040D2395B0a15a -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9938 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999922550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 12c760f6-fbb1-471b-8b36-f39e6c69e983
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xf5d950645c07a8b92c55a1b6a5ee735d5d38cb59a0c0f494d11601ecd17d941f
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506854n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x90d16b59bcFE1f2096b42fACB3AfC773865761A7 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9919 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999912550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5ee8c499-7d82-4949-b6ee-da1260e843f4
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x409c502afa497c5e7983faed3cae152866035167b56e1699845e1006ea092070
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506855n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xD55A33Ea6573dDB7CB3a569586057f147149baf7 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9900 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999902550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 5ebf69fc-e7fd-488b-b8e6-d6432835e7f1
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x91bdff7b7d4bf18092c41369c2b6825b654b5915e65437ef1a9596ff1ada43ef
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506856n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9619eeB18a678db451d590ac1f15e4cA4f9c53ae -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9880 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999892550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f3c5e6f6-d1ca-4317-9cbc-fbff17420e9b
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x8fc91970be52855b311115604f3baabf13b005629d4acddf614381d744cddcc3
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506857n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xa7217869F00F15a31461492b4666ED71fE34D870 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9861 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999882550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 626c0fe6-64f3-412f-b7e0-9f352203b825
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9032a89ab7d09dc59d642242acac8434f3f04d554ea8b91480a28c0c11f73e90
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506859n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x6fC0cF344183baa992CBeD7213bc4Fc0d0952495 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9842 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999872550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 32e3ce18-9787-4ae3-a890-2149c6d3d974
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x9f2be9b6cce0b5f6f909e5748f7dc83afdb11ee0e1db78f260725c486bd0be2f
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506860n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x699A926CC666Ca2444f96b3201629d8f839165bE -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9822 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999862550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 22512a4d-22b3-466d-9fa6-5c19efbb4f2a
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x979a4d9bf95242f1aacf4d7fbe806325ec3f68cd44969b6849b13b8ceaf5cf5b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506861n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xC69Fc1E38489bB7f2757533b22Bc040d559d46fc -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9803 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999852550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: d316c381-c29c-4cf2-b4e1-f1a8714b9c6a
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x5eaedcc2eb27268166adf8ab4ac80005976ca11d9a70c622b69526a97a714b21
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506862n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x68ee8687A0668e100AB5B777298EAb4E78e662F3 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9783 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999842550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f8f4bdf8-d771-451b-8ddf-c078a6d50999
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x89a45e9a7275a968d2fdfe48234e9f88a5baa256e7d5469e28b7f9f8acd3c93c
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506864n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x01D8CBd4b78EED10392C1cc56dCFbeDB3e4E2840 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9764 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999832550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 706f633c-e16b-4d9f-ac58-69c03c2b5405
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x57cdb4c369180a0e9864495bd046574ce0a97764d986d4d9fbccdaa54034c1b4
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506865n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x71e2Abc6Ae82e7aC930b176ab204E0A6Dca68ac5 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9745 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999822550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 1bf50771-f13f-48e8-a505-e2a0a9576ff2
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x5e76d1e252490ee7eac8c04574abbb61fc47b5447663dc9f16804236c0221578
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506866n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x82CB97D0867BBb6f045Fd58243b3cB67B3FD1ac4 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9725 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999812550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: dbc336e5-ec46-4f6e-85e2-abfc8faaa00c
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xc53e2b240eadfbd5026edf5c44ea5583386891bfdbea3e594c54c7125baa37e1
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506867n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xc2F2cb0BCEEf6A9b22776833A936678C9777643e -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9706 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999802550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: e9cb0a6c-d28e-4b7d-994b-f3332ce45e56
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xfe7b1ffd5b006454167c3a414252e14a9192f37843e7b41f44b63c712fbc4acc
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506868n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x9F63895A37B0b1A01DaA9DF82E1A26D029BE1494 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9687 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999792550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 882fd566-b603-4f0c-a07d-ce69f9627b57
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x22cf366a399a8a633a480fb91d7e446427ad4f10d6a0aeb37cc8141e14f00d4a
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506870n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x7a78E079C00ECdB58Eb563E30F0FC878727089d4 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9667 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999782550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 8c011096-c7d0-44b6-9f7e-750247d20904
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xa396d1cf091cc9c22fb717706a965dd7308e8b8c939e8db37629efca3dbb7016
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506871n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x8B0b8c7F984dd3f2B580149ade3CdAB504D3aF1F -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9648 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999772550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 465e3bea-424e-4a6c-816a-9e844ed44f1b
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x77a553926cb5fc387fb37e6cee43cdb869ce83f7bd0e692a3166a963bb3ea54b
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506872n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xD447b7bbe1f75Fd1762df7F6254243A8a5d2aF16 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9629 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999762550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 8d429c23-3e4c-4649-9792-b09dcc60c63c
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xd5aa97939c25e3e8a37776862c014c1f57c727f73c5f28b8a9aefdc61eb842bd
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506873n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0x5275Fb0ED52645CF10c422537B0AF8a631a1DfC8 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9609 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999752550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: f7044e25-5945-4877-b6ae-754fb2e1c341
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x4acdce7335ef476b285e787aa790c65bece40c98308358c22c3bbf24fafcb663
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506874n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xad019d09220cF9a2e2c5325E9651eD3e3b09E9A5 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9590 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999742550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: fa843993-d7ea-43aa-9c26-03868bfa0e93
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0x6b72b84738bbcde6a9c19024fe5b6ab5f0adadc10cf76bcd25ed0e14c15a6d6e
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506876n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...
+🚀 Development airdrop request: 0xc5cA9b8ca07E255D156e73e017d8f92283B80b89 -> 10000 tokens at 0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40
+💰 Server wallet balance: 91.9571 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 999732550.4110 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+✅ Airdrop record created: 3ae4f5a4-1196-4248-bec2-ae8321544022
+📤 Sending airdrop transaction using standard transfer method...
+✅ Airdrop transaction sent: 0xe880d3f96b7674d84217287f60dffff5aa7a9de6f7b9b40bc274025537da49d2
+📝 Updating transaction hash...
+⏳ Waiting for transaction confirmation...
+📋 Transaction receipt: {
+  status: 'success',
+  blockNumber: 3506877n,
+  gasUsed: '193550',
+  logs: 1
+}
+🎉 Airdrop transaction confirmed successfully!
+📝 Updating to success status...

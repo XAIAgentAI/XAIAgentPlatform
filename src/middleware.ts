@@ -66,6 +66,10 @@ function needsAuth(path: string, method: string): boolean {
     '/api/restart-listener',
     '/api/token/distribute',
     '/api/user/profile',
+
+    '/api/airdrop/dev-send',
+    '/api/airdrop/dev-send/status',
+    '/api/airdrop/dev-send/reconcile',
   ];
 
   // GET 请求的公共路由

@@ -1,0 +1,12 @@
+{
+  "name": "airdrop-converter",
+  "version": "1.0.0",
+  "description": "Convert native and XAA token holders JSON to Excel for airdrop",
+  "main": "airdrop-converter.js",
+  "scripts": {
+    "convert": "node airdrop-converter.js"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+} 

@@ -183,3 +183,27 @@ model TokenList {
 
   @@index([isActive])
 }
+
+// 开发环境空投记录表
+model DevAirdropRecord {
+  id              String   @id @default(uuid())
+  walletAddress   String   // 接收空投的钱包地址
+  amount          String   // 空投数量（字符串格式，支持任意精度）
+  tokenAddress    String   // 代币合约地址
+  description     String?  // 空投描述
+  transactionHash String?  // 交易哈希
+  blockNumber     BigInt?  // 区块号
+  gasUsed         String?  // 使用的gas数量
+  status          String   // 状态：success, failed, pending
+  environment     String   @default("development") // 环境标识
+  errorMessage    String?  // 错误信息（如果失败）
+  metadata        Json?    // 额外的元数据（JSON格式）
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([walletAddress])
+  @@index([tokenAddress])
+  @@index([status])
+  @@index([createdAt])
+  @@index([environment])
+}
