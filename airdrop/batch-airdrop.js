@@ -35,14 +35,24 @@ const CONFIG = {
 		// 是否跳过合约地址
 		skipContracts: true,
 		
+		// 并发控制
+		concurrentLimit: 10,  // 同时并发请求数量
+		
 		// 批次大小（每批处理多少个）
-		batchSize: 5,
+		batchSize: 20,        // 增加批次大小
 		
 		// 批次间延迟（毫秒）
-		batchDelay: 5000,
+		batchDelay: 1000,     // 减少到1秒
 		
-		// 单次请求间延迟（毫秒）
-		requestDelay: 1000,
+		// 单次请求间延迟（毫秒） 
+		requestDelay: 200,    // 减少到200ms
+		
+		// 失败重试
+		maxRetries: 3,        // 最大重试次数
+		retryDelay: 500,      // 重试延迟
+		
+		// 是否等待确认
+		waitForConfirmation: false,  // 不等待交易确认
 		
 		// 测试模式（true=只打印不实际发送）
 		testMode: false
@@ -52,6 +62,39 @@ const CONFIG = {
 // 延迟函数
 function delay(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 并发限制器
+class ConcurrencyLimiter {
+	constructor(limit) {
+		this.limit = limit;
+		this.running = 0;
+		this.queue = [];
+	}
+
+	async execute(fn) {
+		return new Promise((resolve, reject) => {
+			this.queue.push({ fn, resolve, reject });
+			this.tryNext();
+		});
+	}
+
+	tryNext() {
+		if (this.running >= this.limit || this.queue.length === 0) {
+			return;
+		}
+
+		this.running++;
+		const { fn, resolve, reject } = this.queue.shift();
+
+		fn()
+			.then(resolve)
+			.catch(reject)
+			.finally(() => {
+				this.running--;
+				this.tryNext();
+			});
+	}
 }
 
 // 显示详细的确认信息
@@ -79,10 +122,13 @@ function displayConfirmationInfo(airdropList, totalAmount) {
 		totalBatches * CONFIG.execution.batchDelay) / 1000 / 60);
 	
 	console.log(`   批次大小: ${CONFIG.execution.batchSize} 个/批次`);
+	console.log(`   并发限制: ${CONFIG.execution.concurrentLimit} 个同时执行`);
 	console.log(`   总批次数: ${totalBatches} 批次`);
 	console.log(`   请求延迟: ${CONFIG.execution.requestDelay}ms`);
 	console.log(`   批次延迟: ${CONFIG.execution.batchDelay}ms`);
-	console.log(`   预估执行时间: 约 ${estimatedTime} 分钟`);
+	console.log(`   等待确认: ${CONFIG.execution.waitForConfirmation ? '是' : '否 (更快)'}`);
+	const newEstimatedTime = Math.ceil(airdropList.length * CONFIG.execution.requestDelay / CONFIG.execution.concurrentLimit / 1000 / 60);
+	console.log(`   预估执行时间: 约 ${newEstimatedTime} 分钟 (优化后)`);
 	
 	// 执行设置
 	console.log('\n⚙️ 执行设置');
@@ -250,17 +296,17 @@ function prepareAirdropData(holders) {
 	});
 }
 
-// 发送单个空投
-async function sendSingleAirdrop(airdropData, index, total) {
+// 发送单个空投（带重试机制）
+async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 	const { walletAddress, amount, tokenAddress, description, pageNumber, indexInPage } = airdropData;
 	
-	console.log(`\n🚀 [${index + 1}/${total}] 发送空投到 ${walletAddress}`);
-	console.log(`📍 位置: 第${pageNumber}页第${indexInPage + 1}个地址`);
-	console.log(`💰 数量: ${amount} tokens`);
+	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${CONFIG.execution.maxRetries})` : '';
+	console.log(`🚀 [${index + 1}/${total}] 发送到 ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}${retryInfo}`);
 	
 	if (CONFIG.execution.testMode) {
+		await delay(Math.random() * 100); // 模拟网络延迟
 		console.log('🧪 测试模式 - 跳过实际发送');
-		return { success: true, test: true };
+		return { success: true, test: true, walletAddress, amount };
 	}
 	
 	try {
@@ -278,48 +324,68 @@ async function sendSingleAirdrop(airdropData, index, total) {
 		const data = await response.json();
 		
 		if (data.success) {
-			console.log(`✅ 成功! 交易哈希: ${data.data.transactionHash}`);
+			console.log(`✅ [${index + 1}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
 			return {
 				success: true,
 				data: data.data,
 				walletAddress,
-				amount
+				amount,
+				retryCount
 			};
 		} else {
-			console.log(`❌ 失败: ${data.message}`);
+			// 如果失败且还有重试次数，则重试
+			if (retryCount < CONFIG.execution.maxRetries) {
+				console.log(`⚠️ [${index + 1}] 失败，准备重试: ${data.message}`);
+				await delay(CONFIG.execution.retryDelay);
+				return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+			}
+			
+			console.log(`❌ [${index + 1}] 最终失败: ${data.message}`);
 			return {
 				success: false,
 				error: data.message,
 				walletAddress,
-				amount
+				amount,
+				retryCount
 			};
 		}
 		
 	} catch (error) {
-		console.error(`❌ 请求错误: ${error.message}`);
+		// 如果是网络错误且还有重试次数，则重试
+		if (retryCount < CONFIG.execution.maxRetries) {
+			console.log(`⚠️ [${index + 1}] 网络错误，准备重试: ${error.message}`);
+			await delay(CONFIG.execution.retryDelay);
+			return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+		}
+		
+		console.error(`❌ [${index + 1}] 网络错误: ${error.message}`);
 		return {
 			success: false,
 			error: error.message,
 			walletAddress,
-			amount
+			amount,
+			retryCount
 		};
 	}
 }
 
-// 批量处理空投
+// 批量处理空投（高效并发版本）
 async function processBatchAirdrops(airdropList) {
 	const results = {
 		total: airdropList.length,
 		success: 0,
 		failed: 0,
-		details: []
+		details: [],
+		startTime: Date.now()
 	};
 	
-	console.log(`\n🎯 开始批量空投处理...`);
+	console.log(`\n🎯 开始高效并发空投处理...`);
 	console.log(`📊 总数: ${results.total}`);
+	console.log(`🚀 并发限制: ${CONFIG.execution.concurrentLimit}`);
 	console.log(`⚙️ 批次大小: ${CONFIG.execution.batchSize}`);
 	console.log(`⏱️ 批次延迟: ${CONFIG.execution.batchDelay}ms`);
 	console.log(`⏱️ 请求延迟: ${CONFIG.execution.requestDelay}ms`);
+	console.log(`🔄 最大重试: ${CONFIG.execution.maxRetries}次`);
 	
 	if (CONFIG.execution.testMode) {
 		console.log(`🧪 测试模式 - 不会实际发送代币`);
@@ -327,56 +393,95 @@ async function processBatchAirdrops(airdropList) {
 		console.log(`🚨 生产模式 - 将发送真实代币!`);
 	}
 	
-	// 限制处理数量
-	let processCount = results.total;
-	if (CONFIG.execution.maxProcessCount > 0) {
-		processCount = Math.min(processCount, CONFIG.execution.maxProcessCount);
-		console.log(`🔢 限制处理数量: ${processCount}`);
-	}
+	// 创建并发限制器
+	const limiter = new ConcurrencyLimiter(CONFIG.execution.concurrentLimit);
 	
-	for (let i = 0; i < processCount; i += CONFIG.execution.batchSize) {
-		const batchEnd = Math.min(i + CONFIG.execution.batchSize, processCount);
+	// 分批处理，但每批内部并发执行
+	for (let i = 0; i < airdropList.length; i += CONFIG.execution.batchSize) {
+		const batchEnd = Math.min(i + CONFIG.execution.batchSize, airdropList.length);
 		const currentBatch = airdropList.slice(i, batchEnd);
 		
-		console.log(`\n📦 处理批次 ${Math.floor(i / CONFIG.execution.batchSize) + 1}: 第${i + 1}-${batchEnd}个`);
+		const batchNum = Math.floor(i / CONFIG.execution.batchSize) + 1;
+		const totalBatches = Math.ceil(airdropList.length / CONFIG.execution.batchSize);
 		
-		// 处理当前批次
-		for (let j = 0; j < currentBatch.length; j++) {
-			const airdropData = currentBatch[j];
+		console.log(`\n📦 批次 ${batchNum}/${totalBatches}: 并发处理 第${i + 1}-${batchEnd}个地址`);
+		
+		// 创建当前批次的所有请求任务
+		const batchTasks = currentBatch.map((airdropData, j) => {
 			const globalIndex = i + j;
-			
-			const result = await sendSingleAirdrop(airdropData, globalIndex, processCount);
-			results.details.push(result);
-			
-			if (result.success) {
-				results.success++;
+			return limiter.execute(async () => {
+				// 添加请求延迟
+				if (CONFIG.execution.requestDelay > 0) {
+					await delay(CONFIG.execution.requestDelay);
+				}
+				return await sendSingleAirdrop(airdropData, globalIndex, airdropList.length);
+			});
+		});
+		
+		// 等待当前批次所有任务完成
+		const batchResults = await Promise.allSettled(batchTasks);
+		
+		// 处理批次结果
+		for (const settledResult of batchResults) {
+			if (settledResult.status === 'fulfilled') {
+				const result = settledResult.value;
+				results.details.push(result);
+				
+				if (result.success) {
+					results.success++;
+				} else {
+					results.failed++;
+				}
 			} else {
+				// Promise被拒绝的情况
 				results.failed++;
-			}
-			
-			// 请求间延迟
-			if (j < currentBatch.length - 1) {
-				await delay(CONFIG.execution.requestDelay);
+				results.details.push({
+					success: false,
+					error: settledResult.reason?.message || '未知错误',
+					walletAddress: 'unknown',
+					amount: '0'
+				});
 			}
 		}
 		
-		// 批次间延迟
-		if (batchEnd < processCount) {
+		// 显示当前进度
+		const progress = ((results.success + results.failed) / airdropList.length * 100).toFixed(1);
+		console.log(`📈 批次完成! 成功: ${results.success}, 失败: ${results.failed}, 进度: ${progress}%`);
+		
+		// 批次间延迟（除了最后一批）
+		if (batchEnd < airdropList.length) {
 			console.log(`⏳ 等待 ${CONFIG.execution.batchDelay}ms 后处理下一批次...`);
 			await delay(CONFIG.execution.batchDelay);
 		}
 	}
+	
+	results.endTime = Date.now();
+	results.totalTime = results.endTime - results.startTime;
 	
 	return results;
 }
 
 // 生成报告
 function generateReport(results, airdropList) {
-	console.log(`\n📋 ========== 批量空投完成报告 ==========`);
+	console.log(`\n📋 ========== 高效空投完成报告 ==========`);
 	console.log(`📊 总计处理: ${results.details.length} 个地址`);
 	console.log(`✅ 成功: ${results.success} 个`);
 	console.log(`❌ 失败: ${results.failed} 个`);
 	console.log(`📈 成功率: ${(results.success / results.details.length * 100).toFixed(2)}%`);
+	
+	// 性能统计
+	if (results.totalTime) {
+		const totalSeconds = results.totalTime / 1000;
+		const avgPerSecond = (results.details.length / totalSeconds).toFixed(2);
+		console.log(`⏱️ 总耗时: ${totalSeconds.toFixed(2)} 秒`);
+		console.log(`🚀 平均速度: ${avgPerSecond} 个/秒`);
+		
+		// 对比原来的预估时间
+		const oldEstimatedSeconds = airdropList.length * CONFIG.execution.requestDelay / 1000 + 
+			Math.ceil(airdropList.length / 5) * CONFIG.execution.batchDelay / 1000;
+		const speedup = (oldEstimatedSeconds / totalSeconds).toFixed(1);
+		console.log(`⚡ 效率提升: ${speedup}x 倍`);
+	}
 	
 	// 计算总空投数量
 	const totalAirdropped = results.details
@@ -418,13 +523,17 @@ async function main() {
 	console.log('🎯 批量空投程序启动...\n');
 	
 	// 显示配置
-	console.log('⚙️ 当前配置:');
+	console.log('⚙️ 高效空投配置:');
 	console.log(`   代币地址: ${CONFIG.tokenAddress}`);
 	console.log(`   发送范围: 第${CONFIG.airdropRange.startPage}页第${CONFIG.airdropRange.startIndex + 1}个 到 第${CONFIG.airdropRange.endPage}页第${CONFIG.airdropRange.endIndex + 1}个`);
 	console.log(`   每个地址发送: ${CONFIG.airdropRange.amountPerAddress} tokens`);
 	console.log(`   跳过合约: ${CONFIG.execution.skipContracts}`);
 	console.log(`   测试模式: ${CONFIG.execution.testMode}`);
-	console.log(`   批次大小: ${CONFIG.execution.batchSize}`);
+	console.log(`   🚀 并发数量: ${CONFIG.execution.concurrentLimit}`);
+	console.log(`   📦 批次大小: ${CONFIG.execution.batchSize}`);
+	console.log(`   🔄 最大重试: ${CONFIG.execution.maxRetries}`);
+	console.log(`   ⏱️ 请求延迟: ${CONFIG.execution.requestDelay}ms`);
+	console.log(`   ⏳ 批次延迟: ${CONFIG.execution.batchDelay}ms`);
 	
 	try {
 		// 1. 加载数据

@@ -12,6 +12,7 @@ import { IaoResultDisplay } from './IaoResultDisplay';
 // import LiquidityManagement from './LiquidityManagement';
 // import TokenBurnModal from './TokenBurnModal';
 import { TokenDistributionModal } from './TokenDistributionModal';
+import { OneClickIaoCompletionModal } from './OneClickIaoCompletionModal';
 import type { LocalAgent } from "@/types/agent";
 import { Countdown } from "@/components/ui-custom/countdown";
 import { copyToClipboard } from '@/lib/utils';
@@ -565,142 +566,76 @@ export const IaoEndedView = ({
     <>
       {/* 管理面板和筹资结果 */}
       <div className="space-y-4">
-        {/* IAO管理面板 - 简化版本直接集成 */}
+        {/* IAO管理面板 - 一键完成版本 */}
         {isCreator && isIaoSuccessful && (
-          <div className="bg-background/5 dark:bg-[#161616] rounded-lg border border-border/10 dark:border-white/[0.1] p-4 mb-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">{tTokenDistribution('iaoManagement')}</h3>
+          <div className="bg-background/5 dark:bg-[#161616] rounded-lg border border-border/10 dark:border-white/[0.1] p-6 mb-4">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-1">{tTokenDistribution('iaoManagement')}</h3>
+                <p className="text-sm text-foreground/70">一键完成代币创建、分发和销毁的全部流程</p>
+              </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500/80 rounded-full"></div>
                 <span className="text-sm text-green-500/90 font-medium">{tTokenDistribution('iaoSuccessful')}</span>
               </div>
             </div>
 
-            {/* 简化的步骤进度 - 正确的3步流程 */}
-            <div className="space-y-3">
-              {/* 步骤1: 创建代币 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokenAddress ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                  isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                    tokenCreationTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
-                      'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20'
+            {/* 一键完成按钮 */}
+            <div className="space-y-4">
+              <OneClickIaoCompletionModal
+                agent={agent}
+                onStatusUpdate={onRefreshStatus}
+                tokenCreationTask={tokenCreationTask}
+                distributionTask={distributionTask}
+                isCreating={isCreating}
+                onCreateToken={onCreateToken}
+              />
+              
+              {/* 快速状态概览 */}
+              <div className="grid grid-cols-3 gap-3 text-sm">
+                <div className={`p-3 rounded-lg border text-center ${
+                  agent.tokenAddress ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                  'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
                 }`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">🪙</span>
-                  <div>
-                    <div className="font-medium text-sm">1. {tTokenDistribution('createToken')}</div>
-                    <div className="text-xs text-gray-600">{tTokenDistribution('deployDrc20Contract')}</div>
+                  <div className="text-lg mb-1">🪙</div>
+                  <div className="font-medium text-xs">代币创建</div>
+                  <div className={`text-xs mt-1 ${
+                    agent.tokenAddress ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
+                  }`}>
+                    {agent.tokenAddress ? '已完成' : '待执行'}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  {agent.tokenAddress ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
-                  ) : isCreating || tokenCreationTask?.status === 'PENDING' || tokenCreationTask?.status === 'PROCESSING' ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('creating')}</span>
-                  ) : tokenCreationTask?.status === 'FAILED' ? (
-                    <Button size="sm" onClick={onCreateToken} variant="destructive">
-                      {tTokenDistribution('retryCreation')}
-                    </Button>
-                  ) : (
-                    <Button size="sm" onClick={onCreateToken} disabled={isCreating}>
-                      {tTokenDistribution('createToken')}
-                    </Button>
-                  )}
+                
+                <div className={`p-3 rounded-lg border text-center ${
+                  agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                  'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
+                }`}>
+                  <div className="text-lg mb-1">📤</div>
+                  <div className="font-medium text-xs">代币分发</div>
+                  <div className={`text-xs mt-1 ${
+                    agent.tokensDistributed && agent.liquidityAdded ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
+                  }`}>
+                    {agent.tokensDistributed && agent.liquidityAdded ? '已完成' : '待执行'}
+                  </div>
+                </div>
+                
+                <div className={`p-3 rounded-lg border text-center ${
+                  agent.tokensBurned ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                  'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
+                }`}>
+                  <div className="text-lg mb-1">🔥</div>
+                  <div className="font-medium text-xs">代币销毁</div>
+                  <div className={`text-xs mt-1 ${
+                    agent.tokensBurned ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
+                  }`}>
+                    {agent.tokensBurned ? '已完成' : '待执行'}
+                  </div>
                 </div>
               </div>
-
-              {/* 步骤2: 代币分发 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokensDistributed && agent.liquidityAdded ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                  distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                    distributionTask?.status === 'FAILED' ? 'bg-red-500/[0.08] dark:bg-red-500/[0.03] border-red-500/20' :
-                      agent.tokenAddress ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
-                }`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">📤</span>
-                  <div>
-                    <div className="font-medium text-sm">2. {tTokenDistribution('tokenDistribution')}</div>
-                    <div className="text-xs text-gray-600">{tTokenDistribution('distributeTokensAddLiquidity')}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {agent.tokensDistributed && agent.liquidityAdded ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
-                  ) : distributionTask?.status === 'PENDING' || distributionTask?.status === 'PROCESSING' ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('distributing')}</span>
-                  ) : distributionTask?.status === 'FAILED' ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{tTokenDistribution('distributionFailed')}</span>
-                      <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
-                    </div>
-                  ) : distributionTask?.status === 'FAILED' ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">{tTokenDistribution('distributionFailed')}</span>
-                      <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
-                    </div>
-                  ) : agent.tokenAddress ? (
-                    <TokenDistributionModal agent={agent} onStatusUpdate={onRefreshStatus} />
-                  ) : (
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{tTokenDistribution('waiting')}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* 步骤3: 销毁代币 */}
-              <div className={`flex items-center justify-between p-3 rounded-lg border ${agent.tokensBurned ? 'bg-green-500/[0.08] dark:bg-green-500/[0.03] border-green-500/20' :
-                  isBurning ? 'bg-blue-500/[0.08] dark:bg-blue-500/[0.03] border-blue-500/20' :
-                    agent.tokensDistributed && agent.liquidityAdded ? 'bg-orange-500/[0.08] dark:bg-orange-500/[0.03] border-orange-500/20' : 'bg-background/5 dark:bg-white/[0.02] border-border/20'
-                }`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">🔥</span>
-                  <div>
-                    <div className="font-medium text-sm">3. {tTokenDistribution('burnTokens')}</div>
-                    <div className="text-xs text-gray-600">{tTokenDistribution('burnXaaTokens')}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {agent.tokensBurned ? (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
-                  ) : isBurning ? (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('burning')}</span>
-                  ) : agent.tokensDistributed && agent.liquidityAdded ? (
-                    <Button size="sm" onClick={handleBurnTokens} disabled={isBurning}>
-                      {tTokenDistribution('burnTokens')}
-                    </Button>
-                  ) : (
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">{tTokenDistribution('waiting')}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* 步骤4: 转移所有权（可选） */}
-              {/* {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && agent.xaaBurnt && !agent.ownershipTransferred && (
-                <div className={`flex items-center justify-between p-3 rounded-lg border ${
-                  agent.ownershipTransferred ? 'bg-green-50 border-green-200' :
-                  isTransferringOwnership ? 'bg-blue-50 border-blue-200' : 'bg-orange-50 border-orange-200'
-                }`}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">🔑</span>
-                    <div>
-                      <div className="font-medium text-sm">4. {tIaoPool('transferOwnership')}</div>
-                      <div className="text-xs text-gray-600">{tIaoPool('transferTokenOwnership')}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {agent.ownershipTransferred ? (
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{tTokenDistribution('completed')}</span>
-                    ) : isTransferringOwnership ? (
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{tTokenDistribution('transferring')}</span>
-                    ) : (
-                      <Button size="sm" onClick={handleTransferOwnership} disabled={isTransferringOwnership}>
-                        {tIaoPool('transferOwnership')}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              )} */}
 
               {/* 代币地址显示 */}
               {agent.tokenAddress && (
-                <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm p-3 bg-background/10 dark:bg-white/[0.02] rounded-lg">
                   <span className="font-medium text-foreground/80">{tTokenDistribution('tokenAddress')}:</span>
                   <code className="bg-background/10 dark:bg-white/[0.05] px-2 py-1 rounded text-xs break-all flex-1 text-foreground/90">
                     {agent.tokenAddress}
@@ -719,7 +654,6 @@ export const IaoEndedView = ({
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     </svg>
                     {tIaoPool('copy')}
                   </Button>
@@ -727,17 +661,17 @@ export const IaoEndedView = ({
               )}
 
               {/* 全部完成提示 */}
-              {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned && agent.ownerTransferred && (
-                <div className="mt-4 p-3 bg-green-500/[0.08] dark:bg-green-500/[0.03] border border-green-500/20 rounded-lg text-sm">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-green-500/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span className="text-foreground/90">{tTokenDistribution('managementCompleted')}</span>
+              {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned && (
+                <div className="p-4 bg-green-500/[0.08] dark:bg-green-500/[0.03] border border-green-500/20 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎉</span>
+                    <span className="font-medium text-green-800 dark:text-green-200">{tTokenDistribution('managementCompleted')}</span>
+                  </div>
+                  <div className="text-sm text-green-700 dark:text-green-300 mt-1">
+                    所有IAO管理步骤已完成，用户现在可以领取代币奖励
                   </div>
                 </div>
               )}
-
             </div>
           </div>
         )}
