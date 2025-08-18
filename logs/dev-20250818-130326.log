@@ -1,0 +1,386 @@
+   ▲ Next.js 14.0.4
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use at your own risk):
+     · instrumentationHook
+     · outputFileTracingRoot
+
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     "env._next_intl_trailing_slash" is missing, expected string
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ✓ Ready in 2.6s
+ ✓ Compiled /src/middleware in 261ms (242 modules)
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 6.1s (10608 modules)
+Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+(node:91772) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+sortedAgents []
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1135ms (5405 modules)
+ ○ Compiling /api/auth/wallet-connect-no-sig ...
+ ✓ Compiled /api/auth/wallet-connect-no-sig in 1371ms (6045 modules)
+ ✓ Compiled (6135 modules)
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+sortedAgents []
+sortedAgents []
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+钱包连接失败: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+Wallet connect no signature request: { address: '0xde184a6809898d81186def5c0823d2107c001da2' }
+钱包连接失败: PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/wallet-connect-no-sig/route.ts:32:20)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+ ○ Compiling /[locale]/agents ...
+ ✓ Compiled /[locale]/agents in 1560ms (11454 modules)
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+sortedAgents []
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.sglythmkxdvvctoslhtj.supabase.co:5432`
+
+Please make sure your database server is running at `db.sglythmkxdvvctoslhtj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+sortedAgents []
+sortedAgents []

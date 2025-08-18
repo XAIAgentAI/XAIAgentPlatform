@@ -1,0 +1,2997 @@
+   ▲ Next.js 14.0.4
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use at your own risk):
+     · instrumentationHook
+     · outputFileTracingRoot
+
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     "env._next_intl_trailing_slash" is missing, expected string
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ✓ Ready in 5s
+ ✓ Compiled /src/middleware in 217ms (242 modules)
+ ○ Compiling /api/airdrop/dev-send ...
+ ✓ Compiled /api/airdrop/dev-send in 1737ms (663 modules)
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🔧 初始化服务端钱包客户端...
+✅ 服务端钱包初始化成功: 0x417Dd0DDAA54E651e304A12c9810173F57876159
+🚀 Development airdrop request: 0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x6160F7414855Be6B660315ec9DE74b257FE0ED3b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xc511B17533893cFd9E88F96202cE4De89792Aa20 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xf68Ea3a2cA521614eD233C0322eeD3287b818606 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xf68Ea3a2cA521614eD233C0322eeD3287b818606 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xc511B17533893cFd9E88F96202cE4De89792Aa20 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x6160F7414855Be6B660315ec9DE74b257FE0ED3b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xf68Ea3a2cA521614eD233C0322eeD3287b818606 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xc511B17533893cFd9E88F96202cE4De89792Aa20 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0x6160F7414855Be6B660315ec9DE74b257FE0ED3b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xa9fBfd15BD80b0D624eA9fF912280c314A22064b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x0D0707963952f2fBA59dD06f2b425ace40b492Fe -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xf68Ea3a2cA521614eD233C0322eeD3287b818606 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xc511B17533893cFd9E88F96202cE4De89792Aa20 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0x3459f7a8D5EC8b2596C70344325Df5667b4C7351 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xb4150742Bb85858Bb0556031B412a0AB62F288b8 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x978C3941a7EeC916d73B613FE1C28c2fdE048Df5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xDA8b5DD88E9d68fB16BB2165F341954Ac1E778d6 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA25B6B907CAc5e1C27925f9b38CFA0403A3ABe3E -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x60AF5184E7978b8aF77d65e8Cf16E291bd963b1F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x828DcFF3f87fE1a24528925dd716C09D180ec528 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x6160F7414855Be6B660315ec9DE74b257FE0ED3b -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0x817899d3Ae6D15AA03E8548a35A2B75d7E1E578D -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x9D603291Cc29B3FD27cf16A6424d4cF2813542D8 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xF2626e445F037F56365d99D96B81ac6754e19f13 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x978C3941a7EeC916d73B613FE1C28c2fdE048Df5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xDA8b5DD88E9d68fB16BB2165F341954Ac1E778d6 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x3459f7a8D5EC8b2596C70344325Df5667b4C7351 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA25B6B907CAc5e1C27925f9b38CFA0403A3ABe3E -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x60AF5184E7978b8aF77d65e8Cf16E291bd963b1F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x828DcFF3f87fE1a24528925dd716C09D180ec528 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xb4150742Bb85858Bb0556031B412a0AB62F288b8 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🚀 Development airdrop request: 0xF2626e445F037F56365d99D96B81ac6754e19f13 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xA25B6B907CAc5e1C27925f9b38CFA0403A3ABe3E -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x9D603291Cc29B3FD27cf16A6424d4cF2813542D8 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x60AF5184E7978b8aF77d65e8Cf16E291bd963b1F -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xDA8b5DD88E9d68fB16BB2165F341954Ac1E778d6 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x978C3941a7EeC916d73B613FE1C28c2fdE048Df5 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0xb4150742Bb85858Bb0556031B412a0AB62F288b8 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x3459f7a8D5EC8b2596C70344325Df5667b4C7351 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x817899d3Ae6D15AA03E8548a35A2B75d7E1E578D -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+🚀 Development airdrop request: 0x828DcFF3f87fE1a24528925dd716C09D180ec528 -> 1 tokens at 0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+💰 Server wallet balance: 72.5989 ETH
+🔍 Checking token balance...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+🪙 Server wallet token balance: 221477647.8949 tokens
+✅ Token balance sufficient
+📝 Creating airdrop record...
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Airdrop sending failed: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:90:25)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+❌ Error creating failure record: Error: Database operation failed: 
+Invalid `prisma.devAirdropRecord.create()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at safeDatabaseOperation (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:39:15)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/airdrop/dev-send/route.ts:235:17)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251
+ ○ Compiling /[locale] ...
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled /[locale] in 12.7s (10622 modules)
+Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+(node:495) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+sortedAgents []
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /api/agents in 2.2s (5405 modules)
+ ✓ Compiled (6045 modules)
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+Multiple versions of Lit loaded. Loading multiple versions is not recommended. See https://lit.dev/msg/multiple-versions for more information.
+sortedAgents []
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+ ⨯ unhandledRejection: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13392:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700::6812:12ed:443, 104.18.18.237:443, 2606:4700::6812:13ed:443, 104.18.19.237:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:2599:28)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:2583:11)
+      at process.processImmediate (node:internal/timers:491:21)
+      at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+sortedAgents []
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+sortedAgents []
+sortedAgents []
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+sortedAgents []
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API请求异常: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+API Error: PrismaClientInitializationError: 
+Invalid `prisma.agent.findMany()` invocation:
+
+
+Can't reach database server at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`
+
+Please make sure your database server is running at `db.rnswmkgceyfdhqxkydkj.supabase.co:5432`.
+    at Vn.handleRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:7640)
+    at Vn.handleAndLogRequestError (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6663)
+    at Vn.request (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:121:6370)
+    at async l (/Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client/runtime/library.js:130:9617)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/agents/route.ts:50:39)
+    at async /Users/dayu/Documents/degpt/XAIAgentAI/XAIAgentPlatform/node_modules/.pnpm/next@14.0.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63251 {
+  clientVersion: '6.2.1',
+  errorCode: undefined
+}
+sortedAgents []
+sortedAgents []
