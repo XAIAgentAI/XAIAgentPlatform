@@ -448,6 +448,13 @@ interface PoolData {
 
 // 批量获取代币价格
 export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbol: string]: TokenPriceInfo }> => {
+  console.log("getBatchTokenPrices_tokens", tokens);
+  console.log("环境变量检查:", {
+    IS_TEST_ENV: process.env.NEXT_PUBLIC_IS_TEST_ENV,
+    DBC_TOKEN_ADDRESS,
+    XAA_TOKEN_ADDRESS,
+    SUBGRAPH_URL
+  });
 
   try {
     // 获取24小时前的时间戳
@@ -457,6 +464,16 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
     const queries = tokens.map((token) => {
       const baseToken = token.symbol.toUpperCase() === 'XAA' ? DBC_TOKEN_ADDRESS : XAA_TOKEN_ADDRESS;
       const targetToken = token.address;
+      
+      console.log(`构建查询 ${token.symbol}: baseToken=${baseToken}, targetToken=${targetToken}`);
+      
+      // 检查地址是否有效
+      if (!baseToken || baseToken === '') {
+        console.warn(`警告: ${token.symbol} 的baseToken地址为空`);
+      }
+      if (!targetToken || targetToken === '') {
+        console.warn(`警告: ${token.symbol} 的targetToken地址为空`);
+      }
 
       return `
         ${token.symbol}Pool: pools(
@@ -700,6 +717,9 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       throw new Error(data.errors[0].message);
     }
 
+    // 打印所有返回的数据键，用于调试
+    console.log('子图响应的所有数据键:', Object.keys(data.data || {}));
+
     const dbcPriceInfo = await fetchDBCPrice();
     const dbcPriceUsd = parseFloat(dbcPriceInfo.priceUsd);
 
@@ -727,6 +747,13 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       const swapData24h = data.data[`${token.symbol}24h`];
       const swapData24hAgo = data.data[`${token.symbol}24hAgo`];
       const swapData24hWithin = data.data[`${token.symbol}24hWithin`];
+
+      console.log(`处理代币 ${token.symbol}:`, {
+        hasSwapData: !!(swapData && swapData[0]),
+        hasPoolData: !!(poolData && poolData.length > 0),
+        swapDataLength: swapData?.length || 0,
+        poolDataLength: poolData?.length || 0
+      });
 
       if (swapData && swapData[0] && poolData && poolData.length > 0) {
         const swap = swapData[0];
@@ -823,7 +850,22 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
             xaaUsdPrice
 
           const baseTokenUsdPriceFormatted = Number(baseTokenUsdPrice.toFixed(8));
-          const lp = Number((baseTokenAmount * baseTokenUsdPriceFormatted).toFixed(2)); // 乘以 DBC 单价
+          
+          // 计算流动性池总价值：DBC价格×DBC数量 + XAA价格×XAA数量
+          let lp: number;
+          if (token.symbol === "XAA") {
+            // XAA流动性池：DBC价格×DBC数量 + XAA价格×XAA数量
+            const dbcValue = baseTokenAmount * dbcPriceUsd; // DBC数量 × DBC价格
+            const xaaValue = targetTokenAmount * xaaUsdPrice; // XAA数量 × XAA价格
+            lp = Number((dbcValue + xaaValue).toFixed(2));
+            console.log(`XAA流动性池计算: DBC数量(${baseTokenAmount}) × DBC价格(${dbcPriceUsd}) + XAA数量(${targetTokenAmount}) × XAA价格(${xaaUsdPrice}) = ${dbcValue} + ${xaaValue} = ${lp}`);
+          } else {
+            // 其他代币流动性池：XAA价格×XAA数量 + 目标代币价格×目标代币数量
+            const xaaValue = baseTokenAmount * xaaUsdPrice; // XAA数量 × XAA价格
+            const targetTokenValue = targetTokenAmount * usdPrice; // 目标代币数量 × 目标代币价格
+            lp = Number((xaaValue + targetTokenValue).toFixed(2));
+            console.log(`${token.symbol}流动性池计算: XAA数量(${baseTokenAmount}) × XAA价格(${xaaUsdPrice}) + ${token.symbol}数量(${targetTokenAmount}) × ${token.symbol}价格(${usdPrice}) = ${xaaValue} + ${targetTokenValue} = ${lp}`);
+          }
      
 
           priceMap[token.symbol] = {
