@@ -1,0 +1,379 @@
+{
+  "timestamp": "2025-08-18T05:35:48.056Z",
+  "config": {
+    "dataFile": "./data/native_holders_pages.json",
+    "apiUrl": "http://localhost:3000/api/airdrop/dev-send",
+    "reconcileUrl": "http://localhost:3000/api/airdrop/dev-send/reconcile",
+    "tokenAddress": "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a",
+    "airdropRange": {
+      "startPage": 1,
+      "startIndex": 0,
+      "endPage": 1,
+      "endIndex": -1,
+      "amountPerAddress": "1"
+    },
+    "execution": {
+      "skipContracts": true,
+      "concurrentLimit": 10,
+      "batchSize": 20,
+      "batchDelay": 1000,
+      "requestDelay": 200,
+      "maxRetries": 3,
+      "retryDelay": 500,
+      "waitForConfirmation": false,
+      "testMode": false
+    }
+  },
+  "summary": {
+    "total": 49,
+    "success": 0,
+    "failed": 49,
+    "successRate": 0,
+    "totalAirdropped": 0
+  },
+  "details": [
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x0D0707963952f2fBA59dD06f2b425ace40b492Fe",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xa9fBfd15BD80b0D624eA9fF912280c314A22064b",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xaF20ef77b7b3d6C580f89f9dEdb1165897Bb7cad",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x544bF32ab85C3e6631E9c1cA3C08c2307bD40CA3",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x6160F7414855Be6B660315ec9DE74b257FE0ED3b",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x62A2e88e0E35b7D694d03adA42122c1E9Ad7E1B5",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xA7D006aB0c01E3b46bb777690ADc6b04B2c8898F",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xc511B17533893cFd9E88F96202cE4De89792Aa20",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xf68Ea3a2cA521614eD233C0322eeD3287b818606",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xe97c431A52aa6425f71C2eE1C1439FDBdc60bE0b",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x3459f7a8D5EC8b2596C70344325Df5667b4C7351",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xb4150742Bb85858Bb0556031B412a0AB62F288b8",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x978C3941a7EeC916d73B613FE1C28c2fdE048Df5",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xDA8b5DD88E9d68fB16BB2165F341954Ac1E778d6",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xA25B6B907CAc5e1C27925f9b38CFA0403A3ABe3E",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x60AF5184E7978b8aF77d65e8Cf16E291bd963b1F",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x828DcFF3f87fE1a24528925dd716C09D180ec528",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x817899d3Ae6D15AA03E8548a35A2B75d7E1E578D",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x9D603291Cc29B3FD27cf16A6424d4cF2813542D8",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xF2626e445F037F56365d99D96B81ac6754e19f13",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x290e6Af907069D59Ea7434B9D26A8F430A73c245",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xc9AB21b1effece82D09F9A0411718C76c900F6BF",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x2b3bf74B29f59fb8dDA41Cf3d6A8DA28CF8e7921",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xde184A6809898D81186DeF5C0823d2107c001Da2",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xc7c2741441cE9A995e6845F6Cf70cfeb7A4C2B6F",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x9D63Fc5026F592F8B5376E9DFD89D2274e983a8d",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xFfEF993f21f9850d4d5F0F3f3bFe4Cb4B8410453",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xB11814c71F244a9Fcad9c57cc4aa49C7633894F9",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xb2283796C65f7059B2E6349777A781DF7A6F75B1",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x5Ee6284F9bc35F68e30cB4FC98d7963b4161C551",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x546AbbB9DA33Dc2bA2FDA48b74951aaFD20191d7",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xAD5b0Ed5Db3CDe2AA846538394037a4010550DF0",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x3a9ED4dC94fd09087B66DFC4b3E64D22D5887C50",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x9e5d3Ae1f3884eE749AB1cFff6580a26d7207349",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xb28b18729A845d152Ef1b2955a4BCDE78899F77e",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x76305c24c305Dc7C9834893621C4f813EF94ef57",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x6F4284981e5a5795bA23788D01687E0bc383BC03",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x4Aa8a867B61a05933ac8A01fF078a06661d55C1B",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xE88C7362C6Ae8E1881753F13038C5a226A901A43",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x8CF21134b7cAf6B87b8fb574647A5Fe0E2bc9CB9",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xAF1e33f8153f25e304dEC5Cb544b5B6CcC5520eD",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x29431cD35eb463276AE69F531df5CF304aD710aD",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x76998C0B24F3f96063c48e635bFdf8312Cf1e311",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x48262D646091D2c7A33444DF2ba4EE12ABDE0c2D",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xA9228b632C9b3c1b4fafB1bB8C3681fFaE65262e",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xD65804FD34984E05554c760245a33EF635cE7bEF",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xF0994D74fd393A89D344A8B670e63c888BD77988",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0xE4Cc7a988cDee2c72b9A198bC9471373140B056D",
+      "amount": "1",
+      "retryCount": 3
+    },
+    {
+      "success": false,
+      "error": "fetch failed",
+      "walletAddress": "0x3048064F0e4E0D206F20aEFAeb1C8EEd8DC3d1cd",
+      "amount": "1",
+      "retryCount": 3
+    }
+  ]
+}
