@@ -12,6 +12,7 @@ const airdropRequestSchema = z.object({
 	amount: z.string().regex(/^\d+(\.\d+)?$/, 'Invalid amount format'),
 	tokenAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/, 'Invalid token contract address format'),
 	description: z.string().optional(),
+	nonce: z.number().int().min(0).optional(), // 添加nonce参数验证
 });
 
 // Environment check middleware
@@ -50,9 +51,9 @@ export async function POST(request: NextRequest) {
 		const body = await request.json();
 		const validatedData = airdropRequestSchema.parse(body);
 		
-		const { walletAddress, amount, tokenAddress, description } = validatedData;
+		const { walletAddress, amount, tokenAddress, description, nonce: providedNonce } = validatedData;
 
-		console.log(`🚀 Development airdrop request: ${walletAddress} -> ${amount} tokens at ${tokenAddress}`);
+		console.log(`🚀 Development airdrop request: ${walletAddress} -> ${amount} tokens at ${tokenAddress}${providedNonce ? ` (nonce: ${providedNonce})` : ''}`);
 
 		// Get server wallet clients
 		const { walletClient, publicClient, serverAccount } = getServerWalletClients();
@@ -123,7 +124,8 @@ export async function POST(request: NextRequest) {
 		const xaaAbiModule = await import('@/config/xaa-abi.json');
 		const xaaAbi = xaaAbiModule.default;
 		
-		const hash = await walletClient.writeContract({
+		// 准备交易参数
+		const txParams: any = {
 			address: tokenAddress as `0x${string}`,
 			abi: xaaAbi,
 			functionName: 'transfer',
@@ -131,7 +133,15 @@ export async function POST(request: NextRequest) {
 				walletAddress as `0x${string}`,
 				amountInWei
 			],
-		});
+		};
+
+		// 如果提供了nonce，则使用它
+		if (providedNonce !== undefined) {
+			txParams.nonce = parseInt(providedNonce);
+			console.log(`🔢 使用指定nonce: ${providedNonce}`);
+		}
+
+		const hash = await walletClient.writeContract(txParams);
 		
 		transactionHash = hash;
 		console.log(`✅ Airdrop transaction sent: ${hash}`);
@@ -155,84 +165,22 @@ export async function POST(request: NextRequest) {
 			});
 		});
 
-		// Step 4: Wait for transaction confirmation
-		console.log(`⏳ Waiting for transaction confirmation...`);
-		const receipt = await publicClient.waitForTransactionReceipt({ hash });
+		// 快速模式：发送交易后立即返回，不等待确认
+		console.log(`🚀 Fast mode: Transaction sent, returning immediately without waiting for confirmation`);
 		
-		console.log(`📋 Transaction receipt:`, {
-			status: receipt.status,
-			blockNumber: receipt.blockNumber,
-			gasUsed: receipt.gasUsed?.toString(),
-			logs: receipt.logs?.length || 0
+		return NextResponse.json({
+			success: true,
+			message: 'Airdrop transaction sent successfully (fast mode)',
+			data: {
+				recordId: airdropRecord.id,
+				walletAddress,
+				amount,
+				tokenAddress,
+				transactionHash: hash,
+				status: 'pending',
+				note: 'Transaction sent but not yet confirmed'
+			}
 		});
-		
-		if (receipt.status === 'success') {
-			console.log(`🎉 Airdrop transaction confirmed successfully!`);
-			
-			// Step 5: Update record to success status
-			console.log(`📝 Updating to success status...`);
-			await safeDatabaseOperation(async () => {
-				await devAirdropRecord.update({
-					where: { id: airdropRecord.id },
-					data: {
-						status: 'success',
-						blockNumber: receipt.blockNumber,
-						gasUsed: receipt.gasUsed?.toString(),
-						metadata: {
-							serverWalletAddress: serverAccount.address,
-							tokenContractAddress: tokenAddress,
-							requestTimestamp: new Date().toISOString(),
-							confirmedAt: new Date().toISOString(),
-							blockHash: receipt.blockHash,
-							effectiveGasPrice: receipt.effectiveGasPrice?.toString(),
-							step: 'transaction_confirmed'
-						}
-					}
-				});
-			});
-
-			return NextResponse.json({
-				success: true,
-				message: 'Airdrop sent successfully',
-				data: {
-					recordId: airdropRecord.id,
-					walletAddress,
-					amount,
-					tokenAddress,
-					transactionHash: hash,
-					blockNumber: receipt.blockNumber?.toString(),
-					gasUsed: receipt.gasUsed?.toString(),
-				}
-			});
-		} else {
-			// Transaction reverted
-			console.log(`❌ Transaction reverted, status: ${receipt.status}`);
-			
-			// Update record to failed status
-			await safeDatabaseOperation(async () => {
-				await devAirdropRecord.update({
-					where: { id: airdropRecord.id },
-					data: {
-						status: 'failed',
-						blockNumber: receipt.blockNumber,
-						gasUsed: receipt.gasUsed?.toString(),
-						errorMessage: 'Transaction reverted by blockchain',
-						metadata: {
-							serverWalletAddress: serverAccount.address,
-							tokenContractAddress: tokenAddress,
-							requestTimestamp: new Date().toISOString(),
-							revertedAt: new Date().toISOString(),
-							blockHash: receipt.blockHash,
-							receiptStatus: receipt.status,
-							gasUsed: receipt.gasUsed?.toString(),
-							step: 'transaction_reverted'
-						}
-					}
-				});
-			});
-			
-			throw new Error('Transaction reverted by blockchain. Possible reasons: insufficient token balance, invalid contract address, or contract restrictions.');
-		}
 
 	} catch (error: any) {
 		console.error('❌ Airdrop sending failed:', error);

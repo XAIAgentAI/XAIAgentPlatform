@@ -49,7 +49,12 @@ next-env.d.ts
 .cursor/*
 
 
-提示音.mp3
+*.mp3
 docs
 docs-html
 output.log
+
+logs/*
+.claude/*
+CLAUDE.*.md
+CLAUDE.md

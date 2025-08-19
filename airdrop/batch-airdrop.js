@@ -10,11 +10,12 @@ const readline = require('readline');
 // 配置参数
 const CONFIG = {
 	// 数据文件路径
-	dataFile: './data/native_holders_pages.json',
+	dataFile: './data/xaa_token_holders_pages.json',
 	
 	// 空投接口配置
 	apiUrl: 'http://localhost:3000/api/airdrop/dev-send',
-	tokenAddress: '0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40', // 代币地址
+	reconcileUrl: 'http://localhost:3000/api/airdrop/dev-send/reconcile',
+	tokenAddress: '0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40', // 空投代币地址
 	
 	// 空投范围配置
 	airdropRange: {
@@ -23,11 +24,11 @@ const CONFIG = {
 		startIndex: 0,       // 页面内从第1个地址开始 (0-based)
 		
 		// 结束位置  
-		endPage: 2,          // 到第2页结束
+		endPage: 201,        // 到第201页结束（所有页面）
 		endIndex: -1,        // -1表示到页面末尾
 		
 		// 空投数量
-		amountPerAddress: "10000"  // 每个地址发送10000个token
+		amountPerAddress: "50000"  // 每个地址发送50000个token
 	},
 	
 	// 执行控制
@@ -36,16 +37,16 @@ const CONFIG = {
 		skipContracts: true,
 		
 		// 并发控制
-		concurrentLimit: 10,  // 同时并发请求数量
+		concurrentLimit: 4,   // 串行发送（一个一个发，避免nonce冲突）
 		
 		// 批次大小（每批处理多少个）
-		batchSize: 20,        // 增加批次大小
+		batchSize: 49,        // 所有交易一个批次
 		
 		// 批次间延迟（毫秒）
 		batchDelay: 1000,     // 减少到1秒
 		
 		// 单次请求间延迟（毫秒） 
-		requestDelay: 200,    // 减少到200ms
+		requestDelay: 100,    // 串行发送延迟100ms（提升5倍速度）
 		
 		// 失败重试
 		maxRetries: 3,        // 最大重试次数
@@ -287,7 +288,7 @@ function prepareAirdropData(holders) {
 			walletAddress: holder.wallet_address,
 			amount: airdropAmount,
 			tokenAddress: CONFIG.tokenAddress,
-			description: `Targeted airdrop: ${airdropAmount} tokens (Page ${holder.pageNumber}, Index ${holder.indexInPage + 1})`,
+			description: `XAA Holders LifeGuard Airdrop: ${airdropAmount} tokens (Page ${holder.pageNumber}, Index ${holder.indexInPage + 1})`,
 			originalHolding: holder.amount,
 			pageNumber: holder.pageNumber,
 			indexInPage: holder.indexInPage,
@@ -301,7 +302,7 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 	const { walletAddress, amount, tokenAddress, description, pageNumber, indexInPage } = airdropData;
 	
 	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${CONFIG.execution.maxRetries})` : '';
-	console.log(`🚀 [${index + 1}/${total}] 发送到 ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}${retryInfo}`);
+	console.log(`🚀 [交易${index + 1}/${total}] 发送到 ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}${retryInfo}`);
 	
 	if (CONFIG.execution.testMode) {
 		await delay(Math.random() * 100); // 模拟网络延迟
@@ -324,7 +325,7 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		const data = await response.json();
 		
 		if (data.success) {
-			console.log(`✅ [${index + 1}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
+			console.log(`✅ [交易${index + 1}/${total}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
 			return {
 				success: true,
 				data: data.data,
@@ -335,12 +336,12 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		} else {
 			// 如果失败且还有重试次数，则重试
 			if (retryCount < CONFIG.execution.maxRetries) {
-				console.log(`⚠️ [${index + 1}] 失败，准备重试: ${data.message}`);
+				console.log(`⚠️ [交易${index + 1}/${total}] 失败，准备重试: ${data.message}`);
 				await delay(CONFIG.execution.retryDelay);
 				return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
 			}
 			
-			console.log(`❌ [${index + 1}] 最终失败: ${data.message}`);
+			console.log(`❌ [交易${index + 1}/${total}] 最终失败: ${data.message}`);
 			return {
 				success: false,
 				error: data.message,
@@ -353,12 +354,12 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 	} catch (error) {
 		// 如果是网络错误且还有重试次数，则重试
 		if (retryCount < CONFIG.execution.maxRetries) {
-			console.log(`⚠️ [${index + 1}] 网络错误，准备重试: ${error.message}`);
+			console.log(`⚠️ [交易${index + 1}/${total}] 网络错误，准备重试: ${error.message}`);
 			await delay(CONFIG.execution.retryDelay);
 			return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
 		}
 		
-		console.error(`❌ [${index + 1}] 网络错误: ${error.message}`);
+		console.error(`❌ [交易${index + 1}/${total}] 网络错误: ${error.message}`);
 		return {
 			success: false,
 			error: error.message,
@@ -369,8 +370,8 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 	}
 }
 
-// 批量处理空投（高效并发版本）
-async function processBatchAirdrops(airdropList) {
+// 并发处理空投
+async function processConcurrentAirdrops(airdropList) {
 	const results = {
 		total: airdropList.length,
 		success: 0,
@@ -379,11 +380,9 @@ async function processBatchAirdrops(airdropList) {
 		startTime: Date.now()
 	};
 	
-	console.log(`\n🎯 开始高效并发空投处理...`);
+	console.log(`\n🎯 开始并发空投处理...`);
 	console.log(`📊 总数: ${results.total}`);
-	console.log(`🚀 并发限制: ${CONFIG.execution.concurrentLimit}`);
-	console.log(`⚙️ 批次大小: ${CONFIG.execution.batchSize}`);
-	console.log(`⏱️ 批次延迟: ${CONFIG.execution.batchDelay}ms`);
+	console.log(`🚀 并发数量: ${CONFIG.execution.concurrentLimit}`);
 	console.log(`⏱️ 请求延迟: ${CONFIG.execution.requestDelay}ms`);
 	console.log(`🔄 最大重试: ${CONFIG.execution.maxRetries}次`);
 	
@@ -394,69 +393,100 @@ async function processBatchAirdrops(airdropList) {
 	}
 	
 	// 创建并发限制器
-	const limiter = new ConcurrencyLimiter(CONFIG.execution.concurrentLimit);
+	const concurrencyLimiter = new ConcurrencyLimiter(CONFIG.execution.concurrentLimit);
 	
-	// 分批处理，但每批内部并发执行
-	for (let i = 0; i < airdropList.length; i += CONFIG.execution.batchSize) {
-		const batchEnd = Math.min(i + CONFIG.execution.batchSize, airdropList.length);
-		const currentBatch = airdropList.slice(i, batchEnd);
-		
-		const batchNum = Math.floor(i / CONFIG.execution.batchSize) + 1;
-		const totalBatches = Math.ceil(airdropList.length / CONFIG.execution.batchSize);
-		
-		console.log(`\n📦 批次 ${batchNum}/${totalBatches}: 并发处理 第${i + 1}-${batchEnd}个地址`);
-		
-		// 创建当前批次的所有请求任务
-		const batchTasks = currentBatch.map((airdropData, j) => {
-			const globalIndex = i + j;
-			return limiter.execute(async () => {
-				// 添加请求延迟
-				if (CONFIG.execution.requestDelay > 0) {
-					await delay(CONFIG.execution.requestDelay);
-				}
-				return await sendSingleAirdrop(airdropData, globalIndex, airdropList.length);
-			});
-		});
-		
-		// 等待当前批次所有任务完成
-		const batchResults = await Promise.allSettled(batchTasks);
-		
-		// 处理批次结果
-		for (const settledResult of batchResults) {
-			if (settledResult.status === 'fulfilled') {
-				const result = settledResult.value;
-				results.details.push(result);
+	// 创建所有任务
+	const tasks = airdropList.map((airdropData, index) => {
+		return concurrencyLimiter.execute(async () => {
+			// 添加随机延迟以避免nonce冲突
+			if (CONFIG.execution.requestDelay > 0) {
+				await delay(Math.random() * CONFIG.execution.requestDelay);
+			}
+			
+			try {
+				const result = await sendSingleAirdrop(airdropData, index, airdropList.length);
 				
+				// 线程安全地更新结果
 				if (result.success) {
 					results.success++;
 				} else {
 					results.failed++;
 				}
-			} else {
-				// Promise被拒绝的情况
+				results.details.push(result);
+				
+				// 显示实时进度
+				const progress = (results.details.length / airdropList.length * 100).toFixed(1);
+				console.log(`📊 进度: ${results.details.length}/${airdropList.length} (${progress}%) | 成功: ${results.success} | 失败: ${results.failed}`);
+				
+				return result;
+			} catch (error) {
+				console.error(`❌ [交易${index + 1}/${airdropList.length}] 处理异常: ${error.message}`);
 				results.failed++;
-				results.details.push({
+				const errorResult = {
 					success: false,
-					error: settledResult.reason?.message || '未知错误',
-					walletAddress: 'unknown',
-					amount: '0'
-				});
+					error: error.message,
+					walletAddress: airdropData.walletAddress,
+					amount: airdropData.amount
+				};
+				results.details.push(errorResult);
+				return errorResult;
 			}
-		}
-		
-		// 显示当前进度
-		const progress = ((results.success + results.failed) / airdropList.length * 100).toFixed(1);
-		console.log(`📈 批次完成! 成功: ${results.success}, 失败: ${results.failed}, 进度: ${progress}%`);
-		
-		// 批次间延迟（除了最后一批）
-		if (batchEnd < airdropList.length) {
-			console.log(`⏳ 等待 ${CONFIG.execution.batchDelay}ms 后处理下一批次...`);
-			await delay(CONFIG.execution.batchDelay);
-		}
-	}
+		});
+	});
+	
+	// 等待所有任务完成
+	console.log(`🚀 开始并发执行 ${tasks.length} 个任务...`);
+	await Promise.all(tasks);
 	
 	results.endTime = Date.now();
 	results.totalTime = results.endTime - results.startTime;
+	
+	// 检查是否有失败的交易，如果有则终止程序
+	if (results.failed > 0) {
+		console.log(`\n❌ 处理完成后有 ${results.failed} 个失败的交易！`);
+		console.log(`🛑 程序将终止，需要手动处理以下失败交易:`);
+		
+		const failures = results.details.filter(r => !r.success);
+		failures.forEach((failure, i) => {
+			console.log(`${i + 1}. ${failure.walletAddress} - ${failure.error}`);
+		});
+		
+		console.log(`\n💡 建议: 检查网络状况、Gas费用或nonce状态后重新运行程序`);
+		process.exit(1);
+	}
+	
+	// 自动对账：等待1分钟让交易充分确认，然后更新状态
+	if (!CONFIG.execution.testMode && results.success > 0) {
+		console.log(`\n🔄 等待 1 分钟后开始自动对账...`);
+		console.log(`⏰ 对账将在 ${new Date(Date.now() + 60000).toLocaleTimeString()} 开始`);
+		await delay(60000); // 1分钟 = 60,000毫秒
+		
+		console.log(`📊 开始自动对账 ${results.success} 个成功的交易...`);
+		try {
+			const reconcileResponse = await fetch(CONFIG.reconcileUrl, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ limit: results.success + 10 })
+			});
+			
+			const reconcileData = await reconcileResponse.json();
+			if (reconcileData.success) {
+				console.log(`✅ 对账完成: 成功${reconcileData.data.updatedSuccess}个, 失败${reconcileData.data.updatedFailed}个, 待确认${reconcileData.data.stillPending}个`);
+				results.reconcile = reconcileData.data;
+				
+				// 检查对账后是否有失败的交易
+				if (reconcileData.data.updatedFailed > 0) {
+					console.log(`\n❌ 对账发现 ${reconcileData.data.updatedFailed} 个交易在区块链上失败！`);
+					console.log(`🛑 程序将终止，需要手动处理失败的交易`);
+					process.exit(1);
+				}
+			} else {
+				console.log(`⚠️ 对账失败: ${reconcileData.message}`);
+			}
+		} catch (error) {
+			console.log(`⚠️ 对账请求失败: ${error.message}`);
+		}
+	}
 	
 	return results;
 }
@@ -559,8 +589,8 @@ async function main() {
 		// 6. 等待用户确认
 		await waitForUserConfirmation();
 		
-		// 7. 执行批量空投
-		const results = await processBatchAirdrops(airdropList);
+		// 7. 执行并发空投
+		const results = await processConcurrentAirdrops(airdropList);
 		
 		// 8. 生成报告
 		generateReport(results, airdropList);
@@ -581,7 +611,7 @@ module.exports = {
 	loadHoldersData,
 	extractAddressesByRange,
 	prepareAirdropData,
-	processBatchAirdrops,
+	processConcurrentAirdrops,
 	displayConfirmationInfo,
 	waitForUserConfirmation
 };
