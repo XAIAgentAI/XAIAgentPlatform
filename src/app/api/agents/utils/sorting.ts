@@ -11,6 +11,37 @@ export async function sortAgentData(
   let result = [...items]; // 创建副本以避免修改原数组
   let iaoItemsWithFunding: any[] = [];
 
+  // IAO即将开始状态的特殊排序：有倒计时的排在上面，倒计时最短的排在最上面
+  if (status === 'IAO_COMING_SOON') {
+    const now = Math.floor(Date.now() / 1000);
+    
+    result = result.sort((a, b) => {
+      const aStartTime = a.iaoStartTime ? Number(a.iaoStartTime) : null;
+      const bStartTime = b.iaoStartTime ? Number(b.iaoStartTime) : null;
+      
+      // 计算倒计时时间（秒）
+      const aCountdown = aStartTime ? aStartTime - now : null;
+      const bCountdown = bStartTime ? bStartTime - now : null;
+      
+      // 有倒计时的排在上面
+      if (aCountdown !== null && bCountdown !== null) {
+        // 都有倒计时，按倒计时时长升序排列（倒计时最短的排在最上面）
+        return aCountdown - bCountdown;
+      } else if (aCountdown !== null) {
+        // a有倒计时，b没有，a排在前面
+        return -1;
+      } else if (bCountdown !== null) {
+        // b有倒计时，a没有，b排在前面
+        return 1;
+      } else {
+        // 都没有倒计时，保持原有顺序
+        return 0;
+      }
+    });
+    
+    return result;
+  }
+
   // 特殊处理：只在第一页且没有明确状态筛选时，将IAO项目倒计时<24小时且募资金额前三的置顶
   if (page === 1 && (!status || status === '')) {
     const now = Math.floor(Date.now() / 1000);

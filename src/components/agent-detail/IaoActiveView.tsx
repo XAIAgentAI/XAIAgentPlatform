@@ -186,7 +186,7 @@ export const IaoActiveView = ({
       {/* 池子总量 */}
       <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
         <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
-        <span className="font-semibold text-[#F47521] break-all">
+        <span className="font-medium text-[#F47521] break-all">
           {isPoolInfoLoading ? "--" : `${formatNumber((agent.totalSupply || 0) * 0.15)} ${agent.symbol}`}
         </span>
       </div>
@@ -196,7 +196,7 @@ export const IaoActiveView = ({
         <span className="text-black font-medium">
           {t('currentTotal', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
         </span>
-        <span className="font-semibold text-[#F47521] break-all">
+        <span className="font-medium text-[#F47521] break-all">
           {poolInfo?.startTime ? (
             isPoolInfoLoading ? "--" : formatNumber(poolInfo.totalDeposited)
           ) : "0"}
@@ -210,23 +210,76 @@ export const IaoActiveView = ({
            Date.now() < poolInfo.startTime * 1000 ? t('startCountdown') : t('endCountdown')}:
         </span>
         {!poolInfo?.startTime ? (
-          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+          <span className="font-medium text-[#F47521] break-all">{t('toBeAnnounced')}</span>
         ) : isPoolInfoLoading ? (
-          <span className="font-semibold text-[#F47521] break-all">--</span>
+          <span className="font-medium text-[#F47521] break-all">--</span>
         ) : Date.now() < poolInfo.startTime * 1000 ? (
           <Countdown
             remainingTime={Math.max(0, poolInfo.startTime * 1000 - Date.now())}
-            className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
+            className="font-medium text-[#F47521] break-all text-sm sm:text-base"
           />
         ) : poolInfo.endTime ? (
           <Countdown
             remainingTime={Math.max(0, poolInfo.endTime * 1000 - Date.now())}
-            className="font-semibold text-[#F47521] break-all text-sm sm:text-base"
+            className="font-medium text-[#F47521] break-all text-sm sm:text-base"
           />
         ) : (
-          <span className="font-semibold text-[#F47521] break-all">{t('toBeAnnounced')}</span>
+          <span className="font-medium text-[#F47521] break-all">{t('toBeAnnounced')}</span>
         )}
       </div>
+
+      {/* IAO持续时长 */}
+      {poolInfo?.startTime && poolInfo?.endTime && (
+        <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 p-3 rounded-lg">
+          <span className="text-black font-medium">{t('iaoDuration')}:</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            {isPoolInfoLoading ? (
+              <span className="font-medium text-[#F47521] break-all">--</span>
+            ) : (() => {
+              const durationMs = (poolInfo.endTime - poolInfo.startTime) * 1000;
+              const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((durationMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+              
+              const parts = [];
+              
+              if (days > 0) {
+                parts.push(
+                  <div key="days" className="flex items-center gap-1">
+                    <span className="font-medium text-[#F47521]">{days}</span>
+                    <span className="text-sm font-medium text-[#F47521]">{t('durationDays')}</span>
+                  </div>
+                );
+              }
+              
+              if (hours > 0) {
+                parts.push(
+                  <div key="hours" className="flex items-center gap-1">
+                    <span className="font-medium text-[#F47521]">{hours}</span>
+                    <span className="text-sm font-medium text-[#F47521]">{t('durationHours')}</span>
+                  </div>
+                );
+              }
+              
+              if (minutes > 0 && days === 0) {
+                parts.push(
+                  <div key="minutes" className="flex items-center gap-1">
+                    <span className="font-medium text-[#F47521]">{minutes}</span>
+                    <span className="text-sm font-medium text-[#F47521]">{t('durationMinutes')}</span>
+                  </div>
+                );
+              }
+              
+              return parts.length > 0 ? parts : (
+                <div className="flex items-center gap-1">
+                  <span className="font-medium text-[#F47521]">0</span>
+                  <span className="text-sm font-medium text-[#F47521]">{t('durationMinutes')}</span>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </div>
   );
 

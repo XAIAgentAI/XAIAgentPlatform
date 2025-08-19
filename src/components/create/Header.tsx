@@ -47,6 +47,9 @@ const Header: React.FC = () => {
                 <ol>
                   4. {t("iaoDescription.point4")}
                 </ol>
+                <ol>
+                  5. {t("iaoDescription.point5")}
+                </ol>
               </ul>
             </div>
           </div>

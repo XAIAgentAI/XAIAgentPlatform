@@ -348,6 +348,10 @@
     "waitForConfirmation": "Waiting for confirmation",
     "investSuccessWithAmount": "Successfully invested {amount} DBC",
     "goToDbcswap": "Go to DBCSwap to buy {symbol}",
+    "iaoDuration": "IAO Duration",
+    "durationDays": "Days",
+    "durationHours": "Hours",
+    "durationMinutes": "Minutes",
     "approveTransaction": "Approve Transaction",
     "approving": "Approving transaction",
     "approveWaitingConfirm": "Waiting for approval confirmation",
@@ -526,7 +530,7 @@
     "waitingForRefund": "Waiting For Refund",
     "connectWalletFirst": "Connect Wallet First",
     "basicInfo": "Basic Info",
-    "agentName": "Agent Name",
+    "agentName": "AI Project Name",
     "tokenSymbol": "Token Symbol",
     "totalSupply": "Total Supply",
     "distributionPlan": "Distribution Plan",
@@ -993,10 +997,12 @@
     "title": "Creation Guide",
     "iaoDescription": {
       "title": "IAO Description",
-      "point1": "IAO minimum duration is 72 hours, maximum is 240 hours",
-      "point2": "IAO success criteria: raised $XAA not less than $1500",
-      "point3": "After IAO failure, $XAA will be automatically returned to investors, and IAO can be restarted after 7 days",
-      "point4": "After IAO success, AI tokens and $XAA will automatically establish trading pairs on DBCSwap within 5-20 minutes, with AI token price close to the price at IAO end"
+      "fullName": "IAO stands for Initial Agent Offering",
+      "point1": "IAO is a fair and transparent investment method with no insider trading or pre-mining allocation. In IAO, the initial Token price is set to 0, and its final price will be determined by the total amount invested by all participants. This means that the Token's value will be shaped collectively by investors, and the market will determine its price.",
+      "point2": "The minimum IAO duration is 72 hours, and the maximum is 240 hours",
+      "point3": "IAO success criteria: The collected $XAA must be no less than the equivalent of 1500 USDT",
+      "point4": "After IAO failure, $XAA will be automatically returned to investors, and a new IAO can be relaunched after 7 days",
+      "point5": "After IAO success, AI tokens and $XAA will automatically establish a trading pair on DBCSwap within 5-20 minutes, with the default initial trading price of AI tokens approximately 10% higher than the IAO ending price"
     },
     "decentralizedAI": {
       "title": "Decentralized AI Model Service Description",

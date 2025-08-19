@@ -324,7 +324,7 @@ export const IaoEndedView = ({
       <div className="space-y-3 sm:space-y-4">
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
           <span className="text-black dark:text-white font-medium">{tIaoPool('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+          <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent.totalSupply || 0) * 0.15)}
           </span>
         </div>
@@ -332,10 +332,63 @@ export const IaoEndedView = ({
           <span className="text-black dark:text-white font-medium">
             {tIaoPool('iaoParticipatedAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:
           </span>
-          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+          <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
             {isPoolInfoLoading ? "--" : formatNumber(poolInfo?.totalDeposited || '0')}
           </span>
         </div>
+        
+        {/* IAO持续时长 */}
+        {poolInfo?.startTime && poolInfo?.endTime && (
+          <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+            <span className="text-black dark:text-white font-medium">{tIaoPool('iaoDuration')}:</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              {isPoolInfoLoading ? (
+                <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">--</span>
+              ) : (() => {
+                const durationMs = (poolInfo.endTime - poolInfo.startTime) * 1000;
+                const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((durationMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+                
+                const parts = [];
+                
+                if (days > 0) {
+                  parts.push(
+                    <div key="days" className="flex items-center gap-1">
+                      <span className="font-medium text-[#F47521] dark:text-orange-400">{days}</span>
+                      <span className="text-sm font-medium text-[#F47521] dark:text-orange-400">{tIaoPool('durationDays')}</span>
+                    </div>
+                  );
+                }
+                
+                if (hours > 0) {
+                  parts.push(
+                    <div key="hours" className="flex items-center gap-1">
+                      <span className="font-medium text-[#F47521] dark:text-orange-400">{hours}</span>
+                      <span className="text-sm font-medium text-[#F47521] dark:text-orange-400">{tIaoPool('durationHours')}</span>
+                    </div>
+                  );
+                }
+                
+                if (minutes > 0 && days === 0) {
+                  parts.push(
+                    <div key="minutes" className="flex items-center gap-1">
+                      <span className="font-medium text-[#F47521] dark:text-orange-400">{minutes}</span>
+                      <span className="text-sm font-medium text-[#F47521] dark:text-orange-400">{tIaoPool('durationMinutes')}</span>
+                    </div>
+                  );
+                }
+                
+                return parts.length > 0 ? parts : (
+                  <div className="flex items-center gap-1">
+                    <span className="font-medium text-[#F47521] dark:text-orange-400">0</span>
+                    <span className="text-sm font-medium text-[#F47521] dark:text-orange-400">{tIaoPool('durationMinutes')}</span>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -347,13 +400,13 @@ export const IaoEndedView = ({
       <div className="space-y-3 sm:space-y-4">
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
           <span className="text-black dark:text-white font-medium">{tIaoPool('lpPoolTokenAmount', { symbol: agent.symbol })}:</span>
-          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+          <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent as any).targetTokenAmountLp || 0)}
           </span>
         </div>
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
           <span className="text-black dark:text-white font-medium">{tIaoPool('lpPoolBaseAmount', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
-          <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+          <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
             {formatNumber((agent as any).baseTokenAmountLp || 0)}
           </span>
         </div>
@@ -378,7 +431,7 @@ export const IaoEndedView = ({
         <div className="space-y-3 sm:space-y-4">
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
             <span className="text-black dark:text-white font-medium">{tIaoPool('yourInvest', { symbol: agent.symbol === 'XAA' ? 'DBC' : 'XAA' })}:</span>
-            <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+            <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
               {formatNumber(userStakeInfo.userDeposited)}
             </span>
           </div>
@@ -390,7 +443,7 @@ export const IaoEndedView = ({
                 tIaoPool('claimedAmount', { symbol: agent.symbol }) :
                 tIaoPool('claimableAmount', { symbol: agent.symbol })}:
             </span>
-            <span className="font-semibold text-[#F47521] dark:text-orange-400 break-all">
+            <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
               {formatNumber(userStakeInfo.hasClaimed ?
                 userStakeInfo.claimedAmount || '0' :
                 totalClaimable.toString())}

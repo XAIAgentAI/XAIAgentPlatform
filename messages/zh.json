@@ -348,6 +348,10 @@
     "waitForConfirmation": "等待确认",
     "investSuccessWithAmount": "成功投资 {amount} DBC",
     "goToDbcswap": "前往 DBCSwap 购买 {symbol}",
+    "iaoDuration": "IAO持续时长",
+    "durationDays": "天",
+    "durationHours": "小时",
+    "durationMinutes": "分钟",
     "approveTransaction": "授权交易",
     "approving": "批准交易中",
     "approveWaitingConfirm": "等待授权确认",
@@ -526,7 +530,7 @@
     "waitingForRefund": "退款将在IAO结束后10分钟可领取",
     "connectWalletFirst": "请先连接钱包",
     "basicInfo": "基本信息",
-    "agentName": "智能体名称",
+    "agentName": "AI项目名称",
     "tokenSymbol": "代币符号",
     "totalSupply": "总供应量",
     "distributionPlan": "分发计划和进度",
@@ -992,10 +996,12 @@
     "title": "创建指南",
     "iaoDescription": {
       "title": "IAO说明",
-      "point1": "IAO最短持续时间是72小时，最长是240小时",
-      "point2": "IAO成功的标准：募集的$XAA不低于1500美金",
-      "point3": "IAO失败后，$XAA会自动返还给投资者，7天后可以重新发起IAO",
-      "point4": "IAO成功后，5-20分钟后AI代币和$XAA将会在DBCSwap自动建立交易对，默认AI代币的价格和IAO结束的时候价格接近"
+      "fullName": "IAO全称是Initial Agent Offering",
+      "point1": "IAO 是一种公平、透明的投资方式，不存在内幕交易或预先挖矿的分配。在IAO 中，Token的初始价格定为 0，其最终价格将由所有参与者投入的总额决定。这意味着 Token的价值将由投资者共同塑造，市场将决定其价格。",
+      "point2": "IAO最短持续时间是72小时，最长是240小时",
+      "point3": "IAO成功的标准：募集的$XAA不低于等值1500USDT",
+      "point4": "IAO失败后，$XAA会自动返还给投资者，7天后可以重新发起IAO",
+      "point5": "IAO成功后，5-20分钟后AI代币和$XAA将会在DBCSwap自动建立交易对，默认初始交易AI代币的价格比IAO结束的时候价格高出大约10%"
     },
     "decentralizedAI": {
       "title": "去中心化AI模型服务说明",

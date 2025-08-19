@@ -348,6 +348,10 @@
     "waitForConfirmation": "確認待ち",
     "investSuccessWithAmount": "{amount} DBCの投資に成功しました",
     "goToDbcswap": "DBCSwapで{symbol}を購入",
+    "iaoDuration": "IAO期間",
+    "durationDays": "日",
+    "durationHours": "時間",
+    "durationMinutes": "分",
     "approveTransaction": "取引を承認",
     "approving": "取引承認中",
     "approveWaitingConfirm": "承認確認待ち",
@@ -526,7 +530,7 @@
     "waitingForRefund": "返金待機中",
     "connectWalletFirst": "ウォレットを接続してください",
     "basicInfo": "基本情報",
-    "agentName": "エージェント名",
+    "agentName": "AIプロジェクト名",
     "tokenSymbol": "トークンシンボル",
     "totalSupply": "総供給量",
     "distributionPlan": "配布計画",
@@ -993,10 +997,12 @@
     "title": "トークン経済モデル作成",
     "iaoDescription": {
       "title": "IAO説明",
-      "point1": "IAOの最短継続時間は72時間、最長は240時間です",
-      "point2": "IAO成功の基準：調達した$XAAが1500ドル以上",
-      "point3": "IAO失敗後、$XAAは自動的に投資家に返還され、7日後にIAOを再開できます",
-      "point4": "IAO成功後、5-20分後にAIトークンと$XAAがDBCSwapで自動的に取引ペアを確立し、デフォルトでAIトークンの価格はIAO終了時の価格に近くなります"
+      "fullName": "IAOはInitial Agent Offeringの略です",
+      "point1": "IAOは公平で透明な投資方式であり、内部情報取引や事前マイニングの分配は存在しません。IAOでは、トークンの初期価格は0に設定され、最終価格は全参加者が投入した総額によって決定されます。これは、トークンの価値が投資家によって共同で形成され、市場が価格を決定することを意味します。",
+      "point2": "IAOの最短継続時間は72時間、最長は240時間です",
+      "point3": "IAO成功の基準：収集された$XAAが1500USDT相当以上であること",
+      "point4": "IAO失敗後、$XAAは自動的に投資家に返還され、7日後に新しいIAOを再開始できます",
+      "point5": "IAO成功後、5-20分後にAIトークンと$XAAはDBCSwapで自動的に取引ペアが設立され、デフォルトのAIトークンの初期取引価格はIAO終了時の価格より約10%高くなります"
     },
     "decentralizedAI": {
       "title": "分散型AIモデルサービス説明",
