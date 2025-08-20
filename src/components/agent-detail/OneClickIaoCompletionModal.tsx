@@ -252,7 +252,7 @@ export const OneClickIaoCompletionModal = ({
         },
         body: JSON.stringify({
           agentId: agent.id,
-          totalSupply: agent.totalSupply.toString(),
+          totalSupply: agent.totalSupply?.toString(),
           tokenAddress: agent.tokenAddress,
         }),
       });

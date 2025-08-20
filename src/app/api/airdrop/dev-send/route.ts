@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
 
 		// 如果提供了nonce，则使用它
 		if (providedNonce !== undefined) {
-			txParams.nonce = parseInt(providedNonce);
+			txParams.nonce = providedNonce;
 			console.log(`🔢 使用指定nonce: ${providedNonce}`);
 		}
 
@@ -356,7 +356,7 @@ export async function GET(request: NextRequest) {
 		});
 		
 		// Convert BigInt values to strings for JSON serialization
-		const serializedRecords = records.map(record => ({
+		const serializedRecords = records.map((record: any) => ({
 			...record,
 			blockNumber: record.blockNumber ? record.blockNumber.toString() : null,
 			gasUsed: record.gasUsed ? record.gasUsed.toString() : null

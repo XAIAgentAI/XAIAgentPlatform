@@ -468,10 +468,10 @@ export const getBatchTokenPrices = async (tokens: TokenInfo[]): Promise<{ [symbo
       console.log(`构建查询 ${token.symbol}: baseToken=${baseToken}, targetToken=${targetToken}`);
       
       // 检查地址是否有效
-      if (!baseToken || baseToken === '') {
+      if (!baseToken) {
         console.warn(`警告: ${token.symbol} 的baseToken地址为空`);
       }
-      if (!targetToken || targetToken === '') {
+      if (!targetToken) {
         console.warn(`警告: ${token.symbol} 的targetToken地址为空`);
       }
 

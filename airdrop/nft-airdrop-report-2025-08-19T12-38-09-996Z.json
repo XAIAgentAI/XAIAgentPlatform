@@ -1,0 +1,558 @@
+{
+  "timestamp": "2025-08-19T12:38:09.995Z",
+  "config": {
+    "dataFiles": {
+      "staking": "./data/staking-snap.json",
+      "holders": "./data/holders_info.json"
+    },
+    "currentDataFile": "./data/staking-snap.json",
+    "apiUrl": "http://localhost:3000/api/airdrop/dev-send",
+    "reconcileUrl": "http://localhost:3000/api/airdrop/dev-send/reconcile",
+    "tokenAddress": "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a",
+    "nftAirdropSettings": {
+      "tokensPerNFT": 1,
+      "minimumAirdrop": null,
+      "maximumAirdrop": null,
+      "enableMinimum": false,
+      "enableMaximum": false
+    },
+    "execution": {
+      "skipContracts": true,
+      "concurrentLimit": 4,
+      "batchSize": 49,
+      "batchDelay": 1000,
+      "requestDelay": 100,
+      "maxRetries": 3,
+      "retryDelay": 500,
+      "waitForConfirmation": false,
+      "testMode": true
+    }
+  },
+  "summary": {
+    "total": 86,
+    "success": 86,
+    "failed": 0,
+    "successRate": 1,
+    "totalAirdropped": 3967,
+    "totalNFTs": 3967,
+    "avgTokensPerNFT": 1
+  },
+  "details": [
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xde184a6809898d81186def5c0823d2107c001da2",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xc69fc1e38489bb7f2757533b22bc040d559d46fc",
+      "amount": "7"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xd8f37fd37dc91b24fdcf6a19f4a1ec80de517e0b",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xde8784011e1c864e37697fae28a6e19ae4e6dd9d",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x31116e91db3cc78ec675c9c0dde1189e8f79d916",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xbdfb6d826650a21507de9aa02260706e3341e3dd",
+      "amount": "13"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6b8853e7d04d43212263e1fd5d270573c3f20918",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x0b9101ef6733344ed3e85cbc610dd75aeebeec19",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xdeb3eff95fe05d4524ef9190d6475fb2d12653ce",
+      "amount": "32"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x2ef3c60769f13e2db2bc5f51337e0dfe73389964",
+      "amount": "1073"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xe0b6a8cdceb3f52ce49cd24f741689a25704776a",
+      "amount": "38"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xbbec9da989446e37fe781a43ec3733c844cca144",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x45a35da610d15e22d5051b108463f59cd36fc599",
+      "amount": "36"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x0e3fcd12ecab120ff6a7bdff05e6eff58deff286",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6f8fa8d9efb9fa077f898dd43547af4671607456",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x0efa432d2830f9fb4a5667559cb28d8b0b2046db",
+      "amount": "44"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x8a35d51fc6a44b38ddb09297c9420a031194d26e",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x77daaa84331c1808decdbfeff6de713d10583975",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf27f013fb1e71bf596556e2b01b35a7dd6647d39",
+      "amount": "91"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x69fa0cfe3ddb9eb5de0f1b1056278af4702272f7",
+      "amount": "23"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xc6a900d90ebbb507683d2ef6523335137e1fee13",
+      "amount": "100"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x20006ca99d6b5506e03aa0ef32ce886046055eff",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf0676cefec9da722de06065ae98bcfe10f57b222",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xa62d0f31499859e256cc3c201cfbed27772bc38c",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x8c7100b14287dfc2dd4fdafe85a3f62f9090835f",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xd89ad53e4ea45be339f19eab75c0c9bef584d298",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf677fe18254616ac0849418374a2534f0ac2cebf",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xa4c0126f0b8546e5f1146d9c677d2dbe2c406511",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x5405ef99d6e27eec4672b61d7f91fb90da9079ed",
+      "amount": "106"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xbeadfbf9268243050b68490aa79583beb6017422",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x085009d0885cb5582019e1eb9188313bb65fe9b4",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x380e49ef0e644bcc96f5f51bd6e2be13a24efd30",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x1206a6efe2adeaeedb0471736f7c339801999423",
+      "amount": "17"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x775ce214145f1808c736931420d0627960941fd9",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xd0b41bacb3f663831408dd71858e4f367c4b5e66",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x978c3941a7eec916d73b613fe1c28c2fde048df5",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x24c2e51e32e8ad1e1b2e6bcd154bc39a1c1ff624",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x655cdae501cf652916b8a47163d27bb17579c290",
+      "amount": "1000"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x08e0323dbf31bad8270e8fcfd3d00602ecbc0128",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf83ec6c751c66b1f3a837344c5e349a1f79dc7fc",
+      "amount": "76"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x121618b704e11eedada1aa6baee11d09636dca99",
+      "amount": "4"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf36e9fac1afd2d6273eeda666482605241180477",
+      "amount": "15"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xe51be49f7c2af56f635b6686cf374ac3f0605ce9",
+      "amount": "7"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x5a21a5f09101a671cf90713083a12cfdcd9f152e",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x61ac95688c49df57488dd4197d26159de5414f31",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xffef993f21f9850d4d5f0f3f3bfe4cb4b8410453",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x3bb088103870897d3b6c71cb288e745bb00ef84a",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xd7a05cf7ed5263489ede9524efcdc6f8086f512f",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6134195dbb190ac0e14732779908d956f9e1ccbb",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x516d926dd188d1bc4fdf739ff8a3d0681370f48b",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x4232384a487769cb5b88779d68e9b800f7ba9a7e",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6842c6f7eb0f2cb337b8a00baed159ecfbc77d19",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xbd24d7857909f064dc384d86c6be45793f536427",
+      "amount": "10"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xc3a921c3fc59ef1ba94210e55edf7960bfff7893",
+      "amount": "10"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x7a654cedff52faabeeb83bfd92583a595703a51a",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x42d3e73b5a741dcd6039e3299f7ae62e7d23e442",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6ca7a3a5e96f7b774fbd8d17be4cc821f3955e71",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x82cb97d0867bbb6f045fd58243b3cb67b3fd1ac4",
+      "amount": "139"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6ec10ee53adcac58967d66e0283dd2b21688bb59",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x4aa8a867b61a05933ac8a01ff078a06661d55c1b",
+      "amount": "68"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xa20e816ffd515b1f1a123ed8365e7ae7ed29f332",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xad5b0ed5db3cde2aa846538394037a4010550df0",
+      "amount": "7"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x0c2a0139f859fd12d5cd693e4a3972e92950ffb6",
+      "amount": "5"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x916b1f14ee6d1b5a948e50a575873865c965aa12",
+      "amount": "43"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xa25b6b907cac5e1c27925f9b38cfa0403a3abe3e",
+      "amount": "8"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x817899d3ae6d15aa03e8548a35a2b75d7e1e578d",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xe68757c2c58b4dddbdd5caa2035d4d85925db1ea",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x1dde898fdbb1c10c9acc535b14bba7ca8c77787d",
+      "amount": "5"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xaf20ef77b7b3d6c580f89f9dedb1165897bb7cad",
+      "amount": "876"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x72a48885dde0032b1998137a81c473b80cc1b43f",
+      "amount": "6"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x4bb472e8379018191dc1225ec8de3e547dc3a979",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x48faf566b7fbe3be288ad75ae67e2cc0f2d5f58f",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xa763739a20fd34b4791823f3d90c5fe27b4f9331",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x79faf3d949bad324cd2d8301a1c8bd12dcfceac9",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x6f531b21829dbff76445910959052b0f4c08b5b5",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xf6194cc01ef61842953d49782c28569e1efb60f9",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xbea41ab50a1ade79c62eaf97c29888df61421393",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xc7997e8ef3f91e27cda6c0fafcc699e4aef00645",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xd0cb125419fbf1b6574ab3cbbef9e30686eabf35",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x57768212569c5057d02a0171047cfe9f2aac7f21",
+      "amount": "3"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xac29ef65bb4f7cd0f2d2147f2c6bfc3f844de7d7",
+      "amount": "2"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xe9f871239d7aa2d98cce076d5d2e761165a9436a",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xe59964c76bffb939461e8cbb78d723356fa68f4b",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x1bc8eaa5396cc6c04a8fd5fabf0995c860ea2d42",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0x585c8c387d008c599a891578eb533d25c59f9182",
+      "amount": "1"
+    },
+    {
+      "success": true,
+      "test": true,
+      "walletAddress": "0xc536f6c47481223f7b5c431e40f09fcdb4b626f6",
+      "amount": "3"
+    }
+  ]
+}

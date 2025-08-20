@@ -1329,7 +1329,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                                     <div className="flex flex-col items-start">
                                         <div>
                                             <span className="text-gray-600 dark:text-gray-400">{t("tokenSupply")}: </span>
-                                            <span className="font-medium text-gray-800 dark:text-gray-200">{formData.tokenSupply}</span>
+                                            <span className="font-medium text-gray-800 dark:text-gray-200">{Number(formData.tokenSupply).toLocaleString()}</span>
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-start">
