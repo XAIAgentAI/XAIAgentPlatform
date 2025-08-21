@@ -83,6 +83,7 @@
     "loading": "読み込み中...",
     "notFound": "エージェントが見つかりません",
     "addressCopied": "コントラクトアドレスをクリップボードにコピーしました",
+    "copied": "コピー済み",
     "chatComingSoon": "チャット機能は近日公開予定です！お楽しみに。",
     "createdBy": "作成者",
     "information": "情報",
@@ -235,7 +236,7 @@
     "transactions": "取引履歴",
     "about": "概要",
     "tokenomics": "トークノミクス",
-    "team": "チーム",
+    "team": "作成者",
     "roadmap": "ロードマップ",
     "documents": "ドキュメント",
     "links": "リンク",
@@ -619,7 +620,7 @@
     "chat": "チャット",
     "noDataAvailable": "データがありません",
     "infrastructure": "インフラストラクチャ",
-    "aiAgent": "AIエージェント",
+    "aiAgent": "AIモデル",
     "noAgentsFound": "エージェントが見つかりません",
     "noAgentsFoundDesc": "現在利用可能なエージェントがありません。後でもう一度お試しいただくか、新しいエージェントを作成してください。",
     "accessibility": {
@@ -1048,7 +1049,7 @@
         "burn": "5% $XAAはバーンされます"
       },
       "liquidity": "流動性プール: IAO終了後、10% $XXXと$XAAがDBCSwapで自動的に流動性を確立",
-      "team": "チーム配分: 33% $XXX、2000日かけて線形アンロック、40日ごとにアンロック",
+      "team": "作成者配分: 33% $XXX、2000日かけて線形アンロック、40日ごとにアンロック",
       "mining": {
         "title": "マイニングメカニズム:",
         "output": "年間50億$XXXを産出",
@@ -1075,14 +1076,14 @@
       "tokenSupply": "トークン供給量",
       "iaoPercentage": "IAO割合",
       "mining": "60億/年",
-      "miningRate": "マイニングレート",
+      "miningRate": "年間マイニング産出",
       "agentImage": "ロゴ",
       "dialogModel": "ダイアログモデル",
       "dialogExample": "ダイアログの例",
       "userQuestion": "ユーザーの質問",
       "agentResponse": "エージェントの返答",
       "createSuccess": "作成成功!",
-      "created": "AIトークンプロジェクトが正常に作成されました。あなたのAIモデルIDは ",
+      "created": "AIモデルが正常に作成されました。あなたのAIモデルIDは ",
       "viewProject": "プロジェクトを表示",
       "creating": "作成中...",
       "createNow": "今すぐ作成",
@@ -1134,7 +1135,7 @@
       "endTimeRequired": "終了時間を選択してください",
       "viewGuide": "作成ガイド",
       "creationProcessMessage": "AIエージェントを作成中です。しばらくお待ちください...",
-      "agentDetails": "エージェントの詳細",
+      "agentDetails": "AIモデルの詳細",
       "useCases": "ユースケース",
       "TokenDistribution": {
         "title": "トークン経済モデル",
@@ -1143,7 +1144,7 @@
           "2": "トークンの15%はIAOを通じて販売され、$XAAのみを受け付けます。投資家は$XAAの投資比率に基づいて{symbol}を受け取ります",
           "3": "{hours}時間のIAO期間後、$XAAの95%はオンチェーンの流動性プールに割り当てられ、二度と取り消されることはなく、LPトークンはブラックホールアドレスに送信されます。$XAAの5%は焼却されます",
           "4": "IAO終了後、{symbol}と$XAAの10%はすぐにDBCSwapで流動性プールを確立し、{symbol}の自由な取引を可能にします",
-          "5": "チームは{symbol}の33%を保有し、IAO終了後にロック解除が始まり、2000日間で線形的に解放され、40日ごとにロック解除されます",
+          "5": "作成者は{symbol}の33%を保有し、IAO終了後にロック解除が始まり、2000日間で線形的に解放され、40日ごとにロック解除されます",
           "6": "{symbol}マイニングは年間50億を生産し、採掘された{symbol}の10%はすぐに利用可能で、90%は180日間で線形的に解放されます",
           "7": "マイニングに参加するにはXAAマイニングNFTが必要です。各マシンは少なくとも1つのXAAマイニングNFTを投資する必要があり、最大10個のXAAマイニングNFTが可能です",
           "8": "{symbol}の1%はトップ10,000の$XAAと$DBC保有者にエアドロップされ、{symbol}の1%はXAAノードNFT保有者にエアドロップされます"
@@ -1208,6 +1209,17 @@
     "updateFailed": "コンテナリンクの更新に失敗しました",
     "copied": "コンテナリンクがクリップボードにコピーされました",
     "copyContainerLink": "コンテナリンクをコピー"
+  },
+  "descriptionManager": {
+    "description": "説明",
+    "saving": "翻訳して保存中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "updateSuccess": "説明が正常に更新・翻訳されました",
+    "updateFailed": "説明の更新に失敗しました",
+    "edit": "編集",
+    "placeholder": "エージェントの説明を入力...",
+    "supportNewlines": "改行を使用して複数段落の説明を作成できます。説明は自動的にサポートされている全言語に翻訳されます。"
   },
   "errors": {
     "error": "エラー",

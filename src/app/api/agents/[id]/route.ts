@@ -167,6 +167,9 @@ export async function PUT(
     const {
       name,
       description,
+      descriptionJA,
+      descriptionKO,
+      descriptionZH,
       longDescription,
       category,
       avatar,
@@ -291,6 +294,11 @@ export async function PUT(
         capabilities: JSON.stringify(capabilities),
         containerLink,
       };
+
+      // 添加多语言描述字段（如果提供）
+      if (descriptionJA !== undefined) updateData.descriptionJA = descriptionJA;
+      if (descriptionKO !== undefined) updateData.descriptionKO = descriptionKO;
+      if (descriptionZH !== undefined) updateData.descriptionZH = descriptionZH;
 
       // 添加对话示例字段（如果提供）
       if (useCases !== undefined) updateData.useCases = useCases;

@@ -434,6 +434,9 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
       });
       return `${baseUrl}?${params.toString()}`;
     };
+    if(!isIAOEnded) {
+      return null
+    }
 
     return (
       <div className="flex justify-end items-center mb-4">

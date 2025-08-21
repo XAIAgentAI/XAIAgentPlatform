@@ -159,6 +159,9 @@ export const agentAPI = {
   updateAgent: async (id: string, data: {
     name: string;
     description: string;
+    descriptionJA?: string;
+    descriptionKO?: string;
+    descriptionZH?: string;
     longDescription?: string;
     category: string;
     avatar?: string;

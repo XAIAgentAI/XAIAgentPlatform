@@ -68,7 +68,7 @@
     "explore": "探索智能体",
     "creating": "创建智能体",
     "chat": "聊天",
-    "model": "创建AI模型",
+    "model": "创建AI模型代币",
     "about": "关于"
   },
   "agent": {
@@ -83,6 +83,7 @@
     "loading": "加载中...",
     "notFound": "未找到智能体",
     "addressCopied": "合约地址已复制到剪贴板",
+    "copied": "已复制",
     "chatComingSoon": "聊天功能即将推出！敬请期待。",
     "createdBy": "创建者",
     "information": "基本信息",
@@ -235,7 +236,7 @@
     "transactions": "交易记录",
     "about": "关于",
     "tokenomics": "代币经济",
-    "team": "团队",
+    "team": "创建人",
     "roadmap": "路线图",
     "documents": "文档",
     "links": "链接",
@@ -619,7 +620,7 @@
     "chat": "聊天",
     "noDataAvailable": "暂无数据",
     "infrastructure": "基础设施",
-    "aiAgent": "AI智能体",
+    "aiAgent": "AI模型",
     "noAgentsFound": "未找到智能体",
     "noAgentsFoundDesc": "当前没有可用的智能体，请稍后再试或创建新的智能体",
     "accessibility": {
@@ -1012,7 +1013,7 @@
       },
       "point2": {
         "title": "矿工提供算力服务",
-        "content": "矿工（GPU提供商）根据开发者的文档下载并部署AI容器，用自己的GPU服务器运行模型，对外提供推理/训练服务。矿工通过贡献算力获得Token奖励，收益与服务质量、算力规模挂钩。"
+        "content": "矿工（GPU提供商）根据开发者的文档下载并部署AI容器，用自己的GPU服务器运行模型，对外提供推理服务。矿工通过贡献算力获得Token奖励，收益与服务质量、算力规模挂钩。"
       },
       "point3": {
         "title": "明确硬件要求",
@@ -1047,7 +1048,7 @@
         "burn": "5% $XAA会被销毁"
       },
       "liquidity": "流动性池: IAO结束后，10% {symbol}和$XAA自动在DBCSwap建立流动性",
-      "team": "团队分配: 33% {symbol}，分2000天线性解锁，每40天解锁一次",
+      "team": "创建人分配: 33% {symbol}，分2000天线性解锁，每40天解锁一次",
       "mining": {
         "title": "挖矿机制:",
         "output": "每年50亿{symbol}产出",
@@ -1061,9 +1062,9 @@
       }
     },
     "createAgent": {
-      "freeCreationNotice": "创建AI模型不需要任何费用，代币将会在IAO成功后自动生成",
+      "freeCreationNotice": "创建代币不需要任何费用，代币将会在IAO成功后自动生成",
       "createAIProject": "创建AI代币AI模型",
-      "createAIModelProject": "创建AI模型代币AI模型",
+      "createAIModelProject": "创建代币",
       "editAIModelProject": "编辑AI模型AI模型",
       "projectName": "AI模型项目名称",
       "projectNamePlaceholder": "1-20个字母",
@@ -1074,14 +1075,14 @@
       "tokenSupply": "代币总量",
       "iaoPercentage": "IAO比例",
       "mining": "60亿/年",
-      "miningRate": "挖矿产出",
+      "miningRate": "每年挖矿产出",
       "agentImage": "代币Logo",
       "dialogModel": "对话模型",
       "dialogExample": "对话示例",
       "userQuestion": "用户提问",
       "agentResponse": "Agent回复",
       "createSuccess": "创建成功!",
-      "created": "AI代币AI模型已成功创建,您的AI模型ID为 ",
+      "created": "AI模型已成功创建,您的AI模型ID为 ",
       "viewProject": "查看AI模型",
       "creating": "创建中...",
       "createNow": "立即创建",
@@ -1133,7 +1134,7 @@
       "endTimeRequired": "请选择结束时间",
       "viewGuide": "创建指南",
       "creationProcessMessage": "正在创建您的AI模型，这可能需要一些时间...",
-      "agentDetails": "代理详情",
+      "agentDetails": "AI模型详情",
       "useCases": "用例",
       "TokenDistribution": {
         "title": "代币经济模型",
@@ -1142,7 +1143,7 @@
           "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
           "3": "在{hours}小时的IAO期间结束后，95%的$XAA将分配到链上流动性池，永不撤销，LP代币将发送到黑洞地址。5%的$XAA将被销毁",
           "4": "IAO结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",
-          "5": "团队持有33%的{symbol}，IAO结束后开始解锁，在2000天内线性释放，每40天解锁一次",
+          "5": "创建人持有33%的{symbol}，IAO结束后开始解锁，在2000天内线性释放，每40天解锁一次",
           "6": "{symbol}挖矿每年产生50亿，其中10%的挖矿{symbol}立即可用，90%在180天内线性释放",
           "7": "参与挖矿需要XAA挖矿NFT。每台机器必须质押至少1个XAA挖矿NFT，最多10个XAA挖矿NFT",
           "8": "1%的{symbol}空投给前10,000名$XAA和$DBC持有者，1%的{symbol}空投给XAA节点NFT持有者"
@@ -1166,7 +1167,7 @@
       "durationError": "持续时间必须在{min}-{max}小时之间（{minDays}-{maxDays}天）",
       "iaoScheduleInfo": "IAO将在 {startHours} 小时后开始，持续 {durationHours} 小时，预计 {endTime} 结束",
       "calculating": "计算中...",
-      "additionalSettingsAfterCreation": "创建AI模型后，您可以设置IAO时间、容器链接和对话示例",
+      "additionalSettingsAfterCreation": "创建AI模型代币后，您可以设置IAO时间、容器链接和对话示例",
       "translatingMultiLang": "正在翻译多语言...",
       "translatingMultiLangTip": "正在将您的AI模型翻译成多种语言，请稍候...",
       "miningRateFormula": "每年可挖矿的代币数量 = 总供应量 × {rate}%"
@@ -1207,6 +1208,17 @@
     "updateFailed": "容器链接更新失败",
     "copied": "容器链接已复制到剪贴板",
     "copyContainerLink": "复制容器链接"
+  },
+  "descriptionManager": {
+    "description": "描述",
+    "saving": "翻译并保存中...",
+    "save": "保存",
+    "cancel": "取消",
+    "updateSuccess": "描述更新并翻译成功",
+    "updateFailed": "描述更新失败",
+    "edit": "编辑",
+    "placeholder": "输入代理描述...",
+    "supportNewlines": "支持换行以创建多段落描述。描述将自动翻译为所有支持的语言。"
   },
   "errors": {
     "error": "错误",

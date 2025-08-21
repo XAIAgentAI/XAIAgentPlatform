@@ -315,7 +315,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <h3 className="text-secondary-color text-base font-medium font-['Sora'] truncate">{agent.name}</h3>
+                        <h3 className="text-secondary-color text-base font-medium font-['Sora'] truncate">{agent.name?.charAt(0).toUpperCase() + agent.name?.slice(1)}</h3>
                         <span className="text-muted-color text-sm font-normal font-['Sora'] shrink-0">
                           ${agent.symbol}
                         </span>

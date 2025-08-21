@@ -22,11 +22,12 @@ import { formatPrice } from '@/lib/format';
 import { API_CONFIG } from '@/config/api';
 import { ContainerLinkManager } from './ContainerLinkManager';
 import { SocialMediaManager } from './SocialMediaManager';
+import { DescriptionManager } from './DescriptionManager';
 import { copyToClipboard } from '@/lib/utils';
 
 interface AgentInfoProps {
   agent: LocalAgent;
-  currentPrice: number;
+  currentPrice?: number;
 }
 
 export function AgentInfo({ agent }: AgentInfoProps) {
@@ -93,16 +94,16 @@ export function AgentInfo({ agent }: AgentInfoProps) {
   };
 
   // 根据当前语言获取对应的描述
-  const getLocalizedDescription = () => {
+  const getLocalizedDescription = (): string => {
     if (!agent) return "";
     if (locale === 'zh') {
-      return agent.descriptionZH;
+      return agent.descriptionZH || agent.description || "";
     } else if (locale === 'ko') {
-      return agent.descriptionKO;
+      return agent.descriptionKO || agent.description || "";
     } else if (locale === 'ja') {
-      return agent.descriptionJA;
+      return agent.descriptionJA || agent.description || "";
     }
-    return agent.description;
+    return agent.description || "";
   };
 
   if (tokenLoading) {
@@ -160,7 +161,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
           <div className="min-w-0 flex-1">
             <div className="flex justify-start items-center flex-wrap gap-2">
-              <h1 className="text-xl font-semibold">{agent?.name}</h1>
+              <h1 className="text-xl font-semibold">{agent?.name?.charAt(0).toUpperCase() + agent?.name?.slice(1)}</h1>
 
 
 
@@ -340,18 +341,16 @@ export function AgentInfo({ agent }: AgentInfoProps) {
       {/* Container Link Manager */}
       <ContainerLinkManager
         agent={agent}
-        isCreator={address && ((agent as any)?.creator?.address) && address.toLowerCase() === (agent as any).creator.address.toLowerCase()}
+        isCreator={!!isCreator}
       />
 
-      {/* Description */}
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">{t('description')}</h2>
-        {getLocalizedDescription()?.split("\n").map((line: string, index: number) => (
-          <p key={index} className="text-sm text-muted-foreground break-words mb-2">
-            {line}
-          </p>
-        ))}
-      </div>
+      {/* Description Manager */}
+      <DescriptionManager
+        agent={agent}
+        isCreator={isCreator}
+        getLocalizedDescription={getLocalizedDescription}
+        onRefresh={() => window.location.reload()}
+      />
     </Card>
   );
 } 

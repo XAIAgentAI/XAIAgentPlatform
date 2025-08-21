@@ -402,7 +402,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                             </Avatar>
                             <div className="space-y-2">
                               <div className="flex items-center gap-2">
-                                <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name}</h3>
+                                <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name?.charAt(0).toUpperCase() + agent.name?.slice(1)}</h3>
                                 <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
                                   ${agent.symbol}
                                 </span>

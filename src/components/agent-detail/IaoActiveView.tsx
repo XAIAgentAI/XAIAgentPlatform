@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import { Countdown } from "../ui-custom/countdown";
 import { IaoProgressDisplay } from './IaoProgressDisplay';
 import type { LocalAgent } from "@/types/agent";
+import { useAppKit } from '@reown/appkit/react';
 
 interface IaoActiveViewProps {
   agent: LocalAgent;
@@ -59,6 +60,7 @@ export const IaoActiveView = ({
 }: IaoActiveViewProps) => {
   const t = useTranslations('iaoPool');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { open } = useAppKit();
 
   // 处理刷新
   const handleRefresh = async () => {
@@ -120,13 +122,28 @@ export const IaoActiveView = ({
 
   const getButtonText = (): string => {
     if (!isIaoStarted) return t('iaoNotStarted');
-    if (!isAuthenticated) return t('connectWalletFirst');
+    if (!isAuthenticated) return '请先连接钱包';
     if (isStakeLoading) return t('processing');
     if (!isIaoActive) return t('investNotStarted');
     return t('send');
   };
 
+  const handleButtonClick = () => {
+    if (!isAuthenticated) {
+      // 如果未连接钱包，打开钱包连接窗口
+      open({ view: 'Connect' });
+    } else {
+      // 如果已连接钱包，执行正常的质押操作
+      onStake();
+    }
+  };
+
   const isButtonDisabled = useMemo((): boolean => {
+    // 如果未认证，不禁用按钮，让用户可以点击连接钱包
+    if (!isAuthenticated) {
+      return false;
+    }
+
     const buttonState = {
       isAuthenticated,
       isIaoActive,
@@ -138,8 +155,7 @@ export const IaoActiveView = ({
       currentMaxAmountNumber: Number(currentMaxAmount),
       isAmountValid: Number(dbcAmount) > 0,
       isAmountWithinLimit: Number(dbcAmount) <= Number(currentMaxAmount),
-      disabled: !isAuthenticated ||
-                !isIaoActive ||
+      disabled: !isIaoActive ||
                 isStakeLoading ||
                 !isIaoStarted ||
                 !dbcAmount ||
@@ -229,7 +245,7 @@ export const IaoActiveView = ({
       </div>
 
       {/* IAO持续时长 */}
-      {poolInfo?.startTime && poolInfo?.endTime && (
+      {poolInfo?.startTime && poolInfo?.endTime ? (
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 p-3 rounded-lg">
           <span className="text-black font-medium">{t('iaoDuration')}:</span>
           <div className="flex items-center gap-2 flex-wrap">
@@ -279,7 +295,7 @@ export const IaoActiveView = ({
             })()}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 
@@ -338,8 +354,12 @@ export const IaoActiveView = ({
 
         <Button
           className="w-full text-sm sm:text-base py-2 sm:py-3 mt-4"
-          style={{ backgroundColor: '#F47521', borderColor: '#F47521' }}
-          onClick={onStake}
+          style={{ 
+            backgroundColor: !isAuthenticated ? '#9ca3af' : '#F47521', 
+            borderColor: !isAuthenticated ? '#9ca3af' : '#F47521',
+            cursor: !isAuthenticated ? 'pointer' : 'default'
+          }}
+          onClick={handleButtonClick}
           disabled={isButtonDisabled}
         >
           {getButtonText()}

@@ -83,6 +83,7 @@
     "loading": "로딩 중...",
     "notFound": "에이전트를 찾을 수 없습니다",
     "addressCopied": "컨트랙트 주소가 클립보드에 복사되었습니다",
+    "copied": "복사됨",
     "chatComingSoon": "채팅 기능이 곧 출시됩니다! 업데이트를 기다려주세요.",
     "createdBy": "생성자",
     "information": "정보",
@@ -235,7 +236,7 @@
     "transactions": "거래 내역",
     "about": "소개",
     "tokenomics": "토큰노믹스",
-    "team": "팀",
+    "team": "제작자",
     "roadmap": "로드맵",
     "documents": "문서",
     "links": "링크",
@@ -619,7 +620,7 @@
     "chat": "채팅",
     "noDataAvailable": "데이터를 사용할 수 없습니다",
     "infrastructure": "인프라",
-    "aiAgent": "AI 에이전트",
+    "aiAgent": "AI 모델",
     "noAgentsFound": "에이전트를 찾을 수 없습니다",
     "noAgentsFoundDesc": "현재 사용 가능한 에이전트가 없습니다. 나중에 다시 시도하거나 새로운 에이전트를 생성해 주세요.",
     "accessibility": {
@@ -1048,7 +1049,7 @@
         "burn": "5% $XAA를 블랙홀 주소로 전송"
       },
       "liquidity": "유동성 풀: IAO 종료 후, 3% $XXX와 $XAA가 DBCSwap에서 자동으로 유동성 확보",
-      "team": "팀 할당: 32% $XXX, 2000일 동안 선형 해제",
+      "team": "제작자 할당: 32% $XXX, 2000일 동안 선형 해제",
       "mining": {
         "title": "채굴 메커니즘:",
         "output": "연간 60억 $XXX 생산",
@@ -1075,14 +1076,14 @@
       "tokenSupply": "토큰 공급량",
       "iaoPercentage": "IAO 비율",
       "mining": "60억/년",
-      "miningRate": "채굴 비율",
+      "miningRate": "연간 채굴 산출",
       "agentImage": "로고",
       "dialogModel": "대화 모델",
       "dialogExample": "대화 예시",
       "userQuestion": "사용자 질문",
       "agentResponse": "에이전트 응답",
       "createSuccess": "생성 성공!",
-      "created": "AI 토큰 프로젝트가 성공적으로 생성되었습니다. AI 모델 ID는 ",
+      "created": "AI 모델이 성공적으로 생성되었습니다. AI 모델 ID는 ",
       "viewProject": "프로젝트 보기",
       "creating": "생성 중...",
       "createNow": "지금 생성",
@@ -1134,7 +1135,7 @@
       "endTimeRequired": "종료 시간을 선택해주세요",
       "viewGuide": "생성 가이드",
       "creationProcessMessage": "AI 에이전트를 생성하고 있습니다. 잠시만 기다려주세요...",
-      "agentDetails": "에이전트 세부정보",
+      "agentDetails": "AI 모델 세부정보",
       "useCases": "사용 사례",
       "TokenDistribution": {
         "title": "토큰 경제 모델",
@@ -1143,7 +1144,7 @@
           "2": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
           "3": "{hours}시간의 IAO 기간 이후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 취소되지 않으며, LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
           "4": "IAO 종료 후, {symbol}과 $XAA의 10%는 즉시 DBCSwap에서 유동성 풀을 설립하여 {symbol}의 자유로운 거래를 가능하게 합니다",
-          "5": "팀은 {symbol}의 33%를 보유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 해제되며, 40일마다 잠금 해제됩니다",
+          "5": "제작자는 {symbol}의 33%를 보유하며, IAO 종료 후 잠금 해제가 시작되어 2000일 동안 선형적으로 해제되며, 40일마다 잠금 해제됩니다",
           "6": "{symbol} 채굴은 연간 50억을 생산하며, 채굴된 {symbol}의 10%는 즉시 사용 가능하고 90%는 180일 동안 선형적으로 해제됩니다",
           "7": "채굴에 참여하려면 XAA 채굴 NFT가 필요합니다. 각 기계는 최소 1개의 XAA 채굴 NFT를 스테이킹해야 하며, 최대 10개의 XAA 채굴 NFT가 가능합니다",
           "8": "{symbol}의 1%는 상위 10,000명의 $XAA 및 $DBC 보유자에게 에어드롭되며, {symbol}의 1%는 XAA 노드 NFT 보유자에게 에어드롭됩니다"
@@ -1208,6 +1209,17 @@
     "updateFailed": "컨테이너 링크 업데이트 실패",
     "copied": "컨테이너 링크가 클립보드에 복사되었습니다",
     "copyContainerLink": "컨테이너 링크 복사"
+  },
+  "descriptionManager": {
+    "description": "설명",
+    "saving": "번역 및 저장 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "updateSuccess": "설명이 성공적으로 업데이트 및 번역되었습니다",
+    "updateFailed": "설명 업데이트 실패",
+    "edit": "편집",
+    "placeholder": "에이전트 설명을 입력하세요...",
+    "supportNewlines": "여러 단락 설명을 위해 줄 바꿈을 지원합니다. 설명은 자동으로 지원되는 모든 언어로 번역됩니다."
   },
   "errors": {
     "error": "오류",

@@ -30,8 +30,7 @@ const nextConfig = {
         './src/**/*'
       ]
     },
-    // 启用 instrumentation 功能
-    instrumentationHook: true
+
   },
   env: {
     DATABASE_URL: process.env.DATABASE_URL || ''

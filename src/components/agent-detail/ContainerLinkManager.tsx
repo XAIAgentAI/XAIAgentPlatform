@@ -141,7 +141,7 @@ export function ContainerLinkManager({ agent, isCreator }: ContainerLinkManagerP
                 }
                 setContainerLinkInput(value);
               }}
-              className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 pl-20 rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
+              className="w-full bg-white dark:bg-[#1a1a1a] p-1.5 pl-[62px] rounded-lg focus:outline-none border border-black dark:border-white border-opacity-10 dark:border-opacity-10"
               placeholder="example.com/your-container-image"
             />
           </div>
