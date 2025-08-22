@@ -565,7 +565,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     rewardToken: '0xabcdef123',
                     symbol: formData.symbol || 'AGT',
                     avatar: imageUrl || 'http://xaiagent.oss-ap-northeast-2.aliyuncs.com/logo/LogoLift.png',
-                    type: 'AI Agent',
+                    type: 'AI Model',
                     marketCap: '$0',
                     change24h: '0',
                     tvl: '$0',

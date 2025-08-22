@@ -20,6 +20,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useSearchParams } from "next/navigation"
 import { formatPriceChange } from '@/lib/utils';
 import { Countdown } from "@/components/ui-custom/countdown";
+import { MyModelsDialog } from "@/components/agent-list/my-models-dialog";
 
 // 修改类型定义
 type SortField = AgentSortField | null;
@@ -42,20 +43,23 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
+  const tMyModels = useTranslations('myModels');
   const router = useRouter()
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
+  const [myModelsDialogOpen, setMyModelsDialogOpen] = useState(false);
+  const [myModelsCount, setMyModelsCount] = useState<number>(0);
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address } = useAccount();
   const { getStakeList } = useStakingNFTContract();
   const { open } = useAppKit();
   const { toast } = useToast();
-  
+
   // 获取URL中的排序参数
   const urlSortBy = searchParams?.get('sortBy');
   const urlSortOrder = searchParams?.get('sortOrder') as "asc" | "desc" | null;
-  
+
   // 使用传入的currentStatusFilter
   const [currentFilter, setCurrentFilter] = useState(currentStatusFilter);
 
@@ -66,7 +70,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
 
   // 获取当前状态下可用的排序选项
   const currentSortOptions = STATUS_SORT_OPTIONS_MAP[currentFilter] || STATUS_SORT_OPTIONS_MAP[''];
-  
+
   // 使用URL参数或默认排序
   const [sortField, setSortField] = useState<AgentSortField>(() => {
     if (urlSortBy && Object.values(AgentSortField).includes(urlSortBy as AgentSortField)) {
@@ -74,8 +78,8 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
     }
     return currentSortOptions.default;
   });
-  
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(() => 
+
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(() =>
     urlSortOrder || "desc"
   );
 
@@ -90,16 +94,16 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
 
   const handleSort = (field: AgentSortField) => {
     let newSortDirection: "asc" | "desc" = sortDirection;
-    
+
     if (sortField === field) {
       newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     } else {
       newSortDirection = "desc";
     }
-    
+
     setSortField(field);
     setSortDirection(newSortDirection);
-    
+
     router.push(`?sortBy=${field}&sortOrder=${newSortDirection}`);
   }
 
@@ -107,7 +111,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
 
   const getSortIcon = (field: AgentSortField) => {
     if (sortField !== field) return null;
-    
+
     return (
       <Image
         src="/images/triangle.svg"
@@ -162,7 +166,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            {agents.length > 0 
+            {agents.length > 0
               ? t('foundResults', { count: agents.length })
               : t('noResultsFound')
             }
@@ -174,8 +178,8 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
         {/* 第一行：排序 + 筛选 */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-8">
 
-       {/* 状态筛选 */}
-       <div className="flex items-center gap-4">
+          {/* 状态筛选 */}
+          <div className="flex items-center gap-4">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')}</span>
             <Tabs value={currentFilter} className="w-auto" onValueChange={(value) => {
               setCurrentFilter(value);
@@ -239,11 +243,33 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
             </Tabs>
           </div>
 
-   
+          {/* 我的AI模型按钮 - PC端第一行最右边 */}
+          <div className="md:ml-auto">
+            {address && (
+              <GradientBorderButton 
+                className="bg-card whitespace-nowrap"
+                onClick={() => setMyModelsDialogOpen(true)}
+              >
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z" />
+                  </svg>
+                  <span className="hidden lg:inline">{tMyModels('title')}</span>
+                  <span className="lg:hidden">{tMyModels('titleShort')}</span>
+                  {myModelsCount > 0 && (
+                    <span className="bg-primary/20 text-primary text-xs px-1.5 py-0.5 rounded-full font-medium">
+                      {myModelsCount}
+                    </span>
+                  )}
+                </div>
+              </GradientBorderButton>
+            )}
+          </div>
+
         </div>
 
         {/* 第二行：质押NFT按钮 */}
-        <div className="flex items-center justify-end gap-6">
+        <div className="flex items-center justify-end gap-4 lg:gap-6">
           {
             address ? (
               <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-orange-500/5 via-orange-400/10 to-orange-500/5 rounded-xl px-3 py-1 border border-orange-500/10">
@@ -255,6 +281,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
               </div>
             ) : null
           }
+
           <GradientBorderButton className="bg-card whitespace-nowrap" onClick={handleStakeClick}>
             {tNft('batchStake')}
           </GradientBorderButton>
@@ -266,6 +293,12 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
         onOpenChange={setStakeDialogOpen}
         onSuccess={fetchStakedInfo}
       />}
+
+      <MyModelsDialog
+        open={myModelsDialogOpen}
+        onOpenChange={setMyModelsDialogOpen}
+        onModelsCount={setMyModelsCount}
+      />
 
       {/* 表格部分 */}
       <div className="relative flex-1 overflow-x-auto">
@@ -526,8 +559,8 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                         )}
                         {shouldShowColumn(currentFilter, AgentColumnField.CHAT) && (
                           <TableCell>
-                            {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
-                              <button 
+                            {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol === "DLC" || agent.symbol === "DGC") && (
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (agent.symbol === "STID") {
@@ -543,7 +576,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                                 className="text-secondary-color hover:text-primary-color transition-colors duration-200"
                                 aria-label={t('accessibility.openChat')}
                               >
-                                <div 
+                                <div
                                   className={`
                                     animate-combined-ani
                                     bg-primary
@@ -552,15 +585,15 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                                     text-center text-[14.5px] font-normal font-['Sora'] whitespace-nowrap flex flex-row justify-center items-center
                                   `}
                                 >
-                                  <img 
-                                    alt={t('accessibility.chatIcon')} 
-                                    aria-hidden="true" 
-                                    loading="lazy" 
-                                    width="12" 
-                                    height="12" 
-                                    decoding="async" 
-                                    data-nimg="1" 
-                                    src="/images/chat.svg" 
+                                  <img
+                                    alt={t('accessibility.chatIcon')}
+                                    aria-hidden="true"
+                                    loading="lazy"
+                                    width="12"
+                                    height="12"
+                                    decoding="async"
+                                    data-nimg="1"
+                                    src="/images/chat.svg"
                                     className="-ml-1 mr-2 mb-[0.6px]"
                                   />
                                   <span className="text-md mt-[0.6px]">
@@ -578,12 +611,12 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                   <TableRow>
                     <TableCell colSpan={9} className="text-center py-10">
                       <div className="flex flex-col items-center justify-center gap-2">
-                        <Image 
-                          src="/logo.png" 
-                          alt={t('accessibility.noDataImage')} 
-                          width={50} 
-                          height={50} 
-                          className="opacity-30" 
+                        <Image
+                          src="/logo.png"
+                          alt={t('accessibility.noDataImage')}
+                          width={50}
+                          height={50}
+                          className="opacity-30"
                         />
                         <div className="text-muted-color text-sm">
                           {t('noDataAvailable')}

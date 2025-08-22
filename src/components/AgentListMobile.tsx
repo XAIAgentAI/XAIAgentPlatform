@@ -19,6 +19,7 @@ import { useStakingNFTContract } from '@/hooks/contracts/useStakingNFTContract';
 import { useAppKit } from '@reown/appkit/react'
 import { useToast } from '@/components/ui/use-toast'
 import { Countdown } from "@/components/ui-custom/countdown";
+import { MyModelsDialog } from "@/components/agent-list/my-models-dialog";
 
 const parseSocialLinks = (socialLinks?: string) => {
   if (!socialLinks) return { twitter: [], telegram: [], medium: [], github: [], youtube: [] };
@@ -37,10 +38,13 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
   const t = useTranslations('agentList');
   const tNft = useTranslations('nft');
   const tMessages = useTranslations('messages');
+  const tMyModels = useTranslations('myModels');
   const router = useRouter();
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [stakeDialogOpen, setStakeDialogOpen] = useState(false);
+  const [myModelsDialogOpen, setMyModelsDialogOpen] = useState(false);
+  const [myModelsCount, setMyModelsCount] = useState<number>(0);
   const [totalDailyRewards, setTotalDailyRewards] = useState(0);
   const { address, isConnected } = useAccount();
   const { getStakeList } = useStakingNFTContract();
@@ -149,7 +153,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
 
       <div className="sticky top-16 lg:top-20 z-10 bg-white dark:bg-gray-900 border-b border-[#E5E5E5] dark:border-white/10">
         <div className="flex flex-col p-4 gap-3">
-          {/* 第一行：状态筛选 */}
+          {/* 第一行：状态筛选 + 我的AI模型按钮 */}
           <div className="flex items-center gap-2 w-full">
             <span className="text-muted-color text-xs whitespace-nowrap">{t('filterBy')} &nbsp;&nbsp;&nbsp;&nbsp; </span>
             <div className="flex-1">
@@ -174,6 +178,26 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                 </SelectContent>
               </Select>
             </div>
+            
+            {/* 我的AI模型按钮 - 移动端筛选行右边 */}
+            {address && (
+              <GradientBorderButton
+                onClick={() => setMyModelsDialogOpen(true)}
+                className="text-xs whitespace-nowrap flex-shrink-0 h-8"
+              >
+                <div className="flex items-center gap-1 relative">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z" />
+                  </svg>
+                  <span className="text-xs">{tMyModels('titleShort')}</span>
+                  {myModelsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-white text-xs w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-medium">
+                      {myModelsCount > 9 ? '9+' : myModelsCount}
+                    </span>
+                  )}
+                </div>
+              </GradientBorderButton>
+            )}
           </div>
 
           {/* 第二行：排序 + 质押NFT按钮 */}
@@ -204,7 +228,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
             {/* 质押NFT按钮 */}
             <GradientBorderButton
               onClick={handleStakeClick}
-              className="text-xs whitespace-nowrap"
+              className="text-xs whitespace-nowrap flex-shrink-0"
             >
               {tNft('batchStake')}
             </GradientBorderButton>
@@ -293,6 +317,12 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
         onOpenChange={setStakeDialogOpen}
         onSuccess={fetchStakedInfo}
       />}
+
+      <MyModelsDialog
+        open={myModelsDialogOpen}
+        onOpenChange={setMyModelsDialogOpen}
+        onModelsCount={setMyModelsCount}
+      />
       {loading ? (
         <div className="flex items-center justify-center flex-1 bg-white dark:bg-gray-900 py-32">
           <Loading />
