@@ -1,3 +1,4 @@
+42
 /**
  * 批量空投脚本 - 基于native holders数据
  * 使用方法: node batch-airdrop.js
@@ -11,20 +12,23 @@ const readline = require('readline');
 const CONFIG = {
 	// 数据文件路径
 	dataFile: './data/xaa_token_holders_pages.json',
+	tokenAddress: '0x861100195D26bf1e115a40337bba22f000fa6871', // 空投代币地址
+
 	
+
 	// 空投接口配置
 	apiUrl: 'http://localhost:3000/api/airdrop/dev-send',
 	reconcileUrl: 'http://localhost:3000/api/airdrop/dev-send/reconcile',
-	tokenAddress: '0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40', // 空投代币地址
-	
+
+			
 	// 空投范围配置
 	airdropRange: {
 		// 起始位置
 		startPage: 1,        // 从第1页开始
-		startIndex: 0,       // 页面内从第1个地址开始 (0-based)
+		startIndex: 23,      // 页面内从第24个地址开始 (0-based，所以23表示第24个)
 		
 		// 结束位置  
-		endPage: 201,        // 到第201页结束（所有页面）
+		endPage: -1,         // -1表示自动设置为最后一页，或指定具体页数如201
 		endIndex: -1,        // -1表示到页面末尾
 		
 		// 空投数量
@@ -36,8 +40,8 @@ const CONFIG = {
 		// 是否跳过合约地址
 		skipContracts: true,
 		
-		// 并发控制
-		concurrentLimit: 4,   // 串行发送（一个一个发，避免nonce冲突）
+		// 并发控制（保持原有高速度）
+		concurrentLimit: 4,   // 4个并发，保持高速度
 		
 		// 批次大小（每批处理多少个）
 		batchSize: 49,        // 所有交易一个批次
@@ -45,18 +49,34 @@ const CONFIG = {
 		// 批次间延迟（毫秒）
 		batchDelay: 1000,     // 减少到1秒
 		
-		// 单次请求间延迟（毫秒） 
-		requestDelay: 100,    // 串行发送延迟100ms（提升5倍速度）
+		// 单次请求间延迟（毫秒） - 保持原有速度
+		requestDelay: 100,    // 保持100ms高速度
 		
-		// 失败重试
-		maxRetries: 3,        // 最大重试次数
-		retryDelay: 500,      // 重试延迟
+		// 失败重试 - 常规重试参数
+		maxRetries: 3,        // 常规重试次数
+		retryDelay: 500,      // 常规重试延迟
 		
 		// 是否等待确认
 		waitForConfirmation: false,  // 不等待交易确认
 		
 		// 测试模式（true=只打印不实际发送）
 		testMode: false
+	},
+	
+	// 专门的最终重试配置（当有失败交易时使用）
+	finalRetryExecution: {
+		// 最终重试并发控制（完全串行避免nonce冲突）
+		concurrentLimit: 1,   // 完全串行发送，避免nonce冲突
+		
+		// 最终重试延迟（毫秒） - 更保守的设置
+		requestDelay: 3000,   // 增加到3秒，避免Gas价格竞争
+		
+		// 最终重试参数 - 更激进的重试
+		maxRetries: 7,        // 增加重试次数到7次
+		retryDelay: 8000,     // 增加重试延迟到8秒
+		
+		// 最终重试时是否等待确认
+		waitForConfirmation: false  // 仍然不等待确认
 	}
 };
 
@@ -142,13 +162,39 @@ function displayConfirmationInfo(airdropList, totalAmount) {
 	console.log(`   当前目录: ${process.cwd()}`);
 	console.log(`   数据文件: ${CONFIG.dataFile}`);
 	
-	// 显示所有空投地址详情
+	// 显示部分空投地址详情（前10个和后10个）
 	console.log('\n📋 详细空投列表');
-	airdropList.forEach((item, i) => {
+	console.log(`   总共 ${airdropList.length} 个地址，显示前10个和后10个:`);
+	
+	// 显示前10个
+	const showFirst = Math.min(10, airdropList.length);
+	for (let i = 0; i < showFirst; i++) {
+		const item = airdropList[i];
 		const holdingAmount = (parseFloat(item.originalHolding) / 1e18).toFixed(2);
 		console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
 		console.log(`       📍 位置: 第${item.pageNumber}页第${item.indexInPage + 1}个 | 💰 发送: ${item.amount} tokens | 📊 持有: ${holdingAmount}`);
-	});
+	}
+	
+	// 如果超过20个，显示省略号和后10个
+	if (airdropList.length > 20) {
+		console.log(`   ... (省略 ${airdropList.length - 20} 个地址) ...`);
+		
+		// 显示后10个
+		for (let i = airdropList.length - 10; i < airdropList.length; i++) {
+			const item = airdropList[i];
+			const holdingAmount = (parseFloat(item.originalHolding) / 1e18).toFixed(2);
+			console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
+			console.log(`       📍 位置: 第${item.pageNumber}页第${item.indexInPage + 1}个 | 💰 发送: ${item.amount} tokens | 📊 持有: ${holdingAmount}`);
+		}
+	} else if (airdropList.length > 10) {
+		// 如果在10-20个之间，显示剩余的
+		for (let i = 10; i < airdropList.length; i++) {
+			const item = airdropList[i];
+			const holdingAmount = (parseFloat(item.originalHolding) / 1e18).toFixed(2);
+			console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
+			console.log(`       📍 位置: 第${item.pageNumber}页第${item.indexInPage + 1}个 | 💰 发送: ${item.amount} tokens | 📊 持有: ${holdingAmount}`);
+		}
+	}
 	
 	// 风险提示
 	console.log('\n⚠️  重要提示');
@@ -204,6 +250,15 @@ function loadHoldersData() {
 		const rawData = fs.readFileSync(dataPath, 'utf8');
 		const pagesData = JSON.parse(rawData);
 		
+		// 获取最大页数
+		const maxPage = Math.max(...pagesData.map(page => page.page));
+		
+		// 如果配置的endPage为-1，则自动设置为最后一页
+		if (CONFIG.airdropRange.endPage === -1) {
+			CONFIG.airdropRange.endPage = maxPage;
+			console.log(`📄 自动设置结束页为最后一页: 第${maxPage}页`);
+		}
+		
 		// 统计总数据
 		let totalHolders = 0;
 		pagesData.forEach(page => {
@@ -213,6 +268,7 @@ function loadHoldersData() {
 		});
 		
 		console.log(`📊 总共加载了 ${pagesData.length} 页数据，包含 ${totalHolders} 个持有者`);
+		console.log(`📄 数据范围: 第1页到第${maxPage}页`);
 		return pagesData;
 		
 	} catch (error) {
@@ -297,12 +353,13 @@ function prepareAirdropData(holders) {
 	});
 }
 
-// 发送单个空投（带重试机制）
-async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
+// 发送单个空投（带重试机制，支持自定义配置）
+async function sendSingleAirdropWithConfig(airdropData, index, total, config = CONFIG.execution, retryCount = 0) {
 	const { walletAddress, amount, tokenAddress, description, pageNumber, indexInPage } = airdropData;
 	
-	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${CONFIG.execution.maxRetries})` : '';
-	console.log(`🚀 [交易${index + 1}/${total}] 发送到 ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}${retryInfo}`);
+	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${config.maxRetries})` : '';
+	const prefix = config === CONFIG.finalRetryExecution ? '🔄 [最终重试' : '🚀 [交易';
+	console.log(`${prefix}${index + 1}/${total}] 发送到 ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}${retryInfo}`);
 	
 	if (CONFIG.execution.testMode) {
 		await delay(Math.random() * 100); // 模拟网络延迟
@@ -325,7 +382,8 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		const data = await response.json();
 		
 		if (data.success) {
-			console.log(`✅ [交易${index + 1}/${total}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
+			const successPrefix = config === CONFIG.finalRetryExecution ? '✅ [最终重试' : '✅ [交易';
+			console.log(`${successPrefix}${index + 1}/${total}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
 			return {
 				success: true,
 				data: data.data,
@@ -335,13 +393,15 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 			};
 		} else {
 			// 如果失败且还有重试次数，则重试
-			if (retryCount < CONFIG.execution.maxRetries) {
-				console.log(`⚠️ [交易${index + 1}/${total}] 失败，准备重试: ${data.message}`);
-				await delay(CONFIG.execution.retryDelay);
-				return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+			if (retryCount < config.maxRetries) {
+				const retryPrefix = config === CONFIG.finalRetryExecution ? '⚠️ [最终重试' : '⚠️ [交易';
+				console.log(`${retryPrefix}${index + 1}/${total}] 失败，准备重试: ${data.message}`);
+				await delay(config.retryDelay);
+				return await sendSingleAirdropWithConfig(airdropData, index, total, config, retryCount + 1);
 			}
 			
-			console.log(`❌ [交易${index + 1}/${total}] 最终失败: ${data.message}`);
+			const failPrefix = config === CONFIG.finalRetryExecution ? '❌ [最终重试' : '❌ [交易';
+			console.log(`${failPrefix}${index + 1}/${total}] 最终失败: ${data.message}`);
 			return {
 				success: false,
 				error: data.message,
@@ -353,13 +413,15 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		
 	} catch (error) {
 		// 如果是网络错误且还有重试次数，则重试
-		if (retryCount < CONFIG.execution.maxRetries) {
-			console.log(`⚠️ [交易${index + 1}/${total}] 网络错误，准备重试: ${error.message}`);
-			await delay(CONFIG.execution.retryDelay);
-			return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+		if (retryCount < config.maxRetries) {
+			const errorPrefix = config === CONFIG.finalRetryExecution ? '⚠️ [最终重试' : '⚠️ [交易';
+			console.log(`${errorPrefix}${index + 1}/${total}] 网络错误，准备重试: ${error.message}`);
+			await delay(config.retryDelay);
+			return await sendSingleAirdropWithConfig(airdropData, index, total, config, retryCount + 1);
 		}
 		
-		console.error(`❌ [交易${index + 1}/${total}] 网络错误: ${error.message}`);
+		const errorFinalPrefix = config === CONFIG.finalRetryExecution ? '❌ [最终重试' : '❌ [交易';
+		console.error(`${errorFinalPrefix}${index + 1}/${total}] 网络错误: ${error.message}`);
 		return {
 			success: false,
 			error: error.message,
@@ -368,6 +430,86 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 			retryCount
 		};
 	}
+}
+
+// 发送单个空投（带重试机制）- 使用默认配置
+async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
+	return await sendSingleAirdropWithConfig(airdropData, index, total, CONFIG.execution, retryCount);
+}
+
+// 最终重试处理空投（使用专门的重试配置）
+async function processFinalRetryAirdrops(airdropList) {
+	const results = {
+		total: airdropList.length,
+		success: 0,
+		failed: 0,
+		details: [],
+		startTime: Date.now()
+	};
+	
+	console.log(`\n🔄 开始最终重试处理...`);
+	console.log(`📊 重试数量: ${results.total}`);
+	console.log(`🚀 并发数量: ${CONFIG.finalRetryExecution.concurrentLimit} (串行处理)`);
+	console.log(`⏱️ 请求延迟: ${CONFIG.finalRetryExecution.requestDelay}ms`);
+	console.log(`🔄 最大重试: ${CONFIG.finalRetryExecution.maxRetries}次`);
+	
+	if (CONFIG.execution.testMode) {
+		console.log(`🧪 测试模式 - 不会实际发送代币`);
+	} else {
+		console.log(`🚨 生产模式 - 将发送真实代币!`);
+	}
+	
+	// 创建并发限制器（使用最终重试配置）
+	const concurrencyLimiter = new ConcurrencyLimiter(CONFIG.finalRetryExecution.concurrentLimit);
+	
+	// 创建最终重试任务
+	const tasks = airdropList.map((airdropData, index) => {
+		return concurrencyLimiter.execute(async () => {
+			// 使用最终重试配置的延迟
+			if (CONFIG.finalRetryExecution.requestDelay > 0) {
+				await delay(CONFIG.finalRetryExecution.requestDelay);
+			}
+			
+			try {
+				// 使用最终重试配置发送单个空投
+				const result = await sendSingleAirdropWithConfig(airdropData, index, airdropList.length, CONFIG.finalRetryExecution);
+				
+				// 线程安全地更新结果
+				if (result.success) {
+					results.success++;
+				} else {
+					results.failed++;
+				}
+				results.details.push(result);
+				
+				// 显示实时进度
+				const progress = (results.details.length / airdropList.length * 100).toFixed(1);
+				console.log(`🔄 最终重试进度: ${results.details.length}/${airdropList.length} (${progress}%) | 成功: ${results.success} | 失败: ${results.failed}`);
+				
+				return result;
+			} catch (error) {
+				console.error(`❌ [最终重试${index + 1}/${airdropList.length}] 处理异常: ${error.message}`);
+				results.failed++;
+				const errorResult = {
+					success: false,
+					error: error.message,
+					walletAddress: airdropData.walletAddress,
+					amount: airdropData.amount
+				};
+				results.details.push(errorResult);
+				return errorResult;
+			}
+		});
+	});
+	
+	// 等待所有最终重试任务完成
+	console.log(`🚀 开始串行最终重试 ${tasks.length} 个失败交易...`);
+	await Promise.all(tasks);
+	
+	results.endTime = Date.now();
+	results.totalTime = results.endTime - results.startTime;
+	
+	return results;
 }
 
 // 并发处理空投
@@ -441,18 +583,54 @@ async function processConcurrentAirdrops(airdropList) {
 	results.endTime = Date.now();
 	results.totalTime = results.endTime - results.startTime;
 	
-	// 检查是否有失败的交易，如果有则终止程序
+	// 检查是否有失败的交易，如果有则使用专门的最终重试配置重试
 	if (results.failed > 0) {
-		console.log(`\n❌ 处理完成后有 ${results.failed} 个失败的交易！`);
-		console.log(`🛑 程序将终止，需要手动处理以下失败交易:`);
+		console.log(`\n❌ 第一轮处理完成后有 ${results.failed} 个失败的交易！`);
+		console.log(`🔄 将使用专门的最终重试配置进行重试...\n`);
 		
 		const failures = results.details.filter(r => !r.success);
-		failures.forEach((failure, i) => {
-			console.log(`${i + 1}. ${failure.walletAddress} - ${failure.error}`);
-		});
 		
-		console.log(`\n💡 建议: 检查网络状况、Gas费用或nonce状态后重新运行程序`);
-		process.exit(1);
+		console.log(`🛠️ 最终重试配置:`);
+		console.log(`   并发数量: ${CONFIG.finalRetryExecution.concurrentLimit} (串行处理)`);
+		console.log(`   请求延迟: ${CONFIG.finalRetryExecution.requestDelay}ms (更保守)`);
+		console.log(`   最大重试: ${CONFIG.finalRetryExecution.maxRetries}次 (更激进)`);
+		console.log(`   重试延迟: ${CONFIG.finalRetryExecution.retryDelay}ms (更长等待)`);
+		
+		// 准备失败地址的重试数据
+		const retryList = failures.map(failure => ({
+			walletAddress: failure.walletAddress,
+			amount: failure.amount || CONFIG.airdropRange.amountPerAddress,
+			tokenAddress: CONFIG.tokenAddress,
+			description: `XAA Holders LifeGuard Airdrop RETRY: ${failure.amount || CONFIG.airdropRange.amountPerAddress} tokens`,
+			originalHolding: "0", // 重试时没有原始持有数据
+			pageNumber: 0,
+			indexInPage: 0,
+			globalIndex: 0
+		}));
+		
+		// 使用最终重试配置进行重试
+		const finalRetryResults = await processFinalRetryAirdrops(retryList);
+		
+		// 合并结果
+		results.details = results.details.filter(r => r.success).concat(finalRetryResults.details);
+		results.success = results.details.filter(r => r.success).length;
+		results.failed = results.details.filter(r => !r.success).length;
+		
+		// 如果最终重试后还有失败，才终止程序
+		if (finalRetryResults.failed > 0) {
+			console.log(`\n❌ 最终重试后仍有 ${finalRetryResults.failed} 个失败的交易！`);
+			console.log(`🛑 程序将终止，需要手动处理以下失败交易:`);
+			
+			const stillFailures = finalRetryResults.details.filter(r => !r.success);
+			stillFailures.forEach((failure, i) => {
+				console.log(`${i + 1}. ${failure.walletAddress} - ${failure.error}`);
+			});
+			
+			console.log(`\n💡 建议: 检查网络状况、Gas费用或nonce状态后重新运行程序`);
+			process.exit(1);
+		} else {
+			console.log(`\n🎉 最终重试成功！所有失败交易都已完成！`);
+		}
 	}
 	
 	// 自动对账：等待1分钟让交易充分确认，然后更新状态

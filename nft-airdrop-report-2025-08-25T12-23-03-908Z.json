@@ -1,0 +1,369 @@
+{
+  "timestamp": "2025-08-25T12:23:03.908Z",
+  "config": {
+    "dataFiles": {
+      "staking": "./data/staking-snap.json",
+      "holders": "./data/holders_info.json"
+    },
+    "currentDataFile": "./data/holders_info.json",
+    "apiUrl": "http://localhost:3000/api/airdrop/dev-send",
+    "reconcileUrl": "http://localhost:3000/api/airdrop/dev-send/reconcile",
+    "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+    "nftAirdropSettings": {
+      "tokensPerNFT": 50000,
+      "minimumAirdrop": null,
+      "maximumAirdrop": null,
+      "enableMinimum": false,
+      "enableMaximum": false
+    },
+    "execution": {
+      "skipContracts": true,
+      "concurrentLimit": 4,
+      "batchSize": 49,
+      "batchDelay": 1000,
+      "requestDelay": 100,
+      "maxRetries": 3,
+      "retryDelay": 500,
+      "waitForConfirmation": false,
+      "testMode": false
+    },
+    "finalRetryExecution": {
+      "concurrentLimit": 1,
+      "requestDelay": 3000,
+      "maxRetries": 7,
+      "retryDelay": 8000,
+      "waitForConfirmation": false
+    }
+  },
+  "summary": {
+    "total": 20,
+    "success": 20,
+    "failed": 0,
+    "successRate": 1,
+    "totalAirdropped": 38200000,
+    "totalNFTs": 764,
+    "avgTokensPerNFT": 50000
+  },
+  "details": [
+    {
+      "success": true,
+      "data": {
+        "recordId": "0ce44b76-e4f0-4ae5-8219-5708ab149003",
+        "walletAddress": "0x8508a1e1Cc346e53Ddc8A9D3c4355BFA32509B28",
+        "amount": "200000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x38f344338ec814cc5cf84831e1fd1e347e223951cfd7d93037496670f8d2a5ad",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x8508a1e1Cc346e53Ddc8A9D3c4355BFA32509B28",
+      "amount": "200000",
+      "nftCount": 4,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "73794436-5efd-4e06-a753-f4afb4482609",
+        "walletAddress": "0x7Dd4eC3763D6ccEf38002188aC4e9dF4402D3EA4",
+        "amount": "36150000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x5dc9ddf4968a0178a52331506c6362d40e4c53e126f45be0a76e1caddf65985e",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x7Dd4eC3763D6ccEf38002188aC4e9dF4402D3EA4",
+      "amount": "36150000",
+      "nftCount": 723,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "8c05e811-50d6-4fee-9901-fd9207d839a1",
+        "walletAddress": "0xF62Ddc04BEff2a564645e114Beceb4fE9ca6BB2d",
+        "amount": "150000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x9728c43669493b89a2860d04cb6e64f86329a8510fd41c32f439491ade1e4df9",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xF62Ddc04BEff2a564645e114Beceb4fE9ca6BB2d",
+      "amount": "150000",
+      "nftCount": 3,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "2ebd3b31-440d-43c5-9606-ba2f22541c87",
+        "walletAddress": "0x6f1CA9b68894A30E21B78b6A77C06370Da23e4A8",
+        "amount": "100000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x3211d727d3365684bfaf8a52e8be08f8d702d9dd407cf2535f322188e2786a77",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x6f1CA9b68894A30E21B78b6A77C06370Da23e4A8",
+      "amount": "100000",
+      "nftCount": 2,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "88fefb84-86ce-4521-ac83-66f29d861854",
+        "walletAddress": "0xEb797e4f7e2bf1ffC0Bac542A5eba7Fc53cc7Aa2",
+        "amount": "350000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x9da8a924a721467cf421617d33026fdac8dafc1e3467d5a0b82a1d786960f004",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xEb797e4f7e2bf1ffC0Bac542A5eba7Fc53cc7Aa2",
+      "amount": "350000",
+      "nftCount": 7,
+      "retryCount": 1
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "d53e2949-7fa6-4387-a9e9-1f1c68c12a99",
+        "walletAddress": "0x1BCB36071007224B2F5c7d5738e67fa0B8C88071",
+        "amount": "500000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x5b02988ef8890bc86a46ce5bf07f6d1b8a10892cf06afa5c0aaa99a15b75bb86",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x1BCB36071007224B2F5c7d5738e67fa0B8C88071",
+      "amount": "500000",
+      "nftCount": 10,
+      "retryCount": 1
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "675965a9-a288-4986-ac90-ecdf6e90c08e",
+        "walletAddress": "0x6829cBA3db0287f6BFA59840b11E3360b96D0084",
+        "amount": "100000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x8dac0564df88c38ccd7cf6555373aea92d2045251749e30844942acf0b7e98a9",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x6829cBA3db0287f6BFA59840b11E3360b96D0084",
+      "amount": "100000",
+      "nftCount": 2,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "6a2a6261-3ea3-44ac-8ff1-ac295016e332",
+        "walletAddress": "0xe89211B17fe32df75757490eb102105920D51FC5",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x87b2554fe44213016e62c7b2c9361153f2f1b411b0f26462591ec833d975ca5d",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xe89211B17fe32df75757490eb102105920D51FC5",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "c0e26550-5967-4cfd-8047-d5c7beec9e73",
+        "walletAddress": "0xd4f7e912f2e7542DA4a77EB290655870e75Aee34",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xa9086fb0803f0c10c9935a58a8fd1d01f743ea57851fd291dafbaa6d1388320e",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xd4f7e912f2e7542DA4a77EB290655870e75Aee34",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "d08aeca9-fd7f-4e89-a7f8-496a751620d6",
+        "walletAddress": "0xC759C00aDf496BA19cf80BD878745C9A97A485f7",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x180e2bdbfe24d0b508b0a211aa7500ccb93a9b4cdfa8b7baf3b82ae57975a341",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xC759C00aDf496BA19cf80BD878745C9A97A485f7",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "12b39b28-301c-4eca-9d3b-6ac6073f6908",
+        "walletAddress": "0xaf0414D6dEF7A0d01D78c50a2ccEfcC5AEC0b051",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xe899ce067d0d05dfe8e0a879f967d1392bd04a7e03661c894605b4abdfb5ba7b",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0xaf0414D6dEF7A0d01D78c50a2ccEfcC5AEC0b051",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "7f4e8a7e-28da-45ad-85b5-2ce584fb41de",
+        "walletAddress": "0x9815e92FF0E541b33C1e524Be042C00274c3a967",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x6660aa28a1de265f6a1be7e95db8982f99f95ac9ef790571f1934de768909b6a",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x9815e92FF0E541b33C1e524Be042C00274c3a967",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "2fb16136-41a7-4790-be91-706b794d994c",
+        "walletAddress": "0x923b1A1e21F3A587C08472a893F3df4b56414E43",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xf5fb9fa271ffdadec0e32172061a132cc84a30dbcbedfa4c22b289422f77511a",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x923b1A1e21F3A587C08472a893F3df4b56414E43",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "2e2dd0b1-26c2-4edc-8a4a-fe6565de8bcc",
+        "walletAddress": "0x8de33a841Dd8d0ED5F29202272f99A360F4FeBE5",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x952d65950964e41230712529320fb4143f439a158b07d635a53e4051c50ad32f",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x8de33a841Dd8d0ED5F29202272f99A360F4FeBE5",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "c318e2cd-03b9-40a3-9d80-25ee71890069",
+        "walletAddress": "0x84eb3b4d6dA6f75F43A5FC5c49dE14d825E34909",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x07d05434ff9322edda1982915e009b856c99eabb49503176dae4ed7bac2fd7f3",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x84eb3b4d6dA6f75F43A5FC5c49dE14d825E34909",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "e829d950-f4c9-4ea7-8bb5-33c15a443d99",
+        "walletAddress": "0x824D2b22B26e2DF432dAfeeE46734024E7c5b8B3",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xfceaf8637e31bb210fb5e217434af6fb01ab85290d992b59ef6b545c4832a828",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x824D2b22B26e2DF432dAfeeE46734024E7c5b8B3",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "4df068c9-b2d0-48d0-8a65-762beebb5b42",
+        "walletAddress": "0x64799d378853BdB6C2B2B1Cb967f56F85C185a03",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xcbcc5f1832caadd6590f38527bd1fe34a51690c96fa9e8ae5881df808365daae",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x64799d378853BdB6C2B2B1Cb967f56F85C185a03",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "7c18055e-eaab-4297-a776-2702e94fe098",
+        "walletAddress": "0x535C1c2bc3099ff6ea418Ed0593c98ad14005E89",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x0d53fd8380ffb8cdbe109d9cf61d67dfc516a5a4b94cc62ec88b87494b2f0e54",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x535C1c2bc3099ff6ea418Ed0593c98ad14005E89",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "b183e186-d99c-4d89-b130-61dd3e4372b2",
+        "walletAddress": "0x32c7Ca718B114d863CADfd3b475E65B2c3718F95",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0xb9b1177f7ef6320fe774df8d1736aa9be5e15eed6f1f8d0226a214dc7f8f9c08",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x32c7Ca718B114d863CADfd3b475E65B2c3718F95",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 0
+    },
+    {
+      "success": true,
+      "data": {
+        "recordId": "3847d8cd-0ae3-4d29-8403-181513157103",
+        "walletAddress": "0x546AbbB9DA33Dc2bA2FDA48b74951aaFD20191d7",
+        "amount": "50000",
+        "tokenAddress": "0x861100195D26bf1e115a40337bba22f000fa6871",
+        "transactionHash": "0x6709c9aa692e12c6ca3ffcccedede6f418911f887eee57a0f9356d17afe9a04e",
+        "status": "pending",
+        "note": "Transaction sent but not yet confirmed"
+      },
+      "walletAddress": "0x546AbbB9DA33Dc2bA2FDA48b74951aaFD20191d7",
+      "amount": "50000",
+      "nftCount": 1,
+      "retryCount": 1
+    }
+  ]
+}

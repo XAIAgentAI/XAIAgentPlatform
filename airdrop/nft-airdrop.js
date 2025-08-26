@@ -21,7 +21,7 @@ const CONFIG = {
 	// 空投接口配置
 	apiUrl: 'http://localhost:3000/api/airdrop/dev-send',
 	reconcileUrl: 'http://localhost:3000/api/airdrop/dev-send/reconcile',
-	tokenAddress: '0x0BB579513DeAB87a247FB0CA8Eff32AeAcA2Bd40', // 测试代币地址
+	tokenAddress: '0x861100195D26bf1e115a40337bba22f000fa6871', // 空投代币地址
 	
 	// NFT空投配置
 	nftAirdropSettings: {
@@ -46,27 +46,43 @@ const CONFIG = {
 		// 是否跳过合约地址
 		skipContracts: true,
 		
-		// 并发控制
-		concurrentLimit: 4,
+		// 并发控制（保持原有高速度）
+		concurrentLimit: 4,   // 4个并发，保持高速度
 		
-		// 批次大小
-		batchSize: 49,
+		// 批次大小（每批处理多少个）
+		batchSize: 49,        // 所有交易一个批次
 		
 		// 批次间延迟（毫秒）
-		batchDelay: 1000,
+		batchDelay: 1000,     // 减少到1秒
 		
-		// 单次请求间延迟（毫秒）
-		requestDelay: 100,
+		// 单次请求间延迟（毫秒） - 保持原有速度
+		requestDelay: 100,    // 保持100ms高速度
 		
-		// 失败重试
-		maxRetries: 3,
-		retryDelay: 500,
+		// 失败重试 - 常规重试参数
+		maxRetries: 3,        // 常规重试次数
+		retryDelay: 500,      // 常规重试延迟
 		
 		// 是否等待确认
-		waitForConfirmation: false,
+		waitForConfirmation: false,  // 不等待交易确认
 		
 		// 测试模式（true=只打印不实际发送）
-		testMode: false // 先开启测试模式
+		testMode: false
+	},
+	
+	// 专门的最终重试配置（当有失败交易时使用）
+	finalRetryExecution: {
+		// 最终重试并发控制（完全串行避免nonce冲突）
+		concurrentLimit: 1,   // 完全串行发送，避免nonce冲突
+		
+		// 最终重试延迟（毫秒） - 更保守的设置
+		requestDelay: 3000,   // 增加到3秒，避免Gas价格竞争
+		
+		// 最终重试参数 - 更激进的重试
+		maxRetries: 7,        // 增加重试次数到7次
+		retryDelay: 8000,     // 增加重试延迟到8秒
+		
+		// 最终重试时是否等待确认
+		waitForConfirmation: false  // 仍然不等待确认
 	}
 };
 
@@ -176,15 +192,35 @@ function displayConfirmationInfo(airdropList, totalAmount) {
 	console.log(`   跳过合约地址: ${CONFIG.execution.skipContracts ? '是' : '否'}`);
 	console.log(`   测试模式: ${CONFIG.execution.testMode ? '是 (不会实际发送)' : '否 (将实际发送)'}`);
 	
-	// 显示空投详情（前10个）
-	console.log('\n📋 空投详情 (前10个地址)');
-	airdropList.slice(0, 10).forEach((item, i) => {
+	// 显示部分空投地址详情（前10个和后10个）
+	console.log('\n📋 详细空投列表');
+	console.log(`   总共 ${airdropList.length} 个地址，显示前10个和后10个:`);
+	
+	// 显示前10个
+	const showFirst = Math.min(10, airdropList.length);
+	for (let i = 0; i < showFirst; i++) {
+		const item = airdropList[i];
 		console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
 		console.log(`       🎨 持有NFT: ${item.nftCount}个 | 💰 空投数量: ${item.amount} tokens`);
-	});
+	}
 	
-	if (airdropList.length > 10) {
-		console.log(`   ... 还有 ${airdropList.length - 10} 个地址 (完整列表见执行过程)`);
+	// 如果超过20个，显示省略号和后10个
+	if (airdropList.length > 20) {
+		console.log(`   ... (省略 ${airdropList.length - 20} 个地址) ...`);
+		
+		// 显示后10个
+		for (let i = airdropList.length - 10; i < airdropList.length; i++) {
+			const item = airdropList[i];
+			console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
+			console.log(`       🎨 持有NFT: ${item.nftCount}个 | 💰 空投数量: ${item.amount} tokens`);
+		}
+	} else if (airdropList.length > 10) {
+		// 如果在10-20个之间，显示剩余的
+		for (let i = 10; i < airdropList.length; i++) {
+			const item = airdropList[i];
+			console.log(`   ${(i + 1).toString().padStart(2, ' ')}. ${item.walletAddress}`);
+			console.log(`       🎨 持有NFT: ${item.nftCount}个 | 💰 空投数量: ${item.amount} tokens`);
+		}
 	}
 	
 	// 风险提示
@@ -306,11 +342,39 @@ function extractAllNFTHolders(pagesData) {
 function prepareNFTAirdropData(holders) {
 	console.log('🎨 准备NFT空投数据...');
 	
+	// 只显示前10个和后10个的详情
+	const showFirst = Math.min(10, holders.length);
+	for (let i = 0; i < showFirst; i++) {
+		const holder = holders[i];
+		const nftCount = holder.nftCount;
+		const airdropAmount = calculateNFTAirdropAmount(nftCount);
+		console.log(`   ${(i + 1).toString().padStart(3, ' ')}. ${holder.wallet_address} | NFT: ${nftCount}个 | 空投: ${airdropAmount} tokens`);
+	}
+	
+	// 如果超过20个，显示省略号和后10个
+	if (holders.length > 20) {
+		console.log(`   ... (省略 ${holders.length - 20} 个地址) ...`);
+		
+		// 显示后10个
+		for (let i = holders.length - 10; i < holders.length; i++) {
+			const holder = holders[i];
+			const nftCount = holder.nftCount;
+			const airdropAmount = calculateNFTAirdropAmount(nftCount);
+			console.log(`   ${(i + 1).toString().padStart(3, ' ')}. ${holder.wallet_address} | NFT: ${nftCount}个 | 空投: ${airdropAmount} tokens`);
+		}
+	} else if (holders.length > 10) {
+		// 如果在10-20个之间，显示剩余的
+		for (let i = 10; i < holders.length; i++) {
+			const holder = holders[i];
+			const nftCount = holder.nftCount;
+			const airdropAmount = calculateNFTAirdropAmount(nftCount);
+			console.log(`   ${(i + 1).toString().padStart(3, ' ')}. ${holder.wallet_address} | NFT: ${nftCount}个 | 空投: ${airdropAmount} tokens`);
+		}
+	}
+	
 	return holders.map((holder, index) => {
 		const nftCount = holder.nftCount;
 		const airdropAmount = calculateNFTAirdropAmount(nftCount);
-		
-		console.log(`   ${(index + 1).toString().padStart(3, ' ')}. ${holder.wallet_address} | NFT: ${nftCount}个 | 空投: ${airdropAmount} tokens`);
 		
 		return {
 			walletAddress: holder.wallet_address,
@@ -326,15 +390,16 @@ function prepareNFTAirdropData(holders) {
 	});
 }
 
-// 发送单个空投（带重试机制）
-async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
+// 发送单个空投（带重试机制，支持自定义配置）
+async function sendSingleAirdropWithConfig(airdropData, index, total, config = CONFIG.execution, retryCount = 0) {
 	const { walletAddress, amount, tokenAddress, description, nftCount } = airdropData;
 	
-	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${CONFIG.execution.maxRetries})` : '';
-	console.log(`🚀 [${index + 1}/${total}] ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)} | NFT: ${nftCount} | 发送: ${amount} tokens${retryInfo}`);
+	const retryInfo = retryCount > 0 ? ` (重试 ${retryCount}/${config.maxRetries})` : '';
+	const prefix = config === CONFIG.finalRetryExecution ? '🔄 [最终重试' : '🚀 [交易';
+	console.log(`${prefix}${index + 1}/${total}] ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)} | NFT: ${nftCount} | 发送: ${amount} tokens${retryInfo}`);
 	
 	if (CONFIG.execution.testMode) {
-		await delay(Math.random() * 100);
+		await delay(Math.random() * 100); // 模拟网络延迟
 		console.log('🧪 测试模式 - 跳过实际发送');
 		return { success: true, test: true, walletAddress, amount };
 	}
@@ -354,7 +419,8 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		const data = await response.json();
 		
 		if (data.success) {
-			console.log(`✅ [${index + 1}/${total}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
+			const successPrefix = config === CONFIG.finalRetryExecution ? '✅ [最终重试' : '✅ [交易';
+			console.log(`${successPrefix}${index + 1}/${total}] 成功! Hash: ${data.data.transactionHash?.slice(0,8)}...`);
 			return {
 				success: true,
 				data: data.data,
@@ -364,13 +430,16 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 				retryCount
 			};
 		} else {
-			if (retryCount < CONFIG.execution.maxRetries) {
-				console.log(`⚠️ [${index + 1}/${total}] 失败，准备重试: ${data.message}`);
-				await delay(CONFIG.execution.retryDelay);
-				return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+			// 如果失败且还有重试次数，则重试
+			if (retryCount < config.maxRetries) {
+				const retryPrefix = config === CONFIG.finalRetryExecution ? '⚠️ [最终重试' : '⚠️ [交易';
+				console.log(`${retryPrefix}${index + 1}/${total}] 失败，准备重试: ${data.message}`);
+				await delay(config.retryDelay);
+				return await sendSingleAirdropWithConfig(airdropData, index, total, config, retryCount + 1);
 			}
 			
-			console.log(`❌ [${index + 1}/${total}] 最终失败: ${data.message}`);
+			const failPrefix = config === CONFIG.finalRetryExecution ? '❌ [最终重试' : '❌ [交易';
+			console.log(`${failPrefix}${index + 1}/${total}] 最终失败: ${data.message}`);
 			return {
 				success: false,
 				error: data.message,
@@ -382,13 +451,16 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 		}
 		
 	} catch (error) {
-		if (retryCount < CONFIG.execution.maxRetries) {
-			console.log(`⚠️ [${index + 1}/${total}] 网络错误，准备重试: ${error.message}`);
-			await delay(CONFIG.execution.retryDelay);
-			return await sendSingleAirdrop(airdropData, index, total, retryCount + 1);
+		// 如果是网络错误且还有重试次数，则重试
+		if (retryCount < config.maxRetries) {
+			const errorPrefix = config === CONFIG.finalRetryExecution ? '⚠️ [最终重试' : '⚠️ [交易';
+			console.log(`${errorPrefix}${index + 1}/${total}] 网络错误，准备重试: ${error.message}`);
+			await delay(config.retryDelay);
+			return await sendSingleAirdropWithConfig(airdropData, index, total, config, retryCount + 1);
 		}
 		
-		console.error(`❌ [${index + 1}/${total}] 网络错误: ${error.message}`);
+		const errorFinalPrefix = config === CONFIG.finalRetryExecution ? '❌ [最终重试' : '❌ [交易';
+		console.error(`${errorFinalPrefix}${index + 1}/${total}] 网络错误: ${error.message}`);
 		return {
 			success: false,
 			error: error.message,
@@ -398,6 +470,86 @@ async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
 			retryCount
 		};
 	}
+}
+
+// 发送单个空投（带重试机制）- 使用默认配置
+async function sendSingleAirdrop(airdropData, index, total, retryCount = 0) {
+	return await sendSingleAirdropWithConfig(airdropData, index, total, CONFIG.execution, retryCount);
+}
+
+// 最终重试处理空投（使用专门的重试配置）
+async function processFinalRetryAirdrops(airdropList) {
+	const results = {
+		total: airdropList.length,
+		success: 0,
+		failed: 0,
+		details: [],
+		startTime: Date.now()
+	};
+	
+	console.log(`\n🔄 开始最终重试处理...`);
+	console.log(`📊 重试数量: ${results.total}`);
+	console.log(`🚀 并发数量: ${CONFIG.finalRetryExecution.concurrentLimit} (串行处理)`);
+	console.log(`⏱️ 请求延迟: ${CONFIG.finalRetryExecution.requestDelay}ms`);
+	console.log(`🔄 最大重试: ${CONFIG.finalRetryExecution.maxRetries}次`);
+	
+	if (CONFIG.execution.testMode) {
+		console.log(`🧪 测试模式 - 不会实际发送代币`);
+	} else {
+		console.log(`🚨 生产模式 - 将发送真实代币!`);
+	}
+	
+	// 创建并发限制器（使用最终重试配置）
+	const concurrencyLimiter = new ConcurrencyLimiter(CONFIG.finalRetryExecution.concurrentLimit);
+	
+	// 创建最终重试任务
+	const tasks = airdropList.map((airdropData, index) => {
+		return concurrencyLimiter.execute(async () => {
+			// 使用最终重试配置的延迟
+			if (CONFIG.finalRetryExecution.requestDelay > 0) {
+				await delay(CONFIG.finalRetryExecution.requestDelay);
+			}
+			
+			try {
+				// 使用最终重试配置发送单个空投
+				const result = await sendSingleAirdropWithConfig(airdropData, index, airdropList.length, CONFIG.finalRetryExecution);
+				
+				// 线程安全地更新结果
+				if (result.success) {
+					results.success++;
+				} else {
+					results.failed++;
+				}
+				results.details.push(result);
+				
+				// 显示实时进度
+				const progress = (results.details.length / airdropList.length * 100).toFixed(1);
+				console.log(`🔄 最终重试进度: ${results.details.length}/${airdropList.length} (${progress}%) | 成功: ${results.success} | 失败: ${results.failed}`);
+				
+				return result;
+			} catch (error) {
+				console.error(`❌ [最终重试${index + 1}/${airdropList.length}] 处理异常: ${error.message}`);
+				results.failed++;
+				const errorResult = {
+					success: false,
+					error: error.message,
+					walletAddress: airdropData.walletAddress,
+					amount: airdropData.amount
+				};
+				results.details.push(errorResult);
+				return errorResult;
+			}
+		});
+	});
+	
+	// 等待所有最终重试任务完成
+	console.log(`🚀 开始串行最终重试 ${tasks.length} 个失败交易...`);
+	await Promise.all(tasks);
+	
+	results.endTime = Date.now();
+	results.totalTime = results.endTime - results.startTime;
+	
+	return results;
 }
 
 // 并发处理NFT空投
@@ -413,6 +565,8 @@ async function processNFTAirdrops(airdropList) {
 	console.log(`\n🎯 开始NFT空投处理...`);
 	console.log(`📊 总数: ${results.total}`);
 	console.log(`🚀 并发数量: ${CONFIG.execution.concurrentLimit}`);
+	console.log(`⏱️ 请求延迟: ${CONFIG.execution.requestDelay}ms`);
+	console.log(`🔄 最大重试: ${CONFIG.execution.maxRetries}次`);
 	
 	if (CONFIG.execution.testMode) {
 		console.log(`🧪 测试模式 - 不会实际发送代币`);
@@ -420,10 +574,13 @@ async function processNFTAirdrops(airdropList) {
 		console.log(`🚨 生产模式 - 将发送真实代币!`);
 	}
 	
+	// 创建并发限制器
 	const concurrencyLimiter = new ConcurrencyLimiter(CONFIG.execution.concurrentLimit);
 	
+	// 创建所有任务
 	const tasks = airdropList.map((airdropData, index) => {
 		return concurrencyLimiter.execute(async () => {
+			// 添加随机延迟以避免nonce冲突
 			if (CONFIG.execution.requestDelay > 0) {
 				await delay(Math.random() * CONFIG.execution.requestDelay);
 			}
@@ -431,6 +588,7 @@ async function processNFTAirdrops(airdropList) {
 			try {
 				const result = await sendSingleAirdrop(airdropData, index, airdropList.length);
 				
+				// 线程安全地更新结果
 				if (result.success) {
 					results.success++;
 				} else {
@@ -438,12 +596,13 @@ async function processNFTAirdrops(airdropList) {
 				}
 				results.details.push(result);
 				
+				// 显示实时进度
 				const progress = (results.details.length / airdropList.length * 100).toFixed(1);
 				console.log(`📊 进度: ${results.details.length}/${airdropList.length} (${progress}%) | 成功: ${results.success} | 失败: ${results.failed}`);
 				
 				return result;
 			} catch (error) {
-				console.error(`❌ [${index + 1}/${airdropList.length}] 处理异常: ${error.message}`);
+				console.error(`❌ [交易${index + 1}/${airdropList.length}] 处理异常: ${error.message}`);
 				results.failed++;
 				const errorResult = {
 					success: false,
@@ -458,27 +617,69 @@ async function processNFTAirdrops(airdropList) {
 		});
 	});
 	
+	// 等待所有任务完成
 	console.log(`🚀 开始并发执行 ${tasks.length} 个任务...`);
 	await Promise.all(tasks);
 	
 	results.endTime = Date.now();
 	results.totalTime = results.endTime - results.startTime;
 	
-	// 失败检查
+	// 检查是否有失败的交易，如果有则使用专门的最终重试配置重试
 	if (results.failed > 0) {
-		console.log(`\n❌ 处理完成后有 ${results.failed} 个失败的交易！`);
+		console.log(`\n❌ 第一轮处理完成后有 ${results.failed} 个失败的交易！`);
+		console.log(`🔄 将使用专门的最终重试配置进行重试...\n`);
+		
 		const failures = results.details.filter(r => !r.success);
-		failures.forEach((failure, i) => {
-			console.log(`${i + 1}. ${failure.walletAddress} (${failure.nftCount} NFTs) - ${failure.error}`);
-		});
-		console.log(`\n💡 建议: 检查网络状况或重新运行程序`);
-		process.exit(1);
+		
+		console.log(`🛠️ 最终重试配置:`);
+		console.log(`   并发数量: ${CONFIG.finalRetryExecution.concurrentLimit} (串行处理)`);
+		console.log(`   请求延迟: ${CONFIG.finalRetryExecution.requestDelay}ms (更保守)`);
+		console.log(`   最大重试: ${CONFIG.finalRetryExecution.maxRetries}次 (更激进)`);
+		console.log(`   重试延迟: ${CONFIG.finalRetryExecution.retryDelay}ms (更长等待)`);
+		
+		// 准备失败地址的重试数据
+		const retryList = failures.map(failure => ({
+			walletAddress: failure.walletAddress,
+			amount: failure.amount || calculateNFTAirdropAmount(failure.nftCount || 1),
+			tokenAddress: CONFIG.tokenAddress,
+			description: `NFT Holders Airdrop RETRY: ${failure.amount || calculateNFTAirdropAmount(failure.nftCount || 1)} tokens`,
+			nftCount: failure.nftCount || 1,
+			originalAmount: failure.amount || "0",
+			pageNumber: 0,
+			indexInPage: 0,
+			globalIndex: 0
+		}));
+		
+		// 使用最终重试配置进行重试
+		const finalRetryResults = await processFinalRetryAirdrops(retryList);
+		
+		// 合并结果
+		results.details = results.details.filter(r => r.success).concat(finalRetryResults.details);
+		results.success = results.details.filter(r => r.success).length;
+		results.failed = results.details.filter(r => !r.success).length;
+		
+		// 如果最终重试后还有失败，才终止程序
+		if (finalRetryResults.failed > 0) {
+			console.log(`\n❌ 最终重试后仍有 ${finalRetryResults.failed} 个失败的交易！`);
+			console.log(`🛑 程序将终止，需要手动处理以下失败交易:`);
+			
+			const stillFailures = finalRetryResults.details.filter(r => !r.success);
+			stillFailures.forEach((failure, i) => {
+				console.log(`${i + 1}. ${failure.walletAddress} (${failure.nftCount} NFTs) - ${failure.error}`);
+			});
+			
+			console.log(`\n💡 建议: 检查网络状况、Gas费用或nonce状态后重新运行程序`);
+			process.exit(1);
+		} else {
+			console.log(`\n🎉 最终重试成功！所有失败交易都已完成！`);
+		}
 	}
 	
-	// 对账
+	// 自动对账：等待1分钟让交易充分确认，然后更新状态
 	if (!CONFIG.execution.testMode && results.success > 0) {
 		console.log(`\n🔄 等待 1 分钟后开始自动对账...`);
-		await delay(60000);
+		console.log(`⏰ 对账将在 ${new Date(Date.now() + 60000).toLocaleTimeString()} 开始`);
+		await delay(60000); // 1分钟 = 60,000毫秒
 		
 		console.log(`📊 开始自动对账 ${results.success} 个成功的交易...`);
 		try {
@@ -490,11 +691,13 @@ async function processNFTAirdrops(airdropList) {
 			
 			const reconcileData = await reconcileResponse.json();
 			if (reconcileData.success) {
-				console.log(`✅ 对账完成: 成功${reconcileData.data.updatedSuccess}个, 失败${reconcileData.data.updatedFailed}个`);
+				console.log(`✅ 对账完成: 成功${reconcileData.data.updatedSuccess}个, 失败${reconcileData.data.updatedFailed}个, 待确认${reconcileData.data.stillPending}个`);
 				results.reconcile = reconcileData.data;
 				
+				// 检查对账后是否有失败的交易
 				if (reconcileData.data.updatedFailed > 0) {
 					console.log(`\n❌ 对账发现 ${reconcileData.data.updatedFailed} 个交易在区块链上失败！`);
+					console.log(`🛑 程序将终止，需要手动处理失败的交易`);
 					process.exit(1);
 				}
 			} else {
