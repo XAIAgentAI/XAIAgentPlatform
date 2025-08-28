@@ -65,6 +65,9 @@ function initializeClients() {
 
     // 获取私钥并创建账户
     const privateKey = getServerWalletPrivateKey();
+    console.log('🔍 调试信息 - 私钥类型:', typeof privateKey);
+    console.log('🔍 调试信息 - 私钥长度:', privateKey.length);
+    console.log('🔍 调试信息 - 私钥前缀:', privateKey.substring(0, 4));
     serverAccount = privateKeyToAccount(privateKey);
 
     // 创建公共客户端

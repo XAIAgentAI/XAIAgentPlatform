@@ -27,6 +27,7 @@ interface IaoEndedViewProps {
   isCreator: boolean;
   tokenCreationTask: any;
   distributionTask: any;
+  miningDeploymentTask?: any;
   isPoolInfoLoading: boolean;
   onCreateToken: () => void;
   onPaymentModalOpen: () => void;
@@ -46,6 +47,7 @@ export const IaoEndedView = ({
   isCreator,
   tokenCreationTask,
   distributionTask,
+  miningDeploymentTask,
   isPoolInfoLoading,
   onCreateToken,
   onClaimRewards,
@@ -56,6 +58,7 @@ export const IaoEndedView = ({
 }: IaoEndedViewProps) => {
   const tTokenDistribution = useTranslations('tokenDistribution');
   const tIaoPool = useTranslations('iaoPool');
+  const tOneClick = useTranslations('oneClickIaoCompletion');
   const { toast } = useToast();
   const [isBurning, setIsBurning] = useState(false);
   const [isTransferringOwnership, setIsTransferringOwnership] = useState(false);
@@ -625,7 +628,7 @@ export const IaoEndedView = ({
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-semibold text-foreground mb-1">{tTokenDistribution('iaoManagement')}</h3>
-                <p className="text-sm text-foreground/70">一键完成代币创建、分发和销毁的全部流程</p>
+                <p className="text-sm text-foreground/70">{tOneClick('oneClickCompleteDescription')}</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500/80 rounded-full"></div>
@@ -633,29 +636,43 @@ export const IaoEndedView = ({
               </div>
             </div>
 
-            {/* 一键完成按钮 */}
+            {/* 查看部署进度按钮 */}
             <div className="space-y-4">
               <OneClickIaoCompletionModal
                 agent={agent}
                 onStatusUpdate={onRefreshStatus}
                 tokenCreationTask={tokenCreationTask}
                 distributionTask={distributionTask}
+                miningDeploymentTask={miningDeploymentTask}
                 isCreating={isCreating}
                 onCreateToken={onCreateToken}
               />
               
               {/* 快速状态概览 */}
-              <div className="grid grid-cols-3 gap-3 text-sm">
+              <div className="grid grid-cols-4 gap-2 text-sm">
                 <div className={`p-3 rounded-lg border text-center ${
                   agent.tokenAddress ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
                   'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
                 }`}>
                   <div className="text-lg mb-1">🪙</div>
-                  <div className="font-medium text-xs">代币创建</div>
+                  <div className="font-medium text-xs">{tOneClick('createToken')}</div>
                   <div className={`text-xs mt-1 ${
                     agent.tokenAddress ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
                   }`}>
-                    {agent.tokenAddress ? '已完成' : '待执行'}
+                    {agent.tokenAddress ? tOneClick('completed') : tOneClick('pending')}
+                  </div>
+                </div>
+                
+                <div className={`p-3 rounded-lg border text-center ${
+                  (agent as any).miningContractAddress ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' :
+                  'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
+                }`}>
+                  <div className="text-lg mb-1">⛏️</div>
+                  <div className="font-medium text-xs">{tOneClick('deployMiningContract')}</div>
+                  <div className={`text-xs mt-1 ${
+                    (agent as any).miningContractAddress ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
+                  }`}>
+                    {(agent as any).miningContractAddress ? tOneClick('completed') : tOneClick('pending')}
                   </div>
                 </div>
                 
@@ -664,11 +681,11 @@ export const IaoEndedView = ({
                   'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
                 }`}>
                   <div className="text-lg mb-1">📤</div>
-                  <div className="font-medium text-xs">代币分发</div>
+                  <div className="font-medium text-xs">{tOneClick('tokenDistribution')}</div>
                   <div className={`text-xs mt-1 ${
                     agent.tokensDistributed && agent.liquidityAdded ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
                   }`}>
-                    {agent.tokensDistributed && agent.liquidityAdded ? '已完成' : '待执行'}
+                    {agent.tokensDistributed && agent.liquidityAdded ? tOneClick('completed') : tOneClick('pending')}
                   </div>
                 </div>
                 
@@ -677,11 +694,11 @@ export const IaoEndedView = ({
                   'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
                 }`}>
                   <div className="text-lg mb-1">🔥</div>
-                  <div className="font-medium text-xs">代币销毁</div>
+                  <div className="font-medium text-xs">{tOneClick('burnTokens')}</div>
                   <div className={`text-xs mt-1 ${
                     agent.tokensBurned ? 'text-green-600 dark:text-green-400' : 'text-gray-500'
                   }`}>
-                    {agent.tokensBurned ? '已完成' : '待执行'}
+                    {agent.tokensBurned ? tOneClick('completed') : tOneClick('pending')}
                   </div>
                 </div>
               </div>
@@ -714,14 +731,14 @@ export const IaoEndedView = ({
               )}
 
               {/* 全部完成提示 */}
-              {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && agent.tokensBurned && (
+              {agent.tokenAddress && agent.tokensDistributed && agent.liquidityAdded && (agent as any).miningContractAddress && agent.tokensBurned && (
                 <div className="p-4 bg-green-500/[0.08] dark:bg-green-500/[0.03] border border-green-500/20 rounded-lg">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">🎉</span>
                     <span className="font-medium text-green-800 dark:text-green-200">{tTokenDistribution('managementCompleted')}</span>
                   </div>
                   <div className="text-sm text-green-700 dark:text-green-300 mt-1">
-                    所有IAO管理步骤已完成，用户现在可以领取代币奖励
+                    {tOneClick('allStepsCompleted')}
                   </div>
                 </div>
               )}

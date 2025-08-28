@@ -1,0 +1,954 @@
+[
+  {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "reporter",
+              "type": "address"
+          }
+      ],
+      "name": "AddAuthorizedReporter",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": false,
+              "internalType": "address",
+              "name": "previousAdmin",
+              "type": "address"
+          },
+          {
+              "indexed": false,
+              "internalType": "address",
+              "name": "newAdmin",
+              "type": "address"
+          }
+      ],
+      "name": "AdminChanged",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "canUpgradeAddress",
+              "type": "address"
+          }
+      ],
+      "name": "AuthorizedUpgrade",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "beacon",
+              "type": "address"
+          }
+      ],
+      "name": "BeaconUpgraded",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "caller",
+              "type": "address"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "toBeNotifiedMachineStateUpdateContractAddress",
+              "type": "address"
+          },
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "toReportStakingStatusContractAddress",
+              "type": "address"
+          }
+      ],
+      "name": "ContractRegister",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "dbcContractAddr",
+              "type": "address"
+          }
+      ],
+      "name": "DBCContractChanged",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": false,
+              "internalType": "uint8",
+              "name": "version",
+              "type": "uint8"
+          }
+      ],
+      "name": "Initialized",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "addr",
+              "type": "address"
+          }
+      ],
+      "name": "MachineInfoContractChanged",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "indexed": false,
+              "internalType": "enum AI.NotifyType",
+              "name": "tp",
+              "type": "uint8"
+          }
+      ],
+      "name": "MachineStateUpdate",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "targetContractAddress",
+              "type": "address"
+          },
+          {
+              "indexed": false,
+              "internalType": "enum AI.NotifyType",
+              "name": "tp",
+              "type": "uint8"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "bool",
+              "name": "result",
+              "type": "bool"
+          }
+      ],
+      "name": "NotifiedTargetContract",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+          },
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+          }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "reporter",
+              "type": "address"
+          }
+      ],
+      "name": "RemoveAuthorizedReporter",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": false,
+              "internalType": "enum AI.NotifyType",
+              "name": "tp",
+              "type": "uint8"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "reason",
+              "type": "string"
+          }
+      ],
+      "name": "ReportFailed",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": true,
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+          }
+      ],
+      "name": "Upgraded",
+      "type": "event"
+  },
+  {
+      "anonymous": false,
+      "inputs": [
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "enum AI.StakingType",
+              "name": "tp",
+              "type": "uint8"
+          },
+          {
+              "indexed": false,
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "gpuNum",
+              "type": "uint256"
+          },
+          {
+              "indexed": false,
+              "internalType": "bool",
+              "name": "isStake",
+              "type": "bool"
+          }
+      ],
+      "name": "reportedStakingStatus",
+      "type": "event"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "reporter",
+              "type": "address"
+          }
+      ],
+      "name": "addAuthorizedReporter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+          }
+      ],
+      "name": "authorizedReporters",
+      "outputs": [
+          {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "canUpgradeAddress",
+      "outputs": [
+          {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "dbcContract",
+      "outputs": [
+          {
+              "internalType": "contract DBCStakingContract",
+              "name": "",
+              "type": "address"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          }
+      ],
+      "name": "deleteRegisteredProjectStakingContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "internalType": "string",
+              "name": "id",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "gpuNum",
+              "type": "uint256"
+          },
+          {
+              "internalType": "bool",
+              "name": "isStake",
+              "type": "bool"
+          }
+      ],
+      "name": "forceReportStakingStatus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "_id",
+              "type": "string"
+          }
+      ],
+      "name": "freeGpuAmount",
+      "outputs": [
+          {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "id",
+              "type": "string"
+          },
+          {
+              "internalType": "bool",
+              "name": "isDeepLink",
+              "type": "bool"
+          }
+      ],
+      "name": "getMachineInfo",
+      "outputs": [
+          {
+              "internalType": "address",
+              "name": "machineOwner",
+              "type": "address"
+          },
+          {
+              "internalType": "uint256",
+              "name": "calcPoint",
+              "type": "uint256"
+          },
+          {
+              "internalType": "uint256",
+              "name": "cpuRate",
+              "type": "uint256"
+          },
+          {
+              "internalType": "string",
+              "name": "gpuType",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "gpuMem",
+              "type": "uint256"
+          },
+          {
+              "internalType": "string",
+              "name": "cpuType",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "gpuCount",
+              "type": "uint256"
+          },
+          {
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "mem",
+              "type": "uint256"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "_id",
+              "type": "string"
+          }
+      ],
+      "name": "getMachineRegion",
+      "outputs": [
+          {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          }
+      ],
+      "name": "getMachineState",
+      "outputs": [
+          {
+              "internalType": "bool",
+              "name": "isOnline",
+              "type": "bool"
+          },
+          {
+              "internalType": "bool",
+              "name": "isRegistered",
+              "type": "bool"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "machineInfoContractAddr",
+              "type": "address"
+          },
+          {
+              "internalType": "address",
+              "name": "dbcContractAddr",
+              "type": "address"
+          },
+          {
+              "internalType": "address[]",
+              "name": "_authorizedReporters",
+              "type": "address[]"
+          }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "_machineId",
+              "type": "string"
+          }
+      ],
+      "name": "machineBandWidthInfos",
+      "outputs": [
+          {
+              "internalType": "address",
+              "name": "machineOwner",
+              "type": "address"
+          },
+          {
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "cpuCores",
+              "type": "uint256"
+          },
+          {
+              "internalType": "uint256",
+              "name": "machineMem",
+              "type": "uint256"
+          },
+          {
+              "internalType": "string",
+              "name": "region",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "hdd",
+              "type": "uint256"
+          },
+          {
+              "internalType": "uint256",
+              "name": "bandwidth",
+              "type": "uint256"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+          }
+      ],
+      "name": "machineInProject2States",
+      "outputs": [
+          {
+              "internalType": "bool",
+              "name": "isOnline",
+              "type": "bool"
+          },
+          {
+              "internalType": "bool",
+              "name": "isRegistered",
+              "type": "bool"
+          },
+          {
+              "internalType": "uint256",
+              "name": "updateAtTimestamp",
+              "type": "uint256"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "machineInfoContract",
+      "outputs": [
+          {
+              "internalType": "contract MachineInfoContract",
+              "name": "",
+              "type": "address"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+          {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "",
+              "type": "uint8"
+          }
+      ],
+      "name": "projectName2StakingContractAddress",
+      "outputs": [
+          {
+              "internalType": "address",
+              "name": "toBeNotifiedMachineStateUpdateContractAddress",
+              "type": "address"
+          },
+          {
+              "internalType": "address",
+              "name": "toReportStakingStatusContractAddress",
+              "type": "address"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "proxiableUUID",
+      "outputs": [
+          {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+          }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "internalType": "address",
+              "name": "toBeNotifiedMachineStateUpdateContractAddress",
+              "type": "address"
+          },
+          {
+              "internalType": "address",
+              "name": "toReportStakingStatusContractAddress",
+              "type": "address"
+          }
+      ],
+      "name": "registerProjectStakingContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "reporter",
+              "type": "address"
+          }
+      ],
+      "name": "removeAuthorizedReporter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "enum AI.NotifyType",
+              "name": "tp",
+              "type": "uint8"
+          },
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "internalType": "string",
+              "name": "machineId",
+              "type": "string"
+          }
+      ],
+      "name": "report",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "string",
+              "name": "projectName",
+              "type": "string"
+          },
+          {
+              "internalType": "enum AI.StakingType",
+              "name": "stakingType",
+              "type": "uint8"
+          },
+          {
+              "internalType": "string",
+              "name": "id",
+              "type": "string"
+          },
+          {
+              "internalType": "uint256",
+              "name": "gpuNum",
+              "type": "uint256"
+          },
+          {
+              "internalType": "bool",
+              "name": "isStake",
+              "type": "bool"
+          }
+      ],
+      "name": "reportStakingStatus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "_canUpgradeAddress",
+              "type": "address"
+          }
+      ],
+      "name": "requestSetUpgradePermission",
+      "outputs": [
+          {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+          }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "dbcContractAddr",
+              "type": "address"
+          }
+      ],
+      "name": "setDBCContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "addr",
+              "type": "address"
+          }
+      ],
+      "name": "setMachineInfoContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "_canUpgradeAddress",
+              "type": "address"
+          }
+      ],
+      "name": "setUpgradePermission",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+          }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "newImplementation",
+              "type": "address"
+          }
+      ],
+      "name": "upgradeTo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  },
+  {
+      "inputs": [
+          {
+              "internalType": "address",
+              "name": "newImplementation",
+              "type": "address"
+          },
+          {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+          }
+      ],
+      "name": "upgradeToAndCall",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+  },
+  {
+      "inputs": [],
+      "name": "version",
+      "outputs": [
+          {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+          }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+  }
+]

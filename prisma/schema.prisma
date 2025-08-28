@@ -90,6 +90,10 @@ model Agent {
   poolCreated               Boolean      @default(false) // 池子是否已创建
   initialLiquidityAmount    Decimal? // 初始流动性代币数量
   initialXaaAmount          Decimal? // 初始流动性XAA数量
+  // 挖矿合约相关字段
+  miningContractAddress     String? // 挖矿合约地址
+  miningContractRegistered  Boolean      @default(false) // 挖矿合约是否已注册到主合约
+  miningRegistrationTxHash  String? // 挖矿合约注册交易哈希
   tokenList                 TokenList? // 一对一关系
 }
 
