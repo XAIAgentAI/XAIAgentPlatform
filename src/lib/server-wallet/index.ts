@@ -158,7 +158,7 @@ async function getAgentInfo(agentId: string) {
     },
     iaoContractAddress: agent.iaoContractAddress || undefined,
     tokenAddress: agent.tokenAddress,
-    miningContractAddress: agent.miningContractAddress || undefined,
+    miningContractAddress: (agent as any).miningContractAddress || undefined,
   };
 }
 
