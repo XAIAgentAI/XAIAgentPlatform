@@ -74,8 +74,7 @@ export const MyModelsDialog = ({ open, onOpenChange, onModelsCount }: MyModelsDi
   };
 
   const handleModelClick = (modelId: string) => {
-    onOpenChange(false);
-    router.push(`/${locale}/agent-detail/${modelId}`);
+    window.open(`/${locale}/agent-detail/${modelId}`, '_blank');
   };
 
   const formatDate = (dateString: string) => {
@@ -117,8 +116,7 @@ export const MyModelsDialog = ({ open, onOpenChange, onModelsCount }: MyModelsDi
               </p>
               <button
                 onClick={() => {
-                  onOpenChange(false);
-                  router.push(`/${locale}/create`);
+                  window.open(`/${locale}/create`, '_blank');
                 }}
                 className="inline-flex items-center gap-2 px-6 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-primary hover:bg-primary/90 transition-all duration-200 hover:shadow-md"
               >

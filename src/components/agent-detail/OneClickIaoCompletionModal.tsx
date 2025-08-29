@@ -98,6 +98,11 @@ export const OneClickIaoCompletionModal = ({
 
   // 检查当前状态并初始化步骤
   const initializeSteps = useCallback(() => {
+    // 如果steps为空，先初始化
+    if (steps.length === 0) {
+      return;
+    }
+    
     const newSteps = [...steps];
     
     // 步骤1: 创建代币
@@ -172,6 +177,7 @@ export const OneClickIaoCompletionModal = ({
 
     try {
       const newSteps = [...steps];
+      if (newSteps.length === 0) return false;
       newSteps[0].status = 'processing';
       setSteps(newSteps);
       setCurrentStep(0);
@@ -183,8 +189,10 @@ export const OneClickIaoCompletionModal = ({
       return await waitForTokenCreation();
     } catch (error) {
       const newSteps = [...steps];
-      newSteps[0].status = 'failed';
-      newSteps[0].error = error instanceof Error ? error.message : tOneClick('tokenCreationFailed');
+      if (newSteps.length > 0) {
+        newSteps[0].status = 'failed';
+        newSteps[0].error = error instanceof Error ? error.message : tOneClick('tokenCreationFailed');
+      }
       setSteps(newSteps);
       return false;
     }
@@ -221,7 +229,9 @@ export const OneClickIaoCompletionModal = ({
               if (creationTask) {
                 if (creationTask.status === 'COMPLETED') {
                   const newSteps = [...steps];
-                  newSteps[0].status = 'completed';
+                  if (newSteps.length > 0) {
+                    newSteps[0].status = 'completed';
+                  }
                   setSteps(newSteps);
                   resolve(true);
                   return;
@@ -229,8 +239,10 @@ export const OneClickIaoCompletionModal = ({
 
                 if (creationTask.status === 'FAILED') {
                   const newSteps = [...steps];
-                  newSteps[0].status = 'failed';
-                  newSteps[0].error = creationTask.result?.message || tOneClick('tokenCreationFailed');
+                  if (newSteps.length > 0) {
+                    newSteps[0].status = 'failed';
+                    newSteps[0].error = creationTask.result?.message || tOneClick('tokenCreationFailed');
+                  }
                   setSteps(newSteps);
                   resolve(false);
                   return;
@@ -243,8 +255,10 @@ export const OneClickIaoCompletionModal = ({
             setTimeout(checkStatus, 5000);
           } else {
             const newSteps = [...steps];
-            newSteps[0].status = 'failed';
-            newSteps[0].error = tOneClick('tokenCreationTimeout');
+            if (newSteps.length > 0) {
+              newSteps[0].status = 'failed';
+              newSteps[0].error = tOneClick('tokenCreationTimeout');
+            }
             setSteps(newSteps);
             resolve(false);
           }
@@ -253,8 +267,10 @@ export const OneClickIaoCompletionModal = ({
             setTimeout(checkStatus, 5000);
           } else {
             const newSteps = [...steps];
-            newSteps[0].status = 'failed';
-            newSteps[0].error = tOneClick('checkTokenCreationStatusFailed');
+            if (newSteps.length > 0) {
+              newSteps[0].status = 'failed';
+              newSteps[0].error = tOneClick('checkTokenCreationStatusFailed');
+            }
             setSteps(newSteps);
             resolve(false);
           }
@@ -271,6 +287,7 @@ export const OneClickIaoCompletionModal = ({
 
     try {
       const newSteps = [...steps];
+      if (newSteps.length === 0) return false;
       newSteps[2].status = 'processing';
       setSteps(newSteps);
       setCurrentStep(2);
@@ -327,8 +344,10 @@ export const OneClickIaoCompletionModal = ({
       return await waitForTokenDistribution();
     } catch (error) {
       const newSteps = [...steps];
-      newSteps[2].status = 'failed';
-      newSteps[2].error = error instanceof Error ? error.message : tOneClick('tokenDistributionFailed');
+      if (newSteps.length > 2) {
+        newSteps[2].status = 'failed';
+        newSteps[2].error = error instanceof Error ? error.message : tOneClick('tokenDistributionFailed');
+      }
       setSteps(newSteps);
       return false;
     }
@@ -341,6 +360,7 @@ export const OneClickIaoCompletionModal = ({
 
     try {
       const newSteps = [...steps];
+      if (newSteps.length === 0) return false;
       newSteps[1].status = 'processing';
       setSteps(newSteps);
       setCurrentStep(1);
@@ -401,8 +421,10 @@ export const OneClickIaoCompletionModal = ({
       return await waitForMiningDeployment();
     } catch (error) {
       const newSteps = [...steps];
-      newSteps[1].status = 'failed';
-      newSteps[1].error = error instanceof Error ? error.message : tOneClick('miningContractDeploymentFailed');
+      if (newSteps.length > 1) {
+        newSteps[1].status = 'failed';
+        newSteps[1].error = error instanceof Error ? error.message : tOneClick('miningContractDeploymentFailed');
+      }
       setSteps(newSteps);
       return false;
     }
@@ -560,6 +582,7 @@ export const OneClickIaoCompletionModal = ({
 
     try {
       const newSteps = [...steps];
+      if (newSteps.length === 0) return false;
       newSteps[3].status = 'processing';
       setSteps(newSteps);
       setCurrentStep(3);
@@ -591,8 +614,10 @@ export const OneClickIaoCompletionModal = ({
       return await waitForTokenBurn();
     } catch (error) {
       const newSteps = [...steps];
-      newSteps[3].status = 'failed';
-      newSteps[3].error = error instanceof Error ? error.message : tOneClick('tokenBurnFailed');
+      if (newSteps.length > 3) {
+        newSteps[3].status = 'failed';
+        newSteps[3].error = error instanceof Error ? error.message : tOneClick('tokenBurnFailed');
+      }
       setSteps(newSteps);
       return false;
     }

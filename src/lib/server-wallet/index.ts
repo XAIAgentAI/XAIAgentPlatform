@@ -158,6 +158,7 @@ async function getAgentInfo(agentId: string) {
     },
     iaoContractAddress: agent.iaoContractAddress || undefined,
     tokenAddress: agent.tokenAddress,
+    miningContractAddress: agent.miningContractAddress || undefined,
   };
 }
 
@@ -447,7 +448,23 @@ async function verifyTaskByTransactions(taskData: any, agentInfo: any, tokenAddr
 
   if (miningTx) {
     totalChecks++;
-    const miningContractAddress = getMiningContractAddress();
+    // 尝试从当前Agent获取挖矿合约地址，如果没有则使用固定地址（兼容历史数据）
+    let miningContractAddress: string;
+    
+    try {
+      // 从agentInfo中尝试获取挖矿合约地址
+      if (agentInfo.miningContractAddress) {
+        miningContractAddress = agentInfo.miningContractAddress;
+        console.log(`     🔍 使用Agent的挖矿合约地址: ${miningContractAddress}`);
+      } else {
+        miningContractAddress = getMiningContractAddress();
+        console.log(`     🔍 使用固定挖矿合约地址（兼容模式）: ${miningContractAddress}`);
+      }
+    } catch (error) {
+      miningContractAddress = getMiningContractAddress();
+      console.log(`     🔍 获取挖矿合约地址失败，使用固定地址: ${miningContractAddress}`);
+    }
+    
     const miningMatches = miningTx.toAddress.toLowerCase() === miningContractAddress.toLowerCase();
     console.log(`     🔍 Mining 地址验证: ${miningMatches ? '✅' : '❌'}`);
     if (miningMatches) addressMatches++;
@@ -924,19 +941,41 @@ export async function distributeTokens(
       console.log(`🔍 [DEBUG] 🎁 [2/${includeBurn ? '5' : '4'}] 跳过空投钱包分配 - 已完成 ✅`);
     }
 
-    // 4. 分配给AI挖矿合约 (40%)
+    // 4. 分配给挖矿合约 (40%) - 使用数据库中的miningContractAddress
     if (!completedSteps.includes('mining')) {
-      console.log(`⛏️ [3/${includeBurn ? '5' : '4'}] 分配给AI挖矿合约 (${DISTRIBUTION_RATIOS.MINING * 100}%): ${distributions.mining} -> ${getMiningContractAddress()}`);
-      const miningTx = await executeTransfer(
-        tokenAddress,
-        getMiningContractAddress(),
-        distributions.mining,
-        'mining'
-      );
-      transactions.push(miningTx);
-      console.log(`⛏️ AI挖矿合约分配结果: ${miningTx.status === 'confirmed' ? '✅ 成功' : miningTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${miningTx.txHash || 'N/A'}`);
+      // 获取Agent的挖矿合约地址
+      const agent = await prisma.agent.findUnique({
+        where: { id: agentId },
+        select: { miningContractAddress: true }
+      });
+      
+      const miningContractAddress = agent?.miningContractAddress;
+      
+      if (miningContractAddress) {
+        console.log(`⛏️ [3/${includeBurn ? '5' : '4'}] 分配给挖矿合约 (${DISTRIBUTION_RATIOS.MINING * 100}%): ${distributions.mining} -> ${miningContractAddress}`);
+        const miningTx = await executeTransfer(
+          tokenAddress,
+          miningContractAddress,
+          distributions.mining,
+          'mining'
+        );
+        transactions.push(miningTx);
+        console.log(`⛏️ 挖矿合约分配结果: ${miningTx.status === 'confirmed' ? '✅ 成功' : miningTx.status === 'failed' ? '❌ 失败' : '⏳ 待确认'} - Hash: ${miningTx.txHash || 'N/A'}`);
+      } else {
+        console.log(`⚠️ [3/${includeBurn ? '5' : '4'}] 跳过挖矿合约分配 - Agent没有设置挖矿合约地址`);
+        // 记录跳过的交易
+        const miningTx: TransactionResult = {
+          type: 'mining',
+          amount: distributions.mining,
+          txHash: '',
+          status: 'failed',
+          toAddress: '',
+          error: 'Agent没有设置挖矿合约地址'
+        };
+        transactions.push(miningTx);
+      }
     } else {
-      console.log(`⛏️ [3/${includeBurn ? '5' : '4'}] 跳过AI挖矿合约分配 - 已完成 ✅`);
+      console.log(`⛏️ [3/${includeBurn ? '5' : '4'}] 跳过挖矿合约分配 - 已完成 ✅`);
     }
 
     // 5. 添加DBCSwap流动性 (10%) - 在其他分发完成后执行
