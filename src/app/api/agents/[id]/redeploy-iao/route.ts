@@ -41,7 +41,7 @@ export async function POST(
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json(
-        { code: 401, message: '未授权访问' },
+        { code: 401, message: 'Unauthorized access' },
         { status: 401 }
       );
     }
@@ -52,7 +52,7 @@ export async function POST(
       decoded = verify(token, JWT_SECRET) as { address: string };
     } catch (error) {
       return NextResponse.json(
-        { code: 401, message: '无效的 token' },
+        { code: 401, message: 'Invalid token' },
         { status: 401 }
       );
     }
@@ -71,7 +71,7 @@ export async function POST(
 
     if (!agent) {
       return NextResponse.json(
-        { code: 404, message: '找不到Agent' },
+        { code: 404, message: 'Agent not found' },
         { status: 404 }
       );
     }
@@ -79,7 +79,7 @@ export async function POST(
     // 验证请求者是否是Agent的创建者
     if (agent.creator.address.toLowerCase() !== decoded.address.toLowerCase()) {
       return NextResponse.json(
-        { code: 403, message: '只有Agent创建者可以执行此操作' },
+        { code: 403, message: 'Only agent creator can perform this operation' },
         { status: 403 }
       );
     }
@@ -99,6 +99,31 @@ export async function POST(
     if (hasIaoContract) {
       console.log(`[IAO重新部署] - 检测到已有IAO合约，将替换为新的IAO合约`);
       console.log(`[IAO重新部署] - 此操作将重置所有质押数据`);
+    }
+
+    // 检查是否有其他任务正在执行
+    console.log(`[IAO重新部署] 检查pending状态...`);
+    try {
+      const pendingResponse = await fetch("http://54.179.233.88:8070/pending", {
+        method: "GET",
+        headers: {
+          "accept": "application/json",
+          "authorization": "Basic YWRtaW46MTIz"
+        }
+      });
+
+      const pendingResult = await pendingResponse.json();
+      console.log(`[IAO重新部署] pending状态检查结果:`, pendingResult);
+      
+      if (pendingResult.data?.pending === true) {
+        console.log(`[IAO重新部署] 检测到有任务正在执行，拒绝新的部署请求`);
+        return NextResponse.json(
+          { code: 429, message: 'DEPLOYMENT_IN_PROGRESS' },
+          { status: 429 }
+        );
+      }
+    } catch (error) {
+      console.log(`[IAO重新部署] 无法检查pending状态，继续执行部署: ${error}`);
     }
 
     // 使用默认的IAO设置
@@ -126,6 +151,14 @@ export async function POST(
             : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
         })
       });
+
+      // 检查外部服务响应类型
+      const contentType = iaoResponse.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await iaoResponse.text();
+        console.error('[IAO重新部署] 外部服务返回非JSON响应:', text);
+        throw new Error(`IAO部署服务异常: ${iaoResponse.status} ${iaoResponse.statusText}`);
+      }
 
       const result = await iaoResponse.json();
       console.log('[IAO重新部署] 部署响应:', result);

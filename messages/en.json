@@ -488,7 +488,9 @@
     "iaoRedeploySuccess": "Successfully deployed new IAO contract. All investment data has been reset, page will refresh in 3 seconds. Old users can still claim refunds from old contract.",
     "redeployIaoFailedLog": "Redeploy IAO failed:",
     "remainingWaitTime": "(Still need to wait {days} days {hours} hours)",
-    "redeployNotAffectRefunds": "Note: Deploying new contract will not affect old users' refund operations, they can still claim refunds from old contract."
+    "redeployNotAffectRefunds": "Note: Deploying new contract will not affect old users' refund operations, they can still claim refunds from old contract.",
+    "deploymentQueue": "Deployment Queue",
+    "deploymentInProgress": "Another project is currently being deployed, please try again later"
   },
   "tokenDistribution": {
     "iaoManagement": "Iao Management",

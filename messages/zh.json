@@ -488,7 +488,9 @@
     "iaoRedeploySuccess": "已成功部署新的IAO合约。所有投资数据已重置，页面将在3秒后刷新。老用户仍可从旧合约中领取退款。",
     "redeployIaoFailedLog": "重新部署IAO失败:",
     "remainingWaitTime": "（还需等待 {days} 天 {hours} 小时）",
-    "redeployNotAffectRefunds": "注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。"
+    "redeployNotAffectRefunds": "注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。",
+    "deploymentQueue": "部署队列",
+    "deploymentInProgress": "当前有其他项目正在部署，请稍后重试"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO 管理流程",

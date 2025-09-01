@@ -488,7 +488,9 @@
     "iaoRedeploySuccess": "새로운 IAO 계약이 성공적으로 배포되었습니다. 모든 투자 데이터가 재설정되었으며, 페이지는 3초 후에 새로고침됩니다. 기존 사용자는 여전히 이전 계약에서 환불을 청구할 수 있습니다.",
     "redeployIaoFailedLog": "IAO 재배포 실패:",
     "remainingWaitTime": "(아직 {days}일 {hours}시간 기다려야 함)",
-    "redeployNotAffectRefunds": "참고: 새 계약을 배포해도 기존 사용자의 환불 작업에는 영향을 미치지 않습니다. 그들은 여전히 이전 계약에서 환불을 청구할 수 있습니다."
+    "redeployNotAffectRefunds": "참고: 새 계약을 배포해도 기존 사용자의 환불 작업에는 영향을 미치지 않습니다. 그들은 여전히 이전 계약에서 환불을 청구할 수 있습니다.",
+    "deploymentQueue": "배포 대기열",
+    "deploymentInProgress": "현재 다른 프로젝트가 배포 중입니다. 잠시 후 다시 시도해 주세요"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO 관리 프로세스",

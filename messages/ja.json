@@ -488,7 +488,9 @@
     "iaoRedeploySuccess": "新しいIAOコントラクトが正常にデプロイされました。すべての投資データがリセットされ、3秒後にページが更新されます。古いユーザーは古いコントラクトから返金を請求できます。",
     "redeployIaoFailedLog": "IAO再デプロイに失敗しました：",
     "remainingWaitTime": "（あと{days}日{hours}時間待機必要）",
-    "redeployNotAffectRefunds": "注意：新しいコントラクトのデプロイは古いユーザーの返金操作に影響しません。古いコントラクトから返金を請求できます。"
+    "redeployNotAffectRefunds": "注意：新しいコントラクトのデプロイは古いユーザーの返金操作に影響しません。古いコントラクトから返金を請求できます。",
+    "deploymentQueue": "デプロイキュー",
+    "deploymentInProgress": "現在他のプロジェクトがデプロイ中です。しばらくしてから再試行してください"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO管理",

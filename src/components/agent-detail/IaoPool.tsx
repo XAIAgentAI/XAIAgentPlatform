@@ -224,6 +224,13 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
 
         // 刷新任务状态
         await fetchTokenCreationTask();
+      } else if (data.code === 429 || data.message === 'DEPLOYMENT_IN_PROGRESS') {
+        // 处理并发部署错误
+        toast({
+          title: t('deploymentQueue'),
+          description: t('deploymentInProgress'),
+          variant: "destructive"
+        });
       } else {
         throw new Error(data.message || t('tokenCreationFailed'));
       }
@@ -298,6 +305,13 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
         }
       });
 
+      // 检查响应类型，避免解析HTML为JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        throw new Error(`服务器返回了非JSON响应: ${response.status} ${response.statusText}`);
+      }
+
       const data = await response.json();
 
       if (response.ok && data.code === 200) {
@@ -313,6 +327,13 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
         setTimeout(() => {
           window.location.reload();
         }, 3000);
+      } else if (data.code === 429 || data.message === 'DEPLOYMENT_IN_PROGRESS') {
+        // 处理并发部署错误
+        toast({
+          title: t('deploymentQueue'),
+          description: t('deploymentInProgress'),
+          variant: "destructive"
+        });
       } else {
         throw new Error(data.message || t('redeployIaoFailed'));
       }
@@ -488,7 +509,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     if (!shouldShowDeployInfo) return null;
 
     // 部署状态相关判断 
-    const isDeploying = agent.status === 'CREATING' || agent.status === 'TBA'; // 创建中
+    const isDeploying = agent.status === 'CREATING'
     const isDeployFailed = agent.status === 'FAILED'; // 部署失败
     const isIaoFailed = isIAOEnded && !isIaoSuccessful; // IAO结束且失败
     
@@ -512,6 +533,15 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     let description = '';
     let buttonText = '';
     let buttonClass = '';
+
+    console.log("isDeploying", isDeploying);
+    console.log("isDeployFailed", isDeployFailed);
+    console.log("isIaoFailed", isIaoFailed);
+    console.log("canRedeployIao", canRedeployIao);
+    console.log("poolInfo", poolInfo);
+    console.log("isCreator", isCreator);
+    console.log("isDeployingIao", isDeployingIao);
+    
     
     if (isDeploying) {
       title = t('iaoDeploying');

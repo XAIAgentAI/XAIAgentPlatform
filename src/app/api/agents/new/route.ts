@@ -294,6 +294,38 @@ async function processTask(
     console.log(`[Agent创建] - 创建者: ${agent.creator.address}`);
     console.log(`[Agent创建] - Symbol: ${agent.symbol}`);
 
+    // 检查是否有其他任务正在执行
+    console.log(`[IAO部署] 检查pending状态...`);
+    try {
+      const pendingResponse = await fetch("http://54.179.233.88:8070/pending", {
+        method: "GET",
+        headers: {
+          "accept": "application/json",
+          "authorization": "Basic YWRtaW46MTIz"
+        }
+      });
+
+      const pendingResult = await pendingResponse.json();
+      console.log(`[IAO部署] pending状态检查结果:`, pendingResult);
+      
+      if (pendingResult.data?.pending === true) {
+        console.log(`[IAO部署] 检测到有任务正在执行，拒绝新的部署请求`);
+        
+        // 更新Agent状态为FAILED
+        await prisma.agent.update({
+          where: { id: agentId },
+          data: { status: 'FAILED' }
+        });
+        
+        return NextResponse.json(
+          { code: 429, message: 'DEPLOYMENT_IN_PROGRESS' },
+          { status: 429 }
+        );
+      }
+    } catch (error) {
+      console.log(`[IAO部署] 无法检查pending状态，继续执行部署: ${error}`);
+    }
+
     // 只部署 IAO，不部署 Token
     console.log(`[IAO部署] 开始部署IAO合约...`);
     console.log(`[IAO部署] 参数信息:`);
@@ -320,6 +352,14 @@ async function processTask(
           token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
         })
       });
+
+      // 检查外部服务响应类型
+      const contentType = iaoResponse.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await iaoResponse.text();
+        console.error('[IAO部署] 外部服务返回非JSON响应:', text);
+        throw new Error(`IAO部署服务异常: ${iaoResponse.status} ${iaoResponse.statusText}`);
+      }
 
       const result = await iaoResponse.json();
       console.log('IAO deployment response:', result);
