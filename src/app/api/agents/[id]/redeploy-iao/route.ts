@@ -28,7 +28,7 @@ async function retry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
   }
 }
 
-// 重新部署IAO API端点
+// 重新部署IAO API端点 - 异步版本
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
@@ -84,6 +84,76 @@ export async function POST(
       );
     }
 
+    // 检查是否已有正在进行的IAO重新部署任务
+    const existingTask = await prisma.task.findFirst({
+      where: {
+        agentId: agentId,
+        type: 'REDEPLOY_IAO',
+        status: { in: ['PENDING', 'PROCESSING'] }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    if (existingTask) {
+      return NextResponse.json(
+        { code: 429, message: 'IAO redeploy task already in progress' },
+        { status: 429 }
+      );
+    }
+
+    // 创建异步任务
+    const task = await prisma.task.create({
+      data: {
+        type: 'REDEPLOY_IAO',
+        status: 'PENDING',
+        agentId: agentId,
+        createdBy: decoded.address
+      }
+    });
+
+    // 异步处理IAO重新部署
+    processIaoRedeployTask(task.id, agentId).catch(error => {
+      console.error('[IAO重新部署] 异步任务处理失败:', error);
+    });
+
+    return createSuccessResponse({
+      taskId: task.id,
+      message: 'IAO redeploy task submitted successfully'
+    }, '已成功提交IAO重新部署任务，请稍后查询结果');
+  } catch (error) {
+    console.error('[IAO重新部署] 处理失败:', error);
+    return handleError(error);
+  }
+}
+
+// 异步处理IAO重新部署任务
+async function processIaoRedeployTask(taskId: string, agentId: string) {
+  try {
+    // 更新任务状态为处理中
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'PROCESSING',
+        startedAt: new Date()
+      }
+    });
+
+    // 获取Agent信息
+    const agent = await prisma.agent.findUnique({
+      where: { id: agentId },
+      include: {
+        creator: {
+          select: {
+            address: true
+          }
+        }
+      }
+    });
+
+    if (!agent) {
+      throw new Error('Agent not found');
+    }
+
     // 检查当前IAO状态
     const currentIaoStatus = agent.status;
     const hasIaoContract = !!agent.iaoContractAddress;
@@ -116,13 +186,13 @@ export async function POST(
       console.log(`[IAO重新部署] pending状态检查结果:`, pendingResult);
       
       if (pendingResult.data?.pending === true) {
-        console.log(`[IAO重新部署] 检测到有任务正在执行，拒绝新的部署请求`);
-        return NextResponse.json(
-          { code: 429, message: 'DEPLOYMENT_IN_PROGRESS' },
-          { status: 429 }
-        );
+        console.log(`[IAO重新部署] 检测到有任务正在执行，任务失败`);
+        throw new Error('DEPLOYMENT_IN_PROGRESS');
       }
     } catch (error) {
+      if (error instanceof Error && error.message === 'DEPLOYMENT_IN_PROGRESS') {
+        throw error;
+      }
       console.log(`[IAO重新部署] 无法检查pending状态，继续执行部署: ${error}`);
     }
 
@@ -142,7 +212,7 @@ export async function POST(
         },
         body: JSON.stringify({
           duration_hours: durationHours,
-          owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
+          owner: getServerWalletAddress(),
           reward_amount: calculateRewardAmount(agent.totalSupply),
           reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: startTimestamp,
@@ -170,15 +240,14 @@ export async function POST(
       } else if (result.code !== 200 || !result.data?.proxy_address) {
         console.error('[IAO重新部署] 部署失败请求参数', JSON.stringify({
           duration_hours: durationHours,
-          owner: getServerWalletAddress(), // 使用函数获取服务器钱包地址
+          owner: getServerWalletAddress(),
           reward_amount: calculateRewardAmount(agent.totalSupply),
           reward_token: "0x0000000000000000000000000000000000000000",
           start_timestamp: startTimestamp,
           token_in_address: process.env.NEXT_PUBLIC_XAA_TEST_VERSION === "true" 
             ? "0x8a88a1D2bD0a13BA245a4147b7e11Ef1A9d15C8a" 
             : "0x16d83F6B17914a4e88436251589194CA5AC0f452",
-      })
-    );
+        }));
         throw new Error(`IAO重新部署失败: ${result.message || '未知错误'}`);
       }
       
@@ -236,14 +305,35 @@ export async function POST(
       // 继续执行，不中断流程
     }
 
-    return createSuccessResponse({
-      message: '已成功部署新的IAO合约',
-      iaoContractAddress: iaoResult.data.proxy_address,
-      startTime: startTimestamp,
-      endTime: endTimestamp
+    // 更新任务状态为完成
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'COMPLETED',
+        completedAt: new Date(),
+        result: JSON.stringify({
+          message: '已成功部署新的IAO合约',
+          iaoContractAddress: iaoResult.data.proxy_address,
+          startTime: startTimestamp,
+          endTime: endTimestamp
+        })
+      }
     });
+
+    console.log(`[IAO重新部署] 任务 ${taskId} 完成`);
   } catch (error) {
-    console.error('[IAO重新部署] 处理失败:', error);
-    return handleError(error);
+    console.error('[IAO重新部署] 异步任务处理失败:', error);
+    
+    // 更新任务状态为失败
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'FAILED',
+        completedAt: new Date(),
+        result: JSON.stringify({
+          error: error instanceof Error ? error.message : '未知错误'
+        })
+      }
+    }).catch(console.error);
   }
 } 

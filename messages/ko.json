@@ -490,7 +490,10 @@
     "remainingWaitTime": "(아직 {days}일 {hours}시간 기다려야 함)",
     "redeployNotAffectRefunds": "참고: 새 계약을 배포해도 기존 사용자의 환불 작업에는 영향을 미치지 않습니다. 그들은 여전히 이전 계약에서 환불을 청구할 수 있습니다.",
     "deploymentQueue": "배포 대기열",
-    "deploymentInProgress": "현재 다른 프로젝트가 배포 중입니다. 잠시 후 다시 시도해 주세요"
+    "deploymentInProgress": "현재 다른 프로젝트가 배포 중입니다. 잠시 후 다시 시도해 주세요",
+    "iaoRedeployTaskSubmitted": "IAO 재배포 작업이 제출되었습니다. 백그라운드에서 처리 중...",
+    "taskPollingTimeout": "작업 상태 폴링이 시간 초과되었습니다. 페이지를 새로고침하여 최신 상태를 확인하세요",
+    "taskPollingFailed": "작업 상태 폴링에 실패했습니다. 잠시 후 다시 시도하세요"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO 관리 프로세스",

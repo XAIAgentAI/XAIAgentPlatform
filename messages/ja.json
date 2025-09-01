@@ -490,7 +490,10 @@
     "remainingWaitTime": "（あと{days}日{hours}時間待機必要）",
     "redeployNotAffectRefunds": "注意：新しいコントラクトのデプロイは古いユーザーの返金操作に影響しません。古いコントラクトから返金を請求できます。",
     "deploymentQueue": "デプロイキュー",
-    "deploymentInProgress": "現在他のプロジェクトがデプロイ中です。しばらくしてから再試行してください"
+    "deploymentInProgress": "現在他のプロジェクトがデプロイ中です。しばらくしてから再試行してください",
+    "iaoRedeployTaskSubmitted": "IAO再デプロイタスクが送信されました。バックグラウンドで処理中...",
+    "taskPollingTimeout": "タスクステータスのポーリングがタイムアウトしました。ページを更新して最新ステータスを確認してください",
+    "taskPollingFailed": "タスクステータスのポーリングに失敗しました。しばらくしてから再試行してください"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO管理",

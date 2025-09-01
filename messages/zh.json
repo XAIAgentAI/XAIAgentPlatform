@@ -490,7 +490,10 @@
     "remainingWaitTime": "（还需等待 {days} 天 {hours} 小时）",
     "redeployNotAffectRefunds": "注意：部署新合约不会影响老用户的退币操作，他们仍可以从旧合约中领取退款。",
     "deploymentQueue": "部署队列",
-    "deploymentInProgress": "当前有其他项目正在部署，请稍后重试"
+    "deploymentInProgress": "当前有其他项目正在部署，请稍后重试",
+    "iaoRedeployTaskSubmitted": "IAO重新部署任务已提交，正在后台处理中...",
+    "taskPollingTimeout": "任务状态查询超时，请刷新页面查看最新状态",
+    "taskPollingFailed": "任务状态查询失败，请稍后重试"
   },
   "tokenDistribution": {
     "iaoManagement": "IAO 管理流程",

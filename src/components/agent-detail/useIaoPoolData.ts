@@ -86,6 +86,7 @@ const initialState = {
   isIaoSuccessful: false,
   tokenCreationTask: null as TokenCreationTask | null,
   distributionTask: null as any,
+  redeployIaoTask: null as any,
   userStakeInfo: {
     userDeposited: "0",
     claimableXAA: "0",
@@ -259,13 +260,20 @@ export const useIaoPoolData = (agent: LocalAgent) => {
       if (response_data.code === 200 && response_data.data && Array.isArray(response_data.data.tasks)) {
         const createTokenTask = response_data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
         const distributeTask = response_data.data.tasks.find((task: any) => task.type === 'DISTRIBUTE_TOKENS');
+        const redeployIaoTask = response_data.data.tasks.find((task: any) => task.type === 'REDEPLOY_IAO');
         
         updateState(() => ({
           tokenCreationTask: createTokenTask || null,
-          distributionTask: distributeTask || null
+          distributionTask: distributeTask || null,
+          redeployIaoTask: redeployIaoTask || null
         }));
         
         if (createTokenTask && createTokenTask.status === 'COMPLETED' && !agent.tokenAddress) {
+          setTimeout(() => window.location.reload(), 2000);
+        }
+        
+        // 检查IAO重新部署任务完成情况
+        if (redeployIaoTask && redeployIaoTask.status === 'COMPLETED') {
           setTimeout(() => window.location.reload(), 2000);
         }
       }
@@ -501,6 +509,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     isIaoSuccessful: state.isIaoSuccessful,
     tokenCreationTask: state.tokenCreationTask,
     distributionTask: state.distributionTask,
+    redeployIaoTask: state.redeployIaoTask,
     userStakeInfo: state.userStakeInfo,
     iaoProgress: state.iaoProgress,
     poolInfo,

@@ -490,7 +490,10 @@
     "remainingWaitTime": "(Still need to wait {days} days {hours} hours)",
     "redeployNotAffectRefunds": "Note: Deploying new contract will not affect old users' refund operations, they can still claim refunds from old contract.",
     "deploymentQueue": "Deployment Queue",
-    "deploymentInProgress": "Another project is currently being deployed, please try again later"
+    "deploymentInProgress": "Another project is currently being deployed, please try again later",
+    "iaoRedeployTaskSubmitted": "IAO redeploy task submitted, processing in background...",
+    "taskPollingTimeout": "Task status polling timeout, please refresh page to check latest status",
+    "taskPollingFailed": "Task status polling failed, please try again later"
   },
   "tokenDistribution": {
     "iaoManagement": "Iao Management",

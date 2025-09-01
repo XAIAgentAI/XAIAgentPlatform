@@ -62,6 +62,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     isIaoSuccessful,
     tokenCreationTask,
     distributionTask,
+    redeployIaoTask,
     userStakeInfo,
     iaoProgress,
     poolInfo,
@@ -125,6 +126,30 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     // 返回是否已经过了7天等待期
     return now >= (iaoEndTimeMs + sevenDaysInMs);
   }, [isIAOEnded, poolInfo]);
+
+  // 监控IAO重新部署任务状态
+  useEffect(() => {
+    if (redeployIaoTask) {
+      if (redeployIaoTask.status === 'COMPLETED') {
+        console.log('[IAO重新部署] 任务完成，准备刷新页面');
+        toast({
+          title: t('success'),
+          description: t('iaoRedeploySuccess'),
+        });
+        setTimeout(() => window.location.reload(), 2000);
+      } else if (redeployIaoTask.status === 'FAILED') {
+        console.log('[IAO重新部署] 任务失败:', redeployIaoTask.result);
+        const errorMsg = redeployIaoTask.result?.error || t('redeployIaoFailed');
+        toast({
+          title: t('error'),
+          description: errorMsg,
+          variant: "destructive"
+        });
+      } else if (redeployIaoTask.status === 'PROCESSING') {
+        console.log('[IAO重新部署] 任务正在处理中...');
+      }
+    }
+  }, [redeployIaoTask, toast, t]);
 
   /**
    * 处理质押
@@ -245,6 +270,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     }
   }, [isAuthenticated, isCreator, agent.id, agent.name, agent.symbol, fetchTokenCreationTask, toast, t]);
 
+
   /**
    * 重新部署IAO合约
    * 修复IAO失败后数据状态未重置的问题，通过部署新的IAO合约
@@ -315,18 +341,18 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
       const data = await response.json();
 
       if (response.ok && data.code === 200) {
+        const taskId = data.data.taskId;
+        
         toast({
           title: t('success'),
-          description: t('iaoRedeploySuccess'),
+          description: t('iaoRedeployTaskSubmitted'),
         });
 
         // 重置确认状态
         setHasConfirmedRedeployment(false);
-
-        // 延迟3秒后刷新页面
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        
+        // 刷新任务状态以开始监控
+        await fetchTokenCreationTask();
       } else if (data.code === 429 || data.message === 'DEPLOYMENT_IN_PROGRESS') {
         // 处理并发部署错误
         toast({
@@ -347,6 +373,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
       setIsDeployingIao(false);
     }
   }, [isAuthenticated, isCreator, agent.id, agent.iaoContractAddress, toast, t, setHasConfirmedRedeployment, isIAOEnded, isIaoSuccessful, canRedeployIao, poolInfo]);
+
 
   /**
    * 处理领取奖励
