@@ -85,21 +85,27 @@ export async function POST(
     }
 
     // 检查是否已有正在进行的IAO重新部署任务
-    const existingTask = await prisma.task.findFirst({
+    const allTasks = await prisma.task.findMany({
       where: {
         agentId: agentId,
-        type: 'REDEPLOY_IAO',
-        status: { in: ['PENDING', 'PROCESSING'] }
+        type: 'REDEPLOY_IAO'
       },
       orderBy: { createdAt: 'desc' }
     });
 
+    console.log(`[IAO重新部署] Agent ${agentId} 的所有REDEPLOY_IAO任务:`, allTasks);
+
+    const existingTask = allTasks.find(task => ['PENDING', 'PROCESSING'].includes(task.status));
+
     if (existingTask) {
+      console.log(`[IAO重新部署] 发现正在进行的任务:`, existingTask);
       return NextResponse.json(
-        { code: 429, message: 'IAO redeploy task already in progress' },
+        { code: 429, message: `IAO redeploy task already in progress: ${existingTask.id} (${existingTask.status})` },
         { status: 429 }
       );
     }
+
+    console.log(`[IAO重新部署] 没有正在进行的任务，可以创建新任务`);
 
     // 创建异步任务
     const task = await prisma.task.create({

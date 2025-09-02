@@ -86,7 +86,7 @@ const initialState = {
   isIaoSuccessful: false,
   tokenCreationTask: null as TokenCreationTask | null,
   distributionTask: null as any,
-  redeployIaoTask: null as any,
+  iaoTask: null as any, // 统一的IAO任务（包括初次部署和重新部署）
   userStakeInfo: {
     userDeposited: "0",
     claimableXAA: "0",
@@ -122,6 +122,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
   const fetchInProgress = useRef({
     userBalance: false,
     tokenCreationTask: false,
+    iaoTask: false,
     userStakeInfo: false,
     iaoProgress: false,
     iaoStatus: false
@@ -238,6 +239,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     fetchInProgress.current.userBalance = false;
   }, [address, isConnected]);
 
+
   // 获取token创建任务状态
   const fetchTokenCreationTask = useCallback(async () => {
     if (fetchInProgress.current.tokenCreationTask) return;
@@ -260,20 +262,13 @@ export const useIaoPoolData = (agent: LocalAgent) => {
       if (response_data.code === 200 && response_data.data && Array.isArray(response_data.data.tasks)) {
         const createTokenTask = response_data.data.tasks.find((task: any) => task.type === 'CREATE_TOKEN');
         const distributeTask = response_data.data.tasks.find((task: any) => task.type === 'DISTRIBUTE_TOKENS');
-        const redeployIaoTask = response_data.data.tasks.find((task: any) => task.type === 'REDEPLOY_IAO');
         
         updateState(() => ({
           tokenCreationTask: createTokenTask || null,
-          distributionTask: distributeTask || null,
-          redeployIaoTask: redeployIaoTask || null
+          distributionTask: distributeTask || null
         }));
         
         if (createTokenTask && createTokenTask.status === 'COMPLETED' && !agent.tokenAddress) {
-          setTimeout(() => window.location.reload(), 2000);
-        }
-        
-        // 检查IAO重新部署任务完成情况
-        if (redeployIaoTask && redeployIaoTask.status === 'COMPLETED') {
           setTimeout(() => window.location.reload(), 2000);
         }
       }
@@ -283,6 +278,52 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     
     fetchInProgress.current.tokenCreationTask = false;
   }, [agent.id, agent.tokenAddress, isCreator, isAuthenticated, updateState]);
+
+  // 获取IAO任务状态（独立方法）
+  const fetchIaoTask = useCallback(async () => {
+    if (fetchInProgress.current.iaoTask || !agent?.id) return;
+    fetchInProgress.current.iaoTask = true;
+    
+    try {
+      console.log('[获取IAO任务] 开始获取任务状态，agentId:', agent.id);
+      const response = await fetch(`/api/agents/${agent.id}/tasks`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      
+      if (!response.ok) {
+        console.error('[获取IAO任务] 获取任务状态失败:', response.status);
+        return;
+      }
+
+      const response_data = await response.json();
+
+      if (response_data.code === 200 && response_data.data && Array.isArray(response_data.data.tasks)) {
+        const iaoTask = response_data.data.tasks.find((task: any) => 
+          task.type === 'DEPLOY_IAO' || task.type === 'REDEPLOY_IAO'
+        );
+        
+        console.log('[获取IAO任务] 找到的IAO任务:', iaoTask ? { 
+          id: iaoTask.id, 
+          status: iaoTask.status, 
+          type: iaoTask.type 
+        } : null);
+        
+        updateState(() => ({ iaoTask: iaoTask || null }));
+
+        if (iaoTask && iaoTask.status === 'COMPLETED') {
+          setTimeout(() => window.location.reload(), 2000);
+        }
+      } else {
+        console.warn('[获取IAO任务] 响应格式不正确:', response_data);
+      }
+    } catch (error) {
+      console.error('[获取IAO任务] 获取任务状态失败:', error);
+    }
+    
+    fetchInProgress.current.iaoTask = false;
+  }, [agent?.id, updateState]);
 
   // 获取用户质押信息
   const fetchUserStakeInfo = useCallback(async () => {
@@ -321,7 +362,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     fetchInProgress.current.iaoProgress = false;
   }, [getIaoProgress, updateState]);
 
-  // 检查IAO状态
+  // 检查IAO有没有顺利投资完成
   const checkIaoStatus = useCallback(async () => {
     if (fetchInProgress.current.iaoStatus || !iaoContractAddress || !checkIsSuccess) return;
     fetchInProgress.current.iaoStatus = true;
@@ -395,16 +436,22 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     // prevAddress.current = address;
     // prevConnected.current = isConnected;
     // prevAuthenticated.current = isAuthenticated;
+
+    // 获取任务状态
+    fetchIaoTask();
     
-    // 只有在合约地址存在时才加载数据
+    // 只有在合约地址存在时才加载合约相关数据
     if (iaoContractAddress) {
-      // 并行加载所有数据
       fetchUserBalance();
       fetchTokenCreationTask();
+
       fetchUserStakeInfo();
       fetchIaoProgress();
       checkIaoStatus();
     }
+    
+    // 标记为已初始化，启用定时器
+    isInitialized.current = true;
     
     // // 清理函数
     // return () => {
@@ -429,35 +476,47 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     // checkIaoStatus
   ]);
 
-  // 设置定时刷新 - 使用单一 useEffect 管理所有定时器
+  // 设置定时刷新 - 统一管理所有定时器
   useEffect(() => {
-    // 只有在合约地址存在且已初始化时才设置定时器
-    if (!iaoContractAddress || !isInitialized.current) return;
+    if (!isInitialized.current) return;
     
-    // 用户余额 - 30秒更新一次
-    const balanceTimer = setInterval(fetchUserBalance, 30000);
+    const timers: NodeJS.Timeout[] = [];
     
-    // IAO进度 - 30秒更新一次
-    const progressTimer = setInterval(fetchIaoProgress, 30000);
+    // 任务状态监控 - 对于创建者始终启用，不依赖合约地址
+    if (isCreator && isAuthenticated) {
+      timers.push(setInterval(fetchTokenCreationTask, 30000));
+      timers.push(setInterval(fetchIaoTask, 30000));
+    }
     
-    // IAO状态 - 60秒更新一次
-    const statusTimer = setInterval(checkIaoStatus, 60000);
+    // IAO相关定时器 - 仅在有合约地址时启用
+    if (iaoContractAddress) {
+      // 用户余额 - 30秒更新一次
+      timers.push(setInterval(fetchUserBalance, 30000));
+      
+      // IAO进度 - 30秒更新一次
+      timers.push(setInterval(fetchIaoProgress, 30000));
+      
+      // IAO状态 - 60秒更新一次
+      timers.push(setInterval(checkIaoStatus, 60000));
+    }
     
     // 清理所有定时器
     return () => {
-      clearInterval(balanceTimer);
-      clearInterval(progressTimer);
-      clearInterval(statusTimer);
+      timers.forEach(timer => clearInterval(timer));
     };
   }, [
     iaoContractAddress, 
-    address, // 添加钱包地址作为依赖项
-    isConnected, // 添加连接状态作为依赖项
-    isAuthenticated, // 添加认证状态作为依赖项
+    address,
+    isConnected,
+    isAuthenticated,
+    isCreator,
     fetchUserBalance, 
     fetchIaoProgress, 
-    checkIaoStatus
+    checkIaoStatus,
+    fetchTokenCreationTask,
+    fetchIaoTask
   ]);
+
   
   // 监听用户身份变化，使用防抖处理避免连锁反应
   useEffect(() => {
@@ -509,7 +568,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     isIaoSuccessful: state.isIaoSuccessful,
     tokenCreationTask: state.tokenCreationTask,
     distributionTask: state.distributionTask,
-    redeployIaoTask: state.redeployIaoTask,
+    iaoTask: state.iaoTask,
     userStakeInfo: state.userStakeInfo,
     iaoProgress: state.iaoProgress,
     poolInfo,
@@ -527,6 +586,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     isContractOwner,
     fetchUserStakeInfo,
     fetchTokenCreationTask,
+    fetchIaoTask,
     fetchIaoProgress,
     checkIaoStatus,
     fetchPoolInfo,
@@ -549,6 +609,7 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     isContractOwner,
     fetchUserStakeInfo,
     fetchTokenCreationTask,
+    fetchIaoTask,
     fetchIaoProgress,
     checkIaoStatus,
     fetchPoolInfo,

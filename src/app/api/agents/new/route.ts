@@ -226,8 +226,18 @@ export async function POST(request: Request) {
 
 
 
+    // 创建IAO部署任务记录
+    const iaoTask = await prisma.task.create({
+      data: {
+        type: 'DEPLOY_IAO',
+        status: 'PENDING',
+        agentId: agent.id,
+        createdBy: decoded.address
+      }
+    });
+
     // 异步处理任务
-    processTask(agent.id, {
+    processTask(agent.id, iaoTask.id, {
       tokenAmount,
       startTimestamp,
       durationHours,
@@ -238,6 +248,7 @@ export async function POST(request: Request) {
     return createSuccessResponse({
       agentId: agent.id,
       status: 'CREATING',
+      taskId: iaoTask.id
     }, '任务已创建');
   } catch (error) {
     return handleError(error);
@@ -247,6 +258,7 @@ export async function POST(request: Request) {
 // 异步处理任务
 async function processTask(
   agentId: string,
+  taskId: string,
   taskData: {
     tokenAmount?: string;
     startTimestamp?: number;
@@ -271,6 +283,15 @@ async function processTask(
   }
 
   try {
+    // 更新任务状态为处理中
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'PROCESSING',
+        startedAt: new Date()
+      }
+    });
+
     // 获取 Agent 信息
     console.log(`[Agent创建] 开始处理Agent ${agentId} 的创建任务...`);
     const agent = await prisma.agent.findUnique({
@@ -417,6 +438,21 @@ async function processTask(
     console.log('[事件监听] 触发监听器重新加载...');
     await reloadContractListeners();
 
+    // 更新任务状态为完成
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'COMPLETED',
+        completedAt: new Date(),
+        result: JSON.stringify({
+          message: 'IAO部署成功',
+          iaoContractAddress: iaoResult.data.proxy_address,
+          startTime: startTimestamp,
+          endTime: endTimestamp
+        })
+      }
+    });
+
     // Agent创建流程完成
     console.log(`[完成] Agent创建流程完成`);
   } catch (error) {
@@ -430,6 +466,18 @@ async function processTask(
         stack: error.stack
       } : error
     });
+
+    // 更新任务状态为失败
+    await prisma.task.update({
+      where: { id: taskId },
+      data: {
+        status: 'FAILED',
+        completedAt: new Date(),
+        result: JSON.stringify({
+          error: error instanceof Error ? error.message : '未知错误'
+        })
+      }
+    }).catch(console.error);
 
     // 更新 Agent 状态为失败
     console.log(`[错误处理] 更新Agent ${agentId} 状态为failed`);
