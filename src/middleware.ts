@@ -102,6 +102,11 @@ function needsAuth(path: string, method: string): boolean {
     return false;
   }
 
+  // Agent任务路由公开访问
+  if (normalizedPath.match(/^\/api\/agents\/[^\/]+\/tasks$/) && method === 'GET') {
+    return false;
+  }
+
   // IAO 进度路由
   if (normalizedPath.startsWith('/api/iao/progress') && method === 'GET') {
     return false;

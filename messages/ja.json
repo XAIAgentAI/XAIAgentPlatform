@@ -485,6 +485,7 @@
     "redeployIaoConfirmation": "IAO再デプロイにより完全に新しいIAOコントラクトが作成され、以前のすべての投資データがリセットされます。古いユーザーは影響を受けずに古いコントラクトから返金を請求できます。続行しますか？",
     "deploying": "デプロイ中",
     "deployingNewIaoContract": "新しいIAOコントラクトをデプロイ中です。お待ちください...",
+    "iaoDeploySuccess": "IAOコントラクトのデプロイが成功しました！3秒後にページが更新されます。",
     "iaoRedeploySuccess": "新しいIAOコントラクトが正常にデプロイされました。すべての投資データがリセットされ、3秒後にページが更新されます。古いユーザーは古いコントラクトから返金を請求できます。",
     "redeployIaoFailedLog": "IAO再デプロイに失敗しました：",
     "remainingWaitTime": "（あと{days}日{hours}時間待機必要）",

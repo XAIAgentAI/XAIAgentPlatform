@@ -35,6 +35,7 @@ const nextConfig = {
     ];
   },
   experimental: {
+    fastRefresh: true,
     outputFileTracingRoot: process.cwd(),
     outputFileTracingIncludes: {
       '/**/*': [
@@ -51,15 +52,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
-  webpack: (config) => {
+  webpack: (config, { dev }) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     config.externals.push({
       'utf-8-validate': 'commonjs utf-8-validate',
       'bufferutil': 'commonjs bufferutil',
     });
 
-    // Disable minification for problematic files
-    if (config.optimization) {
+    // 只在生产环境禁用minification，开发环境保持默认设置
+    if (!dev && config.optimization) {
       config.optimization.minimize = false;
     }
 

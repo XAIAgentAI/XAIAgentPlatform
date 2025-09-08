@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createSuccessResponse, handleError } from '@/lib/error';
-import { verify } from 'jsonwebtoken';
-
-const JWT_SECRET = 'xaiagent-jwt-secret-2024';
 
 
 
@@ -15,50 +12,15 @@ export async function GET(
   try {
     const agentId = params.id;
 
-    // 验证 JWT token
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return NextResponse.json(
-        { code: 401, message: '未授权访问' },
-        { status: 401 }
-      );
-    }
-
-    const token = authHeader.split(' ')[1];
-    let decoded;
-    try {
-      decoded = verify(token, JWT_SECRET) as { address: string };
-    } catch (error) {
-      return NextResponse.json(
-        { code: 401, message: '无效的 token' },
-        { status: 401 }
-      );
-    }
-
     // 获取Agent信息
     const agent = await prisma.agent.findUnique({
-      where: { id: agentId },
-      include: {
-        creator: {
-          select: {
-            address: true
-          }
-        }
-      }
+      where: { id: agentId }
     });
 
     if (!agent) {
       return NextResponse.json(
         { code: 404, message: '找不到Agent' },
         { status: 404 }
-      );
-    }
-
-    // 验证请求者是否是Agent的创建者
-    if (agent.creator.address.toLowerCase() !== decoded.address.toLowerCase()) {
-      return NextResponse.json(
-        { code: 403, message: '只有Agent创建者可以查询其任务' },
-        { status: 403 }
       );
     }
 

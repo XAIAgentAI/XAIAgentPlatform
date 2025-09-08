@@ -49,6 +49,9 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isUpdateTimeModalOpen, setIsUpdateTimeModalOpen] = useState(false);
   const [hasConfirmedRedeployment, setHasConfirmedRedeployment] = useState(false);
+  
+  // 防止重复处理完成任务：记录已处理的任务ID
+  const [processedCompletedTasks, setProcessedCompletedTasks] = useState<Set<string>>(new Set());
 
   // 使用数据管理Hook
   const {
@@ -88,6 +91,8 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     isConnected,
     isAuthenticated
   } = useIaoPoolData(agent);
+  console.log("iaoTask的状态", iaoTask);
+  
 
   // 检查是否可以领取
   const canClaim = useMemo(() => {
@@ -130,13 +135,25 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
   useEffect(() => {
     // 监控统一的IAO任务
     if (iaoTask) {
-      if (iaoTask.status === 'COMPLETED') {
-        console.log('[IAO部署] 任务完成，准备刷新页面');
-        toast({
-          title: t('success'),
-          description: iaoTask.type === 'REDEPLOY_IAO' ? t('iaoRedeploySuccess') : t('iaoDeploySuccess'),
-        });
-        setTimeout(() => window.location.reload(), 2000);
+      const taskId = iaoTask.id;
+      
+      if (iaoTask.status === 'COMPLETED' && !processedCompletedTasks.has(taskId)) {
+        console.log('[IAO部署] 任务完成，准备刷新组件数据');
+        
+        // 标记此任务为已处理，防止重复处理
+        setProcessedCompletedTasks(prev => new Set([...prev, taskId]));
+        
+        // // 显示成功消息
+        // toast({
+        //   title: t('success'),
+        //   description: iaoTask.type === 'REDEPLOY_IAO' ? t('iaoRedeploySuccess') : t('iaoDeploySuccess'),
+        // });
+        
+        // 延迟刷新组件数据
+        setTimeout(async () => {
+          await handleRefreshData();
+        }, 1500);
+        
       } else if (iaoTask.status === 'FAILED') {
         console.log('[IAO部署] 任务失败:', iaoTask.result);
         const errorMsg = iaoTask.result?.error || (iaoTask.type === 'REDEPLOY_IAO' ? t('redeployIaoFailed') : t('iaoDeployFailed'));
@@ -149,7 +166,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
         console.log('[IAO部署] 任务正在处理中...');
       }
     }
-  }, [iaoTask, toast, t]);
+  }, [iaoTask, processedCompletedTasks, t, toast]);
 
   /**
    * 处理质押
@@ -558,22 +575,7 @@ const IaoPool = React.memo(({ agent, onRefreshAgent }: IaoPoolProps) => {
     let buttonText = '';
     let buttonClass = '';
 
-    console.log("=== IAO状态调试信息 ===");
-    console.log("agent.status:", agent.status);
-    console.log("agent.iaoContractAddress:", agent.iaoContractAddress);
-    console.log("isCreator:", isCreator);
-    console.log("isIAOEnded:", isIAOEnded);
-    console.log("isIaoSuccessful:", isIaoSuccessful);
-    console.log("shouldShowDeployInfo:", shouldShowDeployInfo);
-    console.log("isDeploying:", isDeploying);
-    console.log("isDeployFailed:", isDeployFailed);
-    console.log("isIaoFailed:", isIaoFailed);
-    console.log("isIaoTaskInProgress:", isIaoTaskInProgress);
-    console.log("iaoTask:", iaoTask);
-    console.log("tokenCreationTask:", tokenCreationTask);
-    console.log("canRedeployIao:", canRedeployIao);
-    console.log("poolInfo:", poolInfo);
-    console.log("========================");
+ 
     
     
     if (isDeploying || isIaoTaskInProgress) {

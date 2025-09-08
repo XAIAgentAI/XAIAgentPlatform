@@ -268,9 +268,10 @@ export const useIaoPoolData = (agent: LocalAgent) => {
           distributionTask: distributeTask || null
         }));
         
-        if (createTokenTask && createTokenTask.status === 'COMPLETED' && !agent.tokenAddress) {
-          setTimeout(() => window.location.reload(), 2000);
-        }
+        // if (createTokenTask && createTokenTask.status === 'COMPLETED' && !agent.tokenAddress) {
+        //   // 🚨 INFINITE REFRESH POINT 1: 任务完成后触发页面刷新，但页面刷新后任务仍然是COMPLETED状态，导致无限循环刷新
+        //   setTimeout(() => window.location.reload(), 2000);
+        // }
       }
     } catch (error) {
       console.error('Failed to fetch token creation task:', error);
@@ -312,9 +313,10 @@ export const useIaoPoolData = (agent: LocalAgent) => {
         
         updateState(() => ({ iaoTask: iaoTask || null }));
 
-        if (iaoTask && iaoTask.status === 'COMPLETED') {
-          setTimeout(() => window.location.reload(), 2000);
-        }
+        // if (iaoTask && iaoTask.status === 'COMPLETED') {
+        //   // 🚨 INFINITE REFRESH POINT 2: IAO任务完成后触发页面刷新，但页面刷新后任务仍然是COMPLETED状态，导致无限循环刷新
+        //   // setTimeout(() => window.location.reload(), 2000);
+        // }
       } else {
         console.warn('[获取IAO任务] 响应格式不正确:', response_data);
       }
@@ -482,10 +484,11 @@ export const useIaoPoolData = (agent: LocalAgent) => {
     
     const timers: NodeJS.Timeout[] = [];
     
-    // 任务状态监控 - 对于创建者始终启用，不依赖合约地址
+    // 🚨 INFINITE REFRESH TRIGGER: 任务状态监控 - 对于创建者始终启用，不依赖合约地址
+    // 每30秒检查一次任务状态，如果发现COMPLETED状态就会触发页面刷新，形成死循环
     if (isCreator && isAuthenticated) {
-      timers.push(setInterval(fetchTokenCreationTask, 30000));
-      timers.push(setInterval(fetchIaoTask, 30000));
+      timers.push(setInterval(fetchTokenCreationTask, 30000)); // 🚨 检查代币创建任务
+      timers.push(setInterval(fetchIaoTask, 30000)); // 🚨 检查IAO任务
     }
     
     // IAO相关定时器 - 仅在有合约地址时启用

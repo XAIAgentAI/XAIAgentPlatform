@@ -29,7 +29,12 @@ const args = isWindows ? ['next', 'dev'] : ['dev'];
 
 const child = spawn(command, args, {
   stdio: ['inherit', 'pipe', 'pipe'],
-  shell: isWindows
+  shell: isWindows,
+  env: {
+    ...process.env,
+    NODE_ENV: 'development',
+    __NEXT_DISABLE_FAST_REFRESH: 'false'
+  }
 });
 
 // 创建写入流

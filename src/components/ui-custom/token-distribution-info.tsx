@@ -15,8 +15,6 @@ export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
 }) => {
   const t = useTranslations('create.createAgent.TokenDistribution');
   
-  // 所有需要显示的点
-  const allPoints = [1, 2, 3, 4, 5, 6, 7, 8];
   
   return (
     <div className={`space-y-3 text-${textSize} ${className}`}>

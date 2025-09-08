@@ -485,6 +485,7 @@
     "redeployIaoConfirmation": "Redeploying IAO will create a completely new IAO contract, all previous investment data will be reset. Old users can still claim refunds from old contract without being affected. Are you sure to continue?",
     "deploying": "Deploying",
     "deployingNewIaoContract": "Deploying new IAO contract, please wait...",
+    "iaoDeploySuccess": "IAO contract deployed successfully! Page will refresh in 3 seconds.",
     "iaoRedeploySuccess": "Successfully deployed new IAO contract. All investment data has been reset, page will refresh in 3 seconds. Old users can still claim refunds from old contract.",
     "redeployIaoFailedLog": "Redeploy IAO failed:",
     "remainingWaitTime": "(Still need to wait {days} days {hours} hours)",
