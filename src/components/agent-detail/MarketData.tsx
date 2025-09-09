@@ -40,6 +40,8 @@ export function MarketData({
   dbcPriceUsd,
   baseTokenXaaRate
 }: MarketDataProps) {
+  console.log("agent1", agent);
+  
   const t = useTranslations('marketData');
   const [tokenPrice, setTokenPrice] = useState<TokenPriceInfo | null>(null);
 
@@ -55,7 +57,7 @@ export function MarketData({
 
   const formatTotalSupply = (supply: string | undefined) => {
     // Convert string to number, considering decimals is 18
-    const value = Number(supply) / Math.pow(10, 18) || 100000000000;
+    const value = Number(supply)
 
     // 智能决定小数位数：整数不显示小数点，有小数时显示
     const formatNumber = (num: number) => {
@@ -117,7 +119,7 @@ export function MarketData({
       <Card className="p-4 bg-card-inner">
         <div className="text-sm text-muted-foreground">{t('totalSupply')}</div>
         <div className="text-lg font-semibold mt-1">
-          {formatTotalSupply(tokenData?.total_supply)}
+          {formatTotalSupply(agent?.totalSupply?.toString())}
         </div>
       </Card>
 

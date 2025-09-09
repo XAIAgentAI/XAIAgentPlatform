@@ -169,6 +169,13 @@ export const IaoActiveView = ({
     return buttonState.disabled;
   }, [isAuthenticated, isIaoActive, isStakeLoading, isIaoStarted, dbcAmount, currentMaxAmount]);
 
+  console.log(321, {
+    iaoTokenAmount: agent.iaoTokenAmount,
+    formatUnits: formatUnits(agent.iaoTokenAmount as any || '0', 18),
+    formatUnitsNumber: Number(formatUnits(agent.iaoTokenAmount as any || '0', 18) || 0),
+  });
+  
+
   const renderPoolInfo = () => (
     <div className="relative space-y-3 sm:space-y-4">
       {/* 刷新状态覆盖层 */}
@@ -204,7 +211,7 @@ export const IaoActiveView = ({
       <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
         <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
         <span className="font-medium text-[#F47521] break-all">
-          {isPoolInfoLoading ? "--" : `${formatNumber(Number(formatUnits(agent.iaoTokenAmount as any || '0', 18) || 0) )} ${agent.symbol}`}
+          {isPoolInfoLoading ? "--" : `${formatNumber(Number((agent.iaoTokenAmount as any || '0') / 10 ** 18 || 0) )} ${agent.symbol}`}
         </span>
       </div>
 
