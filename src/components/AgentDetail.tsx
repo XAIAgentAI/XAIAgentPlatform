@@ -106,7 +106,15 @@ export function AgentDetail({ id }: AgentDetailProps) {
           </div>
 
           {/* 代币信息卡片 */}
-          {agent && <TokenInfoCard projectDescription={agent.projectDescription} symbol={agent.symbol} iaoDurationHours={iaoTimeRemain}/>}
+          {agent && <TokenInfoCard 
+            projectDescription={agent.projectDescription} 
+            symbol={agent.symbol} 
+            iaoDurationHours={iaoTimeRemain}
+            totalSupply={agent.totalSupply}
+            miningRate={agent.miningRate}
+            agentName={agent.name}
+            iaoTokenAmount={agent.iaoTokenAmount}
+          />}
         </div>
       </div>
     </StateDisplay>

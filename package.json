@@ -40,10 +40,10 @@
     "test:e2e": "tsx scripts/test-deploy-mining-e2e.ts",
     "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e",
     "test:watch": "vitest tests/api/",
-    "deploy:sync:test": "rsync -avz --delete --exclude=.git --exclude=cache ./.next/standalone/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz ./.next/static/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.next/static/ && rsync -avz ./ecosystem.config.js ./prisma/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz ./.env.test ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.env",
-    "deploy:sync:prod": "rsync -avz --delete --exclude=node_modules --exclude=.git --exclude=cache --exclude=src ./.next/standalone/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz ./.next/static ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.next/ && rsync -avz package.json ecosystem.config.js prisma/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz .env.production ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.env",
+    "deploy:sync:test": "rsync -avz --delete --exclude=node_modules --exclude=.git --exclude=cache --exclude=src ./.next/standalone/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz ./.next/static/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.next/static/ && rsync -avz ./ecosystem.config.js ./prisma/ ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/ && rsync -avz ./.env.test ubuntu@52.78.26.103:~/projects/XAIAgentPlatform/.env",
+    "deploy:sync:prod": "rsync -avz --delete --exclude=node_modules --exclude=.git --exclude=cache --exclude=src ./.next/standalone/ ubuntu@52.78.26.103:~/projects/prod/XAIAgentPlatform-prod/ && rsync -avz ./.next/static/ ubuntu@52.78.26.103:~/projects/prod/XAIAgentPlatform-prod/.next/static/ && rsync -avz ./ecosystem.config.js ./prisma/ ubuntu@52.78.26.103:~/projects/prod/XAIAgentPlatform-prod/ && rsync -avz ./.env.production ubuntu@52.78.26.103:~/projects/prod/XAIAgentPlatform-prod/.env",
     "local-deploy-test": "pnpm prisma generate && pnpm run build:test && pnpm run deploy:sync:test && echo '文件同步完成，请手动SSH到服务器重启服务'",
-    "local-deploy-prod": "pnpm run build:prod && pnpm run deploy:sync:prod && echo '文件同步完成，请手动SSH到服务器重启服务'"
+    "local-deploy-prod": "pnpm prisma generate && pnpm run build:prod && pnpm run deploy:sync:prod && echo '文件同步完成，请手动SSH到服务器重启服务'"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

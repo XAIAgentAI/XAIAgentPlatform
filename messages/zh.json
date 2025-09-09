@@ -1161,12 +1161,12 @@
       "TokenDistribution": {
         "title": "代币经济模型",
         "points": {
-          "1": "{symbol} 前8年总供应量：1000亿，以后每年挖矿产生50亿",
-          "2": "15% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
+          "1": "{symbol} 前8年总供应量：{totalSupply}亿，以后每年挖矿产生{miningPerYear}亿",
+          "2": "{iaoPercentage}% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
           "3": "在{hours}小时的IAO期间结束后，95%的$XAA将分配到链上流动性池，永不撤销，LP代币将发送到黑洞地址。5%的$XAA将被销毁",
-          "4": "IAO结束后，10%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",
+          "4": "IAO结束后，{liquidityPercentage}%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",
           "5": "创建人持有33%的{symbol}，IAO结束后开始解锁，在2000天内线性释放，每40天解锁一次",
-          "6": "{symbol}挖矿每年产生50亿，其中10%的挖矿{symbol}立即可用，90%在180天内线性释放",
+          "6": "{symbol}挖矿每年产生{miningPerYear}亿，其中10%的挖矿{symbol}立即可用，90%在180天内线性释放",
           "7": "参与挖矿需要XAA挖矿NFT。每台机器必须质押至少1个XAA挖矿NFT，最多10个XAA挖矿NFT",
           "8": "1%的{symbol}空投给前10,000名$XAA和$DBC持有者，1%的{symbol}空投给XAA节点NFT持有者"
         }

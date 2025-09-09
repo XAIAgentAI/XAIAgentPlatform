@@ -6,9 +6,13 @@ interface TokenInfoCardProps {
   projectDescription?: string;
   symbol?: string;
   iaoDurationHours?: number; // 添加IAO持续时间参数
+  totalSupply?: number;
+  miningRate?: number;
+  agentName?: string;
+  iaoTokenAmount?: number;
 }
 
-export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours }: TokenInfoCardProps) { 
+export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours, totalSupply, miningRate, agentName, iaoTokenAmount }: TokenInfoCardProps) { 
   const locale = useLocale();
   const t = useTranslations("create.createAgent");
 
@@ -41,6 +45,9 @@ export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours }: 
   //   return null;
   // }
 
+  console.log("123", totalSupply, miningRate);
+  
+
   return (
     <Card className="p-6 bg-card mt-6">
       <div className="space-y-3">
@@ -54,6 +61,11 @@ export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours }: 
           symbol={symbol || 'Token'} 
           hours={iaoDurationHours} 
           textSize="sm"
+          totalSupply={totalSupply?.toString() || '100000000000'}
+          iaoPercentage="15"
+          miningRate={miningRate?.toString() || '5'}
+          agentName={agentName}
+          iaoTokenAmount={iaoTokenAmount}
         />
 
       </div>

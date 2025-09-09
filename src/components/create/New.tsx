@@ -558,7 +558,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                     description: translatedDescription.zh || "An Agent", // 使用翻译后的描述
                     category: 'AI Agent',
                     capabilities: ['chat', 'information'],
-                    tokenAmount: '1000000000000000000',
+                    tokenAmount: (BigInt(formData.tokenSupply) * BigInt(parseInt(formData.iaoPercentage.replace('%', ''))) / BigInt(100)).toString(),
                     startTimestamp: Math.floor(dateRange.range.from.getTime() / 1000),
                     durationHours: dateRange.range.to ? Math.floor((dateRange.range.to.getTime() - dateRange.range.from.getTime()) / (1000 * 60 * 60)) : 24 * 3,
                     rewardAmount: '2000000000000000000000000000',
@@ -873,6 +873,11 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         symbol={formData.symbol} 
                         hours={iaoDurationDays * 24 + iaoDurationHours} 
                         textSize="sm"
+                        totalSupply={formData.tokenSupply}
+                        iaoPercentage={formData.iaoPercentage}
+                        miningRate={formData.miningRate}
+                        agentName={formData.name}
+                        iaoTokenAmount={undefined}
                     />
                 </div>
 

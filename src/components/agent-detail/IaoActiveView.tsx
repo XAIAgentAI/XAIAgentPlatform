@@ -12,6 +12,7 @@ import { Countdown } from "../ui-custom/countdown";
 import { IaoProgressDisplay } from './IaoProgressDisplay';
 import type { LocalAgent } from "@/types/agent";
 import { useAppKit } from '@reown/appkit/react';
+import { formatUnits } from 'viem'
 
 interface IaoActiveViewProps {
   agent: LocalAgent;
@@ -203,7 +204,7 @@ export const IaoActiveView = ({
       <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 p-3 rounded-lg">
         <span className="text-black font-medium">{t('totalInPool', { symbol: agent.symbol })}:</span>
         <span className="font-medium text-[#F47521] break-all">
-          {isPoolInfoLoading ? "--" : `${formatNumber((agent.totalSupply || 0) * 0.15)} ${agent.symbol}`}
+          {isPoolInfoLoading ? "--" : `${formatNumber(Number(formatUnits(agent.iaoTokenAmount as any || '0', 18) || 0) )} ${agent.symbol}`}
         </span>
       </div>
 

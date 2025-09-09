@@ -1162,12 +1162,12 @@
       "TokenDistribution": {
         "title": "Token Economic Model",
         "points": {
-          "1": "{symbol} total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
-          "2": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
+          "1": "{symbol} total supply in first 8 years: {totalSupply} billion, with {miningPerYear} billion mined annually thereafter",
+          "2": "{iaoPercentage}% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
           "3": "After the {hours}-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
-          "4": "After IAO concludes, 10% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",
+          "4": "After IAO concludes, {liquidityPercentage}% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",
           "5": "The creator holds 33% of {symbol}, unlocking begins after IAO concludes, with linear release over 2000 days, unlocked every 40 days",
-          "6": "{symbol} mining produces 5 billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
+          "6": "{symbol} mining produces {miningPerYear} billion annually, with 10% of mined {symbol} available immediately and 90% released linearly over 180 days",
           "7": "XAA mining NFTs are required to participate in mining. Each machine must stake at least 1 XAA mining NFT, with a maximum of 10 XAA mining NFTs",
           "8": "1% of {symbol} airdropped to top 10,000 $XAA and $DBC holders, 1% of {symbol} airdropped to XAA node NFT holders"
         }
