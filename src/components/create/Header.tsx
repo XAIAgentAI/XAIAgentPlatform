@@ -24,6 +24,7 @@ const Header: React.FC = () => {
                 hours={72} 
                 textSize="sm"
                 className="pl-5"
+                totalSupplyYears={8}
               />
             </div>
           </div>

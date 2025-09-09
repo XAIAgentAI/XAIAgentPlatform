@@ -613,7 +613,7 @@
     "deployFailed": "결제 계약 배포에 실패했습니다"
   },
   "tokenInfo": {
-    "totalSupply": "처음 8년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성",
+    "totalSupply": "처음 {totalSupplyYears}년간 총 공급량: 1000억, 이후 매년 채굴로 50억 생성",
     "iaoAllocation": "토큰의 15%는 IAO를 통해 판매되며, $XAA만 수락합니다. 투자자는 $XAA 투자 비율에 따라 토큰을 받게 됩니다.",
     "iaoDuration": "IAO 종료 후, $XAA의 95%는 온체인 유동성 풀에 할당되며, 절대 취소되지 않습니다. 유동성 LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다.",
     "tradingPair": "IAO 종료 후, 토큰과 $XAA의 10%는 즉시 DBCSwap에 유동성 풀을 형성하여 자유로운 거래를 가능하게 합니다."
@@ -1063,7 +1063,7 @@
     },
     "requirements": {
       "title": "토큰 생성 요구사항",
-      "supply": "$XXX 토큰 공급: 처음 8년간 총 공급량 1000억, 이후 매년 60억 채굴",
+      "supply": "$XXX 토큰 공급: 처음 {totalSupplyYears}년간 총 공급량 1000억, 이후 매년 60억 채굴",
       "iao": "IAO 판매: 15% 토큰을 IAO로 판매, $XAA만 허용, XAA NFT 보유 시 투자 한도 증가",
       "iaoAllocation": {
         "title": "IAO 할당:",
@@ -1162,7 +1162,7 @@
       "TokenDistribution": {
         "title": "토큰 경제 모델",
         "points": {
-          "1": "{symbol}의 첫 8년 총 공급량: {totalSupply}억, 이후 매년 {miningPerYear}억이 채굴됨",
+          "1": "{symbol}의 첫 {totalSupplyYears}년 총 공급량: {totalSupply}억, 이후 매년 {miningPerYear}억이 채굴됨",
           "2": "토큰의 {iaoPercentage}%는 IAO를 통해 판매되며, $XAA만 받습니다. 투자자는 $XAA 투자 비율에 따라 {symbol}을 받게 됩니다",
           "3": "{hours}시간의 IAO 기간 이후, $XAA의 95%는 온체인 유동성 풀에 할당되어 절대 취소되지 않으며, LP 토큰은 블랙홀 주소로 전송됩니다. $XAA의 5%는 소각됩니다",
           "4": "IAO 종료 후, {symbol}과 $XAA의 {liquidityPercentage}%는 즉시 DBCSwap에서 유동성 풀을 설립하여 {symbol}의 자유로운 거래를 가능하게 합니다",

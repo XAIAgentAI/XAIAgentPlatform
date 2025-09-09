@@ -613,7 +613,7 @@
     "deployFailed": "Failed to deploy payment contract"
   },
   "tokenInfo": {
-    "totalSupply": "Total supply in first 8 years: 100 billion, with 5 billion mined annually thereafter",
+    "totalSupply": "Total supply in first {totalSupplyYears} years: 100 billion, with 5 billion mined annually thereafter",
     "iaoAllocation": "15% of tokens will be sold through IAO, only accepting $XAA. Investors will receive tokens proportional to their $XAA investment.",
     "iaoDuration": "After the IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned.",
     "tradingPair": "After IAO ends, 10% of tokens and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading."
@@ -1063,7 +1063,7 @@
     },
     "requirements": {
       "title": "Token Economic Model Creation",
-      "supply": "{symbol} Token Supply: Total supply of 100 billion in the first 8 years, with 5 billion mined annually thereafter",
+      "supply": "{symbol} Token Supply: Total supply of 100 billion in the first {totalSupplyYears} years, with 5 billion mined annually thereafter",
       "iao": "IAO Sale: 15% of tokens sold through IAO, only accepting $XAA",
       "iaoAllocation": {
         "title": "IAO Allocation:",
@@ -1162,7 +1162,7 @@
       "TokenDistribution": {
         "title": "Token Economic Model",
         "points": {
-          "1": "{symbol} total supply in first 8 years: {totalSupply} billion, with {miningPerYear} billion mined annually thereafter",
+          "1": "{symbol} total supply in first {totalSupplyYears} years: {totalSupply} billion, with {miningPerYear} billion mined annually thereafter",
           "2": "{iaoPercentage}% of tokens will be sold through IAO, only accepting $XAA. Investors will receive {symbol} based on their $XAA investment proportion",
           "3": "After the {hours}-hour IAO period, 95% of $XAA will be allocated to the on-chain liquidity pool, never to be revoked, with LP tokens sent to a black hole address. 5% of $XAA will be burned",
           "4": "After IAO concludes, {liquidityPercentage}% of {symbol} and $XAA will immediately establish a liquidity pool on DBCSwap, enabling free trading of {symbol}",

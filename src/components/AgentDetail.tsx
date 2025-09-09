@@ -114,6 +114,7 @@ export function AgentDetail({ id }: AgentDetailProps) {
             miningRate={agent.miningRate}
             agentName={agent.name}
             iaoTokenAmount={agent.iaoTokenAmount}
+            totalSupplyYears={agent.totalSupplyYears}
           />}
         </div>
       </div>

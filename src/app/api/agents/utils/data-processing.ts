@@ -18,6 +18,7 @@ interface AgentWithSortData {
   createdAt: Date;
   symbol: string | null;
   totalSupply: number | null;
+  totalSupplyYears: number | null;
   tvl: string | null;
   holdersCount: number | null;
   volume24h: string | null;
@@ -229,6 +230,7 @@ export async function formatAgentData(
       createdAt: item.createdAt,
       symbol: item.symbol,
       totalSupply: item.totalSupply ? Number(item.totalSupply) : null,
+      totalSupplyYears: (item as any).totalSupplyYears || 8,
       tvl: priceInfo?.tvl ? `$${priceInfo.tvl}` : item.tvl,
       holdersCount: tokenInfo?.holders ? parseInt(tokenInfo.holders) : item.holdersCount,
       volume24h: priceInfo?.volume24h ? `$${priceInfo.volume24h}` : item.volume24h,

@@ -613,7 +613,7 @@
     "deployFailed": "支払いコントラクトのデプロイに失敗しました"
   },
   "tokenInfo": {
-    "totalSupply": "最初の8年間の総供給量：1000億、その後は年間50億をマイニング",
+    "totalSupply": "最初の{totalSupplyYears}年間の総供給量：1000億、その後は年間50億をマイニング",
     "iaoAllocation": "トークンの15％はIAOを通じて販売され、$XAAのみを受け入れます。投資家は$XAAの投資比率に基づいてトークンを受け取ります。",
     "iaoDuration": "IAO終了後、$XAAの95％はオンチェーン流動性プールに分配され、取り消されることはありません。流動性LPトークンはブラックホールアドレスに送信されます。$XAAの5％はバーンされます。",
     "tradingPair": "IAO終了後、トークンと$XAAの10％はDBCSwap上で即座に流動性プールを形成し、自由な取引を可能にします。"
@@ -1063,7 +1063,7 @@
     },
     "requirements": {
       "title": "トークン作成要件",
-      "supply": "$XXX トークン供給: 最初の8年間で総供給量1000億、その後毎年50億をマイニング",
+      "supply": "$XXX トークン供給: 最初の{totalSupplyYears}年間で総供給量1000億、その後毎年50億をマイニング",
       "iao": "IAO販売: 15%のトークンをIAOで販売、$XAAのみ受け付け",
       "iaoAllocation": {
         "title": "IAO配分:",
@@ -1162,7 +1162,7 @@
       "TokenDistribution": {
         "title": "トークン経済モデル",
         "points": {
-          "1": "{symbol}の最初の8年間の総供給量は{totalSupply}億で、その後毎年{miningPerYear}億が採掘されます",
+          "1": "{symbol}の最初の{totalSupplyYears}年間の総供給量は{totalSupply}億で、その後毎年{miningPerYear}億が採掘されます",
           "2": "トークンの{iaoPercentage}%はIAOを通じて販売され、$XAAのみを受け付けます。投資家は$XAAの投資比率に基づいて{symbol}を受け取ります",
           "3": "{hours}時間のIAO期間後、$XAAの95%はオンチェーンの流動性プールに割り当てられ、二度と取り消されることはなく、LPトークンはブラックホールアドレスに送信されます。$XAAの5%は焼却されます",
           "4": "IAO終了後、{symbol}と$XAAの{liquidityPercentage}%はすぐにDBCSwapで流動性プールを確立し、{symbol}の自由な取引を可能にします",

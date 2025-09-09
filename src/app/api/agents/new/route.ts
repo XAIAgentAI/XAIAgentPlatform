@@ -216,6 +216,7 @@ export async function POST(request: Request) {
         tokenAddressTestnet: null,
         iaoContractAddressTestnet: null,
         projectDescription: projectDescription || null,
+        totalSupplyYears: 8, // 默认8年总供应量计算时间
         // miningRate: miningRate ? new Decimal(miningRate) : new Decimal(6), // 默认6% - 临时注释
       } as any,
     });

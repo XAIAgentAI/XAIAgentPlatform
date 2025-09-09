@@ -13,6 +13,7 @@ interface TokenDistributionInfoProps {
   miningRate?: string;
   agentName?: string;
   iaoTokenAmount?: number;
+  totalSupplyYears?: number;
 }
 
 export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
@@ -24,7 +25,8 @@ export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
   iaoPercentage = '15',
   miningRate = '5',
   agentName,
-  iaoTokenAmount
+  iaoTokenAmount,
+  totalSupplyYears = 8
 }) => {
   const t = useTranslations('create.createAgent.TokenDistribution');
   
@@ -93,7 +95,8 @@ export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
         1. {t(`points.1`, { 
           symbol,
           totalSupply: totalSupplyInBillions,
-          miningPerYear: miningPerYear
+          miningPerYear: miningPerYear,
+          totalSupplyYears: totalSupplyYears
         })}
       </p>
       

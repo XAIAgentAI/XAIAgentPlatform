@@ -74,6 +74,7 @@ model Agent {
   iaoStartTime              BigInt? // IAO开始时间戳
   iaoEndTime                BigInt? // IAO结束时间戳
   miningRate                Decimal? // 挖矿速率（每年可挖矿的代币比例）
+  totalSupplyYears          Int      @default(8) // 前几年总供应量计算时间（默认8年）
   // IAO成功状态相关字段
   iaoSuccessChecked         Boolean      @default(false) // 是否已检查IAO成功状态
   iaoSuccessful             Boolean? // IAO是否成功 (null表示未检查，true表示成功，false表示失败)

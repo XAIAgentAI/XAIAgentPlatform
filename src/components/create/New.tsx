@@ -878,6 +878,7 @@ const New: React.FC<NewProps> = ({ mode = 'create', agentId }) => {
                         miningRate={formData.miningRate}
                         agentName={formData.name}
                         iaoTokenAmount={undefined}
+                        totalSupplyYears={8}
                     />
                 </div>
 

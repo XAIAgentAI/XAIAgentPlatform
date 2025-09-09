@@ -613,7 +613,7 @@
     "deployFailed": "部署支付合约失败"
   },
   "tokenInfo": {
-    "totalSupply": "前8年总供应量：1000亿，以后每年挖矿产生50亿",
+    "totalSupply": "前{totalSupplyYears}年总供应量：1000亿，以后每年挖矿产生50亿",
     "iaoAllocation": "15% 的代币将通过 IAO 销售，仅接受 $XAA。投资者将根据其 $XAA 投资比例获得代币。",
     "iaoDuration": "在IAO结束后，95%的$XAA将分配给链上流动性池，永不撤销，流动性LP凭证被打入黑洞地址。5%的$XAA会被销毁。",
     "tradingPair": "IAO 结束后，10%的代币和$XAA将立即在DBCSwap上建立流动性池，实现自由交易。"
@@ -1062,7 +1062,7 @@
     },
     "requirements": {
       "title": "代币创建经济模型",
-      "supply": "{symbol} 代币供应: 前8年总供应量1000亿，之后每年挖矿产生50亿",
+      "supply": "{symbol} 代币供应: 前{totalSupplyYears}年总供应量1000亿，之后每年挖矿产生50亿",
       "iao": "IAO销售: 15%代币通过IAO销售，仅接受$XAA",
       "iaoAllocation": {
         "title": "IAO分配:",
@@ -1161,7 +1161,7 @@
       "TokenDistribution": {
         "title": "代币经济模型",
         "points": {
-          "1": "{symbol} 前8年总供应量：{totalSupply}亿，以后每年挖矿产生{miningPerYear}亿",
+          "1": "{symbol} 前{totalSupplyYears}年总供应量：{totalSupply}亿，以后每年挖矿产生{miningPerYear}亿",
           "2": "{iaoPercentage}% 的代币将通过IAO销售，仅接受$XAA。投资者将根据其$XAA投资比例获得 {symbol}",
           "3": "在{hours}小时的IAO期间结束后，95%的$XAA将分配到链上流动性池，永不撤销，LP代币将发送到黑洞地址。5%的$XAA将被销毁",
           "4": "IAO结束后，{liquidityPercentage}%的{symbol}和$XAA将立即在DBCSwap上建立流动性池，使{symbol}能够自由交易",

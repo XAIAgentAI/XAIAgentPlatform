@@ -28,6 +28,9 @@ export async function GET(
         },
       },
     });
+    console.log("agent123", agent);
+    console.log("totalSupplyYears field:", (agent as any)?.totalSupplyYears);
+    
 
     if (!agent) {
       throw new ApiError(404, 'Agent not found');
@@ -118,6 +121,7 @@ export async function GET(
       reviewCount: agent._count.reviews,
       taskCount: agent._count.tasks,
       totalSupply: agent.totalSupply ? Number(agent.totalSupply) : null,
+      totalSupplyYears: (agent as any).totalSupplyYears || 8,
       tokenAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.tokenAddressTestnet : agent.tokenAddress,
       iaoContractAddress: process.env.NEXT_PUBLIC_IS_TEST_ENV === 'true' ? agent.iaoContractAddressTestnet : agent.iaoContractAddress,
       projectDescription: (agent as any).projectDescription,

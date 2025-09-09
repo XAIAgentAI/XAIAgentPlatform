@@ -10,9 +10,10 @@ interface TokenInfoCardProps {
   miningRate?: number;
   agentName?: string;
   iaoTokenAmount?: number;
+  totalSupplyYears?: number; // 添加总供应量年限参数
 }
 
-export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours, totalSupply, miningRate, agentName, iaoTokenAmount }: TokenInfoCardProps) { 
+export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours, totalSupply, miningRate, agentName, iaoTokenAmount, totalSupplyYears }: TokenInfoCardProps) { 
   const locale = useLocale();
   const t = useTranslations("create.createAgent");
 
@@ -66,6 +67,7 @@ export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours, to
           miningRate={miningRate?.toString() || '5'}
           agentName={agentName}
           iaoTokenAmount={iaoTokenAmount}
+          totalSupplyYears={totalSupplyYears || 8}
         />
 
       </div>
