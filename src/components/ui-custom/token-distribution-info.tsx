@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { localAgents } from '../../../scripts/localAgents';
 import { formatUnits } from 'viem';
 import BigNumber from 'bignumber.js';
@@ -14,6 +14,7 @@ interface TokenDistributionInfoProps {
   agentName?: string;
   iaoTokenAmount?: number;
   totalSupplyYears?: number;
+  projectDescription?: string;
 }
 
 export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
@@ -26,12 +27,29 @@ export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
   miningRate = '5',
   agentName,
   iaoTokenAmount,
-  totalSupplyYears = 8
+  totalSupplyYears = 8,
+  projectDescription
 }) => {
   const t = useTranslations('create.createAgent.TokenDistribution');
+  const locale = useLocale();
   
   // 判断当前agent是否在官方agent列表中
   const isOfficialAgent = agentName ? localAgents.some(agent => agent.name === agentName) : false;
+  
+  // 解析 projectDescription 获取当前语言的内容
+  const getLocalizedProjectDescription = () => {
+    if (!projectDescription) return null;
+    
+    try {
+      const descriptions = JSON.parse(projectDescription);
+      return descriptions[locale] || descriptions['en'] || descriptions['zh'] || null;
+    } catch (error) {
+      console.warn('Failed to parse projectDescription:', error);
+      return null;
+    }
+  };
+  
+  const localizedProjectDescription = getLocalizedProjectDescription();
   
   // 计算显示值
   const totalSupplyInBillions = Math.round(Number(totalSupply) / 100000000).toString(); // 转换为几十亿的格式
@@ -88,6 +106,17 @@ export const TokenDistributionInfo: React.FC<TokenDistributionInfoProps> = ({
       })()
     : '-';
   
+  // 如果有 projectDescription，显示它；否则显示默认的 points
+  if (localizedProjectDescription) {
+    return (
+      <div className={`space-y-3 text-${textSize} ${className}`}>
+        <div className="whitespace-pre-line">
+          {localizedProjectDescription}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`space-y-3 text-${textSize} ${className}`}>
       {/* 第1点：使用动态总供应量和挖矿率 */}

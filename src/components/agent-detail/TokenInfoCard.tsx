@@ -68,6 +68,7 @@ export function TokenInfoCard({ projectDescription, symbol, iaoDurationHours, to
           agentName={agentName}
           iaoTokenAmount={iaoTokenAmount}
           totalSupplyYears={totalSupplyYears || 8}
+          projectDescription={projectDescription}
         />
 
       </div>
