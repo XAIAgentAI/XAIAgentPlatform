@@ -458,6 +458,8 @@
     "rewardClaimed": "Reward claimed",
     "refundClaimed": "Refund claimed",
     "refundWaitingTime": "Need to wait 10 minutes after IAO ends to claim refund. End time: {time}",
+    "airdropRewardMessage": "The rewards have been distributed via airdrop, please check your wallet.",
+    "rewardInfo": "Reward Information",
     "loadingWaitingTime": "Loading waiting time info...",
     "iaoDeploying": "IAO is deploying",
     "iaoDeployingDescCreator": "System is deploying your IAO contract. Deployment process may take several minutes, after completion you need to refresh the page to view results. Please come back later to refresh this page.",

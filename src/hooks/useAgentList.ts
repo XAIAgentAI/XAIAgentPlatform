@@ -62,7 +62,10 @@ export function useAgentList({
 
     try {
       if (result.code === 200 && result.data?.items) {
-        setAgents(result.data.items)
+        // 过滤掉需要隐藏的项目
+        const hiddenSymbols = ['SYNTH', 'MEET', 'SATORI', 'LINGXI', 'AKOL', 'LINK', 'ARGU', 'ASIXT']
+        const filteredAgents = result.data.items.filter(agent => !hiddenSymbols.includes(agent.symbol))
+        setAgents(filteredAgents)
       } else {
         setAgents([])
       }

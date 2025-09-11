@@ -458,6 +458,8 @@
     "rewardClaimed": "奖励已领取",
     "refundClaimed": "退款已领取",
     "refundWaitingTime": "IAO结束后需等待10分钟才能领取退款。结束时间: {time}",
+    "airdropRewardMessage": "此次奖励通过空投形式已发放，请去钱包查收。",
+    "rewardInfo": "奖励信息",
     "loadingWaitingTime": "正在加载等待时间信息...",
     "iaoDeploying": "IAO正在部署中",
     "iaoDeployingDescCreator": "系统正在部署您的IAO合约。部署过程可能需要几分钟，完成后需要刷新页面查看结果。请稍后回来刷新此页面。",

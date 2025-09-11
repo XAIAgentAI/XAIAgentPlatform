@@ -328,7 +328,7 @@ export const IaoEndedView = ({
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
           <span className="text-black dark:text-white font-medium">{tIaoPool('iaoReleasedAmount', { symbol: agent.symbol })}:</span>
           <span className="font-medium text-[#F47521] dark:text-orange-400 break-all">
-            {formatNumber((agent.totalSupply || 0) * 0.15)}
+            {formatNumber(Number((agent.iaoTokenAmount as any || '0') / 10 ** 18 || 0) )}
           </span>
         </div>
         <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
@@ -427,6 +427,21 @@ export const IaoEndedView = ({
     // 计算总可领取金额
     const totalClaimable = (parseFloat(userStakeInfo.rewardForOrigin || '0') || 0) +
       (parseFloat(userStakeInfo.rewardForNFT || '0') || 0);
+
+    if(agent.symbol === 'DGC') {
+      return (
+        <div className="mt-6 sm:mt-8">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{tIaoPool('rewardInfo')}</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+              <span className="font-medium text-green-600 dark:text-green-400">
+                {tIaoPool('airdropRewardMessage')}
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="mt-6 sm:mt-8">

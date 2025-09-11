@@ -458,6 +458,8 @@
     "rewardClaimed": "보상 청구 완료",
     "refundClaimed": "환불 청구 완료",
     "refundWaitingTime": "환불은 IAO 종료 후 10분 후에 청구할 수 있습니다. 종료 시간: {time}",
+    "airdropRewardMessage": "이번 보상은 에어드롭 형태로 지급되었습니다. 지갑을 확인해 주세요.",
+    "rewardInfo": "보상 정보",
     "loadingWaitingTime": "대기 시간 정보 로딩 중...",
     "iaoDeploying": "IAO 배포 중",
     "iaoDeployingDescCreator": "시스템이 귀하의 IAO 계약을 배포하고 있습니다. 배포 과정은 몇 분 정도 소요될 수 있으며, 결과를 확인하려면 페이지를 새로고침해야 합니다. 나중에 돌아와서 이 페이지를 새로고침해 주세요.",

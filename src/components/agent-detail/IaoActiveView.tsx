@@ -123,7 +123,7 @@ export const IaoActiveView = ({
 
   const getButtonText = (): string => {
     if (!isIaoStarted) return t('iaoNotStarted');
-    if (!isAuthenticated) return '请先连接钱包';
+    if (!isAuthenticated) return t('connectWalletFirst');
     if (isStakeLoading) return t('processing');
     if (!isIaoActive) return t('investNotStarted');
     return t('send');
