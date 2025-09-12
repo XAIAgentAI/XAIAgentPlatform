@@ -163,7 +163,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
     // 检查IAO是否已结束（当前时间超过IAO结束时间）
     const currentTime = Date.now();
     // 更严格的判断，确保iaoEndTime不为null、undefined、0或空字符串
-    const iaoEndTime = (agent.iaoEndTime && agent.iaoEndTime !== '0' && agent.iaoEndTime !== 0) 
+    const iaoEndTime = (agent.iaoEndTime && agent.iaoEndTime !== '0' && Number(agent.iaoEndTime) !== 0) 
       ? Number(agent.iaoEndTime) * 1000 
       : null;
     const iaoHasEnded = iaoEndTime !== null && currentTime > iaoEndTime;
@@ -645,7 +645,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                           <TableCell colSpan={9} className="py-1.5">
                             <div className="grid grid-cols-3 gap-3 px-6 animate-in slide-in-from-top-1 duration-200">
                               {/* IAO结束时间 */}
-                              {agent.iaoEndTime && agent.iaoEndTime !== '0' && agent.iaoEndTime !== 0 && Number(agent.iaoEndTime) > 0 ? (
+                              {agent.iaoEndTime && agent.iaoEndTime !== '0' && Number(agent.iaoEndTime) !== 0 && Number(agent.iaoEndTime) > 0 ? (
                                 <div className="flex flex-col gap-0.5">
                                   <span className="text-[10px] text-muted-foreground">{t('iaoEndCountdown')}:</span>
                                   <div className="text-xs font-medium">
