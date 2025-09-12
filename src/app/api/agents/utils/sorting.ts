@@ -80,13 +80,25 @@ export async function sortAgentData(
     result = [...topThreeIaoItems, ...remainingItems];
   }
 
-  if (['usdPrice', 'volume24h', 'tvl', 'marketCap', 'lp', 'priceChange24h'].includes(sortBy)) {
+  if (['usdPrice', 'volume24h', 'tvl', 'lp', 'priceChange24h'].includes(sortBy)) {
     const sortField = `_${sortBy}`;
     
-    // 确保所有项目都有有效的排序字段值
-    // 对于marketCap字段，如果_marketCap为0但marketCap字符串存在，尝试从字符串中提取数值
-    if (sortBy === 'marketCap') {
-      result.forEach(item => {
+    result = result.sort((a, b) => {
+      if (sortOrder === 'desc') {
+        return (b[sortField] || 0) - (a[sortField] || 0);
+      } else {
+        return (a[sortField] || 0) - (b[sortField] || 0);
+      }
+    });
+    
+  } else if (sortBy === 'marketCap') {
+    // marketCap排序需要先获取IAO数据，然后排序
+    const itemsWithFunding = await Promise.all(
+      result.map(async (item) => {
+        const fundingAmount = await getIaoFundraisingAmount(item);
+        
+        // 确保所有项目都有有效的排序字段值
+        // 对于marketCap字段，如果_marketCap为0但marketCap字符串存在，尝试从字符串中提取数值
         if (item._marketCap === 0 && item.marketCap) {
           try {
             // 从字符串中提取数值，例如从"$1,000,000"提取1000000
@@ -99,24 +111,33 @@ export async function sortAgentData(
             console.error(`无法从 ${item.marketCap} 提取市值用于项目 ${item.name}:`, e);
           }
         }
-      });
-    }
-    
-    result = result.sort((a, b) => {
+        
+        return { ...item, _iaoFundingAmount: fundingAmount };
+      })
+    );
+
+    // 按marketCap排序
+    result = itemsWithFunding.sort((a, b) => {
       if (sortOrder === 'desc') {
-        return (b[sortField] || 0) - (a[sortField] || 0);
+        return (b._marketCap || 0) - (a._marketCap || 0);
       } else {
-        return (a[sortField] || 0) - (b[sortField] || 0);
+        return (a._marketCap || 0) - (b._marketCap || 0);
       }
     });
     
+    // 更新 iaoItemsWithFunding 以便后续处理
+    iaoItemsWithFunding = itemsWithFunding;
   }
-  // 处理 investedXAA 排序
-  else if (sortBy === 'investedXAA') {
+
+  
+
+  // 处理 investedXAA 排序，或者当没有排序但需要获取investedXAA数据时
+  else if (sortBy === 'investedXAA' || sortBy === 'createdAt') {
     // 首先需要为所有项目获取募资金额
     const itemsWithFunding = await Promise.all(
       result.map(async (item) => {
         const fundingAmount = await getIaoFundraisingAmount(item);
+        
         return { ...item, _iaoFundingAmount: fundingAmount };
       })
     );

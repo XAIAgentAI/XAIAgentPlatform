@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
@@ -151,6 +152,35 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
   useEffect(() => {
     fetchStakedInfo();
   }, [address, getStakeList]);
+
+  // 判断是否应该显示额外信息行（在"全部"筛选状态下，只有投入了XAA且IAO已结束时才显示）
+  const shouldShowExtraInfo = (agent: typeof agents[0]) => {
+    if (currentFilter !== '') return false; // 只在"全部"筛选状态下显示
+    
+    // 检查是否投入了XAA
+    const hasInvestedXAA = agent.investedXAA && agent.investedXAA > 0;
+    
+    // 检查IAO是否已结束（当前时间超过IAO结束时间）
+    const currentTime = Date.now();
+    // 更严格的判断，确保iaoEndTime不为null、undefined、0或空字符串
+    const iaoEndTime = (agent.iaoEndTime && agent.iaoEndTime !== '0' && agent.iaoEndTime !== 0) 
+      ? Number(agent.iaoEndTime) * 1000 
+      : null;
+    const iaoHasEnded = iaoEndTime !== null && currentTime > iaoEndTime;
+    
+    console.log("判断IAO相关", {
+      hasInvestedXAA,
+      iaoHasEnded,
+      currentTime,
+      iaoEndTime,
+      investedXAA: agent.investedXAA,
+      rawIaoEndTime: agent.iaoEndTime
+    });
+    
+    // 只有投入了XAA且IAO已结束时才显示
+    return hasInvestedXAA && iaoHasEnded;
+  };
+
 
   return (
     <div className="w-full max-w-[1400px] mx-auto rounded-[15px] p-6 bg-white dark:bg-card flex-1 flex flex-col">
@@ -422,18 +452,20 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                 {sortedAgents.length > 0 ? (
                   sortedAgents.map((agent) => {
                     const socialLinks = parseSocialLinks(agent.socialLinks);
+                    const hasExtraInfo = shouldShowExtraInfo(agent);
+                    
                     return (
-                      <TableRow
-                        key={`${agent.id}-${agent.symbol}`}
-                        className="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
-                        onClick={() => handleRowClick(agent.id)}
-                      >
+                      <React.Fragment key={`${agent.id}-${agent.symbol}`}>
+                        <TableRow
+                          className="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5"
+                          onClick={() => handleRowClick(agent.id)}
+                        >
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-4">
                             <Avatar className="w-[45px] h-[45px] rounded-[100px]">
                               <img src={agent.avatar} alt={t('accessibility.avatarImage')} className="object-cover" />
                             </Avatar>
-                            <div className="space-y-2">
+                            <div className="space-y-2 flex-1">
                               <div className="flex items-center gap-2">
                                 <h3 className="text-secondary-color text-sm font-normal font-['Sora'] leading-[10px]">{agent.name?.charAt(0).toUpperCase() + agent.name?.slice(1)}</h3>
                                 <span className="text-muted-color text-[10px] font-normal font-['Sora'] leading-[10px]">
@@ -464,6 +496,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                                 </div>
                               </div>
                             </div>
+                            
                           </div>
                         </TableCell>
                         <TableCell>
@@ -605,6 +638,46 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                           </TableCell>
                         )}
                       </TableRow>
+                      
+                      {/* 额外信息行 - 简化设计 */}
+                      {!!hasExtraInfo && (
+                        <TableRow className="bg-gray-50/50 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/20">
+                          <TableCell colSpan={9} className="py-1.5">
+                            <div className="grid grid-cols-3 gap-3 px-6 animate-in slide-in-from-top-1 duration-200">
+                              {/* IAO结束时间 */}
+                              {agent.iaoEndTime && agent.iaoEndTime !== '0' && agent.iaoEndTime !== 0 && Number(agent.iaoEndTime) > 0 ? (
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="text-[10px] text-muted-foreground">{t('iaoEndCountdown')}:</span>
+                                  <div className="text-xs font-medium">
+                                    {new Date(Number(agent.iaoEndTime) * 1000).toLocaleString()}
+                                  </div>
+                                </div>
+                              ) : <div></div>}
+                              
+                              {/* IAO开始时间 */}
+                              {agent.iaoStartTime && agent.iaoStartTime !== '0' && Number(agent.iaoStartTime) !== 0 && Number(agent.iaoStartTime) > 0 ? (
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="text-[10px] text-muted-foreground">{t('iaoStartCountdown')}:</span>
+                                  <div className="text-xs font-medium">
+                                    {new Date(Number(agent.iaoStartTime) * 1000).toLocaleString()}
+                                  </div>
+                                </div>
+                              ) : <div></div>}
+                              
+                              {/* 已投入XAA */}
+                              {agent.investedXAA && agent.investedXAA > 0 ? (
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="text-[10px] text-muted-foreground">{t('investedXAA')}:</span>
+                                  <div className="text-xs font-medium">
+                                    {agent.investedXAA.toLocaleString()} XAA
+                                  </div>
+                                </div>
+                              ) : <div></div>}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                      </React.Fragment>
                     );
                   })
                 ) : (
