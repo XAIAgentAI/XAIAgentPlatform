@@ -640,7 +640,7 @@ const AgentListDesktop = ({ agents, loading, onStatusFilterChange, currentStatus
                       </TableRow>
                       
                       {/* 额外信息行 - 简化设计 */}
-                      {!!hasExtraInfo && (
+                      {!!hasExtraInfo && Number(agent.iaoEndTime) > Date.now()  && (
                         <TableRow className="bg-gray-50/50 dark:bg-gray-800/20 hover:bg-gray-50/50 dark:hover:bg-gray-800/20">
                           <TableCell colSpan={9} className="py-1.5">
                             <div className="grid grid-cols-3 gap-3 px-6 animate-in slide-in-from-top-1 duration-200">
