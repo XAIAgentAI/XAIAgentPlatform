@@ -341,7 +341,7 @@ export const IaoEndedView = ({
         </div>
         
         {/* IAO持续时长 */}
-        {poolInfo?.startTime && poolInfo?.endTime && (
+        {poolInfo?.startTime && poolInfo?.endTime && Date.now()  < poolInfo?.endTime && (
           <div className="text-sm sm:text-base flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
             <span className="text-black dark:text-white font-medium">{tIaoPool('iaoDuration')}:</span>
             <div className="flex items-center gap-2 flex-wrap">
