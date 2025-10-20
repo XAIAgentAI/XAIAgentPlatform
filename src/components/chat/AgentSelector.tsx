@@ -31,7 +31,7 @@ const AgentSelector: React.FC<AgentSelectorProps> = ({ handleAgentSelect, agent 
         <div className="fixed left-4 md:left-8 lg:left-[calc(24vw+4px)] xl:left-[calc(27vw+9px)] top-[117px] w-[300px] h-auto flex flex-col items-center justify-center bg-white dark:bg-[linear-gradient(145deg,_#1a1a1a_0%,_#0d0d0d_100%)] shadow-lg dark:shadow-xl dark:shadow-black/50" ref={modalRef} style={{zIndex:"100010"}}>
             <h3 className="text-foreground dark:text-[#f0f0f0] p-[10px] text-left font-medium">{t("selectagent")}</h3>
             <div className="flex flex-col items-center justify-center space-y-2 w-full pb-1">
-                {['StyleID'].map((eachagent, index) => (
+                {['StyleID', 'LogoLift'].map((eachagent, index) => (
                     <button
                         key={eachagent}
                         type="button"

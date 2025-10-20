@@ -244,17 +244,24 @@ const InputComponent: React.FC<InputComponentProps> = ({
       setIsLoading(true);
       console.log('[Loading] Set loading state to true');
     
+      // 用来判断各个agent是否进入业务处理流程
+      const checkAgent = (agent: string) => {
+        if(agent === 'StyleID') return !!selectedImage
+        else if(agent === 'LogoLift') return true
+        else return false
+      }
       try {
-        // STID模式处理
-        if (agent === "StyleID" && selectedImage) {
+        if(checkAgent(agent)) {
+          //loading
           setIsLoadingImage(true);
-          console.log('[STID] STID mode detected with selected image');
+          if(selectedImage) console.log(`[${agent}] ${agent} mode detected with selected image`);
           const originalInput = input;
+
           // 0. 清理状态
           setSelectedImage(null);
           if (fileInputRef.current) fileInputRef.current.value = '';
           setInput('');
-          
+
           // 1. 先添加用户文本消息到对话
           const userTextMessage: Message = {
             id: `${Date.now()}-${userName}`,
@@ -265,65 +272,87 @@ const InputComponent: React.FC<InputComponentProps> = ({
             agent: agent
           };
           setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), userTextMessage] }));
-          
+
           // 2. 上传原始图片到后端获取URL
-          const originalImageUrl = await uploadImageToBackend(selectedImage);
-          console.log('[STID] Original image URL:', originalImageUrl);
+          // 这个地方不需要上传图片的agent 不需要这一步
+          if(agent === 'StyleID') {
+            const originalImageUrl = await uploadImageToBackend(selectedImage as File);
+            console.log(`[${agent}] Original image URL:`, originalImageUrl);
+          } 
           
-          // 3. 调用STID API生成新图片
-          const stidFormData = new FormData();
-          stidFormData.append('face_image', selectedImage);
-          stidFormData.append('prompt', input);
           
-          console.log('[STID] Calling STID API...');
-          const stidResponse = await fetch('/api/stid', {
-            method: 'POST',
-            body: stidFormData,
-          });
-          
-          if (!stidResponse.ok) {
-            //图片无脸处理
-              const errorResponse = await fetch('/api/chat/messages', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  prompt: originalInput,
-                  message: t("noface"),
-                  user: userName,
-                  thing: "image", 
-                  isNew: isNew,
-                  convid: convid,
-                  model: "DeepSeek V3",
-                  agent: agent
-                }),
-              });
-              const errorData = await errorResponse.json();
-              const aiMessage: Message = {
-                id: `${errorData.convid}-${Date.now()}`,
-                role: 'assistant',
-                content: errorData.assistant || "",
-                time: errorData.time || new Date().toISOString(),
-                convid: errorData.convid,
-                agent: errorData.agent
-              };
-              setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
-              console.log('[Loading] Set loading state to false');
-              setIsLoading(false);
-              setIsLoadingImage(false);
-              setIsNew("no");
-              return;
+          // 构造参数，不同agent参数不一样
+          let params:any;
+          if(agent === 'StyleID') {
+            params = new FormData();
+            params.append('face_image', selectedImage as File);
+            params.append('prompt', input);
+          } else if(agent === 'LogoLift') {
+            params = {
+              prompt: input
+            }
+          }
+         
+          // 3. 调用各自agent API
+          console.log(`[${agent}] Calling ${agent} API...`);
+          let apiRes:any
+          if(agent === 'StyleID') {
+            apiRes = await fetch('/api/stid', {
+              method: 'POST',
+              body: params,
+            });
+            // 后续处理
+            if (!apiRes.ok) {
+              //图片无脸处理
+                const errorResponse = await fetch('/api/chat/messages', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    prompt: originalInput,
+                    message: t("noface"),
+                    user: userName,
+                    thing: "image", 
+                    isNew: isNew,
+                    convid: convid,
+                    model: "DeepSeek V3",
+                    agent: agent
+                  }),
+                });
+                const errorData = await errorResponse.json();
+                const aiMessage: Message = {
+                  id: `${errorData.convid}-${Date.now()}`,
+                  role: 'assistant',
+                  content: errorData.assistant || "",
+                  time: errorData.time || new Date().toISOString(),
+                  convid: errorData.convid,
+                  agent: errorData.agent
+                };
+                setConversations((prev:{ [id: string]: Message[] }) => ({ ...prev, ["1"]: [...(prev["1"] || []), aiMessage] }));
+                console.log('[Loading] Set loading state to false');
+                setIsLoading(false);
+                setIsLoadingImage(false);
+                setIsNew("no");
+                return;
+            }
+          } else if(agent === 'LogoLift') {
+            apiRes = await fetch('/api/logolift', {
+              method: 'POST',
+              body: JSON.stringify({
+                prompt: input,
+              }),
+            });
           }
           
           // 4. 将生成的图片Blob转换为File对象
-          const generatedImageBlob = await stidResponse.blob();
+          const generatedImageBlob = await apiRes.blob();
           const generatedImageFile = new File([generatedImageBlob], 'generated-image.jpg', {
             type: 'image/jpeg',
           });
-          
+
           // 5. 上传生成的图片到后端获取URL
           const generatedImageUrl = await uploadImageToBackend(generatedImageFile);
-          console.log('[STID] Generated image URL:', generatedImageUrl);
-          
+          console.log(`[${agent}] Generated image URL:`, generatedImageUrl);
+
           // 6. 发送图片消息到聊天API
           const imageResponse = await fetch('/api/chat/messages', {
             method: 'POST',
@@ -339,9 +368,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
               agent: agent
             }),
           });
-          
+
           const imageData = await imageResponse.json();
-          console.log('[STID] Image message response:', imageData);
+          console.log(`[${agent}] Image message response:`, imageData);
           
           // 7. 添加AI消息到对话
           const aiMessage: Message = {

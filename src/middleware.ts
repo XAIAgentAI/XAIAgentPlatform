@@ -53,6 +53,7 @@ function needsAuth(path: string, method: string): boolean {
     '/api/agents',
     '/api/image',
     '/api/stid',
+    '/api/logolift',
     '/api/socket',
     '/api/tokens',
     '/api/cors',
