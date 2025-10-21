@@ -88,13 +88,26 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
   // 处理聊天按钮点击
   const handleChatClick = () => {
     if (localAgent.symbol === "STID") {
-      window.open(`/${locale}/chat`, '_blank');
+      window.open(`/${locale}/chat/StyleID`, '_blank');
     } else if (localAgent.symbol === "SIC") {
       window.open('https://app.superimage.ai', '_blank');
     } else if (localAgent.symbol === "DLC") {
       window.open('https://www.deeplink.cloud/software', '_blank');
+    } else if (localAgent.symbol === "LOGO") {
+      window.open(`/${locale}/chat/LogoLift`, '_blank');
     }
   };
+
+  // 处理suggestion点击
+  const handleSuggestionClick = (suggestion: string) => {
+      let agentPath
+      if (localAgent.symbol === "STID") {
+        agentPath = 'StyleID'
+      } else if (localAgent.symbol === "LOGO") {
+        agentPath = 'LogoLift'
+      }
+      window.open(`/${locale}/chat/${agentPath}?prompt=${suggestion}`, '_blank')
+  }
 
   // 如果没有对话示例且不是创建者，则显示简化版的聊天按钮
   if (!suggestions.length && !isAgentCreator) {
@@ -143,7 +156,7 @@ export default function ConversationStarter({ agent, onRefreshAgent }: Conversat
                 <div
                   key={index}
                   className="p-4 bg-card-inner rounded-lg text-sm text-secondary hover:bg-card-inner-hover cursor-pointer transition-colors"
-                  onClick={() => { window.open(`/${locale}/chat?prompt=${suggestion}`, '_blank') }}
+                  onClick={() => handleSuggestionClick(suggestion)}
                 >
                   {suggestion}
                 </div>

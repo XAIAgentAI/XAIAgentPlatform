@@ -75,8 +75,10 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   async function shareToInstagram(message: {content: string}) {
     try {
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const shareText = encodeURIComponent(t("share"));
-      
+      let shareText = encodeURIComponent(t("share"));
+      if (agent === 'LogoLift') {
+        shareText = encodeURIComponent(t("logo.share"));
+      }
       if (isMobile) {
         // 尝试使用Instagram应用分享
         const appUrl = `instagram://sharing?text=${shareText}`;
@@ -118,12 +120,35 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
   }
   
   const shareToTwitter = (imageUrl: string) => {
-    const shareText = `${t("share")}`;
+    let shareText = `${t("share")}`;
+    if (agent === 'LogoLift') {
+      shareText = `${t("logo.share")}`
+    }
     const encodedText = encodeURIComponent(shareText);
     const encodedImageUrl = encodeURIComponent(imageUrl);
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
     window.open(tweetUrl, '_blank');
   }; 
+
+  const shareToFaceBook = () => {
+    let shareText = encodeURIComponent(`${t("share")}`)
+    if(agent === 'LogoLift') {
+      shareText = encodeURIComponent(`${t("logo.share")}`)
+    }
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareText}`, '_blank', 'width=600,height=400')
+  }
+
+  const shareToWhatsApp = () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    let shareText = encodeURIComponent(`${t("share")}`)
+    if(agent === 'LogoLift') {
+      shareText = encodeURIComponent(`${t("logo.share")}`)
+    }
+    const shareUrl = isMobile 
+      ? `whatsapp://send?text=${shareText}`
+      : `https://web.whatsapp.com/send?text=${shareText}`;
+    window.open(shareUrl, '_blank');
+  }
 
   const isValidDate = (dateString: string): boolean => {
     const datePattern = /^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/;
@@ -385,7 +410,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
                     
                     {/* Facebook Share - Unified style */}
                     <button
-                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${t("share")}`)}`, '_blank', 'width=600,height=400')}
+                      onClick={shareToFaceBook}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on Facebook"
                     >
@@ -396,13 +421,7 @@ const MessagesComponent: FC<MessagesComponentProps> = ({ selectedStyle, agent, s
 
                     {/* WhatsApp Share - Unified style */}
                     <button
-                      onClick={() => {
-                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                        const shareUrl = isMobile 
-                          ? `whatsapp://send?text=${encodeURIComponent(`${t("share")}`)}`
-                          : `https://web.whatsapp.com/send?text=${encodeURIComponent(`${t("share")}`)}`;
-                        window.open(shareUrl, '_blank');
-                      }}
+                      onClick={shareToWhatsApp}
                       className="p-1 rounded-full bg-gray-200 dark:bg-[rgba(22,22,22,0.8)] hover:bg-gray-300 dark:hover:bg-neutral-700 transition-colors mt-[2px]"
                       title="Share on WhatsApp"
                     >

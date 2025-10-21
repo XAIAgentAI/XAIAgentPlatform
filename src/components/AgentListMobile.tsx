@@ -471,13 +471,15 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                             onClick={(e) => {
                               e.stopPropagation();
                               if (agent.symbol === "STID") {
-                                window.open(`/${locale}/chat`, '_blank');
+                                window.open(`/${locale}/chat/StyleID`, '_blank');
                               } else if (agent.symbol === "SIC") {
                                 window.open('https://app.superimage.ai', '_blank');
                               } else if (agent.symbol === "DLC") {
                                 window.open('https://www.deeplink.cloud/software', '_blank');
                               } else if (agent.symbol === "DGC") {
                                 window.open('https://degpt.ai ', '_blank');
+                              } else if (agent.symbol === 'LOGO') {
+                                window.open(`/${locale}/chat/LogoLift`, '_blank');
                               }
                             }}
                             className="text-secondary-color hover:text-primary-color transition-colors duration-200"

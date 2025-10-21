@@ -145,7 +145,9 @@ export async function middleware(request: NextRequest) {
   
   // styleid重定向
   if (path === '/styleid') {
-    return NextResponse.rewrite(new URL('/en/chat', request.url));
+    return NextResponse.rewrite(new URL('/en/chat/StyleID', request.url));
+  } else if(path === '/logolift') {
+    return NextResponse.rewrite(new URL('/en/chat/LogoLift', request.url));
   }
 
   // 如果是 API 路由，处理 CORS 和认证
@@ -253,6 +255,7 @@ export const config = {
     '/(en|ja|ko|zh)/:path*',
     // API 路由
     '/api/:path*',
-    '/styleid'
+    '/styleid',
+    '/logolift'
   ],
 }; 

@@ -50,6 +50,7 @@ interface AgentDescription {
 }
 
 export default function ChatPage() {
+  const params = useParams()
   const searchParams = useSearchParams();
   const prompt = searchParams?.get('prompt') || '';
   const [conversations, setConversations] = useState<{ [id: string]: Message[] }>({});
@@ -60,7 +61,7 @@ export default function ChatPage() {
   const [convid, setConvid] = useState<string>("");
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [isNew, setIsNew] = useState<string>("yes");
-  const [agent, setAgent] = useState<string>("StyleID");
+  const [agent, setAgent] = useState<string>(params.agent as string);
   const [count,setCount] = useState<string>("-");
   const [userNumber,setUserNumber] = useState<string>("-");
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);

@@ -759,6 +759,9 @@
     },
     "wechatcopied": "共有情報がコピーされました",
     "share": "AIが「私」を描いたんだけど、似てると思う？\n自分がどう見えるか試したい？ここでチェック：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
+    "logo": {
+      "share" : "AIが「私」のロゴを作成しました。こちらをクリックして試してみてください：\nhttps://app.xaiagent.io/logolift"
+    },
     "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
     "base": "カスタムスタイル",
     "sharetail": "！StyleIDを試してあなたのスタイルをチェック 👇\n今すぐ試す 👉 https://app.xaiagent.io/styleid \nコミュニティに参加 👉 https://t.me/XAIAgentAI \n私のAI生成画像👇\n",
