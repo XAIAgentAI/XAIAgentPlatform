@@ -760,7 +760,28 @@
     "wechatcopied": "공유 정보가 복사됨",
     "share": "AI가 \"나\"를 그렸는데, 나랑 비슷해 보여?\n내 모습이 어떻게 될지 궁금하다면 여기서 확인해 봐:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "logo": {
-      "share" : "AI가 '나'를 위한 로고를 생성했습니다. 여기를 클릭해서 직접 체험해 보세요:\nhttps://app.xaiagent.io/logolift"
+      "share" : "AI가 '나'를 위한 로고를 생성했습니다. 여기를 클릭해서 직접 체험해 보세요:\nhttps://app.xaiagent.io/logolift",
+      "inputHolder": "로고 설명을 입력해 주세요",
+      "minimalist": {
+        "name": "미니멀리즘",
+        "prompt": "최소한의 라인으로 비범함을 그려내다"
+      },
+      "geometry": {
+        "name": "기하학",
+        "prompt": "기하학의 지혜, 기술의 초석"
+      },
+      "nature": {
+        "name": "자연",
+        "prompt": "자연의 붓 터치, 영원한 생명력"
+      },
+      "retro": {
+        "name": "레트로",
+        "prompt": "레트로 엠블럼, 불멸의 고전을 새기다"
+      },
+      "cyber": {
+        "name": "사이버",
+        "prompt": "사이버 빛과 그림자, 미래를 통찰하다"
+      }
     },
     "shareHeader": "AI가 본 나의 모습 — 내가 선택한",
     "base": "커스텀 스타일",

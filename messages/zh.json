@@ -759,7 +759,28 @@
     "wechatcopied": "分享信息已复制",
     "share": "AI画了一张\"我\"，你觉得像吗？\n想看自己会变成啥样的，点这试试：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "logo": {
-      "share" : "AI帮\"我\"生成了一个logo，点这试试：\nhttps://app.xaiagent.io/logolift"
+      "share" : "AI帮\"我\"生成了一个logo，点这试试：\nhttps://app.xaiagent.io/logolift",
+      "inputHolder": "请输入logo描述",
+      "minimalist": {
+        "name": "极简",
+        "prompt": "极简线条，勾勒非凡"
+      },
+      "geometry": {
+        "name": "几何",
+        "prompt": "几何智慧，科技基石"
+      },
+      "nature": {
+        "name": "自然",
+        "prompt": "自然笔触，生生不息"
+      },
+      "retro": {
+        "name": "复古",
+        "prompt": "复古徽章，铭刻经典"
+      },
+      "cyber": {
+        "name": "赛博",
+        "prompt": "赛博光影，洞见未来"
+      }
     },
     "shareHeader": "这是AI眼中的我 —— 我选择了",
     "base": "自定义风格",

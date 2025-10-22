@@ -55,6 +55,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   handleSubmit,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
+  const [presets, setPresets] = useState<{name: string; prompt: string}[]>([])
+  const [placeholderText, setPlaceholderText] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isStyleOpen, setIsStyleOpen] = useState(true);
@@ -62,6 +64,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const locale = useLocale();
   const t = useTranslations("chat");
+
+  const presetBtnTextMap = {
+    "StyleID": "Styles",
+    "LogoLift": "Logos"
+  }
 
   // Stable Diffusion style presets
   const stylePresets = [
@@ -126,6 +133,43 @@ const InputComponent: React.FC<InputComponentProps> = ({
         prompt: t("Ukiyoe.prompt") 
     }
   ];
+  const logoPresets = [
+    { 
+        name: t("logo.minimalist.name"), 
+        prompt: t("logo.minimalist.prompt") 
+    },
+    { 
+        name: t("logo.geometry.name"), 
+        prompt: t("logo.geometry.prompt") 
+    },
+    { 
+        name: t("logo.nature.name"), 
+        prompt: t("logo.nature.prompt") 
+    },
+    { 
+        name: t("logo.retro.name"), 
+        prompt: t("logo.retro.prompt") 
+    },
+    { 
+        name: t("logo.cyber.name"), 
+        prompt: t("logo.cyber.prompt") 
+    },
+  ]
+  // 切换agent清空输入框
+  useEffect(() => {
+    setInput('');
+  }, [agent])
+
+  // 初始化presets
+  useEffect(() => {
+    if(agent === 'StyleID') {
+      setPresets(stylePresets)
+      setPlaceholderText(t("inputHolder"))
+    } else if(agent === 'LogoLift') {
+      setPresets(logoPresets)
+      setPlaceholderText(t("logo.inputHolder"))
+    }
+  }, [agent])
 
   // 初始化 prompt
   useEffect(() => {
@@ -397,6 +441,12 @@ const InputComponent: React.FC<InputComponentProps> = ({
       }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // 阻止默认的换行行为
+      handleSendClick(e);
+    } 
+  };
   return (
     <div className="fixed bottom-0 md:bottom-[23px] w-[97vw] lg:w-[78vw] mx-auto md:right-[0.38vw] lg:right-[0.48vw] bg-background bg-opacity-0" style={{zIndex: 10}}>
       <div className="max-w-3xl px-4 py-[12px] w-full lg:w-[80%] mx-auto rounded-2xl">
@@ -427,7 +477,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
             
             <div className="flex flex-col w-full">
             {/* Style selector - only shown for StyleID agent */}
-            {agent === "StyleID" && (
+            {(agent === "StyleID" || agent === "LogoLift") && (
               <div className="relative w-[94%] mx-auto mt-2">
                 <div 
                   className={`flex items-center justify-center space-x-2 ${
@@ -461,9 +511,9 @@ const InputComponent: React.FC<InputComponentProps> = ({
                       />
                     </svg>
                     <span className={`${isStyleOpen ? 'opacity-100' : 'opacity-100'} whitespace-nowrap overflow-hidden transition-all duration-200 text-neutral-600 dark:text-neutral-300`}>
-                      Styles
+                      {presetBtnTextMap[agent]}
                     </span>
-                    <p className="text-neutral-600 dark:text-neutral-300">15</p>
+                    <p className="text-neutral-600 dark:text-neutral-300">{presets.length}</p>
                   </button>
                   
                   {isStyleOpen && (
@@ -485,7 +535,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
                         </svg>
                     </button>
                     <div className="flex space-x-2 overflow-x-auto hide-scrollbar" ref={scrollRef}>
-                      {stylePresets.map((style, index) => (
+                      {presets.map((style, index) => (
                         <button
                           key={index}
                           type="button"
@@ -521,10 +571,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
                 ref={textareaRef}
                 value={input || ''}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={t("inputHolder")}
+                placeholder={placeholderText}
                 className={`placeholder:relative placeholder:top-[2px] w-full bg-[#EDEDED] rounded-2xl dark:bg-[rgb(21,21,21)] placeholder:text-[#222222] placeholder:opacity-25 px-[18px] ${agent === "StyleID" ? "pt-[3px] pb-[3px]" : "py-[10px]"} dark:placeholder:text-white placeholder:text-sm focus:outline-none border-none text-zinc-800 dark:text-white focus:caret-zinc-800 dark:focus:caret-white pr-10 resize-none overflow-hidden min-h-[32px] max-h-[120px] pl-10 hide-scrollbar`}
                 disabled={isLoading}
                 rows={1}
+                onKeyDown={handleKeyDown}
               />
 
               {/* 图片预览 */}

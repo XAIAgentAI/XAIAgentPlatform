@@ -14,6 +14,7 @@ import { fetchDBCTokens } from "@/services/dbcScan"
 import { LocalAgent } from "@/types/agent"
 import { agentAPI } from "@/services/api"
 import { transformToLocalAgent, updateAgentsWithPrices, updateAgentsWithTokens } from "@/services/agentService"
+import { useRouter } from 'next/navigation';
 
 interface Message {
   id: string;
@@ -50,6 +51,7 @@ interface AgentDescription {
 }
 
 export default function ChatPage() {
+  const router = useRouter()
   const params = useParams()
   const searchParams = useSearchParams();
   const prompt = searchParams?.get('prompt') || '';
@@ -214,6 +216,8 @@ export default function ChatPage() {
       return newConversations;
     });
     setTimeout(()=>{setIsAgentListOpen(false)},200);
+    // 跳转路由
+    router.replace(`/${locale}/chat/${agent}`)
   };
 
   const handleAuth = async () => {

@@ -760,7 +760,28 @@
     "wechatcopied": "共有情報がコピーされました",
     "share": "AIが「私」を描いたんだけど、似てると思う？\n自分がどう見えるか試したい？ここでチェック：\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "logo": {
-      "share" : "AIが「私」のロゴを作成しました。こちらをクリックして試してみてください：\nhttps://app.xaiagent.io/logolift"
+      "share" : "AIが「私」のロゴを作成しました。こちらをクリックして試してみてください：\nhttps://app.xaiagent.io/logolift",
+      "inputHolder": "ロゴの説明を入力してください",
+      "minimalist": {
+        "name": "ミニマリズム",
+        "prompt": "極簡なラインで、非凡を創り出す"
+      },
+      "geometry": {
+        "name": "幾何学",
+        "prompt": "幾何学の叡智、技術の基盤"
+      },
+      "nature": {
+        "name": "自然",
+        "prompt": "自然の筆致、生命の息吹"
+      },
+      "retro": {
+        "name": "レトロ",
+        "prompt": "レトロなエンブレム、不朽のクラシックを刻む"
+      },
+      "cyber": {
+        "name": "サイバー",
+        "prompt": "サイバー光景、未来を予見する"
+      }
     },
     "shareHeader": "AIが捉えた私の姿 —— 私が選んだのは",
     "base": "カスタムスタイル",

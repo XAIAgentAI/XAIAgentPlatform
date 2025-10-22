@@ -760,7 +760,28 @@
     "wechatcopied": "The sharing information has been copied",
     "share": "AI drew a \"me\"—do you think it looks like me?\nWant to see what you'd look like? Try it here:\nhttps://app.xaiagent.io/styleid\n\n#StyleIDChallenge #AIArt #XAIAGENT",
     "logo": {
-      "share" : "AI generated a logo for me. Click here to try it out:\nhttps://app.xaiagent.io/logolift"
+      "share" : "AI generated a logo for me. Click here to try it out:\nhttps://app.xaiagent.io/logolift",
+      "inputHolder": "please enter a logo description",
+      "minimalist": {
+        "name": "Minimalism",
+        "prompt": "Minimalist Lines, Crafting Excellence"
+      },
+      "geometry": {
+        "name": "Geometry",
+        "prompt": "Geometric Intelligence, Foundation of Innovation"
+      },
+      "nature": {
+        "name": "Nature",
+        "prompt": "Nature's Touch, Eternal Vitality"
+      },
+      "retro": {
+        "name": "Retro",
+        "prompt": "Retro Emblem, Etching Timeless Classics"
+      },
+      "cyber": {
+        "name": "Cyber",
+        "prompt": "Cyber Luminescence, Foreseeing Tomorrows"
+      }
     },
     "shareHeader": "This is how AI sees me — I picked the ",
     "base": "Custom Style",
