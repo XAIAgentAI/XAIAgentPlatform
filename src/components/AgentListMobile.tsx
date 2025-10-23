@@ -464,7 +464,7 @@ const AgentListMobile = ({ agents, loading, onStatusFilterChange, currentStatusF
                         </div>
                       </div>
                     )}
-                    {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC") && (
+                    {(agent.symbol === "STID" || agent.symbol === "SIC" || agent.symbol==="DLC" || agent.symbol==="DGC" || agent.symbol === "LOGO") && (
                       <div className="flex flex-col items-start">
                           <span className="text-muted-color text-xs block h-[15px]"></span>
                           <button 
