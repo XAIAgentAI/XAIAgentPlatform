@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const defaultParams = {
   steps: 20,
-  guidance_scale: 10,
+  guidance_scale: 20,
   width: 512,
   height: 512,
   seed: -1,
