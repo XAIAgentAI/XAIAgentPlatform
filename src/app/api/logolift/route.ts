@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const defaultParams = {
   steps: 20,
+  negative_prompt: "small text, small print, small footnote, small caption",
   guidance_scale: 30,
   width: 512,
   height: 512,
