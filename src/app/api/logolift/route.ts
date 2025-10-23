@@ -10,6 +10,7 @@ const defaultParams = {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    body.prompt = `生成一个logo，${ body.prompt}`
     const params = {...defaultParams, ...body}
     // 调用生图接口
     const apiResponse = await fetch("http://122.99.183.50:30000/generate/", {
