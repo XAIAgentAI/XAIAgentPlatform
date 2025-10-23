@@ -203,7 +203,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
   }, [input]);
 
   const handleStyleSelect = (stylePrompt: string, styleName: string) => {
-    setInput(stylePrompt);
+    if(agent === 'LogoLift') {
+      setInput(`${stylePrompt},${input}`);
+    } else {
+      setInput(stylePrompt);
+    }
     setSelectedStyle(styleName);
     setIsStyleOpen(false);
   };
