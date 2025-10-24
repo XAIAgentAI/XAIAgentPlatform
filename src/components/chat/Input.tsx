@@ -456,7 +456,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
       <div className="max-w-3xl px-4 py-[12px] w-full lg:w-[80%] mx-auto rounded-2xl">
         {agent === "LogoLift" && (
           <div className="text-center text-neutral-600 dark:text-neutral-300 text-sm mb-3">
-            提示：如需在Logo中显示文本（仅限英文），请用引号标注""出来。
+            {t('logo.tip')}
           </div>
         ) }
         

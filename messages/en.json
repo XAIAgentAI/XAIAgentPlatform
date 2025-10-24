@@ -781,7 +781,8 @@
       "cyber": {
         "name": "Cyber",
         "prompt": "Cyber Luminescence, Foreseeing Tomorrows"
-      }
+      },
+      "tip": "Tip: If you need to display text in the logo (English only), please enclose it in quotation marks \"\"."
     },
     "shareHeader": "This is how AI sees me — I picked the ",
     "base": "Custom Style",
