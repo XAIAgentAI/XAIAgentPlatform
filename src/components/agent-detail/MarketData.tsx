@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { LocalAgent } from "@/types/agent";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from "react";
 import { getBatchTokenPrices } from "@/services/swapService";
 
@@ -43,6 +43,7 @@ export function MarketData({
   console.log("agent1", agent);
   
   const t = useTranslations('marketData');
+  const locale = useLocale();
   const [tokenPrice, setTokenPrice] = useState<TokenPriceInfo | null>(null);
 
   const formatNumber = (num: number | null, defaultValue: string) => {
@@ -56,28 +57,16 @@ export function MarketData({
   };
 
   const formatTotalSupply = (supply: string | undefined) => {
-    // Convert string to number, considering decimals is 18
-    const value = Number(supply)
+    if (!supply) return '0';
 
-    // 智能决定小数位数：整数不显示小数点，有小数时显示
-    const formatNumber = (num: number) => {
-      return num % 1 === 0 ? num.toString() : num.toFixed(2);
-    };
+    const value = Number(supply);
 
-    // 中文习惯：亿(1e8)、万(1e4)、千(1e3)
-    if (value >= 1e8) {
-      const formatted = formatNumber(value / 1e8);
-      return `${formatted}${t('units.billionShort')}`;
-    }
-    if (value >= 1e4) {
-      const formatted = formatNumber(value / 1e4);
-      return `${formatted}${t('units.millionShort')}`;
-    }
-    if (value >= 1e3) {
-      const formatted = formatNumber(value / 1e3);
-      return `${formatted}${t('units.thousandShort')}`;
-    }
-    return formatNumber(value);
+    // 使用 Intl.NumberFormat 自动处理多语言数字格式化
+    return new Intl.NumberFormat(locale, {
+      notation: 'compact',
+      compactDisplay: 'short',
+      maximumFractionDigits: 2
+    }).format(value);
   };
 
   const getTokenPrice = async () => {
