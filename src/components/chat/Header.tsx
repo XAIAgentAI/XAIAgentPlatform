@@ -169,61 +169,66 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           </div>
           <div className="flex flex-row justify-center">
           <p className="text-lg font-semibold text-end relative left-[30px] lg:left-0">{agent}</p>
-          <div className="relative inline-block lg:hidden">
-            {/* Button */}
-            <button
-              onClick={() => setIsTooltipVisible(!isTooltipVisible)}
-              className="px-3 ml-4 relative left-[23px] py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-md shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 active:bg-green-700"
-            >
-              {tl("tips")}
-            </button>
-
-            {/* Tooltip */}
-            {isTooltipVisible && (
-              <>
-                {/* Overlay to close tooltip when clicking outside */}
-                <div 
-                  className="fixed inset-0 z-40" 
-                  onClick={() => setIsTooltipVisible(false)}
-                />
-                
-                {/* Tooltip content */}
-                <div className="absolute z-50 mt-2 w-64 p-4 bg-white dark:bg-[rgb(22,22,22)] rounded-lg shadow-xl border border-gray-200 dark:border-neutral-700 transform -translate-x-1/2 left-1/2">
-                  {/* Close button */}
+          {
+            agent === "StyleID" && (
+              <div className="relative inline-block lg:hidden">
+                  {/* Button */}
                   <button
-                    onClick={() => setIsTooltipVisible(false)}
-                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                    aria-label="Close"
+                    onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+                    className="px-3 ml-4 relative left-[23px] py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-md shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 active:bg-green-700"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    {tl("tips")}
                   </button>
 
-                  {/* Content */}
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex flex-col items-center">
-                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
-                        {tl("bottom.rule1")}
-                      </p>
-                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
-                        {tl("bottom.rule2")}
-                      </p>
-                      <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
-                        {tl("bottom.rule3")}
-                      </p>
-                    </div>
+                  {/* Tooltip */}
+                  {isTooltipVisible && (
+                    <>
+                      {/* Overlay to close tooltip when clicking outside */}
+                      <div 
+                        className="fixed inset-0 z-40" 
+                        onClick={() => setIsTooltipVisible(false)}
+                      />
+                      
+                      {/* Tooltip content */}
+                      <div className="absolute z-50 mt-2 w-64 p-4 bg-white dark:bg-[rgb(22,22,22)] rounded-lg shadow-xl border border-gray-200 dark:border-neutral-700 transform -translate-x-1/2 left-1/2">
+                        {/* Close button */}
+                        <button
+                          onClick={() => setIsTooltipVisible(false)}
+                          className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                          aria-label="Close"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
 
-                    <div className="border-t border-gray-200 dark:border-[rgba(22,22,22,0.3)] my-2"></div>
+                        {/* Content */}
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex flex-col items-center">
+                            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                              {tl("bottom.rule1", {agent:symbol })}
+                            </p>
+                            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                              {tl("bottom.rule2", {agent:symbol })}
+                            </p>
+                            <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center opacity-75">
+                              {tl("bottom.rule3")}
+                            </p>
+                          </div>
 
-                    <div className="text-center text-xs text-neutral-600 dark:text-neutral-400">
-                      {tl("bottom.auser")} {userNumber} | {tl("bottom.apic")} {count}
-                    </div>
-                  </div>
+                          <div className="border-t border-gray-200 dark:border-[rgba(22,22,22,0.3)] my-2"></div>
+
+                          <div className="text-center text-xs text-neutral-600 dark:text-neutral-400">
+                            {tl("bottom.auser")} {userNumber} | {tl("bottom.apic")} {count}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
-          </div>
+            )
+          }
+          
           </div>
           <div className="text-md text-center flex flex-row items-center justify-center gap-1">
             <p>{symbol}</p>
@@ -241,10 +246,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
           <div className="flex flex-row justify-center lg:hidden text-sm"><p>{t("tvl")}: {agentInfo?.marketCap? `$${Number(agentInfo?.marketCap.substring(1))/(Number(agentInfo?.marketCapTokenNumber)||100000000000)}` : "$0"}</p></div>
           <div className="lg:flex w-full flex-row justify-center hidden"> 
             <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
-              {tl("bottom.rule1")} |
+              {tl("bottom.rule1", {agent: symbol})} |
             </p>
             <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
-              {tl("bottom.rule2")} |
+              {tl("bottom.rule2", {agent: symbol})} |
             </p>
             <p className="text-sm text-neutral-700 dark:text-neutral-300 text-center ml-1 opacity-75">
               {tl("bottom.rule3")}
