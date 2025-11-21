@@ -1,7 +1,7 @@
 'use client';
 
 import React, { Component, ReactNode } from 'react';
-import { CustomButton as Button } from "@/components/ui-custom/custom-button";
+import { Button } from "@/components/ui/button";
 import { AlertCircle } from 'lucide-react';
 
 interface Props {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { CustomButton as Button } from "@/components/ui-custom/custom-button";
+import { Button } from "@/components/ui/button";
 import { AlertCircle } from 'lucide-react';
 
 export default function Error({
