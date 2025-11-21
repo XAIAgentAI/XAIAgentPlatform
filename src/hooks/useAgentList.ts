@@ -38,29 +38,29 @@ export function useAgentList({
     statusFilter: string
   }) => {
     setLoading(true)
-    
-    // 生成请求的唯一键
-    const requestKey = `agents-${JSON.stringify(params)}`
-    
-    const result = await requestManager.execute(requestKey, async () => {
-      const options = {
-        pageSize: 1000,
-        sortBy: params.sortBy as string,
-        sortOrder: params.sortOrder as "asc" | "desc",
-        status: params.statusFilter === "" ? undefined : params.statusFilter,
-        searchKeyword: params.searchKeyword || undefined,
-      }
-
-      console.log('Fetching agents with options:', options)
-      return await agentAPI.getAllAgents(options)
-    })
-
-    // 如果请求被新请求覆盖，则忽略结果
-    if (result === null) {
-      return
-    }
 
     try {
+      // 生成请求的唯一键
+      const requestKey = `agents-${JSON.stringify(params)}`
+
+      const result = await requestManager.execute(requestKey, async () => {
+        const options = {
+          pageSize: 1000,
+          sortBy: params.sortBy as string,
+          sortOrder: params.sortOrder as "asc" | "desc",
+          status: params.statusFilter === "" ? undefined : params.statusFilter,
+          searchKeyword: params.searchKeyword || undefined,
+        }
+
+        console.log('Fetching agents with options:', options)
+        return await agentAPI.getAllAgents(options)
+      })
+
+      // 如果请求被新请求覆盖，则忽略结果
+      if (result === null) {
+        return
+      }
+
       if (result.code === 200 && result.data?.items) {
         // 过滤掉需要隐藏的项目
         const hiddenSymbols = ['SYNTH', 'MEET', 'SATORI', 'LINGXI', 'AKOL', 'LINK', 'ARGU', 'ASIXT', 'XPER', 'PASW', 'PIS', 'SPIX', 'OLD', 'QREA', 'LEMO']
@@ -70,7 +70,7 @@ export function useAgentList({
         setAgents([])
       }
     } catch (error) {
-      console.error('Failed to process agent data:', error)
+      console.error('Failed to fetch or process agent data:', error)
       setAgents([])
     } finally {
       setLoading(false)

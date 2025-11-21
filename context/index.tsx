@@ -26,32 +26,68 @@ const connectionManager = {
 
 // 全局错误处理函数，捕获订阅冲突错误
 if (typeof window !== 'undefined') {
+  // 捕获同步错误
   window.addEventListener('error', (event) => {
-    console.error('捕获到错误:', event);
+    console.error('捕获到全局错误:', event);
+
+    // 捕获订阅冲突错误
     if (event.message?.includes('Restore will override. subscription')) {
       console.log('捕获到订阅冲突错误，正在处理...');
-      // 阻止错误冒泡
       event.preventDefault();
-      
-      // 清理订阅状态
       connectionManager.clearSubscriptions();
-      
-      // 如果在5秒内没有其他操作，刷新连接
+
       if (!connectionManager.hasRestoredConnection) {
         connectionManager.markConnectionRestored();
         console.log('正在重置连接状态...');
-        
-        // 延迟执行，避免连续多次重置
+
         setTimeout(() => {
-          // 重置连接状态，但不刷新页面
           if (wagmiAdapter && wagmiAdapter.wagmiConfig) {
             console.log('重置连接完成');
             connectionManager.hasRestoredConnection = false;
           }
         }, 500);
       }
-      
+
       return true;
+    }
+
+    // 捕获其他钱包连接相关错误
+    if (event.message?.includes('wallet') ||
+        event.message?.includes('WalletConnect') ||
+        event.message?.includes('provider')) {
+      console.warn('钱包连接错误:', event.message);
+      // 不阻止这些错误的传播，让 ErrorBoundary 处理
+      // 但记录到控制台供调试
+    }
+  });
+
+  // 捕获未处理的 Promise rejection
+  window.addEventListener('unhandledrejection', (event) => {
+    console.error('捕获到未处理的 Promise rejection:', event.reason);
+
+    // Axios 请求超时或网络错误
+    if (event.reason?.name === 'AxiosError' || event.reason?.isAxiosError) {
+      console.warn('API 请求失败:', event.reason.message);
+      // 阻止错误冒泡,避免崩溃页面
+      event.preventDefault();
+      return;
+    }
+
+    // 钱包相关的 Promise rejection
+    if (event.reason?.message?.includes('User rejected') ||
+        event.reason?.message?.includes('User denied') ||
+        event.reason?.code === 4001) {
+      console.log('用户拒绝了钱包操作');
+      event.preventDefault(); // 阻止默认的错误处理
+      return;
+    }
+
+    // WalletConnect 相关错误
+    if (event.reason?.message?.includes('WalletConnect') ||
+        event.reason?.message?.includes('QR Code')) {
+      console.log('WalletConnect 连接错误');
+      event.preventDefault();
+      return;
     }
   });
 }

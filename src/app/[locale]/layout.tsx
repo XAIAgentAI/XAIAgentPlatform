@@ -9,6 +9,7 @@ import ContextProvider from '../../../context';
 import { Toaster } from '@/components/Toaster';
 import Navbar from '@/components/Navbar';
 import VConsole from '@/components/VConsole';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import './globals.css';
 import './fonts.css';
 import Script from 'next/script';
@@ -56,10 +57,12 @@ export default async function LocaleLayout({
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ContextProvider cookies={cookies}>
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
-              <div className="flex-1">{children}</div>
-            </div>
+            <ErrorBoundary>
+              <div className="relative flex min-h-screen flex-col">
+                <Navbar />
+                <div className="flex-1">{children}</div>
+              </div>
+            </ErrorBoundary>
             <Toaster />
             <VConsole />
           </ContextProvider>
